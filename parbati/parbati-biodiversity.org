@@ -1,0 +1,406 @@
+#+title: Parvati Valley — Biodiversity & Data Sources
+#+subtitle: Research for the Digital Twin
+#+date: 2026-02-12
+
+#+begin_quote
+Ghost cats wandered in the mountains yesterday, but tomorrow they will wander only in stories.
+--- parbati.org
+#+end_quote
+
+This document surveys the biodiversity of the Parvati Valley and its surrounding protected landscape, the measurement technologies that can observe it, and the data sources from which a digital twin may be reconstructed. It is a reference for the MayaLucIA/parbati project.
+
+* The Extent of a Living Mountain
+
+The Parvati Valley is not a corridor but a /watershed/: a system of water, stone, soil, root, wing, and claw extending from the Beas confluence to the glacial headwaters and across ridgelines into neighbouring valleys that share its ecology.
+
+** Spatial Extent for the Digital Twin
+
+The expanded reconstruction covers approximately:
+
+| Parameter | Value |
+|-----------+-------|
+| Latitude  | 31.50°N -- 32.30°N |
+| Longitude | 77.00°E -- 78.00°E |
+| Extent    | ~90 x 100 km |
+| SRTM tiles | N31E077, N32E077 |
+
+This box captures:
+- The full Parvati watershed from Bhuntar (1100 m) to the Man Talai glacier
+- Great Himalayan National Park (754 km^{2}, UNESCO World Heritage)
+- Khirganga National Park (710 km^{2})
+- The Pin Parvati corridor connecting wet Kullu to dry Spiti
+- The full 5600 m elevation gradient (1000 m to 6632 m)
+
+** Protected Areas
+
+*** Great Himalayan National Park (GHNP)
+
+- Established: 1984; UNESCO World Heritage: 2014
+- Area: 754.4 km^{2} (core); ~1,171 km^{2} conservation area
+- Elevation: ~1,500 m to ~6,001 m (Tirung peak)
+- Organized around four major valleys: Sainj, Tirthan, Jiwa Nal, and Parvati
+- The upper Parvati forms the northern extent of the park
+- Contains 25 forest types, 832 plant species, 31 mammals, 209 birds
+
+*** Khirganga National Park
+
+- Established: 2010
+- Area: 710 km^{2}
+- Highest point: Parvati Parbat, 6,632 m
+- Contiguous with GHNP to the south
+- Protects the headwaters of the Parvati River
+
+Together with Pin Valley NP (675 km^{2}), Rupi-Bhabha WLS, and Kanawar WLS, these form an interconnected protected landscape of ~3,000+ km^{2}.
+
+* Seven Biomes in a Single Valley
+
+From the Parvati's mouth to its source, seven distinct biomes:
+
+** Subtropical Zone (1000 -- 1800 m)
+
+Chir pine (/Pinus roxburghii/), open canopy, fire-adapted. Scattered sal (/Shorea robusta/) at lowest elevations. Understory of /Berberis/, /Rubus/. Increasingly invaded by /Lantana camara/ and /Ageratina adenophora/.
+
+** Moist Temperate / Deodar Zone (1800 -- 2700 m)
+
+Cathedral forests. Deodar cedar (/Cedrus deodara/), blue pine (/Pinus wallichiana/), Himalayan oak (/Quercus semecarpifolia/). Associates: maple (/Acer/), horse chestnut (/Aesculus indica/), alder, poplar, birch, willows near streams. Understory: ringal bamboo (/Arundinaria/ spp.), rhododendrons, ferns, /Viburnum/. Epiphytes: mosses, lichens, orchids on old-growth trunks.
+
+** Upper Temperate (2700 -- 3200 m)
+
+West Himalayan spruce (/Picea smithiana/), Himalayan fir (/Abies pindrow/), brown oak. Dense ringal bamboo understory --- the Western tragopan's kingdom (6.5 birds/km^{2} in GHNP). This is the zone of greatest avian diversity.
+
+** Subalpine Zone (3200 -- 3600 m)
+
+Himalayan birch (/Betula utilis/) forming pure stands near treeline. Shrubs: /Rhododendron campanulatum/, /R. anthopogon/, junipers. Stunted, wind-shaped trees transitioning to krummholz.
+
+** The Treeline (~3500 -- 3800 m)
+
+Formed by /Betula utilis/ with /Rhododendron campanulatum/ above. South-facing slopes may support trees to 3800 m; north-facing ravines descend to 3400 m. Without centuries of grazing and burning, the treeline would sit 200--400 m higher.
+
+** Alpine Meadows (3600 -- 4500 m)
+
+Wildflower seas and medicinal herbs. Dwarf junipers, dwarf rhododendrons, stunted willows. Vast meadows of /Primula/, /Potentilla/, /Anemone/, /Gentiana/, /Meconopsis/ (Himalayan blue poppy), /Pedicularis/, Asteraceae. Over half of GHNP lies above 4000 m.
+
+*** Medicinal Plants
+
+50 species documented in traditional phytotherapy of the valley:
+- /Aconitum heterophyllum/ (Atis) --- Critically Endangered
+- /Picrorhiza kurrooa/ (Kutki) --- CITES Appendix II, Endangered
+- /Saussurea costus/ (Kuth) --- CITES Appendix I, Critically Endangered
+- /Nardostachys jatamansi/ (Spikenard) --- Critically Endangered
+- /Podophyllum hexandrum/ (Himalayan may apple) --- anti-cancer compound source
+- /Rheum australe/ (Himalayan rhubarb)
+
+GHNP hosts 34 of 47 medicinal plants categorized as threatened in Himachal Pradesh.
+
+*** Cannabis
+
+/Cannabis sativa/ grows wild throughout the valley, particularly on abandoned terraces. ~2,100 hectares estimated under cultivation. Malana village produces Malana Cream, one of the world's most valued hashish strains. Traditional use: hemp for ropes, shoes, cloth, baskets. Made illegal under NDPS Act 1985.
+
+** Subnival / Nival Zone (4500 -- 6632 m)
+
+Pioneer lichen-moss communities on bare rock. Scattered cushion plants, saxifrages. 192 lichen species documented in GHNP. Above 5200 m: ice, snow, naked stone. The permanent snowline sits at ~5000 m but is shifting upward.
+
+* Fauna
+
+** Snow Leopard (/Panthera uncia/)
+
+The ghost cat.
+
+- IUCN: Vulnerable
+- India-wide: 718 individuals (SPAI 2024)
+- Himachal Pradesh: 83 individuals (2025 survey)
+- GHNP specifically: only 1 detection, 1 individual in camera trap surveys
+- Density: ~0.5 individuals per 100 km^{2}
+- The Parvati Valley is at the /periphery/ of snow leopard range --- more abundant in Spiti and Pin. But the Pin Parvati Pass (5300 m) creates a corridor between wet and dry ranges.
+
+** Western Tragopan (/Tragopan melanocephalus/)
+
+The valley's most significant bird.
+
+- IUCN: Vulnerable
+- Global population: fewer than 5,000
+- GHNP holds the world's largest known population
+- Density: 6.5 birds/km^{2} in GHNP's upper temperate forest
+- Habitat: moist temperate forest at 2400--3600 m with dense ringal bamboo understory
+
+** Other Key Mammals
+
+| Species | IUCN Status | Zone | Notes |
+|---------+-------------+------+-------|
+| Himalayan brown bear | Critically Endangered (India) | >3500 m | 130--220 individuals across all of India/Pakistan |
+| Himalayan musk deer | Endangered | 2500--3500 m | Poached for musk pods |
+| Himalayan tahr | Near Threatened | 2500--5000 m | Endemic to Western Himalaya |
+| Himalayan serow | Vulnerable | 2000--3500 m | Rare, elusive |
+| Common leopard | Least Concern | 1500--3500 m | High density in Tirthan valley |
+| Himalayan black bear | Vulnerable | 1500--3500 m | Overlap zone with brown bear |
+
+** Birds
+
+316 species recorded in Kullu district (eBird). Key species:
+
+*** Pheasants of GHNP
+- Himalayan monal (/Lophophorus impejanus/) --- abundant at 2700--3700 m
+- Koklass pheasant (/Pucrasia macrolopha/) --- elusive, temperate forest
+- Cheer pheasant (/Catreus wallichii/) --- very small numbers, IUCN Vulnerable
+- White-crested kaleej (/Lophura leucomelanos/) --- below 2000 m
+
+*** Raptors and Others
+Golden eagle, lammergeier (bearded vulture), Himalayan griffon, wall creeper, laughingthrushes, forktails, redstarts, rosefinches.
+
+** Aquatic Life
+
+*** Fish in the Parvati River
+- Snow trout (/Schizothorax richardsonii/, /S. plagiostomus/) --- indigenous cold-water
+- Golden mahseer (/Tor putitora/) --- lower reaches near Beas confluence
+- Brown trout, rainbow trout --- exotic/introduced, higher altitude
+- Loaches (/Nemacheilus/), /Barilius/, /Crossocheilus/
+
+*** Amphibians
+9 species in GHNP. Himalayan toad, marbled toad, Stoliczka's frog, beautiful stream frog. High endemism suspected but poorly studied.
+
+*** Insects
+Only 6 orders studied in GHNP, yielding 127 species across 37 families. 44--75 butterfly species documented. Actual insect diversity certainly orders of magnitude higher.
+
+* Human Impact
+
+** Tourism
+Kasol --- "Amsterdam of India." Major backpacker destination. Kheerganga camping banned in 2024 after the site became a "landfill." No designated dumping site in the Manikaran valley. Garbage scattered along trails, dumped directly into the river.
+
+** Hydroelectric Projects
+
+*** Parbati-II HEP (NHPC)
+- 800 MW (4 x 200 MW Pelton turbines)
+- 83.7 m concrete gravity dam near Pulga
+- 31.56 km head race tunnel --- longest in India
+- 863 m gross head
+- All 4 units operational April 2025
+- Leakage disaster November 2023
+
+*** Parbati-III HEP
+- 520 MW, 43 m rock-fill dam at Siund
+
+*** Impact
+Unprecedented land-use change: deforestation, fragmentation, soil erosion, disrupted environmental flows, increased landslide risk. Roads built for dam construction opened previously untouched forests.
+
+** Invasive Species
+- /Lantana camara/: spreading into forests <2000 m; projected to gain habitat by 2070
+- /Ageratina adenophora/ (Forest Killer): invading temperate forests; native species decline 29--40% in invaded sites
+- Both thrive in disturbed habitats. In continuous closed-canopy forest they cannot compete.
+
+** Climate Change
+- Treeline shifting upward
+- Himalayan glaciers lost ~40% of area since the Little Ice Age
+- Temperature rising ~0.03°C/year above 2000 m
+- Permanent snowline shifting upward
+- Species ranges migrating upward
+
+* The Valley Without Us
+
+Based on GHNP interior as reference:
+
+** Forest Cover
+Continuous dense forest from 1500 to ~4000 m. Below 1800 m: mixed broadleaf (not fire-maintained chir pine). From 1800--3200 m: unbroken old-growth deodar and blue pine, individual trees reaching 60+ m, festooned in lichens. Treeline 200--400 m higher than current. /Lantana/ and /Ageratina/ absent --- they cannot survive under closed canopy.
+
+** Fauna
+- Snow leopard: expanded range through Pin Parvati corridor, 3--5 individuals in upper catchment
+- Common leopard: entire forested valley, 1500--3500 m
+- Brown bear: descending to 2500 m for autumn foraging
+- Musk deer: dramatic expansion without poaching
+- Western tragopan: extending lower as forest reconstitutes
+- Fish: full river flow (no Parbati-II dam/tunnel), native species recover
+
+** The River
+Full volume. No dam at Pulga, no tunnel diverting water to Sainj. Hot springs at Manikaran and Kheerganga amid dense forest. River carrying far less sediment, running clearer. Riparian forests of alder, willow lining banks continuously.
+
+** The Soundscape
+No construction machinery, tourist vehicles, or turbines. River, birdsong (monal and tragopan in breeding season), wind in old-growth conifers, distant thunder of avalanches and rockfalls.
+
+* Data Sources for Reconstruction
+
+** I. Satellite Remote Sensing
+
+*** Sentinel-2 MSI (10 m, free, ESA)
+
+Pushbroom scanner, 13 spectral bands (443--2190 nm), 786 km altitude, 290 km swath, 5-day revisit.
+
+| Band | Wavelength (nm) | Resolution | Use |
+|------+-----------------+------------+-----|
+| B2 | 490 (Blue) | 10 m | Water, soil |
+| B3 | 560 (Green) | 10 m | Green peak reflectance |
+| B4 | 665 (Red) | 10 m | Chlorophyll absorption |
+| B5 | 705 (Red Edge 1) | 20 m | Vegetation stress, species |
+| B6 | 740 (Red Edge 2) | 20 m | Canopy structure |
+| B7 | 783 (Red Edge 3) | 20 m | Leaf area index |
+| B8 | 842 (NIR) | 10 m | Biomass, NDVI |
+| B11 | 1610 (SWIR 1) | 20 m | Snow/cloud, moisture |
+| B12 | 2190 (SWIR 2) | 20 m | Bare soil, minerals |
+
+Key indices: NDVI, EVI, NDMI (moisture), NDSI (snow), red-edge position (species discrimination). The three red-edge bands are Sentinel-2's key advantage over Landsat.
+
+Access: Copernicus Data Space, Google Earth Engine (=COPERNICUS/S2_SR_HARMONIZED=), Planetary Computer, AWS.
+
+*** Sentinel-1 SAR (10 m, free, ESA)
+
+C-band synthetic aperture radar (5.405 GHz, ~5.6 cm wavelength). Emits its own microwave signal, measures backscatter amplitude and phase. Operates day/night, through clouds.
+
+Backscatter depends on dielectric properties (water content) and geometric structure. At C-band: volume scattering from leaves/branches, trunk-ground double-bounce, soil surface.
+
+Decisive advantage: /the only eye that never blinks during the monsoon/. From June to September, optical sensors may get zero usable acquisitions. SAR operates regardless.
+
+Mountain terrain challenges: foreshortening, layover, shadow on steep slopes. Ascending + descending orbits mitigate.
+
+*** ICESat-2 / GEDI (spaceborne LiDAR)
+
+ICESat-2: photon-counting lidar, 10,000 pulses/second from orbit, 3 cm elevation accuracy. Sparse along-track profiles. GEDI: full-waveform lidar from ISS, 25 m footprints, canopy vertical profile.
+
+Neither provides wall-to-wall coverage --- they produce transects. The data serves as /anchor measurements/ for constraint propagation. At 2400 m on a north-facing slope, the deodar canopy is /this/ height --- propagate.
+
+Accuracy degrades on slopes >20° (common in the valley). Quality flags essential.
+
+*** Hyperspectral (EnMAP, PRISMA, EMIT)
+
+Where Sentinel-2 sees 13 colours, EnMAP sees 242. Continuous spectral sampling 420--2450 nm at 30 m. Every mineral, every plant pigment, every soil type has a unique spectral fingerprint. The closest a satellite comes to /tasting/ the mountain.
+
+- EnMAP: 224 bands, 30 m, 27-day revisit
+- PRISMA: 239 bands, 30 m, 29-day revisit
+- EMIT: 285 bands, ~60 m, ISS coverage
+
+*** Landsat 8/9 (30 m, free, USGS)
+
+The 40-year archive. OLI (9 bands, visible--SWIR) + TIRS (thermal at 100 m). The thermal bands detect evapotranspiration, geothermal features (Manikaran hot springs), microclimate. The archive from 1984 enables decadal change detection: deforestation trajectories, glacier retreat, treeline migration, urbanization.
+
+*** MODIS (250 m -- 1 km, free, NASA)
+
+Daily global coverage. What it sacrifices in spatial detail it gains in temporal density. Phenology, fire detection, daily snow cover, land surface temperature. 23+ year archive.
+
+*** Commercial: Planet (3 m daily, ~$5--50K/year), Maxar/WorldView (30 cm, ~$15--25/km^{2})
+
+Planet: individual tree crowns visible, daily phenology. Maxar: count individual animals, map terrace walls, see individual boulders.
+
+** II. Ground-Based Sensing
+
+*** Camera Traps
+
+Infrared-triggered cameras. In the Parvati Valley: one snow leopard detection in all of GHNP. Each camera trap location becomes a point in the reconstruction where we can say: "here, a leopard walked."
+
+*** Acoustic Sensors / Bioacoustics
+
+Autonomous recorders capturing the soundscape. Bird calls (BirdNET identifies species), insect chorus, the bass note of the river. The ratio of biophony to anthrophony measures ecological health. The soundscape as a layer of the digital twin.
+
+*** Environmental DNA (eDNA)
+
+Filter a litre of river water. Sequence the DNA shed by every organism upstream --- fish, amphibians, mammals. A single sample from the Parvati below Kheerganga might reveal snow trout, mahseer, the Himalayan toad, traces of brown bear. Sampling points become constraints: "at this point, these species are present."
+
+*** Airborne LiDAR
+
+100--500 points/m^{2}. Sees /through/ canopy to ground. The cathedral structure of old-growth deodar --- only LiDAR captures this. Cost: ~$100--500/km^{2}. Transformative if obtainable.
+
+*** Drones
+
+RGB (2--3 cm/pixel), multispectral (5--8 cm), thermal (10--15 cm), LiDAR (100--500 pts/m^{2}). Individual tree inventories, landslide monitoring, alpine meadow mapping. Battery performance degrades at altitude: ~15--20 min at 4000 m.
+
+** III. Databases
+
+| Source | Content | Access |
+|--------+---------+--------|
+| GBIF | 2.5B occurrence records, multi-taxa | =api.gbif.org=, =pygbif= |
+| eBird | 316 species in Kullu district | =api.ebird.org=, free API key |
+| iNaturalist | Photo-verified observations, all taxa | =api.inaturalist.org=, =pyinaturalist= |
+| IUCN Red List | Conservation status + range polygons | =apiv3.iucnredlist.org= |
+| Forest Survey of India | Biennial forest cover reports | =fsi.nic.in= |
+| India Biodiversity Portal | Crowd-sourced observations | =indiabiodiversity.org= |
+
+** IV. Climate & Environment
+
+| Dataset | Resolution | Content | Access |
+|---------+------------+---------+--------|
+| CHELSA | 1 km | Bioclimatic variables, mountain-aware | =chelsa-climate.org= |
+| ERA5-Land | 9 km | Hourly reanalysis, 1940--present | Copernicus CDS API |
+| WorldClim | 1 km | 19 bioclimatic variables + CMIP6 futures | =worldclim.org= |
+| ESA WorldCover | 10 m | 11-class land cover (2020, 2021) | AWS, GEE |
+| Copernicus Land | 100 m -- 1 km | NDVI, LAI, snow, burnt area | =land.copernicus.eu= |
+| HydroSHEDS | 90 m | River networks, watershed boundaries | =hydrosheds.org= |
+| Hansen/GFW | 30 m | Tree cover change 2000--present | GEE |
+| SoilGrids | 250 m | Soil properties at 6 depths | =soilgrids.org= |
+| MODIS Snow | 500 m | Daily snow cover | NSIDC |
+| GRACE/GRACE-FO | ~300 km | Glacier mass loss, water storage | NASA JPL |
+| Randolph Glacier Inventory | Vector | Glacier outlines, area, elevation | =glims.org/RGI= |
+| Protected Planet (WDPA) | Vector | GHNP, Pin Valley NP boundaries | =protectedplanet.net= |
+
+** V. Recommended Data Stack
+
+*** Foundation Layer (free, immediate)
+1. Copernicus DEM (30 m) --- terrain substrate
+2. Sentinel-2 time series (10 m) --- vegetation, phenology, land cover
+3. Sentinel-1 time series (10 m) --- cloud-free forest monitoring
+4. ESA WorldCover (10 m) --- baseline land cover
+5. ERA5-Land (9 km) --- climate context
+6. CHELSA bioclimatic variables (1 km) --- species distribution modeling
+7. HydroSHEDS --- watershed structure
+8. Hansen tree cover change (30 m) --- disturbance history
+9. Landsat archive (30 m, 1984--present) --- long-term change
+
+*** Biological Observation Layer (free, variable coverage)
+1. eBird --- bird diversity, phenology
+2. GBIF / iNaturalist --- multi-taxa occurrences
+3. IUCN range maps --- expected species pool
+
+*** Enhancement Layer (requires funding/partnerships)
+1. Planet imagery (3 m daily)
+2. Drone surveys (cm resolution)
+3. Camera trap deployment
+4. Acoustic sensors
+5. eDNA sampling
+6. Microclimate data loggers
+
+*** Aspiration Layer (high cost, transformative)
+1. Airborne LiDAR --- 3D forest structure under canopy
+2. Hyperspectral (EnMAP/PRISMA) --- plant community mapping
+3. Maxar stereo pairs --- high-resolution DSM
+
+* Visualization: How Data Becomes a World
+
+** 1. The Terrain Substrate
+
+DEM \to mesh \to satellite texture. The bones and skin. Expand to 90 x 100 km.
+
+** 2. The Living Mantle
+
+Sentinel-2 NDVI time-series \to vegetation density map \to procedural forest on the mesh. ICESat-2 canopy heights as anchors. The constraint: at 2400 m on a north-facing slope with this soil moisture and this radiation, the deodar grows to /this/ height. The forest grows from data, not imagination.
+
+** 3. The Absent Forest
+
+The counterfactual: the valley /without/ human presence. Using GHNP interior as reference, reconstruct the forest that would cover the settled, dammed, road-cut valley floor. Animate the transition: concrete dissolves, roads swallowed by undergrowth, the river runs unshunted at full volume, the treeline climbs 400 m. Invasive species recede. The tragopan descends.
+
+** 4. The Bestiary
+
+Place animals at recorded locations --- camera traps, eBird sightings, GBIF occurrences. Not static pins but probability fields: the snow leopard at ~0.5/100 km^{2} above 3500 m. The musk deer in dense temperate forest. As the observing eye moves through the valley, it encounters each creature in its zone.
+
+** 5. The Mountain's Breath
+
+Animate the annual cycle. ERA5-Land: hourly weather. Sentinel-2: phenology. MODIS: snow cover. Snow descends from the nival zone in October. By January the valley floor sees snow at 2000 m. In April the melt begins --- the river surges. In June the monsoon arrives: clouds boil up the valley. In September the meadows blaze with late wildflowers. Then snow again.
+
+** 6. The Preamble Rendered
+
+The first deliverable. The scene from =parbati.org='s opening:
+
+#+begin_quote
+The observing eye at 3000 m, looking east up the valley at dawn. Golden light on the Parbati Pyramid. Steam rising from the hot springs at Manikaran, catching the first rays. Below, the river's jade waters in shadow. On the slopes: old-growth deodar, their trunks wrapped in lichen. Above treeline, the meadows still brown from winter, waiting. And somewhere on the ridge, invisible but present, the ghost cat watching.
+#+end_quote
+
+This scene requires: the expanded DEM, a dawn lighting model, atmospheric scattering (Rayleigh for blue sky, Mie for valley haze), procedural forest with species-appropriate form, a particle system for hot spring vapour, and the snow-line painted between life and stone.
+
+* Sources
+
+- GHNP -- UNESCO World Heritage Centre: https://whc.unesco.org/en/list/1406/
+- Great Himalayan National Park: https://www.greathimalayannationalpark.org/
+- Snow Leopard Trust / SPAI: https://snowleopard.org/
+- eBird Kullu district: https://ebird.org/region/IN-HP-KU/bird-list
+- Parvati Valley phytotherapy (ScienceDirect): https://doi.org/10.1016/S0378-8741(03)00461-6
+- Parbati-II HEP: https://en.wikipedia.org/wiki/Parbati_Hydroelectric_Project
+- Forest Survey of India: https://fsi.nic.in/
+- ESA WorldCover: https://esa-worldcover.org/
+- CHELSA Climate: https://chelsa-climate.org/
+- HydroSHEDS: https://www.hydrosheds.org/
+- Randolph Glacier Inventory: https://www.glims.org/RGI/
+- Global Forest Watch: https://www.globalforestwatch.org/
