@@ -229,6 +229,101 @@ def singlet_yield_uneq(H, P_S, rho0, k_S, k_T):
     return (k_S * np.trace(P_S @ sigma)).real
 
 
+# ── Spin relaxation ────────────────────────────────────────────────
+
+def relaxation_superoperator(n_sites, k_relax_A=0.0, k_relax_B=0.0):
+    """Isotropic random-field relaxation Liouvillian for both electrons.
+
+    Each electron α experiences independent, isotropic random fields
+    causing T1 = T2 = 1/k_relax_α.  The Lindblad dissipators are:
+
+        D[√k S_α^q](ρ) = k (S^q ρ S^q − ρ/4)
+
+    summed over q ∈ {x,y,z} and α ∈ {A,B}.
+
+    In vectorised form (column-stacking):
+
+        L_relax_α = k_α [Σ_q (S_α^{qT} ⊗ S_α^q) − (3/4) I_{d²}]
+
+    Parameters
+    ----------
+    n_sites : int
+        Total spin-½ subsystems.
+    k_relax_A, k_relax_B : float
+        Relaxation rates for electrons A (site 0) and B (site 1) in s⁻¹.
+        T1 = T2 = 1/k_relax.  Set to 0 for no relaxation.
+
+    Returns
+    -------
+    L_relax : ndarray (d², d²), complex.
+        Relaxation superoperator to add to the Haberkorn Liouvillian.
+    """
+    d = 2 ** n_sites
+    d2 = d * d
+    L_relax = np.zeros((d2, d2), dtype=complex)
+
+    for site, k_r in [(0, k_relax_A), (1, k_relax_B)]:
+        if k_r == 0.0:
+            continue
+        S = spin_operators(site, n_sites)
+        dissip = np.zeros((d2, d2), dtype=complex)
+        for c in _COMP:
+            Sq = S[c]
+            # vec(S ρ S) = (S^T ⊗ S) vec(ρ)  [column-stacking]
+            dissip += np.kron(Sq.T, Sq)
+        dissip -= 0.75 * np.eye(d2, dtype=complex)
+        L_relax += k_r * dissip
+
+    return L_relax
+
+
+def singlet_yield_relaxed(H, P_S, rho0, k_S, k_T,
+                          k_relax_A=0.0, k_relax_B=0.0, n_sites=None):
+    """Singlet yield with Haberkorn recombination + spin relaxation.
+
+    Uses the full Liouvillian inversion: L σ = −ρ₀, Φ_S = k_S Tr[P_S σ].
+    Falls back to singlet_yield_eq or singlet_yield_uneq if no relaxation.
+
+    Parameters
+    ----------
+    H, P_S, rho0 : (d, d) arrays.
+    k_S, k_T : float
+    k_relax_A, k_relax_B : float
+        Spin relaxation rates (s⁻¹).
+    n_sites : int or None
+
+    Returns
+    -------
+    float : Φ_S ∈ [0, 1].
+    """
+    # No relaxation → use fast paths
+    if k_relax_A == 0.0 and k_relax_B == 0.0:
+        if np.isclose(k_S, k_T):
+            return singlet_yield_eq(H, P_S, rho0, k_S)
+        else:
+            return singlet_yield_uneq(H, P_S, rho0, k_S, k_T)
+
+    d = H.shape[0]
+    if n_sites is None:
+        n_sites = int(np.log2(d))
+    Id = np.eye(d, dtype=complex)
+    P_T = Id - P_S
+
+    # Haberkorn Liouvillian
+    L = (-1j * (np.kron(H, Id) - np.kron(Id, H.T))
+         - 0.5 * k_S * (np.kron(P_S, Id) + np.kron(Id, P_S.T))
+         - 0.5 * k_T * (np.kron(P_T, Id) + np.kron(Id, P_T.T)))
+
+    # Add relaxation
+    L += relaxation_superoperator(n_sites, k_relax_A, k_relax_B)
+
+    rho_vec = rho0.flatten(order='F')
+    sigma_vec = np.linalg.solve(L, -rho_vec)
+    sigma = sigma_vec.reshape((d, d), order='F')
+
+    return (k_S * np.trace(P_S @ sigma)).real
+
+
 # ── Predefined radical pair models ──────────────────────────────────
 
 # FAD hyperfine parameters (Tesla)
@@ -317,12 +412,17 @@ class RadicalPairCompass:
         Recombination rate (s⁻¹).  Default 1e6 (1 μs lifetime).
     k_S, k_T : float or None
         Singlet/triplet rates.  If None, both set to k.
+    k_relax_A, k_relax_B : float
+        Spin relaxation rates for electrons A and B (s⁻¹).
+        T1 = T2 = 1/k_relax.  Default 0 (no relaxation).
     n_theta : int
         Lookup table resolution.
     """
 
     def __init__(self, model=None, B0=B0_EARTH, k=1e6,
-                 k_S=None, k_T=None, n_theta=360):
+                 k_S=None, k_T=None,
+                 k_relax_A=0.0, k_relax_B=0.0,
+                 n_theta=360):
         if model is None:
             model = toy_fad_o2()
 
@@ -330,6 +430,8 @@ class RadicalPairCompass:
         self.B0 = B0
         self.k_S = k_S if k_S is not None else k
         self.k_T = k_T if k_T is not None else k
+        self.k_relax_A = k_relax_A
+        self.k_relax_B = k_relax_B
         self.n_sites = model['n_sites']
 
         # Pre-compute singlet yield profile on [0, π]
@@ -338,13 +440,18 @@ class RadicalPairCompass:
 
         P_S = singlet_projector(self.n_sites)
         rho0 = initial_state(self.n_sites)
+        has_relax = (k_relax_A > 0.0 or k_relax_B > 0.0)
         equal = np.isclose(self.k_S, self.k_T)
 
         for i, th in enumerate(self._thetas):
             H = build_hamiltonian(
                 th, B0, model['hfc_tensors'],
                 J=model.get('J', 0.0), n_sites=self.n_sites)
-            if equal:
+            if has_relax:
+                self._yields[i] = singlet_yield_relaxed(
+                    H, P_S, rho0, self.k_S, self.k_T,
+                    k_relax_A, k_relax_B, self.n_sites)
+            elif equal:
                 self._yields[i] = singlet_yield_eq(H, P_S, rho0, self.k_S)
             else:
                 self._yields[i] = singlet_yield_uneq(

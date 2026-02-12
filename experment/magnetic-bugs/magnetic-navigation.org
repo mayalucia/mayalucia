@@ -21,19 +21,19 @@ Three layers:
 
 ** 1.1 Historical Thread
 
-| Year | Development | Ref |
-|------+-------------+-----|
-| 1976 | Schulten et al. show magnetic field dependence of radical pair recombination in polar solvents | Z. Phys. Chem. |
-| 1978 | Schulten, Swenberg & Weller propose radical pairs as a biomagnetic compass | Z. Phys. Chem. NF 111:1 |
-| 2000 | Ritz, Adem & Schulten identify cryptochrome as the candidate magnetoreceptor | Biophys. J. 78:707 |
-| 2004 | Ritz et al. show RF at Larmor frequency disrupts bird compass — strong RPM diagnostic | Nature 429:177 |
-| 2008 | Maeda et al. first demonstrate magnetic field effects on purified cryptochrome (AtCry1) | Nature 453:387 |
-| 2014 | Lee et al. propose [FAD^{·−} O_2^{·−}] as a more sensitive alternative radical pair | J. R. Soc. Interface 11:20131063 |
-| 2016 | Hore & Mouritsen definitive review; Hiscock et al. "quantum needle" | Annu. Rev. Biophys. 45:299 |
-| 2021 | Xu et al. demonstrate magnetic field effects on purified ErCry4a (robin Cry4a) | Nature 594:535 |
-| 2023 | Bradlaugh et al. show 52 C-terminal residues of dCry + free FAD suffice | Nature 615:111 |
-| 2023 | Bassetto et al. find no evidence in 97,658 /Drosophila/ — controversy | Nature 620:595 |
-| 2024 | Player & Hore: quantum Zeno effect enables sensitivity in tightly-bound pairs | Nat. Commun. 15:10823 |
+| Year | Development                                                                                    | Ref                              |
+|------+------------------------------------------------------------------------------------------------+----------------------------------|
+| 1976 | Schulten et al. show magnetic field dependence of radical pair recombination in polar solvents | Z. Phys. Chem.                   |
+| 1978 | Schulten, Swenberg & Weller propose radical pairs as a biomagnetic compass                     | Z. Phys. Chem. NF 111:1          |
+| 2000 | Ritz, Adem & Schulten identify cryptochrome as the candidate magnetoreceptor                   | Biophys. J. 78:707               |
+| 2004 | Ritz et al. show RF at Larmor frequency disrupts bird compass — strong RPM diagnostic          | Nature 429:177                   |
+| 2008 | Maeda et al. first demonstrate magnetic field effects on purified cryptochrome (AtCry1)        | Nature 453:387                   |
+| 2014 | Lee et al. propose [FAD^{·−} O_2^{·−}] as a more sensitive alternative radical pair                  | J. R. Soc. Interface 11:20131063 |
+| 2016 | Hore & Mouritsen definitive review; Hiscock et al. "quantum needle"                            | Annu. Rev. Biophys. 45:299       |
+| 2021 | Xu et al. demonstrate magnetic field effects on purified ErCry4a (robin Cry4a)                 | Nature 594:535                   |
+| 2023 | Bradlaugh et al. show 52 C-terminal residues of dCry + free FAD suffice                        | Nature 615:111                   |
+| 2023 | Bassetto et al. find no evidence in 97,658 /Drosophila/ — controversy                            | Nature 620:595                   |
+| 2024 | Player & Hore: quantum Zeno effect enables sensitivity in tightly-bound pairs                  | Nat. Commun. 15:10823            |
 
 ** 1.2 The Spin Hamiltonian
 
