@@ -1075,3 +1075,62 @@ occurs at physiological temperature.
 
 11. Does path integration (CPU4/CPU1 Stone et al. model) compensate for
     compass noise, or does it amplify it through integration drift?
+
+** 7.1 Next Directions: Scientific Motivation
+
+The Phase 1–2 analysis established /when/ the compass works (contrast
+threshold, suppression mechanisms, safety margins). Three directions now
+open, each asking a qualitatively different question.
+
+*** Direction A: Magnetic Anomalies — "What Breaks the Compass?"
+
+The analysis so far assumes a /uniform/ geomagnetic field. Real landscapes
+have magnetic anomalies: igneous intrusions (dipole sources), fault-line
+juxtapositions of different rock magnetisations, and altitude-dependent field
+gradients. The landscape module (=landscape.py=) already supports Gaussian
+anomalies but they were never tested for their navigational impact.
+
+The scientific question is whether the compass is fragile or robust to
+spatial field inhomogeneity. The answer depends on the interplay between:
+- The spatial scale of the anomaly relative to the bug's path length
+- The magnitude of the perturbation relative to the Earth's field ($\sim 50$ µT)
+- The compass integration time (how quickly the ring attractor tracks a
+  changing field direction)
+
+This connects directly to the Parvati Valley endgame: real Himalayan geology
+with ophiolite belts, granitic intrusions, and fault zones creates a
+non-trivial magnetic landscape. Can a bug navigate it?
+
+*** Direction B: Path Integration — "How Does Memory Change the Game?"
+
+The current bug is memoryless: it follows the instantaneous compass heading
+at each timestep. Real insects use path integration — the central complex
+accumulates heading × speed to maintain a home vector. The CPU4/CPU1 model
+(Stone et al. 2017) is the canonical computational account.
+
+Path integration changes the noise story fundamentally:
+- *Benefit*: temporal averaging over many compass readings suppresses
+  compass noise by $\sim 1/\sqrt{N_{\mathrm{readings}}}$
+- *Cost*: integration drift accumulates systematic error — any compass
+  bias (from anomalies, from the axial ambiguity) compounds over time
+- *Interaction*: the balance depends on the ratio of compass noise to
+  integration drift rate, which is model-dependent
+
+No published work combines radical-pair spin chemistry with a path-integrating
+central complex. This would be a genuinely novel computational model sitting
+at the intersection of quantum biology and computational neuroethology.
+
+*** Direction C: MayaPortal — "The Bug in the Valley"
+
+The long-term vision: a magnetically-navigating insect in a real Himalayan
+landscape, rendered in real-time 3D via MayaPortal (=modules/mayaportal/=,
+C++23/SDL3/WebGPU). This requires:
+- Porting the Python simulation to C++ (or running Python as a co-process)
+- Real DEM and geomagnetic data for the Parvati Valley (partly in =parbati/=)
+- A visual representation of the compass state (ring attractor bump, heading
+  estimate, field lines)
+
+This is where the Measure → Model → Manifest cycle closes: the
+understanding gained from building the model is /manifested/ as an
+interactive experience. The bug's struggles with magnetic anomalies in a
+real valley would be immediately visible.
