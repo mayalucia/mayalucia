@@ -1099,6 +1099,417 @@ def orientational_disorder(save_prefix=None):
     return fig, fig2
 
 
+# ── 10. Anomaly ensemble simulation ──────────────────────────────
+
+def _build_deviation_grid(landscape, n_grid=100):
+    """Pre-compute δφ on a regular grid for fast lookup.
+
+    Returns (x_edges, y_edges, dphi_grid) where dphi_grid[j, i] is the
+    field direction deviation at (x_edges[i], y_edges[j]).
+    """
+    w, h = landscape.extent
+    xg = np.linspace(0, w, n_grid)
+    yg = np.linspace(0, h, n_grid)
+    Xg, Yg = np.meshgrid(xg, yg)
+    dphi = landscape.direction_deviation(Xg, Yg)
+    return xg, yg, dphi
+
+
+def _interp_deviation(x, y, xg, yg, dphi_grid):
+    """Bilinear interpolation of δφ from pre-computed grid.
+
+    x, y are arrays of bug positions.  Out-of-bounds positions are clamped.
+    """
+    w = xg[-1]
+    h = yg[-1]
+    dx = xg[1] - xg[0]
+    dy = yg[1] - yg[0]
+    n_x = len(xg) - 1
+    n_y = len(yg) - 1
+
+    # Grid indices (clamped)
+    xi = np.clip((x - xg[0]) / dx, 0, n_x - 1e-10)
+    yi = np.clip((y - yg[0]) / dy, 0, n_y - 1e-10)
+    ix = xi.astype(int)
+    iy = yi.astype(int)
+    fx = xi - ix
+    fy = yi - iy
+
+    # Bilinear
+    return ((1-fx)*(1-fy) * dphi_grid[iy, ix] +
+            fx*(1-fy)     * dphi_grid[iy, ix+1] +
+            (1-fx)*fy     * dphi_grid[iy+1, ix] +
+            fx*fy         * dphi_grid[iy+1, ix+1])
+
+
+def anomaly_ensemble(n_bugs, duration, dt, kappa, sigma_theta,
+                     contrast, n_cry, sigma_sensor, landscape,
+                     goal=3*np.pi/4, speed=1.0, sigma_xy=0.05, seed=0,
+                     mean_yield=None):
+    """Vectorised simulation with position-dependent field direction.
+
+    Like fast_ensemble but the local magnetic field direction varies with
+    position according to the landscape's anomaly field.  The field
+    deviation δφ(x,y) is pre-computed on a grid and bilinearly interpolated
+    for speed.
+
+    Returns (mean_heading_error_deg, distances, mean_path_deviation_deg).
+    """
+    rng = np.random.default_rng(seed)
+    n_steps = int(duration / dt)
+    sqrt_dt = np.sqrt(dt)
+
+    theta = rng.uniform(0, 2*np.pi, n_bugs)
+    x = np.full(n_bugs, 500.0)
+    y = np.full(n_bugs, 100.0)
+
+    if mean_yield is None:
+        mean_yield = 0.5
+    delta = contrast * mean_yield
+    n_per_ch = n_cry / 8.0
+    sigma_compass = (sigma_sensor / (delta * np.sqrt(2 * n_per_ch))
+                     if delta > 1e-10 else 10.0)
+
+    # Pre-compute deviation grid (fast lookup instead of per-step anomaly eval)
+    xg, yg, dphi_grid = _build_deviation_grid(landscape, n_grid=150)
+
+    heading_errors_sum = np.zeros(n_bugs)
+    deviation_sum = np.zeros(n_bugs)
+
+    for _ in range(n_steps):
+        # Fast grid lookup of field deviation
+        delta_phi = _interp_deviation(x, y, xg, yg, dphi_grid)
+
+        # Compass noise
+        compass_noise = rng.normal(0, sigma_compass, n_bugs)
+
+        # Steering: the anomaly biases the heading estimate
+        heading_est = theta + compass_noise
+        heading_error = goal - heading_est + delta_phi
+        d_theta = kappa * np.sin(heading_error) * dt
+        d_theta += sigma_theta * sqrt_dt * rng.standard_normal(n_bugs)
+        theta = (theta + d_theta) % (2 * np.pi)
+
+        # Position
+        x += speed * np.cos(theta) * dt + sigma_xy * sqrt_dt * rng.standard_normal(n_bugs)
+        y += speed * np.sin(theta) * dt + sigma_xy * sqrt_dt * rng.standard_normal(n_bugs)
+
+        # Track errors
+        err = np.abs(((theta - goal) + np.pi) % (2*np.pi) - np.pi)
+        heading_errors_sum += err
+        deviation_sum += np.abs(delta_phi)
+
+    mean_err = np.degrees(np.mean(heading_errors_sum / n_steps))
+    distances = np.sqrt((x - 500)**2 + (y - 100)**2)
+    mean_dev = np.degrees(np.mean(deviation_sum / n_steps))
+
+    return mean_err, distances, mean_dev
+
+
+# ── 11. Direction A: Magnetic anomaly analysis ───────────────────
+
+def anomaly_navigation(save_prefix=None):
+    """Navigation through magnetic anomaly fields.
+
+    Produces four figures:
+      1. Field deviation maps for each anomaly type
+      2. Single-bug trajectory through a dipole anomaly
+      3. Navigation error vs dipole strength at varying densities
+      4. Critical anomaly magnitude (phase diagram)
+    """
+    # ── Figure 1: Anomaly field maps ──
+    print('  [1/4] Field deviation maps...')
+    fig1, axes1 = plt.subplots(2, 2, figsize=(14, 12))
+
+    extent = (1000, 1000)
+    xg = np.linspace(0, extent[0], 200)
+    yg = np.linspace(0, extent[1], 200)
+    Xg, Yg = np.meshgrid(xg, yg)
+
+    # Background field: B_h ≈ 21.1 μT at 65° inclination
+    anomaly_configs = [
+        ('Dipole (5 μT, depth=100 BL)',
+         [{'type': 'dipole', 'pos': (500, 500), 'strength': 5.0, 'depth': 100}]),
+        ('Fault (2 μT, NE strike)',
+         [{'type': 'fault', 'pos': (500, 500), 'azimuth': np.pi/4,
+           'contrast': 2.0, 'width': 30}]),
+        ('Gradient (0.005 μT/BL, northward)',
+         [{'type': 'gradient', 'magnitude': 0.005, 'direction': 0.0}]),
+        ('Combined: 3 dipoles + fault',
+         [{'type': 'dipole', 'pos': (300, 400), 'strength': 3.0, 'depth': 80},
+          {'type': 'dipole', 'pos': (700, 600), 'strength': -4.0, 'depth': 120},
+          {'type': 'dipole', 'pos': (500, 800), 'strength': 2.0, 'depth': 60},
+          {'type': 'fault', 'pos': (500, 500), 'azimuth': np.pi/3,
+           'contrast': 1.5, 'width': 25}]),
+    ]
+
+    for ax, (title, anoms) in zip(axes1.flat, anomaly_configs):
+        ls = Landscape(extent=extent, anomalies=anoms)
+        dphi = ls.direction_deviation(Xg, Yg)
+        dphi_deg = np.degrees(dphi)
+
+        vmax = max(np.abs(dphi_deg).max(), 0.5)
+        im = ax.pcolormesh(Xg, Yg, dphi_deg, cmap='RdBu_r',
+                           vmin=-vmax, vmax=vmax, shading='auto')
+        plt.colorbar(im, ax=ax, label='δφ (°)')
+        ax.set_title(title, fontsize=11)
+        ax.set_xlabel('x (BL)')
+        ax.set_ylabel('y (BL)')
+        ax.set_aspect('equal')
+
+    fig1.suptitle('Magnetic Field Direction Anomalies', fontsize=14)
+    plt.tight_layout()
+
+    # ── Figure 2: Trajectory through a dipole ──
+    print('  [2/4] Trajectory through dipole...')
+    fig2, axes2 = plt.subplots(1, 3, figsize=(18, 6))
+
+    strengths_traj = [0.0, 2.0, 8.0]
+    n_bugs_traj = 50
+    duration = 300
+    dt = 0.02
+    contrast = 0.15
+    n_cry = 50
+
+    for ax, s_dip in zip(axes2, strengths_traj):
+        if s_dip > 0:
+            anoms = [{'type': 'dipole', 'pos': (500, 400),
+                      'strength': s_dip, 'depth': 80}]
+        else:
+            anoms = []
+        ls = Landscape(extent=extent, anomalies=anoms)
+
+        # Plot field deviation background
+        dphi = ls.direction_deviation(Xg, Yg)
+        dphi_deg = np.degrees(dphi)
+        vmax = max(np.abs(dphi_deg).max(), 0.5)
+        ax.pcolormesh(Xg, Yg, dphi_deg, cmap='RdBu_r',
+                      vmin=-vmax, vmax=vmax, shading='auto', alpha=0.3)
+
+        # Run bugs
+        rng = np.random.default_rng(42)
+        n_steps = int(duration / dt)
+        sqrt_dt = np.sqrt(dt)
+        goal = 3*np.pi/4
+
+        delta_val = contrast * 0.5
+        n_per_ch = n_cry / 8.0
+        sigma_compass = 0.02 / (delta_val * np.sqrt(2 * n_per_ch))
+
+        theta = rng.uniform(0, 2*np.pi, n_bugs_traj)
+        x_arr = np.full(n_bugs_traj, 500.0)
+        y_arr = np.full(n_bugs_traj, 100.0)
+        paths_x = [x_arr.copy()]
+        paths_y = [y_arr.copy()]
+
+        for _ in range(n_steps):
+            dp = ls.direction_deviation(x_arr, y_arr)
+            cn = rng.normal(0, sigma_compass, n_bugs_traj)
+            he = goal - (theta + cn) + dp
+            theta = (theta + 2.0 * np.sin(he) * dt +
+                     0.3 * sqrt_dt * rng.standard_normal(n_bugs_traj)) % (2*np.pi)
+            x_arr += 1.0 * np.cos(theta) * dt + 0.05 * sqrt_dt * rng.standard_normal(n_bugs_traj)
+            y_arr += 1.0 * np.sin(theta) * dt + 0.05 * sqrt_dt * rng.standard_normal(n_bugs_traj)
+            if _ % 50 == 0:
+                paths_x.append(x_arr.copy())
+                paths_y.append(y_arr.copy())
+
+        paths_x = np.array(paths_x)
+        paths_y = np.array(paths_y)
+
+        for i in range(n_bugs_traj):
+            ax.plot(paths_x[:, i], paths_y[:, i], 'k-', alpha=0.15, lw=0.5)
+        # Highlight a few
+        for i in range(min(5, n_bugs_traj)):
+            ax.plot(paths_x[:, i], paths_y[:, i], lw=1.5, alpha=0.7)
+
+        # Goal direction arrow
+        ax.annotate('', xy=(500 + 150*np.cos(goal), 100 + 150*np.sin(goal)),
+                    xytext=(500, 100),
+                    arrowprops=dict(arrowstyle='->', color='red', lw=2))
+
+        ax.set_xlim(0, 1000)
+        ax.set_ylim(0, 1000)
+        ax.set_aspect('equal')
+        ax.set_title(f'Dipole: {s_dip:.0f} μT' if s_dip > 0 else 'No anomaly',
+                     fontsize=12)
+        ax.set_xlabel('x (BL)')
+
+    axes2[0].set_ylabel('y (BL)')
+    fig2.suptitle('Bug Trajectories Through Dipole Anomalies '
+                  f'(C={contrast}, N_cry={n_cry})', fontsize=14)
+    plt.tight_layout()
+
+    # ── Figure 3: Navigation error vs anomaly strength × density ──
+    print('  [3/4] Error vs strength × density sweep...')
+    dipole_strengths = np.array([0, 0.5, 1.0, 2.0, 3.0, 5.0, 8.0, 12.0])
+    n_dipoles_list = [1, 5, 10, 20]
+    depth = 80
+    n_bugs = 200
+    duration = 300
+    dt = 0.02
+    sigma_theta = 0.3
+
+    fig3, axes3 = plt.subplots(1, 2, figsize=(14, 6))
+    colors3 = ['#2196F3', '#4CAF50', '#FF9800', '#F44336']
+
+    # Left: error vs strength at different densities
+    ax = axes3[0]
+    for n_dip, color in zip(n_dipoles_list, colors3):
+        errs = []
+        for s in dipole_strengths:
+            if s == 0 or n_dip == 0:
+                # Uniform field baseline
+                err, _ = fast_ensemble(
+                    n_bugs=n_bugs, duration=duration, dt=dt,
+                    kappa=2.0, sigma_theta=sigma_theta,
+                    contrast=0.15, n_cry=50, sigma_sensor=0.02)
+                errs.append(err)
+            else:
+                # Average over 5 random realisations
+                err_trials = []
+                for trial in range(5):
+                    rng = np.random.default_rng(100*trial + n_dip)
+                    anoms = Landscape.random_dipoles(
+                        n_dip, extent, s, depth, rng=rng)
+                    ls = Landscape(extent=extent, anomalies=anoms)
+                    err_t, _, _ = anomaly_ensemble(
+                        n_bugs=n_bugs, duration=duration, dt=dt,
+                        kappa=2.0, sigma_theta=sigma_theta,
+                        contrast=0.15, n_cry=50, sigma_sensor=0.02,
+                        landscape=ls, seed=trial)
+                    err_trials.append(err_t)
+                errs.append(np.mean(err_trials))
+            print(f'    n_dip={n_dip}  strength={s:.1f}  err={errs[-1]:.1f}°')
+        ax.plot(dipole_strengths, errs, color=color, marker='o', ms=5, lw=2,
+                label=f'{n_dip} dipole{"s" if n_dip>1 else ""}')
+
+    ax.axhline(30, color='orange', ls=':', lw=1, alpha=0.4)
+    ax.set_xlabel('Dipole strength (μT)', fontsize=12)
+    ax.set_ylabel('Mean heading error (°)', fontsize=12)
+    ax.set_title('Dipole Strength vs Navigation Error', fontsize=13)
+    ax.legend(fontsize=10)
+    ax.set_ylim(0, 60)
+
+    # Right: error vs density at different strengths
+    ax = axes3[1]
+    strength_list = [1.0, 3.0, 5.0, 8.0]
+    n_dip_range = np.array([0, 1, 3, 5, 10, 20, 50])
+    colors3b = ['#2196F3', '#FF9800', '#F44336', '#9C27B0']
+
+    for s, color in zip(strength_list, colors3b):
+        errs = []
+        for n_dip in n_dip_range:
+            if n_dip == 0:
+                err, _ = fast_ensemble(
+                    n_bugs=n_bugs, duration=duration, dt=dt,
+                    kappa=2.0, sigma_theta=sigma_theta,
+                    contrast=0.15, n_cry=50, sigma_sensor=0.02)
+                errs.append(err)
+            else:
+                err_trials = []
+                for trial in range(5):
+                    rng = np.random.default_rng(200*trial + int(s*10))
+                    anoms = Landscape.random_dipoles(
+                        n_dip, extent, s, depth, rng=rng)
+                    ls = Landscape(extent=extent, anomalies=anoms)
+                    err_t, _, _ = anomaly_ensemble(
+                        n_bugs=n_bugs, duration=duration, dt=dt,
+                        kappa=2.0, sigma_theta=sigma_theta,
+                        contrast=0.15, n_cry=50, sigma_sensor=0.02,
+                        landscape=ls, seed=trial)
+                    err_trials.append(err_t)
+                errs.append(np.mean(err_trials))
+            print(f'    strength={s:.1f}  n_dip={n_dip}  err={errs[-1]:.1f}°')
+        ax.plot(n_dip_range, errs, color=color, marker='s', ms=5, lw=2,
+                label=f'{s:.0f} μT')
+
+    ax.axhline(30, color='orange', ls=':', lw=1, alpha=0.4)
+    ax.set_xlabel('Number of dipole anomalies', fontsize=12)
+    ax.set_ylabel('Mean heading error (°)', fontsize=12)
+    ax.set_title('Anomaly Density vs Navigation Error', fontsize=13)
+    ax.legend(fontsize=10)
+    ax.set_ylim(0, 60)
+
+    fig3.suptitle('Navigation Degradation from Magnetic Anomalies '
+                  f'(C=0.15, σ_θ={sigma_theta})', fontsize=14)
+    plt.tight_layout()
+
+    # ── Figure 4: Critical anomaly magnitude for different compasses ──
+    print('  [4/4] Critical anomaly magnitude...')
+    contrasts_test = [
+        ('FAD-O₂ lit. (C=0.15)', 0.15, None),
+        ('FAD-TrpH lit. (C=0.01)', 0.01, None),
+        ('Relaxed FAD-O₂ (C=0.10)', 0.10, None),
+    ]
+    n_dip_crit = 10
+    depth_crit = 80
+    strengths_fine = np.array([0, 0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0])
+    sigma_thetas_crit = [0.3, 0.5]
+
+    fig4, axes4 = plt.subplots(1, 2, figsize=(14, 6))
+    compass_colors = ['#2196F3', '#FF9800', '#4CAF50']
+
+    for ax, sig in zip(axes4, sigma_thetas_crit):
+        # Baseline (no anomaly) for each compass
+        baselines = {}
+        for label, C, my in contrasts_test:
+            err_base, _ = fast_ensemble(
+                n_bugs=200, duration=300, dt=0.02,
+                kappa=2.0, sigma_theta=sig,
+                contrast=C, n_cry=50, sigma_sensor=0.02,
+                mean_yield=my)
+            baselines[label] = err_base
+
+        for (label, C, my), color in zip(contrasts_test, compass_colors):
+            errs = []
+            for s in strengths_fine:
+                if s == 0:
+                    errs.append(baselines[label])
+                else:
+                    trials = []
+                    for trial in range(5):
+                        rng = np.random.default_rng(300*trial)
+                        anoms = Landscape.random_dipoles(
+                            n_dip_crit, extent, s, depth_crit, rng=rng)
+                        ls = Landscape(extent=extent, anomalies=anoms)
+                        err_t, _, _ = anomaly_ensemble(
+                            n_bugs=200, duration=300, dt=0.02,
+                            kappa=2.0, sigma_theta=sig,
+                            contrast=C, n_cry=50, sigma_sensor=0.02,
+                            landscape=ls, seed=trial, mean_yield=my)
+                        trials.append(err_t)
+                    errs.append(np.mean(trials))
+                print(f'    {label}  σ_θ={sig}  s={s:.1f}  '
+                      f'err={errs[-1]:.1f}° (Δ={errs[-1]-baselines[label]:+.1f}°)')
+
+            ax.plot(strengths_fine, errs, color=color, marker='o', ms=5,
+                    lw=2, label=label)
+            ax.axhline(baselines[label], color=color, ls=':', lw=1, alpha=0.3)
+
+        ax.axhline(30, color='orange', ls=':', lw=1, alpha=0.4,
+                   label='30° threshold')
+        ax.set_xlabel('Dipole anomaly strength (μT)', fontsize=12)
+        ax.set_ylabel('Mean heading error (°)', fontsize=12)
+        ax.set_title(f'σ_θ = {sig} rad/√s', fontsize=13)
+        ax.legend(fontsize=8)
+        ax.set_ylim(0, 70)
+
+    fig4.suptitle(f'Critical Anomaly Magnitude by Compass Model '
+                  f'({n_dip_crit} dipoles, depth={depth_crit} BL)',
+                  fontsize=14)
+    plt.tight_layout()
+
+    if save_prefix:
+        fig1.savefig(f'{save_prefix}anomaly_maps.png', dpi=150)
+        fig2.savefig(f'{save_prefix}anomaly_traj.png', dpi=150)
+        fig3.savefig(f'{save_prefix}anomaly_sweep.png', dpi=150)
+        fig4.savefig(f'{save_prefix}anomaly_critical.png', dpi=150)
+        print(f'Saved {save_prefix}anomaly_*.png')
+
+    return fig1, fig2, fig3, fig4
+
+
 # ── Main ──────────────────────────────────────────────────────────
 
 def main():
@@ -1112,6 +1523,7 @@ def main():
     parser.add_argument('--relax-nav', action='store_true')
     parser.add_argument('--uneq-rates', action='store_true')
     parser.add_argument('--orient', action='store_true')
+    parser.add_argument('--anomaly', action='store_true')
     parser.add_argument('--all', action='store_true')
     parser.add_argument('--save', type=str, default='fig_',
                         help='Save prefix (default: fig_)')
@@ -1121,7 +1533,7 @@ def main():
                                     args.harmonics, args.critical_noise,
                                     args.ncry, args.validate_fast,
                                     args.relax_nav, args.uneq_rates,
-                                    args.orient])
+                                    args.orient, args.anomaly])
 
     if args.peclet or run_all:
         print('=== Peclet number study ===')
@@ -1158,6 +1570,10 @@ def main():
     if args.orient or run_all:
         print('\n=== Orientational disorder ===')
         orientational_disorder(save_prefix=args.save)
+
+    if args.anomaly or run_all:
+        print('\n=== Magnetic anomaly navigation ===')
+        anomaly_navigation(save_prefix=args.save)
 
     print('\nDone.')
 

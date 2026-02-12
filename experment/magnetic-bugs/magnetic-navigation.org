@@ -973,7 +973,66 @@ occurs at physiological temperature.
 - $N^*_{\mathrm{cry}} \approx 500$: molecules needed for $C = 0.01$ to match $C = 0.15$
 - Critical noise: $\sigma^*_\theta \approx 1.17$ for all $C \geq 0.15$ models
 
-** 5.6 Figures Produced
+** 5.6 Direction A: Magnetic Anomaly Navigation
+
+Extended =landscape.py= with three physically motivated anomaly models:
+
+- *Dipole*: buried vertical magnetic dipole (volcanic intrusion, iron-rich body).
+  Field peaks at $\rho = d/2$ from directly above, decays as $\sim 1/\rho^4$.
+  Parameterised by peak horizontal anomaly (μT) and burial depth (body-lengths).
+- *Fault*: linear juxtaposition of differently magnetised rocks. Tanh transition
+  profile perpendicular to the fault strike. Parameterised by contrast (μT),
+  azimuth, and transition width.
+- *Gradient*: regional linear field variation. Parameterised by magnitude
+  (μT/BL) and direction.
+
+For efficient ensemble simulation through anomaly fields, the field deviation
+$\delta\varphi(x,y)$ is pre-computed on a 150×150 grid and bilinearly
+interpolated at each timestep, avoiding per-step anomaly evaluation.
+
+*** Results: the compass is remarkably robust
+
+| Scenario | Mean heading error |
+|----------+--------------------|
+| No anomalies (baseline) | 7.2° |
+| 1 dipole × 12 μT | 8.6° |
+| 20 dipoles × 12 μT | 12.1° |
+| 50 dipoles × 8 μT | 12.5° |
+| 10 dipoles × 10 μT (all compass models) | +0.5–1.1° above baseline |
+
+Even extreme anomaly fields (peak perturbation $\sim 50\%$ of the horizontal
+background) barely affect heading accuracy. The 30° navigation threshold is
+never approached. Three reinforcing mechanisms explain this:
+
+1. *Quasi-static tracking*: The steering time constant ($1/\kappa \approx 0.5$ s)
+   is much shorter than the anomaly crossing time ($\sim d/v \approx 80$–$160$ s).
+   The bug continuously re-aligns to the /local/ field.
+2. *Random cancellation*: Dipoles with random-sign moments create oscillating
+   perturbations that partially cancel over the path.
+3. *Heading vs path*: The compass measures heading relative to the /local/
+   magnetic field. Anomalies deflect the geographic path but preserve the
+   magnetic heading accuracy.
+
+*** The deep implication
+
+For a memoryless heading-follower, the navigation bottleneck is compass contrast
+($C \gtrsim 0.1$), /not/ field inhomogeneity. Anomalies would bite much harder
+for a path-integrating bug (Direction B), because the geographic path deviations
+accumulate in the home vector even though the instantaneous heading recovers.
+This strengthens the case for pursuing Direction B (CPU4/CPU1 path integration).
+
+*** Answers Q10
+
+Q10: "Do geological magnetic anomalies measurably degrade navigation?"
+
+No — not for a memoryless heading-follower. The compass tracks the local field
+quasi-statically, so anomalies deflect the path but not the heading accuracy.
+Anomalies up to 50% of the horizontal background add at most $\sim 5°$ to the
+mean heading error. The compass contrast threshold ($C \sim 0.1$) remains the
+binding constraint. However, this conclusion may change dramatically with path
+integration, where accumulated path deviations would compound.
+
+** 5.7 Figures Produced
 
 | Figure | Content |
 |--------+---------|
@@ -987,6 +1046,10 @@ occurs at physiological temperature.
 | =fig_relax_margin.png= | Safety margin vs $T_2$ |
 | =fig_uneq_rates.png=, =fig_uneq_nav.png= | Unequal recombination rates |
 | =fig_orient_disorder.png=, =fig_orient_nav.png= | Orientational disorder |
+| =fig_anomaly_maps.png= | Field deviation maps (dipole, fault, gradient, combined) |
+| =fig_anomaly_traj.png= | Bug trajectories through dipole anomalies |
+| =fig_anomaly_sweep.png= | Navigation error vs anomaly strength and density |
+| =fig_anomaly_critical.png= | Critical anomaly magnitude by compass model |
 
 * 6 Key References
 
@@ -1072,6 +1135,9 @@ occurs at physiological temperature.
 
 10. Do geological magnetic anomalies (ore bodies, faults) measurably degrade
     navigation? At what anomaly magnitude does the compass break?
+    /Answered (§5.6)/: No — for the memoryless heading-follower. The compass
+    tracks the local field quasi-statically; anomalies up to 50% of $B_h$ add
+    $\lesssim 5°$. Path integration may change this (Direction B).
 
 11. Does path integration (CPU4/CPU1 Stone et al. model) compensate for
     compass noise, or does it amplify it through integration drift?
