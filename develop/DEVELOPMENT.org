@@ -10,6 +10,13 @@
 | MayaDevGenI | [[file:~/Darshan/research/develop/agentic/mayadevgeni/develop/devlog.org][devlog.org]]                                                          | Active |
 | MayaDevGenZ | [[file:~/Darshan/research/develop/agentic/mayadevgeni/agency/mayadevgenz/develop/devlog.org][devlog.org]]                                          | Active |
 
+* Foundational Documents
+
+| Document               | Path                                       | Scope                         |
+|------------------------+--------------------------------------------+-------------------------------|
+| Guiding Philosophy     | [[file:guiding-philosophy.org]]            | Scientific method & iteration |
+| Co-Ownership Principle | [[file:co-ownership.org]]                  | Human-machine artifact design |
+
 * Cross-Project Open Threads
 
   Curate threads here that span multiple projects.

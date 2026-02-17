@@ -1,0 +1,250 @@
+#+title: Co-Ownership: Artifacts for Human and Machine
+#+author: mu2tau & claude
+#+date: <2025-07-28>
+
+* The Problem of Ownership
+
+When a human /owns/ a codebase, ownership lives in their head — a compressed
+model of the architecture, the invariants, the reasons behind choices.  They
+navigate without reading every line because they carry the /map/.  The code on
+disk is the territory; the owner holds the map.
+
+A machine collaborator has no persistent map.  Every session starts from
+territory.  So /co-ownership/ cannot mean the same thing as human ownership —
+it must mean something different but functionally equivalent.
+
++ /Human ownership/ :: Compressed internal model + ability to navigate and modify.
+  Evidence: the human can explain the system, extend it, teach it.
++ /Machine co-ownership/ :: The code and its surrounding documents are structured
+  so that a machine collaborator can /reconstruct/ a working model fast enough
+  to be useful within a session.  Evidence: the machine produces new code or
+  prose that is consistent with the existing architecture.
+
+The key insight: *co-ownership is not a property of the machine.  It is a
+property of the artifact.*  The code co-owns itself — it carries enough
+structure and context that /either/ party can pick it up.
+
+* The Dual-Channel Principle
+
+A literate =ORG= document weaves two channels of communication:
+
++ /Prose/ (natural language) :: Aimed at the human.  Carries motivation, physical
+  reasoning, intuition, narrative arc.  The human reads it and can reproduce the
+  manuscript's arguments — explain them, extend them, critique them.
++ /Code/ (formal language) :: Aimed at the machine.  Carries compositional
+  structure, type-level propositions, executable specifications.  The machine
+  reads it and can reconstruct the /logic/ of the project — navigate it, modify
+  it, extend it consistently.
+
+Both channels live in the same artifact.  Neither is subordinate.  The prose is
+not "comments for the code"; the code is not "illustrations for the prose."
+They are parallel representations of the same argument, optimized for different
+readers.
+
+What "understanding" means operationally for each:
+
+| Reader  | Understands when it can...             | Evidence of understanding            |
+|---------+----------------------------------------+--------------------------------------|
+| Human   | Explain, modify, extend, teach         | Writes new prose consistent with the argument |
+| Machine | Navigate, modify, extend, generate     | Writes new code consistent with the architecture |
+
+* Three Channels in Practice
+
+In =MayaLucIA= projects, and =MayaPortal= in particular, we employ not two but
+three formal channels alongside the prose:
+
+| Channel | Audience                                 | Carries                                         | Language      |
+|---------+------------------------------------------+-------------------------------------------------+---------------|
+| Prose   | Human                                    | Intent, motivation, physical reasoning           | English / ORG |
+| Spec    | Machine (+ mathematically-inclined human) | Compositional structure, type propositions, laws | Haskell       |
+| Impl    | Machine + Hardware                       | Executable realization, memory layout, performance | C++20/23    |
+| Explore | Human scientist at the REPL              | Interactive exploration, scripting, glue         | Python        |
+
+** The Haskell Specification Layer
+
+The Haskell channel is not an implementation language.  It is a /reasoning
+language/ — a formal notation for expressing the algebraic structure of our
+systems.
+
+Haskell serves this role because:
+
+1. /It compiles./ Unlike prose, which can be vague or inconsistent, Haskell's
+   type checker enforces coherence.  If we say stages compose, the types must
+   actually compose.
+2. /It is concise./ The entire pipeline architecture — types, relationships,
+   composition laws — may fit in a few hundred lines.  That is a compressed,
+   navigable /map/.
+3. /It is verifiable./ QuickCheck properties and type-level constraints serve as
+   machine-checkable statements of algebraic laws.
+
+The Haskell layer need not /do/ anything.  Implementations can return
+=undefined=.  The point is that the specification /type-checks/ — the
+propositions are consistent.
+
+When a machine collaborator begins a session, it reads the Haskell specification
+first to orient, then reads the C++ knowing what each piece is /for/.
+
+** The C++ Implementation Layer
+
+The C++ code is the executable realization.  It talks to GPUs, manages memory
+layout, and produces pixels.  It uses C++20/23 features — concepts, constrained
+templates, =std::expected= — to encode as much propositional content into
+the type system as the language allows.
+
+Where C++ types fall short of Haskell's expressiveness, the gap is filled by:
+- Prose (for the human)
+- Tests (for the machine)
+- The Haskell specification (for both)
+
+** The Python Exploration Layer
+
+Python bindings (via =pybind11=) expose the pipeline to interactive
+exploration.  This is the scientist's REPL — where hypotheses are tested
+quickly, parameters are swept, and visualizations are examined before committing
+to a full implementation.
+
+* Types as Propositions
+
+The Curry-Howard correspondence observes that types and propositions are the
+same thing viewed from two sides.  A type signature is a proposition; a program
+inhabiting that type is a proof.
+
+This is exact in dependently-typed languages (Agda, Lean, Idris).  In C++ and
+Haskell it is approximate but deeply useful.
+
+** What a Type Signature Says
+
+Consider:
+
+#+begin_src haskell
+compose :: Stage a b -> Stage b c -> Stage a c
+#+end_src
+
+This states: "given a stage transforming =a= to =b=, and a stage transforming
+=b= to =c=, I can produce a stage transforming =a= to =c=."  The type variable
+=b= must match — output of the first must equal input of the second.
+
+A machine collaborator reading this signature /immediately/ knows: stages are
+composable, composition is type-safe, the interface between stages is enforced.
+No prose needed.  The type /said/ it.
+
+** What the Type Rules Out
+
+Equally important is what becomes /unrepresentable/.  If the pipeline types are:
+
+#+begin_src haskell
+data HeightField    -- terrain elevation data
+data Mesh           -- triangulated surface
+data NormalMap      -- per-vertex surface normals
+data Fragments      -- rasterized fragments
+data Pixels         -- final image
+
+triangulate    :: HeightField -> Mesh
+computeNormals :: Mesh -> NormalMap
+rasterize      :: Mesh -> Fragments
+shade          :: (NormalMap, Fragments) -> Pixels
+#+end_src
+
+Then =shade . triangulate= is a /type error/.  The compiler rejects it.  Invalid
+compositions are not just wrong — they are unwritable.  This is a theorem:
+"this pipeline cannot be mis-wired."  The compiler is the proof checker.
+
+** Types as Scientific Claims
+
+In =MayaPortal=, when we define pipeline stages as typed transformations, we
+encode /scientific/ claims in the type system:
+
++ =HeightField → Mesh= :: "Terrain elevation data can be triangulated" — a geometric claim.
++ =Mesh → NormalMap= :: "A mesh determines surface orientation" — a differential geometry claim.
++ =(NormalMap, Fragments) → Pixels= :: "Surface normals and light produce an image" — a rendering equation claim.
+
+Each type signature is a proposition about the physical/mathematical pipeline.
+The implementation is the constructive proof.
+
+** The C++ Approximation
+
+C++ cannot express all propositions that Haskell can.  But C++20 concepts
+bring it closer:
+
+#+begin_src cpp
+template<IsStage S1, IsStage S2>
+  requires (std::same_as<typename S1::output_type, typename S2::input_type>)
+auto operator|(S1&& first, S2&& second);
+#+end_src
+
+The =requires= clause is the proposition.  The =concept= definitions are the
+axioms.  Where C++ types fall short, tests and the Haskell specification carry
+the remaining propositional content.
+
+* Practices for Co-Ownable Artifacts
+
+The following practices make artifacts reconstructable by either collaborator:
+
+** Discoverable Organization
+
+The machine collaborator will grep, glob, and read.  Consistent, predictable
+structure — known entry points, naming conventions, a manifest or index —
+makes reconstruction fast.  Idiosyncrasy burns context on orientation.
+
+** Intention Preserved Near Implementation
+
+This is what literate programming already provides, but it matters doubly here.
+A human can remember "I put this workaround here because of X."  A machine
+cannot.  If the /why/ lives only in the human's head, co-ownership is broken.
+ORG prose adjacent to code blocks is the mechanism.
+
+** Compositional Structure with Clear Interfaces
+
+Entanglement means you cannot understand a part without understanding all.  For
+the machine, this is fatal — it cannot load the entire project into context at
+once.  Monadic composition, the pipeline pattern, directly serves machine
+co-ownership: each stage is comprehensible in isolation.
+
+** Tests as Executable Specifications
+
+The machine collaborator cannot "feel" whether a refactor preserved behavior.
+Tests substitute for that felt sense.  They are not just quality assurance —
+they are the machine's calibration protocol.  A well-structured test suite is a
+manuscript of worked examples the machine can reproduce and extend.
+
+** A Bootstrap Document
+
+Something a machine collaborator reads /first/ to orient.  Not a README for
+visitors — a briefing for a collaborator about to do work.  This is what our
+=mayaportal.org=, =techstack.org=, and the three-face protocol documents serve
+as.
+
+** Type Signatures Stated Explicitly
+
+In code blocks, type signatures deserve the same care as equations in a physics
+paper.  They are not boilerplate — they are /claims/.  We state the signature
+before the implementation, discuss what it means (what proposition it encodes),
+and note what it rules out.
+
+* The Parallel Structure
+
+Summarizing how the same content flows through each channel:
+
+| Aspect          | Human reads           | Machine reads                    |
+|-----------------+-----------------------+----------------------------------|
+| Why             | Prose narrative       | Comments + naming + types        |
+| What            | Section structure     | Module / header structure        |
+| How             | Worked examples       | Test cases                       |
+| Compositional order | Document flow     | Build dependency graph           |
+| Validity        | Argument coherence    | Compilation + test passage       |
+| Algebraic laws  | Stated in prose       | Haskell spec + QuickCheck        |
+
+* Co-Ownership Implies Co-Responsibility
+
+If the machine collaborator can modify code, it must also be able to /verify/
+its modifications.  This closes the loop to the instrument metaphor from the
+[[file:guiding-philosophy.org][guiding philosophy]]: the test suite is the
+calibration rig, and both collaborators must be able to run it.
+
+The three-face protocol already encodes this:
++ =discuss.org= :: Deliberation record — how decisions were made.
++ =plan.org= :: Human-oriented narrative — the teaching face.
++ =spec.org= :: Machine-oriented specification — the execution face.
+
+Each face serves a different mode of reconstruction.  Together, they make the
+project co-ownable.
