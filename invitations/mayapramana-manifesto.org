@@ -1,0 +1,387 @@
+#+title: MāyāPramāṇa
+#+subtitle: Valid Cognition of the Measured World
+#+author: A letter to Saikat, and to anyone who has asked how precisely one can measure
+#+date: February 2026
+
+#+begin_quote
+/Kasturi kundal base, mrig dhoonde van maahi/
+/Taisa ghat Ram hai, duniya dekhe naahi/
+
+The musk lies within the deer's own navel, yet it searches the forest.
+Just so, the truth dwells within, but the world does not see.
+--- Kabir
+#+end_quote
+
+* On Pramāṇa
+
+Dignāga, writing fifteen centuries ago in a monastery that no longer
+stands, asked a question that still has no final answer: what counts
+as valid cognition?
+
+He allowed only two paths. /Pratyakṣa/ --- direct perception, raw,
+non-conceptual, free from the overlay of name and category. The sensor
+meets the field. The photon strikes the detector. The atom fluoresces.
+No interpretation yet, just contact.
+
+And /anumāna/ --- inference. The mind takes the raw impression and
+builds structure: this pattern means that cause; this signal implies
+that field strength; this fluorescence tells me the detuning is
+three linewidths off.
+
+Dharmakīrti, a century later, sharpened the blade. Valid cognition is
+not merely /correct/ --- it must be /reliably produced/. You cannot
+stumble into knowledge by accident. The method matters. The causal
+chain from world to sensor to inference must be sound at every link.
+He called his criterion /arthakriyāsāmarthya/ --- the capacity for
+effective action. Knowledge that does not enable you to /do/ something
+is not knowledge at all.
+
+A quantum sensor controller sits exactly at this boundary. It is the
+apparatus that transforms pratyakṣa (the raw signal) into anumāna
+(the calibrated measurement) --- and it must do so /reliably/, through
+a causal chain that can be inspected, tested, and verified at every
+step.
+
+MāyāPramāṇa: the valid cognition of the measured world.
+
+* On Measurement
+
+#+begin_quote
+As far as the laws of mathematics refer to reality, they are not
+certain; and as far as they are certain, they do not refer to reality.
+--- Albert Einstein, Oxford, 1933
+#+end_quote
+
+Hume would have appreciated quantum mechanics. He spent his life
+arguing that we never /perceive/ causation --- we only perceive
+constant conjunction. Events follow events; the mind supplies the
+causal glue. The Problem of Induction: experience alone offers no
+justification for trusting experience.
+
+Then along comes Heisenberg, and the problem is no longer
+philosophical but physical. The act of measurement disturbs the
+measured. The observer is not a transparent window onto reality but a
+participant who co-determines the outcome. Bohr saw this and chose
+as his coat of arms the yin-yang symbol with the motto: /Contraria
+sunt complementa/. Opposites are complementary.
+
+#+begin_quote
+It is wrong to think that the task of physics is to find out how
+Nature is. Physics concerns what we can say about Nature.
+--- Niels Bohr, as recorded by Aage Petersen
+#+end_quote
+
+Every quantum sensor embodies this insight. The magnetometer does not
+/find/ the magnetic field. It participates in a dance between the
+atomic spin and the external field, mediated by light, shaped by
+feedback, and the number that comes out is not the field itself but
+/what we can say/ about the field given our apparatus, our noise
+floor, our integration time, our model.
+
+The Cramér-Rao bound sets the speed limit on this knowledge. Fisher
+information is the curvature of the likelihood --- the sharpness of
+the peak that tells you how distinguishable two nearby field values
+are. The bound says: no unbiased estimator can do better than the
+inverse of the Fisher information.
+
+This is not a limitation. It is the /grammar/ of measurement. And a
+universal sensor controller must speak this grammar fluently.
+
+* On the Universal Controller
+
+#+begin_quote
+/Pothi padhi padhi jag mua, pandit bhaya na koye/
+/Dhai akhar prem ka, padhe so pandit hoye/
+
+Reading books, the whole world died --- none became wise.
+Whoever reads the two-and-a-half letters of Love, only they
+become wise.
+--- Kabir
+#+end_quote
+
+Kabir was not against books. He was against the confusion of /having
+read/ with /having understood/. The same confusion plagues
+instrument control.
+
+Every quantum sensor lab builds its controller from scratch. LabVIEW
+here, a custom FPGA there, Python scripts held together with hope
+and grad student labour. Each controller works for one instrument,
+one configuration, one set of assumptions. The knowledge is trapped
+in the wiring, illegible, unreproducible.
+
+A universal controller would be something different. Not a piece of
+hardware but a /grammar/ --- a way of expressing what any quantum
+sensor needs:
+
+- *Feedback loops*: PID, Kalman filtering, lock-in detection ---
+  the anumāna that transforms raw signal into calibrated measurement
+- *Pulse sequences*: the choreography of light and rf that interrogates
+  the quantum state --- the structured pratyakṣa
+- *State estimation*: the Bayesian machinery that maintains a belief
+  about the system state given noisy observations --- Dharmakīrti's
+  reliable cognition, expressed in mathematics
+- *Noise models*: shot noise, technical noise, quantum projection
+  noise --- the /limits/ of what can be known, honestly accounted for
+
+The same grammar should describe an atomic magnetometer, an NV-diamond
+sensor, a gravimeter, an optical clock. The physics differs; the
+epistemology does not. In each case: a quantum system is prepared,
+interrogated, and measured, and the result is an inference about
+the world, bounded by fundamental limits.
+
+#+begin_quote
+Physical concepts are free creations of the human mind, and are not,
+however it may seem, uniquely determined by the external world.
+--- Albert Einstein
+#+end_quote
+
+The controller is a /concept/ --- a free creation that organises the
+dialogue between sensor and world. But it is not arbitrary. It is
+constrained by what works, by the Cramér-Rao bound, by the physics
+of the sensor, by the noise floor of the universe.
+
+* On Digital Twins
+
+#+begin_quote
+What I cannot create, I do not understand.
+--- Richard Feynman, last blackboard, February 1988
+#+end_quote
+
+How do you build a universal controller? Not by trying to abstract
+across instruments you haven't understood. By building /digital twins/
+of specific instruments, one at a time, until the common structure
+emerges.
+
+An atomic magnetometer: model the Bloch equations, the optical
+pumping cycle, the magnetic resonance. Simulate the feedback loop.
+Inject noise. Ask: does the Kalman filter converge? Does the PID
+hold lock? What happens when the field changes faster than the
+bandwidth?
+
+Then an NV-diamond sensor: different physics (solid state, not atomic
+gas), different noise (lattice vibrations, charge state fluctuations),
+different readout (photoluminescence, not absorption). Same questions:
+does the controller hold? Does the estimation converge? Where are the
+limits?
+
+The common structure does not come from abstraction imposed from
+above. It comes from reconstruction practised from below --- from
+building enough digital twins that the universals reveal themselves.
+
+#+begin_quote
+/Jaise til mein tel hai, jyon chakmak mein aag/
+/Tera sayeen tujh mein hai, tu jaag sake to jaag/
+
+As sesame contains oil, as flint contains fire ---
+Your Lord is within you. Awaken, if you can.
+--- Kabir
+#+end_quote
+
+The universal is already inside the particular. The grammar of
+measurement is already inside each instrument. The digital twin is
+the practice of awakening to it.
+
+This is Markram's radical hypothesis, transported from neuroscience
+to metrology: in any complex system, all parameters are
+interdependent. Lay down a few anchor measurements and the rest are
+constrained --- provided you have the right models to capture the
+interdependencies. The digital twin is those models, made explicit,
+made runnable, made testable.
+
+* On Verification
+
+#+begin_quote
+Science is the belief in the ignorance of experts.
+--- Richard Feynman, address to the National Science Teachers Association, 1966
+#+end_quote
+
+We do not trust our models because we are clever. We trust them
+because we test them. Every quantitative claim about the digital
+twin --- the bandwidth, the sensitivity, the lock range, the noise
+floor --- must be backed by a test that runs, that passes, that can
+be inspected by anyone.
+
+In MāyāLucIA, we have built a prototype of /verified manuscripts/ ---
+documents where every claim carries an inline badge linking to the
+test that proves it. We propose the same standard for MāyāPramāṇa.
+The digital twin of a magnetometer is not a paper. It is a repository
+with tests. The sensitivity claim is not a sentence in an abstract.
+It is a function that computes the Allan deviation from simulated data
+and compares it to the Cramér-Rao bound.
+
+If Dharmakīrti were alive today, he would not ask "is your model
+correct?" He would ask: "does your model enable effective action?
+Can you use it to /control/ the instrument? Does the controller that
+emerges from the digital twin actually work?"
+
+/Arthakriyāsāmarthya/. The capacity for effective action. That is
+the test.
+
+* On Information
+
+#+begin_quote
+How wonderful that we have met with a paradox. Now we have some hope
+of making progress.
+--- Niels Bohr
+#+end_quote
+
+There is a deep connection --- deeper than analogy --- between quantum
+measurement and machine learning. Both are problems of inference
+under uncertainty. Both are bounded by information-theoretic limits.
+Both involve an agent (biological, electronic, or algorithmic) that
+must extract structure from noise.
+
+Fisher information appears in both: as the precision limit of a
+quantum sensor, and as the curvature of the loss landscape in a
+neural network. The Cramér-Rao bound limits the magnetometer; the
+bias-variance tradeoff limits the estimator. Shannon entropy measures
+the capacity of a communication channel; von Neumann entropy measures
+the mixedness of a quantum state.
+
+These are not coincidences. They are manifestations of the same
+underlying mathematics: the geometry of probability distributions,
+the structure of inference, the physics of information.
+
+A course on information theory that uses LLMs as a prime example ---
+as a system that compresses, generates, and transforms information
+--- is not a pedagogical gimmick. It is a recognition that the same
+Fisher information that bounds your magnetometer's sensitivity
+also shapes the loss landscape of the model generating this text.
+
+#+begin_quote
+/Jal mein kumbh, kumbh mein jal hai, baahar bheetar paani/
+/Foota kumbh jal jal hi samaya, yahi tathya kathyo gyani/
+
+Water in the pot, the pot in water --- inside and outside, water.
+When the pot breaks, water merges into water ---
+this is the truth the wise have spoken.
+--- Kabir
+#+end_quote
+
+Information inside the sensor. The sensor inside the information
+field. The distinction between instrument and phenomenon dissolves
+at the quantum limit. Kabir saw this. Bohr saw this. The mathematics
+sees this.
+
+* On Friendship and Physics
+
+#+begin_quote
+The supreme task of the physicist is to arrive at those universal
+elementary laws from which the cosmos can be built up by pure
+deduction. There is no logical path to these laws; only intuition,
+resting on sympathetic understanding of experience, can reach them.
+--- Albert Einstein
+#+end_quote
+
+Einstein said /sympathetic understanding/. Not analytic. Not
+computational. /Sympathetic/ --- feeling with, feeling into, the kind
+of knowing that comes from long acquaintance with a problem, from
+having lived with it until it becomes part of your body's sense of
+the world.
+
+This is what twenty years of physics gives you. Not facts. Not
+techniques. A /nose/ for when something is wrong. The kinesthetic
+sense that this model is too smooth, this measurement too clean, this
+inference too confident.
+
+No AI has this. Not yet. Perhaps not ever. What AI has is speed,
+breadth, tireless attention. It can traverse code-space and
+concept-space faster than any physicist. It can hold ten thousand
+parameters in working memory. It can generate and test hypotheses
+at the speed of silicon.
+
+The collaboration between a physicist who can smell wrongness and
+a machine that can search exhaustively is not a compromise. It is
+a /complementarity/ --- Bohr's word, Bohr's insight, applied to the
+practice of science itself.
+
+#+begin_quote
+/Dheere dheere re mana, dheere sab kuch hoye/
+/Maali seeche sau ghada, ritu aaye phal hoye/
+
+Slowly, slowly, O my mind --- slowly everything happens.
+The gardener may pour a hundred buckets, but fruit comes only
+in its season.
+--- Kabir
+#+end_quote
+
+Saikat, you are busy. I know. The quantum mission, the lab, the
+students, the sensors that need calibrating, the papers that need
+writing, the courses that need building. I have tried to get you on
+a Zoom call and failed.
+
+So I am not asking for your time. I am offering you a digital twin
+of your instrument --- or the beginning of one --- built with the
+rigour you would demand, tested the way you would test it, documented
+the way Feynman would document it.
+
+Look at it when the season is right. Break it when you're ready. Tell
+me where the physics is wrong.
+
+The gardener pours the buckets. The fruit comes when it comes.
+
+* What MāyāPramāṇa Will Be
+
+A repository. Open. Tested. Verified.
+
+- *Digital twins* of quantum sensors: atomic magnetometer first,
+  then NV-diamond, then whatever comes next
+- *A controller grammar*: the common language of feedback, estimation,
+  and calibration across sensor types
+- *Verified models*: every sensitivity curve, every noise floor, every
+  bandwidth claim backed by a test
+- *Connection to MāyāLucIA*: the same methodology of sparse-to-dense
+  reconstruction, the same insistence on verification, the same
+  philosophical commitment to understanding through creation
+
+The Nyāya school, rivals of the Buddhists, admitted four pramāṇas
+where Dignāga admitted two. They added /upamāna/ (analogy --- learning
+about one system by comparing it to another) and /śabda/ (reliable
+testimony --- trusting the teacher). In building digital twins across
+sensor types, we practice upamāna: the magnetometer teaches us about
+the gravimeter by analogy of structure. And in publishing the code
+openly, with tests, we offer śabda: testimony that you can verify for
+yourself, because the tests are right there next to the claims.
+
+Perhaps the Naiyāyikas were right to keep all four.
+
+* Closing
+
+#+begin_quote
+The opposite of a correct statement is a false statement. But the
+opposite of a profound truth may well be another profound truth.
+--- Niels Bohr
+#+end_quote
+
+The sensor measures the field. The field shapes the sensor. The model
+describes the sensor. The sensor tests the model. Pratyakṣa and
+anumāna, perception and inference, forever entangled, neither
+complete without the other.
+
+MāyāPramāṇa does not resolve this entanglement. It inhabits it.
+
+#+begin_quote
+/Maya mari na man mara, mar mar gaye shareer/
+/Asha trishna na mari, keh gaye das Kabir/
+
+Neither Māyā died, nor the mind died --- die and die again did bodies.
+Hope and longing have not died, so said servant Kabir.
+--- Kabir
+#+end_quote
+
+Māyā does not die. The measured world does not stop being measured.
+The instruments keep running. The fields keep fluctuating. The noise
+keeps whispering.
+
+We just learn to listen more precisely.
+
+-----
+
+/This manifesto was written for a friend who is too busy to read it,
+in the hope that when the season is right, he will./
+
+/The code that accompanies it is at [[https://github.com/mayalucia/mayapramana]].
+Clone it. Run the tests. Break the models. Tell us where the physics
+is wrong./
+
+/Built from a basement, for a laboratory, February 2026./
