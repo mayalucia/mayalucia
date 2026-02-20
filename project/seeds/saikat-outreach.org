@@ -25,33 +25,29 @@ for neuroscience as much as for quantum optics.
 - Asks: (1) break the models, (2) join as partner
 - Closes with Kabir's gardener verse
 
-** MāyāPramāṇa (what Saikat would see)
+** MāyāPramāṇa (what Saikat would see) — updated 2026-02-20
 - Repo: https://github.com/mayalucia/mayapramana
 - manifesto.org — philosophical grounding (Dignāga, Kabir, Feynman, Bohr)
 - applications.org — neuroscience, cardiology, ULF-MRI, point-of-care
 - architecture.org — FP grammar for sensor control
-- lessons/00-bloch-equations/concept.org — first lesson
-- site/index.html — wireframe (NOT YET DEPLOYED as a live site)
+- lessons/00-bloch-equations/concept.org — first lesson, MāyāLoom annotated
+- site/index.html — INTERACTIVE DEMO: 3D Bloch sphere, live signal
+  plot, sliders for B/T1/T2/M0, presets, RK4 integrator. Self-contained
+  HTML. Not yet deployed to GitHub Pages.
 
 ** What "presentable" means
-The invitation links to the repo and eventually to a live site. For
-the invitation to land, Saikat should be able to:
 1. Read the manifesto and feel it was written for him (DONE)
-2. Clone the repo and see real code with tests (DONE, lesson 00 exists)
-3. Visit a live demo that shows the digital twin working interactively
-   (NOT DONE — this is the UQSC web interface, thread 1)
-
-The live demo is the difference between "here is a manifesto" and
-"here is a working prototype." The invitation can be sent with just
-the repo, but the demo makes it viscerally compelling.
+2. Clone the repo and see real code with tests (DONE, lesson 00)
+3. Open site/index.html and see the digital twin working interactively
+   (DONE — interactive demo built, needs GitHub Pages deployment)
 
 * Decision Needed
 
-When to send: now (repo only) or after the UQSC demo is live?
+When to send: now (repo + local HTML) or after GitHub Pages deployment?
 
-Vishal's call. The letter works either way — it was written to be
-readable without a demo. But "clone it and run the tests" is stronger
-than "look at the website."
+The demo works as a local HTML file — Saikat can clone the repo and
+open site/index.html directly. GitHub Pages would make it one click.
+Invitation is being rewritten this session to include the demo link.
 
 * References
 - =invitations/saikat-ghosh.org= — the invitation letter

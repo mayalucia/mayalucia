@@ -1,0 +1,163 @@
+#+title: Reading Plan for mu2tau
+#+subtitle: What to read, in what order, with what intent
+#+date: February 2026
+
+#+begin_quote
+/Pothi padhi padhi jag mua, pandit bhaya na koye/
+/Dhai akhar prem ka, padhe so pandit hoye/
+
+Reading books, the whole world died, none became wise.
+Two and a half letters of Love --- whoever reads them becomes wise.
+--- Kabir
+#+end_quote
+
+There are ~240 files in this organisation. You do not need to read
+them all. Most are session logs, archives, and intermediate artifacts.
+The substance lives in about 30 files. This plan identifies them,
+groups them by intent, and suggests an order.
+
+*Time estimate*: A focused reading pass takes 3--4 sessions of ~1 hour
+each. You are not reading to consume --- you are reading to judge,
+mark up, rewrite, and inhabit.
+
+* Pass 1: The Spine (what this project /is/)
+:PROPERTIES:
+:EFFORT: 1 hour
+:END:
+
+Read these in order. They are the load-bearing documents. If anything
+here doesn't sound like you, rewrite it --- these are the documents
+any collaborator (human or machine) reads first.
+
+| # | File | Lines | Read for |
+|---+------+-------+----------|
+| 1 | =mayalucia.org= | 155 | The vision. Does this still say what you mean? |
+| 2 | =manifesto.org= | 274 | The public-facing manifesto. Tone, claims, scope. |
+| 3 | =CLAUDE.md= | 81 | Instructions to every AI agent. Are they right? |
+| 4 | =project/mayaloom.org= | 301 | The MayaLoom convention. Does the weaving metaphor hold? |
+| 5 | =project/project.org= | 258 | Thread tracker. Is it current? |
+| 6 | =project/modular.org= | 144 | The 8-module architecture. Still the right decomposition? |
+
+*After this pass*: you know whether the project's self-description
+matches your intent. Mark up anything that doesn't fit.
+
+* Pass 2: MayaPramana (the active frontier)
+:PROPERTIES:
+:EFFORT: 1 hour
+:END:
+
+This is where the MayaLoom convention was just tested. It's fresh,
+it's small, and it's the piece you might share with Saikat.
+
+| # | File | Lines | Read for |
+|---+------+-------+----------|
+| 1 | =/tmp/mayapramana/manifesto.org= | 459 | Voice, accuracy, the neuroscience section |
+| 2 | =/tmp/mayapramana/architecture.org= | 480 | FP grammar, monadic composition --- is this the right framing for Saikat? |
+| 3 | =/tmp/mayapramana/applications.org= | 288 | Completeness, emphasis, anything wrong or missing? |
+| 4 | =/tmp/mayapramana/conventions.org= | 551 | Skim the old parts, read the new MayaLoom section carefully |
+| 5 | =/tmp/mayapramana/lessons/00-bloch-equations/concept.org= | 885 | *The most important file.* Read it as a physicist, not as a project manager. Is the physics right? Is the pedagogy right? Are the cadenzas at the right seams? |
+| 6 | =invitations/saikat-ghosh.org= | 153 | Would you send this? |
+
+*After this pass*: you know whether MayaPramana is presentable to
+Saikat, and what needs rewriting before you send it.
+
+* Pass 3: The Established Work (what's already solid)
+:PROPERTIES:
+:EFFORT: 45 minutes
+:END:
+
+Bravli has 293 passing tests and a verified manuscript. MayaJiva has
+23 passing tests. These are done work --- read to remember what you
+have, not to judge.
+
+** Bravli (neuroscience toolkit)
+
+| # | File | Lines | Read for |
+|---+------+-------+----------|
+| 1 | =bravli/bravli.org= | 125 | Overview --- refresh your memory |
+| 2 | =bravli/code/bravli/codev/00-foundations.org= | 801 | The literate pattern at its most mature |
+| 3 | =bravli/code/bravli/codev/05-explore-mushroom-body.org= | 622 | The science --- does it still excite you? |
+| 4 | =bravli/code/bravli/manuscripts/mb-dynamics/paper.org= | 565 | The manuscript. Is it publishable? |
+
+** MayaJiva (magnetic bugs)
+
+| # | File | Lines | Read for |
+|---+------+-------+----------|
+| 1 | =experment/magnetic-bugs/magnetic-navigation.org= | 1399 | The original literate experiment |
+| 2 | =experment/magnetic-bugs/paper.org= | 976 | The computational story |
+
+** MayaPortal (rendering kernel)
+
+| # | File | Lines | Read for |
+|---+------+-------+----------|
+| 1 | =modules/mayaportal/mayaportal.org= | 376 | Architecture and intent |
+| 2 | =modules/mayaportal/codev/00-prelude.org= | 242 | The C++23 literate style |
+
+*After this pass*: you have a clear picture of what's built, what's
+publishable, and what connects to what.
+
+* Pass 4: The Periphery (skim or skip)
+:PROPERTIES:
+:EFFORT: 30 minutes, or skip entirely
+:END:
+
+These exist and have value, but are not urgent. Skim headings only.
+Return to specific files when a thread needs them.
+
+** Worth skimming
+
+- =collab/scientific-understanding.org= (434 lines) --- deep
+  reflection, may want to revisit
+- =develop/guiding-philosophy.org= (62 lines) --- short, check if
+  current
+- =parbati/parbati.org= (72 lines) --- the Himalaya thread, parked
+  but alive
+- =agency/mayalucia-agency.org= (272 lines) --- agent roles, may
+  inform MayaLoom
+
+** Skip for now
+
+- =collab/llm-queries/= --- archive of past LLM conversations (~6000
+  lines). Useful for archaeology, not for reading.
+- =collab/sessions/= --- ~40 session logs from architecture and
+  development discussions. These informed the current state; the
+  current state is what matters.
+- =.agent-shell/transcripts/= --- raw session transcripts (~164k
+  lines). Reference only.
+- =modules/mayaportal/collab/sessions/phase-1/= --- detailed
+  implementation logs. Return only if resuming MayaPortal work.
+- =agency/development-guides/gptel-guide/= --- Emacs gptel setup
+  guides. Operational, not conceptual.
+
+* How to Read
+
+You work in Emacs. So:
+
+1. Open the file in org-mode
+2. Read at your pace --- fold/unfold sections as needed
+3. *Mark up as you go*: add =TODO= and =FIXME= tags, inline comments
+   (lines starting with =# =), or property drawers with
+   =:VERDICT: rewrite= / =:VERDICT: good= / =:VERDICT: cut=
+4. When something is wrong, fix it in place --- don't make a note to
+   fix it later. The org file is the source of truth; if it's wrong,
+   it should be fixed now.
+5. When something is missing from your own understanding, add a
+   cadenza block --- this is what they're for.
+
+* What "Done" Looks Like
+
+After the reading plan:
+
+- The spine documents (Pass 1) sound like you
+- MayaPramana (Pass 2) is either ready to share with Saikat or has
+  a clear list of what needs rewriting
+- You know what you've built (Pass 3) and what connects to what
+- You can confidently say: "I have read this. This is mine."
+
+Only then does dissemination make sense.
+
+-----
+
+/Not everything that is written needs to be read./
+/Not everything that is read needs to be kept./
+/Keep what is true. Rewrite what is almost true. Cut what is not./

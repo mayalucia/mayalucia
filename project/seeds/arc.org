@@ -84,6 +84,12 @@ makes the invitation land). Saikat feeds back into MāyāLoom (when
 external collaborators join, the session protocols must actually
 work).
 
+*Update 2026-02-20*: MāyāLoom cycle 1 complete (lesson 00 annotated,
+validated with fresh agent test). Interactive Bloch demo built.
+Saikat invitation being rewritten with demo link. The arc is now at
+the Saikat node — the outreach that tests whether this work lands
+with an actual physicist building actual sensors.
+
 * The Deeper Current
 
 All of this is one thing: /making understanding tangible/.

@@ -56,19 +56,26 @@ mayalucia/
 
 Build an interactive web interface to the digital twin of a quantum
 sensor. Bloch sphere with controls, Kalman filter visualisation,
-feedback loop dashboard. WebAssembly or Pyodide for physics core.
+feedback loop dashboard.
 
-*State*: Wireframe site exists (site/index.html) with SVG schematics
-and trilingual code preview. Next: make it interactive.
+*State*: Interactive demo built and pushed. =site/index.html= has:
+- 3D Bloch sphere (Canvas, draggable, spin trail)
+- Live magnetometer signal plot (Mx, My, Mz)
+- Sliders: B-field, T1, T2, M0 (optical pumping)
+- Presets: tip-90, FID, pure precession, relaxation
+- RK4 integrator (same physics as lesson 00)
+- Sensor pipeline SVG, application cards, trilingual code preview
 
 *Done so far*:
 - manifesto.org (with neuroscience section "On the Fields Within Us")
 - architecture.org, conventions.org, CLAUDE.md
 - applications.org (neuroscience, cardiology, ULF-MRI, point-of-care)
 - lessons/00-bloch-equations/concept.org (Python, Haskell, C++)
-- site/index.html (wireframe with 4 SVG figures, code columns)
+  + MāyāLoom annotations: loom manifest + 4 cadenzas (validated)
+- site/index.html — interactive demo (committed, pushed)
 
-*Blocked on*: nothing — ready to build interactive layer.
+*Next*: deploy to GitHub Pages. Add Kalman filter and feedback loop
+panels (future sessions). Awaiting human reading pass on lesson 00.
 
 ** ACTIVE MāyāLoom                                        :mayadevgeni:meta:
 :PROPERTIES:
@@ -81,12 +88,20 @@ Tānā-Bānā: org files as looms for human-machine understanding.
 Cadenza blocks for expansion points, loom manifests for agent
 discovery, session protocols for continuity across sessions.
 
-*State*: manifesto written (=project/mayaloom.org=). Conventions
-defined: cadenza syntax, loom manifest, reading conventions, session
-continuity. Next: annotate lesson 00, test with fresh session.
+*State*: DONE for this cycle. Manifesto written, conventions codified,
+lesson 00 annotated, fresh-session test passed.
 
-*Deliverable*: annotated lesson 00 as working prototype + conventions
-section in mayapramana's conventions.org.
+*What was delivered*:
+- =project/mayaloom.org= — manifesto with validated cadenza spec
+- Lesson 00 annotated with loom manifest + 4 cadenzas (6 fields each)
+- Fresh agent test: parsed manifest, found cadenza, generated 100-line
+  tutorial pitched correctly. Convention works without any framework.
+- =conventions.org= in mayapramana updated with MāyāLoom section
+- Three new cadenza fields from testing: =:assumes=, =:anti-targets=,
+  =:connects-to=
+
+*Next*: human reading pass on the conventions and annotated lesson.
+Further cadenza testing in future sessions.
 
 Background seeds (detail on individual aspects):
 - [[file:seeds/embedded-prompts.org][embedded-prompts.org]] (cadenza syntax detail)
@@ -103,8 +118,8 @@ Invite Dr. Saikat Ghosh to join MāyāLucIA as partner. Rewritten
 invitation now leads with MāyāPramāṇa, EM fields in the brain,
 applications.org.
 
-*State*: letter written. Waiting for site to be presentable before
-sending. Depends on UQSC web interface reaching a demo-worthy state.
+*State*: letter being rewritten (this session). Interactive demo now
+exists. Awaiting human review of letter before sending.
 
 * Parked Threads
 
@@ -145,9 +160,9 @@ Start here: *[[file:seeds/arc.org][arc.org]]* — the story, the connections, wh
 | Seed | Thread | Status |
 |------|--------|--------|
 | [[file:seeds/arc.org][arc.org]] | How the threads weave together | Orientation |
-| [[file:seeds/mayaloom.org][mayaloom.org]] | MāyāLoom: annotate lesson 00 | Active |
-| [[file:seeds/uqsc-interface.org][uqsc-interface.org]] | Interactive UQSC web interface | Parked |
-| [[file:seeds/saikat-outreach.org][saikat-outreach.org]] | Saikat invitation & outreach | Waiting on UQSC |
+| [[file:seeds/mayaloom.org][mayaloom.org]] | MāyāLoom: annotate lesson 00 | Done (cycle 1) |
+| [[file:seeds/uqsc-interface.org][uqsc-interface.org]] | Interactive UQSC web interface | Demo built |
+| [[file:seeds/saikat-outreach.org][saikat-outreach.org]] | Saikat invitation & outreach | Letter being rewritten |
 | [[file:seeds/embedded-prompts.org][embedded-prompts.org]] | Cadenza syntax (background) | Reference |
 | [[file:seeds/agent-readable-lessons.org][agent-readable-lessons.org]] | Reading conventions (background) | Reference |
 | [[file:seeds/project-management.org][project-management.org]] | Session protocols (background) | Reference |
@@ -194,6 +209,51 @@ needed). Format:
 #+end_example
 
 * Session Log
+
+** 2026-02-20 (session 2): MāyāLoom validation, interactive demo, Saikat rewrite
+:PROPERTIES:
+:SESSION:  Claude Code (Opus 4.6)
+:DURATION: ~1.5 hours
+:END:
+
+Continued from session 1 (same day), which ran out of context.
+
+*What was done:*
+
+1. *Completed MāyāLoom annotation of lesson 00* — added remaining 2
+   cadenzas (numerical-ode-methods, atomic-magnetometry). All 4
+   cadenzas upgraded with 3 new fields (:assumes, :anti-targets,
+   :connects-to).
+
+2. *Validated MāyāLoom with fresh agent test* — a fresh agent with no
+   MāyāLoom context parsed the loom manifest, found the
+   bloch-sphere-geometry cadenza, read :level and :prereqs, used
+   surrounding context, generated a 100-line tutorial pitched
+   correctly. The agent also suggested 3 new cadenza fields.
+
+3. *Codified MāyāLoom conventions* — updated project/mayaloom.org
+   with field reference table and validation note. Added MāyāLoom
+   section to mayapramana's conventions.org.
+
+4. *Built interactive UQSC demo* — site/index.html in mayapramana:
+   3D Bloch sphere (Canvas, draggable), live signal plot, sliders for
+   B/T1/T2/M0, preset buttons, RK4 integrator. Self-contained HTML,
+   no dependencies.
+
+5. *Reading plan* — project/reading-plan.org: 4-pass plan for human
+   review of ~30 substantive files out of ~240 total.
+
+6. *Updated project docs* — project.org thread states, seeds table,
+   session log.
+
+7. *Rewrote invitation to Saikat* — now includes link to interactive
+   demo.
+
+*Decisions made:*
+- Interactive demo: vanilla JS + Canvas, no frameworks (single HTML)
+- Cadenza fields expanded from 3 to 6 based on agent test feedback
+- Dissemination deferred until human reading pass complete
+- Reading plan: 4 passes, ~3-4 hours total
 
 ** 2026-02-20: MāyāPramāṇa applications, MāyāLoom, project infrastructure
 :PROPERTIES:

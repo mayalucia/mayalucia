@@ -27,13 +27,18 @@ fresh session can use them.
 - Lesson 00: =lessons/00-bloch-equations/concept.org=
   (~800 lines, Bloch equations in Python/Haskell/C++)
 
-** What the lesson currently has
+** What the lesson currently has (updated 2026-02-20)
 - Physics narrative (spin in a field, Bloch vector, equations of motion)
 - Python implementation (BlochState, BlochParams, bloch_rhs, rk4_step)
 - Haskell implementation (same types, same functions)
 - C++ implementation (same)
 - Cross-validation section
-- No metadata header, no cadenza blocks
+- Loom manifest header (LOOM, DEFINES, DEPENDS, EXPORTS, CADENZAS)
+- 4 cadenza blocks with full 6-field metadata:
+  1. spin-half-qm (after "A Spin in a Field")
+  2. bloch-sphere-geometry (after Bloch vector intro)
+  3. atomic-magnetometry (after "Why This Matters for Control")
+  4. numerical-ode-methods (after RK4 integrator)
 
 ** MāyāLoom conventions (from =project/mayaloom.org=)
 - Loom manifest: =#+LOOM: lesson=, =#+DEFINES:=, =#+DEPENDS:=,
@@ -49,7 +54,20 @@ fresh session can use them.
   ,#+END_CADENZA
   #+end_example
 
-* What To Do
+* Status: Cycle 1 Complete
+
+Steps 1-5 below are DONE. The annotation is committed and pushed.
+A fresh agent test validated the format. Three new cadenza fields
+were discovered (:assumes, :anti-targets, :connects-to) and added
+to all cadenzas and to the spec in mayaloom.org and conventions.org.
+
+*What remains for future cycles*:
+- Human reading pass on the annotated lesson
+- Test other cadenzas (atomic-magnetometry, numerical-ode-methods)
+- Annotate lesson 01 when it exists
+- Codify session protocol in CLAUDE.md
+
+* What Was Done (for reference)
 
 1. *Add loom manifest* to the top of lesson 00:
    - =#+LOOM: lesson=

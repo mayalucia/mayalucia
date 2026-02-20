@@ -18,36 +18,38 @@ not just a manifesto, but a running demo.
 ** Repository: =github.com/mayalucia/mayapramana=
 ** Local clone: =/tmp/mayapramana/=
 
-** What exists
+** What exists (updated 2026-02-20)
 - =manifesto.org= — with "On the Fields Within Us" neuroscience section
 - =architecture.org= — FP grammar for sensor control
 - =applications.org= — neuroscience, cardiology, ULF-MRI, diagnostics
 - =conventions.org=, =CLAUDE.md= — project conventions and agent onboarding
-- =lessons/00-bloch-equations/concept.org= — Bloch equations in Python, Haskell, C++
-- =site/index.html= — wireframe with:
-  - Fig 1: sensor pipeline (SVG)
-  - Fig 2: Bloch sphere with precession/relaxation (SVG)
-  - Fig 3: OPM-on-scalp neuroscience schematic (SVG)
-  - Fig 4: pure core / effectful shell architecture (SVG)
-  - Trilingual code preview (Python, Haskell, C++)
-  - Application cards (MEG, NV-diamond, ULF-MRI, MCG, diagnostics, quantum optics)
-  - One remaining placeholder: verified manuscript badge preview
+- =lessons/00-bloch-equations/concept.org= — Bloch equations in Python,
+  Haskell, C++, annotated with MāyāLoom (4 cadenzas, loom manifest)
+- =site/index.html= — INTERACTIVE DEMO with:
+  - 3D Bloch sphere (Canvas 2D projection, draggable view, spin trail)
+  - Live magnetometer signal plot (Mx cyan, My blue, Mz gold)
+  - Sliders: B-field (1-200 uT), T2 (1-100 ms), T1 (10-500 ms), M0 (0-1)
+  - Presets: tip-90, FID, pure precession, relaxation, reset
+  - RK4 integrator (same physics as lesson 00)
+  - Sensor pipeline SVG, application cards, trilingual code columns
+  - Self-contained: single HTML file, no dependencies, no build step
 
-** Copy for local viewing
-The wireframe is also at:
-=invitations/mayapramana-site-wireframe.html= (in the root mayalucia repo)
+** Old wireframe (superseded)
+=invitations/mayapramana-site-wireframe.html= (static version, kept for reference)
 
-* Next Steps
+* Status: Bloch Demo Complete
 
-1. *Interactive Bloch sphere* — SVG or Canvas animation of spin
-   precessing in real time. Controls for B field (magnitude + direction),
-   T1, T2. Show trajectory on the sphere.
+Steps 1 and 2 are DONE. Vanilla JS + Canvas 2D, single HTML file.
+Technical decisions resolved: no frameworks, no build step, orthographic
+projection for 3D.
 
-2. *Physics engine in browser* — options:
-   - Pyodide (Python in WASM) — uses the existing Python implementation
-   - Hand-rolled JS — simple enough for RK4 + Bloch equations
-   - C++ → WASM via Emscripten — matches the deployment target
-   Recommendation: start with JS for speed, port to WASM later.
+* Next Steps (future sessions)
+
+1. [DONE] *Interactive Bloch sphere* — Canvas 2D projection, draggable,
+   spin trail, presets. RK4 integrator in JS.
+
+2. [DONE] *Physics engine in browser* — vanilla JS, same equations as
+   lesson 00. Decision: JS for simplicity, WASM later if needed.
 
 3. *Kalman filter visualisation* — add a noisy measurement stream,
    show the Kalman filter tracking the true state. Controls for noise
@@ -56,15 +58,8 @@ The wireframe is also at:
 4. *Feedback loop demo* — PID controller holding lock on a drifting
    field. Show what happens when bandwidth is too low, gain too high.
 
-5. *Polish and deploy* — GitHub Pages from the mayapramana repo.
-   This is what the invitation to Saikat links to.
-
-* Technical Decisions Needed
-
-- JS vs Pyodide vs WASM for the physics core
-- Canvas vs SVG for the animated Bloch sphere
-- Whether to use any JS library (Three.js for 3D?) or stay pure
-- How to structure the code (single HTML? modular JS files?)
+5. *Deploy to GitHub Pages* — from the mayapramana repo. Enable Pages
+   on the =site/= directory.
 
 * References
 
