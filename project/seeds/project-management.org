@@ -1,0 +1,133 @@
+#+title: Seed — Project Management for a Human+AI Research Org
+#+date: February 2026
+
+* Context
+
+MāyāLucIA has grown from a single repo experiment into an organisation
+with 7 GitHub repos, multiple active workstreams, one human (visood),
+and AI collaborators (Claude sessions, potentially gptel-guide in
+Emacs). No persistent AI memory across sessions beyond MEMORY.md and
+what's written into files.
+
+Traditional project management doesn't fit:
+- No stable team (each AI session starts fresh)
+- No predictable velocity (human availability varies)
+- No sprint cadence (work is curiosity-driven, not deadline-driven)
+- No product manager (the human is researcher, architect, and PM)
+
+We need something that works with:
+- Org-mode (human's native environment)
+- MEMORY.md (Claude's persistent memory)
+- Session seeds (context bootstrapping for new sessions)
+- Artifact-centric memory (MayaDevGenI principle)
+- Git (the backbone of everything)
+
+* Current State
+
+** What exists
+- =project/project.org= — master thread tracker (just written)
+- =project/seeds/= — session seed documents (just started)
+- =MEMORY.md= — Claude-specific persistent memory
+- =CLAUDE.md= — agent onboarding instructions
+- =collab/index.org= — earlier session-tracking pattern
+- =agency/mayalucia-agency.org= — agency framework with roles and protocols
+- MayaDevGenI handoff protocol (Context/Deliverable/Request/Constraints/Open Questions)
+
+** What does not exist
+- A convergence practice (when/how to review project.org)
+- Decision log
+- Cross-repo dependency tracking
+- A way for the human to quickly brief a new AI session
+  ("pick up thread X" → agent reads seed → has full context)
+- Integration between project.org and GitHub issues (for when
+  collaborators join)
+
+* The Challenge
+
+The fundamental tension: the human has deep, continuous context but
+limited time. The AI has unlimited time but no persistent context
+(each session is a blank slate plus whatever files it reads).
+
+The bridge between them is /written artifacts/. Everything the human
+knows that an AI session needs must be written down — but not
+everything, only what's needed for the current task. The art is
+knowing what to write, where to write it, and when to update it.
+
+** What works now
+- MEMORY.md gives any Claude session the basics (repos, conventions,
+  current state, next steps)
+- CLAUDE.md gives the stance and methodology
+- Session seeds give thread-specific context
+- project.org gives the big picture
+
+** What's missing
+- A lightweight practice for keeping these in sync
+- A way to track decisions that span multiple sessions
+- A way to notice when seeds are stale
+- A "standup" equivalent that's async and org-native
+
+* Design Options
+
+** Option A: Org-Native Everything
+project.org is the single source of truth. All tracking in org TODO
+items with properties. Seeds are subsections or linked files. The
+human reviews in Emacs. AI sessions read and update.
+
+Pro: everything in one ecosystem, human can use org-agenda.
+Con: project.org grows large; AI sessions may not update it.
+
+** Option B: project.org + GitHub Issues
+project.org tracks the big picture and internal threads. GitHub issues
+track concrete tasks that could involve external collaborators (when
+Saikat joins). AI sessions create issues for work they can't finish.
+
+Pro: external-facing when needed. Con: two systems to keep in sync.
+
+** Option C: Seed-Centric
+No master tracker. Each thread has a seed. The human maintains a list
+of seeds. Starting a session = pointing the agent at a seed. The seed
+is self-contained.
+
+Pro: simple, decentralised. Con: no overview, easy to lose threads.
+
+** Proposed: A + elements of B
+- project.org as master tracker (org-native, human reviews in Emacs)
+- Seeds for thread-specific context (agent bootstrapping)
+- GitHub issues only for external-facing tasks or when collaborators join
+- MEMORY.md as agent-specific cache (Claude reads this; other agents
+  may have their own)
+- Convergence practice: after any multi-session burst, update
+  project.org before stopping
+
+* Convergence Practice (Draft)
+
+At the end of a work session (or the start of the next one):
+
+1. *Read project.org* — is the state description still accurate?
+2. *Update thread states* — mark what's done, what's blocked, what's new
+3. *Prune seeds* — delete or rewrite seeds that are stale
+4. *Update MEMORY.md* — if anything changed that a fresh session needs
+5. *Note decisions* — if any architectural decisions were made, log them
+
+This takes 5 minutes. The cost of not doing it is a 30-minute
+context-recovery next time.
+
+* Next Steps
+
+1. *Trial the current system* — use project.org + seeds for the next
+   few sessions. See what's missing.
+2. *Write a convergence checklist* — a short org template for the
+   end-of-session review.
+3. *Decide on GitHub issues* — when Saikat joins, we'll need them.
+   Define the threshold.
+4. *Agent auto-update* — can we instruct agents (via CLAUDE.md) to
+   update project.org and MEMORY.md as part of their session?
+
+* References
+
+- =project/project.org= — the master tracker
+- =CLAUDE.md= — agent onboarding
+- =MEMORY.md= — Claude persistent memory
+- =agency/mayalucia-agency.org= — agency framework
+- =collab/index.org= — earlier session-tracking (for reference)
+- =github.com/mayalucia/mayadevgeni/agency/agency.org= — handoff protocol

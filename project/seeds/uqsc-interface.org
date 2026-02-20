@@ -1,0 +1,74 @@
+#+title: Seed — Interactive UQSC Web Interface
+#+date: February 2026
+
+* Context
+
+MāyāPramāṇa is a universal quantum sensor controller built as digital
+twins of quantum sensors. The first lesson (Bloch equations) exists.
+A static wireframe site exists with SVG schematics. The next step is
+making it interactive — a web interface where a user can control a
+simulated magnetometer and see the physics respond.
+
+This is the visual proof-of-concept for the entire MāyāPramāṇa
+project. It's also what makes the invitation to Saikat concrete —
+not just a manifesto, but a running demo.
+
+* Current State
+
+** Repository: =github.com/mayalucia/mayapramana=
+** Local clone: =/tmp/mayapramana/=
+
+** What exists
+- =manifesto.org= — with "On the Fields Within Us" neuroscience section
+- =architecture.org= — FP grammar for sensor control
+- =applications.org= — neuroscience, cardiology, ULF-MRI, diagnostics
+- =conventions.org=, =CLAUDE.md= — project conventions and agent onboarding
+- =lessons/00-bloch-equations/concept.org= — Bloch equations in Python, Haskell, C++
+- =site/index.html= — wireframe with:
+  - Fig 1: sensor pipeline (SVG)
+  - Fig 2: Bloch sphere with precession/relaxation (SVG)
+  - Fig 3: OPM-on-scalp neuroscience schematic (SVG)
+  - Fig 4: pure core / effectful shell architecture (SVG)
+  - Trilingual code preview (Python, Haskell, C++)
+  - Application cards (MEG, NV-diamond, ULF-MRI, MCG, diagnostics, quantum optics)
+  - One remaining placeholder: verified manuscript badge preview
+
+** Copy for local viewing
+The wireframe is also at:
+=invitations/mayapramana-site-wireframe.html= (in the root mayalucia repo)
+
+* Next Steps
+
+1. *Interactive Bloch sphere* — SVG or Canvas animation of spin
+   precessing in real time. Controls for B field (magnitude + direction),
+   T1, T2. Show trajectory on the sphere.
+
+2. *Physics engine in browser* — options:
+   - Pyodide (Python in WASM) — uses the existing Python implementation
+   - Hand-rolled JS — simple enough for RK4 + Bloch equations
+   - C++ → WASM via Emscripten — matches the deployment target
+   Recommendation: start with JS for speed, port to WASM later.
+
+3. *Kalman filter visualisation* — add a noisy measurement stream,
+   show the Kalman filter tracking the true state. Controls for noise
+   level, measurement rate.
+
+4. *Feedback loop demo* — PID controller holding lock on a drifting
+   field. Show what happens when bandwidth is too low, gain too high.
+
+5. *Polish and deploy* — GitHub Pages from the mayapramana repo.
+   This is what the invitation to Saikat links to.
+
+* Technical Decisions Needed
+
+- JS vs Pyodide vs WASM for the physics core
+- Canvas vs SVG for the animated Bloch sphere
+- Whether to use any JS library (Three.js for 3D?) or stay pure
+- How to structure the code (single HTML? modular JS files?)
+
+* References
+
+- =github.com/mayalucia/mayapramana/site/index.html= — current wireframe
+- =github.com/mayalucia/mayapramana/lessons/00-bloch-equations/concept.org= — physics
+- =invitations/saikat-ghosh.org= — the invitation that links to this
+- =project/project.org= — master thread tracker (thread 1)

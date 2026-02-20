@@ -1,0 +1,110 @@
+#+title: Seed — Agent-Readable Lessons (Dual-Use Documents)
+#+date: February 2026
+
+* Context
+
+MāyāPramāṇa org lessons serve human readers as literate programs. But
+they also contain structured information that agents need: physics
+specifications, parameter values, type definitions, test criteria,
+cross-language validation patterns. Currently an agent reading a lesson
+must parse prose to extract actionable structure.
+
+The idea: org lessons are /dual-use documents/ — simultaneously
+readable by humans as narrative and by agents as structured
+specifications. The same file serves as teaching material, build
+specification, and context source for generated content.
+
+This connects to MayaDevGenI's principle that /artifacts are the real
+memory/ — org files are not just documentation, they are the shared
+substrate that both human and machine intelligences operate on.
+
+* Current State
+
+** What exists
+- Lesson 00 (Bloch equations) with physics narrative, Python/Haskell/C++
+  code blocks, and cross-validation pattern
+- MayaDevGenI agency framework where agents read org files for context
+- Embedded prompt concept (see =seeds/embedded-prompts.org=)
+- Convention that org files are source of truth (code tangled from them)
+
+** What does not exist
+- Explicit machine-readable metadata in lessons (beyond org properties)
+- A schema for what an agent should extract from a lesson
+- Integration between lesson structure and agency role routing
+- Examples of an agent /using/ a lesson as a specification
+
+* The Dual-Use Principle
+
+A single org section like:
+
+#+begin_example
+,** The Bloch Equations
+The Bloch equations describe how M evolves:
+dM/dt = gamma (M x B) - (Mx/T2, My/T2, (Mz-M0)/T1)
+#+end_example
+
+Is simultaneously:
+- *For the student*: a derivation to understand
+- *For the Theorist agent*: a mathematical specification to verify
+- *For the Builder agent*: a function signature to implement
+- *For the Critic agent*: a claim to test against simulation
+- *For the Guide agent*: context to provide when expanding prompts
+
+The question is: does the org file need /additional markup/ to serve
+agents, or is the existing structure (headings, properties, code
+blocks, named results) sufficient with the right reading conventions?
+
+* Design Questions
+
+1. *Metadata*: Do lessons need explicit metadata blocks for agents?
+   #+begin_example
+   ,#+BEGIN_SPEC :type "dynamics" :domain "spin-half"
+   :inputs  ((B . "magnetic field vector [T]")
+             (M . "Bloch vector, dimensionless"))
+   :outputs ((dMdt . "time derivative of Bloch vector"))
+   :params  ((gamma . "gyromagnetic ratio [rad/s/T]")
+             (T1 . "longitudinal relaxation [s]")
+             (T2 . "transverse relaxation [s]")
+             (M0 . "equilibrium magnetisation"))
+   ,#+END_SPEC
+   #+end_example
+   Or is this over-engineering? The code blocks already contain types.
+
+2. *Reading conventions*: Can we define a convention — "the first code
+   block under a =** Heading= is the reference implementation; named
+   results are test expectations" — that agents follow without extra
+   markup?
+
+3. *Lesson manifest*: Should each lesson have a machine-readable
+   manifest (=manifest.org= or properties in the concept.org header)
+   listing what it defines, what it depends on, and what it exports?
+
+4. *Cross-lesson dependencies*: Lesson 03 (Kalman filtering) will
+   reference lesson 00 (Bloch equations). How does an agent know to
+   read lesson 00 first? Explicit dependency declaration, or inferred
+   from imports/references?
+
+5. *Test specifications*: The cross-language validation pattern
+   (Python generates JSON, Haskell/C++ compare) is a machine-readable
+   specification. Should this be formalised into a standard block that
+   agents can discover and execute?
+
+* Next Steps
+
+1. *Audit lesson 00* — identify every point where an agent would need
+   structured information that isn't already in the org structure.
+2. *Minimal metadata experiment* — add the smallest possible metadata
+   to lesson 00 and test whether an agent can use it to (a) generate
+   a summary, (b) implement a missing function, (c) write a test.
+3. *Reading conventions draft* — write a section for conventions.org
+   that defines how agents should read a lesson.
+4. *Connect to embedded prompts* — the prompt blocks from thread 3
+   are one kind of agent-readable annotation. Are there others?
+
+* References
+
+- =github.com/mayalucia/mayapramana/lessons/00-bloch-equations/concept.org=
+- =github.com/mayalucia/mayapramana/conventions.org=
+- =agency/mayalucia-agency.org= — agent roles and what they need from docs
+- =github.com/mayalucia/mayadevgeni/agency/agency.org= — artifact-centric memory
+- =seeds/embedded-prompts.org= — related thread on generation points

@@ -1,0 +1,97 @@
+#+title: Seed — Embedded Pedagogical Prompts
+#+date: February 2026
+
+* Context
+
+MāyāPramāṇa lessons (in =lessons/NN-slug/concept.org=) are literate
+org documents that develop physics from first principles in three
+languages. They inevitably reference concepts the reader may not
+know — Kalman filters, Fisher information, Allan variance, lock-in
+detection. Currently these are either explained inline (derailing the
+lesson) or mentioned without explanation (losing the reader).
+
+The idea: embed structured /contextual generation points/ in the org
+lesson — places where a guide agent can produce a tailored tutorial
+on demand, using the surrounding lesson context to make the tutorial
+relevant rather than generic.
+
+This is not a hyperlink. It is a prompt with metadata that an agent
+can expand into content customised for the reader's level, the
+lesson's notation, and the sensor being modelled.
+
+* Current State
+
+** What exists
+- MāyāPramāṇa lesson 00 (Bloch equations) at
+  =github.com/mayalucia/mayapramana/lessons/00-bloch-equations/concept.org=
+- MayaDevGenI agency framework with six roles, including Guide (orchestrator)
+  and Theorist (abstraction/hypothesis). See =agency/mayalucia-agency.org=.
+- gptel-guide agent implementation in =agency/development-guides/gptel-guide/=
+  with propose-and-wait protocol.
+
+** What does not exist
+- A syntax for prompt blocks in org files
+- A protocol for how the Guide agent discovers and expands them
+- A caching/versioning strategy for generated tutorials
+- A prototype in any lesson
+
+* Design Questions
+
+1. *Syntax*: What does the block look like?
+
+   Proposed:
+   #+begin_example
+   ,#+BEGIN_PROMPT :role theorist :level "first-year-grad" :prereqs "linear-algebra probability"
+   Explain the Kalman filter as applied to state estimation in a noisy
+   magnetometer signal. Connect to the Bloch equations already developed
+   in this lesson. The student knows linear algebra and probability but
+   has not seen Kalman filters before.
+   ,#+END_PROMPT
+   #+end_example
+
+   The =:role= tells the Guide which specialist to route to. The
+   =:level= and =:prereqs= constrain the explanation depth. The body
+   is the actual prompt, which the agent sends along with the
+   surrounding org context.
+
+2. *Context window*: How much of the surrounding lesson does the agent
+   include when expanding the prompt? The whole file? The current
+   section? A declared scope?
+
+3. *Output*: Where does the generated tutorial go?
+   - Inline expansion (inserted after the prompt block)?
+   - Separate file (=tutorials/kalman-for-magnetometry.org=)?
+   - Both (cached file, inlined on demand)?
+
+4. *Versioning*: Is the generated content ephemeral (regenerated each
+   session) or persistent (committed, reviewed, refined)?
+
+5. *Dual use*: Can the same prompt block serve a Builder agent? E.g.,
+   =:role builder= on the same concept generates an implementation
+   spec rather than a tutorial. Or is that a separate block?
+
+6. *Student state*: Does the agent know the student's level from
+   session context (e.g., they've already expanded two other prompts
+   in this lesson) or only from the declared =:level=?
+
+* Next Steps
+
+1. *Decide syntax* — settle on the block format. Prototype with 2-3
+   examples in lesson 00.
+2. *Prototype expansion* — manually invoke a guide agent on one prompt
+   block, provide the surrounding context, evaluate the output.
+3. *Define protocol* — how does the guide agent /discover/ prompt
+   blocks? Grep for =#BEGIN_PROMPT=? Read a manifest? Get told by the
+   human?
+4. *Integration with gptel-guide* — can the Emacs-native agent scan
+   the current org buffer for prompt blocks and offer to expand them?
+5. *Write the spec* — formal specification of the prompt block syntax
+   and expansion protocol, suitable for =conventions.org=.
+
+* References
+
+- =agency/mayalucia-agency.org= — MāyāLucIA agency roles (Guide, Theorist, Builder)
+- =agency/development-guides/gptel-guide/agents/gptel-guide.md= — gptel-guide agent spec
+- =github.com/mayalucia/mayapramana/lessons/00-bloch-equations/concept.org= — first lesson
+- =github.com/mayalucia/mayapramana/conventions.org= — project conventions
+- =github.com/mayalucia/mayadevgeni/agency/agency.org= — core MayaDevGenI framework

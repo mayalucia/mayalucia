@@ -1,0 +1,91 @@
+#+title: Seed — Literate Agency
+#+subtitle: Conventions for org documents as shared substrate between human and machine
+#+date: February 2026
+
+* What This Is
+
+One thread, merging three:
+- Embedded pedagogical prompts (syntax for expansion points)
+- Agent-readable lessons (how agents read and act on org files)
+- Project management (how human and agents stay coherent)
+
+The common root: org files as the shared substrate between human and
+machine intelligences. The deliverable is a conventions document and
+a working prototype (lesson 00 annotated with the new conventions).
+
+* The Single Insight
+
+An org file can carry structured annotations — in properties, in
+special blocks, in header metadata — that give agents handles to act
+on the document, without compromising its readability for humans. The
+annotations are not separate from the content. They are /part of/ the
+content, the way margin notes are part of a book.
+
+Three kinds of annotation, one pattern:
+
+| Kind | Purpose | Example |
+|------|---------|---------|
+| *Prompt blocks* | "Understanding needed here" — agent expands on demand | =#+BEGIN_PROMPT= with role, level, prereqs |
+| *Lesson metadata* | "Here is what this document defines" — agent reads manifest | =#+LESSON:=, =#+DEFINES:=, =#+DEPENDS:= |
+| *Session state* | "Here is where we are" — agent resumes work | Seed files, project.org thread entries |
+
+All three are the same gesture: a human writes something structured
+into an org file, and a machine reads it to act intelligently.
+
+* Current State
+
+** What exists
+- MāyāPramāṇa lesson 00 (Bloch equations, trilingual)
+- MayaDevGenI agency framework (6 roles, handoff protocol)
+- gptel-guide agent (Emacs-native, propose-and-wait)
+- project.org as master thread tracker
+- Session seeds for individual threads (now merged into this one)
+
+** What does not exist
+- The conventions document (=literate-agency.org= or section in conventions.org)
+- Any prompt blocks in any lesson
+- Lesson header metadata in any lesson
+- An end-of-session / start-of-session protocol in CLAUDE.md
+- A test: fresh agent session reading annotated lesson 00 and acting on it
+
+* Method
+
+Work in this order:
+
+1. *Draft the conventions* — write the literate-agency section as an
+   org document. Syntax for prompt blocks, lesson metadata format,
+   session protocol. Keep it short — one page of conventions, not ten.
+
+2. *Annotate lesson 00* — apply the conventions to the Bloch equations
+   lesson. Add 2-3 prompt blocks where a first-year grad student would
+   need help. Add the lesson header metadata. This is the prototype.
+
+3. *Test with a fresh session* — start a new agent session, point it
+   at the annotated lesson 00, and see if it can:
+   (a) read the metadata and summarise what the lesson defines
+   (b) find a prompt block and generate a contextual tutorial
+   (c) understand the lesson well enough to extend it
+
+4. *Refine* — based on what worked and what didn't, update the
+   conventions. This is the Measure-Model-Manifest-Evaluate cycle
+   applied to the conventions themselves.
+
+5. *Codify* — add the session protocol to CLAUDE.md. Add the
+   conventions to mayapramana's conventions.org. Update project.org.
+
+* Open Questions (to resolve during the work)
+
+- How much context does the agent include when expanding a prompt?
+- Are generated tutorials cached or ephemeral?
+- Does the lesson manifest use org properties or header keywords?
+- How minimal can the annotations be while still being useful?
+- Can the same conventions work for MāyāLucIA broadly (not just mayapramana)?
+
+* References
+
+- =github.com/mayalucia/mayapramana/lessons/00-bloch-equations/concept.org=
+- =github.com/mayalucia/mayapramana/conventions.org=
+- =agency/mayalucia-agency.org= — agent roles
+- =agency/development-guides/gptel-guide/agents/gptel-guide.md= — gptel-guide spec
+- =github.com/mayalucia/mayadevgeni/agency/agency.org= — core framework
+- =project/project.org= — master thread tracker

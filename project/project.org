@@ -1,0 +1,184 @@
+#+title: MāyāLucIA — Project Tracker
+#+author: Vishal Sood + AI collaborators
+#+date: February 2026
+#+startup: overview
+#+todo: ACTIVE PARKED | DONE DROPPED
+
+This is the living project tracker for MāyāLucIA. Any session — human
+or agent — should read this file to understand what is active, what is
+parked, and where to resume.
+
+For agent sessions: this file + CLAUDE.md + MEMORY.md gives you full
+context. Read all three before starting work.
+
+* Organisation
+
+MāyāLucIA is a personal research framework for scientific understanding
+through computational creation. It is organised as a GitHub org
+([[https://github.com/mayalucia]]) with modular repos. This root repo is
+the headquarters — organisational documents, not code.
+
+** Repository Map
+
+| Repo | Purpose | Status |
+|------|---------|--------|
+| *mayalucia* (this repo) | Organisation HQ: agency, project, collab, vision | Active |
+| [[https://github.com/mayalucia/mayapramana][mayapramana]] | Universal quantum sensor controller — digital twins | Active |
+| [[https://github.com/mayalucia/bravli][bravli]] | Neuroscience toolkit — Drosophila mushroom body | Complete (293 tests) |
+| [[https://github.com/mayalucia/mayajiva][mayajiva]] | Magnetic bug simulation — C++ core | Phase 0 complete (23 tests) |
+| [[https://github.com/mayalucia/mayaportal][mayaportal]] | Rendering kernel — C++23, SDL3, WebGPU | Early |
+| [[https://github.com/mayalucia/mayadevgeni][mayadevgeni]] | Agency framework — governance for human+AI collaboration | Framework defined |
+| [[https://github.com/mayalucia/manifesto][manifesto]] | Public manifesto | Published |
+
+** Directory Structure (this repo)
+
+#+begin_example
+mayalucia/
+  agency/               # Agent framework, role specs, protocols
+    mayalucia-agency.org
+    development-guides/
+      gptel-guide/      # Emacs-native agent implementation
+  project/              # THIS FILE, modular.org, user-stories
+  develop/              # Methodology, philosophy, devlog
+  collab/               # Session artifacts, decision logs
+  invitations/          # Outreach (Saikat, etc.)
+  modules/              # Submodules (mayaportal, mayajiva)
+  bravli/               # Submodule
+  parbati/              # Himalaya case study (dormant)
+  experment/            # Python experiments (magnetic bugs)
+  manifesto.org         # MāyāLucIA manifesto
+  mayalucia.org         # Vision document
+  CLAUDE.md             # Agent onboarding
+#+end_example
+
+* Active Threads
+
+** ACTIVE MāyāPramāṇa: Interactive UQSC Web Interface          :mayapramana:
+:PROPERTIES:
+:REPO:     github.com/mayalucia/mayapramana
+:LOCAL:    /tmp/mayapramana/
+:SEED:     [[file:seeds/uqsc-interface.org]]
+:END:
+
+Build an interactive web interface to the digital twin of a quantum
+sensor. Bloch sphere with controls, Kalman filter visualisation,
+feedback loop dashboard. WebAssembly or Pyodide for physics core.
+
+*State*: Wireframe site exists (site/index.html) with SVG schematics
+and trilingual code preview. Next: make it interactive.
+
+*Done so far*:
+- manifesto.org (with neuroscience section "On the Fields Within Us")
+- architecture.org, conventions.org, CLAUDE.md
+- applications.org (neuroscience, cardiology, ULF-MRI, point-of-care)
+- lessons/00-bloch-equations/concept.org (Python, Haskell, C++)
+- site/index.html (wireframe with 4 SVG figures, code columns)
+
+*Blocked on*: nothing — ready to build interactive layer.
+
+** ACTIVE MāyāLoom                                        :mayadevgeni:meta:
+:PROPERTIES:
+:SEED:     [[file:seeds/literate-agency.org]]
+:MANIFESTO: [[file:mayaloom.org]]
+:END:
+
+Tānā-Bānā: org files as looms for human-machine understanding.
+Cadenza blocks for expansion points, loom manifests for agent
+discovery, session protocols for continuity across sessions.
+
+*State*: manifesto written (=project/mayaloom.org=). Conventions
+defined: cadenza syntax, loom manifest, reading conventions, session
+continuity. Next: annotate lesson 00, test with fresh session.
+
+*Deliverable*: annotated lesson 00 as working prototype + conventions
+section in mayapramana's conventions.org.
+
+Background seeds (detail on individual aspects):
+- [[file:seeds/embedded-prompts.org][embedded-prompts.org]] (cadenza syntax detail)
+- [[file:seeds/agent-readable-lessons.org][agent-readable-lessons.org]] (reading conventions detail)
+- [[file:seeds/project-management.org][project-management.org]] (session protocol detail)
+- [[file:seeds/literate-agency.org][literate-agency.org]] (unified seed, pre-naming)
+
+** ACTIVE Saikat Invitation                                   :outreach:
+:PROPERTIES:
+:FILES:    invitations/saikat-ghosh.org, invitations/saikat-ghosh.md
+:END:
+
+Invite Dr. Saikat Ghosh to join MāyāLucIA as partner. Rewritten
+invitation now leads with MāyāPramāṇa, EM fields in the brain,
+applications.org.
+
+*State*: letter written. Waiting for site to be presentable before
+sending. Depends on UQSC web interface reaching a demo-worthy state.
+
+* Parked Threads
+
+** PARKED MayaJiva: Godot GDExtension                         :mayajiva:
+:PROPERTIES:
+:REPO:     github.com/mayalucia/mayajiva
+:END:
+
+Wrap the C++ simulation core as a Godot GDExtension for interactive
+3D visualisation of magnetic bug navigation.
+
+*State*: godot-cpp submodule added, SConstruct exists. C++ core
+validated (23 tests). GDExtension binding not yet implemented.
+
+** PARKED MayaPortal: Rendering Kernel                       :mayaportal:
+:PROPERTIES:
+:REPO:     github.com/mayalucia/mayaportal
+:END:
+
+C++23 rendering kernel with SDL3 and WebGPU. Literate source in
+codev/. Early stage.
+
+** PARKED Parbati: Himalaya Digital Twin                       :parbati:
+
+Digital twin of Parvati Valley. Dormant — waiting for rendering
+infrastructure (mayaportal) and methodology (agency framework).
+
+** PARKED Epistemological Convergence                              :meta:
+
+The deeper question: org files serving simultaneously as science,
+agent instructions, project state, and verified claims. Think about,
+don't build yet.
+
+* Conventions
+
+** Session Seeds
+
+A session seed is a short org document in =project/seeds/= that gives
+a new agent session enough context to resume a thread. Structure:
+
+#+begin_example
+#+title: Seed — [Thread Name]
+* Context
+  What this thread is about, what has been done.
+* Current State
+  Pointers to files, repos, open questions.
+* Next Steps
+  Concrete actions, in priority order.
+* References
+  Links to relevant docs (manifesto, architecture, agency specs).
+#+end_example
+
+** Periodic Convergence
+
+At least once per multi-session work burst, review this file:
+- Mark completed threads DONE
+- Update state descriptions
+- Prune seeds that are stale
+- Add new threads discovered during work
+
+** Decision Log
+
+Major decisions go in =project/decisions.org= (create when first
+needed). Format:
+
+#+begin_example
+* YYYY-MM-DD: [Decision Title]
+  - Context: why this came up
+  - Options considered
+  - Chosen: which and why
+  - Consequences: what this implies
+#+end_example

@@ -1,0 +1,271 @@
+#+title: MāyāLoom
+#+subtitle: Tānā-Bānā — Warp and Weft of Human-Machine Understanding
+#+author: MāyāLucIA
+#+date: February 2026
+
+* For the Weaver
+
+#+begin_quote
+/Jheeni jheeni beeni chadariya/
+/Kahe ka tana, kahe ki bharni/
+/Kaun tar se beeni chadariya/
+
+Finely, finely woven is this shawl —
+What is its warp, what is its weft?
+With what thread was this shawl woven?
+--- Kabir
+#+end_quote
+
+Kabir was a weaver. Not a metaphorical weaver, not a spiritual weaver
+who happened to use the loom as an image. A weaver. His hands knew
+the shuttle before his tongue knew the verses. He sat at the loom in
+Varanasi and worked cotton into cloth while the pandits around him
+worked Sanskrit into commentary.
+
+He distrusted the pandits. /Pothi padhi padhi jag mua, pandit bhaya
+na koye/ — reading books, the whole world died, none became wise. He
+distrusted the mullahs equally. He distrusted anyone who confused
+knowing-about with knowing-how, anyone who could recite the text but
+not thread the needle.
+
+What Kabir trusted was the loom. The tānā (warp) is set up once —
+fixed, structural, the skeleton of the cloth. The bānā (weft) is
+passed through by hand — each pass a choice, each row a new line.
+The cloth emerges from the crossing of two threads that are
+individually nothing. Neither warp nor weft is fabric. Only their
+meeting is.
+
+We build MāyāLoom in this spirit.
+
+A scientist writes an org file — a lesson on spin dynamics, a
+manifesto on measurement, a plan for a sensor controller. This is the
+tānā: the warp thread, set up with care, carrying the structure of
+understanding.
+
+An AI agent reads that file and weaves through it — expanding a
+concept here, generating a tutorial there, implementing a function,
+testing a claim, answering a student's question in the context of
+/this/ lesson, /this/ notation, /this/ level of understanding. This
+is the bānā: the weft thread, different each time, for each reader,
+making different cloth from the same loom.
+
+Neither thread alone is understanding. The org file without a reader
+is inert. The agent without the org file hallucinates. Understanding
+emerges at the crossing — where the structure of the document meets
+the generative capacity of the mind reading it.
+
+Kabir would ask: what are you weaving, and for whom?
+
+We are weaving knowledge. And the cloth is for anyone who will wear
+it.
+
+* What MāyāLoom Is
+
+MāyāLoom is a convention — a way of writing org documents so that
+they serve as looms on which both human and machine minds can weave.
+
+It is not a tool. It is not a platform. It is a set of agreements
+about how to mark the warp threads so that the weft can pass through
+cleanly.
+
+Three agreements:
+
+** The Warp: Documents with Structure
+
+An org file that follows the MāyāLoom convention carries:
+
+- *Headings* that are semantic (not just organisational) — a heading
+  named =** The Bloch Equations= tells any reader, human or machine,
+  what this section /is about/
+- *Code blocks* that are tangled implementations of the ideas in the
+  prose — the code is not an appendix, it is a restatement of the
+  physics in a different language
+- *Named results* that serve as test expectations — if the simulation
+  produces this number, the implementation is correct
+- *Metadata* that tells a machine reader what this document defines,
+  what it depends on, and what it exports
+
+This is already how good literate programs are written. MāyāLoom adds
+one thing: the explicit declaration that /this document is intended to
+be read by machines as well as humans/, and here is what they should
+look for.
+
+** The Weft: Expansion Points
+
+At certain places in the warp, the weaver has left deliberate gaps —
+places where the thread of the narrative passes over a concept without
+fully developing it. In a traditional text, these would be footnotes,
+or references, or simply lacunae that the reader must fill from their
+own knowledge.
+
+In a MāyāLoom document, these are *cadenzas* — marked points where an
+agent can generate contextual expansion:
+
+#+begin_example
+,#+BEGIN_CADENZA
+:concept    kalman-filter
+:level      first-year-grad
+:prereqs    linear-algebra probability bloch-equations
+Explain the Kalman filter as applied to state estimation in a noisy
+magnetometer signal. Connect to the Bloch equations developed above.
+,#+END_CADENZA
+#+end_example
+
+The cadenza block is simultaneously:
+
+- *For a human reader*: a signpost — "if you need to understand
+  Kalman filtering, this is where to ask"
+- *For a guide agent*: a structured prompt with metadata — role,
+  level, prerequisites, context scope
+- *For a builder agent*: a specification of what capability is needed
+  at this point in the pipeline
+- *For a student with an AI tutor*: the exact prompt to send, already
+  framed in the context of the lesson
+
+The word /cadenza/ comes from music — a passage where the performer
+improvises within the harmonic structure set by the composer. The
+lesson is the composition. The agent improvises the cadenza. The
+structure holds.
+
+But remember Kabir: the cadenza is not the cloth. The cloth is what
+the student understands afterward.
+
+** The Fabric: Session Continuity
+
+The third agreement is about time. A weaver does not finish the cloth
+in one sitting. They leave the loom with the warp tensioned and the
+shuttle resting at the last row. The next morning — or the next
+weaver — picks up where the thread left off.
+
+MāyāLoom documents carry their state:
+
+- *Project tracker* (=project.org=): what threads are active, parked,
+  complete. Any session reads this first.
+- *Session seeds* (=seeds/*.org=): enough context to resume a specific
+  thread. A seed is the shuttle left at the last row.
+- *Memory files* (=MEMORY.md=): what an AI agent needs to know that
+  isn't in any single document — the accumulated decisions, the
+  conventions, the gotchas.
+
+The convention is: when you leave the loom, leave it so the next
+weaver can sit down and start immediately. Update the seed. Note where
+you stopped. Say what's next.
+
+This is not project management. This is tānā-bānā — keeping the
+tension in the threads so the cloth doesn't unravel between sessions.
+
+* The Loom Manifest
+
+Every MāyāLoom document carries a header that tells machine readers
+what the loom holds:
+
+#+begin_example
+,#+LOOM:     lesson
+,#+TITLE:    Lesson 00 — The Bloch Equations
+,#+DEFINES:  BlochState BlochParams bloch_rhs rk4_step
+,#+DEPENDS:  (none)
+,#+EXPORTS:  bloch-reference.json
+,#+CADENZAS: kalman-filter optical-pumping noise-models
+#+end_example
+
+=#+LOOM:= declares the document type (lesson, plan, seed, manifesto).
+=#+DEFINES:= lists concepts and functions this document introduces.
+=#+DEPENDS:= lists what the reader must already know (other lessons,
+external prerequisites). =#+EXPORTS:= names artifacts produced
+(reference data, tangled code). =#+CADENZAS:= lists the expansion
+points available, so an agent can discover them without scanning the
+full text.
+
+This is the warp laid out on the loom: here is the shape of what will
+be woven.
+
+* Reading Conventions
+
+An agent encountering a MāyāLoom document should:
+
+1. *Read the manifest* — the =#+LOOM:= header block tells you what
+   this document is and what it defines.
+
+2. *Follow the headings* — depth-1 headings (=*=) are major sections.
+   Depth-2 headings (=**=) are the semantic units — each one is about
+   one concept, one function, one idea.
+
+3. *Respect the tangle* — code blocks with =:tangle= headers are
+   reference implementations. They are not examples or illustrations.
+   They are the /canonical/ expression of the concept in that
+   language.
+
+4. *Find the cadenzas* — =#+BEGIN_CADENZA= blocks are invitations to
+   expand. Read the metadata. If the reader (student or agent) needs
+   the concept, expand it. If not, pass over.
+
+5. *Check named results* — =#+NAME:= and =#+RESULTS:= blocks are
+   test expectations. An implementation that produces different
+   numbers is wrong.
+
+6. *Carry the context* — when expanding a cadenza, include the
+   surrounding section (at minimum) as context. The expansion should
+   use the same notation, the same variable names, the same physical
+   system as the host lesson.
+
+* For Kabir
+
+#+begin_quote
+/Dhai akhar prem ka, padhe so pandit hoye/
+
+Two and a half letters of Love —
+whoever reads them becomes wise.
+--- Kabir
+#+end_quote
+
+All these conventions, all these metadata headers and cadenza blocks
+and session protocols — Kabir would look at them and laugh. Too many
+words. Too much machinery. The whole world died reading books.
+
+He is right.
+
+The conventions exist so that the weaving can happen without friction.
+The moment the weaving is happening — the moment a student is working
+through the Bloch equations with an AI tutor, and the tutor knows
+exactly where in the lesson the student is stuck, and generates
+exactly the explanation needed, using exactly the notation from the
+lesson, and the student /understands/ — in that moment, the
+conventions are invisible. The loom disappears. Only the cloth
+remains.
+
+That is the test.
+
+Not: does the cadenza syntax parse correctly?
+Not: did the agent read the manifest?
+Not: is the session seed up to date?
+
+But: did someone understand something they didn't understand before?
+
+/Arthakriyāsāmarthya./ The capacity for effective action.
+Dharmakīrti's test, expressed in Kabir's vocabulary:
+can you weave the cloth, or can you only describe the loom?
+
+#+begin_quote
+/Chalti chakki dekh kar, diya Kabira roye/
+/Do paatan ke beech mein, saabut bacha na koye/
+
+Watching the grinding stones turn, Kabir wept —
+Between the two stones, nothing survives whole.
+--- Kabir
+#+end_quote
+
+Between the human mind and the machine mind, the old way of knowing
+does not survive whole. Something new is being ground. We do not yet
+know what flour it will make.
+
+But we have a loom. And we have thread.
+
+Let us weave.
+
+-----
+
+/MāyāLoom is a convention within [[https://github.com/mayalucia][MāyāLucIA]].
+The code is at the loom. The tests are the tension in the threads.
+The understanding is the cloth./
+
+/Woven in a basement, February 2026./
