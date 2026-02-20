@@ -29,14 +29,14 @@ Read these in order. They are the load-bearing documents. If anything
 here doesn't sound like you, rewrite it --- these are the documents
 any collaborator (human or machine) reads first.
 
-| # | File | Lines | Read for |
-|---+------+-------+----------|
-| 1 | =mayalucia.org= | 155 | The vision. Does this still say what you mean? |
-| 2 | =manifesto.org= | 274 | The public-facing manifesto. Tone, claims, scope. |
-| 3 | =CLAUDE.md= | 81 | Instructions to every AI agent. Are they right? |
-| 4 | =project/mayaloom.org= | 301 | The MayaLoom convention. Does the weaving metaphor hold? |
-| 5 | =project/project.org= | 258 | Thread tracker. Is it current? |
-| 6 | =project/modular.org= | 144 | The 8-module architecture. Still the right decomposition? |
+| # | File                 | Lines | Read for                                                  |
+|---+----------------------+-------+-----------------------------------------------------------|
+| 1 | =mayalucia.org=        |   155 | The vision. Does this still say what you mean?            |
+| 2 | =manifesto.org=        |   274 | The public-facing manifesto. Tone, claims, scope.         |
+| 3 | =CLAUDE.md=            |    81 | Instructions to every AI agent. Are they right?           |
+| 4 | =project/mayaloom.org= |   301 | The MayaLoom convention. Does the weaving metaphor hold?  |
+| 5 | =project/project.org=  |   258 | Thread tracker. Is it current?                            |
+| 6 | =project/modular.org=  |   144 | The 8-module architecture. Still the right decomposition? |
 
 *After this pass*: you know whether the project's self-description
 matches your intent. Mark up anything that doesn't fit.
@@ -49,13 +49,15 @@ matches your intent. Mark up anything that doesn't fit.
 This is where the MayaLoom convention was just tested. It's fresh,
 it's small, and it's the piece you might share with Saikat.
 
+Clone first if you haven't: =gh repo clone mayalucia/mayapramana ~/mayapramana=
+
 | # | File | Lines | Read for |
 |---+------+-------+----------|
-| 1 | =/tmp/mayapramana/manifesto.org= | 459 | Voice, accuracy, the neuroscience section |
-| 2 | =/tmp/mayapramana/architecture.org= | 480 | FP grammar, monadic composition --- is this the right framing for Saikat? |
-| 3 | =/tmp/mayapramana/applications.org= | 288 | Completeness, emphasis, anything wrong or missing? |
-| 4 | =/tmp/mayapramana/conventions.org= | 551 | Skim the old parts, read the new MayaLoom section carefully |
-| 5 | =/tmp/mayapramana/lessons/00-bloch-equations/concept.org= | 885 | *The most important file.* Read it as a physicist, not as a project manager. Is the physics right? Is the pedagogy right? Are the cadenzas at the right seams? |
+| 1 | =mayapramana/manifesto.org= | 459 | Voice, accuracy, the neuroscience section |
+| 2 | =mayapramana/architecture.org= | 480 | FP grammar, monadic composition --- is this the right framing for Saikat? |
+| 3 | =mayapramana/applications.org= | 288 | Completeness, emphasis, anything wrong or missing? |
+| 4 | =mayapramana/conventions.org= | 551 | Skim the old parts, read the new MayaLoom section carefully |
+| 5 | =mayapramana/lessons/00-bloch-equations/concept.org= | 885 | *The most important file.* Read as a physicist. Is the pedagogy right? Are the cadenzas at the right seams? |
 | 6 | =invitations/saikat-ghosh.org= | 153 | Would you send this? |
 
 *After this pass*: you know whether MayaPramana is presentable to
