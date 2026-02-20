@@ -105,11 +105,36 @@ agent can generate contextual expansion:
 ,#+BEGIN_CADENZA
 :concept    kalman-filter
 :level      first-year-grad
-:prereqs    linear-algebra probability bloch-equations
+:prereqs    linear-algebra probability
+:assumes    bloch-equations larmor-frequency
+:anti-targets    quantum-computing bayesian-deep-learning
+:connects-to     pid-control feedback-loops
 Explain the Kalman filter as applied to state estimation in a noisy
 magnetometer signal. Connect to the Bloch equations developed above.
 ,#+END_CADENZA
 #+end_example
+
+*** Cadenza Fields
+
+| Field | Required | Meaning |
+|-------+----------+---------|
+| =:concept= | yes | Slug identifying this cadenza (matches =#+CADENZAS:= list) |
+| =:level= | yes | Target reader level (=undergrad=, =first-year-grad=, =researcher=) |
+| =:prereqs= | yes | What the reader should know but may need reminding of |
+| =:assumes= | no | What this lesson has already taught — do not re-explain |
+| =:anti-targets= | no | Topics to explicitly /not/ cover (prevents wandering) |
+| =:connects-to= | no | Forward references to later sections or cadenzas |
+
+The prose body after the metadata is a structured prompt: it tells
+the expanding agent what to explain, from what starting point, for
+what kind of reader, connecting to what notation.
+
+*Validated 2026-02-20*: A fresh agent with no MāyāLoom context was
+given lesson 00 and a student question. It parsed the manifest, found
+the =bloch-sphere-geometry= cadenza, read =:level= and =:prereqs=,
+used surrounding lesson context to avoid repetition, and generated a
+100-line tutorial pitched correctly. The convention works without any
+special framework — the org file is the interface.
 
 The cadenza block is simultaneously:
 
@@ -168,13 +193,18 @@ what the loom holds:
 ,#+CADENZAS: kalman-filter optical-pumping noise-models
 #+end_example
 
-=#+LOOM:= declares the document type (lesson, plan, seed, manifesto).
-=#+DEFINES:= lists concepts and functions this document introduces.
-=#+DEPENDS:= lists what the reader must already know (other lessons,
-external prerequisites). =#+EXPORTS:= names artifacts produced
-(reference data, tangled code). =#+CADENZAS:= lists the expansion
-points available, so an agent can discover them without scanning the
-full text.
+=#+LOOM:= declares the document type (=lesson=, =plan=, =seed=,
+=manifesto=). =#+DEFINES:= lists concepts and functions this document
+introduces. =#+DEPENDS:= lists what the reader must already know
+(other lessons, external prerequisites). =#+EXPORTS:= names artifacts
+produced (reference data, tangled code). =#+CADENZAS:= lists the
+expansion points available, so an agent can discover them without
+scanning the full text.
+
+Within each cadenza block, the metadata fields (=:concept=, =:level=,
+=:prereqs=, =:assumes=, =:anti-targets=, =:connects-to=) give an
+expanding agent everything it needs to generate a contextual tutorial
+without any framework — just the org file.
 
 This is the warp laid out on the loom: here is the shape of what will
 be woven.
