@@ -4,31 +4,25 @@
 #+startup: overview
 #+todo: ACTIVE PARKED | DONE DROPPED
 
-This is the living project tracker for MāyāLucIA. Any session — human
-or agent — should read this file to understand what is active, what is
-parked, and where to resume.
+This is the living project tracker for MāyāLucIA. Any session — human or agent — should read this file to understand what is active, what is parked, and where to resume.
 
-For agent sessions: this file + CLAUDE.md + MEMORY.md gives you full
-context. Read all three before starting work.
+For agent sessions: this file + CLAUDE.md + MEMORY.md gives you full context. Read all three before starting work.
 
 * Organisation
 
-MāyāLucIA is a personal research framework for scientific understanding
-through computational creation. It is organised as a GitHub org
-([[https://github.com/mayalucia]]) with modular repos. This root repo is
-the headquarters — organisational documents, not code.
+MāyāLucIA is a personal research framework for scientific understanding through computational creation. It is organised as a GitHub org ([[https://github.com/mayalucia]]) with modular repos. This root repo is the headquarters — organisational documents, not code.
 
 ** Repository Map
 
-| Repo | Purpose | Status |
-|------|---------|--------|
-| *mayalucia* (this repo) | Organisation HQ: agency, project, collab, vision | Active |
-| [[https://github.com/mayalucia/mayapramana][mayapramana]] | Universal quantum sensor controller — digital twins | Active |
-| [[https://github.com/mayalucia/bravli][bravli]] | Neuroscience toolkit — Drosophila mushroom body | Complete (293 tests) |
-| [[https://github.com/mayalucia/mayajiva][mayajiva]] | Magnetic bug simulation — C++ core | Phase 0 complete (23 tests) |
-| [[https://github.com/mayalucia/mayaportal][mayaportal]] | Rendering kernel — C++23, SDL3, WebGPU | Early |
-| [[https://github.com/mayalucia/mayadevgeni][mayadevgeni]] | Agency framework — governance for human+AI collaboration | Framework defined |
-| [[https://github.com/mayalucia/manifesto][manifesto]] | Public manifesto | Published |
+| Repo                  | Purpose                                                  | Status                           |
+|-----------------------+----------------------------------------------------------+----------------------------------|
+| *mayalucia* (this repo) | Organisation HQ: agency, project, collab, vision         | Active                           |
+| [[https://github.com/mayalucia/mayapramana][mayapramana]]           | Universal quantum sensor controller — digital twins      | Active                           |
+| [[https://github.com/mayalucia/bravli][bravli]]                | Neuroscience toolkit — Drosophila mushroom body          | Waiting Human Review (293 tests) |
+| [[https://github.com/mayalucia/mayajiva][mayajiva]]              | Magnetic bug simulation — C++ core                       | Phase 0 complete (23 tests)      |
+| [[https://github.com/mayalucia/mayaportal][mayaportal]]            | Rendering kernel — C++23, SDL3, WebGPU                   | Early                            |
+| [[https://github.com/mayalucia/mayadevgeni][mayadevgeni]]           | Agency framework — governance for human+AI collaboration | Framework defined                |
+| [[https://github.com/mayalucia/manifesto][manifesto]]             | Public manifesto                                         | Published                        |
 
 ** Directory Structure (this repo)
 
@@ -198,3 +192,67 @@ needed). Format:
   - Chosen: which and why
   - Consequences: what this implies
 #+end_example
+
+* Session Log
+
+** 2026-02-20: MāyāPramāṇa applications, MāyāLoom, project infrastructure
+:PROPERTIES:
+:SESSION:  Claude Code (Opus 4.6)
+:DURATION: ~3 hours
+:END:
+
+This session continued from a previous one that had exhausted its
+context window. The previous session (2026-02-19/20) built the
+MāyāPramāṇa repo: manifesto, architecture, conventions, CLAUDE.md,
+lesson 00 (Bloch equations), and the invitation to Saikat.
+
+*What was done:*
+
+1. *Manifesto neuroscience section* — added "On the Fields Within Us"
+   to mayapramana's manifesto.org. The EM-fields-in-the-brain
+   argument: OPMs replacing SQUIDs for MEG, same Bloch equations,
+   same Fisher information, same Kalman filters.
+
+2. *applications.org* — detailed survey of quantum magnetometry
+   applications: wearable MEG, single-neuron NV-diamond, ULF-MRI,
+   magnetocardiography, biomagnetism, point-of-care diagnostics,
+   the pedagogical dimension. Committed and pushed to mayapramana.
+
+3. *Saikat invitation rewrite* — invitations/saikat-ghosh.org now
+   leads with MāyāPramāṇa, the EM-fields connection, applications.org.
+   Both .org and .md versions updated.
+
+4. *Wireframe website* — site/index.html in mayapramana with:
+   - SVG Fig 1: sensor pipeline (pratyaksa → anumana with feedback)
+   - SVG Fig 2: Bloch sphere (precession, T1, T2, external field B)
+   - SVG Fig 3: OPM-on-scalp (pyramidal neurons, field lines, sensors)
+   - SVG Fig 4: pure core / effectful shell architecture
+   - Trilingual code preview (Python, Haskell, C++ Bloch RHS)
+   - Application cards (6 domains)
+
+5. *Thread convergence* — three threads (embedded prompts, agent-
+   readable lessons, project management) merged into one: MāyāLoom.
+
+6. *MāyāLoom manifesto* — project/mayaloom.org. Named for Kabir's
+   loom. Tānā (warp, the document) and bānā (weft, the agent's
+   expansion). Cadenza blocks, loom manifests, session protocols.
+
+7. *Project infrastructure* — project.org as master tracker, 8 session
+   seeds including arc.org (the story connecting all threads).
+
+8. *GitHub repo fix* — root repo remote was pointing at mayajiva.
+   Created mayalucia/mayalucia repo. Reverted accidental push to
+   mayajiva. All repos now clean.
+
+*Decisions made:*
+- Root repo is the organisation HQ (option A from the discussion)
+- Three threads merged into MāyāLoom (not run as separate sessions)
+- Cadenza blocks use =#+BEGIN_CADENZA= syntax with :concept, :level, :prereqs
+- Loom manifest uses org header keywords (=#+LOOM:=, =#+DEFINES:=, etc.)
+- Generated tutorials: persistent but marked as generated
+- Name "MāyāLoom" chosen over "Literate Agency", "MāyāSūtra", "Score"
+
+*What is next:*
+- Annotate lesson 00 with cadenzas + loom manifest (seed: mayaloom.org)
+- Build interactive UQSC web interface (seed: uqsc-interface.org)
+- Send Saikat invitation when site is demo-worthy
