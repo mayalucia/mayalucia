@@ -1,0 +1,89 @@
+#+title: MayaLucIA Website Export
+#+author: A Human-Machine Collaboration
+#+hugo_base_dir: .
+#+hugo_auto_set_lastmod: t
+#+options: broken-links:mark
+
+#+begin_comment
+This file orchestrates ox-hugo export for the MayaLucIA website.
+
+WORKFLOW:
+1. Edit the source org files in the main project
+2. Open this file in Emacs
+3. Use C-c C-e H A to export all subtrees
+4. Run =hugo server= in the website/ directory to preview
+5. Content flows: source .org → this file (transclude) → website/content/ (generated)
+
+Each heading below maps to a content page. The source content is
+transcluded from the project's org files via #+include directives.
+Never edit website/content/ directly.
+#+end_comment
+
+* About                                                                  :about:
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION: about
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :ShowReadingTime false :ShowBreadCrumbs false
+:END:
+
+#+include: "../mayalucia.org" :lines "3-"
+
+* Guiding Philosophy                                                :philosophy:
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION: philosophy
+:END:
+
+#+include: "../develop/guiding-philosophy.org" :lines "3-"
+
+* Domains                                                            :domains:
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: domains
+:END:
+
+Two domains anchor the MayaLucIA framework --- one biological, one geological. Each is an ongoing investigation: sparse data in, digital twin out, understanding as the byproduct.
+
+| Domain | System | Status |
+|--------+--------+--------|
+| [[/domains/bravli/][Bravli]] | Brain circuits (computational neuroscience) | Early development |
+| [[/domains/parbati/][Parbati]] | Himalayan mountain systems (geosciences) | Early development |
+
+Both domains feed into [[/portal/][MayaPortal]], the visual synthesis kernel that manifests reconstructed systems as interactive, explorable renderings.
+
+* Bravli: Brain Reconstruction                                       :domains:
+:PROPERTIES:
+:EXPORT_FILE_NAME: bravli
+:EXPORT_HUGO_SECTION: domains
+:END:
+
+#+include: "../bravli/bravli.org" :lines "3-"
+
+* Parbati: Digital Forms for Himalaya                                :domains:
+:PROPERTIES:
+:EXPORT_FILE_NAME: parbati
+:EXPORT_HUGO_SECTION: domains
+:END:
+
+#+include: "../parbati/parbati.org" :lines "3-"
+
+* MayaPortal: The Visual Synthesis Kernel                             :portal:
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION: portal
+:END:
+
+#+include: "../modules/mayaportal/mayaportal.org" :lines "4-"
+
+* Development Log                                                     :devlog:
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION: devlog
+:END:
+
+#+include: "../develop/devlog.org" :lines "4-"
+
+* COMMENT Local Variables
+# Local Variables:
+# eval: (org-hugo-auto-export-mode)
+# End:

@@ -6,7 +6,7 @@
    How do we selectively preserve valuable outputs from ephemeral collaboration
    sessions? Discussion document: [[file:../collab/sessions/devprocess/preserving-collab-artifacts.org][preserving-collab-artifacts.org]].
    Current recommendation: promote to project tree + devlog reference (Option C).
-
+   
 * Decision Log
 ** <2026-02-08> Devlog structure adopted
    - Context: Need to track development decisions and progress across sessions with AI collaborators.

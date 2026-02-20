@@ -36,9 +36,15 @@ __pycache__/
 *.pdf
 
 # Submodule working trees managed by their own repos
-# bravli/code/ is in github.com/mayalucia/bravli
-# modules/mayajiva build artifacts
 modules/mayajiva/.sconsign.dblite
 modules/mayajiva/godot/.godot/
 collab/.local/*.pdf
 collab/.local/*.html
+
+# OpenCode agent sessions (local)
+.opencode/
+
+# Hugo website build artifacts (generated output)
+website/public/
+website/resources/
+website/.hugo_build.lock

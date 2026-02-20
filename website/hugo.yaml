@@ -1,0 +1,164 @@
+baseURL: http://localhost:1313/
+languageCode: en-us
+title: MayaLucIA
+theme: PaperMod
+
+# Build settings
+enableRobotsTXT: false
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+
+# Minification
+minify:
+  disableXML: true
+  minifyOutput: true
+
+# Pagination
+pagination:
+  pagerSize: 10
+
+# Taxonomies
+taxonomies:
+  tag: tags
+  category: categories
+
+# Menu configuration
+menu:
+  main:
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 10
+    - identifier: philosophy
+      name: Philosophy
+      url: /philosophy/
+      weight: 20
+    - identifier: domains
+      name: Domains
+      url: /domains/
+      weight: 30
+    - identifier: portal
+      name: MayaPortal
+      url: /portal/
+      weight: 40
+    - identifier: devlog
+      name: Devlog
+      url: /devlog/
+      weight: 50
+    - identifier: search
+      name: Search
+      url: /search/
+      weight: 60
+
+# PaperMod theme parameters
+params:
+  env: production
+  title: MayaLucIA
+  description: "Creative Natural Understanding with AI"
+  keywords: [AI, Digital Twins, Computational Neuroscience, Geosciences, WebGPU, Visualization]
+  author: "A Human-Machine Collaboration"
+
+  # Theme mode
+  defaultTheme: auto
+  disableThemeToggle: false
+
+  # Display
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: false
+  ShowRssButtonInSectionTermList: false
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: true
+  tocopen: true
+
+  # Assets
+  assets:
+    disableHLJS: true
+    disableFingerprinting: false
+
+  # Home info mode
+  homeInfoParams:
+    Title: "MayaLucIA"
+    Content: >
+      Creative Natural Understanding with AI.
+
+
+      /What I cannot create, I do not understand./ --- Richard Feynman
+
+
+      A personal computational environment for learning through creation.
+      Digital twins of natural systems --- brain circuits, mountain valleys ---
+      sculpted from sparse data through the iterative cycle of
+      **Measure, Model, Manifest, Evaluate, Refine**.
+
+
+      Not a product. A research notebook made visible.
+
+  # Cover image settings
+  cover:
+    hidden: false
+    hiddenInList: false
+    hiddenInSingle: false
+
+  # Search
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+
+# Outputs for search
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+# Markup configuration
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    style: monokai
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+    ordered: false
+
+# Ignore warnings
+ignoreErrors: ["error-deprecated", "error-remote-getjson", "deprecated"]
+refLinksErrorLevel: WARNING
+
+# Privacy settings
+privacy:
+  vimeo:
+    disabled: false
+    simple: true
+  twitter:
+    disabled: false
+    enableDNT: true
+    simple: true
+  instagram:
+    disabled: false
+    simple: true
+  youtube:
+    disabled: false
+    privacyEnhanced: true
