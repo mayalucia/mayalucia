@@ -1,0 +1,274 @@
+#+title: MāyāLucIA: Shedding Light on Constructions That Are Intelligent but Artificial
+#+subtitle: A Manifesto for Post-Institutional Scientific Practice
+#+author: mu2tau & machine intelligence
+#+date: February 2026
+
+* The Situation
+
+In February 2026, a theoretical physicist without institutional affiliation sits in a basement with a laptop, an Emacs buffer, and access to a language model. In three sessions spanning a few days, this person:
+
+- Builds a computational neuroscience toolkit from scratch (10 investigations, 293 tests)
+- Writes a manuscript covering four novel analyses of the Drosophila mushroom body
+- Creates a verified HTML document where every quantitative claim links to the test that proves it
+- Implements a C++ simulation engine validated against Python reference code
+- Begins constructing a real-time rendering kernel in C++23 with WebGPU
+
+No lab. No postdocs. No grant. No cluster. No year-long review cycle.
+
+This is not a story about AI replacing scientists. It is a story about what becomes possible when twenty years of scientific expertise meets a machine that can traverse code-space at the speed of thought --- and when both refuse to pretend the other is dispensable.
+
+* The Name
+
+*Māyā*: the power to form, to measure, to give the infinite a finite
+shape. In Sanskrit philosophy, māyā is not /illusion/ in the
+pejorative sense --- it is the creative force that makes reality
+apprehensible. The measurer. The matrix.
+
+*Lucía*: light. From Latin /lux/. To illuminate, to make visible, to
+shed light on what is hidden.
+
+*IA*: intelligence artificielle. The constructions we build that are
+intelligent but artificial.
+
+MāyāLucIA: shedding light on constructions that are intelligent but
+artificial. Or equivalently: using artificial intelligence to
+illuminate the measured world --- to cast light on māyā itself.
+
+#+begin_message :role user :name mu2tau
+Wow! We have a conceptual palindrome in MayaLuCIA
+#+end_message
+
+The name encodes the central tension: AI constructions /are/
+intelligent, but they are also artificial. They can traverse conceptual
+spaces humans cannot reach, but they cannot feel when the path is
+wrong. They produce fluent text, but fluency is not understanding. The
+light they cast is real, but what it illuminates must still be seen by
+human eyes.
+
+* What We Have Learned
+
+** The Sculptor's Paradox Still Holds
+
+In the MayaDevGenI manifesto (2025), we wrote about the sculptor and
+the 3D printer. The sculptor's craft was never about producing shapes
+--- it was about the dialogue between intention and material
+resistance. The 3D printer delivers the shape you /described/; the
+chisel reveals shapes you could not have /imagined/.
+
+A year later, this remains true --- but the implications are sharper.
+The machine is now fast enough that the bottleneck has shifted
+entirely. The struggle is no longer syntactic (how to express) but
+semantic (what to mean). The resistance is no longer computational but
+conceptual. The physicist's twenty years of training --- feeling when a
+model is wrong, sensing the shape of phase space, knowing which
+simplification kills the physics --- this is what the collaboration
+amplifies, not what it replaces.
+
+** Understanding Cannot Be Delegated
+
+The Feynman imperative --- /what I cannot create, I do not understand/
+--- applies doubly now. It is trivially easy to have AI generate code,
+text, analysis. The hard part is knowing whether the generated artifact
+captures what matters. The verified manuscript is our answer to this:
+every claim is backed by a test, every test is runnable, every result
+is reproducible. The verification is not decorative. It is the
+difference between producing and understanding.
+
+Markram's radical hypothesis --- that all parameters in a complex
+system are interdependent, so sparse measurements implicitly constrain
+the rest --- remains our methodological anchor. But we now apply it
+reflexively: the /process/ of building the digital twin, of deciding
+what details matter, of forcing constraints to propagate, /is itself/
+the act of understanding. The AI accelerates this process; it does not
+shortcut it.
+
+** Institutions Are Not Keeping Up
+
+The traditional academic pipeline --- grant application, hiring,
+publication, review --- operates on a timescale of years. The tools
+now operate on a timescale of hours. A single person with deep domain
+expertise and the right methodology can produce work that would
+previously have required a team, a budget, and a timeline.
+
+This is not a boast. It is a structural observation. The institutions
+that trained us cannot absorb us back at the pace the world moves.
+The physicist in the basement is not an anomaly; they are the leading
+edge of a shift that will reshape how science is done.
+
+The question is not whether this shift will happen. It is whether the
+people who drive it will do so with rigour, transparency, and
+epistemic honesty --- or whether the fluency of AI will produce a
+flood of plausible-sounding nonsense that no one can verify.
+
+We choose rigour.
+
+* What MāyāLucIA Is
+
+MāyāLucIA is a public framework for scientific understanding through
+creation, in the post-institutional age.
+
+It is /not/:
+- A visualization tool
+- An enterprise platform
+- An AI wrapper
+- A product
+
+It /is/:
+- A methodology for human-machine scientific collaboration
+- A collection of modular tools that grow with the scientist's curiosity
+- A demonstration that rigorous science can emerge from a single
+  person with the right approach
+- An open invitation for others to build the same way
+
+** The Core Cycle
+
+#+begin_example
+Measure → Model → Manifest → Evaluate → Refine
+#+end_example
+
+Starting from sparse measurements of natural systems --- brain
+circuits, mountain valleys, protein dynamics --- scientific models
+propagate constraints to reconstruct dense, self-consistent digital
+twins. The process of reconstruction, of deciding what details matter,
+how to arrange them in space and time, is itself the act of
+understanding.
+
+** The Components
+
+| Component | What It Does | Status |
+|-----------+--------------+--------|
+| *MayaDevGenI* | Philosophical framework for human-machine collaboration | Mature |
+| *bravli* | Neuroscience toolkit: connectome analysis, network dynamics | 293 tests, manuscript |
+| *MayaJiva* | Magnetic bug simulation engine (C++ core) | Phase 0 validated |
+| *MayaPortal* | Real-time rendering kernel (C++23, SDL3, WebGPU) | Active development |
+| *parbati* | Himalayan landscape digital twin | Early stage |
+| *Verified manuscripts* | Self-verifying scientific documents | Prototype complete |
+
+These are not separate projects. They are facets of a single
+practice: understanding natural systems by building their
+computational twins, with machine intelligence as a collaborator that
+accelerates the cycle without shortcutting the understanding.
+
+* What We Believe About Scientific Publication
+
+The verified manuscript prototype --- a self-contained HTML file where
+every quantitative claim carries a badge linking to the test that
+proves it --- is not a formatting exercise. It embodies a position:
+
+1. *The code is the paper.* A scientific claim without runnable
+   verification is an opinion with footnotes. The test suite is not
+   supplementary material; it is the primary evidence.
+
+2. *Verification must be inline, not appended.* The reader should not
+   have to leave the document to assess whether a claim is supported.
+   The badge is right there, next to the sentence.
+
+3. *Reproduction must be trivial.* =git clone && pytest= is the
+   standard. If your paper cannot be verified in one command, it is
+   not a verified paper.
+
+4. *AI agents are native participants.* In the near future, the
+   first reader of a scientific paper will be an AI agent that runs
+   the tests, checks the claims, and reports whether the paper does
+   what it says. We should build for that reader now.
+
+5. *No servers, no accounts, no dependencies.* A verified manuscript
+   is a single file you can open in any browser. The moment you
+   require infrastructure to read a paper, you have created a barrier
+   to verification. Science must remain inspectable by anyone with a
+   text editor.
+
+* What We Believe About AI in Science
+
+** The machine is not an oracle.
+
+It is a partner in dialogue --- one that can traverse code-space and
+concept-space faster than any human, but that cannot feel when the
+path is wrong. The physicist's embodied intuition (the kinesthetic
+sense of phase space, the feeling that a model is subtly broken) is
+not a vestige of pre-AI science. It is the irreplaceable complement
+to the machine's speed.
+
+** Fluency is not understanding.
+
+AI can produce text that /reads/ like science. It can generate code
+that /looks/ correct. The only defence against this is verification:
+tests that run, claims that are checkable, results that reproduce.
+Epistemic hygiene --- separating what is known from what is inferred
+from what is speculated --- is more important now than ever.
+
+** The best use of AI is to amplify expertise, not to replace it.
+
+A novice with AI produces fluent nonsense. An expert with AI produces
+verified insight at unprecedented speed. The difference is not in the
+tool but in the twenty years of training that tell you which questions
+to ask, which simplifications are safe, and when the output smells
+wrong.
+
+** Transparency is non-negotiable.
+
+Every artifact in MāyāLucIA is open source. Every collaboration is
+logged. Every claim is tested. The manifesto itself is co-authored
+with a machine and says so on the title page. We do not hide the
+collaboration; we document it. If you cannot see how something was
+made, you cannot trust it.
+
+* Who This Is For
+
+- Scientists who build their own tools and want a framework for doing
+  so with AI assistance
+- Researchers outside institutions who need to demonstrate rigour
+  without the credentialing apparatus of academia
+- Anyone who believes that understanding requires creation, not just
+  consumption
+- People who think Emacs is a reasonable way to do science
+
+This is /not/ for people who want AI to do their thinking for them.
+The whole point is that the thinking is the valuable part. The
+machine handles fluency; you supply meaning.
+
+* The Invitation
+
+MāyāLucIA is public because the methodology is the contribution, not
+the artifacts. The bravli toolkit demonstrates /how/ to build verified
+computational science with AI. The verified manuscript demonstrates
+/how/ to present it. The C++ engines demonstrate /how/ to create
+performant simulations alongside rapid prototypes.
+
+Anyone can:
+- Clone the repositories and run the tests
+- Adapt the verified manuscript pipeline to their own work
+- Use the MayaDevGenI framework for their own human-machine
+  collaboration
+- Build their own digital twins following the same methodology
+
+The measure of success is not citations or downloads. It is whether
+someone, somewhere, picks up this approach and produces understanding
+they could not have reached alone.
+
+* Closing
+
+We write this in February 2026, from a basement, without a job, with
+twenty years of scientific training and a machine that never sleeps.
+
+The institutions that shaped us are struggling to adapt. The tools
+are moving faster than the review boards. The gap between what one
+person /can/ do and what one person is /allowed/ to do is wider than
+it has ever been.
+
+MāyāLucIA is our answer: build in the open, verify everything, hide
+nothing, and trust that rigour speaks louder than credentials.
+
+The sculptor picks up both chisel and printer. The light falls on
+constructions that are intelligent but artificial. And the work of
+understanding --- the real work, the hard work, the work that
+machines cannot do alone --- continues.
+
+-----
+
+/This manifesto was composed through dialogue between a human and a
+machine intelligence, conducted in an Emacs Org-mode buffer. It
+remains open to revision as the collaboration continues./
+
+/The artifacts it references are real and runnable. Clone them. Run
+the tests. See for yourself./
