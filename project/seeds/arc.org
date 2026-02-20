@@ -1,0 +1,115 @@
+#+title: The Arc — How the Threads Weave Together
+#+date: February 2026
+
+* Read This First
+
+This document explains /why/ the threads exist and how they connect.
+The other seeds explain /what/ to do. Read this for orientation; read
+a specific seed for action.
+
+* The Story So Far
+
+Vishal Sood, a theoretical physicist working alone with AI from a
+basement, built MāyāLucIA — an open framework for rigorous
+computational science. No lab, no grant, no cluster. The methodology:
+measure, model, verify, iterate — the physicist's method, accelerated
+by a machine that writes code fast but cannot smell when the physics
+is wrong.
+
+The first project was *bravli* — computational neuroscience, the
+Drosophila mushroom body connectome, 293 passing tests, a verified
+manuscript. This proved the methodology works.
+
+The second was *mayajiva* — a C++ simulation of magnetic bug
+navigation, validated against Python. This proved the cross-language
+validation pattern works.
+
+Then came *MāyāPramāṇa* — a universal quantum sensor controller.
+Built for Dr. Saikat Ghosh at IIT Kanpur, who makes atomic
+magnetometers. The first lesson implements the Bloch equations in
+Python, Haskell, and C++. The manifesto draws on Dignāga (what counts
+as valid cognition), Dharmakīrti (knowledge must enable effective
+action), and Kabir (the weaver who distrusted scholars).
+
+While writing MāyāPramāṇa, a connection surfaced: the same sensors
+Saikat builds for quantum optics labs are now being used for brain
+imaging. Optically pumped magnetometers replacing cryogenic SQUIDs
+for wearable MEG. The Bloch equations in lesson 00 are the physics of
+both atomic magnetometers and MRI. A universal controller is a tool
+for neuroscience as much as for quantum optics. This became the
+"On the Fields Within Us" section of the manifesto and the
+applications.org document.
+
+To make this visible, we built a wireframe website — SVG schematics
+of the Bloch sphere, the sensor pipeline, OPMs on the scalp, the
+pure core / effectful shell architecture. The next step is making it
+interactive (the UQSC web interface).
+
+While planning how to build the interactive demo with embedded
+lessons, three questions converged into one: how should org documents
+carry expansion points for students? How should agents read lessons?
+How should sessions stay coherent? These merged into *MāyāLoom* —
+named for Kabir's loom, where the warp (human-written document) and
+weft (agent-generated expansion) cross to become understanding.
+
+* The Threads
+
+#+begin_example
+MāyāLoom ──── conventions for how org files serve both minds
+    │
+    ├── annotate lesson 00 with cadenzas + loom manifest
+    │         │
+    │         └── test: can a fresh session use the annotations?
+    │
+UQSC Interface ──── interactive digital twin in browser
+    │
+    ├── Bloch sphere with controls
+    ├── Kalman filter visualisation
+    ├── feedback loop demo
+    │         │
+    │         └── deploy to GitHub Pages
+    │                    │
+    │                    └── Saikat invitation becomes compelling
+    │
+Saikat Outreach ──── send the invitation when demo is ready
+    │
+    └── Saikat joins → GitHub issues → external collaboration begins
+                                │
+                                └── project management conventions matter
+#+end_example
+
+MāyāLoom feeds into UQSC (the lessons that appear in the interactive
+site will use cadenza conventions). UQSC feeds into Saikat (the demo
+makes the invitation land). Saikat feeds back into MāyāLoom (when
+external collaborators join, the session protocols must actually
+work).
+
+* The Deeper Current
+
+All of this is one thing: /making understanding tangible/.
+
+The digital twin is not the goal. The understanding gained in building
+it is. The website is not the goal. The moment when a first-year grad
+student in Kanpur pulls a cadenza thread and the Kalman filter
+unfolds in the context of /their/ sensor, /their/ notation, /their/
+level — that is the goal.
+
+MāyāLucIA's thesis: understanding emerges through creation, verified
+by tests, made tangible through manifestation. MāyāLoom is the
+convention that lets this happen across sessions, across minds, across
+the boundary between human and machine.
+
+Kabir would say: stop reading this and start weaving.
+
+* Which Seed To Read Next
+
+| If you are working on... | Read this seed |
+|--------------------------|---------------|
+| MāyāLoom conventions / annotating lesson 00 | =seeds/mayaloom.org= |
+| Interactive UQSC web interface | =seeds/uqsc-interface.org= |
+| Saikat invitation / outreach | =seeds/saikat-outreach.org= |
+| Background on cadenza syntax | =seeds/embedded-prompts.org= |
+| Background on agent reading conventions | =seeds/agent-readable-lessons.org= |
+| Background on session protocols | =seeds/project-management.org= |
+
+Always read =project/project.org= for current thread states.

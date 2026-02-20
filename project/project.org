@@ -78,8 +78,9 @@ and trilingual code preview. Next: make it interactive.
 
 ** ACTIVE MāyāLoom                                        :mayadevgeni:meta:
 :PROPERTIES:
-:SEED:     [[file:seeds/literate-agency.org]]
+:SEED:     [[file:seeds/mayaloom.org]]
 :MANIFESTO: [[file:mayaloom.org]]
+:ARC:      [[file:seeds/arc.org]]
 :END:
 
 Tānā-Bānā: org files as looms for human-machine understanding.
@@ -142,6 +143,21 @@ infrastructure (mayaportal) and methodology (agency framework).
 The deeper question: org files serving simultaneously as science,
 agent instructions, project state, and verified claims. Think about,
 don't build yet.
+
+* Seeds
+
+Start here: *[[file:seeds/arc.org][arc.org]]* — the story, the connections, which seed to read next.
+
+| Seed | Thread | Status |
+|------|--------|--------|
+| [[file:seeds/arc.org][arc.org]] | How the threads weave together | Orientation |
+| [[file:seeds/mayaloom.org][mayaloom.org]] | MāyāLoom: annotate lesson 00 | Active |
+| [[file:seeds/uqsc-interface.org][uqsc-interface.org]] | Interactive UQSC web interface | Parked |
+| [[file:seeds/saikat-outreach.org][saikat-outreach.org]] | Saikat invitation & outreach | Waiting on UQSC |
+| [[file:seeds/embedded-prompts.org][embedded-prompts.org]] | Cadenza syntax (background) | Reference |
+| [[file:seeds/agent-readable-lessons.org][agent-readable-lessons.org]] | Reading conventions (background) | Reference |
+| [[file:seeds/project-management.org][project-management.org]] | Session protocols (background) | Reference |
+| [[file:seeds/literate-agency.org][literate-agency.org]] | Pre-naming unified seed | Superseded by mayaloom.org |
 
 * Conventions
 

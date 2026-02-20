@@ -1,0 +1,61 @@
+#+title: Seed — Saikat Invitation & Outreach
+#+date: February 2026
+
+* Context
+
+Dr. Saikat Ghosh is a quantum physicist at IIT Kanpur — atomic
+magnetometers, quantum-enhanced sensing, field-deployable instruments,
+Qmet Tech. A friend of Vishal's. We are inviting him to join MāyāLucIA
+as a partner and to engage with MāyāPramāṇa, which was built for his
+instruments.
+
+The deeper connection: the same quantum sensors Saikat builds for
+laboratory quantum optics are now being used for brain imaging
+(wearable MEG with OPMs), cardiology (MCG), and portable diagnostics.
+The Bloch equations in lesson 00 are the physics of both his
+magnetometers and MRI. A universal quantum sensor controller is a tool
+for neuroscience as much as for quantum optics.
+
+* Current State
+
+** Invitation letter
+- =invitations/saikat-ghosh.org= (org format)
+- =invitations/saikat-ghosh.md= (markdown, same content)
+- Leads with MāyāPramāṇa repo, EM fields in the brain, applications.org
+- Asks: (1) break the models, (2) join as partner
+- Closes with Kabir's gardener verse
+
+** MāyāPramāṇa (what Saikat would see)
+- Repo: https://github.com/mayalucia/mayapramana
+- manifesto.org — philosophical grounding (Dignāga, Kabir, Feynman, Bohr)
+- applications.org — neuroscience, cardiology, ULF-MRI, point-of-care
+- architecture.org — FP grammar for sensor control
+- lessons/00-bloch-equations/concept.org — first lesson
+- site/index.html — wireframe (NOT YET DEPLOYED as a live site)
+
+** What "presentable" means
+The invitation links to the repo and eventually to a live site. For
+the invitation to land, Saikat should be able to:
+1. Read the manifesto and feel it was written for him (DONE)
+2. Clone the repo and see real code with tests (DONE, lesson 00 exists)
+3. Visit a live demo that shows the digital twin working interactively
+   (NOT DONE — this is the UQSC web interface, thread 1)
+
+The live demo is the difference between "here is a manifesto" and
+"here is a working prototype." The invitation can be sent with just
+the repo, but the demo makes it viscerally compelling.
+
+* Decision Needed
+
+When to send: now (repo only) or after the UQSC demo is live?
+
+Vishal's call. The letter works either way — it was written to be
+readable without a demo. But "clone it and run the tests" is stronger
+than "look at the website."
+
+* References
+- =invitations/saikat-ghosh.org= — the invitation letter
+- =invitations/mayapramana-manifesto.org= — the manifesto (copy)
+- =project/project.org= — Saikat invitation thread
+- =project/seeds/uqsc-interface.org= — the interactive demo seed
+- =github.com/mayalucia/mayapramana= — what Saikat sees

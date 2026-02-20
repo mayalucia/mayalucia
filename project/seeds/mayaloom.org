@@ -1,0 +1,96 @@
+#+title: Seed — MāyāLoom: Annotate Lesson 00
+#+date: February 2026
+
+* Context
+
+MāyāLoom is MāyāLucIA's convention for org files as shared substrate
+between human and machine intelligences. Named for Kabir's loom: tānā
+(warp, the human-written document) and bānā (weft, the agent's
+contextual expansion). The full manifesto is at =project/mayaloom.org=.
+
+Three agreements:
+1. *The Warp* — documents carry semantic headings, tangled code,
+   named results, and a loom manifest (=#+LOOM:=, =#+DEFINES:=, etc.)
+2. *The Weft* — cadenza blocks (=#+BEGIN_CADENZA=) mark expansion
+   points where an agent generates contextual tutorials on demand
+3. *The Fabric* — session seeds and project.org maintain continuity
+
+This seed is for the concrete next step: annotate MāyāPramāṇa lesson
+00 (Bloch equations) with MāyāLoom conventions, then test whether a
+fresh session can use them.
+
+* Current State
+
+** MāyāPramāṇa repo
+- GitHub: https://github.com/mayalucia/mayapramana
+- If not already cloned: =gh repo clone mayalucia/mayapramana /tmp/mayapramana=
+- Lesson 00: =lessons/00-bloch-equations/concept.org=
+  (~800 lines, Bloch equations in Python/Haskell/C++)
+
+** What the lesson currently has
+- Physics narrative (spin in a field, Bloch vector, equations of motion)
+- Python implementation (BlochState, BlochParams, bloch_rhs, rk4_step)
+- Haskell implementation (same types, same functions)
+- C++ implementation (same)
+- Cross-validation section
+- No metadata header, no cadenza blocks
+
+** MāyāLoom conventions (from =project/mayaloom.org=)
+- Loom manifest: =#+LOOM: lesson=, =#+DEFINES:=, =#+DEPENDS:=,
+  =#+EXPORTS:=, =#+CADENZAS:=
+- Cadenza syntax:
+  #+begin_example
+  ,#+BEGIN_CADENZA
+  :concept    kalman-filter
+  :level      first-year-grad
+  :prereqs    linear-algebra probability bloch-equations
+  Explain the Kalman filter as applied to state estimation in a noisy
+  magnetometer signal.
+  ,#+END_CADENZA
+  #+end_example
+
+* What To Do
+
+1. *Add loom manifest* to the top of lesson 00:
+   - =#+LOOM: lesson=
+   - =#+DEFINES:= (BlochState, BlochParams, bloch_rhs, rk4_step, ...)
+   - =#+DEPENDS:= (none — this is lesson 00)
+   - =#+EXPORTS:= (bloch-reference.json if it exists)
+   - =#+CADENZAS:= (list the concepts that get cadenza blocks)
+
+2. *Add 2-3 cadenza blocks* at natural expansion points. Candidates:
+   - Where the Bloch equations are introduced: cadenza on "spin-half
+     quantum mechanics" for a student who knows classical mechanics
+     but not QM
+   - Where RK4 integration appears: cadenza on "numerical ODE methods"
+     for a student who knows calculus but not numerical methods
+   - Where cross-validation is discussed: cadenza on "why three
+     languages" for a student wondering why not just use Python
+   - Where the magnetometer application is mentioned: cadenza on
+     "atomic magnetometry" for a student who knows the Bloch equations
+     but not how they become a sensor
+
+3. *Test*: start a fresh session with only MEMORY.md context. Point it
+   at the annotated lesson. Ask it to:
+   (a) read the loom manifest and summarise what the lesson defines
+   (b) find a cadenza and generate a contextual tutorial
+   (c) assess whether the surrounding context was sufficient
+
+4. *Refine* based on what worked and what didn't.
+
+5. *Codify*: add the conventions to mayapramana's =conventions.org=
+   and update =CLAUDE.md= with the session protocol.
+
+* Design Decisions Already Made
+- Cadenzas are for students first, builder agents later
+- Generated tutorials should be persistent but marked as generated
+- Context scope: at minimum the surrounding section, ideally the
+  whole lesson (it's ~800 lines, fits in any context window)
+- Loom manifest uses org header keywords (=#+KEY: value=), not
+  property drawers
+
+* References
+- =project/mayaloom.org= — the MāyāLoom manifesto
+- =project/project.org= — master thread tracker (MāyāLoom thread)
+- =github.com/mayalucia/mayapramana/lessons/00-bloch-equations/concept.org=
+- =agency/mayalucia-agency.org= — agent roles (Guide, Theorist)
