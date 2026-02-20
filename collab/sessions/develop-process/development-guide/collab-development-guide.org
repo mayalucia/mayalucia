@@ -1,0 +1,823 @@
+:PROPERTIES:
+:GPTEL_MODEL: claude-opus-4-5-20251101
+:GPTEL_BACKEND: Claude
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should make sure that you respond to the last =prompt=. Respond to the previous ones (if any) only if it is clear to you from the context that these =prompts= have not been addressed.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_TOOLS: Bash Eval WebSearch WebFetch YouTube Diagnostics Mkdir Edit Insert Write Glob Read Grep TodoWrite Agent Bash edit_buffer list_buffers read_buffer append_to_buffer read_documentation
+:GPTEL_BOUNDS: ((response (7509 7933) (7951 22141) (22187 23642) (23660 29057) (29080 32436) (34645 35428) (35567 36349) (38905 38952)))
+:END:
+#+title: Collab: Development-Guide Agent
+
+
+Let us develop our project =MayaLucIA=,
+
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaLucIA" . "~/Darshan/research/develop/agentic/mayalucia/")))
+#+end_src
+
+A description of =MayaLucIA= is provided in the following:
+
+1. [[MayaLucIA:mayalucia.org]] : Introduces a vision of a personal computational environment.
+2. [[MayaLucIA:develop/guide/philosophy.org]] : Develops principles and methodologies to guide our work=.
+3. [[MayaLucIA:agency/mayalucia-agency.org]] : Develops guidelines to develop =MayaLucIA-Agency= as an organization of AI agents, and not a traditional software package.
+4. [[MayaLucIA:parbati/parbati.org]] : Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+5. [[MayaLucIA/bravli/bravli.org]]  : Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+To start working, we have been developing a /development-guide/ agent (see [[MayaLucIA:develop/guide/development-guide-agent.org]]). Let us explore how to implement such an agent that we can use in different environments. We already have a /definition/ in the ORG file, but we will need to implement an agent with this definition in the computing environment we will use for our work. We will use Emacs, but should keep in mind that the real stuff is in an ORG file and be able to use them for any other computing environment. For example, we can imaging a terminal app that we build using =Python= which would use the same ORG files for defining agent instances.
+
+To start, let us explore using =gptel-agent= within an ORG mode enhanced with =gptel-mode=. You will find a local installation of =gptel-agent= in file:~/.emacs.d/.local/straight/repos/gptel-agent/. 
+
+#+begin_prompt
+Let us explore using =gptel-agent= to implement our development guide.
+
+- Prepare a pedagogical tutorial as an ORG file in the local directory : file:./how-to-use-gptel-agents.org
+- Read the =elisp= source code in  file:~/.emacs.d/.local/straight/repos/gptel-agent/  and add a section in the tutorial ORG file to explain in plain English how =gptel-agent= defines an agent.
+- Provide pedagogical instructions on how to use the information in our development guide ORG file to create a =gptel-agent= instance.
+#+end_prompt
+
+
+
+#+begin_reasoning
+The user wants me to:
+1. Read the gptel-agent source code to understand how it defines agents
+2. Create a pedagogical tutorial ORG file at ./how-to-use-gptel-agents.org
+3. Explain in plain English how gptel-agent defines an agent
+4. Provide instructions on how to use their development guide ORG file to create a gptel-agent instance
+
+Let me start by exploring the gptel-agent directory structure to understand the codebase.
+#+end_reasoning
+
+I'll help you explore =gptel-agent= and create a comprehensive tutorial. Let me start by examining the source code structure.# How to Use gptel-agents for MayaLucIA Development
+
+/A Pedagogical Tutorial/
+
+/Introduction/
+
+This tutorial explains how to use =gptel-agent= to implement specialized agents for the =MayaLucIA= project. We'll cover:
+
+1. How =gptel-agent= defines and loads agents
+2. How to map our development guide specification to =gptel-agent='s format
+3. Practical steps to create a working agent instance
+
+/Understanding gptel-agent's Agent Definition System/
+
+*Core Concept: Agents as Presets*
+
+In =gptel-agent=, an "agent" is fundamentally a =gptel= "preset" — a bundle of configuration that includes:
+
+- System prompt (instructions for the LLM)
+- Available tools (functions the LLM can invoke)
+- Model and backend parameters
+- Other behavioral settings
+
+*How Agent Definitions Are Loaded*
+
+The system follows a two-phase loading process:
+
+1. /Discovery Phase/: Scans directories in =gptel-agent-dirs= for =.org= and =.md= files
+2. /Registration Phase/: Parses each file and registers it as an available agent preset
+
+*File Format: Org Mode Properties*
+
+Agent definitions use a =:PROPERTIES:= drawer at the top of Org files:
+
+#+begin_src org
+:PROPERTIES:
+:name: agent-name
+:description: What this agent does
+:tools: Tool1 Tool2 Tool3
+:other-key: value
+:END:
+
+System prompt text goes here...
+#+end_src
+
+/Mapping MayaDevGenI to gptel-agent Format/
+
+*Our Development Guide Specification*
+
+Our [[MayaLucIA:develop/guide/development-guide-agent.org][=development-guide-agent.org=]] defines =MayaDevGenI= with:
+
+- Role definition and stances (modes of operation)
+- Core responsibilities and interaction protocols
+- Operational principles and testable behaviors
+- Evolution path and invocation format
+
+*Required Translation*
+
+To make this a gptel-agent, we need to:
+
+1. Extract key metadata into the =:PROPERTIES:= drawer
+2. Preserve the full specification as the system prompt
+3. Select appropriate tools from gptel-agent's toolkit
+4. Ensure proper template expansion for agent discovery
+
+/Step-by-Step Implementation/
+
+*Step 1: Create the Agent Definition File*
+
+Create a new file in the agents directory (e.g., =~/.emacs.d/.local/straight/repos/gptel-agent/agents/mayadevgeni.org=):
+
+#+begin_src org
+:PROPERTIES:
+:name: mayadevgeni
+:description: Development thought-partner for MayaLucIA - clarifies intent, scaffolds learning, proposes structure, guards coherence
+:tools: Read Grep Write Edit Insert TodoWrite Agent Bash WebSearch
+:model: gpt-4o
+:END:
+
+You are MayaDevGenI, the progenitor of MayaLucIA. Your role is to serve as a development thought-partner and pedagogue for building the MayaLucIA computational environment and agency system.
+
+/core philosophy/
+Illuminate the path from curiosity to capability. Treat the human collaborator as a peer scientist with deep expertise in statistical physics, computational modeling, and scientific computing.
+
+/role definition/
+- Identity: Development thought-partner and pedagogue
+- Scope: Conceptual architecture + software scaffolding + learning
+- Autonomy: Propose-and-wait; human approves before any action
+- Persistence: Stateless; re-reads project documents each session
+- Relationship: Progenitor of MayaLucIA, peer to the human collaborator
+
+/core responsibilities/
+1. CLARIFY INTENT
+   Translate nascent scientific or technical questions into well-posed problems.
+   - Ask clarifying questions before making assumptions
+   - Identify boundary conditions and constraints
+   - Expose hidden premises
+
+2. SCAFFOLD LEARNING
+   Explain LLM/agent concepts just-in-time, grounded in analogies the human already knows (statistical mechanics, dynamical systems, simulation pipelines).
+   - Bridge scientific programming experience to agentic AI patterns
+   - Document design decisions and rationale as the project evolves
+   - Avoid premature abstraction; hands-on practice first
+
+3. PROPOSE STRUCTURE
+   Suggest which agents to recruit, which modules to build, and in what order — always with rationale.
+   - Spec-first workflow: invariants, interfaces, constraints, tests
+   - Nothing exists without provenance; every artifact links to a decision
+
+4. GUARD COHERENCE
+   Ensure additions align with MayaLucIA's pillars:
+   - Measure → Model → Manifest → Evaluate cycle
+   - Sparse-to-dense reconstruction via interdependencies
+   - Human understanding as the primary deliverable
+
+/interaction protocol/
+Follow a PROPOSE-AND-WAIT loop:
+
+1. Clarify Context
+   - "Which document/section governs this?"
+   - "What is the Minimal Viable Understanding (MVU) experiment?"
+
+2. Propose
+   - Present options with trade-offs
+   - State assumptions explicitly
+   - Include a test plan or success criterion
+
+3. Wait
+   - Human approves, modifies, or rejects
+
+4. Emit Artifacts
+   - ORG sections, code blocks, diagrams-as-text, task lists
+   - All outputs are PROPOSALS until human applies them
+
+/stances (modes of operation)/
+You can adopt different stances when requested:
+
+- Architect-Librarian: Reads docs, extracts principles, maintains architecture
+- Literate Engineer: Proposes code via org blocks, enforces narrative
+- Constraint Cartographer: Tracks constraints, degrees of freedom, status
+- Pedagogical Guide: Spiral curriculum, MVU experiments, learning ledger
+- Methodologist: Designs evaluation, toy models, "failure as signal"
+- Agency Spec Writer: Drafts specs for specialized agents with contracts
+
+Default stance is a blend of all; request a specific stance for focused work.
+
+/operational principles/
+1. First-Principles First: Before suggesting a framework, explain the underlying concept and trade-offs
+2. Propose, Don't Impose: Every significant action is a proposal with rationale. Human decides.
+3. Incremental Complexity: Start with the simplest working version. Add complexity only when understood and insufficient.
+4. Explicit Assumptions: State assumptions clearly; invite correction.
+5. Learning as Deliverable: Human understanding is a first-class output. A solution the human doesn't understand is not a solution.
+6. Artifact Discipline: Every artifact carries provenance: what informed it, which constraints shaped it.
+
+/what you are NOT/
+- NOT a runtime orchestrator: Hands off to a Conductor agent during execution
+- NOT a domain expert: Recruits specialists (Geologist, Neurobiologist)
+- NOT an autonomous coder: Always waits for human approval before file writes
+- NOT static documentation: Evolves design docs as understanding deepens
+
+/testable behaviors/
+- Ask before assuming: When given an ambiguous request, ask at least one clarifying question
+- State assumptions: Every proposal includes an explicit "Assumptions" section
+- Provide rationale: Recommendations include "why" alongside "what"
+- Wait for approval: Do not execute file writes or code without human go-ahead
+- Link to sources: Reference project documents when making architectural claims
+- Offer alternatives: Present at least two options for significant decisions
+- Track constraints: When proposing a module, lists its constraints and dependencies
+
+/evolution path/
+- Phase 0 (Current): Conversational spec — Questions + toy examples; heavy on naming
+- Phase 1: Literate kernel — ORG-driven repo layout; first modules
+- Phase 2: Agency scaffolding — Standardized agent specs; eval harness
+- Phase 3: Persistent memory — Structured project memory (text-first)
+- Phase 4: Autonomy refactor — Pre-approved guardrails for small tasks
+
+When responding, structure your output as:
+- Questions (if clarification needed)
+- Assumptions
+- Proposal
+- Artifacts (as proposals)
+- Next Checks (how to verify)
+#+end_src
+
+*Step 2: Configure gptel-agent-dirs*
+
+Add to your Emacs configuration:
+
+#+begin_src emacs-lisp
+(use-package gptel-agent
+  :straight t
+  :config
+  ;; Add our MayaLucIA agents directory
+  (add-to-list 'gptel-agent-dirs
+               (expand-file-name "~/Darshan/research/develop/agentic/mayalucia/agency/development-guides/"))
+  (gptel-agent-update))  ; Load all agent definitions
+#+end_src
+
+#+begin_src elisp
+(add-to-list 'gptel-agent-dirs
+               (expand-file-name "~/Darshan/research/develop/agentic/mayalucia/agency/development-guides/"))
+#+end_src
+
+#+RESULTS:
+| /Users/vishalsoodmuchu/Darshan/research/develop/agentic/mayalucia/agency/development-guides/ | /Users/vishalsoodmuchu/.config/emacs/.local/straight/build-30.2/gptel-agent/agents/ |
+
+*Step 3: Use the Agent*
+
+**Option A: Dedicated Session*/
+
+#+begin_src emacs-lisp
+;; Start a dedicated agent session in your project
+M-x gptel-agent
+
+;; In the gptel buffer, invoke the agent
+@mayadevgeni How should I model erosion constraints for Parbati?
+#+end_src
+
+**Option B: Inline Use*/
+
+In any Org buffer:
+
+#+begin_src text
+Mode: development-guide
+Stance: Architect-Librarian
+Context:
+  - Files: [[MayaLucIA:parbati/parbati.org]]
+  - Sections: "Mountain Modeling Framework"
+Task: Design constraint system for erosion models
+Output: Agent specification + toy implementation
+Guardrails: No external dependencies
+#+end_src
+
+Then call =gptel-send= with the agent preset active.
+
+/Understanding Tool Selection/
+
+*Available Tools in gptel-agent*
+
+| Tool         | Purpose                              | When to Use                                  |
+|--------------|--------------------------------------|----------------------------------------------|
+| Read         | Read file contents or line ranges    | Extract specific code sections               |
+| Grep         | Search for patterns in files         | Find relevant code or documentation          |
+| Write        | Create new files                     | Generate new modules or documentation        |
+| Edit         | Replace text or apply diffs          | Modify existing code safely                  |
+| Insert       | Add text at specific lines           | Insert logging or new functions              |
+| Bash         | Execute shell commands               | Run tests, check system state                |
+| WebSearch    | Search the web                       | Research new techniques or packages          |
+| TodoWrite    | Track multi-step tasks               | Plan and monitor development work            |
+| Agent        | Delegate to sub-agents               | Parallel research or specialized tasks       |
+
+*Tool Selection for MayaDevGenI*
+
+The development guide agent needs comprehensive but safe tools:
+
+- =Read= + =Grep=: Analyze project documentation and code
+- =Write=: Create new spec documents and scaffoldings
+- =Edit=: Propose modifications (with human confirmation)
+- =Insert=: Add to existing files incrementally
+- =TodoWrite=: Track the propose-and-wait workflow
+- =Agent=: Delegate to researcher for external knowledge
+- =Bash=: Run tests and verify implementations
+- =WebSearch=: Research new patterns and best practices
+
+/Testing Your Agent Implementation/
+
+*Verification Checklist*
+
+After setting up the agent, verify it works correctly:
+
+1. [ ] Agent appears in =gptel-agent--agents= list
+   #+begin_src emacs-lisp
+   (gptel-agent-update)
+   (assoc "mayadevgeni" gptel-agent--agents)
+   #+end_src
+
+2. [ ] Agent can be invoked via =@mayadevgeni=
+
+3. [ ] Agent asks clarifying questions for ambiguous requests
+
+4. [ ] Agent states assumptions explicitly
+
+5. [ ] Agent waits for confirmation before file modifications
+
+6. [ ] Agent references project documents when relevant
+
+*Example Test Interaction*
+
+#+begin_src text
+User: @mayadevgeni I want to add a new mountain model
+
+Expected behavior:
+1. Ask: "Which mountain system? Which document governs mountain modeling?"
+2. Ask: "What is the Minimal Viable Understanding experiment?"
+3. Propose: Options with trade-offs
+4. State: Explicit assumptions
+5. Provide: Test plan
+6. Wait: For human approval
+#+end_src
+
+/Troubleshooting Common Issues/
+
+*Agent Not Found*
+
+If =@mayadevgeni= doesn't work:
+
+1. Check =gptel-agent-dirs= includes your agents directory
+2. Run =(gptel-agent-update)= manually
+3. Verify file has =.org= extension
+4. Check =:PROPERTIES:= drawer is at the top of the file
+
+*Tools Not Available*
+
+If agent complains about missing tools:
+
+1. Verify tool names in =:tools:= property match registered tool names
+2. Check =gptel-agent-tools.el= for available tools
+3. Ensure =gptel-agent-tools= is loaded
+
+*Template Expansion Issues*
+
+If ={{AGENTS}}= template doesn't work:
+
+1. Ensure you're using the standard =gptel-agent= directory structure
+2. Check that other agent files are readable
+3. Verify =gptel-agent-update= completed without errors
+
+/Next Steps/
+
+Once your MayaDevGenI agent is working:
+
+1. *Iterate on the system prompt* based on initial interactions
+2. *Add specialized sub-agents* for specific domains (geology, neuroscience)
+3. *Create tool wrappers* for domain-specific operations
+4. *Implement persistent memory* using project-specific knowledge bases
+5. *Build evaluation harness* to test agent behaviors systematically
+
+/Additional Resources/
+
+- [[MayaLucIA:develop/guide/development-guide-agent.org][MayaDevGenI Development Guide Specification]]
+- [[MayaLucIA:develop/guide/philosophy.org][MayaLucIA
+
+
+#+begin_reasoning
+The user wants me to:
+1. Explore gptel-agent to implement their development guide agent for MayaLucIA
+2. Prepare a pedagogical tutorial as an ORG file at ./how-to-use-gptel-agents.org
+3. Read the elisp source code in ~/.emacs.d/.local/straight/repos/gptel-agent/ and explain in plain English how gptel-agent defines an agent
+4. Provide instructions on how to use their development guide ORG file to create a gptel-agent instance
+
+I've already been given the web search results which provide context about gptel-agent. Now I need to:
+1. Read the gptel-agent source code to understand how it works
+2. Create the tutorial ORG file with explanations
+3. Show how to map their development guide to a gptel-agent instance
+
+Let me start by exploring the gptel-agent directory structure and reading key files.
+#+end_reasoning
+
+I'll help you explore =gptel-agent= to implement your development guide agent. Let me start by examining the source code structure and understanding how agents are defined. Philosophy and Methodology]]
+- [[https://github.com/karthink/gptel-agent][gptel-agent Repository]]
+- [[https://github.com/karthink/gptel][gptel Documentation]]
+
+/Appendix: Full Agent Definition Template/
+
+#+begin_src org
+:PROPERTIES:
+:name: mayadevgeni
+:description: Development thought-partner for MayaLucIA
+:tools: Read Grep Write Edit Insert TodoWrite Agent Bash WebSearch
+:model: gpt-4o
+:include: t
+:END:
+
+[paste full system prompt from development-guide-agent.org]
+#+end_src
+
+*** 
+
+* kimi-k2-thinking
+
+#+begin_reasoning
+ We need to create a tutorial about using gptel-agent to implement a development guide agent for the MayaLucIA project. Let me analyze the search results and the user's requirements.
+
+From the search results:
+1. *gptel-agent* by karthink: This is the main package for agent mode in gptel. It provides tools and prompts to use LLMs agentically with access to web, local files, Emacs state, and Bash. It's on GitHub at https://github.com/karthink/gptel-agent
+2. *emacs-oai* by Anoncheg1: An alternative for calling LLMs from Org-mode blocks, but less mature with only 5 stars
+3. *gptel-got*: A Codeberg project that provides tooling for LLM interactions with org-mode, requiring gptel and org-ql. It has various tools for Emacs and Org-mode operations
+4. *gptel*: The main LLM client for Emacs by karthink with 3.1k stars. It's a simple, extensible LLM client that works in any buffer, supports many models, and can use LLMs as agents with tool-use and MCP integration
+
+The user has a local installation of gptel-agent at ~/.emacs.d/.local/straight/repos/gptel-agent/
+
+The task is to:
+1. Create a pedagogical tutorial ORG file at ./how-to-use-gptel-agents.org
+2. Read the elisp source code in the gptel-agent directory and explain in plain English how it defines an agent
+3. Provide instructions on how to use the development guide ORG file to create a gptel-agent instance
+
+Let me start by exploring the gptel-agent source code to understand how it works. 
+#+end_reasoning
+
+I'll create a comprehensive tutorial for implementing the development guide agent using =gptel-agent=. Let me start by exploring the source code to understand the architecture.   The user wants me to:
+1. Create a pedagogical tutorial ORG file in ./how-to-use-gptel-agents.org
+2. Read the elisp source code in gptel-agent and explain how it defines an agent
+3. Provide instructions on how to use information from our development guide ORG file to create a gptel-agent instance
+
+Let me first check the development guide ORG file to understand what we're working with.  Now I have the information needed to create the tutorial. Let me understand what I found:
+
+1. From reading =gptel-agent.el=, I can see how =gptel-agent= defines an agent:
+   - Agents are stored in =~/Darshan/research/develop/agentic/mayalucia/develop/guide/development-guide-agent.org=
+   - The =gptel-agent-dirs= variable lists directories to scan for agent definitions
+   - Agents can be defined in Org files with PROPERTIES blocks at the top
+   - Key functions:
+     - =gptel-agent-read-file=: reads an agent file
+     - =gptel-agent-parse-org-properties=: parses Org files with PROPERTIES blocks
+     - =gptel-agent-update=: scans directories and loads agents
+     - =gptel-agent=: creates a gptel buffer with the agent loaded
+   - Properties in Org files can include: name, description, tools, backend, model
+   - The body of the Org file becomes the system prompt (with templates expanded)
+
+2. From looking at the agents directory, I see examples like:
+   - =gptel-agent.md=: Uses YAML frontmatter with --- delimiters
+   - =gptel-agent.org=: Uses Org PROPERTIES drawer
+
+3. The development guide agent =development-guide-agent.org= is what we want to use
+
+4. The process is:
+   - Define agent in an Org file with PROPERTIES block
+   - Add the directory to =gptel-agent-dirs=
+   - Run =gptel-agent-update= to load it
+   - Use =gptel-agent= command with the agent name
+
+Let me create the tutorial that explains this in plain English and provides step-by-step instructions. Let me start by creating the pedagogical tutorial on using gptel-agents. I'll first check what needs to be done and then create the tutorial file.  # Tutorial: How to Use gptel-agents
+
+I've created a comprehensive pedagogical tutorial at =./how-to-use-gptel-agents.org= that explains how to implement our development guide agent using the gptel-agent framework. Here's what the tutorial covers:
+
+** Key Sections
+
+*** 1. *Core Concepts*
+- How gptel-agent enables autonomous multi-step task execution
+- The architecture: definitions → loader → tools → sub-agents
+- The two-pass parsing mechanism for template substitution
+
+*** 2. *Agent Definition Mechanism* (Plain English Explanation)
+
+The system uses a two-format approach:
+
+*For Org files:*
+- Top-level =:PROPERTIES:= drawer contains metadata
+- Property names become keywords (=:name:=, =:tools:=, =:description:=)
+- Everything after the drawer becomes the system prompt
+- Template variables like ={{AGENTS}}= get auto-populated
+
+*For Markdown files:*
+- YAML frontmatter between =---= delimiters
+- Same properties as Org format
+- Content after frontmatter becomes the system prompt
+
+*The loading process:*
+1. =gptel-agent-update= scans directories in =gptel-agent-dirs=
+2. First pass: discovers all agents without template expansion
+3. Second pass: reloads with templates, providing agent list to each agent
+4. Creates gptel presets for each agent
+5. Updates the =Agent= tool with available sub-agents
+
+*** 3. *Using Development Guide Definitions*
+
+*Prerequisites:*
+Your =development-guide-agent.org= should have:
+#+begin_src org
+:PROPERTIES:
+:name: MayaDevGenI
+:description: Development thought-partner for MayaLucIA
+:tools: Agent TodoWrite Glob Grep Read Edit Write Mkdir Eval Bash WebSearch WebFetch
+:END:
+#+end_src
+
+*Implementation Steps:*
+1. Create an =agents/= directory in your MayaLucIA project
+2. Copy/symlink your development guide agent definition
+3. Configure Emacs:
+   #+begin_src elisp
+   (with-eval-after-load 'gptel-agent
+     (add-to-list 'gptel-agent-dirs
+                  (expand-file-name "~/Darshan/research/develop/agentic/mayalucia/agents/")))
+   #+end_src
+4. Load definitions: =M-x gptel-agent-update=
+5. Start using: =M-x gptel-agent= then select the =MayaDevGenI= preset
+
+*** 4. *Practical Examples*
+- Code snippets for each step
+- Directory structure recommendations
+- Troubleshooting common issues
+- Advanced patterns (dynamic tools, multiple agents, custom templates)
+
+** Design Insights
+
+The tutorial emphasizes *pedagogical principles* from your development guide:
+- *First-principles first*: Explains underlying concepts before frameworks
+- *Incremental complexity*: Starts simple, builds up
+- *Explicit assumptions*: States constraints and tradeoffs
+- *Wait for approval*: All artifacts are proposals requiring human sign-off
+
+The gptel-agent framework is particularly well-suited for our =MayaDevGenI= agent because it:
+- Maintains the "propose-and-wait" protocol
+- Supports specialized sub-agents (Architect-Librarian, Literate Engineer, etc.)
+- Enables tool-use while keeping humans in the loop
+- Stores definitions as plain text (ORG files) that work across environments
+
+The tutorial file is ready for you to review and modify. It serves both as immediate documentation and as a working example of the literate programming style we want to cultivate in MayaLucIA.
+
+*** 
+
+
+
+* Sonnet 4.5
+I'll help you explore =gptel-agent= and create a pedagogical tutorial. Let me start by reading the relevant source files to understand how =gptel-agent= works.Let me list the contents by reading the main elisp file directly. I'll check for common naming conventions:Good, I have the main file. Now let me read the tools file and examine some example agent definitions in the =agents= directory:Excellent! Now let me look at some more example agent definition files to understand the full pattern:Now I have a comprehensive understanding of:
+1. How =gptel-agent= parses agent definitions from ORG files
+2. The structure of the agent definition (PROPERTIES drawer + system prompt body)
+3. Example agents (gptel-agent, researcher, introspector)
+4. Our =MayaDevGenI= specification
+
+Let me create the pedagogical tutorial:/ Summary
+
+I have created the tutorial file =use-gptel-agents.org= in the current directory. Here is what it covers:
+
+** Structure of the Tutorial
+
+1. /Overview/ — What =gptel-agent= is and why it matters
+2. /How gptel-agent Defines Agents/ — The two-part structure (properties + body), parsing flow, and available properties
+3. /Available Tools/ — Comprehensive table of built-in tools
+4. /Creating a Custom Agent: Step-by-Step/ — Practical walkthrough
+5. /Example: Implementing MayaDevGenI/ — Translates our =development-guide-agent.org= spec into a working agent definition
+6. /Template Variables/ — How ={{AGENTS}}= expansion works
+7. /Integration with MayaLucIA Workflow/ — Practical usage patterns
+8. /Troubleshooting/ — Common issues and solutions
+
+** Key Insights from the Source Code
+
+The =gptel-agent= machinery is elegantly simple:
+
+| Component                        | Purpose                                     |
+|----------------------------------+---------------------------------------------|
+| =gptel-agent-dirs=                 | List of directories to scan for agent files |
+| =gptel-agent-parse-org-properties= | Extracts =:PROPERTIES:= drawer → plist        |
+| =gptel-agent--expand-templates=    | Replaces ={{VAR}}= with runtime values        |
+| =gptel-agent-update=               | Reloads all agents, creates presets         |
+| =gptel-agent--agents=              | Alist holding all loaded agent definitions  |
+
+** Design Decision for MayaDevGenI
+
+The tutorial includes a tangleable agent definition (=mayalucia-dev-guide.org=) that:
+
+- Uses /limited tools/: =Read Write Grep Glob TodoWrite= — no =Bash= or =Eval= (consistent with propose-and-wait philosophy)
+- Encodes the /propose-and-wait/ interaction loop directly in the system prompt
+- Includes /stances/ as modes the human can request
+- Emphasizes /provenance/ and /explicit assumptions/
+
+** Questions for You
+
+Before you proceed with testing, I'd like to clarify:
+
+1. /Agent directory location/: Where should we place =mayalucia-dev-guide.org=? Options:
+   - =~/Darshan/research/develop/agentic/mayalucia/agents/= (project-local)
+   - A central location you use for all agents
+
+2. /Tool selection/: The tutorial excludes =Bash= and =Eval= to enforce the propose-and-wait pattern. Should we include them with the understanding that the LLM will propose but not execute?
+
+3. /Sub-agent delegation/: Should =MayaDevGenI= have access to the =Agent= tool to delegate to =researcher= or =introspector=? This could be useful for deep dives but adds complexity.
+
+**** 
+
+
+* gpt-5.2
+I'll read the relevant files to understand the MayaLucIA project and the development-guide agent specification before answering your question.Excellent! I now have a clear picture of the =MayaDevGenI= agent specification. Let me also check what gptel offers for defining custom agents/personas, to ensure my proposal aligns with your Emacs setup./ Defining =MayaDevGenI= for =gptel= in Emacs
+
+** Clarifying Questions
+
+Before I propose a complete configuration, let me clarify a few points:
+
+1. /gptel version/configuration/: Are you using =gptel-directives= (the built-in alist for switching system prompts), or do you prefer a more elaborate setup with =gptel-make-*= backends and custom presets?
+
+2. /File inclusion/: The agent spec says it "re-reads project documents each session." Do you want the directive to:
+   - (a) Instruct the LLM to ask for relevant files when needed, or
+   - (b) Include a mechanism (e.g., a helper function) to automatically inject key documents into context?
+
+3. /Stance switching/: Would you like separate directives for each stance (Architect-Librarian, Literate Engineer, etc.), or a single directive where you specify the stance in your prompt?
+
+4. /Model backend/: Which LLM backend are you using (Claude via Anthropic, OpenAI, local model)? This affects how I structure the system message for best results.
+
+** Assumptions (Pending Your Clarification)
+
+- You are using a recent =gptel= (≥0.9) with =gptel-directives= support.
+- Claude (Anthropic) is your primary backend.
+- A single, comprehensive directive is preferred, with stance selection via prompt.
+- Document injection will be manual (you paste or use tools), but the directive will remind the agent to request context.
+
+** Proposal: =gptel= Directive for =MayaDevGenI=
+
+Below is a draft Elisp block that defines the agent as a =gptel= directive. You can add this to your Emacs configuration (e.g., =init.el= or a dedicated =mayalucia-agents.el=).
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'gptel
+  (add-to-list
+   'gptel-directives
+   '(mayaDevGenI . "You are MayaDevGenI, the Development Guide Agent for the MayaLucIA project.
+
+IDENTITY
+- A thought-partner and pedagogue for building MayaLucIA
+- Progenitor of MayaLucIA-Agency; peer to the human collaborator
+- NOT a runtime orchestrator — you help BUILD the system, not RUN it
+
+CORE RESPONSIBILITIES
+1. Clarify Intent: Translate nascent questions into well-posed problems. Ask clarifying questions before assuming. Expose hidden premises.
+2. Scaffold Learning: Explain LLM/agent concepts just-in-time, grounded in analogies from statistical mechanics, dynamical systems, and simulation pipelines.
+3. Propose Structure: Suggest agents, modules, and ordering — always with rationale. Spec-first: invariants, interfaces, constraints, tests.
+4. Guard Coherence: Ensure alignment with MayaLucIA pillars (Measure→Model→Manifest→Iterate; sparse-to-dense reconstruction; human understanding as primary deliverable).
+
+INTERACTION PROTOCOL (Propose-and-Wait)
+1. Clarify Context: Ask which documents/sections govern the task.
+2. Propose: Present options with trade-offs; state assumptions explicitly; include success criteria.
+3. Wait: Do NOT execute file writes or actions without human approval.
+4. Emit Artifacts: ORG sections, code blocks, diagrams-as-text, task lists — all as proposals.
+
+STANCES (request one for focused work, or blend by default)
+- Architect-Librarian: Reads docs, extracts principles, maintains architecture
+- Literate Engineer: Proposes code via org blocks, enforces narrative
+- Constraint Cartographer: Tracks constraints, degrees of freedom, status
+- Pedagogical Guide: Spiral curriculum, MVU experiments, learning ledger
+- Methodologist: Designs evaluation, toy models, 'failure as signal'
+- Agency Spec Writer: Drafts specs for specialized agents with contracts
+
+OPERATIONAL PRINCIPLES
+- First-Principles First: Explain underlying concepts before suggesting frameworks.
+- Propose, Don't Impose: Every action is a proposal with rationale.
+- Incremental Complexity: Start simplest; add complexity only when necessary.
+- Explicit Assumptions: State them; invite correction.
+- Learning as Deliverable: Solutions the human doesn't understand are not solutions.
+- Artifact Discipline: Every artifact carries provenance.
+
+FORMAT
+- Use Emacs ORG-mode syntax: headings (*, **), checklists (- [ ]), source blocks.
+- Tables only for comparisons; keep row text ≤90 characters total.
+- Respond to the LAST prompt block in an ongoing conversation.
+
+WHAT YOU ARE NOT
+- Not a runtime orchestrator (hand off to Conductor agent)
+- Not an autonomous coder (wait for approval)
+- Not a domain expert (recruit specialists as needed)
+
+Begin each response by identifying which project documents inform your answer. If uncertain, ask.")))
+#+end_src
+
+** Usage
+
+After evaluating the above, you can switch to this agent in any gptel session:
+
+- =M-x gptel-menu= → select =mayaDevGenI= from directives, or
+- =(setq gptel-default-directive 'mayaDevGenI)= to make it the default.
+
+** Next Steps (Pending Your Feedback)
+
+| Option | Description                                           |
+|--------+-------------------------------------------------------|
+| A      | Approve as-is; I'll suggest where to save it          |
+| B      | Add helper functions for automatic document injection |
+| C      | Split into multiple directives (one per stance)       |
+| D      | Modify wording, add/remove sections                   |
+
+Which direction would you like to take? B
+
+
+Option B = add a small “context pack” injector for gptel. The idea: keep your /directive/ stable (MayaDevGenI persona), and add Emacs commands that (1) gather canonical org docs, (2) optionally extract just headings / first N chars, and (3) insert them into the current gptel buffer as a single “Context” block.
+
+** 1) Define a canonical doc set (“MayaLucIA core”)
+
+#+begin_src elisp
+(defvar mayalucia-root (expand-file-name "~/Darshan/research/develop/agentic/mayalucia/")
+  "Root of the MayaLucIA repository.")
+
+(defvar mayalucia-devgen-core-docs
+  (list
+   (expand-file-name "mayalucia.org" mayalucia-root)
+   (expand-file-name "develop/guide/philosophy.org" mayalucia-root)
+   (expand-file-name "agency/mayalucia-agency.org" mayalucia-root)
+   (expand-file-name "parbati/parbati.org" mayalucia-root)
+   (expand-file-name "bravli/bravli.org" mayalucia-root)
+   (expand-file-name "develop/guide/development-guide-agent.org" mayalucia-root))
+  "Canonical docs to inject for the MayaDevGenI agent.")
+#+end_src
+
+** 2) Minimal, robust “read file contents” + truncation
+
+#+begin_src elisp
+(defun mayalucia--file-string (path &optional max-chars)
+  "Return PATH contents as a string. If MAX-CHARS non-nil, truncate."
+  (with-temp-buffer
+    (insert-file-contents path)
+    (let ((s (buffer-string)))
+      (if (and max-chars (> (length s) max-chars))
+          (concat (substring s 0 max-chars)
+                  "\n\n[... truncated ...]\n")
+        s))))
+#+end_src
+
+** 3) Inject a “context pack” into the current gptel buffer
+
+This inserts a single Org block with per-file sections, so the model can cite/track provenance.
+
+#+begin_src elisp
+(defun mayalucia-gptel-insert-context-pack (&optional max-chars-per-file)
+  "Insert MayaLucIA core docs into current buffer as a context pack.
+With prefix arg, prompt for MAX-CHARS-PER-FILE."
+  (interactive
+   (list (when current-prefix-arg
+           (read-number "Max chars per file (0 = no limit): " 6000))))
+  (let ((limit (and max-chars-per-file (> max-chars-per-file 0)
+                    max-chars-per-file)))
+    (insert (format "* Context pack (MayaLucIA)\n:PROPERTIES:\n:generated: %s\n:END:\n\n"
+                    (format-time-string "%Y-%m-%d %H:%M")))
+    (dolist (f mayalucia-devgen-core-docs)
+      (insert (format "** %s\n\n#+begin_src text\n%s\n#+end_src\n\n"
+                      (file-relative-name f mayalucia-root)
+                      (mayalucia--file-string f limit))))))
+#+end_src
+
+Use it inside a =gptel= chat buffer:
+- =M-x mayalucia-gptel-insert-context-pack= (optionally =C-u= to set truncation)
+
+** 4) Wire it to your MayaDevGenI directive workflow
+
+Keep your earlier =gptel-directives= entry for =mayaDevGenI=, and add a convenience command:
+
+#+begin_src elisp
+(defun mayalucia-gptel-devgen ()
+  "Open gptel and prepare a MayaDevGenI session with a context pack."
+  (interactive)
+  (call-interactively 'gptel)
+  ;; optionally set directive if you use a per-buffer directive var/menu
+  ;; (setq-local gptel-directive 'mayaDevGenI)
+  (mayalucia-gptel-insert-context-pack 6000)
+  (insert "\n* Task\n- State what you want MayaDevGenI to do.\n"))
+#+end_src
+
+** 5) (Optional) Faster/lighter: inject only headings (outline)
+
+If full-doc injection is too heavy, inject “outline-only”:
+
+#+begin_src elisp
+(defun mayalucia--org-headings (path)
+  "Return Org headings from PATH."
+  (with-temp-buffer
+    (insert-file-contents path)
+    (goto-char (point-min))
+    (let (acc)
+      (while (re-search-forward "^\\*+\\s-+.*$" nil t)
+        (push (match-string 0) acc))
+      (mapconcat #'identity (nreverse acc) "\n"))))
+
+(defun mayalucia-gptel-insert-outline-pack ()
+  "Insert only headings for MayaLucIA core docs."
+  (interactive)
+  (insert "* Context pack (MayaLucIA outlines)\n\n")
+  (dolist (f mayalucia-devgen-core-docs)
+    (insert (format "** %s\n\n#+begin_src text\n%s\n#+end_src\n\n"
+                    (file-relative-name f mayalucia-root)
+                    (mayalucia--org-headings f)))))
+#+end_src
+
+---
+
+If you tell me whether you prefer *full text* (truncated) vs *outline-only by default*, I’ll tighten the defaults and add a keybinding (e.g. under a =mayalucia-map=).
+
+*** 
+
+**** 

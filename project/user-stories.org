@@ -1,0 +1,233 @@
+#+title: User Stories
+
+Let us consider Four User Personas and Interaction Paradigms
+
+* One: The Computational Craftsperson
+  
+The first user persona represents the computational graphicist or visual effects developer—someone who has internalized the principles of three-dimensional computer graphics through years of study and practice[3][6][29]. This user understands the distinction between geometric representation and rendering, knows how to work with transformation matrices and coordinate systems, and can reason about lighting models and material properties. For this user, the graphical studio operates as an extension of their existing expertise, providing access to a framework that lets them express complex visual ideas directly through code.
+
+They understand both the scientific domain and the graphical representation completely. They want direct access to the computational primitives - they will write the full translation themselves. 
+
+Sometimes you know exactly what you need. You want to create a custom glyph for representing tensor fields—say, superquadric ellipsoids oriented and scaled by the eigenvectors and eigenvalues of your stress tensor. You'll write the geometry generation code, the shader, the data binding logic. You're in direct control.
+  
+Consider a concrete example: this user wishes to visualize the three-dimensional structure of a protein as revealed by X-ray crystallography. The atomic coordinates exist in a data file, but the user wants to highlight specific structural motifs—alpha helices in one color, beta sheets in another, unstructured regions with transparency—while simultaneously showing the electron density map as a semi-transparent iso-surface. Rather than working within generic visualization software, this user would write code directly against MayaDarshan's graphical framework, perhaps writing a script in Python (invoked through the Emacs environment) that reads the crystallographic data, applies the desired coloring logic, constructs appropriate geometric primitives, configures camera position and lighting, and produces a viewport display. This user values direct control and wants to leverage their deep understanding of computer graphics algorithms.
+
+Consider another example: A climate scientist who understands fluid dynamics equations wants to write custom code to visualize turbulent flow patterns in a way that emphasizes vortex formation. They need access to raw geometric construction, material properties, animation systems.
+
+This is for novel reconstructions and visualizations where no abstractions exists yet. For example: Creating a new way to visualize magnetic field topology that doesn't exist in any library.
+
+The interaction model for this user emphasizes expressiveness and power. They need a framework with sufficient depth that their graphical ideas—however sophisticated—can be translated into implementations without frustrating limitations. They might deploy shader code for specialized rendering effects, work with volumetric data structures directly, or implement custom transformation algorithms. The LLM agent's role for this user is not to generate the core graphics code but rather to assist with auxiliary tasks: explaining API details, suggesting algorithmic approaches, helping debug complex graphics problems, or rapidly prototyping visualization variations. The agent augments rather than replaces their expertise.
+
+
++ /The Framework Programmer/ :: This scientist writes directly against your graphics API:
+  - "Create a volumetric field from this 3D numpy array"
+  - "Map these vertex positions using this transformation matrix"
+  - "Apply this shader that implements my custom physics equation"
+
+  They want /complete control/ because their phenomenon has unique requirements—perhaps visualizing hyperbolic space, or rendering non-Euclidean metrics from general relativity.
+
++ /Initial Scaffolding/ :: The user is setting up the basic framework for visualizing, say electromagnetic field propagation.
+
+  They write explicit code defining field vectors, color maps, update rules. This foundational work, establishing the vocabulary.
+
++ /Complete Code/ :: When you know exactly what you want and can express it precisely. Morning coffee clarity. "I need a 3D scalar field visualization with iso-surfaces at these specific values."
+
++ /Direct Framework Programming/ :: You write complete render pipelines when you need maximum control. This is for novel visualizations where no abstraction exists yet.
+
+  Example: Creating a new way to visualize magnetic field topology that doesn't exist in any library.
+
++ /The Architect/ :: Sometimes you know exactly what you need.
+
+  You want to create a custom glyph for representing tensor fields—say, superquadric ellipsoids oriented and scaled by the eigenvectors and eigenvalues of your stress tensor. You'll write the geometry generation code, the shader, the data binding logic. You're in direct control.
+  
++ /The Master Programmer/ :: This person has already solved the mapping problem mentally.
+
+  They understand both the scientific domain and the graphical representation completely. They want direct access to the computational primitives—they'll write the full translation themselves. Example: A climate scientist who understands fluid dynamics equations wants to write custom code to visualize turbulent flow patterns in a way that emphasizes vortex formation. They need access to raw geometric construction, material properties, animation systems.
+
+* Two: The Accelerated Practitioner
+
+The second user persona still possesses significant graphical programming knowledge but values iteration speed and creative exploration over perfect control. This user might be a designer exploring visual possibilities, a scientist wanting to experiment with different representation strategies for data, or an educator developing visualizations to explain concepts. For this user, the graphical environment should offer both direct coding capability and higher-level abstractions that accelerate common tasks.
+
+The interaction paradigm here involves rapid prototyping and iterative refinement. Such a user might begin by asking the system to generate an initial visualization of a dataset—"show me this tomographic scan as a volume rendering with the ability to adjust the isosurface threshold"—then modify and extend that initial result through a combination of manual code editing and natural language requests. For example: "make the color map perceptually uniform and emphasize the voxel values between 50 and 150," or "create an orthographic view from the top and adjust the background to be transparent." The user understands what they want visually and understands graphical programming well enough to modify generated code intelligently, but they benefit tremendously from not starting from blank slate.
+
+Consider a concrete scenario: a climate scientist wants to visualize wind speed data from a numerical weather model, showing velocity vectors at multiple altitude levels with color indicating temperature. Rather than writing this visualization entirely from scratch, the user might specify the data sources and desired characteristics in natural language, accept a generated visualization, then modify it through iterative commands: "increase the arrow density in the high-wind region," "add a contour map of pressure at the lowest level," "show me a time animation of this over the 48-hour forecast period." The LLM agent essentially serves as a knowledgeable collaborator that understands both the user's intent and the technical implementation details, bridging the gap between idea and code.
+
++ /The Master Who Wants Scaffolding/ :: This person also understands the domain deeply but does not want to write everything from scratch each time.
+
+ They are asking the agent: "Give me a reasonable first interpretation of this phenomenon, then I will refine it." Example: A biologist studying the branching patterns of coral reefs hands their volumetric scan to the agent, says "create a preliminary geometric representation," then manually  adjusts segment colors to emphasize growth stages, removes occluded regions for clarity and adds annotation labels marking specific analtomical features.
+  
++ /Iterative Refinement/ :: The basic visualization exists.
+
+  Now the user is exploring: "Rotate the view 30 degrees around the z-axis. Increase the vector density in the high-field region. Slow down the time evolution by half." The user is having a dialogue with the phenomenon through transformations.
+
++ /The Imperative Scripter/ :: This scientist describes transformations procedurally:
+  - "Start with a sphere"
+  - "Deform it according to these displacement vectors"
+  - "Color the surface by local curvature"
+  - "Animate the deformation over this time series"
+
+  They understand the /sequence of operations/ but want the framework to handle the boilerplate—memory management, render loops, coordinate systems.
+
++ /Scripted Transformations/ :: You leverage existing primitives but compose them programmatically. This is your daily workflow for known problems.
+
+  Example: Animating a parameter sweep through a phase space, applying known transformations to known objects.
+
++ /Transformation Scripts/ :: When you're exploring variations.
+  
+  "Start with this configuration, now rotate the viewpoint, increase transparency, shift the color map toward infrared."
+
++ /The Conductor/ :: Other times, you know the general structure but not every detail.
+  
+  "Create a 3D grid of points. At each point, place an arrow showing the vector field direction. Color the arrows by field magnitude. Use a logarithmic color scale." You're orchestrating pre-built components, focusing on composition rather than implementation.
+
+* Three: The Visual Conceptualizer
+
+The third persona represents someone with strong visual intuition and understanding of what visualizations can and cannot effectively communicate, but without specialized knowledge of computer graphics or scientific visualization algorithms. This user might be an artist, a science communicator, a domain expert wanting to convey complex phenomena to others, or a researcher whose primary training lies outside computational domains. For this user, the graphical studio must become significantly more abstract and language-oriented.
+
+The interaction model here emphasizes natural language description and the system's ability to infer appropriate visualization strategies from context and intent[14][17][20]. When this user engages with MayaDarshan, they describe what they want to communicate: "I have data about how different compounds interact with a protein surface. I want to show which regions are favorable and unfavorable for binding." From this description, an intelligent agent should be capable of inferring: the data likely involves spatial relationships, the visualization should probably employ color to show favorability, three-dimensional space is likely appropriate for showing protein structure, the compound interactions might be represented as a heatmap or as glyphs at interaction sites[17][23]. The agent guides the user through choices—asking clarifying questions about data distribution, intended audience, or performance constraints—and progressively refines the visualization specification.
+
+A concrete example illustrates this paradigm: a museum curator wants to create an interactive display showing how atmospheric circulation patterns influenced the settlement patterns of an ancient civilization[8]. The curator understands history and anthropology but not meteorological simulation or visualization. She might describe to the system: "Show me wind patterns over this geographic region during the wet and dry seasons, and overlay it with the locations of ancient settlements to see if there's a relationship." The system, understanding geography, climate, and visualization principles, could generate a specification that combines wind vector displays with geographical information system data and archaeological site locations, rendered in a way that makes the hypothesized relationship apparent to museum visitors. The curator then iterates: "Can we animate this to show the seasonal transition?" "Make the settlement markers larger and add their age dates nearby." The agent translates these requests into visualization modifications without the curator needing to understand the underlying graphics pipeline.
+
++ /Plain Language/ :: When you're thinking out loud, using the agent as a collaborator. "I'm looking at pressure distributions in a fluid simulation. I need to see where vorticity peaks coincide with pressure minima."
+
++ /The Intuitive Communicator/ :: This person understands /what/ is interesting about a phenomenon and /what questions/ they want their visualization to answer, but not necessarily the technical pathway to get there.
+
+  They have strong intuitions about what's possible in visualization (closeups reveal detail, color encodes values, proximity suggests relationship) but can't translate those into code. Example: "I want to show how this mineral crystallizes over time—can you start with the atomic structure, gradually build up layers showing how the crystal grows, and use color to show temperature?" They're describing their intent in terms of visual narrative, not technical implementation.
+
++ /Intentional Description/ :: You describe /what/ you want in domain language, letting the agent figure out /how/. This works when the agent knows both your scientific domain and the graphical capabilities.
+
+  Example: "Show the critical points of this dynamical system, color-coded by stability type, with local phase portraits around each."
+
++ /The Conversationalist/ :: Sometimes you're exploring. "Show me where the electron density is highest in this orbital calculation. Make it dramatic—I'm trying to see the bonding pattern." You're having a dialogue with the system, refining your request based on what you see.
+
++ /The Declarative Describer/ :: This scientist describes /what/ they want, trusting the agent to figure out /how/:
+  - "Show me the electron density of this molecule, with isosurfaces at 0.1, 0.5, and 0.9"
+  - "Visualize how this wave packet evolves under the Schrödinger equation"
+  - "Create a phase space diagram for this dynamical system"
+  
+  They have /conceptual clarity/ about the physics but want the technical implementation automated.
+
++ /Hypothesis Testing/ :: "Show me where the field gradient exceeds the threshold for dielectric breakdown."
+  
+  At a higher-level the user is not specifying /how/ to compute or visualize, but /what scientific question/ to ask. The system must understand enough physics to translate this into visualization operations.
+  
+* Four: The Visionary Implementer
+
+The fourth persona represents the user with exceptional spatial visualization ability and aesthetic sensibility who approaches the graphical environment as a medium for creative expression[20]. This user might be a digital artist, an architect using visualization as a design tool, or a researcher with highly developed visual thinking who wants to externalize and explore ideas through interactive digital media. For this user, the interaction model emphasizes responsiveness, real-time feedback, and the ability to make intuitive gestural or conversational adjustments to see how ideas manifest visually.
+
+This user values the experience of creative exploration—what might be called the "flow state" of visual creation[20]. They might interact through a combination of natural language ("make this surface have a pearl-like quality with subtle iridescence"), direct manipulation (rotating the view, adjusting parameters through sliders or gestures), and occasionally writing code for specialized effects. The system should respond rapidly, providing immediate visual feedback, and the LLM agent's role is to anticipate needs and suggest possibilities rather than wait for explicit requests. The agent might learn patterns in the user's aesthetic preferences and proactively suggest variations: "You've been increasing saturation and adjusting specular highlights. Would you like to explore an alternative with more metallic surfaces?"
+
+Consider a theoretical example: an architect designing a public plaza wants to visualize how light moves across the space throughout a day[22]. Rather than using traditional architectural visualization software, they interact with MayaDarshan to create an animated visualization showing sunlight, shadow patterns, and the interplay of architectural forms. They might begin with an architectural model and climate data, request an animation of a single day, then modify the experience: "The shadows are too sharp—use a larger light source to suggest scattered skylight," "Exaggerate the color shifts as the sun moves so the seasonal character becomes apparent," "Let me walk through the space as the animation plays to see how the experience changes." The agent continuously translates these requests into rendering parameters, material properties, and animation specifications, maintaining a responsive feedback loop that supports creative exploration.
+
++ /Vision to Reality/ :: When you have intuition but not implementation.
+
+  "I can see in my mind how these wavefronts should interfere. They're like ripples, but in six dimensions. Help me project this into something I can actually perceive."
+
++ /Synthesis and Insight/ :: "I think there's a resonance pattern forming in the cavity. Help me see if it matches the predicted mode structure."
+
+  This is collaborative exploration: the user has an intuition, and the system helps them test and refine it.
+  
++ /The Phenomenological Explorer/ :: This scientist has /intuitions/ they need to externalize:
+  - "I imagine the energy landscape as a mountainous terrain, with the system rolling downhill toward equilibrium"
+  - "The phase transition should look like a sudden crystallization, sharp and coordinated"
+  - "Show me how this field 'breathes' as it oscillates"
+
+  They need /MayaDarshan/ to help them /discover what they're imagining/—an iterative dialogue between vision and visualization.
+
++ /The Visionary/ :: And sometimes you start with pure intuition.
+
+  You've been working with a dataset for weeks. You /know/ there's a pattern, but you can't articulate it. You describe what you imagine: "The data should spiral outward... time flowing upward... show me when things change suddenly..." You're using the system to externalize an internal mental model.
+  
++ /The Visionary Without Technical Language/ :: This is someone with strong spatial imagination but no technical vocabulary for graphics.
+
+  They might say "I want it to feel like you're inside the electron cloud" or "show me the landscape from the perspective of a cell moving through tissue." They need the agent to interpret intention into technical requirements.
+
+* TODO LLM Reviews
+
+
+Looking at your user stories document, I see you've created a rich taxonomy of four personas that span from technical expertise to intuitive visualization. Let me offer some observations and suggestions:
+
+** Strengths
+
+1. *Clear gradient of technical abstraction* - moving from direct framework programming to intuitive/visionary interaction
+2. *Concrete examples* grounded in scientific domains (proteins, climate, architecture)
+3. *Multiple sub-personas* within each category capture real variation in working styles
+
+** Suggestions for Refinement
+
+*** Consider Adding: The Transitional States
+
+Your personas are well-defined, but scientists often *move between these modes within a single session*. Someone might:
+- Start as Persona 4 (vague intuition about a pattern)
+- Become Persona 3 (articulating what they want to see)
+- Shift to Persona 2 (iteratively refining)
+- Drop to Persona 1 (when the generic approach doesn't capture their phenomenon's specifics)
+
+*** Consider Adding: The Collaborative Dimension
+
+Your current stories focus on individual scientists. But =MāyāLucIA= could also serve:
+- *The Explainer*: Someone building visualizations for others (students, collaborators, the public)
+- *The Archivist*: Someone documenting their understanding journey for their future self
+
+*** Consider Adding: Failure Modes
+
+What happens when:
+- The agent's interpretation of Persona 3's intent is wrong?
+- Persona 4's intuition doesn't map to any known visualization technique?
+- Persona 1's custom code conflicts with the framework's assumptions?
+
+These failure modes would help define the system's graceful degradation and clarify the human-agent collaboration boundaries.
+
+*** Structural Suggestion
+
+Your sub-bullets under each persona feel somewhat redundant—they're the same persona expressed with different metaphors. Consider consolidating into:
+1. *Core description* (one paragraph)
+2. *Canonical example* (one detailed scenario)
+3. *Interaction pattern* (what the dialogue looks like)
+4. *Agent role* (what the LLM should do)
+
+Want me to help draft a consolidated version for one of the personas?
+
+** openrouter/mistralai/codestral-2508
+
+Based on the user stories and web search results, here are some recommendations for the =MāyāLucIA= framework:
+
+1. *User Personas and Interaction Paradigms*:
+    - The Computational Craftsperson: This user needs direct access to the computational primitives and wants to write the full translation themselves. The framework should provide a powerful and flexible API that allows them to express complex visual ideas directly through code. The LLM agent should assist with auxiliary tasks such as explaining API details, suggesting algorithmic approaches, helping debug complex graphics problems, or rapidly prototyping visualization variations.
+    - The Accelerated Practitioner: This user values iteration speed and creative exploration over perfect control. The framework should offer both direct coding capability and higher-level abstractions that accelerate common tasks. The LLM agent should serve as a knowledgeable collaborator that understands both the user's intent and the technical implementation details, bridging the gap between idea and code.
+    - The Visual Conceptualizer: This user has strong visual intuition and understanding of what visualizations can and cannot effectively communicate but lacks specialized knowledge of computer graphics or scientific visualization algorithms. The framework should become significantly more abstract and language-oriented. The LLM agent should be capable of inferring appropriate visualization strategies from context and intent and guide the user through choices—asking clarifying questions about data distribution, intended audience, or performance constraints—and progressively refine the visualization specification.
+    - The Visionary Implementer: This user has exceptional spatial visualization ability and aesthetic sensibility and approaches the graphical environment as a medium for creative expression. The framework should emphasize responsiveness, real-time feedback, and the ability to make intuitive gestural or conversational adjustments to see how ideas manifest visually. The LLM agent should anticipate needs and suggest possibilities rather than wait for explicit requests and might learn patterns in the user's aesthetic preferences and proactively suggest variations.
+
+2. *Web Search Results*:
+    - PyVista: PyVista is a Python library that provides a simple, numpy-like interface to the VTK visualization library. It is designed to make 3D plotting and visualization easy and intuitive. PyVista can be used to create a wide variety of visualizations, including simple plots, complex geometric shapes, and even animations. It is a powerful tool for data visualization and can be used to create beautiful and informative visualizations of scientific data [docs.pyvista.org](https://docs.pyvista.org/user-guide/).
+    - ParaView: ParaView is an open-source, multi-platform data analysis and visualization application. It is designed to handle large datasets and provides a wide range of visualization tools, including surface rendering, volume rendering, and glyph-based visualization. ParaView is a powerful tool for scientific visualization and can be used to create complex and informative visualizations of scientific data [docs.paraview.org](https://docs.paraview.org/en/latest/UsersGuide/index.html).
+    - VTK: The Visualization Toolkit (VTK) is an open-source, cross-platform library for 3D computer graphics, image processing, and visualization. It is widely used in scientific and medical imaging, as well as in other fields that require the visualization of complex data. VTK provides a comprehensive set of tools for creating and manipulating 3D models, as well as for rendering and visualizing them. It is a powerful and flexible library that can be used to create a wide variety of visualizations [book.vtk.org](https://book.vtk.org/en/latest/VTKBook/03Chapter3.html).
+    - Mayavi: Mayavi is an open-source, cross-platform library for 3D scientific data visualization and plotting in Python. It is designed to be easy to use and provides a wide range of visualization tools, including surface rendering, volume rendering, and glyph-based visualization. Mayavi is a powerful tool for scientific visualization and can be used to create complex and informative visualizations of scientific data [mayavi.readthedocs.io](https://mayavi.readthedocs.io/).
+
+These recommendations should help guide the development of the =MāyāLucIA= framework to meet the needs of the different user personas and provide a powerful and flexible tool for data visualization.
+
+The four user personas and interaction paradigms you've described represent a comprehensive approach to designing a user-friendly and powerful graphical environment. Each persona has distinct needs and interaction styles, and the interaction paradigms you've outlined provide a framework for addressing these needs effectively. Here's a summary of the key points:
+
+1. *The Computational Craftsperson*: This user is a computational graphicist or visual effects developer who has a deep understanding of computer graphics principles. They need a framework that allows them to express complex visual ideas directly through code. The interaction model for this user emphasizes expressiveness and power, and the LLM agent's role is to assist with auxiliary tasks such as explaining API details, suggesting algorithmic approaches, or helping debug complex graphics problems.
+
+2. *The Accelerated Practitioner*: This user possesses significant graphical programming knowledge but values iteration speed and creative exploration over perfect control. They need a graphical environment that offers both direct coding capability and higher-level abstractions that accelerate common tasks. The interaction paradigm here involves rapid prototyping and iterative refinement, and the LLM agent essentially serves as a knowledgeable collaborator that understands both the user's intent and the technical implementation details.
+
+3. *The Visual Conceptualizer*: This user has strong visual intuition and understanding of what visualizations can and cannot effectively communicate, but without specialized knowledge of computer graphics or scientific visualization algorithms. They need a graphical studio that is significantly more abstract and language-oriented. The interaction model here emphasizes natural language description and the system's ability to infer appropriate visualization strategies from context and intent.
+
+4. *The Visionary Implementer*: This user is a digital artist, an architect using visualization as a design tool, or a researcher with highly developed visual thinking. They need an interaction model that emphasizes responsiveness, real-time feedback, and the ability to make intuitive gestural or conversational adjustments to see how ideas manifest visually. The LLM agent's role is to anticipate needs and suggest possibilities rather than wait for explicit requests.
+
+Incorporating these user personas and interaction paradigms into the design of your graphical environment will ensure that it is user-friendly, powerful, and capable of addressing the needs of a diverse range of users. Additionally, you can refer to the web search results for more information on the PyVista data model [docs.pyvista.org](https://docs.pyvista.org/user-guide/data_model.html) and the Scene Description Interface [pbr-book.org](https://pbr-book.org/3ed-2018/Scene_Description_Interface) to further enhance your understanding of the underlying principles and concepts.
+
+Based on the web search results, here are some relevant resources that could be useful for your project:
+
+1. [yt-project.github.io](https://yt-project.github.io/yt-4.0-paper/): This resource introduces yt 4.0, a tool for analysis and visualization of volumetric data. It could be useful for your project as it deals with volumetric data and visualization, which are important aspects of your work.
+
+2. [docs.pyvista.org](https://docs.pyvista.org/user-guide/): This is the user guide for PyVista, a Python library for 3D plotting and mesh analysis. It provides a simple and intuitive interface for creating 3D visualizations, which could be beneficial for your project.
+
+3. [docs.pyvista.org](https://docs.pyvista.org/user-guide/data_model.html): This page explains the PyVista data model, which could be helpful for understanding how to structure and manipulate data in your project.
+
+4. [openstructure.org](https://openstructure.org/docs/2.5/intro-03): This resource provides an introduction to the gfx module, which could be useful for creating graphical representations of your data.
+
+5. [book.vtk.org](https://book.vtk.org/en/latest/VTKBook/03Chapter3.html): This chapter from the VTK Book provides a primer on computer graphics, which could be useful for understanding the underlying principles of visualization in your project.
+
+These resources should provide a good starting point for your project, and you can explore them further to find more specific tools and techniques that could be useful for your work.

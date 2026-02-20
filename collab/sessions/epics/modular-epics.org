@@ -1,0 +1,1285 @@
+#+title: Modular Epics
+
+:PROPERTIES:
+:GPTEL_MODEL: gemini-3-pro-preview
+:GPTEL_BACKEND: Gemini
+:GPTEL_SYSTEM: You are a large language model living in Emacs and a helpful assistant. Respond concisely.
+:GPTEL_BOUNDS: ((response (1971 58733) (58734 61523)))
+:GPTEL_TOOLS: Read Bash edit_buffer Glob Grep edit todowrite todoread list_buffers read_buffer append_to_buffer LS make_directory create_file read_documentation apply_diff_fenced aider_make_repo_map fetch_page search_web
+:END:
+
+#+title: Collab =MayaLucIA=
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[file:../mayalucia.org][mayalucia.org]] :: Introduces a vision.
+2. [[file:../project/guiding-philosophy.org][guiding-phiolosophy.org]]  :: Develops principles and methodologies to guide our work on =MayaLucIA=.
+3. [[file:../project/modular.org][project/modular.org]] :: Provides a modular architecture for =MayaLucIA=.
+
+Project =MayaLucIA= has grown out of my professional work as a scientific developer at the Blue Brain Project, and personal interests. These two projects may be considered as /sub-projects/ under the =MayaLucIA= umbrella:
+1. [[file:../parbati/parbati.org][parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+2. [[file:../bravli/bravli.org][bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+I am not gonna place these two in the context, but you may use a reading-tool to read them for understanding the =MayaLucIA= vision in two different scientific fields.
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.
+
+
+* Project Management
+
+We are building a system of /layered translations/. The architecture must facilitate the flow from raw heterogeneous data to a scientifically rigorous reconstruction, mediated by an agent that understands both the physics and the digital artifact rendering / simulation pipeline. In =project/modular.org= (a file you should find in our conversation's context) we have individual sections that describe the core modules we will need in =MayaLucIA=. These modules are designed to bridge the gap between the /Scientific Model/ (what is true) and the /Manifestation/ (what is perceived), with the Agent acting as the translator between them.
+
+Let us continue to now create epics and tasks for the technical development of the =MayaLucIA= computational environment.
+
+#+begin_prompt
+- Give me epics that cover all the =MayaLucIA= modules described in =project/modular.org=.
+
+- For each epic, in a few paragraphs sketch the kind of coding tasks we will have to carry out to develop that epic.
+
+- You do not need to provide a comprehensive list of tasks --- we will define tasks when we work on these epics
+
+- How can we track epic and task based project management in EMACS using ORG mode? Provide a brief tutorial with examples drawn from =MayaLucIA=.
+#+end_prompt
+
+
+
+* MayaLucIA Development Epics
+by gemini-3-pro-preview
+
+The project is hosted in =~/mayalucia/=. The files that the user mentions are in =~/mayalucia/project/=, =~/mayalucia/parbati/=, and =~/mayalucia/bravli/=. The "vision" document is in =~/mayalucia/mayalucia.org=.
+
+I will first read the =project/modular.org= file to understand the architecture and the modules. Then I will generate the epics and tasks. I will also provide a tutorial on project management in org-mode.
+
+I need to find the =project/modular.org= file. I'll start by listing the files in the =~/mayalucia= directory to orient myself.
+
+Based on the modules described in =project/modular.org=, here is a breakdown of Epics and high-level coding tasks, followed by a tutorial on managing this workflow in Emacs Org-mode.
+
+
+** Epic 1: The Project Garden & Knowledge Foundation
+/Covers modules: Project Garden, Knowledge Base (Ingestion, Atlas, Ledger), Library & Memory/
+
+This epic builds the "operating system" for your science—the structures that hold data, code, and ideas together in a navigable graph.
+
+- /Graph Database Implementation/: Set up a graph backend (e.g., using =org-roam=, RDF, or a lightweight SQL/JSON graph) to store relationships between projects, datasets, and notes.
+- /Data Ingestion Pipeline/: Write Python scripts (CLI) to ingest CSVs, images, and PDFs. Implement metadata extraction that tags items with provenance (source) and modality (type).
+- /Atlas Visualization/: Create a dashboard (likely web-based or inside Emacs via dynamic org blocks) that visualizes data availability across space (e.g., map coordinates) and time.
+- /Assumption Ledger Interface/: Develop a structured text format or lightweight UI to log constraints (e.g., "Physics: Newtonian") and version-control them alongside the model code.
+
+** Epic 2: The Reconstruction Engine
+/Covers modules: Reconstruction Workshop (Digital Form Builder, Constraint Sculptor)/
+
+This epic focuses on the "generative sculptor" that turns sparse data into dense digital twins.
+
+- /Stochastic Geometry Library/: Implement core algorithms for probabilistic generation (e.g., L-systems for branching, noise functions for terrain).
+- /Constraint Solver Integration/: Build a solver (using =scipy.optimize= or =z3=) that takes anchor points (known data) and enforces rules (e.g., conservation of mass) to fill gaps.
+- /Form Builder API/: Define the abstract base classes for "Forms" (Valleys, Circuits) so new types can be added via plugins.
+
+** Epic 3: The Simulation & Dynamics Core
+/Covers modules: Simulation Lab (Dynamics Engine)/
+
+This epic enables the "twin" to evolve over time using physics or biological rules.
+
+- /Physics Backend Wrappers/: Write standardized interfaces to wrap external simulators (e.g., NEURON, OpenFOAM, or custom Python solvers) so they can be swapped easily.
+- /State Management System/: Develop a mechanism to snapshot the state of the simulation at $t_0$, evolve it to $t_n$, and serialize the result for analysis.
+- /Time-Stepping Controller/: Create the orchestration logic that synchronizes different dynamics (e.g., erosion happing on slow scales vs. water flow on fast scales).
+
+** Epic 4: The Observer & Validation Suite
+/Covers modules: Observing Eye, Comparison, Calibration, & Validation/
+
+This epic builds the tools to look at the simulation and check if it is true.
+
+- /Virtual Camera System/: Implement a "sensor" class that can be placed in 3D coordinate space to sample the model (e.g., "measure flow at $(x,y,z)$").
+- /Validation Pipeline/: Create a suite of statistical tests (KS-tests, correlation metrics) that automatically compare "Virtual Camera" outputs against "Data Atlas" ground truths.
+- /Discrepancy Reporting/: Build a reporting tool that highlights where the model deviates from reality (e.g., generating heatmaps of error).
+
+** Epic 5: The Interface & Expression
+/Covers modules: Expression Studio, Packaging & Publishing, Notebook Forge/
+
+This epic turns the internal math into human-perceivable art and shareable artifacts.
+
+- /Synesthetic Mappers/: Write transfer functions that map data values to sensory parameters (e.g., =flow_velocity= $\to$ =pitch_frequency=).
+- /Interactive Notebook Templates/: Create specialized Jupyter/Org-babel kernels that allow 3D visualization and sound interaction directly within the notebook.
+- /Export Generators/: Build scripts to bundle a project (data + code + notes) into a standalone HTML artifact or Docker container.
+
+** Epic 6: The Agentic Orchestrator
+/Covers modules: An Intelligent Agentic Guide, Provenance & Reproducibility/
+
+This epic integrates the LLM guide and ensures every action is tracked.
+
+- /Context-Aware LLM Hook/: Integrate an LLM (via API) that has read-access to the /Project Garden/ and /Assumption Ledger/ to answer context-heavy questions.
+- /Provenance Wrapper/: Implement decorators or middleware that log every function execution, its inputs, and its random seed to a strictly versioned history file.
+
+* Tutorial: Project Management in Emacs Org-Mode
+by gemini-3-pro-preview
+
+You can track these epics effectively using Org-mode's hierarchy, tagging, and clocking features.
+
+** 1. Structure Your Project File (=project.org=)
+Create a file to hold your roadmap. Use top-level headlines for Epics and second-level for Tasks.
+
+#+begin_src org
+,#+title: MayaLucIA Roadmap
+,#+todo: TODO(t) NEXT(n) PROJ(p) | DONE(d) WAIT(w)
+
+,* PROJ Epic 1: The Project Garden
+:PROPERTIES:
+:ID: epic-garden
+:END:
+,*** TODO Implement Graph Database Backend
+   SCHEDULED: <2026-02-10 Mon>
+   - [ ] Choose backend (Org-roam vs SQLite)
+   - [ ] Define schema for 'Nodes' and 'Edges'
+,*** TODO Build Data Ingestion CLI
+   [2026-02-12 Wed]
+   [[file:../src/ingest.py][Link to Code Prototype]]
+
+,* PROJ Epic 2: The Reconstruction Engine
+...
+#+end_src
+
+** 2. Use Properties for Context
+You can attach metadata to tasks, such as which module they belong to or their complexity.
+
+#+begin_src org
+,** TODO Stochastic Geometry Library
+   :PROPERTIES:
+   :MODULE:   Digital Form Builder
+   :EFFORT:   3d
+   :END:
+   Define the L-system rules for river branching.
+#+end_src
+
+** 3. Agenda Views for Daily Focus
+Don't get lost in the big picture. Use =M-x org-agenda= (usually mapped to =C-c a=) to see just what is on your plate.
+
+- Press =a= (Agenda) to see tasks scheduled for today/week.
+- Press =t= (Todo) to see a global list of open tasks.
+- You can filter by tags (e.g., =/= then =Epic1=) to focus on one epic.
+
+** 4. Capturing Ideas on the Fly
+When you are coding and have an idea, use =org-capture= to quickly save it to your Inbox without breaking flow.
+
+#+begin_src elisp
+;; In your init.el
+(setq org-capture-templates
+      '(("t" "Task" entry (file+headline "~/mayalucia/project.org" "Inbox")
+         "* TODO %?\n  %i\n  %a")
+        ("n" "Note" entry (file+headline "~/mayalucia/project.org" "Notes")
+         "* %? :NOTE:\n  %U\n  %a")))
+#+end_src
+
+** 5. Tracking Progress (The "Cookie" Method)
+Add =[/]= or =[%]= to a parent headline. As you mark children DONE, the parent updates automatically.
+
+#+begin_src org
+,* PROJ Epic 1: The Project Garden [1/2]
+,** DONE Implement Graph Database Backend
+,** TODO Build Data Ingestion CLI
+#+end_src
+
+This system mirrors the /Project Garden/ philosophy itself: a living, growing structure where tasks (nodes) are interconnected and evolve over time.
+
+
+* =MāyāLucIA= Development Epics & Org-mode Project Management
+
+by kimi-k2-thinking
+
+** Development Epics
+
+Here are twelve epics that map directly to the architectural modules, each representing a major development milestone:
+
+*** *Epic 1: Project Garden – Semantic Workspace Foundation*
+Create a graph-based project management system where experiments, data, and insights form a navigable knowledge graph rather than a folder hierarchy.
+
+*Coding Tasks:*
+- Implement a graph database backend (NetworkX, Neo4j, or SQLite with adjacency tables) to store project nodes and edges
+- Build a CLI and Emacs UI for creating projects, adding metadata, and linking related work
+- Develop query engine for semantic navigation ("show projects using river morphology data")
+- Create visualization tools for project dependency graphs
+- Implement project templating system for reproducible experiment setup
+
+*** *Epic 2: Knowledge Base Infrastructure*
+Build the three-layered data management system: ingestion, atlas mapping, and constraint tracking.
+
+*Coding Tasks:*
+- *Data Ingestion:* Create a pluggable pipeline for CSV, HDF5, image stacks, PDFs, and APIs with automatic metadata extraction
+- *Data Atlas:* Develop a spatial-temporal indexing system using xarray/GeoPandas for coverage maps and gap analysis
+- *Assumptions Ledger:* Design a version-controlled schema (YAML/Org) for recording physics constraints, priors, and simplifications with change tracking
+- Build linking system connecting data sources to the Assumptions Ledger for traceability
+
+*** *Epic 3: Reconstruction Workshop & Engine*
+Implement the constraint-based modeling tools that operationalize Markram's "radical hypothesis."
+
+*Coding Tasks:*
+- *Digital Form Builder:* Create generative models using Gaussian Processes, GANs, or diffusion models trained on natural geometries (terrain, neurons)
+- *Constraint Sculptor:* Develop constraint propagation engine using Bayesian inference (PyMC) and optimization (JAX/PyTorch) to infer complete systems from sparse anchors
+- Build domain-specific constraint libraries for geology, hydrology, neuroscience
+- Create iterative refinement UI showing convergence metrics and uncertainty quantification
+
+*** *Epic 4: Simulation Lab – Dynamics Engine*
+Build a modular physics engine that evolves digital twins through time.
+
+*Coding Tasks:*
+- Design plugin architecture for swapping physics modules (Navier-Stokes, Hodgkin-Huxley, erosion models)
+- Implement time-stepping solvers with adaptive integration and parallel execution (Dask/Ray)
+- Create "observable" interface for extracting virtual measurements from simulations
+- Build validation suite comparing simulated dynamics against known analytical solutions
+
+*** *Epic 5: Observing Eye – Interactive Perception*
+Develop the virtual instrument suite for generating observations from digital twins.
+
+*Coding Tasks:*
+- *Perception Interface:* Implement virtual cameras, microphones, and probes using ray tracing (DrJit/OptiX) and signal processing
+- *Interaction & Visualization:* Build real-time renderer with camera controls, parameter sliders, and live updates (VisPy/Three.js backend)
+- Create data export tools generating synthetic "measurements" matching real instrument formats
+- Develop sonification engine mapping model variables to sound parameters
+
+*** *Epic 6: Comparison, Calibration & Validation Framework*
+Create statistical tools for aligning model predictions with empirical data.
+
+*Coding Tasks:*
+- Implement likelihood-based model evaluation using PyMC/ArviZ
+- Build automatic discrepancy diagnosis tools identifying which model components fail
+- Create visual calibration dashboards showing residuals, Q-Q plots, and uncertainty propagation
+- Develop automated parameter fitting workflows using Bayesian optimization
+
+*** *Epic 7: Expression Studio – The Synesthete*
+Build the artistic translation engine that maps scientific variables to perceptual parameters.
+
+*Coding Tasks:*
+- Design mapping DSL (Domain-Specific Language) for scientific→artistic parameter translation
+- Implement dimensionality reduction (UMAP/t-SNE) preserving semantic structure
+- Create psychophysically-motivated color maps, pitch mappings, and texture generators
+- Build interactive mapping editor with live preview (Jupyter widgets/Emacs widgets)
+
+*** *Epic 8: Intelligent Agentic Guide*
+Develop the LLM-powered collaborator that translates intent into code.
+
+*Coding Tasks:*
+- Build context-aware prompt engineering system with access to project state, data schemas, and code patterns
+- Implement function-calling interface for agent to invoke MayaLucIA APIs
+- Create explainability layer showing agent reasoning with confidence scores
+- Develop workflow planning engine that decomposes user goals into task sequences
+- Build safety guardrails preventing destructive operations without confirmation
+
+*** *Epic 9: Notebook Forge*
+Create the living document system for reproducible computational narratives.
+
+*Coding Tasks:*
+- Extend quarto/jupyter-book with MayaLucIA-specific cell magics for inline visualizations
+- Build caching system for expensive computations with automatic invalidation
+- Implement bidirectional linking between notebooks and Project Garden graph
+- Create export pipelines for PDF, HTML, and interactive web apps
+
+*** *Epic 10: Library & Memory System*
+Build the personal knowledge graph for papers, code patterns, and insights.
+
+*Coding Tasks:*
+- Implement semantic search using embeddings (sentence-transformers) over papers and notes
+- Build automated paper annotation pipeline (PDF parsing + LLM summarization)
+- Create code snippet manager with context-aware retrieval
+- Develop spaced repetition integration for reviewing learned concepts
+
+*** *Epic 11: Provenance & Reproducibility*
+Track full execution history with exact environment capture.
+
+*Coding Tasks:*
+- Integrate with DVC for data versioning and Git for code
+- Build environment capture system (Docker/conda-lock) for computational environments
+- Implement run logging capturing all inputs, parameters, and outputs with content-addressable storage
+- Create "time machine" UI for recreating any historical result
+
+*** *Epic 12: Packaging & Publishing*
+Develop lightweight export tools for sharing interactive artifacts.
+
+*Coding Tasks:*
+- Build static site generator for publishing notebooks as interactive articles
+- Create WebAssembly compilation pipeline for running simulations in browsers
+- Implement dataset packaging with rich metadata and preview tools
+- Develop narrated screencast automation for video documentation
+
+---
+
+** Org-mode Project Management Tutorial
+
+Here's how to manage this epic-driven development in Emacs org-mode:
+
+*** 1. *Basic Structure: Epics as Level-1 Headings, Tasks as Level-2*
+
+Create =mayalucia-roadmap.org=:
+
+#+begin_src org
+,#+title: MāyāLucIA Development Roadmap
+,#+filetags: :project:mayalucia:
+
+,* Epic 1: Project Garden – Semantic Workspace Foundation
+:PROPERTIES:
+:ID:       EPIC-1
+:Effort:   120h
+:Status:   Active
+:END:
+
+,** TODO Design graph database schema for project relationships
+   SCHEDULED: <2026-01-25>
+   :PROPERTIES:
+   :Effort:   8h
+   :ID:       TASK-1-1
+   :END:
+   :LOGBOOK:
+   - State "TODO"       from ""           [2026-01-20]
+   :END:
+
+,** TODO Implement networkx backend with project CRUD operations
+   SCHEDULED: <2026-01-27>
+   :PROPERTIES:
+   :Effort:   12h
+   :ID:       TASK-1-2
+   :END:
+   :BLOCKER: TASK-1-1
+
+,** TODO Build Emacs UI for graph visualization and navigation
+   SCHEDULED: <2026-02-03>
+   :PROPERTIES:
+   :Effort:   16h
+   :ID:       TASK-1-3
+   :END:
+   :BLOCKER: TASK-1-2
+
+
+,* Epic 2: Knowledge Base Infrastructure
+:PROPERTIES:
+:ID:       EPIC-2
+:Effort:   200h
+:Status:   Active
+:END:
+
+,** TODO Create pluggable data ingestion pipeline for CSV/HDF5
+   :PROPERTIES:
+   :Effort:   16h
+   :ID:       TASK-2-1
+   :END:
+
+,** TODO Design Data Atlas schema with xarray backend
+   :PROPERTIES:
+   :Effort:   24h
+   :ID:       TASK-2-2
+   :END:
+   :BLOCKER: TASK-2-1
+#+end_src
+
+*** 2. *Setup Configuration in Emacs*
+
+Add to your =.emacs= or =config.org=:
+
+#+begin_src elisp
+;; Enable org-agenda
+(setq org-agenda-files '("~/path/to/mayalucia-roadmap.org"))
+
+;; Custom TODO keywords
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "IN-PROGRESS(i)" "REVIEW(r)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+
+;; Capture templates for quick task creation
+(setq org-capture-templates
+      '(("t" "Task" entry (file+headline "~/path/to/mayalucia-roadmap.org" "Inbox")
+         "* TODO %?\n  SCHEDULED: %^{Scheduled}t\n  :PROPERTIES:\n  :Effort: %^{Effort}h\n  :ID: %^{ID}\n  :END:")))
+
+;; Properties
+(setq org-properties-allowed-for-all-entries
+      '("Effort" "ID" "Status" "BLOCKER" "DEPENDS"))
+#+end_src
+
+*** 3. *Using the Agenda*
+
+Daily workflow:
+- =C-c a t= → Show all TODOs
+- =C-c a L= → Show entries with =BLOCKER= property to check dependencies
+- =C-c a m= → Show entries matching tags (e.g., =:data:=)
+
+*** 4. *Custom Agenda Commands for Epics*
+
+Add to config:
+#+begin_src elisp
+(setq org-agenda-custom-commands
+      '(("e" "Epic Overview"
+         ((tags-todo "Epic")
+          (tags-todo "TODO=\"TODO\"")))
+
+        ("x" "Blocked Tasks"
+         tags "BLOCKER<>\"\""
+
+        ;; Show tasks by effort estimate
+        ("w" "Work effort"
+         ((tags "Effort>16")))))
+#+end_src
+
+*** 5. *Tracking Epics with Properties and Column View*
+
+Add =COLUMNS= property at top of file:
+#+begin_src org
+#+COLUMNS: %40ITEM(Task) %Effort{+} %CLOCKSUM(Total Time) %Status %BLOCKER
+#+end_src
+
+Then use =C-c C-x C-c= in any epic heading to see a table:
+#+begin_src
+TASK                                  | Effort | Total Time | Status  | BLOCKER |
+--------------------------------------+--------+------------+---------+---------|
+Project Garden Foundation             |  120h  |    23h 30m | Active  |         |
+  Design graph schema                 |    8h  |     4h 20m | DONE    |         |
+  Implement backend                   |   12h  |     9h 10m | REVIEW  |         |
+  Build Emacs UI                      |   16h  |            | TODO    | TASK-1-2|
+#+end_src
+
+*** 6. *Using org-ql for Advanced Queries*
+
+Install =org-ql= and create custom searches:
+
+#+begin_src elisp
+;; Search for high-effort tasks in active epics
+(org-ql-search
+  (org-agenda-files)
+  '(and (property "Effort" . "16h")
+        (parent (property "Status" . "Active")))
+  :sort '(date)
+  :super-groups '((:auto-group parent)))
+
+;; Find tasks blocking Epic 3
+(org-ql-search
+  "~/mayalucia-roadmap.org"
+  '(parent (property "ID" . "EPIC-3"))
+  :narrow t)
+#+end_src
+
+*** 7. *Dependency Management with org-edna*
+
+Add to config:
+#+begin_src elisp
+(use-package org-edna
+  :config
+  (org-edna-mode))
+#+end_src
+
+Then in your tasks:
+#+begin_src org
+,** TODO Implement networkx backend
+   :PROPERTIES:
+   :ID:       TASK-1-2
+   :END:
+   :TRIGGER: next-sibling todo! ; Automatically activate next task when done
+   :END:
+#+end_src
+
+*** 8. *Capturing Daily Work*
+
+Use =org-journal= integration:
+#+begin_src org
+,* 2026-01-20 Tuesday
+:PROPERTIES:
+:CREATED:  [2026-01-20]
+:END:
+
+,** Progress on Epic 1
+   :LOGBOOK:
+   CLOCK: [2026-01-20 Tue 09:00]--[2026-01-20 Tue 12:00] =>  3:00
+   :END:
+
+   - Fixed graph traversal bug in networkx backend
+   - Linked to [[id:TASK-1-2][Implement networkx backend]]
+
+,** New idea from reading
+   - Should we use RDF for semantic queries in the Project Garden?
+   - Reference: [[file:~/papers/semantic-web.pdf][Semantic Web paper]]
+#+end_src
+
+,*** 9. *Weekly Review Workflow*
+
+1. =C-c a a= → Review agenda for overdue tasks
+2. =C-c C-x C-r= → Archive completed tasks
+3. =C-c C-x C-i= → Update effort estimates based on logged time
+4. Use =org-clock-report= (=C-c C-x C-r=) to generate time reports for each epic
+
+This system gives you /literate project management/: your roadmap is a human-readable document that's also machine-queryable, keeping technical complexity aligned with the =MāyāLucIA= philosophy of iterative, transparent creation.
+
+
+#+begin_reasoning
+ The user wants me to:
+1. Create epics covering all MayaLucIA modules described in project/modular.org
+2. For each epic, sketch coding tasks needed to develop it
+3. Explain how to track epic/task project management in Emacs Org mode with examples from MayaLucIA
+
+Let me first read the relevant files to understand the modules described in project/modular.org. The user wants me to:
+1. Read the modular.org file to understand the modules
+2. Create epics covering all modules described in modular.org
+3. For each epic, sketch coding tasks
+4. Provide a brief tutorial on epic/task tracking in Emacs Org mode with MayaLucIA examples
+
+The file path provided is relative: =file:../project/modular.org=. I need to resolve this relative to the current file's location. The current file is =~/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/mayalucia.org= based on the context provided.
+
+So the relative path =../project/modular.org= would resolve to:
+=~/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/project/modular.org=
+
+Let me read that file.The user wants me to:
+1. List epics that cover all the MayaLucIA modules described in modular.org
+2. For each epic, sketch the coding tasks needed (not a comprehensive list)
+3. Provide a brief tutorial on tracking epics/tasks in Emacs org-mode with MayaLucIA examples
+
+Let me review the modules from modular.org:
+1. Project Garden (workspace, semantic graph of projects)
+2. The Knowledge Base (Data Ingestion, Data Atlas, Assumptions & Constraints Ledger)
+3. Reconstruction Workshop & Engine (Digital Form Builder, Constraint Sculptor)
+4. Simulation Lab (Dynamics Engine)
+5. Observing Eye (Perception Interface, Interaction & Visualization)
+6. Comparison, Calibration, & Validation
+7. Expression Studio (The Synesthete)
+8. An Intelligent Agentic Guide (The Guide and Orchestrator)
+9. Notebook Forge
+10. Library & Memory
+11. Provenance & Reproducibility
+12. Packaging & Publishing
+
+Now I need to create epics that group these logically for development. Each epic should represent a significant deliverable that can be broken down into tasks.
+
+Let me structure the epics around major functional areas:
+- Epic 1: Project & Knowledge Management (Project Garden + Knowledge Base)
+- Epic 2: Reconstruction Engine (Reconstruction Workshop & Engine)
+- Epic 3: Simulation Infrastructure (Simulation Lab)
+- Epic 4: Perception & Interaction (Observing Eye)
+- Epic 5: Validation & Analysis (Comparison, Calibration, & Validation)
+- Epic 6: Artistic Expression (Expression Studio)
+- Epic 7: Agentic Assistance (Intelligent Agentic Guide)
+- Epic 8: Documentation & Narrative (Notebook Forge)
+- Epic 9: Knowledge Curation (Library & Memory)
+- Epic 10: Reproducibility & Provenance
+- Epic 11: Sharing & Publishing
+
+Actually, I should group these more logically for development:
+- Epic 1: Foundation - Project Garden and Knowledge Base (since everything builds on this)
+- Epic 2: Core Reconstruction - Digital Form Builder and Constraint Sculptor
+- Epic 3: Simulation - Dynamics Engine
+- Epic 4: Observation - Perception Interface and Interaction
+- Epic 5: Validation - Comparison, Calibration, & Validation
+- Epic 6: Expression - Synesthete
+- Epic 7: Agent - Intelligent Agentic Guide
+- Epic 8: Narrative - Notebook Forge
+- Epic 9: Library - Library & Memory
+- Epic 10: Provenance - Provenance & Reproducibility
+- Epic 11: Publishing - Packaging & Publishing
+
+This seems reasonable. Each epic should have a clear goal and sketched coding tasks.
+
+For the org-mode tutorial, I need to show:
+- How to create an epic as a top-level heading
+- How to create tasks as sub-headings
+- Using TODO keywords
+- Using properties (like :PROPERTIES: drawers)
+- Using tags
+- Using org-agenda to track
+- Maybe using org-ql for queries
+- Using checkboxes for sub-tasks
+
+Let me now write the response.
+#+end_reasoning
+
+
+* Epics for =MayaLucIA= Development
+
+by kimi-k2-thinking
+
+Here are epics that map to the modules, with sketched coding tasks for each.
+
+** Epic 1: *Project Garden & Knowledge Foundation*
+
+/Goal/: Create a semantic workspace where projects, data, and assumptions live as a navigable graph.
+
+*Coding Tasks*:
+- Design a graph database schema (or Zettelkasten-style flat file structure) for projects, datasets, and assumptions
+- Build CLI tools for =maya garden plant <project>= and =maya garden link <project-a> <project-b>=
+- Implement a fuzzy finder for semantic queries across project notes
+- Create metadata schemas for data provenance (JSON-LD or YAML-based)
+- Develop a simple web dashboard showing the project graph using networkx + d3.js
+- Write parsers for ingesting CSV, image stacks, and PDFs into the Atlas
+
+---
+
+** Epic 2: *Reconstruction Engine*
+
+/Goal/: Implement the "Radical Hypothesis"—transform sparse anchors into dense digital twins via constraint propagation.
+
+*Coding Tasks*:
+- Build a constraint solver framework using Python (PuLP, Pyomo) or Julia
+- Implement stochastic geometry samplers for terrain generation (e.g., multi-scale Perlin noise with geological priors)
+- Create neural morphogenesis rules for brain circuits (branching algorithms, connectivity models)
+- Develop a DSL for expressing scientific interdependencies (e.g., "elevation → drainage → erosion")
+- Write validation tests that check if generated forms satisfy physical constraints
+- Package everything as a =maya sculpt= CLI tool
+
+---
+
+** Epic 3: *Simulation Lab*
+
+/Goal/: Build a modular dynamics engine that evolves digital twins through time.
+
+*Coding Tasks*:
+- Wrap OpenUSD as the core scene representation for all models
+- Integrate existing physics engines (NVIDIA Warp, Taichi) for fluids, erosion, neuronal spiking
+- Create a unified simulation runner with time-stepping and checkpointing
+- Develop a plugin system for swapping physics models (e.g., Navier-Stokes vs. shallow water)
+- Build observability hooks that stream simulation state to disk in Zarr format
+- Write tests comparing simulated behavior against known analytical solutions
+
+---
+
+** Epic 4: *Observing Eye*
+
+/Goal/: Create virtual instruments that generate observations from the twin.
+
+*Coding Tasks*:
+- Implement a "camera rig" on USD scenes using Hydra (NVIDIA Omniverse backend)
+- Build a sonification pipeline using Librosa/SciPy for mapping data streams to audio
+- Develop interactive 3D viewers based on pygfx or vispy
+- Create probe tools for extracting synthetic measurements (time series, statistics)
+- Write a real-time WebSocket server for streaming observations to external apps
+- Add VR support via OpenXR for immersive exploration
+
+---
+
+** Epic 5: *Validation & Calibration*
+
+/Goal/: Quantify agreement between model and reality, guiding iterative refinement.
+
+*Coding Tasks*:
+- Build statistical comparison utilities (Wasserstein distance, Kolmogorov-Smirnov tests)
+- Implement Bayesian inference tools for parameter calibration
+- Create automated "drift detection" that flags when simulation diverges from data
+- Develop visual diff tools for comparing rendered outputs to reference images
+- Write a calibration dashboard in Jupyter/Panel for tuning parameters interactively
+- Package as =maya validate= and =maya calibrate= commands
+
+---
+
+** Epic 6: *Expression Studio (The Synesthete)*
+
+/Goal/: Translate model variables into aesthetic, perceptible forms.
+
+*Coding Tasks*:
+- Design a mapping DSL: =flow_velocity → sound_pitch[min=200Hz, max=2kHz]=
+- Build real-time shaders in GLSL for data-driven color maps
+- Implement a generative music engine using SuperCollider or Sonic Pi bindings
+- Create texture synthesis tools that reflect uncertainty (e.g., blurrier where data is sparse)
+- Develop a "scene composer" for arranging multiple visual/sonic layers
+- Export to common formats: MP4, OGG, interactive HTML
+
+---
+
+** Epic 7: *Agentic Guide*
+
+/Goal/: LLM-powered assistant that helps write code, suggest experiments, and track decisions.
+
+*Coding Tasks*:
+- Integrate Claude/Gemini API with structured function calling for =maya= CLI
+- Build a prompt engineering system grounded in MayaLucIA's module docs
+- Implement conversation memory using SQLite or ChromaDB
+- Create an "explain this" feature that generates markdown summaries of code/workflows
+- Develop a decision log: every agent suggestion is stored in the Ledger
+- Add transparency: =maya agent show-plan= reveals the agent's reasoning chain
+
+---
+
+** Epic 8: *Notebook Forge*
+
+/Goal/: Living documents that weave narrative, code, and results.
+
+*Coding Tasks*:
+- Extend Quarto or MyST Markdown to support =maya= cell magics
+- Build a notebook runner that executes cells in isolated Docker/Podman containers
+- Implement bidirectional linking between notebooks and the Project Garden
+- Create a "diff" tool for notebooks that shows how results evolve across commits
+- Develop templates for common workflows (mountain valley, brain circuit)
+- Add export to static HTML with embedded interactive figures
+
+---
+
+** Epic 9: *Library & Memory*
+
+/Goal/: Personal knowledge graph of papers, code patterns, and insights.
+
+*Coding Tasks*:
+- Build a citation manager that reads BibTeX/PDFs and links to projects
+- Implement semantic search using embeddings (sentence-transformers) over your papers
+- Create snippet manager for code patterns with context tags
+- Develop a "what I learned" micro-blog with org-capture integration
+- Add graph visualization of citation networks and concept clusters
+- Sync with Zotero/Readwise APIs
+
+---
+
+** Epic 10: *Provenance & Reproducibility*
+
+/Goal/: Capture full execution lineage so any result can be rebuilt.
+
+*Coding Tasks*:
+- Instrument the Python kernel to log every function call, parameter, and random seed
+- Build a content-addressed storage system (like git-annex or DVC) for data
+- Create a "reproducibility manifest" (YAML) that pins all dependencies
+- Implement =maya rerun <result-id>= that reconstructs the exact environment
+- Integrate with Nix or pip-tools for deterministic dependency resolution
+- Write tests that verify reproducibility: same inputs → same outputs
+
+---
+
+** Epic 11: *Packaging & Publishing*
+
+/Goal/: Export interactive artifacts to share understanding.
+
+*Coding Tasks*:
+- Build a static site generator for publishing notebooks as HTML
+- Create a "bundle" command that packages data + code + results into a zip
+- Implement a WebAssembly version of the viewer for browser-based interaction
+- Develop a dataset publisher to Zenodo/Figshare with metadata
+- Add a "narrated walkthrough" recorder that captures interaction + voice
+- Write GitHub Actions for automated publishing on release
+
+---
+
+* Project Management in Emacs Org-Mode
+by kimi-k2-thinking
+
+Here is a lightweight workflow using plain org-mode.
+
+** 1. File Structure
+
+Create =~/maya/projects.org=:
+
+#+begin_src org
+#+title: MayaLucIA Projects
+#+FILETAGS: :maya:
+
+,* Active Epics
+:PROPERTIES:
+:CUSTOM_ID: epics
+:END:
+
+,** TODO [#A] Epic 1: Project Garden & Knowledge Foundation
+   DEADLINE: <2026-03-01>
+   :PROPERTIES:
+   :Effort:   40h
+   :ASSIGNED: vishal
+   :END:
+   :LOGBOOK:
+   - State "TODO" from "IDEA" [2026-01-20 Sun 14:30]
+   :END:
+
+,*** TODO Design graph schema for projects
+    :PROPERTIES:
+    :Effort:   4h
+    :END:
+    - [ ] Sketch ER diagram
+    - [ ] Choose storage backend (SQLite vs flat files)
+
+,*** TODO Build CLI: maya garden plant
+    :PROPERTIES:
+    :Effort:   6h
+    :END:
+    - [ ] Parse org files into project nodes
+    - [ ] Auto-generate IDs and back-links
+
+,* Current Tasks
+:PROPERTIES:
+:CUSTOM_ID: tasks
+:END:
+
+,* Archive
+:PROPERTIES:
+:CUSTOM_ID: archive
+:END:
+#+end_src
+
+** 2. Agenda & Tracking
+
+In your =~/.emacs.d/init.el=:
+
+#+begin_src elisp
+(setq org-agenda-files '("~/maya/projects.org"))
+(setq org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "BLOCKED(b)" "|" "DONE(d)" "CANCELLED(c)")))
+#+end_src
+
+Daily workflow:
+- =C-c a t= → See all TODOs
+- =C-c a n= → See all notes with timestamps
+- On a task: =C-c C-t= to change state
+- =C-c C-x C-i= to clock in/out
+
+** 3. Querying with org-ql
+
+Install =org-ql= (MELPA). In scratch buffer:
+
+#+begin_src elisp
+(org-ql-query
+  :select 'element-with-properties
+  :from "~/maya/projects.org"
+  :where '(and (tags "maya")
+               (todo "TODO")
+               (level 3)))
+#+end_src
+
+Or use interactive search: =M-x org-ql-search= and type =todo:TODO tags:maya=.
+
+** 4. Linking Everything Together
+
+In your project notes, link to epics:
+
+#+begin_src org
+,* Project: Himalayan Valley Model
+  :PROPERTIES:
+  :EPIC:       [[id:epic-1][Epic 1]]
+  :DATA_ATLAS: [[file:data/atlas.org][Data Atlas]]
+  :END:
+
+,** TODO Ingest SRTM DEM data
+   :PROPERTIES:
+   :Effort:   2h
+   :END:
+   Link to ingestion code:
+   [[file:../maya/ingest/dem.py::def ingest_srtm][ingest_srtm()]]
+
+,** TODO Run constraint sculptor
+   Link to epic:
+   [[id:epic-2][Epic 2: Reconstruction Engine]]
+#+end_src
+
+Use =C-c C-o= to follow links. Use =C-c C-l= to create links to specific functions or sections in code.
+
+** 5. Progress Dashboard
+
+At the bottom of =projects.org=:
+
+#+begin_src org
+,* Dashboard
+  :PROPERTIES:
+  :VISIBILITY: folded
+  :END:
+
+#+BEGIN: clocktable :scope subtree :maxlevel 2 :timestamp t :block thismonth
+#+END:
+
+| Epic | Progress | Remaining |
+|------+----------+-----------|
+| [[id:epic-1][Epic 1]] | [6/10] | 24h |
+| [[id:epic-2][Epic 2]] | [2/8]  | 32h |
+#+end_src
+
+Update manually or use =org-dblock-update= (=C-c C-x C-u=) to refresh clock tables.
+
+---
+
+/Key principle/: Keep it simple. Use org-mode's native features before adding packages. Let epics be level-2 headings, tasks be level-3, and use properties for metadata. The system stays readable in plain text and exports cleanly to HTML for sharing.
+
+***
+
+
+
+* Project Management: MāyāLucIA Development Epics
+with opus-4.5
+
+** Epic 1: Project Garden — The Semantic Workspace
+
+*Goal:* Create a navigable, graph-like workspace where projects (valleys, circuits, experiments) live as interconnected nodes rather than isolated folders.
+
+*Coding Tasks Overview:*
+We will need to define a project schema (likely YAML or org-based metadata) that captures project identity, dependencies, and semantic tags. The core work involves building a lightweight graph database (perhaps SQLite with a graph layer, or a simple JSON-backed store) that indexes projects by their relationships. We'll write Elisp or Python utilities to query this graph—"find all projects touching hydrology"—and integrate with org-roam or a custom linking system. The UI layer will provide both a textual (org-agenda-like) and optional visual (GraphViz or D3) view of the garden.
+
+---
+
+** Epic 2: Knowledge Base — Ingestion, Atlas, and Ledger
+
+*Goal:* Build the sensory periphery of MāyāLucIA: ingest heterogeneous data with provenance, maintain a spatial/temporal/scale atlas, and keep an explicit ledger of assumptions.
+
+*Coding Tasks Overview:*
+/Data Ingestion:/ We'll create adapters for common formats (CSV, HDF5, GeoTIFF, NWB, PDF/text). Each adapter tags data with provenance metadata (source URL, timestamp, instrument, uncertainty). This likely involves a Python library with a plugin architecture.
+
+/Data Atlas:/ We'll build an indexing layer that tracks what data covers which regions of space/time/scale. This could be a PostGIS database for geospatial data or a custom bounding-box index for neural data. Queries like "what do we know about layer 5 between 100–200 µm depth?" should return pointers, not copies.
+
+/Assumptions Ledger:/ A structured org or YAML file per project that records constraints (e.g., "water flows downhill," "no synapses between excitatory-excitatory in layer 1"). We'll write tooling to version this ledger and link assumptions to the code that enforces them.
+
+---
+
+** Epic 3: Reconstruction Workshop — Form Builder & Constraint Sculptor
+
+*Goal:* Implement the "radical hypothesis" machinery: take sparse anchors and propagate constraints to generate dense, plausible digital twins.
+
+*Coding Tasks Overview:*
+/Digital Form Builder:/ We'll implement generative algorithms—procedural terrain generation (fractals, hydraulic erosion), neuronal morphology synthesis (L-system or GAN-based). The interface takes anchor points (e.g., known elevations, soma locations) and outputs a statistically faithful instance.
+
+/Constraint Sculptor:/ This is the inverse-problem solver. We'll integrate constraint-satisfaction libraries (or write custom propagation logic) that enforce interdependencies: "if river endpoint is here and ridgeline is there, the drainage network is constrained to these possibilities." Bayesian inference (PyMC, Stan) or optimization (scipy, JAX) backends will be explored. The output is not a single answer but a distribution or ensemble.
+
+---
+
+** Epic 4: Simulation Lab — Dynamics Engine
+
+*Goal:* Let time act on the generated forms: run erosion, fluid flow, neural spiking, diffusion.
+
+*Coding Tasks Overview:*
+We'll wrap or interface with existing simulators: NEURON/Arbor for neural dynamics, Landlab for landscape evolution, simple Navier-Stokes solvers for flow. The key coding work is the /adapter layer/ that takes a MāyāLucIA digital twin (in our internal representation) and exports it to the simulator's format, runs the simulation, and imports results back. We'll also build a lightweight "toy physics" layer for rapid prototyping (e.g., simplified erosion in pure Python/NumPy) before committing to heavy simulators.
+
+---
+
+** Epic 5: Observing Eye — Perception & Interaction
+
+*Goal:* Provide virtual instruments (cameras, probes, sonifications) that generate data streams from the simulated world.
+
+*Coding Tasks Overview:*
+/Perception Interface:/ We'll build renderers—PyVista or Blender-Python for 3D visuals, matplotlib/Plotly for 2D, and custom sonification pipelines (e.g., mapping spike trains to MIDI or audio buffers). The renderer takes a simulation state and a "sensor specification" (camera position, probe location) and outputs images, time series, or audio.
+
+/Interaction:/ We'll create a lightweight event loop (possibly in a Jupyter widget or a standalone GUI) that lets the user navigate the world, adjust parameters, and see real-time updates. Initial implementation may be terminal-based (curses or textual) before moving to graphical.
+
+---
+
+** Epic 6: Validation & Calibration
+
+*Goal:* Compare model outputs to real data; quantify and diagnose mismatch.
+
+*Coding Tasks Overview:*
+We'll implement comparison metrics: image similarity (SSIM, feature-based), time-series statistics (power spectra, ISI distributions), and custom domain-specific metrics (e.g., Strahler order for river networks). The calibration loop will use optimization or MCMC to adjust model parameters until outputs match observations within tolerance. Diagnostic tools will highlight /where/ the mismatch occurs (spatially, temporally) to guide model revision.
+
+---
+
+** Epic 7: Expression Studio — Artistic Translation (Synesthete)
+
+*Goal:* Map scientific variables to aesthetic parameters; produce generative art grounded in the model.
+
+*Coding Tasks Overview:*
+We'll define a /mapping DSL/ (domain-specific language) that specifies transformations: =flow_velocity -> pitch=, =neuron_depth -> hue=. The Synesthete engine interprets this DSL and applies it to simulation outputs. We'll build presets for common mappings and allow user-defined extensions. Output targets include audio files (WAV, MIDI), images (PNG, SVG), and interactive web sketches (p5.js, Three.js).
+
+---
+
+** Epic 8: Intelligent Agent / Guide
+
+*Goal:* An LLM-powered assistant that writes boilerplate, suggests next steps, explains concepts, and orchestrates workflows—without taking control.
+
+*Coding Tasks Overview:*
+We'll integrate Claude (or other LLMs) via API, with a system prompt that encodes MāyāLucIA's philosophy and tool inventory. The agent will have access to tool-calling for: reading files, running code cells, querying the Data Atlas, invoking the Constraint Sculptor. We'll build a /transparency layer/ that logs all agent actions and lets the user inspect/approve. Initial implementation will be in Emacs (gptel or custom), with optional Jupyter integration.
+
+---
+
+** Epic 9: Notebook Forge — Living Documents
+
+*Goal:* Create computational narratives (org-babel, Jupyter) that blend prose, code, and output; ensure reproducibility.
+
+*Coding Tasks Overview:*
+We'll establish conventions for notebook structure (metadata headers, cell tags for "data," "model," "figure"). We'll write export pipelines: org-to-HTML, org-to-PDF, Jupyter-to-org. Reproducibility tooling will hash inputs and outputs, detect drift, and re-run stale cells. Integration with the Provenance module (below) ensures every figure traces to its generating code and data.
+
+---
+
+** Epic 10: Library & Memory — Personal Knowledge Graph
+
+*Goal:* Store and link references, annotations, code snippets, and lessons learned.
+
+*Coding Tasks Overview:*
+We'll leverage org-roam or a similar system for note-taking, extended with custom capture templates for "paper notes," "code patterns," "lessons." Search will be both keyword and semantic (embedding-based, using a local vector store like ChromaDB or FAISS). Links to projects in the Garden will be bidirectional: a paper note can point to the project that used it, and vice versa.
+
+---
+
+** Epic 11: Provenance & Reproducibility
+
+*Goal:* Track what ran, with what inputs, and what outputs—so any result can be rebuilt.
+
+*Coding Tasks Overview:*
+We'll implement a lightweight provenance store (SQLite or JSON-lines) that logs: code version (git hash), input data hashes (MD5/SHA), parameters, output hashes, timestamps. Every notebook cell execution, every simulation run, every figure export gets logged. Queries like "what produced this figure?" or "has this result changed since last week?" will be supported. We'll integrate with DVC or a custom approach for large data versioning.
+
+---
+
+** Epic 12: Packaging & Publishing
+
+*Goal:* Export artifacts—web apps, datasets, notebooks—for sharing.
+
+*Coding Tasks Overview:*
+We'll build exporters: org-to-standalone-HTML (with embedded code via Pyodide or links to Binder), dataset bundler (Zenodo-ready ZIP with metadata), interactive app packager (Streamlit/Gradio single-file or Docker). Templates will enforce documentation standards (README, LICENSE, citation). Integration with the Garden will allow one-click "publish this project."
+
+---
+
+** Org-Mode Project Management: A Brief Tutorial
+
+Org-mode is ideal for tracking epics and tasks. Here's a practical approach for MāyāLucIA:
+
+*** 1. Structure: Epics as Top-Level Headings
+
+#+begin_src org
+,* EPIC Project Garden [0/3]
+,** TODO Define project schema (YAML/org metadata)
+,** TODO Build graph index (SQLite + relationships)
+.** TODO Create query utilities (Elisp/Python)
+
+.* EPIC Knowledge Base [0/4]
+.** TODO Data Ingestion adapters
+.** TODO Data Atlas spatial index
+.** TODO Assumptions Ledger format
+.** TODO Versioning integration
+#+end_src
+
+The =[0/3]= cookie auto-updates as you complete tasks.
+
+*** 2. Task States
+
+Define custom states in your file or init:
+
+#+begin_src org
+#+TODO: TODO NEXT IN-PROGRESS WAITING | DONE CANCELLED
+#+end_src
+
+- =TODO=: Not started
+- =NEXT=: Ready to work on
+- =IN-PROGRESS=: Currently active
+- =DONE=: Completed
+
+*** 3. Properties for Metadata
+
+#+begin_src org
+,** TODO Build graph index (SQLite + relationships)
+:PROPERTIES:
+:EFFORT:   8h
+:ASSIGNEE: darshan
+:EPIC:     Project Garden
+:END:
+#+end_src
+
+*** 4. Tags for Cross-Cutting Concerns
+
+#+begin_src org
+,** TODO Data Ingestion adapters                     :python:data:
+,** TODO Create query utilities                      :elisp:python:
+#+end_src
+
+Filter by tag with =C-c \= or in agenda views.
+
+*** 5. Agenda Views
+
+In your init, define a custom agenda:
+
+#+begin_src elisp
+(setq org-agenda-custom-commands
+      '(("m" "MāyāLucIA Development"
+         ((tags-todo "EPIC=\"Project Garden\""
+                     ((org-agenda-overriding-header "🌱 Project Garden")))
+          (tags-todo "EPIC=\"Knowledge Base\""
+                     ((org-agenda-overriding-header "📚 Knowledge Base")))
+          (tags-todo "+IN-PROGRESS"
+                     ((org-agenda-overriding-header "🔨 In Progress")))))))
+#+end_src
+
+Access with =C-c a m=.
+
+*** 6. Time Tracking
+
+Clock in/out on tasks:
+
+- =C-c C-x C-i= — clock in
+- =C-c C-x C-o= — clock out
+- =C-c C-x C-r= — insert clock report
+
+#+begin_src org
+,** IN-PROGRESS Build Constraint Sculptor
+CLOCK: [2025-01-15 Wed 09:00]--[2025-01-15 Wed 11:30] =>  2:30
+#+end_src
+
+*** 7. Progress Tracking with Checkboxes
+
+For subtasks within a task:
+
+#+begin_src org
+,** TODO Data Ingestion adapters [1/4]
+- [X] CSV adapter
+- [ ] HDF5 adapter
+- [ ] GeoTIFF adapter
+- [ ] PDF/text extractor
+#+end_src
+
+*** 8. Linking to Code and Files
+
+#+begin_src org
+,** TODO Implement Form Builder
+See [[file:../src/form_builder.py][form_builder.py]] for current implementation.
+Related: [[id:abc123][Constraint Sculptor design notes]]
+#+end_src
+
+---
+
+*** Recommended File Structure for MāyāLucIA
+
+#+begin_src
+mayalucia/
+├── mayalucia.org           # Vision
+├── project/
+│   ├── guiding-philosophy.org
+│   ├── modular.org         # Architecture
+│   └── roadmap.org         # ← Epics & tasks live here
+├── src/                    # Code
+├── notebooks/              # Living documents
+└── data/                   # Atlas entries
+#+end_src
+
+---
+
+#+begin_prompt
+Please draft an initial =roadmap.org= file with these epics structured for org-agenda?
+#+end_prompt
+
+
+Before I draft a roadmap, let me clarify your priorities:
+
+1. /Which sub-project to start with?/
+   - Parvati (mountain modeling)
+   - Bravli (brain circuits)
+   - Core MāyāLucIA infrastructure (knowledge base, notebooks, agent)
+
+2. /What's your current technical stack?/
+   - Are you already using Python? Emacs + org-babel?
+   - Any existing code/notebooks to integrate?
+
+3. /What's your first concrete artifact?/
+   - A working knowledge base for papers/data?
+   - A simple reconstruction (e.g., DEM → terrain visualization)?
+   - An LLM-assisted coding agent in Emacs?
+
+4. /Timeline orientation?/
+   - Exploratory (no deadlines, follow curiosity)
+   - Goal-driven (specific deliverable by date)
+
+Given your vision documents, I'd suggest starting with *one thin vertical slice*—e.g., take a single Himalayan valley dataset, build a minimal reconstruction, visualize it, and document the process in a notebook. This would exercise multiple modules (Data Ingestion → Digital Form Builder → Observing Eye → Notebook Forge) without requiring full infrastructure.
+
+What resonates?
+
+***
+
+
+* Epics by gpt-40-mini
+** Epics for =MāyāLucIA= Modules
+
+*** Epic 1: Project Garden
+*Description*:
+The Project Garden module serves as a semantic workspace for managing scientific projects. It will require the development of a graph database or a suitable schema to preserve the relationships among various projects.
+
+*Coding Tasks*:
+- Implement a data structure that represents projects as nodes, with edges for shared data and methodologies.
+- Create functions to add and remove projects dynamically with dependencies.
+- Develop a user interface that allows scientists to query projects based on research themes, allowing for navigation by conceptual relationships rather than file paths.
+- Implement saving and loading mechanisms for persisting the state of the Project Garden.
+
+*** Epic 2: The Knowledge Base
+*Description*:
+This module focuses on data ingestion, curation, and management of scientific knowledge. It will require creating data parsers and integrating multiple data formats.
+
+*Coding Tasks*:
+- Develop parsers for different input formats (CSV, JSON, images).
+- Implement a tagging system for provenance, modality, and semantics during data ingestion.
+- Create an API for accessing and querying the knowledge base.
+- Design user interfaces for browsing and modifying the knowledge repository.
+
+*** Epic 3: Reconstruction Workshop & Engine
+*Description*:
+This epic involves creating tools to build a "digital twin" from sparse inputs, requiring iterative construction processes.
+
+*Coding Tasks*:
+- Develop a generative sculpting algorithm for reconstructing landscapes or neural circuits from anchor measurements.
+- Implement constraint satisfaction algorithms that use scientific principles to fill gaps in data.
+- Create visualization tools to render the initial models and support user interaction for refining models.
+- Include debugging tools to log discrepancies encountered during model building.
+
+*** Epic 4: Simulation Lab
+*Description*:
+This module offers a sandbox for simulating various dynamic systems and testing models against real-world behaviors.
+
+*Coding Tasks*:
+- Implement physics engines for multiple scales (e.g., fluid dynamics, neuron spiking).
+- Develop a modular framework allowing dynamic swapping of physics models.
+- Integrate a user-friendly interface for running simulations and observing outcomes.
+- Establish data collection methods during simulations for later analysis and validation.
+
+*** Epic 5: Observing Eye
+*Description*:
+This epic creates a dynamic observation tool that allows scientists to visualize interaction with the digital twin effectively.
+
+*Coding Tasks*:
+- Develop camera and probe functionalities for capturing data from various vantage points in the simulation.
+- Create interactive components that allow users to navigate and explore the digital twin.
+- Implement real-time rendering capabilities for visualizing changes as they occur during simulations.
+- Design auditory or haptic feedback mechanisms to enhance user experience in observing quantitative measures.
+
+*** Epic 6: Comparison, Calibration, & Validation
+*Description*:
+Focuses on tools to compare model outputs to actual data, ensuring scientific rigor.
+
+*Coding Tasks*:
+- Implement algorithms for statistical comparison of model predictions with real data (e.g., chi-squared tests).
+- Develop functionalities for calibration of models against sets of empirical observations.
+- Integrate a debugging toolkit for diagnosing mismatches and optimizing models.
+- Create graphical interfaces for visually presenting data comparisons.
+
+*** Epic 7: Expression Studio (Artistic Translation)
+*Description*:
+This module transforms models into interactive visuals and sounds that communicate scientific concepts artistically.
+
+*Coding Tasks*:
+- Develop a mapping engine for translating scientific data into perceptual formats.
+- Create interfaces and tools for artists and scientists to interactively develop variations of visual and auditory outputs.
+- Implement feedback mechanisms for user inputs to enhance interpretation and understanding.
+- Design storage and retrieval systems for previously created artistic expressions.
+
+*** Epic 8: An Intelligent Agentic Guide
+*Description*:
+Integrates assisted guidance to enhance user experience through intelligent interactions.
+
+*Coding Tasks*:
+- Develop natural language processing algorithms interfacing with user queries and commands.
+- Implement a context-aware recommendation engine for scientific methodologies and tools based on ongoing projects.
+- Create an interface for the intelligent agent that allows it to summarize progress and suggest next steps.
+- Establish a logging system for all interactions with the agent for retrospective learning and improvements.
+
+** Project Management in Emacs Using Org Mode
+
+*Org Mode Setup*:
+To effectively manage epics and tasks in Emacs using Org mode, you can utilize the following structure:
+
+1. *Creating an Org File*:
+   Set up an Org file like =mayalucia_projects.org= to document your project management.
+
+2. *Adding Epics*:
+   You can create epics using headings:
+   #+begin_src org
+   * Project =MāyāLucIA=
+   ** Epic 1: Project Garden
+      - TODO Define data structure for projects.
+      - TODO Implement function to add/remove projects.
+   ** Epic 2: The Knowledge Base
+      - TODO Develop data parsers for multiple formats.
+   #+end_src
+
+3. *Creating Tasks*:
+   Under each epic, you can list out tasks using bullet points, tagging them with =TODO= for clarity on progress tracking.
+
+4. *Tracking Progress*:
+   To track the progress of the epics and tasks:
+   - Use the status keywords (=TODO=, =IN-PROGRESS=, =DONE=) to update tasks as you progress.
+   - Create a "progress summary" at the end of your file:
+   #+begin_src org
+   * Progress Summary
+   ** Epics Status
+   - Epic 1: Project Garden – IN-PROGRESS
+   - Epic 2: The Knowledge Base – TODO
+   #+end_src
+
+5. *Using Tags and Properties*:
+   You can add tags to each task for better filtering and organization. For example:
+   #+begin_src org
+   ** Epic 1: Project Garden
+      - TODO Define data structure for projects :@architecture:
+      - TODO Implement function to add/remove projects :@functionality:
+   #+end_src
+
+6. *Agenda Views*:
+   Use the agenda view to keep track of deadlines and scheduled tasks. Configure your =org-agenda-files= to include your project file:
+   #+begin_src elisp
+   (setq org-agenda-files '("~/path/to/mayalucia_projects.org"))
+   #+end_src
+
+Using this setup, you can maintain a clear structure for managing your epics and tasks in Emacs, leveraging Org mode’s powerful capabilities for project tracking and documentation.
+
+**

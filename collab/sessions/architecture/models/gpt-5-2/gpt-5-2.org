@@ -1,0 +1,95 @@
+:PROPERTIES:
+:GPTEL_MODEL: gpt-5.2
+:GPTEL_BACKEND: ChatGPT
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should respond only to the one that appears last in your input text. If you are confused about which =prompt= to respond to, notify me and wait for my response before proceeding.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_BOUNDS: ((response (5714 9700) (10400 10553) (11667 15113) (15131 20593)))
+:END:
+
+#+title: Collab =MayaLucIA=
+:LOGBOOK:
+- <2026-01-18 Mon> :: Here we develop a modular architecture for =MayaLucIA= using Chat GPT-5.2
+:END:
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[file:../mayalucia.org][mayalucia.org]] :: Introduces a vision.
+2. [[file:../project/guiding-philosophy.org][guiding-phiolosophy.org]]  :: Develops principles and methodologies to guide our work on =MayaLucIA=.
+2. [[file:../parbati/parbati.org][parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+3. [[file:../bravli/bravli.org][bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.
+
+* Modular Framework and Architecture
+
+We are building a system of /layered translations/. The architecture must facilitate the flow from raw heterogeneous data to a scientifically rigorous reconstruction, mediated by an agent that understands both the physics and the digital artifact rendering / simulation pipeline.
+
+We break down =MayaLucIA= into core modules. These modules are designed to bridge the gap between the /Scientific Model/ (what is true) and the /Manifestation/ (what is perceived), with the Agent acting as the translator between them.
+
+#+begin_prompt
+- Suggest modules that will comprise =MayaLucIA=.
+- Keep your suggestions brief --- a headline and short description should do
+- Do not get buried in technical jargon. Use simple language for technical concepts
+#+end_prompt
+
+
+** Core Modules of =MāyāLucIA=
+by gpt-5.2
+
+*** 1. Project Garden
+A workspace that holds your projects (valleys, circuits, experiments), their notes, code, data links, and results—kept as a living, navigable journal.
+
+*** 2. Data Ingestion
+A simple way to bring in data (files, datasets, APIs, notes from papers) and record what it is, where it came from, and what it means.
+
+*** 3. Data Atlas
+A map of your data: what you have, how it connects, and what it covers (space, time, scale, modality). Helps you find and compare sources.
+
+*** 4. Assumptions & Constraints Ledger
+A place to explicitly write down the rules you’re using (physics constraints, biological constraints, priors, simplifications), and track changes over time.
+
+*** 5. Reconstruction Workshop
+Tools for building a “digital twin” from sparse inputs—starting coarse, then refining. Supports iterative reconstruction: add one anchor measurement, propagate implications, re-check consistency.
+
+*** 6. Simulation Lab
+A controlled sandbox to run dynamics: erosion, flow, spiking neurons, diffusion, growth—whatever the current model supports—so the twin can be “tested” by behavior, not just shape.
+
+*** 7. Observing Eye
+A movable “sensor rig” inside the digital world: camera, probes, measurement tools. Lets you generate observations from the twin the same way you observe nature.
+
+*** 8. Comparison & Calibration
+Tools to compare model outputs to real data (images, time series, statistics). Helps answer: “Does this reconstruction agree with what we measured?”
+
+*** 9. Expression Studio
+Turns the model into interactive visuals, animations, and sound—where abstraction is allowed, but stays grounded in the model and its uncertainties.
+
+*** 10. Agent Workbench (Sculpting Agent)
+The conversational collaborator that helps you: ask the next question, propose experiments, write code, explain concepts, and keep track of decisions—without taking control away.
+
+*** 11. Notebook Forge
+A system for making “living documents” that mix narrative, code, figures, and results—so each project becomes a reproducible learning trail.
+
+*** 12. Library & Memory
+Your personal reference layer: papers, excerpts, definitions, known-good code patterns, and “what I learned” notes—searchable and linkable to projects.
+
+*** 13. Provenance & Reproducibility
+Records what ran, with what inputs, what changed, and what outputs were produced—so you can return to any result and rebuild it.
+
+*** 14. Packaging & Publishing
+Lightweight ways to export an interactive artifact: a webpage, a small app, a dataset bundle, or a narrated notebook—so your understanding becomes shareable when you want it to.
+
+*** Clarifying Questions (so we can specify more concretely)
+
+- Which will be your first “flagship build”: =Parbati valley=, =brain microcircuit=, or a smaller toy world?
+- Do you want =MāyāLucIA= to be primarily:
+  - (a) an Emacs/Org-centered environment, or
+  - (b) a web-first interactive studio, with Org as the planning layer?
+- What’s the most important “non-negotiable” output for you in 2026:
+  - interactive 3D viewing,
+  - simulation runs,
+  - beautiful expression pieces,
+  - or a personal knowledge base that stays coherent?
+
+*** 
+
+
+

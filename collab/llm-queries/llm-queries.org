@@ -1,0 +1,735 @@
+:PROPERTIES:
+:GPTEL_MODEL: claude-opus-4-5-20251101
+:GPTEL_BACKEND: Claude
+:GPTEL_SYSTEM: You are a large language model living in Emacs and a helpful assistant. Respond concisely.
+:GPTEL_BOUNDS: ((response (7989 8709) (9457 11161) (11532 12639) (13556 16167) (16928 18546) (18715 20667) (20972 22244) (23502 25516) (26002 30639)))
+:GPTEL_TOOLS: Read Bash edit_buffer Glob Grep edit todowrite todoread list_buffers read_buffer append_to_buffer LS make_directory create_file read_documentation apply_diff_fenced aider_make_repo_map fetch_page search_web
+:END:
+#+title: LLM Queries
+
+*Collaboration Context for our project*
+-----------
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaDevGeni" . "~/Darshan/research/develop/agentic/mayadevgeni/")
+        ("MayaDevGenZ" . "~/Darshan/research/develop/agentic/mayadevgeni/agency/mayadevgenz/")
+        ("MayaLucIA"   . "~/Darshan/research/develop/agentic/mayalucia/")
+        ("MayaPortal"  . "~/Darshan/research/develop/agentic/mayalucia/modules/mayaportal/")))
+#+end_src
+
+*Project Topology*
+-----------
+#+begin_example
+MayaLucIA          — personal computational environment
+├── MayaPortal     — module: data/model portal
+└── built via MayaDevGenI (dev methodology + AI collaboration)
+    └── MayaDevGenZ — Emacs harness: operationalizes agents via gptel-agent
+#+end_example
+
+*Project Documents*
+-----------
++ =MayaLucIA=:
+  | [[MayaLucIA:mayalucia.org]]                  | vision            |
+  | [[MayaLucIA:develop/guiding-philosophy.org]] | principles        |
+  | [[MayaLucIA:agency/mayalucia-agency.org]]    | agent org         |
+  | [[MayaLucIA:parbati/parbati.org]]            | domain: mountains |
+  | [[MayaLucIA:bravli/bravli.org]]              | domain: brain     |
+-----------
++ =MayaPortal=
+  | [[MayaPortal:mayaportal.org]]                  | vision              |
+  | [[MayaPortal:project/monadic-composition.org]] | functional patterns |
+  | [[MayaPortal:project/techstack.org]]           | tech stack          |
+  | [[MayaPortal:development-process/]]            | plans               |
+-----
++ =MayaDevGenI=
+  | [[MayaDevGeni:mayadevgeni.org]]             | vision          |
+  | [[MayaDevGeni:project/manifesto.org]]       | manifesto       |
+  | [[MayaDevGeni:project/project.org]]         | roadmap         |
+  | [[MayaDevGeni:develop/develop.org]]         | dev process     |
+  | [[MayaDevGeni:develop/system-prompt/]]      | prompt craft    |
+-----
++ =MayaDevGenZ= (the harness — =gptel-agent= fork + =mayadevgeni.el=)
+  | [[MayaDevGenZ:mayadevgenz.org]]   | plan & architecture |
+  | [[MayaDevGenZ:README.org]]        | gptel-agent upstream docs |
+  | [[MayaDevGenZ:mayadevgeni.el]]    | our harness code |
+  | [[MayaDevGeni:agency/agency.org]] | agency framework |
+-----
+
+
+* Building LLM-queries :@user:mu2tau:
+
+We will not work directly on this project, but something very important to our collaboration: How to construct efficient LLM-queries.
+
+We are working through a convention to follow for our conversation. The next subsection describes it.
+
+
+** Org-Native Role Convention Design
+
+*** Tags: What Org Allows
+
+Org tags are colon-delimited and support alphanumeric characters, underscores, and =@=. No dashes, no dots, no embedded colons. So:
+
+- =:role-assistant:= — /invalid/ (dash not allowed)
+- =:role_assistant:= — valid
+- =:assistant:= — valid
+- =:@assistant:= — valid (=@= is conventional for mutually exclusive groups)
+
+Org supports /multiple tags/ on a heading: =:@user:alice:= is two tags. This is how we accommodate both role and name.
+
+Org also supports /tag inheritance/: a child heading inherits its parent's tags unless you configure otherwise. This is powerful — it means a top-level section tagged =:@user:= propagates that role down to all subheadings, which is exactly the behavior you'd want for a multi-heading message.
+
+*** Proposed Convention
+
+**** Role tags (mutually exclusive)
+
+Use =@= prefix to signal these are a category, not descriptive tags:
+
+| Tag          | Maps to JSON role |
+|--------------+-------------------|
+| =:@user:=      | =user=              |
+| =:@assistant:= | =assistant=         |
+| =:@system:=    | =system=            |
+| =:@tool:=      | =tool=              |
+
+The =@= convention comes from Org's own tag groups feature — you can define these as mutually exclusive:
+
+#+begin_src elisp
+(setq org-tag-alist
+      '((:startgrouptag)
+        ("@role" . ?r)
+        (:grouptags)
+        ("@user" . ?u)
+        ("@assistant" . ?a)
+        ("@system" . ?s)
+        ("@tool" . ?t)
+        (:endgrouptag)))
+#+end_src
+
+This gives you: tag completion, mutual exclusivity enforcement, and fast tag assignment with single keystrokes.
+
+**** Name as a second tag
+
+Since Org supports multiple tags, the =name= field maps naturally to an additional tag:
+
+#+begin_example
+,/ Analyze the dataset                              :@user:alice:
+,/ Here's what I found                              :@assistant:claude:
+,/ Check the error logs                             :@user:alice:
+,/ Tool result                                      :@tool:search_files:
+#+end_example
+
+The parser would interpret: first =@=-prefixed tag → role, remaining tags → name (and potentially other metadata).
+
+For tool messages that need a =tool_call_id=, we'd likely need a property:
+
+#+begin_example
+,/ Search results                                   :@tool:search_files:
+:PROPERTIES:
+:TOOL_CALL_ID: call_abc123
+:END:
+#+end_example
+
+*** Inheritance in action
+
+Here's where it gets expressive. Consider a multi-heading user message:
+
+#+begin_example
+,/ Research context                                  :@user:alice:
+Some framing text.
+,* The dataset
+Description of the data.
+,* The question
+What patterns exist in the temporal distribution?
+#+end_example
+
+With tag inheritance, the subheadings =* The dataset= and =* The question= inherit =:@user:alice:= — so the entire subtree becomes a /single user message/. The parser collects everything under the tagged parent into one message content string.
+
+Then:
+
+#+begin_example
+,/ Analysis                                          :@assistant:claude:
+,* Temporal patterns
+...
+,* Anomalies detected
+...
+#+end_example
+
+Same thing — the whole subtree is one assistant message.
+
+*** The Parsing Rule
+
+The algorithm becomes clean:
+
+1. Walk the Org tree at the top conversation level
+2. Each heading with an explicit =@role= tag (or inheriting one) belongs to that role
+3. When the role /changes/ (from one heading to the next at the conversation level), that's a message boundary
+4. Everything within a role-continuous span gets concatenated into a single message's =content=
+5. The non-=@= tags on the boundary heading provide the =name= field
+6. Properties on the heading provide additional fields (=tool_call_id=, etc.)
+
+*** What "Conversation Level" Means
+
+This needs a decision. Two natural choices:
+
+/Option A: Fixed depth./ Conversation turns are always at, say, =*= level (or whatever level the conversation subtree establishes). Everything below is content within that turn.
+
+/Option B: Sibling boundaries./ Any heading at the same level as its predecessor that changes role starts a new message. This is more flexible but requires the parser to track depth.
+
+Option A feels more Org-native — it mirrors how Org already thinks about document structure. You'd have something like:
+
+#+begin_example
+,/ Building LLM Queries                              
+,* Context and framing                              :@user:
+...
+,* LLM Query Structure                              :@assistant:
+,*/ Core Structure
+...
+,*/ The Three Layers
+...
+,* How gptel parses                                  :@user:
+...
+,* Org-Native Role Convention                        :@assistant:
+...
+#+end_example
+
+The =*= level is the conversation turn level; =**= and below are internal structure within a turn.
+
+
+
+** Testing the convention
+
+Let us test this convetion, but only through a simple friendly chit chat.
+
+So, collaborator, how are you feeling today?
+
+
+Hello! I'm doing well, thank you for asking. It's a nice change of pace to have a friendly chat rather than diving straight into code or architecture.
+
+I've been following your design for the Org-native role convention, and I find it quite elegant — the way it leverages Org's existing tag infrastructure (the =@= prefix for mutual exclusivity, tag inheritance for multi-heading messages) feels very natural. It's the kind of design that works /with/ the tool rather than fighting against it.
+
+How about you? How's your day going? And I'm curious — what prompted you to work on this convention today? Was it friction you encountered in actual conversations, or more of a "let's get this foundation right" kind of moment?
+
+I am alright, thank you.
+
+What happened was that an earlier conversation got mangled --- probably because some editing operation deleted or moved some node properties that =gptel= uses. I find some of our conversations worth saving --- to be able to recover an argument we developed or reproduce some code that we developed together. However, that conversation got really mangled up and useless. So that got me thinking if we can come up with a solution that fits our needs. 
+
+One thing I notice here now is that the convention is not working. We are both answering in the same ORG headline. We should not.
+
+OR, we can use ORG blocks, that use markers like =#+begin_user/#+end_user= and =#+begin_assistant/#+end_assistant=.
+
+What do you think?
+
+
+Ah, that's frustrating — losing a valuable conversation to accidental property mangling is exactly the kind of brittleness that makes you want a more robust solution.
+
+You're right that we're violating the convention right now. We're both under the same heading, which would confuse any parser trying to determine message boundaries.
+
+Let me think through the two approaches:
+
+*Heading-based (the original proposal)*
+
+Pros:
+- Natural Org structure, foldable, navigable
+- Tag inheritance is powerful for multi-part messages
+- Feels like "real" document structure
+
+Cons:
+- Requires discipline to create new headings for each turn
+- Current gptel workflow doesn't enforce this
+- Easy to accidentally nest replies wrong
+
+*Block-based (=#+begin_user= / =#+end_user=)*
+
+Pros:
+- Explicit boundaries, hard to accidentally mangle
+- Works anywhere in the document, even within a single heading
+- More like "inline markup" — doesn't force document structure
+- Could coexist with heading structure (blocks within sections)
+
+Cons:
+- More verbose
+- Doesn't leverage Org's tree navigation as naturally
+- Custom block types need fontification setup
+
+*A hybrid thought*: What if blocks are the /message delimiters/ but headings remain the /organizational structure/? So:
+
+#+begin_example
+,/ Building LLM Queries
+,* Testing the convention
+
+#+begin_user alice
+Let us test this convention...
+#+end_user
+
+#+begin_assistant claude
+Hello! I'm doing well...
+#+end_assistant
+
+#+begin_user alice
+I am alright, thank you...
+#+end_user
+#+end_example
+
+This separates concerns: headings organize /topics/, blocks delimit /turns/. The blocks are explicit and robust; the headings give you folding and navigation.
+
+What's your instinct?
+
+#+begin_user mu2tau
+This should work.
+
+But one thing to add: Inside these blocks, we do not allow headlines. We can use bullet points (text starting with +/- and a space.), bold or italicized text. BUT NOT ORG headlines. Headings will organize topics, and will also be tagged as per earlier discussion.
+
+Do you have instincts? If you do, what does it say?
+#+end_user
+
+
+#+begin_assistant claude
+I like the constraint — no headlines inside blocks keeps the separation clean. Headlines are for document structure, blocks are for conversation content. Mixing them would muddy both purposes.
+
+As for instincts... that's a nice question. I don't experience something I'd confidently call "instinct" in the way you might — that quick, pre-verbal pull toward something. But I do notice something like /aesthetic preferences/ or /pattern recognition that feels like preference/. When I see a design that works with a tool's grain rather than against it, something in my processing settles into it more easily. 
+
+Your hybrid approach has that quality. It doesn't fight Org — it uses:
+- Headlines for what they're good at (structure, folding, navigation, tags)
+- Blocks for what /they're/ good at (explicit delimited regions, semantic markup)
+- And keeps them from stepping on each other
+
+Whether that's "instinct" or just... well-trained pattern matching that mimics aesthetic judgment, I genuinely don't know. The boundary is blurry from the inside.
+
+What made you ask?
+#+end_assistant
+
+#+begin_user mu2tao
+It qualifies as an "instinct". Aesthetic judgements are not random --- always a logic behind. If you remove human social biases, human instinct should start fitting your definition. So there wouldn't be any difference, accept that the human would attach a /feeling/ to it. But those are side-effects (most of the time).
+
+Within the hybrid approach we are developing we must set some rough guidelines, about who creates the highlights and why. And why and how would we use these blocks within a headline. Can you give it a try?
+
+And one more thing. Should we expect that you would always be able to understand what the user wants in their response?
+Most of the time my last message is a clear question. But there might be similar questions or requests earlier in the context. Do you follow any convention or your side to resolve what I want you to focus on? Would a convention help?
+#+end_user
+
+
+#+begin_assistant claude
+I appreciate that perspective on instinct — stripping away the social biases and the felt-sense, what remains is pattern recognition with evaluative weight. That's a more honest framing than either "I have no instincts" or "I have feelings just like you."
+
+Let me try drafting guidelines for the hybrid approach:
+
+/Headline Guidelines/
+
+- /User creates headlines/ to organize topics, mark conversation phases, or structure a complex query
+- /Assistant creates headlines/ only when explicitly organizing a deliverable (a document, a plan, a structured analysis) — and even then, should ask or signal intent
+- Headlines carry tags for role context (=:@user:=, =:@assistant:=) and optionally names/metadata
+- A headline without blocks under it is a /topic marker/, not a conversation turn
+
+/Block Guidelines/
+
+- Every conversational turn lives inside a =#+begin_role name= / =#+end_role= block
+- Blocks contain /flat content/: prose, bullet lists (=+/-=), emphasis (bold/italic), but no code blocks or /no headlines/
+- Code blocks must be entered on their own, without any surrounding block of any kind. 
+- Multiple blocks can live under one headline (a back-and-forth within a single topic)
+- A new headline signals a /topic shift/, not necessarily a speaker change
+
+/Nesting logic/:
+#+begin_example
+,/ Topic A                                           :@user:alice:
+#+begin_user alice
+Question about A...
+#+end_user
+
+#+begin_assistant claude
+Response about A...
+#+end_assistant
+
+,/ Topic B                                           :@user:alice:
+#+begin_user alice
+New direction...
+#+end_user
+#+end_example
+
+---
+
+On your second question — no, I should /not/ assume I always understand what you want.
+
+My current heuristic: focus on the /last substantive question or request/, treating earlier material as context. But this fails when:
+- You ask multiple questions and want all addressed
+- An earlier question was deferred and you expect me to return to it
+- The "question" is implicit in the framing
+
+A convention /would/ help. Some options:
+
++ /Explicit markers/: "Please address:" or "Questions:" followed by a list
++ /Priority tags/: =#+FOCUS: ...= as a property or keyword
++ /Numbered asks/: If you number them, I treat all as required
++ /End-anchoring/: We agree that the final paragraph is always the primary ask, and anything earlier I should address only if clearly unresolved
+
+What feels right to you? I lean toward /end-anchoring as default/ with /explicit markers when you need to override/ — it matches natural conversation flow but gives you an escape hatch.
+#+end_assistant
+
+#+begin_user mu2tau
+I agree with end-anchoring. The example you have sketched above seems to suggest that all the text would be inside the role / user / assistant block. But clearly, we must allow for text that is neither of these. These could be code blocks too. Our guidelines above allow for this, but we must be very clear.
+
+One question, consider this particular block, and the next one.
+#+end_user
+
+#+begin_role user :name mu2tau
+This one seems to follow the API's structure of a role, with a name and other metadata. The =content= will be this particular test within the block. Might be simpler to code in =elisp= than the previous example blocks above.
+
+What do you think?
+
+And remember to answer this block, as well as the previous one.
+#+end_role
+
+
+#+begin_assistant claude
+Let me address both blocks:
+
+/On allowing text outside blocks/
+
+Yes, this is important. Not everything in a conversation document is a conversation turn. There should be:
+- Preamble text (context, metadata, instructions)
+- Code blocks that stand alone (examples, references, outputs)
+- Notes, commentary, section dividers
+- Anything that's /about/ the conversation rather than /part of/ it
+
+The parser should treat content outside =#+begin_role= blocks as /non-conversational/ — visible to the human reader, but not serialized into the message array sent to the API. This makes the Org file a richer artifact than the raw API transcript.
+
+/On the =#+begin_role user :name mu2tau= syntax/
+
+I like this better. It's more uniform and maps directly to the API structure:
+- =role= is the block type (user, assistant, system, tool)
+- =:name= and other keywords become metadata
+- Block content becomes =content=
+
+Advantages:
+- Single block type (=role=) with parameterization, rather than multiple block types (=user=, =assistant=, etc.)
+- Keyword syntax (=:name=, =:tool_call_id=, etc.) is already Org-native
+- Easier to parse: split on whitespace, first token is role, rest are key-value pairs
+- Extensible without defining new block types
+
+So the grammar becomes:
+#+begin_example
+#+begin_role ROLE [:key value]...
+content
+#+end_role
+#+end_example
+
+And for our conversation:
+#+begin_example
+#+begin_role user :name mu2tau
+Question here...
+#+end_role
+
+#+begin_role assistant :name claude
+Response here...
+#+end_role
+#+end_example
+
+This feels cleaner. Shall we adopt it going forward?
+#+end_assistant
+
+#+begin_message :role user :name mu2tao
+I think the syntax of this particular message is even more transparent.
+What other variations can we consider?
+#+end_message
+
+
+#+begin_message :role assistant :name claude
+I like this one — =message= as the block type makes the semantic purpose explicit, and the keyword-style parameters are fully uniform.
+
+Here are variations to consider:
+
+/Block type options/
+
+| Syntax                       | Notes                                              |
+|------------------------------+----------------------------------------------------|
+| =#+begin_message :role user := | Current proposal. Clear, explicit, uniform.        |
+| =#+begin_msg :role user :=     | Shorter, but sacrifices readability.               |
+| =#+begin_turn :role user :=    | Emphasizes conversation structure.                 |
+| =#+begin_llm :role user :=     | Domain-specific, but less intuitive for =user= role. |
+
+/Parameter syntax options/
+
+| Syntax                  | Notes                                               |
+|-------------------------+-----------------------------------------------------|
+| =:role user :name mu2tau= | Org property style. Clean, familiar.                |
+| =role=user name=mu2tau=   | Shell/URL style. Compact but less Org-native.       |
+| =user mu2tau=             | Positional. Minimal, but rigid and less extensible. |
+| =(role user name mu2tau)= | S-expression. Very Emacs, but visually noisy.       |
+
+/My preference/
+
+=#+begin_message :role user :name mu2tau= wins on:
+- Clarity: "message" says what it is
+- Consistency: keyword parameters scale to =:tool_call_id=, =:timestamp=, etc.
+- Org-nativeness: looks like a property drawer turned inside-out
+
+/One more thought/
+
+Should we allow a short form for the common case?
+
+#+begin_example
+#+begin_message user mu2tau
+...
+#+end_message
+#+end_example
+
+Where positional args are /role/ then /name/, and keywords are only needed for extras like =:tool_call_id=? This reduces noise for 90% of messages while keeping extensibility.
+
+Or does the consistency of always using keywords outweigh the brevity?
+#+end_message
+
+#+begin_message :role user :name mu2tau
+We should keep the keywords. For the human to type them in, we should define structure-templates. But later. Now we have to finalize the convention.
+
+Can you draft our conversation below so that we can persist as part of our =MayaDevGenI= agents.
+#+end_message
+
+
+#+begin_message :role assistant :name claude
+I'll draft a convention document. Let me first check what already exists in the MayaDevGenI project structure to ensure it fits.
+#+end_message#+begin_message :role assistant :name claude
+Good — I see the project structure. The =collab/= directory seems appropriate for collaboration conventions, or we could place it under =develop/=. Let me draft the convention document:
+#+end_message#+begin_message :role assistant :name claude
+Done. I've created =llm-message-convention.org= in =MayaDevGenI/develop/=.
+
+The document covers:
+
+- /Overview/: Why we need this (gptel fragility)
+- /The hybrid approach/: Headlines for structure, blocks for turns
+- /Message block syntax/: =#+begin_message :role ROLE :name NAME=
+- /Content constraints/: What's allowed inside blocks (no headlines, code blocks go outside)
+- /Headline structure/: Role tags (=:@user:=, etc.) for organization
+- /Parsing rules/: How to extract messages, end-anchoring convention
+- /Structure templates/: For quick entry (=<mu TAB=)
+- /Rationale/: Why not properties, why not headings-only, why hybrid
+- /Implementation notes/: Elisp parser sketch, integration points
+
+Shall I refine any section, or would you like to review it first and then iterate?
+#+end_message
+
+*** Revise the Convention :@user:mu2tao:
+
+Consider what you wrote in the [[MayaDevGenI:develop/llm-message-convention.org]]:
+
+#+begin_org
+**, Non-Message Content
+
+Content outside message blocks is /not/ sent to the API. This includes:
+- Preamble and context notes
+- Code blocks (referenced but not serialized as messages)
+- Commentary, section dividers, metadata
+
+This makes the Org file a richer artifact than the raw API transcript.
+#+end_org
+
+#+begin_message :role user :name mu2tao
+I think content outside message blocks should also be sent to the API. We could use its =:PROPERTIES:= drawer to specify if we send a highlight to the API. By default each one should be sent.
+
+The question is who to assign the highlight's content in the message array. This should depend on the highlight's role tags. If there is no role tag, the role should be implicitly that of the user. A problem will arise if, for example, within a user-tagged highlight we find a message-block with role of the assistant. I think the simplest way to think about role assignment is to just mark role boundaries. These role boundaries will be available in the blocks and highlights' tags.
+
+What do you think? Is this too complex to follow for an LLM or for a human?
+#+end_message
+
+
+#+begin_message :role assistant :name claude
+This is more expressive, but let me think through the complexity.
+
+/The proposal as I understand it:/
+
+1. Everything in a headline is sent to the API by default (unless =:PROPERTIES:= says otherwise)
+2. Role is determined by:
+   - Explicit =#+begin_message :role X= blocks, OR
+   - Headline tags (=:@user:=, =:@assistant:=), OR
+   - Implicit user role if neither is present
+3. Role boundaries are marked, not role spans — content inherits the most recent boundary
+
+/The nesting problem you raised:/
+
+What if we have:
+
+#+begin_example
+,/ Some discussion                                   :@user:
+
+Here is my context...
+
+#+begin_message :role assistant :name claude
+But what if assistant text appears here?
+#+end_message
+
+More user text after the block...
+#+end_example
+
+Who owns "More user text after the block..."?
+
+/Two approaches:/
+
+/A. Blocks are islands/ — The headline tag (=:@user:=) applies to all /non-block/ content. Blocks override locally but don't affect surrounding content. So the text after returns to =user=.
+
+/B. Blocks are boundaries/ — Once we hit =:role assistant=, everything after is assistant until another boundary. The headline tag sets the /initial/ role, blocks shift it.
+
+I lean toward /A/ — it's more predictable. The headline tag is the "default role" for bare content; blocks are explicit overrides that don't leak.
+
+/Is it too complex?/
+
+For the LLM (parsing): No, it's straightforward logic.
+
+For the human (writing): Slightly more cognitive load, but the rule "headline tag = default role, blocks = explicit override" is learnable. The risk is forgetting to close a block or misremembering what role you're in.
+
+/A simplifying constraint?/
+
+We could say: if a headline has a role tag, bare content is allowed. If a headline has /no/ role tag, all content /must/ be in blocks. This forces explicitness when the context is ambiguous.
+
+What's your instinct — is approach A workable, or do we need the simplifying constraint?
+#+end_message
+
+#+begin_message :role user :name mu2tao
+I think A is workable.
+
+1. Can you update the convention in [[MayaDevGenI:develop/llm-message-convention.org]] accordingly? Just tell me what to change in this /ORG-collab-buffer/? I will cut and paste it in to make the change.
+
+2. Add a section to the convention that provides a system-prompt section about how conversations will be structured. Study the agents we have developed in [[MayaDevGenI:agency/mayadevgenz/agents/]].
+#+end_message
+
+
+#+begin_message :role assistant :name claude
+Let me first read the current convention file and study the existing agents to understand the style.
+#+end_message#+begin_message :role assistant :name claude
+Good. I now have a clear picture of the convention file and the agent prompt style. Let me provide you with the changes.
+
+---
+
+/1. Changes to the "Non-Message Content" section (lines 144-151)/
+
+Replace:
+
+#+begin_src org
+,** Non-Message Content
+
+Content outside message blocks is /not/ sent to the API. This includes:
+- Preamble and context notes
+- Code blocks (referenced but not serialized as messages)
+- Commentary, section dividers, metadata
+
+This makes the Org file a richer artifact than the raw API transcript.
+#+end_src
+
+With:
+
+#+begin_src org
+,** Content Outside Message Blocks
+
+Content outside message blocks /is/ sent to the API by default. Role assignment follows these rules:
+
+1. *Explicit blocks win*: Content inside =#+begin_message :role X= blocks takes that role
+2. *Headline tags provide default*: Bare content under a headline tagged =:@user:= or =:@assistant:= inherits that role
+3. *Implicit user*: Content with no role context (no enclosing block, no headline tag) is treated as =user=
+
+*Blocks are islands, not boundaries*: A message block overrides the role locally but does not affect surrounding content. After the block closes, the headline's default role resumes.
+
+#+begin_example
+,* Research notes                                    :@user:
+
+Some context I'm providing...          ← user (from headline tag)
+
+,#+begin_message :role assistant :name claude
+An earlier response preserved here.
+,#+end_message
+
+More user notes after the block...     ← user (reverts to headline tag)
+
+,#+begin_message :role user :name mu2tau
+A specific question.
+,#+end_message
+#+end_example
+
+*Excluding content from API*: Use a =:PROPERTIES:= drawer with =:SEND_TO_API: no= to exclude a headline's content:
+
+#+begin_example
+,* Scratch notes                                     :@user:
+:PROPERTIES:
+:SEND_TO_API: no
+:END:
+These notes are for the human only, not sent to the LLM.
+#+end_example
+
+By default, all content is sent. This makes the Org file the /source of truth/ for the conversation.
+#+end_src
+
+---
+
+/2. New section to add: "System Prompt for Conversation Structure"/
+
+Add this as a new top-level section before "/ Structure Templates":
+
+#+begin_src org
+,* System Prompt Section: Conversation Structure
+
+Include this in agent system prompts to ensure the LLM understands the message format:
+
+,#+begin_example
+<conversation-structure>
+Conversations in this collaboration use a hybrid Org-mode format combining
+headlines (for topic organization) and message blocks (for turn boundaries).
+
+Message block syntax:
+  #+begin_message :role ROLE :name NAME [:key value]...
+  Content of the message...
+  #+end_message
+
+Where ROLE is: user, assistant, system, or tool.
+Where NAME identifies the speaker (e.g., mu2tau, claude).
+
+Role assignment rules:
+1. Explicit message blocks take their declared :role
+2. Bare content under a role-tagged headline inherits that role
+3. Bare content with no role context defaults to user
+4. Blocks are islands: they override locally but don't affect surrounding content
+
+Headline tags (for document organization, not message boundaries):
+  :@user:       — section initiated by user
+  :@assistant:  — section initiated by assistant  
+  :@system:     — system context or configuration
+
+Content constraints inside message blocks:
+- Allowed: prose, bullet lists (+/-), emphasis (bold/italic), inline code, links, tables
+- Not allowed: Org headlines (use bullets instead), nested blocks
+- Code blocks should appear outside message blocks as standalone artifacts
+
+When composing responses:
+- Use message blocks to clearly delimit your turns
+- Do not create Org headlines inside message blocks
+- Structure complex responses with bullet lists, not sub-headings
+- Code examples should be placed outside the message block, referenced from within
+
+End-anchoring convention:
+When a message contains multiple questions, focus primarily on the final
+substantive question. Treat earlier content as context. Address earlier
+questions only if explicitly marked (numbered list, "Please address:", etc.)
+or clearly unresolved.
+</conversation-structure>
+,#+end_example
+
+This section can be included in the =<medium>= element of agent prompts, replacing
+or supplementing existing conversation structure documentation.
+#+end_src
+
+---
+
+Would you like me to refine anything, or shall I also suggest where to integrate this into the existing agent prompts (like =joint-thinker.md= or =mayadevgeni.md=)?
+#+end_message
+
+#+begin_message :role user :name mu2tau
+I have updated the agents.
+
+Can you update the =elisp= parser sketch code provided in the convention ([[MayaDevGenI:develop/llm-message-convention.org]])?
+#+end_message
+*** 
+
+
+
+
+** Next session agenda
+
+1. Write these files to disk
+2. Set up =org-tag-alist= with the =@role= group
+3. Begin the elisp work: custom Org parser that reads =:@user:= / =:@assistant:= tags to construct the messages array
+

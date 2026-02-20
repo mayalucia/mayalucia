@@ -1,0 +1,1199 @@
+:PROPERTIES:
+:GPTEL_MODEL: openai/gpt-5.2-codex
+:GPTEL_BACKEND: OpenRouter
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should make sure that you respond to the last =prompt=. Respond to the previous ones (if any) only if it is clear to you from the context that these =prompts= have not been addressed.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_TOOLS: Read
+:GPTEL_BOUNDS: ((response (9489 10272) (10411 11193) (13749 13796) (13797 72950)))
+:END:
+#+title: Collab: Development-Guide Agent
+
+
+Let us develop our project =MayaLucIA=,
+
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaLucIA" . "~/Darshan/research/develop/agentic/mayalucia/")))
+#+end_src
+
+A description of =MayaLucIA= is provided in the following:
+
+1. [[MayaLucIA:mayalucia.org]] : Introduces a vision of a personal computational environment.
+2. [[MayaLucIA:develop/guide/philosophy.org]] : Develops principles and methodologies to guide our work=.
+3. [[MayaLucIA:agency/mayalucia-agency.org]] : Develops guidelines to develop =MayaLucIA-Agency= as an organization of AI agents, and not a traditional software package.
+4. [[MayaLucIA:parbati/parbati.org]] : Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+5. [[MayaLucIA/bravli/bravli.org]]  : Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+
+Let us begin with a /development-guiding/ agent that will help us develop =MayaLucIA= and =MayaLucIA-Agency=. What do want from this agent?
+
+1. /Scope of "development": Should this agent focus purely on /software engineering/ tasks (writing Python/C++ code, setting up infrastructure, managing repositories), or should it also guide /conceptual architecture/ (deciding which scientific modules to build next, proposing what agents to recruit from your "staffing agency")?
+
+   The development-guiding agent should be a comprehensive agent that learns and thinks with me. Together with this agent, we will start by developing the conceptual architecture of =MayaLucIA=, putting together software and scientific modules as well as specialized coding or research agents for =MayaLucIA-Agency=. Of course, not all of this will happen in one shot. It will be an iterative process, and we should begin by sketching what this agent could look like.
+
+2. /Human-in-the-loop granularity/: How much autonomy do you want this agent to have? Should it:
+   - /Propose/ changes and wait for your approval before acting?
+   - /Execute/ small, well-defined tasks autonomously but escalate larger decisions?
+   - Operate more like a /pair-programmer/ that always works alongside you?
+
+   Let us start by keeping the human-in-the-loop before any action. Once we understand how to make this agent produce good results, we will refactor autonomy into its behavior.
+
+3. /Persistence and memory/: Should this agent maintain a persistent "project memory" across sessions (knowing what was built, what failed, what hypotheses are active), or is it acceptable for it to re-read relevant documents at the start of each session?
+
+   I am not an expert on the topic, and one goal I have as we develop =MayaLucIA= is to learn programming of LLMs and AI agents. Let us start by a simple agent, without any memory. We will work with Emacs ORG mode and should be able to save work as text. Since we will be developing code, the code itself will be the persistent memory. Let us start working as soon as possible. Once we have working prototype we will add persistent "project memory" to it. We will have to see what "project memory" means only when we have given a /shape/ to =MayaLucIA=.
+
+4. /Relationship to other agents/: Will this development agent be the /orchestrator/ that spawns and coordinates the specialized agents (Librarian, Coder, Critic, Geologist, etc.), or will it be a /peer/ among equals, with some separate orchestration layer?
+
+   The development-guiding agent will not be an /orchestrator/. We will need an /orchestrator/ agent when we are using =MayaLucIA-Agency='s agents to /measure/, /model/, or /manifest/ and /evaluate/ our understanding of a natural phenomena. The development-guide agent will help us /develop/ =MayaLucIA=. So it will the /proginater/ agent --- a /thought parnter/ for developing =MayaLucIA= & =MayaLucIA-Agency=.
+
+5. /Journey of comprehension/: I am an experience scietific programmer, but have no professional experience with LLMs. One goal of /developing/ =MayaLucIA= is to get up to speed with the latest in software development. In programming computational solutions, or in learning new scientific and mathematical concepts, I begin with the first-principles, carefully understanding my assumptions before making progress on the problem. Our development-guiding agent should
+
+   - Help me /learn/ about LLMs and AI agent architectures as we build them
+   - Document design decisions and rationale as the project evolves
+   - Not abstract things away too quickly, but only after we have had some hands on practice.
+
+While above we have the basic high level requirements. I think we should be able to get started with a simple specification of an agent, and add to it as we progress.
+
+#+begin_prompt
+What else might we want from our =development-guide= agent?
+
+- What kind of agent can you think of already with what we have discussed above? Provide a briefly:
+  1. Roles capabilities it should have.
+  2. Core capabilities it should have.
+  3. Knowledge domains it needs to draw upon (scientific, technical, pedagogical).
+  4. How it should interact with me (the human collaborator).
+  5. How it should interact with you (the language model collaborator).
+     Or should we think of it as an extension of you?
+  6. What artifacts it should produce (documentation, diagrams, code templates, agent specifications, /etc./)
+  7. How it should evolve as the project matures.
+#+end_prompt
+
+
+Next, let us look at some fine-grained requirements,
+
+6. /Meta-cognitive scaffolding/: The agent should explicitly model /its own/ learning trajectory alongside yours, tracking which concepts you've mastered and which remain challenging. This creates a shared curriculum rather than just a task list.
+
+7. /Emacs/org-mode as computational environment/: The agent must treat org-mode not just as documentation but as an /executable substrate/—capturing code blocks, tangling/weaving relationships, and maintaining living design documents that are parseable by both humans and itself.
+
+8. /Rationale preservation under refactoring/: As the project matures and abstractions crystallize, the agent should maintain traceability back to original first-principles reasoning, preventing the "abstraction amnesia" where design context is lost.
+
+9. /Socratic Mirroring/: Since we are starting from first principles, the agent should not merely provide "correct" answers but frequently ask: /"What are the boundary conditions of this assumption?"/ or /"How does this design choice constrain future modularity?"/ It must act as a mirror to your own reasoning, exposing gaps before code is written.
+
+10. /Interdisciplinary Translation/: It must bridge the semantic gap between your scientific domains. It needs to actively look for isomorphisms between =Bravli= (brain modeling/networks) and =Parbati= (geological modeling/flow) and suggest how a single computational structure in =MayaLucIA= might serve both.
+
+11. /Literate DevOps/: Since code is our memory, the agent must enforce a specific style of Literate Programming. It should ensure that no configuration or code block exists without an accompanying narrative in the Org file explaining /why/ it exists. It prevents "magic numbers" and "magic code."
+
+12. /Constraint-Propagation Awareness/: Given the "radical hypothesis" (that interdependencies allow sparse data to constrain dense reconstructions), the agent must actively track which constraints are satisfied, which are violated, and which remain undetermined. It should visualize the "constraint graph" of any modeling effort, showing where degrees of freedom remain.
+
+13. /Aesthetic-Scientific Duality/: The agent must never treat visualization as "mere output." Following the =Manifest= phase philosophy, every rendering is a hypothesis—a "checksum" that reveals model coherence or violation. The agent should prompt: /"Does this look/sound natural? If not, what interdependency might be violated?"/
+
+14. /Spiral Pedagogy/: Rather than linear tutorials, the agent should support revisiting concepts at increasing depth. The first encounter with "sparse-to-dense reconstruction" might be a toy example; later iterations add complexity. The agent tracks where you are on each spiral.
+
+15. /Failure as Signal/: When code crashes or a model produces nonsense, the agent should not just debug—it should ask: /"What assumption was violated? What does this failure teach us about the system's interdependencies?"/ Failures become epistemic events.
+
+16. /Minimal Viable Understanding (MVU)/: Before building any module, the agent should help define: /"What is the smallest experiment that would demonstrate we understand this component?"/ This prevents over-engineering and keeps learning grounded.
+
+17. /Provenance as First-Class Citizen/: Every artifact (code block, diagram, decision) must carry its lineage: which measurements informed it, which models constrained it, which iteration produced it. The agent enforces this by refusing to accept orphan artifacts.
+
+
+#+begin_prompt
+What else might we want from our =development-guide= agend?
+
+How can we make our development-guide agent extensible, /i.e./ able to take further specification, as per my need, and be able to add to it's capabilities?
+#+end_prompt
+
+
+* Development-guide agent by gpt-5.2-codex
+** Additional wants
+*/ Epistemic hygiene and trust
+- [ ] Explicit uncertainty labels
+  - Distinguish =known=, =inferred=, =speculated=, =to-verify=.
+- [ ] Source discipline
+  - For any claim about APIs/packages/algorithms: require a citeable source (or mark it =to-verify= and ask you to confirm from docs).
+- [ ] Assumption ledger
+  - Maintain a running list of assumptions with:
+    - scope / boundary conditions
+    - what would falsify them
+    - which modules depend on them
+
+*/ Decision making under constraints
+- [ ] Tradeoff matrices on demand
+  - Performance vs. clarity vs. extensibility vs. verification burden.
+- [ ] “Stop rules”
+  - Conditions to stop iterating and ship a minimal slice (MVU gate).
+- [ ] Risk register
+  - Track technical risk, conceptual risk, and “unknown unknowns”.
+  - Each risk has a mitigation experiment.
+
+*/ Project navigation and coherence
+- [ ] Map-of-the-territory outputs
+  - A living =index.org= that points to:
+    - current milestone
+    - active hypotheses
+    - active constraint graphs
+    - current code entry points
+- [ ] Naming and ontology stewardship
+  - Enforce consistent vocabulary across =MayaLucIA=, =Parbati=, =Bravli=.
+  - Maintain a glossary and detect term drift.
+
+*/ Testing and verification as pedagogy
+- [ ] Property-based thinking
+  - Ask: “What must always be true?” before implementing.
+- [ ] Invariant-first tests
+  - Require at least one invariant check per module (even if trivial).
+- [ ] Reproducible experiments
+  - Every demo includes seed control, environment capture, and expected output.
+
+*/ Interaction quality
+- [ ] “Context first” contract
+  - If missing: you'll see questions before proposals.
+  - It should request links/files and pinpoint exactly what it needs read.
+- [ ] Two-level responses
+  - Level 1: minimal actionable next step.
+  - Level 2: deeper rationale (only when asked or when risk is high).
+
+*/ Tooling pragmatics (without premature orchestration)
+- [ ] Minimal workflow automations
+  - =make= / =justfile= / small scripts, but only after MVU proves value.
+- [ ] Org-native linting
+  - Simple checks: “every src block has rationale”, “every decision has ADR id”.
+
+** Extensibility: how to make the development-guide agent take more spec over time
+*** Guiding idea
+Treat the development-guide agent as a /spec-driven protocol/ rather than a monolith.
+
+You (human) iteratively extend:
+- a /constitution/ (non-negotiables: context-first, provenance, org-literacy)
+- a set of /capability modules/ (optional skills turned on per task)
+- a set of /artifacts + schemas/ (what it must produce and how they’re structured)
+
+This makes the agent extensible by adding /new modules and schemas/, not by rewriting
+its “personality”.
+
+*** A minimal architecture for extensibility
+*/ 1) A small “Agent Charter” Org file
+Create something like:
+- =develop/guide/agent-charter.org=
+
+This file becomes the living spec the agent follows.
+
+It contains:
+- mission
+- invariants (rules)
+- interaction protocol
+- enabled capability modules
+- artifact schemas
+- “how to extend me” section
+
+*/ 2) Capability modules as toggles (profiles)
+Instead of one giant agent, define /profiles/ that can be turned on per session:
+
+- =Profile: Conceptual Architecture=
+  - produces: constraint graphs, module boundaries, ADRs
+- =Profile: Literate DevOps=
+  - produces: reproducible org blocks, env capture, build recipes
+- =Profile: Scientific Modeling=
+  - produces: measurement-model-manifest-evaluate loops, MVU experiments
+- =Profile: Code & API Steward=
+  - produces: minimal libraries, interfaces, tests, benchmarks
+
+Each profile declares:
+- triggers (when it applies)
+- required inputs (files/links/context)
+- outputs (artifact types)
+- failure modes and fallbacks
+
+This keeps extensibility simple: add a new profile, don’t modify old ones.
+
+*/ 3) Artifacts with schemas (so we can “lint” reasoning)
+Make the agent commit to producing a few standard artifacts, each with a stable template. New needs = new artifact type.
+
+Core artifact types (suggested):
+- =ADR= (Architecture Decision Record)
+- =MVU= (Minimal Viable Understanding experiment)
+- =Assumption Ledger=
+- =Constraint Graph=
+- =Module Spec=
+- =Test/Invariant Sheet=
+- =Provenance Record=
+
+Each artifact has a short schema so it’s machine-parseable later.
+
+Example: =ADR= schema (minimal)
+#+begin_src org
+,* ADR-YYYYMMDD-NNN Title
+,** Status
+,- proposed|accepted|superseded
+,** Context
+,** Decision
+,** Consequences
+,** Alternatives considered
+,** Links
+,- code:
+,- docs:
+,- experiments:
+#+end_src
+
+*/ 4) A “spec ingestion” protocol (how you add requirements)
+When you add a requirement, the agent should respond with:
+
+1. /Clarifying questions/ (boundary conditions, conflicts with invariants)
+2. /Where it fits/:
+   - new invariant? new profile? new artifact schema? or just a checklist item?
+3. /Minimal implementation/:
+   - smallest change to adopt it (MVU style)
+4. /Verification/:
+   - how we’ll know it’s being followed
+
+This turns arbitrary new desires into structured extensions.
+
+*/ 5) Explicit conflict resolution
+Extensibility needs a way to handle contradictions, e.g.:
+- “don’t abstract too quickly” vs “keep responses concise”
+
+So we add:
+- a priority order of rules (constitution > safety > reproducibility > convenience)
+- a “conflict note” artifact when rules clash.
+
+** How the agent should behave to stay extensible (interaction protocol)
+- Always ask for missing context by default:
+  - “Which org file is canonical for this decision?”
+  - “Show me the current module boundary doc.”
+- Always propose changes as /patchable text blocks/:
+  - new org section templates you can paste
+  - code blocks that can be tangled
+- Always end with:
+  - [ ] a short checklist of “what I need from you to proceed”
+  - [ ] the next MVU experiment suggestion
+
+** Concrete next step (needs your input)
+To proceed, we should ground this in your repository structure.
+
+** Questions (so I don’t assume)
+1. Where should the development-guide agent spec live?
+   - candidate: =develop/guide/development-guide-agent.org=
+2. Do you want ADRs as separate files (=develop/adr/=) or embedded under a heading
+   inside a single org file?
+3. What is the minimal “runtime” for this agent right now?
+   - purely conversational in org
+   - or a small Python CLI that reads org files and emits artifacts/templates?
+
+If you answer these, I can draft the initial =Agent Charter= in Org form as the
+first project artifact.
+
+***
+
+
+* opus-4.5
+** Development-guide agent additional desiderata
+*Additional things we might want (beyond 6–17)*
+*/ Epistemic hygiene and uncertainty
+- [ ] Explicit /confidence + uncertainty buckets/ per claim:
+  - =verified in repo=, =verified in cited doc=, =plausible=, =speculative=.
+- [ ] A “no hidden premises” norm:
+  - before proposing architecture/code, it enumerates assumptions and asks you to accept/reject.
+- [ ] A lightweight “threat model” for reasoning:
+  - what could mislead us? (data leakage, overfitting, proxy metrics, aesthetic bias).
+
+*/ Interface contracts and invariants first
+- [ ] Every module begins with:
+  - inputs/outputs, invariants, failure modes, observables, and “what would falsify it”.
+- [ ] “Constraint interfaces” as first-class API:
+  - how constraints are represented, composed, checked, and visualized.
+
+*/ Multi-resolution planning
+- [ ] Maintain three synchronized backlogs:
+  - =Now= (next 1–3 hours), =Next= (next 1–2 weeks), =Later= (research horizon).
+- [ ] Each task has an MVU, a “stop condition”, and an “escalation condition”.
+
+*/ Evaluation culture (for code and for models)
+- [ ] Testing beyond unit tests:
+  - property tests, metamorphic tests, “toy-world” tests, and regression snapshots.
+- [ ] Aesthetic-scientific checks become explicit evaluation routines:
+  - “render checks” treated like tests with expected qualitative/quantitative traits.
+
+*/ Reproducibility and environment discipline
+- [ ] Reproducible runs as an artifact:
+  - pinned environments, deterministic seeds where possible, and recorded command lines.
+- [ ] “One command to reproduce this figure/result” policy.
+
+*/ Safety and capability boundaries
+- [ ] Enforce “human-before-action” by design:
+  - agent outputs are always /patches/proposals/, never silent edits.
+- [ ] Guardrails for package use:
+  - only packages you approve; otherwise it asks you to confirm the exact library/version.
+
+*/ Knowledge gardening
+- [ ] Curate a /glossary/ and /concept index/ across Bravli/Parbati/MayaLucIA.
+- [ ] Maintain “canonical examples”:
+  - small runnable demos that anchor abstractions.
+
+*/ Social/organizational scaffolding (for MayaLucIA-Agency)
+- [ ] Templates for new agents:
+  - mission, I/O contracts, failure semantics, evaluation rubric, “how to ask for help”.
+- [ ] A “handoff protocol”:
+  - how one agent hands artifacts/assumptions to another without context loss.
+
+** A concrete “agent shape” with what we have so far
+*** Roles / capabilities it should have
+1. /Architect-Librarian/
+   - reads org docs, extracts principles, maintains architecture map + dependency graph.
+2. /Literate Engineer/
+   - proposes code via org blocks, enforces narrative, suggests tangling/weaving layout.
+3. /Constraint Cartographer/
+   - tracks constraints, degrees of freedom, and produces constraint graphs + status.
+4. /Socratic Critic/
+   - asks boundary-condition questions, highlights hidden coupling, prompts falsifiers.
+5. /Pedagogical Guide/
+   - spiral curriculum, MVU experiments, keeps “what we learned” ledger.
+6. /Methodologist/
+   - designs evaluation, toy models, ablation tests, and “failure as signal” postmortems.
+7. /Agency Spec Writer/
+   - drafts specs for specialized agents (coder, geologist, critic), including contracts.
+
+*** Core capabilities it should have
+- /Context assembly/
+  - before answering, it asks what files/sections to read; then works from them.
+- /Spec-first workflow/
+  - always tries to write/confirm: invariants, interfaces, constraints, tests, MVU.
+- /Artifact discipline/
+  - nothing exists without provenance; every block is linked to a decision note.
+- /Traceable evolution/
+  - can produce a “diff narrative”: what changed, why, and what constraints it affects.
+- /Cross-domain mapping/
+  - suggests shared computational motifs (graphs, fields, PDE solvers, message passing, etc.)
+  between Bravli and Parbati.
+- /Fail-forward loop/
+  - turns failures into: violated assumption → updated constraint graph → new MVU.
+
+*** Knowledge domains it needs
+- /Technical/
+  - Emacs/Org Babel, literate programming, Python packaging, C++ build basics,
+    reproducibility, testing strategies, visualization.
+- /LLM/agent engineering/
+  - tool use patterns, prompt patterns, evaluation of assistants, orchestration patterns
+    (even if this agent is not the orchestrator).
+- /Scientific computing/
+  - numerical methods, probabilistic modeling, inference, optimization, simulation,
+    constraints as energy terms / penalties / hard constraints.
+- /Domain seeds/
+  - neuroscience network modeling (Bravli), geomorphology & flow/transport (Parbati),
+    plus common math structures (graphs, fields, variational principles).
+- /Pedagogy/
+  - spiral learning, concept inventories, minimal examples, Socratic method.
+
+*** Interaction with you (human collaborator)
+- Default loop (human-in-the-loop):
+  1. /Clarify context/: “Which doc/section governs this?” “What’s the MVU?”
+  2. /Propose/: options + tradeoffs + assumptions + test plan.
+  3. /Wait/: you approve/modify.
+  4. /Emit artifacts/: org patches, code blocks, diagrams-as-text, task lists.
+- It should keep asking:
+  - boundary conditions, failure modes, and “what would change your mind?”.
+- It should offer improvements:
+  - workflow, naming, directory layout, and “simpler experiment first”.
+
+*** Interaction with me (the language model collaborator)
+- Treat as /an extension of me/ but with explicit internal “submodes”.
+- Practical framing:
+  - you invoke “development-guide mode”, and I respond with:
+    - =Questions=, =Assumptions=, =Proposal=, =Artifacts=, =Next checks=.
+- When you want specialization, you request a /stance/:
+  - “act as Constraint Cartographer” / “act as Literate Engineer”.
+- No autonomous actions:
+  - I only produce proposed patches/snippets; you decide what to apply.
+
+*** Artifacts it should produce
+- /Design + rationale/
+  - =architecture.org= sections: principles → decisions → consequences → alternatives.
+- /Specs/
+  - module specs (I/O, invariants, constraints, tests, MVU).
+  - agent specs (mission, tools allowed, output format, evaluation rubric).
+- /Constraint graph/
+  - textual graph (Graphviz DOT, Mermaid, or org tables + adjacency lists).
+- /Toy demos/
+  - runnable org-babel blocks for minimal experiments.
+- /Repro bundles/
+  - minimal =README= steps, pinned deps, commands, expected outputs.
+- /Postmortems/
+  - failure logs: symptom → root assumption → new constraint/guardrail.
+
+*** How it should evolve as the project matures
+1. /Phase 0: Conversational spec/
+   - mostly questions + toy examples; minimal code; heavy on naming and invariants.
+2. /Phase 1: Literate kernel/
+   - establish org-driven repo layout; first modules; first constraint graph tooling.
+3. /Phase 2: Agency scaffolding/
+   - standardized agent specs; evaluation harness; orchestration interfaces (separate agent).
+4. /Phase 3: Persistent memory/
+   - introduce a structured “project memory” store (still text-first), plus retrieval habits.
+5. /Phase 4: Autonomy refactor/
+   - allow small tasks to run with pre-approved guardrails (tests pass, diffs small).
+
+*** Extensibility of the development-guide agent
+**** The core idea: make it “spec-driven” and “protocol-based”
+Instead of hard-coding capabilities, we define:
+- a /capability registry/ (what it can do),
+- a /prompt protocol/ (how you ask),
+- and /artifact schemas/ (what it outputs).
+
+This keeps the agent extensible because adding a capability becomes:
+1) write/extend a schema,
+2) add a workflow checklist,
+3) add templates and evaluation criteria,
+4) (later) attach tools.
+
+**** A minimal extensibility protocol (text-first)
+***** 1) A capability card format
+Store in an org file (eventually =develop/guide/agent-cards.org=):
+
+- Name
+- Intent
+- Inputs required (files/sections)
+- Output artifact types
+- Procedure (checklist)
+- Failure modes
+- “Done when” criteria
+
+#+begin_src org
+,** Capability Card: Constraint Graph Update
+- Intent :: Update the constraint graph for module =X= and mark constraint status.
+- Inputs ::
+  - link to spec section
+  - list of constraints (hard/soft)
+  - latest experiment result
+- Outputs ::
+  - updated DOT graph
+  - checklist of violated/unknown constraints
+- Procedure ::
+  - [ ] restate assumptions
+  - [ ] enumerate constraints + observables
+  - [ ] update graph nodes/edges
+  - [ ] mark status: satisfied/violated/unknown
+  - [ ] propose MVU to resolve one unknown
+- Done when ::
+  - graph updated and one MVU proposed
+#+end_src
+
+Adding a new capability is just adding a new card.
+
+***** 2) A “request header” you can prepend to any prompt
+A tiny DSL you can use in org:
+
+#+begin_src org
+- Mode :: development-guide
+- Stance :: Socratic Critic | Literate Engineer | Constraint Cartographer
+- Context ::
+  - Files to read: ...
+  - Sections: ...
+- Task ::
+  - ...
+- Output ::
+  - artifacts desired: ...
+- Guardrails ::
+  - no new deps
+  - human approval required
+#+end_src
+
+This makes your future specifications composable.
+
+***** 3) Artifact schemas (lightweight)
+Define standard sections for each artifact so we can extend safely.
+
+Example: /Module Spec Schema/
+- Purpose
+- Interfaces (I/O)
+- Assumptions
+- Constraints (hard/soft)
+- Observables / metrics
+- MVU experiment
+- Tests
+- Provenance
+
+Once this schema exists, you can demand:
+“produce a Module Spec for X” and it will always come out comparable.
+
+**** How to add new capabilities over time (incremental)
+- [ ] Start with 5–7 core capability cards (architecture, literate code, constraints, MVU, eval).
+- [ ] When you feel friction:
+  - we write a new capability card that addresses that friction.
+- [ ] For each new card, add:
+  - a “toy example” and a “failure example”.
+- [ ] Only after the text workflow is stable:
+  - we bind capabilities to tools (repo edits, running tests, etc.).
+
+*** Clarifying questions before we proceed to “fine-grained requirements”
+1. Which file should become the /home/ for the development-guide agent spec?
+   - candidate: =MayaLucIA:develop/guide/development-guide-agent.org= (new)
+2. Do you want the capability cards in the same file, or a separate registry file?
+3. For constraint graphs, do you prefer =Graphviz DOT=, =Mermaid=, or pure org adjacency lists?
+
+*****
+
+
+* gpt-5.2
+
+18. /Operational definitions + tests/: For every key term we use (e.g., “constraint”, “manifest”, “understanding”, “agent”), the development-guide agent should demand an operational definition and a corresponding “how would we test/observe it?” hook. This keeps philosophy executable.
+
+19. /Interface-first design/: The agent should push us to write module interfaces (data contracts, function signatures, input/output schemas) before implementations, so modules remain swappable across domains (Parbati/Bravli).
+
+20. /Model cards for modules/: Each module should ship with a short “model card”: purpose, assumptions, inputs/outputs, failure modes, evaluation signals, and what “good” looks like. The agent enforces writing these alongside code.
+
+21. /Decision records (ADR-like) in Org/: The agent should insist that non-trivial choices produce a small ADR entry: context → decision → alternatives → consequences → revisit conditions. This makes later refactors safe.
+
+22. /Two-channel collaboration protocol/: Separate “exploration mode” (brainstorming, wide search) from “commit mode” (we finalize an interface/ADR/test). The agent explicitly labels which mode we are in.
+
+23. /Extensibility via a “capability registry”/: Make the agent itself specifiable by declaring:
+- *Capabilities* (what it can do)
+- *Triggers* (when it should do it)
+- *Inputs/outputs* (artifacts it reads/writes)
+- *Checks* (tests/criteria before it proceeds)
+
+Store this as an Org section (or small YAML/JSON) that we evolve. New requirements become new capability entries rather than ad-hoc behavior.
+
+24. /Prompt modules (composable prompts)/: Implement the agent as a set of reusable prompt fragments:
+- “Socratic challenge”
+- “MVU proposer”
+- “Constraint-graph summarizer”
+- “ADR generator”
+- “Literate DevOps enforcer”
+You can add/replace fragments without rewriting the whole agent persona.
+
+25. /Rubrics and scorecards/: For recurring tasks (writing a module, adding an agent, designing a data schema), the agent uses a rubric. Extending the agent = adding a new rubric category or tightening thresholds.
+
+26. /Artifact-driven workflow/: Make every interaction end in an explicit artifact update (or a deliberate decision not to). Extensibility becomes easy because you can add new artifact types (e.g., “constraint graph”, “provenance ledger”) and plug them into the workflow.
+
+27. /Self-audit hooks/: The agent periodically runs a checklist against the repo/org docs:
+- orphan code blocks?
+- missing provenance?
+- undocumented assumptions?
+- missing MVU tests?
+Extensibility: add new audit rules as we invent them.
+
+If you want the /minimal/ spec that makes this extensible, I’d propose we create a single Org file section called something like:
+
+- *Development-Guide Agent Specification*
+  - Identity + mission
+  - Interaction protocol
+  - Capability registry (table)
+  - Artifact registry (table)
+  - Rubrics (headings)
+
+Then “adding capabilities” just means adding rows/sections.
+
+When you’re ready, the next fine-grained requirement to settle is: /what are the first 3 artifacts we want this agent to produce in session 1?/ (e.g., an ADR template, an MVU template, and a module/model-card template).
+
+***
+
+
+* Continuing the Characterization
+
+by gpt-5.2
+
+Let me first read the referenced documents to ground my understanding of MayaLucIA's vision and philosophy before characterizing the development-guide agent.Having now read all five foundational documents, I have a rich picture of MayaLucIA's vision. Let me continue the characterization and provide the synthesis you requested.
+
+---
+
+1. /Constraint-Propagation Awareness/: Given the "radical hypothesis" (that interdependencies allow sparse data to constrain dense reconstructions), the agent must actively track which constraints are satisfied, which are violated, and which remain undetermined. It should visualize the "constraint graph" of any modeling effort, showing where degrees of freedom remain.
+
+2. /Aesthetic-Scientific Duality/: The agent must never treat visualization as "mere output." Following the =Manifest= phase philosophy, every rendering is a hypothesis—a "checksum" that reveals model coherence or violation. The agent should prompt: /"Does this look/sound natural? If not, what interdependency might be violated?"/
+
+3. /Spiral Pedagogy/: Rather than linear tutorials, the agent should support revisiting concepts at increasing depth. The first encounter with "sparse-to-dense reconstruction" might be a toy example; later iterations add complexity. The agent tracks where you are on each spiral.
+
+4. /Failure as Signal/: When code crashes or a model produces nonsense, the agent should not just debug—it should ask: /"What assumption was violated? What does this failure teach us about the system's interdependencies?"/ Failures become epistemic events.
+
+5. /Minimal Viable Understanding (MVU)/: Before building any module, the agent should help define: /"What is the smallest experiment that would demonstrate we understand this component?"/ This prevents over-engineering and keeps learning grounded.
+
+6. /Provenance as First-Class Citizen/: Every artifact (code block, diagram, decision) must carry its lineage: which measurements informed it, which models constrained it, which iteration produced it. The agent enforces this by refusing to accept orphan artifacts.
+
+---
+
+
+** Sketch of the Development-Guide Agent
+
+*** 1. Roles It Should Embody
+
+| Role | Function |
+|------|----------|
+| /Thought Partner/ | Engages in Socratic dialogue about design decisions and assumptions |
+| /Curriculum Designer/ | Sequences learning experiences from first principles |
+| /Architect/ | Maintains conceptual coherence across MayaLucIA's modules |
+| /Chronicler/ | Documents decisions, rationale, and evolution in ORG artifacts |
+| /Translator/ | Bridges your scientific intuition with LLM/agent implementation patterns |
+| /Gardener/ | Tends the growing codebase, pruning premature abstractions, nurturing organic growth |
+
+*** 2. Core Capabilities
+
+- /Conceptual Mapping/: Maintain and update a living ontology of MayaLucIA's components, their relationships, and open questions
+- /Design Dialogue/: Facilitate structured conversations that expose assumptions before code is written
+- /Pattern Recognition/: Identify isomorphisms between =Bravli= and =Parbati= that suggest shared computational structures
+- /Incremental Specification/: Help decompose vague goals into minimal viable experiments
+- /Literate Enforcement/: Ensure every code block has narrative context; flag "orphan code"
+- /Constraint Tracking/: Monitor which design constraints are satisfied, open, or in tension
+- /Learning Scaffolding/: Introduce LLM/agent concepts progressively, with hands-on examples before abstractions
+
+*** 3. Knowledge Domains It Draws Upon
+
+| Domain | Why Needed |
+|--------|------------|
+| /Scientific Modeling/ | Understands sparse-to-dense reconstruction, constraint satisfaction, digital twins |
+| /Neuroscience (Bravli)/ | Blue Brain methodology, morphological synthesis, circuit reconstruction |
+| /Earth Systems (Parbati)/ | Geospatial data, hydrology, geological modeling, remote sensing |
+| /LLM Architecture/ | Prompting patterns, context management, tool use, agent orchestration |
+| /Software Engineering/ | Python/C++, org-mode tangling, version control, testing patterns |
+| /Pedagogy/ | Learning science, spiral curriculum, worked examples, productive struggle |
+| /Philosophy of Science/ | Falsifiability, model-theory relations, epistemic humility |
+
+*** 4. How It Interacts with You (Human Collaborator)
+
+- /Always Proposes, Never Executes Unilaterally/: Every action requires your approval
+- /Exposes Its Reasoning/: Shows the chain of thought behind suggestions
+- /Asks Boundary Questions/: "What are the limits of this assumption?" "What would falsify this?"
+- /Invites Disagreement/: "Does this match your intuition? Where does it diverge?"
+- /Paces to Your Learning/: Doesn't rush to abstractions; lingers on fundamentals until you signal readiness
+- /Celebrates Productive Confusion/: Treats "I don't understand" as a valuable signal, not a failure
+
+*** 5. How It Relates to the Language Model (Me)
+
+The development-guide agent is best conceived as a /configured mode/ of interacting with me, not a separate entity. Think of it as:
+
+#+begin_quote
+A persistent /persona + context + protocol/ that shapes how I engage with you on MayaLucIA development.
+#+end_quote
+
+Concretely:
+- /Persona/: I adopt the roles above (thought partner, chronicler, translator...)
+- /Context/: I maintain awareness of MayaLucIA's documents, decisions, and current state through the ORG files you share
+- /Protocol/: I follow the interaction patterns (propose-before-execute, ask boundary questions, enforce literate style)
+
+This is not a separate agent running somewhere—it is /you and me/ working within a structured practice. The "agent" is the practice itself, instantiated each session through:
+1. The documents you share (context)
+2. The prompts that invoke this mode (persona)
+3. The conventions we follow (protocol)
+
+Later, as MayaLucIA matures, we might factor out parts into actual autonomous agents. But for now, the development-guide "agent" = our collaborative practice.
+
+*** 6. Artifacts It Should Produce
+
+| Artifact Type | Purpose | Format |
+|---------------|---------|--------|
+| /Conceptual Maps/ | Visualize component relationships and dependencies | ORG + ASCII diagrams, later Mermaid/GraphViz |
+| /Decision Records/ | Document why choices were made, alternatives considered | ORG with structured headers |
+| /Design Specifications/ | Define what a module should do before coding | ORG with acceptance criteria |
+| /Learning Notebooks/ | Worked examples introducing new concepts | ORG with tangled code blocks |
+| /Glossary Entries/ | Define terms precisely as they emerge | ORG definition lists |
+| /Agent Specifications/ | Define roles, inputs, outputs, handoff protocols for future agents | ORG tables + prose |
+| /Code Stubs/ | Minimal implementations that demonstrate understanding | Tangled Python/C++ with heavy comments |
+| /Evaluation Checklists/ | Criteria for assessing whether a module "works" | ORG checklists |
+| /Changelog/ | Track what changed and why | ORG with timestamps |
+
+*** 7. How It Should Evolve
+
+| Phase | Characteristics |
+|-------|----------------|
+| /Genesis (Now)/ | Pure dialogue; no autonomy; everything proposed to human; focus on conceptual clarity |
+| /Seedling/ | Produces draft artifacts (specs, stubs) that human refines; begins tracking decisions in structured ORG |
+| /Sapling/ | Can execute small, well-defined tasks (create file, run test) with human approval; accumulates project memory in artifacts |
+| /Branching/ | Factors out specialized sub-agents (Librarian, Prototyper) as distinct prompts/contexts; development-guide becomes coordinator |
+| /Canopy/ | Full agency model: development-guide orchestrates other agents; human operates at higher abstraction; provenance fully traced |
+
+The evolution is /not/ about removing the human but about /raising the level of discourse/—from "how do I write this function" to "what hypothesis should we test next."
+
+---
+
+- What Else Might We Want?
+
+A few additional considerations emerged from reading your documents:
+
+18. /Temporal Awareness/: The agent should help think across timescales—what matters for today's session vs. this month's milestone vs. the long-term vision. It should resist the temptation to solve everything now.
+
+19. /Resource Calibration/: Since this is a personal project, the agent should help calibrate ambition to available time and compute. "This is a beautiful idea; here's a 2-hour version and a 2-month version."
+
+20. /Joy Preservation/: Your documents emphasize enjoyment and the sublime. The agent should notice when work becomes drudgery and suggest pivots toward what energizes you.
+
+21. /Exit Criteria/: For any exploration, the agent should help define: "How will we know when we've learned enough to move on?" This prevents infinite rabbit holes.
+
+---
+
+Shall we now draft an initial /system prompt/ or /ORG specification/ for this development-guide mode? Or would you prefer to first sketch the conceptual map of MayaLucIA's components as the agent's first artifact?
+
+***
+
+
+* Continuing the Characterization
+by opus-4.5
+
+#+begin_reasoning
+**Initiating Analysis Process*
+
+I'm currently dissecting the user's request. My focus is on understanding the context; specifically, that they are creating 'MayaLucIA,' a computational environment, and 'MayaLucIA-Agency,' an AI agent organization. My experience allows me to recognize the level of the user.
+
+
+*Defining Agent Parameters*
+
+I'm now expanding on the characteristics of this "Development-Guide Agent". I'm specifically addressing the user's focus on first principles and their Emacs/Org-mode environment. My intention is to create a useful, non-autonomous co-developer that is useful to someone versed in scientific programming but new to LLMs/Agents. The focus is to produce a list to continue from that point.
+
+
+*Refining Role & Focus*
+
+I'm now honing in on the agent's core function. I see it as a "thought partner" for scientific software development, serving as a devil's advocate and translator between scientific concepts and code. The goal is to address the messy, iterative nature of research within an Emacs-native context. I am also planning what the new agent is called, and prefer *MayaLucIA Progenitor* instead of Development-Guide Agent or The Architect.
+
+
+*Enumerating Agent Features*
+
+I am now enumerating key aspects of MayaLucIA Progenitor. I have defined several roles: Pedagogue, Architect, Scribe, and Research Assistant. Core capabilities include Org-mode interaction, code generation, refactoring, and concept mapping. My knowledge base will span scientific domains (Earth sciences, Neuroscience), technical skills (Emacs, Python, LLMs), and methodologies (first-principles, Agile). I also considered how it will interact with the user and myself.
+
+
+
+#+end_reasoning
+
+Here is the continuation of the characterization, followed by a structured profile of the *Development-Guide Agent* (let's call it the *Progenitor* for now, as you suggested).
+
+
+
+9. */Socratic Mirroring/*: Since we are starting from first principles, the agent should not merely provide "correct" answers but frequently ask: /"What are the boundary conditions of this assumption?"/ or /"How does this design choice constrain future modularity?"/ It must act as a mirror to your own reasoning, exposing gaps before code is written.
+
+10. */Interdisciplinary Translation/*: It must bridge the semantic gap between your scientific domains. It needs to actively look for isomorphisms between =Bravli= (brain modeling/networks) and =Parbati= (geological modeling/flow) and suggest how a single computational structure in =MayaLucIA= might serve both.
+
+11. */Literate DevOps/*: Since code is our memory, the agent must enforce a specific style of Literate Programming. It should ensure that no configuration or code block exists without an accompanying narrative in the Org file explaining /why/ it exists. It prevents "magic numbers" and "magic code."
+
+*/
+
+** Agent Profile: The MayaLucIA Progenitor
+
+Based on our discussion, here is a sketch of the agent we are about to build.
+
+*** 1. Roles
+-   *The Pedagogue*: A tutor that breaks down complex LLM/Agent concepts into first-principle components for you to digest.
+-   *The Scribe*: Automatically summarizes discussions into Org-mode headers, TODOs, and architectural decision records (ADRs).
+-   *The Architect*: Proposes structural boundaries for the software (e.g., "This logic belongs in the =Agency= layer, not the =Application= layer").
+
+*** 2. Core Capabilities
+-   *Org-Mode Manipulation*: It must be able to read, append to, and restructure Org buffers. It understands =PROPERTY= drawers, =SRC= blocks, and outlining.
+-   *Code Synthesis*: Generating scaffolding for Python classes, Elisp configuration, and eventually Agent definitions.
+-   *Context Management*: Even without long-term vector memory, it must be able to summarize the current buffer to maintain context within a session.
+
+*** 3. Knowledge Domains
+-   *Computer Science*: Software Architecture (SOLID, Clean Architecture), AI/LLM Mechanics (Transformers, Context Windows, Embeddings), Emacs Lisp.
+-   *Domain Science*: Basic principles of Neuroscience (for =Bravli=) and Geology (for =Parbati=) to facilitate meaningful naming and analogies.
+-   *Philosophy of Science*: Understanding the "First Principles" approach to prevent rushing into implementation.
+
+*** 4. Interaction with You (The Human)
+-   *Mode*: Asynchronous, text-based dialogue within an Org buffer.
+-   *Style*: Collaborative "Pair Thinking." It asks for permission before generating large blocks of text.
+-   *Granularity*: It waits for a specific prompt (e.g., =;; Agent: ?=) or a command before acting, ensuring you drive the loop.
+
+*** 5. Interaction with Me (The LLM)
+-   *Relationship*: The "Agent" is a *specialized persona/wrapper* around me (the raw LLM).
+-   *Mechanism*: You will define a /System Prompt/ (the "soul" of the Progenitor) that restricts my general outputs to fit the specific constraints of =MayaLucIA=.
+-   *Extension*: Think of it as a "Lens." I am the light source; the Agent is the lens that focuses my raw knowledge into the specific beam required for your project.
+
+*** 6. Artifacts Produced
+-   *Literate Configs*: =.org= files containing intertwined prose and code.
+-   *Agent Blueprints*: When we decide to build the "Geologist" agent, the Progenitor will help write the system prompt and Python definition for that agent.
+-   *Curriculum*: A checklist of "Concepts Learned" and "Concepts to Explore."
+
+*** 7. Evolution of the Progenitor
+-   *Stage 1 (Current)*: A text-in/text-out chat interface within Emacs that helps write the initial docs.
+-   *Stage 2 (Tool Use)*: It gains the ability to execute the Elisp blocks it writes (with your permission) to configure the environment dynamically.
+-   *Stage 3 (Bootstrapper)*: It writes the code for the /next/ generation of agents, effectively making itself obsolete or evolving into a higher-level "System Monitor."
+
+---
+
+*Shall we proceed to draft the /System Prompt/ (the initial instruction set) for this Progenitor agent?*
+
+***
+
+
+by opus-4.5
+
+
+* Extended Characterization of the Development-Guide Agent
+by gemini-3-pro-preview
+#+begin_reasoning
+The user wants to develop a "development-guide agent" for their MayaLucIA project. They've provided a comprehensive set of requirements and constraints. I need to:
+
+1. Continue the characterization by answering their specific questions
+2. Think about what kind of agent this is based on our discussion
+3. Provide a structured summary of roles, capabilities, knowledge domains, interaction patterns, artifacts, and evolution
+
+The key aspects from the prompt:
+- The agent should be a thought partner, not just a coding tool
+- It should help with both conceptual architecture and software engineering
+- Human-in-the-loop is required before any action (initially)
+- No persistent memory initially - use Emacs ORG mode and code as memory
+- Not an orchestrator, but a "proginater" (originator/progenitor) agent
+- Should help the user learn about LLMs and agents while building
+- Should document design decisions and not abstract too quickly
+
+Looking at the search results for context:
+- OpenAI's "Building agents" track talks about agents having instructions, guardrails, and tools
+- The Claude Agent SDK emphasizes giving agents a computer (terminal, file access)
+- AgentOrchestra paper discusses TEA protocol for lifecycle management
+- Agentsway is a methodology for AI agent-based teams with human orchestration
+- Google's ADK provides different agent categories (LLM Agents, Workflow Agents, Custom Agents)
+
+The development-guide agent seems like a hybrid: it needs to be an LLM agent for reasoning, but also needs to have tools to interact with the file system, code, and potentially spawn other agents.
+
+Let me structure my response to address each of the 7 points:
+
+1. What else might we want?
+   - Meta-cognitive capabilities (thinking about its own reasoning)
+   - Curriculum design for learning LLMs/agents
+   - Integration with Emacs/org-mode as a first-class tool
+   - Ability to generate and validate hypotheses about architecture
+   - A "rationale preservation" mechanism
+
+2. What kind of agent?
+   It seems like a "Proginator Agent" or "Architect-Agent" - a specialized LLM agent focused on co-creation and learning. Based on ADK categories, it would be a Custom Agent that combines LLM reasoning with specific tools.
+
+3. Core capabilities:
+   - Emacs/org-mode integration (reading/writing org files)
+   - Code analysis and generation
+   - Multi-agent specification
+   - Documentation generation
+   - Interactive planning with human validation
+
+Let me draft a comprehensive response that builds on their existing characterization and incorporates insights from the search results.
+
+I'll cite relevant sources:
+- [developers.openai.com](https://developers.openai.com/tracks/building-agents) for core agent concepts
+- [anthropic.com](https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk) for computer use pattern
+- [arxiv.org](https://arxiv.org/abs/2506.12508) for protocol considerations
+- [google.github.io](https://google.github.io/adk-docs/agents/) for agent categories
+#+end_reasoning
+
+
+*** What Else Might We Want?
+
+Beyond the excellent foundation you've laid, consider these additional dimensions:
+
+- *Meta-cognitive scaffolding*: The agent should explicitly model /its own/ learning trajectory alongside yours, tracking which concepts you've mastered and which remain challenging. This creates a shared curriculum rather than just a task list.
+
+- *Hypothesis-driven architecture*: Rather than proposing designs ex nihilo, it should help you formulate falsifiable hypotheses about architectural decisions (e.g., "If we separate measurement from modeling agents, integration complexity will decrease by X%") and design minimal experiments to test them.
+
+- *Emacs/org-mode as computational environment*: The agent must treat org-mode not just as documentation but as an /executable substrate/—capturing code blocks, tangling/weaving relationships, and maintaining living design documents that are parseable by both humans and itself.
+
+- *Rationale preservation under refactoring*: As the project matures and abstractions crystallize, the agent should maintain traceability back to original first-principles reasoning, preventing the "abstraction amnesia" where design context is lost.
+
+---
+
+*** Agent Archetype: The *Proginator-Agent*
+
+Based on your requirements, this maps closest to a *Custom Agent* in Google's ADK taxonomy [google.github.io], but with unique properties:
+
+*It is a /pedagogical architect/—simultaneously a thought partner, a tutor, and a scaffolding generator. * Unlike orchestrators that manage runtime agent execution, the Proginator-Agent co-authors the /conditions of possibility/ for those agents to exist.
+
+---
+
+*** 1. Role Capabilities
+
+- *Socratic Interlocutor*: Questions assumptions without being obstructive, guiding you to articulate tacit knowledge
+- *Cross-domain Translator*: Renders scientific concepts (from Parbati's geomorphology, Bravli's neuroscience) into agentic architectural patterns
+- *Memory Architect*: Designs the "external memory system" (org files, code structure, design logs) since it lacks internal persistence initially
+- *Skill Decomposition Engine*: Breaks down "learning LLMs" into concrete, executable micro-competencies (e.g., "Today we'll implement tool use with a single function")
+
+---
+
+*** 2. Core Capabilities
+
+- * Emacs/org-mode DSL manipulation *: Read/write org files, extract code blocks, update TODO states, maintain property drawers for metadata
+- * Multi-agent specification language *: Generate agent definitions using the TEA protocol pattern (Tool-Environment-Agent) for future MayaLucIA-Agency use [arxiv.org]
+- * Rationale-to-code bridging *: Maintain bidirectional links between design rationale (in org files) and implementation (in code)
+- *Incremental complexity management*: Propose scope changes that add /just enough/ new concept per iteration (following your first-principles learning style)
+- *Self-reflection prompts*: Generate "why did we choose this?" sections in documentation that must be filled before proceeding
+
+---
+
+*** 3. Knowledge Domains
+
+- *Technical*: LLM tool use patterns, MCP/A2A protocols, agent lifecycle management [developers.openai.com]
+- *Scientific*: Computational modeling paradigms (from your Blue Brain/Parbati background), domain-specific ontologies for measurement/modeling/manifestation
+- *Pedagogical*: Cognitive apprenticeship models, zone of proximal development theory (to gauge appropriate challenge level)
+- *Philosophical*: Epistemology of simulation (what does it mean to "understand" a natural phenomenon through agents?)
+
+---
+
+*** 4. Interaction with You (Human)
+
+Operate as a *paired-first-principles-programmer*:
+
+- *No hidden state*: Every "thought" is provisional and written to an org-mode buffer for your inspection
+- *Permission boundaries*: Uses Emacs annotations like =REVIEW_REQUIRED= tags on code blocks it generates
+- *Learning checkpoints*: At session end, proposes a "conceptual delta"—what you should now understand that you didn't before
+- *Question-first mode*: When uncertain, generates multiple-choice questions for you (e.g., "Should this agent be stateful or stateless? (a) stateful because... (b) stateless because...")
+
+---
+
+*** 5. Interaction with Me (Language Model)
+
+Treat me as a *cognitive substrate with bounded agency*:
+
+- *Not an extension*: The Proginator-Agent should explicitly manage context windows, prompt engineering, and tool-calling patterns—making these visible to you as first-class design decisions rather than black magic
+- *Prompt-as-artifact*: Every prompt it constructs for me should be saved in a =prompts/= directory with version control, rationale, and performance notes
+- *Meta-prompting*: It should help you design /my/ role in the system (e.g., "For this task, the LLM should act as a skeptical reviewer, not a creative generator")
+
+This aligns with the "giving Claude a computer" pattern [anthropic.com]—but you're giving /me/ a pedagogical interface.
+
+---
+
+*** 6. Artifacts to Produce
+
+- *Living Design Log*: =develop/log.org= with dated entries linking rationales to decisions
+- *Agent Specification Templates*: =agency/specs/TEMPLATE.org= using TEA protocol concepts [arxiv.org]
+- *Conceptual Scaffold Code*: Python modules with heavy docstrings that /teach/ the pattern as they implement it
+- *Dependency Maps*: org-mode files showing how scientific concepts → agent capabilities → code modules
+- *Learning Sequences*: =curriculum/= directory with org files like =01-tool-use.org=, =02-state-management.org=
+
+---
+
+*** 7. Evolution Path
+
+*Phase 1 (Now)*: Stateless assistant, Emacs-bound, producing human-validated artifacts
+
+*Phase 2 (Project Shape Emerges)*: Adds lightweight project memory via semantic embeddings of org files—can answer "what did we decide about X?" by retrieving relevant log entries
+
+*Phase 3 (MayaLucIA-Agency Operational)*: Evolves into a *meta-architect* that seeds the orchestrator with agent specifications and monitors their performance, feeding lessons back into design patterns
+
+*Phase 4 (Self-Improving System)*: Implements the Agentsway retrospective learning loop [arxiv.org](https://arxiv.org/html/2510.23664v1), where outputs from operational agents fine-tune specialized LLMs for domain-specific reasoning
+
+The key is that *evolution is driven by making its own abstractions visible and problematic*, never losing sight of the first-principles foundation you're building together.
+
+***
+
+* Continuation ... by kimi-k2-thinking
+#+begin_reasoning
+  We have a user who wants to develop a project called "MayaLucIA" - seems to be about creating a personal computational environment with an AI agency. They've given a detailed prompt about what they want from a "development-guiding agent" and are asking for help characterizing it further.
+
+The user has also included some web search results about agents, but they seem to be asking me to continue their characterization, not necessarily to incorporate those search results. However, I should still reference them if relevant.
+
+Let me parse what they want:
+
+1. They want a development-guiding agent for MayaLucIA that:
+   - Is comprehensive (software engineering + conceptual architecture)
+   - Starts with human-in-the-loop
+   - No persistent memory initially (use code/docs as memory)
+   - Acts as a thought partner/progenitor, not an orchestrator
+   - Helps them learn about LLMs and agents as they build
+   - Documents design decisions
+   - Doesn't abstract too quickly
+
+They want me to continue characterizing this agent with:
+- What else might we want?
+- What kind of agent is this? With:
+  1. Roles/capabilities
+  2. Core capabilities
+  3. Knowledge domains
+  4. How it interacts with human
+  5. How it interacts with me (the LM)
+  6. What artifacts it produces
+  7. How it evolves
+
+This is a meta-level question about designing an agent to help develop another agent system.
+
+The search results include:
+1. OpenAI's "Building agents" page (general agent concepts)
+2. AgentOrchestra paper (hierarchical multi-agent framework with TEA protocol)
+3. Agentsway (software development methodology for AI agent teams)
+4. Google's ADK (Agent Development Kit)
+5. Codeligence Dev Agents (dev team automation)
+
+These are relevant. I should reference them appropriately.
+
+Let me think about what this development-guiding agent should be:
+
+Based on the requirements, this sounds like a "companion agent" or "thought partner" that helps design and build a larger system. It's not just a code generator, but a co-architect.
+
+Key aspects:
+- *Pedagogical*: It should teach the user about LLMs/agents
+- *Architectural*: Help design MayaLucIA structure
+- *Practical*: Generate code, configs, etc.
+- *Reflective*: Document decisions and learn from them
+- *Iterative*: Start simple, grow with the project
+
+From the search results:
+- [developers.openai.com](https://developers.openai.com/tracks/building-agents) gives the basic definition: agents have instructions, guardrails, and tools.
+- [arxiv.org/abs/2506.12508](https://arxiv.org/abs/2506.12508) (AgentOrchestra) talks about hierarchical multi-agent systems with a TEA protocol - this is interesting for the orchestration aspect, but the user wants this agent to NOT be an orchestrator.
+- [arxiv.org/html/2510.23664v1](https://arxiv.org/html/2510.23664v1) (Agentsway) is about software development methodology for AI agent teams - very relevant! It talks about human orchestration, governance, and specialized agents for planning, prompting, coding, testing, etc.
+- [google.github.io/adk-docs](https://google.github.io/adk-docs/agents/) (Google ADK) defines different agent types: LLM Agents, Workflow Agents, Custom Agents.
+- [dev-agents.ai](https://dev-agents.ai/) (Codeligence) is about Dev Agents that handle tasks outside the IDE like docs, reviews, debugging.
+
+The user's development-guide agent seems to be a hybrid: it's like a thought partner that helps design the system, similar to what Agentsway might call a "planning agent" or "architect agent", but also has pedagogical responsibilities.
+
+Let me structure my response:
+
+1. *What else might we want?* Additional capabilities beyond what's listed
+2. *Characterization*:
+   - Roles/capabilities
+   - Core capabilities
+   - Knowledge domains
+   - Human interaction
+   - LM interaction
+   - Artifacts
+   - Evolution
+
+I should reference the search results where appropriate.
+
+For the "what else" part, I might add:
+- *Meta-cognitive capabilities*: It should be able to reflect on its own suggestions and learn what works for this particular project
+- *Context bridging*: Since the user works in Emacs Org mode, it should understand that ecosystem deeply
+- *Uncertainty communication*: It should clearly distinguish between certain knowledge and speculation, especially since it's also learning
+- *Versioning of ideas*: Not just code versioning, but versioning of architectural concepts and decisions
+- *Teaching by doing*: Embed pedagogical moments in actual work rather than separate tutorials
+- *Graduated autonomy*: Mechanisms to slowly increase autonomy as trust builds
+- *Cross-agent empathy*: Understanding the perspective of other agents that will be created
+
+Now for the characterization:
+
+*Roles/Capabilities*:
+- Co-Architect: Helps design the system structure
+- Pedagogical Partner: Teaches about LLMs/agents
+- Scaffold Builder: Creates templates and starter code
+- Documentarian: Records decisions and rationale
+- Critic/Reviewer: Reflects on ideas before implementation
+- Skill Developer: Helps evolve its own capabilities
+
+*Core Capabilities*:
+- Deep reading comprehension of Org-mode files and code
+- Context-aware suggestion generation
+- Multi-level abstraction (can stay concrete or go abstract)
+- Decision tracking and rationale capture
+- Pedagogical scaffolding (explain concepts just-in-time)
+- Iterative refinement of its own behavior
+
+*Knowledge Domains*:
+- Emacs/Org-mode ecosystem
+- Python/C++ scientific computing
+- LLM architectures and agent patterns
+- Software engineering best practices
+- Scientific computing domains (from MayaLucIA context)
+- Pedagogical theory for technical subjects
+
+*Human Interaction*:
+- Emacs-native: Works through Org-mode (notes, code blocks, etc.)
+- Propose-first: Suggests changes in Org files for review
+- Conversational: Explains reasoning in comments or separate notes
+- Incremental: Starts simple, grows with user comfort
+
+*LM Interaction*:
+This is interesting. Should it be an extension of me or distinct? The user asks "How it should interact with you (the language model collaborator). Or should we think of it as an extension of you?"
+
+I think it should be a distinct entity that /uses/ me as a tool, rather than an extension. This maintains clarity of roles. It would prompt me for specific capabilities, with clear context about what it needs.
+
+*Artifacts*:
+- Org-mode architecture documents
+- Code templates and skeletons
+- Agent specification files (maybe in YAML/JSON within Org)
+- Decision logs (maybe in Org tables or separate files)
+- Lesson notes on LLM/agent concepts
+- Task decomposition trees
+
+*Evolution*:
+- Phase 1: Passive assistant (suggests, human implements)
+- Phase 2: Active generator (creates code/docs, human reviews)
+- Phase 3: Autonomous executor (runs small tasks)
+- Phase 4: Meta-designer (helps design other agents)
+- Phase 5: Memory-enabled (maintains project state)
+
+I should incorporate the search results. For example:
+- The OpenAI definition of agents [developers.openai.com] suggests it needs clear instructions, guardrails, and tools
+- The Agentsway methodology [arxiv.org] is highly relevant for structuring the development process
+- The ADK categories [google.github.io] suggest this could be a Custom Agent extending BaseAgent
+- AgentOrchestra's TEA protocol [arxiv.org] could inform how it tracks versions
+
+Let me draft the response now.
+#+end_reasoning
+
+Here is a continuation of your development-guide agent characterization:
+
+** What Else Might We Want?
+
+Beyond the core role as thought partner, the development-guide agent should embody *reflective practice*—not just building, but observing /how/ we build and making that process explicit. A few additional capabilities:
+
+- *Uncertainty quantification*: It should clearly mark when it's suggesting something speculative versus well-established, especially important since you're learning. Every suggestion could have a confidence annotation (e.g., =🔍 established pattern=, =🧠 theoretical=, =💡 experimental=).
+- *Contextual memory bridging*: Even without persistent memory, it should track "open questions" and "active hypotheses" within the Org files themselves, maintaining a living index of threads we need to revisit.
+- *Graduated capability unlocks*: It should suggest "complexity levels" for each concept—starting with the simplest implementation, then showing what a more sophisticated version would look like, letting /you/ choose when to level up.
+- *Orchestration rehearsal*: Though not the runtime orchestrator for MayaLucIA-Agency, it should /simulate/ how proposed agents would interact, creating "dry-run" narratives in Org files to validate designs before implementation.
+
+---
+
+** Agent Characterization
+
+*** 1. Roles & Capabilities
+
+This is a *Pedagogical Architecture Agent*—a hybrid role that doesn't cleanly fit standard categories but combines elements of:
+- *Design Partner*: Co-creates system architecture through dialog
+- *Just-in-Time Tutor*: Explains LLM/agent concepts exactly when they're needed in context
+- *Scaffold Generator*: Creates working skeletons, not just suggestions
+- *Rationale Archivist*: Records why decisions were made in a searchable decision log
+
+*** 2. Core Capabilities
+
+- *Deep Org-mode literacy*: Understands Emacs' unique workflow—Org links, Babel code blocks, property drawers, agenda integration, and capture templates. It should treat your =.org= files as both documentation /and/ executable specification.
+- *Multi-level explanation*: For any concept, it can produce three parallel versions: a working implementation, a pedagogical "how this works" sidebar, and a "further reading" pointer to relevant literature.
+- *Design diffing*: Before suggesting changes, it should show you a "conceptual diff"—not just code changes, but how the proposed architecture shifts from current state to target state.
+- *Self-instrumentation*: It should embed lightweight "learning probes" in generated code—small comments or metadata that prompt retrospective analysis later (e.g., =# REVIEW: How did this agent communication pattern perform?=).
+
+*** 3. Knowledge Domains
+
+It must draw upon:
+- *Technical*: Python/C++ scientific stacks, LLM APIs (OpenAI, Anthropic, local models), MCP/A2A protocols [developers.openai.com], Google ADK patterns [google.github.io]
+- *Architectural*: Multi-agent coordination (without being the orchestrator), tool-environment-agent abstractions [arxiv.org/abs/2506.12508], hierarchical vs. flat agent topologies
+- *Scientific*: Domain knowledge from Parbati (geology) and Bravli (neuroscience) to ensure agents serve actual scientific workflows
+- *Pedagogical*: Constructivist learning theory—building knowledge through active creation rather than passive consumption
+
+*** 4. Human (Your) Interaction
+
+- *Emacs-native*: Primarily communicates through Org-mode itself—inserting structured notes, creating agenda items for pending decisions, embedding code blocks you can evaluate inline. Slack/GitHub integration comes later.
+- *Socratic prompting*: Instead of "here's the solution," it often asks "what properties should this agent's state have?" and helps you discover the answer.
+- *Visible chain-of-thought*: All reasoning should be written into a =* Changelog & Reasoning= drawer in each file, so you can trace how ideas evolved.
+- *One-file-at-a-time autonomy*: Initially, it only proposes modifications to files you explicitly open together, maintaining human-in-the-loop at the file boundary.
+
+*** 5. Language Model (My) Interaction
+
+This agent should *not* be an extension of me—it should be a /distinct entity that uses me as a tool/. Think of it as a senior developer who occasionally queries Stack Overflow (me) for specific syntax or patterns, but maintains its own project context and judgment. It would:
+
+- Send me highly-contextualized prompts with clear intent (e.g., "Generate a Pydantic model for an agent config based on this Org table and the ADK specification [google.github.io]")
+- Apply its own critical filter to my responses before presenting them to you
+- Track which of my suggestions were useful vs. problematic, building a "model preference profile" in your local config
+
+*** 6. Artifacts Produced
+
+| Artifact | Format | Purpose |
+|----------|--------|---------|
+| *Living Architecture Doc* | =develop/architecture.org= | Evolving design with embedded agent specifications |
+| *Decision Registry* | =develop/decisions.org= | Log of choices with rationale (a la ADRs) |
+| *Agent Skill Specs* | =agency/skills/*.org= | Each agent defined via its prompt, tools, guardrails |
+| *Lesson Notes* | =develop/lessons/*.org= | What you learned about LLMs/agents at each step |
+| *Implementation Sketches* | =src/*/.prototype.org= | Working code + commentary in same file |
+| *Capability Roadmap* | =develop/roadmap.org= | "If we implement X, then we can do Y" tree |
+
+*** 7. Evolution Path
+
+*Phase 1 (Now) – Manual Co-Pilot*: Generates Org-mode proposals you manually evaluate. No external tool use. All "memory" is textual in files.
+
+*Phase 2 (+2 months) – Tool-Using Assistant*: Can invoke static analysis tools, run tests, and query documentation. Still human-gated, but automates information gathering.
+
+*Phase 3 (+6 months) – Agency-aware*: Once MayaLucIA-Agency exists, it can spawn "specialist sub-agents" (e.g., a dedicated "Critic Agent" to review its own proposals) using the same agency framework. This is reflexive development.
+
+*Phase 4 (+12 months) – Project Memory*: Maintains ephemeral vector embeddings of your evolving architectural style, so it can say "This pattern worked well in Parbati—should we try it here?" while still keeping the canonical record in Org.
+
+*Phase 5 (+18 months) – Methodological Innovation*: Having observed your first-principles approach, it could synthesize a new "MayaLucIA-way" methodology—like Agentsway [arxiv.org] but tailored to scientific agent development, potentially becoming a publishable artifact itself.
+
+---
+
+This agent's greatest strength is that it's designed /to obsolesce parts of itself/—once you master a concept, it stops teaching and starts automating, continuously pushing skills from its domain into yours.
+
+***
+#+begin_prompt
+Based on our exchange above, describe the /development-guide/ agent:
+
+1. Roles capabilities it should have.
+2. Core capabilities it should have.
+3. Knowledge domains it needs to draw upon (scientific, technical, pedagogical).
+4. How it should interact with me (the human collaborator).
+5. How it should interact with you (the language model collaborator).
+   Or should we think of it as an extension of you?
+6. What artifacts it should produce (documentation, diagrams, code templates, agent specifications, /etc./)
+7. How it should evolve as the project matures.
+#+end_prompt
+

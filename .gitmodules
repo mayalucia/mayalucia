@@ -1,3 +1,6 @@
 [submodule "modules/mayaportal"]
 	path = modules/mayaportal
 	url = ./modules/mayaportal
+[submodule "modules/mayajiva/godot-cpp"]
+	path = modules/mayajiva/godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git

@@ -1,0 +1,3 @@
+#+title: Inspiration
+
+What inspiration do we stumble across during our knowledge processing work /in collaboration with an LLM/? Here, in this directory we extract from our collaborative conversations (collabs for short), and distill them in this file.

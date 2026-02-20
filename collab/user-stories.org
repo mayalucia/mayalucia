@@ -1,0 +1,11 @@
+#+title: User Stories
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[file:../mayalucia.org][mayalucia.org]] :: Introduces a vision.
+2. [[file:../parbati/parbati.org][parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+3. [[file:../bravli/bravli.org][bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+4. [[file:../project/overview.org][project/overview.org]] :: Provides a preliminary overview of what and how to implement =MayaLucIA=
+5. [[file:../project/user-stories.org][project/user-stories.org]] describes 4 user personas and interaction modes that we envision for =MayaLucIA=.
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.

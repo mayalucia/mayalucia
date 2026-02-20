@@ -1,0 +1,14 @@
+#+title: Development-Guide Agent
+
+#+begin_prompt
+Based on our exchange above, describe the /development-guide/ agent:
+
+1. Roles and responsibilities.
+2. Core capabilities it should have.
+3. Knowledge domains it needs to draw upon (scientific, technical, pedagogical).
+4. How it should interact with you (the human collaborator).
+5. What artifacts it should produce (documentation, diagrams, code templates, agent specifications, etc.).
+6. How it should evolve as the project matures.
+
+Write your response directly in this ORG buffer, adding a new subsection under this heading.
+#+end_prompt

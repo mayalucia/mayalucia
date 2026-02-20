@@ -1,0 +1,160 @@
+#+title: Philosophical Inspirations
+
+* Sanskrit Concepts
+
+A list produced by kimi-k2-thinking while reasoning of "Indian philosophical concepts that could be relevant":
+- Darshana (perspective/view)
+- Buddhi (intellect)
+- Manas (mind)
+- Atman (self)
+- Brahman (ultimate reality)
+- Maya (illusion/creative power)
+- Karma (action)
+- Dharma (duty/natural law)
+- Vidya (knowledge)
+- Avidya (ignorance)
+- Samskara (mental impression)
+- Prakriti (nature/matter)
+- Purusha (consciousness)
+- Shakti (power/energy)
+- Jnana (wisdom)
+- Bhakti (devotion)
+- Karma (action)
+- Raja (king/royal)
+- Artha (purpose/wealth)
+- Kama (desire)
+- Moksha (liberation)
+- Guru (teacher)
+- Shishya (student)
+- Yogi (practitioner)
+- Rishi (seer/sage)
+- Deva (deity/divine)
+- Asura (demon - but can represent destructive forces)
+- Lokas (worlds/realms)
+- Tattva (principle/truth)
+- Guna (quality/attribute): Sattva, Rajas, Tamas
+- Kosha (sheath/layer)
+- Chakra (wheel/center)
+- Nadi (channel)
+- Prana (life force)
+- Mantra (sacred utterance)
+- Yantra (diagram/machine)
+- Tantra (system/technique)
+- Sutra (thread/aphorism)
+- Bhashya (commentary)
+- Vritti (fluctuation)
+- Samadhi (absorption)
+- Viveka (discrimination)
+- Vairagya (dispassion)
+- Abhyasa (practice)
+- Ishvara (lord/controller)
+- Jiva (individual soul)
+- Pramana (means of knowledge)
+- Pratyaksha (perception)
+- Anumana (inference)
+- Shabda (verbal testimony)
+- Artha (meaning/object)
+- Karana (cause)
+- Karya (effect)
+- Samyoga (union)
+- Vibhaga (separation)
+- Samkhya (enumeration)
+- Yoga (union/discipline)
+- Nyaya (logic)
+- Vaisheshika (particularity)
+- Mimamsa (investigation)
+- Vedanta (end of vedas)
+- Kala (time)
+- Dik (space)
+- Samanya (universal)
+- Vishesha (particular)
+- Parinama (transformation)
+- Prakasha (illumination)
+- Vimarsha (reflection)
+- Spanda (vibration)
+- Matrika (little mother/letters)
+- Bindu (point)
+- Nada (sound)
+- Kalaa (art/portion)
+- Tattva (principle)
+- Siddhi (attainment)
+- Sadhana (practice)
+- Upaya (means)
+- Adhikara (qualification)
+- Samskriti (culture/refinement)
+- Prajna (wisdom)
+- Dhi (thought)
+- Dhriti (steadfastness)
+- Medha (intelligence)
+- Sraddha (faith)
+
+** And their Greek/Roman counterparts:
+- Athena/Minerva (wisdom, strategy)
+- Apollo (knowledge, light, prophecy)
+- Hermes/Mercury (communication, boundaries, commerce, thieves)
+- Hephaestus/Vulcan (craftsmanship, fire, technology)
+- Prometheus (forethought, creation)
+- The Muses (inspiration, arts, sciences)
+- Mnemosyne (memory)
+- Metis (cunning wisdom)
+- Hephaestus's automatons (automation)
+- Daedalus (craftsman, inventor)
+- Aristotle (logic, categorization)
+- Socrates (questioning)
+- Plato (ideals/forms)
+- Chronos (time)
+- Gaia (earth)
+- Uranus (sky)
+- Prometheus (creation, foresight)
+- Epimetheus (afterthought, hindsight)
+- Helios/Sol (sun, illumination)
+- Selene/Luna (moon, cycles)
+- Atlas (burden, holding up)
+- Janus (beginnings, endings, transitions)
+- Fortuna/Tyche (luck, chance)
+- Necessitas/Ananke (necessity)
+- Techne (art, skill, craft)
+- Logos (reason, word)
+- Nous (mind, intellect)
+- Psyche (soul, breath)
+- Thymos (spiritedness)
+- Phronesis (practical wisdom)
+- Sophia (wisdom)
+- Episteme (knowledge)
+- Techne (craft)
+- Praxis (practice)
+- Theoria (contemplation)
+- Kairos (opportune moment)
+- Aion (eternity)
+
+
+* Sanskrit LLM Agent
+
++ Buddhi (बुद्धि) :: Refers to the intellectual faculty and the power to form concepts, reason, and understand. It is often used in the term for Artificial Intelligence, Kṛtrim Buddhi.
+ 
++ Vāc (वाच्) :: The personification of speech and language; it literally means "that which speaks" or "voice".
+  
++ Sūtra (सूत्र) :: Meaning "thread," this term refers to a rule or aphorism that connects ideas. It is already used in some LLM architectures to describe the decoupling of concept and language learning.
+  
++ Vākya (वाक्य) :: Refers to words, sentences, or a representation of expression.
+  
++ Bodhana (बोधन) :: Means the act of informing, teaching, or making someone aware. 
+
++ Guru (गुरु) :: A well-known term for a mentor, guide, or expert who shares both literal and experiential knowledge.
+  
++ Ācārya (आचार्य) :: A professional teacher or professor who specializes in a specific domain and imparts skills.
+  
++ Apta (आप्त) :: Means trustworthy, fit, clever, or exact. It is often suggested for "smart" products due to its brevity and positive connotations.
+  
++ Kani (कनि) :: Meaning "youngest" or "small," it has been used as a name for open-source AI frameworks. 
+
++ Kṛtrim (कृत्रिम) :: Meaning "artificial" or "created by human effort," used to specify that the intelligence is not biological. 
+  
+* Projects
++ DARSAN :: Data & Arts for Reconstruction, Simulation & Analysis
++ DARSANAM :: Data & Arts for Reconstruction, Simulation, Analysis & Manifestation
+
+* Jiva
+
+- Jiva-Maya (Internal Illusion) :: This is the aspect of Maya that "veils" or conceals a person's true divine nature, leading to ignorance (Avidya). It makes the Jiva believe it is a separate, limited "doer" with a name and history.
+- Guna-Maya (External Illusion) :: This is the aspect that projects the material world and supplies the physical ingredients (the body, senses, and objects) for the Jiva to interact with. 

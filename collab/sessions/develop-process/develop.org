@@ -1,0 +1,83 @@
+#+title: Developing =MayaLucIA=
+
+* Critical Questions to Judge Our Development of =MayaLucIA=
+
+1. Is =MayaLucIA= a framework, or a collection of aspirations?
+  We must start  =MayaLucIA= as a collection of /darshana/.
+
+2. How will we know when we understand something better? What observable outcomes indicate success?
+
+3. What are you really seeking? ---- Is this a /practice/? and not just a project ?
+
+4. If this is a practice, is this the right practice for my growth?
+
+5. Pick one concrete deliverable, a working notebook that reconstructs a 10km square section of a Parvatu valley terrain from satellite data, with at least one generative visualizaiton.
+
+6. Test an AI-agent  empirically --- build a specidific visualization pipeline --- document what works and what does not
+
+7. Don't architect anything --- start to build -- be organic
+
+8. accept that the framework may never emerge --- the value lies in projects within the framework
+
+
+* Proposed ORG Files
+- =mayalucia/index.org=
+  Table of contents + vision snapshot + weekly plan.
+
+- =mayalucia/agency/roles.org=
+  Definitions of agent roles and handoffs.
+
+- =mayalucia/agency/operations.org=
+  Protocols: request → response → review → archive.
+
+- =mayalucia/parvati/roadmap.org=
+  Milestones, deliverables, dependencies.
+
+- =mayalucia/parvati/mayadarshan.org=
+  First story, constraints, visuals, MVP list.
+
+- =mayalucia/logs/changelog.org=
+  Date‑stamped edits.
+
+* Suggested Immediate Next Step
+I recommend we create a single ORG file:
+=01_agency-definition.org=,
+containing definitions + role taxonomy + boundary rules.
+I can draft it in your preferred layout.
+
+* Agent Organization
+#+begin_prompt
+Let us start by defining this organization of agents. We need to define /the Roles and Responsibilities/ of our initial team of agents.
+
+Based on the files provided, and the goal of "Personal Understanding" via "Measure -> Model -> Manifest -> Refine," cycle  propose a roster of 3-5 core specialized agents that we should build first.
+
+For each agent, define:
+1. *Name/Role*
+2. *Prime Directive* (Their core philosophy)
+3. *Input/Output* (What data they consume and what data they produce)
+4. *Tool Access* (Describe the computational tool / system capabilities they need (with out tech details))
+#+end_prompt
+
+* Clarifying Questions Before We Proceed
+
+Before I sketch the /technical anatomy/ of =Sankalp= (prompt structure, tool bindings, etc.), I want to verify alignment:
+
+1. /Naming/: Does =Sankalp= resonate with you, or would you prefer a different name/metaphor? The name should feel like a genuine thought-partner to you.
+
+2. /Scope of First Prototype/: Should =Sankalp='s first iteration focus on:
+   - (a) Helping you /design/ the other agents (producing their specifications)?
+   - (b) Helping you /learn/ agentic AI concepts (a pedagogical focus)?
+   - (c) Both, interleaved as needed?
+
+3. /Session Bootstrapping/: Since =Sankalp= starts stateless, it must re-read context each session. Should it:
+   - (a) Read /all/ vision docs at session start (thorough but token-heavy)?
+   - (b) Read a /summary doc/ that you or it maintains?
+   - (c) Ask you what's relevant at the start of each session?
+
+4. /First Concrete Task/: Once we agree on =Sankalp='s shape, what should its first assignment be? Some options:
+   - Draft the =Librarian Agent= specification
+   - Draft a =MayaLucIA= project structure (folder layout, key files)
+   - Explain a foundational agentic AI concept (e.g., tool-use, ReAct pattern)
+   - Something else you have in mind?
+
+****

@@ -1,0 +1,767 @@
+Formal Theory of Fun and Creativity Explains Science, Art, Music, Humor
+
+ .  *  Jürgen Schmidhuber at   Left: JS giving a    .
+     Singularity Summit 2009 -   talk on creativity      
+    Formal Theory of    Compression Progress: The   theory & art &      
+    Creativity & Fun &    Algorithmic Principle Behind   science & humor at      
+    Intrinsic Motivation    Curiosity and Creativity    the Singularity      
+    (1990-2010)        Summit 2009 in New      
+    by Jürgen Schmidhuber        York City. Videos:
+           10min (excerpts at      
+    Since 1990 JS has built       YouTube), 40min      
+    curious, creative agents       (original at Vimeo),      
+    that may be viewed as       20min. JS' theory      
+    simple artificial       was also subject of      
+    scientists & artists       a TV documentary (BR      
+    with an intrinsic desire       "Faszination      
+    to explore the world by       Wissen", 29 May      
+    continually inventing       2008; several      
+    new experiments. They       repeats on other      
+    never stop generating       channels). Compare      
+    novel & surprising       H+ interview and      
+    stuff, and consist of       slashdot article.       
+    two learning modules:          
+    (A) an adaptive          
+    predictor or compressor          
+    or model of the growing          
+    data history as the          
+    agent is interacting          
+    with its environment,          
+    and (B) a general          
+    reinforcement learner          
+    (RL) selecting the          
+    actions that shape the          
+    history. The learning          
+    progress of (A) can be          
+    precisely measured and          
+    is the agent's fun: the          
+    intrinsic reward of (B).          
+    That is, (B) is          
+    motivated to learn to          
+    invent interesting          
+    things that (A) does not          
+    yet know but can easily          
+    learn. To maximize          
+    future expected reward,          
+    in the absence of          
+    external reward such as          
+    food, (B) learns more          
+    and more complex          
+    behaviors that yield          
+    initially surprising          
+    (but eventually boring)          
+    novel patterns that make          
+    (A) quickly improve.          
+    Many papers on this          
+    since 1990 can be found          
+    here - key papers          
+    include those of 1991,          
+    1995, 1997(2002), 2006,          
+    2007, 2011 (see also          
+    bottom of this page).          
+    The agents embody a          
+    simple, but general,          
+    formal theory of fun &          
+    creativity explaining          
+    essential aspects of          
+    human or non-human          
+    intelligence, including          
+    selective attention,          
+    science, art, music,          
+    humor (as discussed in          
+    the next column).           
+              
+    More Formally. Let O(t)          
+    denote the state of some          
+    subjective observer O at          
+    time t. Let H(t) denote          
+    its history of previous          
+    actions & sensations &          
+    rewards until time t. O          
+    has some adaptive method          
+    for compressing H(t) or          
+    parts of it. We identify          
+    the subjective momentary          
+    simplicity or          
+    compressibility or          
+    regularity or beauty B          
+    (D,O(t)) of any data D          
+    (but not its          
+    interestingness or          
+    aesthetic / artistic          
+    value - see below) as          
+    the negative number of          
+    bits required to encode          
+    D, given the observer's          
+    current limited prior          
+    knowledge and limited          
+    compression method. We          
+    define the          
+    time-dependent          
+    subjective          
+    interestingness or          
+    novelty or surprise or          
+    aesthetic reward or          
+    aesthetic value or          
+    internal joy or fun I          
+    (D,O(t)) of data D for          
+    observer O at discrete          
+    time step t>0 by I(D,O          
+    (t))= B(D,O(t))-B(D,O          
+    (t-1)), the change or          
+    the first derivative of          
+    subjective simplicity or          
+    beauty: as the learning          
+    agent improves its          
+    compression algorithm,          
+    formerly apparently          
+    random data parts become          
+    subjectively more          
+    regular and beautiful,          
+    requiring fewer and          
+    fewer bits for their          
+    encoding. As long as          
+    this process is not over          
+    the data remains          
+    interesting, but          
+    eventually it becomes          
+    boring even if it is          
+    beautiful. At time t,          
+    let ri(t)=I(H(t),O(t))          
+    denote the momentary fun          
+    or intrinsic reward for          
+    compression progress          
+    through discovery of a          
+    novel pattern somewhere          
+    in H(t), the history of          
+    actions and sensations          
+    until t. Let re(t)          
+    denote the current          
+    external reward if there          
+    is any, and r(t)=g(ri          
+    (t),re(t)) the total          
+    current reward, where g          
+    is a function weighing          
+    external vs intrinsic          
+    rewards, e.g., g          
+    (a,b)=a+b. The agent's          
+    goal at time t0 is to          
+    maximize E[∑Tt=t0r(t)],          
+    where E is the          
+    expectation operator,          
+    and T is death. This can          
+    be done with one of our          
+    reinforcement learning          
+    algorithms.           
+              
+    Implementations. The          
+    following variants were          
+    implemented. [1991a]:          
+    Non-traditional RL          
+    (without restrictive          
+    Markovian assumptions)          
+    based on adaptive          
+    recurrent neural          
+    networks as predictive          
+    world models maximizes          
+    intrinsic reward as          
+    measured by prediction          
+    error; [1991b]:          
+    Traditional RL maximizes          
+    intrinsic reward as          
+    measured by improvements          
+    in prediction error;          
+    [1995]: Traditional RL          
+    maximizes intrinsic          
+    reward as measured by          
+    relative entropies          
+    between the agent's          
+    priors and posteriors;          
+    [1997-2002]: Learning of          
+    probabilistic,          
+    hierarchical programs          
+    and skills through          
+    zero-sum intrinsic          
+    reward games of two          
+    players betting against          
+    each other, each trying          
+    to out-predict or          
+    surprise the other by          
+    inventing algorithmic          
+    experiments where both          
+    modules disagree on the          
+    predicted experimental          
+    outcome, taking into          
+    account the          
+    computational costs of          
+    learning, and learning          
+    when to learn and what          
+    to learn. The papers          
+    1991-2002 also showed          
+    experimentally how          
+    intrinsic rewards can          
+    substantially accelerate          
+    goal-directed learning          
+    and external reward          
+    intake. JS also          
+    described mathematically          
+    optimal (more),          
+    intrinsically motivated          
+    systems driven by          
+    prediction progress or          
+    compression progress          
+    [2006-]. All          
+    publications on this are          
+    listed here.           
+              
+    Developmental Robotics.          
+    Our continually learning          
+    artificial agents go          
+    through developmental          
+    stages: something          
+    interesting catches          
+    their attention for a          
+    while, but they get          
+    bored once they can't          
+    further improve their          
+    predictions, then try to          
+    create new tasks for          
+    themselves to learn          
+    novel, more complex          
+    skills on top of what          
+    they already know; then          
+    this gets boring as          
+    well, and so on, in          
+    open-ended fashion.           
+              
+    ---------------------------          
+              
+    Selected Videos and          
+    Invited Talks on          
+    Artificial Creativity          
+    etc           
+              
+    13 June 2012: JS' work          
+    featured in Through the          
+    Wormhole with Morgan          
+    Freeman on the Science          
+    Channel. Full video at          
+    youtube - check 31:20 ff          
+    and 2:30 ff.           
+              
+    20 Jan 2012: TEDx Talk          
+    (uploaded 10 March) at          
+    TEDx Lausanne: When          
+    creative machines          
+    overtake man (12:47).           
+              
+    15 Jan 2011: Winter          
+    Intelligence Conference,          
+    Oxford (on universal AI          
+    and theory of fun). See          
+    video of Sept 2011 at          
+    vimeo or youtube.           
+              
+    22 Sep 2010: Banquet          
+    Talk in the historic          
+    Palau de la M�sica          
+    Catalana for Joint          
+    Conferences ECML / PKDD          
+    2010, Barcelona: Formal          
+    Theory of Fun &          
+    Creativity. 4th slide.          
+    On Dec 14,          
+    videolectures.net posted          
+    a video and all slides          
+    of this talk.           
+              
+    12 Nov 2009: Keynote in          
+    the historic Cinema          
+    Corso (Lugano) for          
+    Multiple Ways to Design          
+    Research 09: Art &          
+    Science           
+              
+    3 Oct 2009: Invited talk          
+    for Singularity Summit          
+    in the historic Kaufmann          
+    Concert Hall, New York          
+    City. 10 min video.           
+              
+    12 Jul 2009: Dagstuhl          
+    Castle Seminar on          
+    Computational Creativity          
+              
+    3 Sep 2008: Keynote for          
+    KES 2008           
+              
+    2 Oct 2007: Joint          
+    invited lecture for          
+    Algorithmic Learning          
+    Theory (ALT 2007) and          
+    Discovery Science (DS          
+    2007), Sendai, Japan           
+              
+    23 Aug 2007: Keynote for          
+    A*STAR Meeting on          
+    Expectation & Surprise,          
+    Singapore           
+              
+    12 July 2007: Keynote          
+    for Art Meets Science          
+    2007: "Randomness vs          
+    simplicity & beauty in          
+    physics and the fine          
+    arts"           
+      How the Theory Explains    Femme Fractale: Lady in    
+      Art. Artists (and    Red - Low-Complexity Art    
+      observers of art) get    by Juergen Schmidhuber     
+      rewarded for making (and        
+      observing) novel patterns:    How the Theory Explains    
+      data that is neither    Fun Through Learning    
+      arbitrary (like    Motor Skills. In many    
+      incompressible random    ways the laughs provoked    
+      white noise) nor regular    by witty jokes are    
+      in an already known way,    similar to those    
+      but regular in way that is    provoked by the    
+      new with respect to the    acquisition of new    
+      observer's current    skills through both    
+      knowledge, yet learnable    babies and adults. Past    
+      (that is, after learning    the age of 25 JS learnt    
+      fewer computational    to juggle three balls.    
+      resources are needed to    It was not a sudden    
+      encode the data). While    process but an    
+      the formal theory of    incremental and    
+      creativity explains the    rewarding one: in the    
+      desire to create or    beginning he managed to    
+      observe all kinds of art,    juggle them for maybe    
+      Low-Complexity Art (1997)    one second before they    
+      applies and illustrates it    fell down, then two    
+      in a particularly clear    seconds, four seconds,    
+      way. Example to the right:    etc., until he was able    
+      Many observers report they    to do it right. Watching    
+      derive pleasure from    himself in the mirror    
+      discovering simple but    (as recommended by    
+      novel patterns while    juggling teachers) he    
+      actively scanning this    noticed an idiotic grin    
+      self-similar Femme    across his face whenever    
+      Fractale. The observer's    he made progress. Later    
+      learning process causes a    his little daughter    
+      reduction of the    grinned just like that    
+      subjective complexity of    when she was able to    
+      the data, yielding a    stand on her own feet    
+      temporarily high    for the first time.     
+      derivative of subjective    * All of this fits the    
+      beauty: a temporarily    theory perfectly: such    
+      steep learning curve.    grins are triggered by    
+      Similarly, the    intrinsic reward for    
+      computer-aided artist got    generating a data stream    
+      reward for discovering a    with previously unknown    
+      satisfactory way of using    novel patterns, such as    
+      fractal circles to create    the sensory input    
+      this low-complexity    sequence corresponding    
+      artwork, although it took    to observing oneself    
+      him a long time and    juggling, which may be    
+      thousands of frustrating    quite different from the    
+      trials. Here is the    more familiar experience    
+      explanation of the    of observing somebody    
+      artwork's low algorithmic    else juggling, and    
+      complexity: The frame is a    therefore truly novel    
+      circle; its leftmost point    and intrinsically    
+      is the center of another    rewarding, until the    
+      circle of the same size.    adaptive predictor /    
+      Wherever two circles of    compressor (e.g., a    
+      equal size touch or    recurrent neural    
+      intersect are centers of    network) gets used to    
+      two more circles with    it. Picture: iCub baby    
+      equal and half size,    robot as used in JS' EU    
+      respectively. Each line of    project IM-CLEVER on    
+      the drawing is a segment    developmental robotics    
+      of some circle, its    and on implementing the    
+      endpoints are where    theory of fun &    
+      circles touch or    creativity on robots.    
+      intersect. There are few    (So far, however, the    
+      big circles and many small    iCub has been unable to    
+      ones. This can be used to    juggle the three balls    
+      encode the image very    for more than 60 seconds    
+      efficiently through a very    - much remains to be    
+      short program. That is,    done.)     
+      the Femme Fractale has        
+      very low algorithmic    How the Theory    
+      information or Kolmogorov    Generalizes Active    
+      complexity. Click at the    Learning (e.g., Fedorov,    
+      image to enlarge it. (The    1972). To optimize a    
+      expression Femme Fractale    function may require    
+      was coined in 1997: J.    expensive data    
+      Schmidhuber. Femmes    evaluations. Original    
+      Fractales. Report    active learning is    
+      IDSIA-99-97, IDSIA,    limited to supervised    
+      Switzerland, 1997. In    classification tasks,    
+      2012, the artwork first    asking which data points    
+      appeared on TV in Through    to evaluate next to    
+      the Wormhole with Morgan    maximize information    
+      Freeman on the Science    gain, typically (but not    
+      Channel.)     necessarily) using 1    
+          step look-ahead,    
+      Jürgen Schmidhuber's    assuming all data point    
+      Guitar Bot How the Theory    evaluations are equally    
+      Explains Music. Why are    costly. The objective    
+      some musical pieces more    (to improve    
+      interesting or    classification error) is    
+      aesthetically rewarding    given externally; there    
+      than others? Not the one    is no explicit intrinsic    
+      the listener (composer)    reward in the sense    
+      just heard (played) fifty    discussed here. The more    
+      times in a row without any    general framework of    
+      noticable change. It    creativity theory also    
+      became too subjectively    takes formally into    
+      predictable in the    account: (1)    
+      process. Not the weird one    Reinforcement learning    
+      with completely unfamiliar    agents embedded in an    
+      rhythm and tonality. It    environment where there    
+      seems too irregular and    may be arbitrary delays    
+      contain too much    between experimental    
+      arbitrariness and    actions and    
+      subjective noise. The    corresponding    
+      observer (creator) of the    information gains, e.g.,    
+      data is interested in    papers of 1991 & 1995,    
+      melodies that are    (2) The highly    
+      unfamiliar enough to    environment- dependent    
+      contain somewhat    costs of obtaining or    
+      unexpected harmonies or    creating not just    
+      beats etc., but familiar    individual data points    
+      enough to allow for    but data sequences of a    
+      quickly recognizing the    priori unknown size, (3)    
+      presence of a new    Arbitrary algorithmic or    
+      learnable regularity or    statistical dependencies    
+      compressibility in the    in sequences of actions    
+      sound stream: a novel    & sensory inputs, e.g.,    
+      pattern! Sure, it will get    papers of 2002 & 2006,    
+      boring over time, but not    (4) The computational    
+      yet. All of this perfectly    cost of learning new    
+      fits the theory: The    skills, e.g., the 2002    
+      current predictor /    paper here. Unlike    
+      compressor of the observer    previous approaches,    
+      or data creator tries to    these systems measure    
+      compress his history of    and maximize algorithmic    
+      acoustic and other inputs    novelty (learnable but    
+      where possible (whatever    previously unknown    
+      you can predict you can    compressibility or    
+      compress as you don't have    predictability) of    
+      to store it extra). The    self-made, general,    
+      action selector tries to    spatio- temporal    
+      find history-influencing    patterns in the history    
+      actions such that the    of data and actions,    
+      continually growing    e.g., papers 2006-2010.     
+      historic data allows for        
+      improving the performance    No Objective Ideal Ratio    
+      of the predictor /    Between Expected and    
+      compressor. The    Unexpected. Some of the    
+      interesting or    previous attempts at    
+      aesthetically rewarding    explaining aesthetic    
+      musical and other    experience in the    
+      subsequences are precisely    context of math and    
+      those with previously    information theory    
+      unknown yet learnable    (Birkhoff 1933, Moles    
+      types of regularities,    1968, Bense 1969, Frank    
+      because they lead to    1964, Nake 1974, Franke    
+      compressor improvements.    1979) focused on the    
+      The boring patterns are    idea of an "ideal" ratio    
+      those that are either    between expected and    
+      already perfectly known or    unexpected information    
+      arbitrary or random, or    conveyed by some    
+      whose structure seems too    aesthetic object (its    
+      hard to understand.     order vs its    
+          complexity). Note that    
+      Wikipedia says: Smiling    the alternative approach    
+      can imply a sense of    of JS does not have to    
+      humour and a state of    postulate an objective    
+      amusement, as in this    ideal ratio of this    
+      painting of Falstaff by    kind. Instead his    
+      Eduard von Grützner. How    dynamic measure of    
+      the Theory Explains Humor.    interestingness reflects    
+      Consider the following    the change in the number    
+      statement: Biological    of bits required to    
+      organisms are driven by    encode an object, and    
+      the "Four Big F's":    explicitly takes into    
+      Feeding, Fighting,    account the subjective    
+      Fleeing, Mating. Some    observer's prior    
+      subjective observers who    knowledge as well as its    
+      read this for the first    limited compression    
+      time think it is funny.    improvement algorithm.    
+      Why? As the eyes are    Hence the value of an    
+      sequentially scanning the    aesthetic experience is    
+      text the brain receives a    not defined by the    
+      complex visual input    observed object per se,    
+      stream. The latter is    but by the algorithmic    
+      subjectively partially    compression progress of    
+      compressible as it relates    the subjective, learning    
+      to the observer's previous    observer.     
+      knowledge about letters        
+      and words.     Summary. To build a    
+      Wikipedia says: Smiling    creative system we need    
+      can imply a sense of    just a few crucial    
+      humour and a state of    ingredients: (1) A    
+      amusement, as in this    predictor or compressor    
+      painting of Falstaff by    (e.g., an RNN) of the    
+      Eduard von Grützner. That    continually growing    
+      is, given the reader's    history of actions and    
+      current knowledge and    sensory inputs,    
+      current compressor, the    reflecting what's    
+      raw data can be encoded by    currently known about    
+      fewer bits than required    how the world works, (2)    
+      to store random data of    A learning algorithm    
+      the same size. But the    that continually    
+      punch line after the last    improves the predictor    
+      comma is unexpected for    or compressor (detecting    
+      those who expected another    novel spatio-temporal    
+      "F". Initially this failed    patterns that    
+      expectation results in    subsequently become    
+      sub-optimal data    known patterns), (3)    
+      compression - storage of    Intrinsic rewards    
+      expected events does not    measuring the    
+      cost anything, but    predictor's or    
+      deviations from    compressor's    
+      predictions require extra    improvements (= first    
+      bits to encode them. The    derivatives of    
+      compressor, however, does    compressibility) due to    
+      not stay the same forever:    the learning algorithm,    
+      within a short time    (4) A separate reward    
+      interval its learning    optimizer or    
+      algorithm kicks in and    reinforcement learner    
+      improves its performance    (could be an    
+      on the data seen so far,    evolutionary algorithm),    
+      by discovering the    which translates those    
+      non-random, non-arbitrary    rewards into action    
+      and therefore compressible    sequences or behaviors    
+      pattern relating the punch    expected to optimize    
+      line to previous text and    future reward - the    
+      previous elaborate    creative agent is    
+      predictive knowledge about    intrinsically motivated    
+      the "Four Big F's." This    to make additional novel    
+      saves a few bits of    patterns predictable or    
+      storage. The number of    compressible in hitherto    
+      saved bits (or a similar    unknown ways, thus    
+      measure of learning    maximizing learning    
+      progress) becomes the    progress of the    
+      observer's intrinsic    predictor / compressor.     
+      reward, possibly strong        
+      enough to motivate him to    Alternative Summary.    
+      read on in search for more    Apart from external    
+      reward through additional    reward, how much fun can    
+      yet unknown patterns.    a subjective observer    
+      While previous attempts at    extract from some    
+      explaining humor (e. g.,    sequence of actions and    
+      Raskin 1985) also focus on    observations? His    
+      the element of surprise,    intrinsic fun is the    
+      they lack the essential    difference between how    
+      concept of novel pattern    many resources (bits &    
+      detection measured by    time) he needs to encode    
+      compression progress due    the data before and    
+      to learning. This progress    after learning. A    
+      is zero whenever the    separate reinforcement    
+      unexpected is just random    learner maximizes    
+      white noise, and thus no    expected fun by finding    
+      fun at all. Applications    or creating data that is    
+      of Schmidhuber's theory of    better compressible in    
+      humor can be found in the    some yet unknown but    
+      video.     learnable way, such as    
+          jokes, songs, paintings,    
+      Albert Einstein How the    or scientific    
+      Theory Explains Science.    observations obeying    
+      If the history of the    novel, unpublished laws.    
+      entire universe were        
+      computable, and there is    PowerPlay: training an    
+      no evidence against this    increasingly general    
+      possibility (Schmidhuber,    problem solver by    
+      Nature 438, 2005), then    continually searching    
+      its simplest explanation    for the simplest still    
+      would be the shortest    unsolvable problem     
+      program that computes it.        
+      Unfortunately there is no    Copyright notice (2010):    
+      general way of finding the    Text and graphics and    
+      shortest program computing    Fibonacci web design by    
+      any given data. Therefore    Jürgen Schmidhuber,    
+      physicists have    Member of the European    
+      traditionally proceeded    Academy of Sciences and    
+      incrementally, analyzing    Arts, 2010. JS will be    
+      just a small aspect of the    delighted if you use    
+      world at any given time,    parts of the data and    
+      trying to find simple laws    graphics in this web    
+      that allow for describing    page for educational and    
+      their limited observations    non-commercial purposes,    
+      better than the best    including articles for    
+      previously known law,    Wikipedia and similar    
+      essentially trying to find    sites, provided you    
+      a program that compresses    mention the source and    
+      the observed data better    provide a link.     
+      than the best previously        
+      known program. An    ---------------------------    
+      unusually large        
+      compression breakthrough    Overview Papers Etc    
+      deserves the name    Since 2009     
+      discovery. For example,        
+      Newton's law of gravity    J. Schmidhuber. Driven    
+      can be formulated as a    by Compression Progress:    
+      short piece of code which    A Simple Principle    
+      allows for substantially    Explains Essential    
+      compressing many    Aspects of Subjective    
+      observation sequences    Beauty, Novelty,    
+      involving falling apples    Surprise,    
+      and other objects.    Interestingness,    
+      Although its predictive    Attention, Curiosity,    
+      power is limited - for    Creativity, Art,    
+      example, it does not    Science, Music, Jokes.    
+      explain quantum    In G. Pezzulo, M. V.    
+      fluctuations of apple    Butz, O. Sigaud, G.    
+      atoms - it still allows    Baldassarre, eds.:    
+      for greatly reducing the    Anticipatory Behavior in    
+      number of bits required to    Adaptive Learning    
+      encode the data stream, by    Systems, from    
+      assigning short codes to    Sensorimotor to    
+      events that are    Higher-level Cognitive    
+      predictable with high    Capabilities, Springer,    
+      probability under the    LNAI, 2009. PDF.     
+      assumption that the law        
+      holds. Einstein's general    J. Schmidhuber. Simple    
+      relativity theory yields    Algorithmic Theory of    
+      additional compression    Subjective Beauty,    
+      progress as it compactly    Novelty, Surprise,    
+      explains many previously    Interestingness,    
+      unexplained deviations    Attention, Curiosity,    
+      from Newton's predictions.    Creativity, Art,    
+      Most physicists believe    Science, Music, Jokes.    
+      there is still room for    Journal of SICE, 48    
+      further advances, and this    (1):21-32, 2009. PDF.     
+      is what's driving their        
+      ongoing research. When not    J. Schmidhuber. Art &    
+      occupied with optimizing    science as by-products    
+      external reward,    of the search for novel    
+      physicists are just    patterns, or data    
+      following their    compressible in unknown    
+      compression progress    yet learnable ways. In    
+      drive!     M. Botta (ed.), Multiple    
+          ways to design research.    
+      ------------------------------    Research cases that    
+          reshape the design    
+      Key Papers Since 1990    discipline,    
+      (more here)     Milano-Lugano, Swiss    
+          Design Network - Et al.    
+      J.  Schmidhuber. A    Edizioni, 2009, pp.    
+      possibility for    98-112. PDF.     
+      implementing curiosity and        
+      boredom in model-building    J. Schmidhuber.    
+      neural controllers. In J.    Artificial Scientists &    
+      A. Meyer and S. W. Wilson,    Artists Based on the    
+      editors, Proc. of the    Formal Theory of    
+      International Conference    Creativity. In    
+      on Simulation of Adaptive    Proceedings of the Third    
+      Behavior: From Animals to    Conference on Artificial    
+      Animats, pages 222-227.    General Intelligence    
+      MIT Press/Bradford Books,    (AGI-2010), Lugano,    
+      1991. PDF. HTML. (Based on    Switzerland. PDF.     
+      TR FKI-126-90, TUM, 1990.        
+      PDF.)     J. Schmidhuber. Formal    
+          Theory of Creativity,    
+      J.  Schmidhuber. Curious    Fun, and Intrinsic    
+      model-building control    Motivation (1990-2010).    
+      systems. In Proc.    IEEE Transactions on    
+      International Joint    Autonomous Mental    
+      Conference on Neural    Development, 2    
+      Networks, Singapore,    (3):230-247, 2010. IEEE    
+      volume 2, pages 1458-1463.    link. PDF of draft.     
+      IEEE, 1991. PDF. HTML.         
+          P. Redgrave. Comment on    
+      J. Storck, S. Hochreiter,    Nature 473, 450 (26 May    
+      and J.  Schmidhuber.    2011): Neuroscience:    
+      Reinforcement-driven    What makes us laugh.     
+      information acquisition in        
+      non-deterministic    J. Schmidhuber. A Formal    
+      environments. In Proc.    Theory of Creativity to    
+      ICANN'95, vol. 2, pages    Model the Creation of    
+      159-164. EC2 & CIE, Paris,    Art. In J. McCormack    
+      1995. PDF. HTML.     (ed.), Computers and    
+          Creativity. MIT Press,    
+      J. Schmidhuber.    2012. PDF of preprint.     
+      Low-Complexity Art.        
+      Leonardo, Journal of the        
+      International Society for        
+      the Arts, Sciences, and        
+      Technology, 30(2):97-103,        
+      MIT Press, 1997. PDF.        
+      HTML.         
+              
+      J . Schmidhuber.        
+      Artificial Curiosity Based        
+      on Discovering Novel        
+      Algorithmic Predictability        
+      Through Coevolution. In P.        
+      Angeline, Z. Michalewicz,        
+      M. Schoenauer, X. Yao, Z.        
+      Zalzala, eds., Congress on        
+      Evolutionary Computation,        
+      p. 1612-1618, IEEE Press,        
+      Piscataway, NJ, 1999.        
+      (Based on: What's        
+      interesting? TR        
+      IDSIA-35-97, 1997. )         
+              
+      J.  Schmidhuber. Exploring        
+      the Predictable. In Ghosh,        
+      S. Tsutsui, eds., Advances        
+      in Evolutionary Computing,        
+      p. 579-612, Springer,        
+      2002. PDF. HTML.         
+              
+      J.  Schmidhuber.        
+      Developmental Robotics,        
+      Optimal Artificial        
+      Curiosity, Creativity,        
+      Music, and the Fine Arts.        
+      Connection Science, 18(2):        
+      173-187, 2006. PDF.         
+              
+      J. Schmidhuber. Simple        
+      Algorithmic Principles of        
+      Discovery, Subjective        
+      Beauty, Selective        
+      Attention, Curiosity &        
+      Creativity. In V.        
+      Corruble, M. Takeda, E.        
+      Suzuki, eds., Proc. 10th        
+      Intl. Conf. on Discovery        
+      Science (DS 2007) p.        
+      26-38, LNAI 4755,        
+      Springer, 2007. PDF.         
+              
+      J. Schmidhuber. POWERPLAY:        
+      Training an Increasingly        
+      General Problem Solver by        
+      Continually Searching for        
+      the Simplest Still        
+      Unsolvable Problem.        
+      Frontiers in Cognitive        
+      Science, 2013. ArXiv        
+      preprint (2011):        
+      arXiv:1112.5309 [cs.AI]        
+      Compare: R. K. Srivastava,        
+      B. R. Steunebrink, J.        
+      Schmidhuber. First        
+      Experiments with        
+      PowerPlay. Neural        
+      Networks, 2013. ArXiv        
+      preprint (2012):        
+      arXiv:1210.8385 [cs.AI].         
+,*
+,*
+,*
+Formal Theory of Fun and Creativity Explains Science, Art, Music, Humor (by Juergen Schmidhuber)
+,*
+Jürgen Schmidhuber at Singularity Summit 2009 - Compression Progress: The Algorithmic Principle Behind Curiosity and Creativity
+Jürgen Schmidhuber's Guitar Bot
+Wikipedia says: Smiling can imply a sense of humour and a state of amusement, as in this painting of Falstaff by Eduard von Grützner.
+Wikipedia says: Smiling can imply a sense of humour and a state of amusement, as in this painting of Falstaff by Eduard von Grützner.
+Albert Einstein
+Femme Fractale: Lady in Red - Low-Complexity Art by Juergen Schmidhuber
+,*
+PowerPlay: training an increasingly general problem solver by continually searching for the simplest still unsolvable problem

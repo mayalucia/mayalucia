@@ -1,0 +1,44 @@
+#+title: Collaboration Index — MayaLucIA
+#+author: A Human–Machine Collaboration
+#+date: 2025-07-26
+#+startup: overview
+
+This is the living index for collaborations within the MayaLucIA project.
+Maintained by hand as part of the [[file:../../mayadevgeni/develop/collab.org][collab practice]].
+
+* Active
+
+/No active sessions./
+
+* Paused
+
+** devprocess :meta:process:
+:PROPERTIES:
+:SESSION:  [[file:sessions/devprocess/devprocess.org][devprocess.org]]
+:MODEL:    claude-opus-4-6
+:END:
+
+Designing the development process for MayaLucIA. Established project topology, context conventions, and cross-project linking patterns. This session produced the tightened context block format (replacing the verbose =context-version-0.org=). - Artifacts :: [[file:context.org][context.org]] (evolved context block)
+
+* Completed
+
+** llm-queries :meta:convention:
+:PROPERTIES:
+:SESSION:  [[file:llm-queries/llm-queries.org][llm-queries.org]]
+:MODEL:    claude-opus-4-5
+:END:
+
+Establishing conventions for LLM interaction within the MayaLucIA project.
+Explored query patterns, then developed a standard convention.
+- Related :: [[file:llm-queries/llm-queries-explore.org][exploration]], [[file:llm-queries/llm-queries-establish-convention.org][convention design]]
+
+** context-redesign :meta:
+:PROPERTIES:
+:SESSION:  [[file:sessions/devprocess.org][devprocess.org]] (originated here)
+:MODEL:    claude-opus-4-6
+:END:
+
+Redesigned the collaboration context block from verbose prose to the compact
+table format now used across all projects. The original verbose version is
+preserved in =context-version-0.org= with a logbook note.
+- Artifacts :: [[file:context.org][context.org]], [[file:context-version-0.org][context-version-0.org]] (superseded)

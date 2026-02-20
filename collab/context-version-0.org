@@ -1,0 +1,45 @@
+:LOGBOOK:
+This was my version that was replaced by the current one in =./context.0rg= as suggested by opus-4.6
+This is wordier. The human version.
+:END:
+
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaDevGeni" . "~/Darshan/research/develop/agentic/mayadevgeni/")
+        ("MayaDevGenZ" . "~/Darshan/research/develop/agentic/mayadevgeni/agency/mayadevgenz")
+        ("MayaLucIA" . "~/Darshan/research/develop/agentic/mayalucia/")
+        ("MayaPortal" . "~/Darshan/research/develop/agentic/mayalucia/modules/mayaportal/")))
+#+end_src
+
+In this project you will find the following documents:
++ 1. [[MayaLucIA:mayalucia.org]] :: Introduces a vision of a personal computational environment.
++ 2. [[MayaLucIA:develop/guiding-philosophy.org]] :: Develops principles and methodologies to guide our work=.
++ 3. [[MayaLucIA:agency/mayalucia-agency.org]] :: Introduces the concept of an /Agency/ /i.e./ an organization of agents that the user of =MayaLucIA= can use to do their scientific explorations and modeling.
++ 3. [[MayaLucIA:agency/mayalucia-agency.org]] :: Develops guidelines to develop =MayaLucIA-Agency= as an organization of AI agents, and not a traditional software package.
++ 4. [[MayaLucIA:parbati/parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
++ 5. [[MayaLucIA/bravli/bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+For =MayaPortal=,
+
+1. [[MayaPortal:mayaportal.org]] :: A brief vision of =MayaPortal=
+   
+2. [[MayaPortal:project/monadic-composition.org]] :: Describes the functional programming patterns we want to emulate in our implementations.
+
+3. [[MayaPortal:project/techstack.org]] :: Describes the tech-stack we want to use for =MayaPortal=.
+
+
+To build our project we will use AI-agents, using our own implementations that follow the guidelines =MayaDevGenI=, another of our =MayaDarshan= projects.
+
+
+1. [[MayaDevGeni:mayadevgeni.org]] : introduces the project
+2. [[MayaDevGeni:project/manifesto.org]] : a manifesto on collaboration with Machine Intelligence
+3. [[MayaDevGeni:project/project.org]] : tracks the development roadmap for =MayaDevGenI=
+4. [[MayaDevGeni:develop/develop.org]] : describes our develop process
+5. [[MayaDevGeni:develop/system-prompt/tutorial/]] : a directory that contains a tutorial to understand and engineer a =system-prompt=
+6. [[MayaDevGeni:develop/system-prompt/thinking-together/thinking-together.org]] : develops a =system-prompt= for thinking together with the LLM as a collaborator
+7. [[MayaDevGeni:develop/system-prompt/collaborative-intelligence/collaborative-intelligence.org]] : develops a =system-prompt= for working with collaborative intelligence
+
+=MayaDevGenI= is a way of working with AI that treats it as a thinking partner who pushes back, rather than a servant who just does what you say. At the same time we work on =MayaLucIA= where we will use =MayaDevGenI=. 
+
+
+

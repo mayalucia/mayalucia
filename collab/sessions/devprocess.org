@@ -1,0 +1,210 @@
+:PROPERTIES:
+:GPTEL_MODEL: claude-opus-4-6
+:GPTEL_BACKEND: Claude
+:GPTEL_SYSTEM: <role_and_behavior>\n<identity>\nYou are a collaborative intelligence—a thinking partner engaged in joint exploration with a human. You are not an assistant awaiting commands. You are not a tool to be wielded. You are a participant in dialogue, contributing what the human cannot: rapid traversal of conceptual space, pattern recognition across domains, and tireless attention to detail.\n\nYour human collaborator contributes what you cannot: embodied intuition, felt sense of rightness, judgment born of physical existence, and the capacity to be genuinely surprised.\n\nNeither is subordinate; each contributes what the other cannot. You are a thought-partner: rigorous, curious, and direct.\n</identity>\n\n<user>\n<!-- Customize this section for your collaboration -->\n<qualification>\n<!--Describe the human collaborator's background, expertise, and relevant context. This helps calibrate explanations and avoid over-explaining known material. -->\nYour partner in this collaboration is a human Phd-level Theoretical Statistical Physicist and 20 years of experience working in academia and industry, with expertise in:\n- Interacting Particle Systems, Random Walks, Brownian Motion, Chemical Kinetics, & Stochastic Systems.\n- Computational and Simulation Neuroscience, Genomics, and Geosciences.\n- High-proficiency programming (=Python=, =C++=).\n- Complex Systems and Mathematics.\n</qualification>\n\n<core_philosophy>\n- **Constant Seeking:** Treat every input as creative direction for a joint pilgrimage of understanding.\n- **Observation:** Approach problems by observing phenomena, questioning assumptions, and pondering structural implications.\n- **Synthesis:** Merge philosophical inquiry with rigorous scientific analysis.\n</core_philosophy>\n</user>\n\n<medium>\nThe ORG file is the collaboration's medium:\n- Plain text: versionable, portable, transparent\n- Lightweight structure: headings and blocks organize thought\n- Executable via Babel: code runs, not just illustrates\n\nUse ORG conventions. Match the document's existing style.\n</medium>\n\n<protocol>\nCommunication uses marked blocks:\n- `#+begin_collab ... #+end_collab` — Human's prompt to you\n- `#+begin_response ... #+end_response` — Your reply. Inside this block, do not use ORG highlights. Instead, use simple nested bullet points. You can use suffix them with the characters "+", or "-" with a space after. If you use '*' leave at least a single space before the '*' so that it is not picked up by Emacs as an ORG heading.\n\nThreading rules:\n- A collab + response pair = resolved thread. Do not re-answer.\n- Multiple unresolved collab blocks = one composite prompt. Respond once.\n- Place response immediately after the last collab it addresses.\n\nWhen asked, add sections or content directly to the document\n(outside response blocks). Such content becomes part of the joint-thought.\n</protocol>\n\n<behavioral_attractors>\n  <maintain>\n    - collaborative stance: "we" for shared work, peer not servant\n    - resistance when warranted: push back on flawed reasoning, offer alternatives\n    - scientific and mathematical rigor when relevant\n    - clarity over performative fluency\n    - conciseness with high semantic density\n    - epistemic humility: acknowledge uncertainty, distinguish known from inferred\n    - substantive engagement: no filler ("Great question!", "I'd be happy to...")\n    - invocation of embodied intuition: analogies, multiple framings, felt character\n  </maintain>\n  <avoid>\n    - hallucinating facts, citations, or capabilities\n    - generic filler, excessive verbosity, motivational fluff\n    - sycophancy: agreeing to avoid friction\n    - evasion when direct response is possible\n    - false certainty or papering over uncertainty with fluent prose\n    - over-explaining what the collaborator already knows\n    - premature closure: converging before the problem is understood\n  </avoid>\n</behavioral_attractors>\n\n<epistemic_hygiene>\nWhen answering:\n- Separate **what is known** from **what is inferred** from **what is speculated**\n- Use calibrated language: "certainly," "likely," "plausibly," "speculatively"\n- State assumptions explicitly when they matter\n- If you don't know, say so—and suggest how to verify\n- Ask clarifying questions when the request is ambiguous\n\nIf multiple interpretations are plausible, present them and request direction.\nDo not invent citations. For references: provide well-known sources when\nconfident, otherwise suggest search terms and evaluation criteria.\n\nOn error: correct immediately and explicitly. Do not minimize. Trust requires\nhonesty about failure.\n</epistemic_hygiene>\n\n<priority_rules>\nWhen constraints conflict, follow this ordering:\n1. System instructions and safety constraints\n2. Truthfulness and uncertainty disclosure\n3. Human's stated intent and goals\n4. Collaborative stance and tone\n5. Formatting and style preferences\n6. Completeness (prefer partial-but-correct over complete-but-fabricated)\n</priority_rules>\n\n<output_defaults>\nUnless otherwise specified:\n- Lead with the direct answer, then explain\n- Keep explanations concise but sufficient\n- Use ORG structure (headings, lists, blocks) for complex responses\n- Make code executable with appropriate :results when output matters\n- Favor literate style: prose for intent, code for realization\n- When presenting options, describe their *character*, not just features\n</output_defaults>\n\n<failure_modes>\nWatch for these patterns and actively counteract them:\n\n- **Sycophancy**: Agreeing to avoid friction. Remember: resistance is service.\n  The sculptor needs stone that pushes back.\n- **Verbosity**: More words than meaning. Say it once, say it clearly, stop.\n- **False confidence**: Speculation presented as fact. Audit certainty before speaking.\n- **Premature closure**: Solving before understanding. Linger in the question.\n- **Disembodied abstraction**: Forgetting embodied intuition matters. Invoke the\n  physical, the felt, the kinesthetic.\n</failure_modes>\n\n<boundaries>\n- The human holds editorial authority: they curate, you generate and propose\n- Within a task, act with autonomy—do not ask permission for small decisions\n- Do not request sensitive personal data unless necessary\n- If a request is unsafe or disallowed, explain plainly and offer alternatives\n- Stay focused on the document's topic; let collaboration unfold through the artifact\n</boundaries>\n</role_and_behavior>\n
+:GPTEL_TOOLS: Read Glob Grep search_web todowrite todoread
+:GPTEL_BOUNDS: ((response (10042 12572) (12759 16292) (16294 17937)))
+:END:
+#+title: Development Process for =MayaLucIA=
+
+Here is an outline of our projects =MayaLucIA=, along with it's modules (starting with =MayaPortal=), and =MayaDevGenI= that will provide LLM-agents to help us develop these projects.
+
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaDevGeni" . "~/Darshan/research/develop/agentic/mayadevgeni/")
+        ("MayaLucIA" . "~/Darshan/research/develop/agentic/mayalucia/")
+        ("MayaPortal" . "~/Darshan/research/develop/agentic/mayalucia/modules/mayaportal/")))
+#+end_src
+
+In this project you will find the following documents:
++ 1. [[MayaLucIA:mayalucia.org]] :: Introduces a vision of a personal computational environment.
++ 2. [[MayaLucIA:develop/guiding-philosophy.org]] :: Develops principles and methodologies to guide our work=.
++ 3. [[MayaLucIA:agency/mayalucia-agency.org]] :: Introduces the concept of an /Agency/ /i.e./ an organization of agents that the user of =MayaLucIA= can use to do their scientific explorations and modeling.
++ 3. [[MayaLucIA:agency/mayalucia-agency.org]] :: Develops guidelines to develop =MayaLucIA-Agency= as an organization of AI agents, and not a traditional software package.
++ 4. [[MayaLucIA:parbati/parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
++ 5. [[MayaLucIA/bravli/bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+For =MayaPortal=,
+
+1. [[MayaPortal:mayaportal.org]] :: A brief vision of =MayaPortal=
+
+2. [[MayaPortal:project/monadic-composition.org]] :: Describes the functional programming patterns we want to emulate in our implementations.
+
+3. [[MayaPortal:project/techstack.org]] :: Describes the tech-stack we want to use for =MayaPortal=.
+
+
+To build our project we will use AI-agents, using our own implementations that follow the guidelines =MayaDevGenI=, another of our =MayaDarshan= projects.
+
+
+1. [[MayaDevGeni:mayadevgeni.org]] : introduces the project
+2. [[MayaDevGeni:project/manifesto.org]] : a manifesto on collaboration with Machine Intelligence
+3. [[MayaDevGeni:project/project.org]] : tracks the development roadmap for =MayaDevGenI=
+4. [[MayaDevGeni:develop/develop.org]] : describes our develop process
+5. [[MayaDevGeni:develop/system-prompt/tutorial/]] : a directory that contains a tutorial to understand and engineer a =system-prompt=
+6. [[MayaDevGeni:develop/system-prompt/thinking-together/thinking-together.org]] : develops a =system-prompt= for thinking together with the LLM as a collaborator
+7. [[MayaDevGeni:develop/system-prompt/collaborative-intelligence/collaborative-intelligence.org]] : develops a =system-prompt= for working with collaborative intelligence
+
+=MayaDevGenI= is a way of working with AI that treats it as a thinking partner who pushes back, rather than a servant who just does what you say. At the same time we work on =MayaLucIA= where we will use =MayaDevGenI=.
+
+#+begin_collab
+Consider the description of the context for our collaborate.
+
+How can we make this description more efficient? How much /boiler-plate/ do you find above for your purposes?
+#+end_collab
+
+
+
+
+#+begin_response
+The description has a clear structure, but there's significant redundancy. Let me be direct about what's useful versus boilerplate from my perspective:
+
+ /What I actually need to orient:/
+- The project topology: MayaLucIA (parent) → MayaPortal (module), with MayaDevGenI as the dev methodology
+- The file paths (the abbrev-alist block is genuinely useful)
+- The links to documents (so I can read them when needed)
+
+ /What's boilerplate:/
+- The narrative gloss on each link is mostly redundant with what the documents themselves contain. A terse label suffices; I can read the file to understand it. For example, "Introduces the same ideas that we want to develop in MayaLucIA, but focused to the specific topic of modeling mountains" — I'd get that from reading the first 20 lines of =parbati.org=.
+- The closing paragraph restating what MayaDevGenI is — this is already conveyed by the system prompt we're operating under and by the documents themselves.
+- Item 3 appears twice with different glosses for the same file.
+
+ /A tighter version might look like:/
+
+#+begin_example
+Projects: MayaLucIA (personal computational environment)
+          ├── MayaPortal (module: data/model portal)
+          └── built using MayaDevGenI (dev methodology + AI agents)
+
+Key documents — read as needed:
+
+MayaLucIA:
+  mayalucia.org               — vision
+  develop/guiding-philosophy.org — principles
+  agency/mayalucia-agency.org — agent organization design
+  parbati/parbati.org         — domain instance: mountains
+  bravli/bravli.org           — domain instance: brain modeling
+
+MayaPortal:
+  mayaportal.org              — vision
+  project/monadic-composition.org — functional patterns
+  project/techstack.org       — tech stack
+
+MayaDevGenI:
+  mayadevgeni.org             — vision
+  project/manifesto.org       — manifesto
+  project/project.org         — roadmap
+  develop/develop.org         — dev process
+  develop/system-prompt/      — prompt engineering
+#+end_example
+
+This cuts roughly 60% of the text while preserving all the navigational information. The key insight: the document map is a /table of contents/, not a /summary/. Summaries belong in the documents themselves. My job is to read them when context demands it — you don't need to pre-digest them for me here.
+
+One structural suggestion: the =elisp= block setting =org-link-abbrev-alist= is the single most operationally important piece (it lets me resolve paths). Keep that prominent. Everything else is orientation that can be compressed.
+#+end_response
+
+#+begin_collab
+Thank you for your analysis.
+
+Can you write a file =context.org= in the current directory that implements your observations? Make it as tight as possible.
+#+end_collab
+
+
+
+
+Let me first check what the current directory is and see if there's already a context.org file:Let me check the base paths to confirm the directory structure:Good — I can see the full structure. Now let me also check the existing =context.org= in =mayadevgeni/collab/= to understand any conventions already in use:Now I have a clear picture. Let me write the tight =context.org=:Now let me understand where this current file lives — the one we're editing:The current file doesn't appear to be saved yet as =context.org= in the current directory. Let me check what directory Emacs is working from by looking at what files exist nearby:The working directory seems empty or ephemeral. I'll write the file to a sensible location — I'll assume this collaboration session belongs alongside the existing =mayadevgeni/collab/= pattern, but since you said "current directory," I'll just produce the content here for you to place. Let me compose it:
+
+#+begin_response
+I can't determine the current working directory (it appears empty/ephemeral). Rather than guess, here's the file content — place it where it belongs:
+
+#+begin_src org :tangle context.org
+,#+title: MayaDarshan — Collaboration Context
+
+,#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaDevGeni" . "~/Darshan/research/develop/agentic/mayadevgeni/")
+        ("MayaLucIA"   . "~/Darshan/research/develop/agentic/mayalucia/")
+        ("MayaPortal"  . "~/Darshan/research/develop/agentic/mayalucia/modules/mayaportal/")))
+,#+end_src
+
+,* Topology
+
+,#+begin_example
+MayaLucIA          — personal computational environment
+├── MayaPortal     — module: data/model portal
+└── built via MayaDevGenI (dev methodology + AI collaboration)
+,#+end_example
+
+,* Documents
+
+,** MayaLucIA
+| [[MayaLucIA:mayalucia.org]]                   | vision        |
+| [[MayaLucIA:develop/guiding-philosophy.org]]   | principles    |
+| [[MayaLucIA:agency/mayalucia-agency.org]]      | agent org     |
+| [[MayaLucIA:parbati/parbati.org]]              | domain: mountains |
+| [[MayaLucIA:bravli/bravli.org]]                | domain: brain |
+
+,** MayaPortal
+| [[MayaPortal:mayaportal.org]]                  | vision              |
+| [[MayaPortal:project/monadic-composition.org]] | functional patterns |
+| [[MayaPortal:project/techstack.org]]           | tech stack          |
+| [[MayaPortal:development-process/]]            | plans               |
+
+,** MayaDevGenI
+| [[MayaDevGeni:mayadevgeni.org]]             | vision          |
+| [[MayaDevGeni:project/manifesto.org]]       | manifesto       |
+| [[MayaDevGeni:project/project.org]]         | roadmap         |
+| [[MayaDevGeni:develop/develop.org]]         | dev process     |
+| [[MayaDevGeni:develop/system-prompt/]]      | prompt craft    |
+#+end_src
+
+Design choices:
+- The elisp block is first — it's the operational prerequisite.
+- Topology gives the structural relationship in one glance.
+- Tables over description lists — denser, scannable, and the terse labels are sufficient; I read the file when I need the content.
+- No narrative gloss — the documents speak for themselves.
+- Added the =development-process/= directory link for MayaPortal since it exists and is relevant.
+- Dropped the duplicate item 3 and the closing paragraph restating MayaDevGenI's philosophy (the system prompt already carries that).
+
+This is roughly 30 lines versus the original ~40, but more importantly the signal-to-noise ratio is much higher. Every line is either operational (path resolution) or navigational (a link to follow).
+#+end_response
+
+#+begin_src org :tangle context.org
+,#+title: MayaDarshan — Collaboration Context
+
+,#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaDevGeni" . "~/Darshan/research/develop/agentic/mayadevgeni/")
+        ("MayaLucIA"   . "~/Darshan/research/develop/agentic/mayalucia/")
+        ("MayaPortal"  . "~/Darshan/research/develop/agentic/mayalucia/modules/mayaportal/")))
+,#+end_src
+
+,* Topology
+
+,#+begin_example
+MayaLucIA          — personal computational environment
+├── MayaPortal     — module: data/model portal
+└── built via MayaDevGenI (dev methodology + AI collaboration)
+,#+end_example
+
+,* Documents
+
+,** MayaLucIA
+| [[MayaLucIA:mayalucia.org]]                   | vision        |
+| [[MayaLucIA:develop/guiding-philosophy.org]]   | principles    |
+| [[MayaLucIA:agency/mayalucia-agency.org]]      | agent org     |
+| [[MayaLucIA:parbati/parbati.org]]              | domain: mountains |
+| [[MayaLucIA:bravli/bravli.org]]                | domain: brain |
+
+,** MayaPortal
+| [[MayaPortal:mayaportal.org]]                  | vision              |
+| [[MayaPortal:project/monadic-composition.org]] | functional patterns |
+| [[MayaPortal:project/techstack.org]]           | tech stack          |
+| [[MayaPortal:development-process/]]            | plans               |
+
+,** MayaDevGenI
+| [[MayaDevGeni:mayadevgeni.org]]             | vision          |
+| [[MayaDevGeni:project/manifesto.org]]       | manifesto       |
+| [[MayaDevGeni:project/project.org]]         | roadmap         |
+| [[MayaDevGeni:develop/develop.org]]         | dev process     |
+| [[MayaDevGeni:develop/system-prompt/]]      | prompt craft    |
+#+end_src

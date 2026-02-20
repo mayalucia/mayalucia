@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MāyāPramāṇa — Valid Cognition of the Measured World</title>
+<style>
+
+/* === Reset & Base === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Georgia, 'Times New Roman', 'Noto Serif', serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #2d2d2d;
+  background: #fafaf8;
+  max-width: 56em;
+  margin: 0 auto;
+  padding: 2em 2em 4em;
+}
+
+a { color: #2d6a8a; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* === Header === */
+header {
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 2em;
+  margin-bottom: 3em;
+}
+
+h1.site-title {
+  font-size: 2.2em;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1a1a1a;
+  margin-bottom: 0.2em;
+  letter-spacing: 0.01em;
+}
+
+.site-subtitle {
+  font-size: 1.1em;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 1.5em;
+}
+
+.epigraph {
+  max-width: 36em;
+  margin: 0 auto;
+  font-style: italic;
+  color: #555;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+.epigraph .attribution {
+  font-style: normal;
+  color: #888;
+  margin-top: 0.3em;
+}
+
+/* === Navigation === */
+nav.toc {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  flex-wrap: wrap;
+  margin-bottom: 3em;
+  padding-bottom: 1.5em;
+  border-bottom: 1px solid #eee;
+}
+nav.toc a {
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.78em;
+}
+nav.toc a:hover { color: #2d6a8a; }
+
+/* === Sections === */
+section {
+  margin-bottom: 3.5em;
+}
+
+h2 {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.8em;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3em;
+}
+
+h3 {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #333;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 1.2em;
+  margin: 1.5em 0;
+  color: #555;
+  font-style: italic;
+}
+blockquote .attribution {
+  font-style: normal;
+  color: #888;
+  display: block;
+  margin-top: 0.3em;
+}
+
+/* === Figure === */
+figure.schematic {
+  margin: 2em 0;
+  text-align: center;
+}
+figure.schematic svg {
+  max-width: 100%;
+  height: auto;
+}
+figure.schematic figcaption {
+  font-size: 0.85em;
+  color: #777;
+  margin-top: 0.6em;
+  font-style: italic;
+}
+
+/* === Stats Banner === */
+.stats-banner {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1.2em 1.5em;
+  background: #f0f0ee;
+  border-radius: 4px;
+  border-left: 4px solid #2d8a4e;
+  margin: 2em 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 7em;
+}
+.stat-number {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #2d8a4e;
+}
+.stat-label {
+  font-size: 0.72em;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.1em;
+}
+
+/* === Application Cards === */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
+  gap: 1.5em;
+  margin: 1.5em 0;
+}
+
+.app-card {
+  border: 1px solid #e0e0dd;
+  border-radius: 4px;
+  padding: 1.3em 1.5em;
+  background: #fff;
+}
+.app-card h3 {
+  margin-top: 0;
+  font-size: 1.05em;
+  color: #2d6a8a;
+}
+.app-card p {
+  font-size: 0.92em;
+  color: #444;
+  margin-bottom: 0;
+}
+
+/* === Equations === */
+.equation {
+  text-align: center;
+  margin: 1.5em 0;
+  font-size: 1.05em;
+  color: #1a1a1a;
+  padding: 1em;
+  background: #f7f5f0;
+  border: 1px solid #e0ddd5;
+  border-radius: 4px;
+}
+
+/* === Code Preview === */
+.code-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
+  gap: 1em;
+  margin: 1.5em 0;
+}
+.code-block {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: 4px;
+  padding: 1em 1.2em;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.76em;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+.code-block .lang-label {
+  display: block;
+  color: #888;
+  font-size: 0.85em;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.code-block .kw { color: #569cd6; }
+.code-block .fn { color: #dcdcaa; }
+.code-block .ty { color: #4ec9b0; }
+.code-block .cm { color: #6a9955; }
+.code-block .st { color: #ce9178; }
+.code-block .op { color: #d4d4d4; }
+.code-block .nb { color: #b5cea8; }
+
+/* === Language Table === */
+table.lang-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.92em;
+}
+table.lang-table th {
+  text-align: left;
+  font-weight: 700;
+  color: #555;
+  border-bottom: 2px solid #ddd;
+  padding: 0.5em 0.8em;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+table.lang-table td {
+  padding: 0.5em 0.8em;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+table.lang-table tr:last-child td { border-bottom: none; }
+table.lang-table .lang-name {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-weight: 600;
+  color: #2d6a8a;
+}
+
+/* === Repo Links === */
+.repo-links {
+  display: flex;
+  gap: 1.5em;
+  flex-wrap: wrap;
+  margin: 1.5em 0;
+}
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.6em 1.2em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82em;
+  color: #333;
+  transition: border-color 0.15s;
+}
+.repo-link:hover {
+  border-color: #2d6a8a;
+  text-decoration: none;
+}
+
+/* === Wireframe Placeholders === */
+.placeholder {
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  padding: 2em;
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+  font-size: 0.9em;
+  margin: 1.5em 0;
+  background: #fefefe;
+}
+
+/* === Footer === */
+footer {
+  border-top: 1px solid #ddd;
+  padding-top: 2em;
+  margin-top: 4em;
+  color: #888;
+  font-size: 0.85em;
+  text-align: center;
+}
+footer a { color: #888; }
+footer a:hover { color: #2d6a8a; }
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  body { padding: 1em; font-size: 16px; }
+  h1.site-title { font-size: 1.6em; }
+  .stats-banner { flex-direction: column; align-items: center; }
+  .app-grid { grid-template-columns: 1fr; }
+  .code-columns { grid-template-columns: 1fr; }
+  nav.toc { flex-direction: column; align-items: center; gap: 0.8em; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!--  HEADER                                                       -->
+<!-- ============================================================ -->
+<header>
+  <h1 class="site-title">MāyāPramāṇa</h1>
+  <div class="site-subtitle">Valid Cognition of the Measured World</div>
+  <div class="epigraph">
+    The musk lies within the deer's own navel, yet it searches the forest.<br>
+    Just so, the truth dwells within, but the world does not see.
+    <div class="attribution">— Kabir</div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!--  NAV                                                          -->
+<!-- ============================================================ -->
+<nav class="toc">
+  <a href="#vision">Vision</a>
+  <a href="#physics">The Physics</a>
+  <a href="#applications">Applications</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#lessons">Lessons</a>
+  <a href="#mayalucia">MāyāLucIA</a>
+  <a href="#join">Join</a>
+</nav>
+
+<!-- ============================================================ -->
+<!--  VISION                                                       -->
+<!-- ============================================================ -->
+<section id="vision">
+  <h2>What This Is</h2>
+
+  <p>A universal quantum sensor controller — not a piece of hardware
+  but a <em>grammar</em> for expressing what any quantum sensor needs:
+  feedback, estimation, calibration, noise modelling. Built as digital
+  twins of specific instruments, one at a time, until the common
+  structure reveals itself.</p>
+
+  <blockquote>
+    What I cannot create, I do not understand.
+    <span class="attribution">— Richard Feynman, last blackboard, 1988</span>
+  </blockquote>
+
+  <p>Every quantum sensor lab builds its controller from scratch — LabVIEW
+  here, a custom FPGA there, Python scripts held together with hope and
+  grad student labour. The knowledge is trapped in the wiring, illegible,
+  unreproducible. MāyāPramāṇa proposes something different: a shared
+  grammar for the epistemology of measurement, implemented in three
+  languages, verified with tests, open for anyone to inspect.</p>
+
+  <div class="stats-banner">
+    <div class="stat-item">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Languages</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">1</div>
+      <div class="stat-label">Lesson</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">—</div>
+      <div class="stat-label">Tests passing</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">Scope</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  PHYSICS                                                      -->
+<!-- ============================================================ -->
+<section id="physics">
+  <h2>The Physics</h2>
+
+  <p>A quantum sensor is a dialogue between a quantum system and the
+  world, mediated by light, shaped by feedback. The magnetometer does
+  not <em>find</em> the magnetic field — it participates in a dance
+  between the atomic spin and the external field, and the number that
+  comes out is not the field itself but <em>what we can say</em> about
+  the field given our apparatus, our noise floor, our model.</p>
+
+  <!-- ── Sensor Pipeline Schematic ── -->
+  <figure class="schematic">
+    <svg viewBox="0 0 760 140" xmlns="http://www.w3.org/2000/svg" style="max-width: 48em;">
+      <!-- pipeline boxes -->
+      <g font-family="Georgia, serif" font-size="12" text-anchor="middle">
+        <!-- Photons -->
+        <rect x="10" y="30" width="80" height="40" rx="4" fill="#f7f5f0" stroke="#999" stroke-width="1"/>
+        <text x="50" y="55" fill="#333">Photons</text>
+        <!-- Detector -->
+        <rect x="120" y="30" width="80" height="40" rx="4" fill="#f7f5f0" stroke="#999" stroke-width="1"/>
+        <text x="160" y="55" fill="#333">Detector</text>
+        <!-- Amplify -->
+        <rect x="230" y="30" width="80" height="40" rx="4" fill="#f7f5f0" stroke="#999" stroke-width="1"/>
+        <text x="270" y="55" fill="#333">Amplify</text>
+        <!-- Demodulate -->
+        <rect x="340" y="30" width="90" height="40" rx="4" fill="#f7f5f0" stroke="#999" stroke-width="1"/>
+        <text x="385" y="55" fill="#333">Demodulate</text>
+        <!-- Estimate -->
+        <rect x="460" y="30" width="80" height="40" rx="4" fill="#e8f0e8" stroke="#2d8a4e" stroke-width="1.5"/>
+        <text x="500" y="55" fill="#2d6a4e" font-weight="600">Estimate</text>
+        <!-- Decide -->
+        <rect x="570" y="30" width="70" height="40" rx="4" fill="#e8f0e8" stroke="#2d8a4e" stroke-width="1.5"/>
+        <text x="605" y="55" fill="#2d6a4e" font-weight="600">Decide</text>
+        <!-- Actuate -->
+        <rect x="670" y="30" width="76" height="40" rx="4" fill="#f7f5f0" stroke="#999" stroke-width="1"/>
+        <text x="708" y="55" fill="#333">Actuate</text>
+      </g>
+      <!-- arrows -->
+      <g stroke="#888" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)">
+        <line x1="90" y1="50" x2="118" y2="50"/>
+        <line x1="200" y1="50" x2="228" y2="50"/>
+        <line x1="310" y1="50" x2="338" y2="50"/>
+        <line x1="430" y1="50" x2="458" y2="50"/>
+        <line x1="540" y1="50" x2="568" y2="50"/>
+        <line x1="640" y1="50" x2="668" y2="50"/>
+      </g>
+      <!-- feedback arc -->
+      <path d="M 708 70 L 708 105 Q 708 115 698 115 L 62 115 Q 50 115 50 105 L 50 72"
+            stroke="#2d8a4e" stroke-width="1.2" fill="none" stroke-dasharray="5,3"
+            marker-end="url(#arrowhead-green)"/>
+      <text x="380" y="128" font-family="Georgia, serif" font-size="11"
+            fill="#2d8a4e" text-anchor="middle" font-style="italic">feedback loop</text>
+      <!-- labels -->
+      <text x="50" y="20" font-family="Georgia, serif" font-size="10.5"
+            fill="#888" text-anchor="middle" font-style="italic">pratyaksa</text>
+      <text x="605" y="20" font-family="Georgia, serif" font-size="10.5"
+            fill="#888" text-anchor="middle" font-style="italic">anumana</text>
+      <!-- arrowhead defs -->
+      <defs>
+        <marker id="arrowhead" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="#888"/>
+        </marker>
+        <marker id="arrowhead-green" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="#2d8a4e"/>
+        </marker>
+      </defs>
+    </svg>
+    <figcaption>Fig. 1 — The quantum sensor pipeline: from raw photons (pratyaksa) through
+    signal processing to calibrated inference (anumana), with feedback closing the loop.</figcaption>
+  </figure>
+
+  <p>The Cramer-Rao bound sets the speed limit on this knowledge.
+  Fisher information — the curvature of the likelihood — determines
+  how distinguishable two nearby field values are. No unbiased
+  estimator can do better. This is not a limitation. It is the
+  grammar of measurement.</p>
+
+  <h3>Bloch Equations — The Shared Core</h3>
+
+  <p>A spin-1/2 particle in a magnetic field <strong>B</strong> precesses at the
+  Larmor frequency omega_L = gamma |<strong>B</strong>|. The state is captured by
+  the Bloch vector <strong>M</strong> = (M_x, M_y, M_z), living on or inside the
+  unit sphere. The equations of motion:</p>
+
+  <div class="equation">
+    d<strong>M</strong>/dt = gamma (<strong>M</strong> x <strong>B</strong>)
+    &minus; (M_x/T_2, &thinsp;M_y/T_2, &thinsp;(M_z &minus; M_0)/T_1)
+  </div>
+
+  <p>Three terms, three physics: <strong>precession</strong> (the spin rotates
+  about the field — pure, reversible, unitary), <strong>transverse relaxation</strong>
+  (T_2 — decoherence, loss of phase information), and <strong>longitudinal
+  relaxation</strong> (T_1 — thermalisation toward equilibrium M_0).</p>
+
+  <p>These equations govern atomic magnetometers <em>and</em> NMR
+  <em>and</em> MRI. The digital twin of a magnetometer and the digital
+  twin of an MRI pulse sequence share this mathematical core.</p>
+
+  <!-- ── Bloch Sphere Schematic ── -->
+  <figure class="schematic">
+    <svg viewBox="0 0 460 380" xmlns="http://www.w3.org/2000/svg" style="max-width: 30em;">
+      <!-- sphere -->
+      <ellipse cx="200" cy="200" rx="150" ry="150" fill="none" stroke="#ccc" stroke-width="0.8"/>
+      <!-- equator ellipse -->
+      <ellipse cx="200" cy="200" rx="150" ry="45" fill="none" stroke="#ddd" stroke-width="0.7" stroke-dasharray="4,3"/>
+      <!-- axes -->
+      <line x1="200" y1="360" x2="200" y2="38" stroke="#aaa" stroke-width="0.8"/>
+      <line x1="40" y1="200" x2="360" y2="200" stroke="#aaa" stroke-width="0.8"/>
+      <line x1="100" y1="280" x2="300" y2="120" stroke="#aaa" stroke-width="0.8"/>
+      <!-- axis labels -->
+      <text x="200" y="30" font-family="Georgia, serif" font-size="14" fill="#555" text-anchor="middle" font-style="italic">z</text>
+      <text x="370" y="204" font-family="Georgia, serif" font-size="14" fill="#555" font-style="italic">x</text>
+      <text x="308" y="116" font-family="Georgia, serif" font-size="14" fill="#555" font-style="italic">y</text>
+      <!-- |0> and |1> -->
+      <text x="215" y="58" font-family="'SF Mono', monospace" font-size="12" fill="#2d8a4e">|0&rang;</text>
+      <text x="215" y="358" font-family="'SF Mono', monospace" font-size="12" fill="#c94040">|1&rang;</text>
+      <!-- Bloch vector -->
+      <line x1="200" y1="200" x2="305" y2="95" stroke="#2d6a8a" stroke-width="2.2"
+            marker-end="url(#arrow-blue)"/>
+      <text x="318" y="90" font-family="Georgia, serif" font-size="14" fill="#2d6a8a"
+            font-weight="700">M</text>
+      <!-- precession arc -->
+      <path d="M 295 160 A 80 25 20 0 1 245 148" fill="none"
+            stroke="#2d8a4e" stroke-width="1.5" stroke-dasharray="4,2"
+            marker-end="url(#arrowhead-green)"/>
+      <text x="306" y="148" font-family="Georgia, serif" font-size="11"
+            fill="#2d8a4e" font-style="italic">precession</text>
+      <!-- T2 decay arrow (inward in xy plane) -->
+      <line x1="310" y1="200" x2="260" y2="200" stroke="#c94040" stroke-width="1.3"
+            marker-end="url(#arrow-red)"/>
+      <text x="316" y="218" font-family="Georgia, serif" font-size="10"
+            fill="#c94040" font-style="italic">T_2 decay</text>
+      <!-- T1 recovery arrow (upward along z) -->
+      <line x1="180" y1="280" x2="180" y2="230" stroke="#e6a817" stroke-width="1.3"
+            marker-end="url(#arrow-gold)"/>
+      <text x="143" y="264" font-family="Georgia, serif" font-size="10"
+            fill="#b8860b" font-style="italic">T_1 recovery</text>
+      <!-- B field arrow -->
+      <line x1="395" y1="180" x2="395" y2="80" stroke="#555" stroke-width="1.8"
+            marker-end="url(#arrow-dark)"/>
+      <text x="395" y="70" font-family="Georgia, serif" font-size="13" fill="#333"
+            text-anchor="middle" font-weight="700">B</text>
+      <text x="395" y="198" font-family="Georgia, serif" font-size="10" fill="#888"
+            text-anchor="middle" font-style="italic">external field</text>
+      <!-- theta arc -->
+      <path d="M 200 170 A 30 30 0 0 1 222 155" fill="none" stroke="#666" stroke-width="0.8"/>
+      <text x="225" y="162" font-family="Georgia, serif" font-size="11" fill="#666"
+            font-style="italic">theta</text>
+      <!-- defs -->
+      <defs>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2d6a8a"/>
+        </marker>
+        <marker id="arrow-red" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="#c94040"/>
+        </marker>
+        <marker id="arrow-gold" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="#e6a817"/>
+        </marker>
+        <marker id="arrow-dark" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#555"/>
+        </marker>
+      </defs>
+    </svg>
+    <figcaption>Fig. 2 — The Bloch sphere. The spin state <strong>M</strong> precesses about the external
+    field <strong>B</strong> (green), while transverse coherence decays with T_2 (red) and longitudinal
+    magnetisation recovers with T_1 (gold). Pure states live on the surface; mixed states inside.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ -->
+<!--  APPLICATIONS                                                 -->
+<!-- ============================================================ -->
+<section id="applications">
+  <h2>Applications</h2>
+
+  <p>We carry electromagnetic fields in our heads. Every cortical
+  column produces a femtotesla whisper — drowned by the Earth's field,
+  by power lines, by thermal noise — yet it carries information. The
+  same sensors built for quantum optics are now imaging the living
+  brain.</p>
+
+  <!-- ── OPM-on-Scalp Schematic ── -->
+  <figure class="schematic">
+    <svg viewBox="0 0 620 310" xmlns="http://www.w3.org/2000/svg" style="max-width: 40em;">
+      <!-- scalp / head cross-section (arc) -->
+      <path d="M 80 260 Q 310 30 540 260" fill="none" stroke="#b8a88a" stroke-width="2.5"/>
+      <!-- cortex layer (inner arc) -->
+      <path d="M 110 250 Q 310 60 510 250" fill="none" stroke="#d4c4a4" stroke-width="8" opacity="0.4"/>
+      <text x="310" y="175" font-family="Georgia, serif" font-size="12" fill="#998866"
+            text-anchor="middle" font-style="italic">cortex</text>
+      <!-- skull label -->
+      <text x="310" y="125" font-family="Georgia, serif" font-size="11" fill="#b8a88a"
+            text-anchor="middle">scalp + skull</text>
+      <!-- pyramidal neurons (stylised) -->
+      <g stroke="#998866" stroke-width="1" fill="none">
+        <line x1="200" y1="220" x2="200" y2="185"/>
+        <line x1="200" y1="185" x2="190" y2="175"/>
+        <line x1="200" y1="185" x2="210" y2="175"/>
+        <circle cx="200" cy="225" r="4" fill="#d4c4a4" stroke="#998866"/>
+
+        <line x1="260" y1="210" x2="260" y2="175"/>
+        <line x1="260" y1="175" x2="250" y2="165"/>
+        <line x1="260" y1="175" x2="270" y2="165"/>
+        <circle cx="260" cy="215" r="4" fill="#d4c4a4" stroke="#998866"/>
+
+        <line x1="320" y1="200" x2="320" y2="165"/>
+        <line x1="320" y1="165" x2="310" y2="155"/>
+        <line x1="320" y1="165" x2="330" y2="155"/>
+        <circle cx="320" cy="205" r="4" fill="#d4c4a4" stroke="#998866"/>
+
+        <line x1="380" y1="210" x2="380" y2="175"/>
+        <line x1="380" y1="175" x2="370" y2="165"/>
+        <line x1="380" y1="175" x2="390" y2="165"/>
+        <circle cx="380" cy="215" r="4" fill="#d4c4a4" stroke="#998866"/>
+
+        <line x1="430" y1="220" x2="430" y2="185"/>
+        <line x1="430" y1="185" x2="420" y2="175"/>
+        <line x1="430" y1="185" x2="440" y2="175"/>
+        <circle cx="430" cy="225" r="4" fill="#d4c4a4" stroke="#998866"/>
+      </g>
+      <!-- magnetic field lines (from neural current) -->
+      <g stroke="#c94040" stroke-width="0.8" fill="none" opacity="0.6">
+        <ellipse cx="290" cy="170" rx="50" ry="20" transform="rotate(-15 290 170)"/>
+        <ellipse cx="290" cy="170" rx="70" ry="30" transform="rotate(-15 290 170)"/>
+        <ellipse cx="290" cy="170" rx="95" ry="42" transform="rotate(-15 290 170)"/>
+      </g>
+      <text x="190" y="142" font-family="Georgia, serif" font-size="10" fill="#c94040"
+            font-style="italic">~100 fT</text>
+      <!-- OPM sensors (on scalp) -->
+      <g>
+        <rect x="155" y="50" width="36" height="24" rx="3" fill="#e8f0e8" stroke="#2d8a4e" stroke-width="1.5"/>
+        <text x="173" y="66" font-family="'SF Mono', monospace" font-size="8" fill="#2d6a4e"
+              text-anchor="middle">OPM</text>
+        <line x1="173" y1="74" x2="173" y2="100" stroke="#2d8a4e" stroke-width="1" stroke-dasharray="3,2"/>
+
+        <rect x="257" y="30" width="36" height="24" rx="3" fill="#e8f0e8" stroke="#2d8a4e" stroke-width="1.5"/>
+        <text x="275" y="46" font-family="'SF Mono', monospace" font-size="8" fill="#2d6a4e"
+              text-anchor="middle">OPM</text>
+        <line x1="275" y1="54" x2="275" y2="72" stroke="#2d8a4e" stroke-width="1" stroke-dasharray="3,2"/>
+
+        <rect x="356" y="30" width="36" height="24" rx="3" fill="#e8f0e8" stroke="#2d8a4e" stroke-width="1.5"/>
+        <text x="374" y="46" font-family="'SF Mono', monospace" font-size="8" fill="#2d6a4e"
+              text-anchor="middle">OPM</text>
+        <line x1="374" y1="54" x2="374" y2="72" stroke="#2d8a4e" stroke-width="1" stroke-dasharray="3,2"/>
+
+        <rect x="448" y="50" width="36" height="24" rx="3" fill="#e8f0e8" stroke="#2d8a4e" stroke-width="1.5"/>
+        <text x="466" y="66" font-family="'SF Mono', monospace" font-size="8" fill="#2d6a4e"
+              text-anchor="middle">OPM</text>
+        <line x1="466" y1="74" x2="466" y2="100" stroke="#2d8a4e" stroke-width="1" stroke-dasharray="3,2"/>
+      </g>
+      <!-- labels -->
+      <text x="310" y="290" font-family="Georgia, serif" font-size="12" fill="#555"
+            text-anchor="middle">Pyramidal neurons generate weak magnetic fields</text>
+      <text x="310" y="306" font-family="Georgia, serif" font-size="12" fill="#2d6a4e"
+            text-anchor="middle">OPM sensors detect them at the scalp surface</text>
+    </svg>
+    <figcaption>Fig. 3 — Wearable MEG: optically pumped magnetometers (OPMs) placed on the scalp
+    detect femtotesla magnetic fields from synchronised cortical activity. The same alkali-vapor
+    physics as laboratory atomic magnetometers.</figcaption>
+  </figure>
+
+  <div class="app-grid">
+    <div class="app-card">
+      <h3>Wearable MEG</h3>
+      <p>Optically pumped magnetometers — the same alkali-vapor
+      technology as laboratory atomic magnetometers — are replacing
+      cryogenic SQUIDs for brain imaging. Room temperature. Millimetres
+      from the scalp. Subjects can move naturally.</p>
+    </div>
+
+    <div class="app-card">
+      <h3>Single-Neuron Magnetometry</h3>
+      <p>NV-diamond sensors at nanometre scales can detect the magnetic
+      field of individual action potentials. Proof-of-concept demonstrated
+      with worm ganglia. The physics differs from alkali vapors; the
+      controller grammar does not.</p>
+    </div>
+
+    <div class="app-card">
+      <h3>Ultra-Low-Field MRI</h3>
+      <p>Portable brain imaging at microtesla fields, using quantum
+      magnetometer arrays instead of superconducting magnets. The same
+      Bloch equations. The same digital twin, with a structured sample.</p>
+    </div>
+
+    <div class="app-card">
+      <h3>Magnetocardiography</h3>
+      <p>The heart's magnetic field — a thousand times stronger than the
+      brain's — measured non-invasively, without electrodes, through
+      clothing. Portable MCG for point-of-care cardiac screening.</p>
+    </div>
+
+    <div class="app-card">
+      <h3>Point-of-Care Diagnostics</h3>
+      <p>Chip-scale NMR for blood chemistry. Portable MEG for bedside
+      stroke detection. The bottleneck is not the sensors — it is the
+      control and calibration. Exactly what a universal controller
+      addresses.</p>
+    </div>
+
+    <div class="app-card">
+      <h3>Quantum Optics Lab</h3>
+      <p>Where it begins: atomic magnetometers, gravimeters, optical
+      clocks. Each controller built from scratch, each time. The grammar
+      that emerges from building digital twins here propagates to every
+      other domain.</p>
+    </div>
+  </div>
+
+  <p>The connections are structural, not analogical. The same Fisher
+  information bounds the magnetometer's sensitivity and the MEG system's
+  source localisation. The same Kalman filter tracks a drifting field and
+  a neural ensemble. The same noise models apply whether the source is a
+  rubidium cell or a human brain.</p>
+</section>
+
+<!-- ============================================================ -->
+<!--  ARCHITECTURE                                                 -->
+<!-- ============================================================ -->
+<section id="architecture">
+  <h2>Architecture</h2>
+
+  <p>MāyāPramāṇa implements a functional programming grammar for
+  sensor control: pure core for physics, effectful shell for hardware,
+  monadic composition for the pipeline from photon to inference.</p>
+
+  <!-- ── Pure Core / Effectful Shell Schematic ── -->
+  <figure class="schematic">
+    <svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" style="max-width: 36em;">
+      <!-- outer shell -->
+      <rect x="30" y="20" width="500" height="280" rx="12" fill="#f0f0ee" stroke="#999" stroke-width="1.5"/>
+      <text x="280" y="50" font-family="Georgia, serif" font-size="14" fill="#666"
+            text-anchor="middle" font-weight="600">Effectful Shell</text>
+      <!-- inner core -->
+      <rect x="100" y="70" width="360" height="170" rx="8" fill="#e8f0e8" stroke="#2d8a4e" stroke-width="1.5"/>
+      <text x="280" y="96" font-family="Georgia, serif" font-size="14" fill="#2d6a4e"
+            text-anchor="middle" font-weight="700">Pure Core</text>
+      <!-- core modules -->
+      <g font-family="'SF Mono', monospace" font-size="11" text-anchor="middle">
+        <rect x="120" y="110" width="95" height="32" rx="4" fill="#fff" stroke="#2d8a4e" stroke-width="1"/>
+        <text x="167" y="130" fill="#2d6a4e">Bloch Eqns</text>
+
+        <rect x="232" y="110" width="95" height="32" rx="4" fill="#fff" stroke="#2d8a4e" stroke-width="1"/>
+        <text x="280" y="130" fill="#2d6a4e">Kalman</text>
+
+        <rect x="345" y="110" width="95" height="32" rx="4" fill="#fff" stroke="#2d8a4e" stroke-width="1"/>
+        <text x="392" y="130" fill="#2d6a4e">Fisher Info</text>
+
+        <rect x="120" y="158" width="95" height="32" rx="4" fill="#fff" stroke="#2d8a4e" stroke-width="1"/>
+        <text x="167" y="178" fill="#2d6a4e">PID</text>
+
+        <rect x="232" y="158" width="95" height="32" rx="4" fill="#fff" stroke="#2d8a4e" stroke-width="1"/>
+        <text x="280" y="178" fill="#2d6a4e">Lock-In</text>
+
+        <rect x="345" y="158" width="95" height="32" rx="4" fill="#fff" stroke="#2d8a4e" stroke-width="1"/>
+        <text x="392" y="178" fill="#2d6a4e">Noise Model</text>
+
+        <rect x="175" y="202" width="210" height="26" rx="4" fill="#fff" stroke="#888" stroke-width="0.8"/>
+        <text x="280" y="219" fill="#666" font-size="10">deterministic &middot; testable &middot; pure functions</text>
+      </g>
+      <!-- shell modules -->
+      <g font-family="'SF Mono', monospace" font-size="10.5" text-anchor="middle">
+        <rect x="42" y="90" width="44" height="60" rx="4" fill="#fff" stroke="#999" stroke-width="1"/>
+        <text x="64" y="116" fill="#666" font-size="9.5">ADC</text>
+        <text x="64" y="130" fill="#666" font-size="9.5">DAC</text>
+
+        <rect x="42" y="170" width="44" height="60" rx="4" fill="#fff" stroke="#999" stroke-width="1"/>
+        <text x="64" y="196" fill="#666" font-size="9.5">FPGA</text>
+        <text x="64" y="210" fill="#666" font-size="9.5">Comm</text>
+
+        <rect x="474" y="90" width="44" height="60" rx="4" fill="#fff" stroke="#999" stroke-width="1"/>
+        <text x="496" y="116" fill="#666" font-size="9.5">Data</text>
+        <text x="496" y="130" fill="#666" font-size="9.5">Log</text>
+
+        <rect x="474" y="170" width="44" height="60" rx="4" fill="#fff" stroke="#999" stroke-width="1"/>
+        <text x="496" y="196" fill="#666" font-size="9.5">Sim</text>
+        <text x="496" y="210" fill="#666" font-size="9.5">Twin</text>
+      </g>
+      <!-- arrows between shell and core -->
+      <g stroke="#888" stroke-width="1" fill="none" marker-end="url(#arrowhead)">
+        <line x1="86" y1="120" x2="98" y2="120"/>
+        <line x1="86" y1="200" x2="98" y2="200"/>
+        <line x1="462" y1="120" x2="472" y2="120"/>
+        <line x1="462" y1="200" x2="472" y2="200"/>
+      </g>
+      <!-- swap label -->
+      <text x="280" y="268" font-family="Georgia, serif" font-size="11" fill="#888"
+            text-anchor="middle" font-style="italic">
+        Shell is swappable: real hardware ↔ simulated twin
+      </text>
+      <!-- bottom labels -->
+      <text x="64" y="308" font-family="Georgia, serif" font-size="10" fill="#888"
+            text-anchor="middle">hardware I/O</text>
+      <text x="496" y="308" font-family="Georgia, serif" font-size="10" fill="#888"
+            text-anchor="middle">digital twin</text>
+    </svg>
+    <figcaption>Fig. 4 — Pure core / effectful shell architecture. All physics (Bloch equations,
+    Kalman filters, Fisher information, noise models) lives in the pure core — deterministic,
+    testable, hardware-independent. The shell handles I/O and is swappable between real
+    hardware and a simulated digital twin.</figcaption>
+  </figure>
+
+  <table class="lang-table">
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Role</th>
+        <th>Strength</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="lang-name">Python</td>
+        <td>Interactive exploration, prototyping, plots</td>
+        <td>Fast iteration, org-babel integration</td>
+      </tr>
+      <tr>
+        <td class="lang-name">Haskell</td>
+        <td>Executable specification, QuickCheck properties</td>
+        <td>Types as physics, referential transparency</td>
+      </tr>
+      <tr>
+        <td class="lang-name">C++</td>
+        <td>Deployment, performance, FPGA-adjacent</td>
+        <td>Zero-cost abstractions, real-time guarantees</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>All three must agree on the same physics. Cross-language
+  validation follows the pattern: Python generates reference data,
+  Haskell and C++ load and compare. If they disagree, the physics is
+  wrong somewhere — and the tests will tell you where.</p>
+</section>
+
+<!-- ============================================================ -->
+<!--  LESSONS                                                      -->
+<!-- ============================================================ -->
+<section id="lessons">
+  <h2>Lessons</h2>
+
+  <p>Each lesson is a literate org document that builds understanding
+  from first principles: physics &rarr; Python exploration &rarr; Haskell
+  specification &rarr; C++ deployment &rarr; cross-language verification &rarr;
+  exercises. The code is tangled from the document; the document is
+  the source of truth.</p>
+
+  <h3>00 — Bloch Equations: Spin Dynamics as Pure Functions</h3>
+
+  <p>The Bloch equations implemented in all three languages. The same
+  physics, three expressions. The RK4 integrator, the relaxation
+  dynamics, the equilibrium recovery — each language reveals different
+  aspects of the structure.</p>
+
+  <div class="code-columns">
+    <div class="code-block">
+      <span class="lang-label">Python</span>
+<span class="kw">@dataclass</span>
+<span class="kw">class</span> <span class="ty">BlochState</span>:
+    mx: <span class="ty">float</span>
+    my: <span class="ty">float</span>
+    mz: <span class="ty">float</span>
+
+<span class="kw">def</span> <span class="fn">bloch_rhs</span>(state, params, B):
+    <span class="cm">"""dM/dt: precession + relaxation"""</span>
+    cross = gamma * np.<span class="fn">cross</span>(M, B)
+    relax = [-mx/t2, -my/t2,
+             -(mz - m0)/t1]
+    <span class="kw">return</span> cross + relax
+    </div>
+
+    <div class="code-block">
+      <span class="lang-label">Haskell</span>
+<span class="kw">data</span> <span class="ty">BlochState</span> = <span class="ty">BlochState</span>
+  { mx :: <span class="ty">Double</span>
+  , my :: <span class="ty">Double</span>
+  , mz :: <span class="ty">Double</span> }
+
+<span class="fn">blochRHS</span> :: <span class="ty">BlochParams</span>
+         -> <span class="ty">Vec3</span> -> <span class="ty">BlochState</span>
+         -> <span class="ty">BlochState</span>
+<span class="fn">blochRHS</span> p b s =
+  <span class="fn">precession</span> p b s
+    <span class="op">`add`</span> <span class="fn">relaxation</span> p s
+    </div>
+
+    <div class="code-block">
+      <span class="lang-label">C++</span>
+<span class="kw">struct</span> <span class="ty">BlochState</span> {
+    <span class="ty">double</span> mx, my, mz;
+};
+
+<span class="kw">auto</span> <span class="fn">bloch_rhs</span>(
+    <span class="kw">const</span> <span class="ty">BlochState</span>&amp; s,
+    <span class="kw">const</span> <span class="ty">BlochParams</span>&amp; p,
+    <span class="kw">const</span> <span class="ty">Vec3</span>&amp; B)
+  -> <span class="ty">BlochState</span>
+{
+    <span class="kw">return</span> <span class="fn">precession</span>(s,p,B)
+         + <span class="fn">relaxation</span>(s,p);
+}
+    </div>
+  </div>
+
+  <h3>Planned</h3>
+  <p style="color: #888; font-style: italic;">
+  01 — Optical Pumping &middot; 02 — Lock-In Detection &middot; 03 — Kalman
+  Filtering &middot; 04 — PID Control &middot; 05 — Cramer-Rao Bound &middot; 06 — Allan
+  Variance &middot; 07 — Noise Models &middot; ...
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!--  MAYALUCIA                                                    -->
+<!-- ============================================================ -->
+<section id="mayalucia">
+  <h2>Part of MāyāLucIA</h2>
+
+  <p>MāyāPramāṇa is one project within
+  <a href="https://github.com/mayalucia">MāyāLucIA</a> — an open
+  framework for doing rigorous computational science with AI as a
+  collaborator. The methodology: measure, model, verify, iterate —
+  accelerated by a machine that writes code at the speed of thought
+  but cannot tell when the physics is wrong.</p>
+
+  <div class="repo-links">
+    <a class="repo-link" href="https://github.com/mayalucia/mayapramana">
+      mayapramana — quantum sensor twins
+    </a>
+    <a class="repo-link" href="https://github.com/mayalucia/bravli">
+      bravli — neuroscience toolkit (293 tests)
+    </a>
+    <a class="repo-link" href="https://github.com/mayalucia/mayajiva">
+      mayajiva — magnetic bug simulation
+    </a>
+    <a class="repo-link" href="https://github.com/mayalucia/mayaportal">
+      mayaportal — rendering kernel (C++23)
+    </a>
+  </div>
+
+  <div class="placeholder">
+    [ Verified manuscript badge preview — showing the bravli pattern
+    of inline test badges linking claims to evidence ]
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  JOIN                                                         -->
+<!-- ============================================================ -->
+<section id="join">
+  <h2>Join</h2>
+
+  <blockquote>
+    Slowly, slowly, O my mind — slowly everything happens.
+    The gardener may pour a hundred buckets, but fruit comes only
+    in its season.
+    <span class="attribution">— Kabir</span>
+  </blockquote>
+
+  <p>Clone the repo. Read the manifesto. Run the tests. Tell us where
+  the physics is wrong. Break the models — that's the point.</p>
+
+  <p>If you build quantum sensors, if you do neuroscience, if you care
+  about measurement — this grammar is yours to extend. The universal
+  is already inside the particular. The digital twin is the practice
+  of awakening to it.</p>
+
+  <div class="repo-links">
+    <a class="repo-link" href="https://github.com/mayalucia/mayapramana">
+      github.com/mayalucia/mayapramana
+    </a>
+    <a class="repo-link" href="https://github.com/mayalucia">
+      github.com/mayalucia
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  FOOTER                                                       -->
+<!-- ============================================================ -->
+<footer>
+  <p>Built from a basement, for laboratories and clinics. February 2026.</p>
+  <p style="margin-top: 0.5em;">
+    <a href="https://github.com/mayalucia">MāyāLucIA</a> &middot;
+    <a href="https://github.com/mayalucia/mayapramana">Repository</a> &middot;
+    <a href="https://github.com/mayalucia/mayapramana/blob/main/manifesto.org">Manifesto</a> &middot;
+    <a href="https://github.com/mayalucia/mayapramana/blob/main/applications.org">Applications</a>
+  </p>
+</footer>
+
+</body>
+</html>

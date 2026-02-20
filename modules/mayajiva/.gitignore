@@ -1,0 +1,14 @@
+# Toolchain binaries
+tools/
+
+# godot-cpp submodule build artifacts
+godot-cpp/
+
+# Build artifacts
+build/
+godot/bin/
+*.os
+*.o
+
+# Godot import cache
+godot/.godot/

@@ -1,0 +1,8 @@
+#+title: Co-Developing Guidelines by Coding
+
+When we are co-developing some work, /in collaboration/ with an LLM it is critical to be able to save the collaboration's chat history. Here we learn what this means as we develop our projects.
+
+
+
+* =collab= History
+

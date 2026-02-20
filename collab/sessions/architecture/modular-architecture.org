@@ -1,0 +1,328 @@
+#+title: Modular Architecture
+:LOGBOOK:
+This is a mix of several LLM generated modular structures for =MayaLucIA=
+:END:
+
+We are building a system of /layered translations/. The architecture must facilitate the flow from raw heterogeneous data to a scientifically rigorous reconstruction, mediated by an agent that understands both the physics and the digital artifact rendering / simulation pipeline.
+
+We break down =MayaLucIA= into core modules. These modules are designed to bridge the gap between the /Scientific Model/ (what is true) and the /Manifestation/ (what is perceived), with the Agent acting as the translator between them.
+
+
+* 1. Project Garden
+
+A workspace that holds your projects (valleys, circuits, experiments), their notes, code, data links, and results—kept as a living, navigable journal.
+
+** Concept
+
+Every scientist's work grows like a garden: ideas seed, branch, intertwine, and sometimes wither. The =Project Garden= is the root system that keeps everything alive and connected. It is not a folder hierarchy—it is a *semantic workspace* where each project is a living organism, with its own history, dependencies, and relationships to other projects.
+
+Think of it as a *graph of inquiry*: each node is a project, and edges represent shared data, methods, or insights. The garden is navigable not just by file path, but by *meaning*—you can ask, "What projects touch on river morphology?" or "Which experiments depend on this dataset?"
+
+** Why It Matters
+
+- *Intellectual continuity*: Science is not a sequence of finished products but an ongoing conversation with nature. The Garden preserves that continuity, letting you revisit old questions with new tools.
+- *Serendipitous connection*: By making relationships explicit, you may discover that your brain circuit model and your valley model share a mathematical structure—both are branching networks shaped by flow.
+- *Reproducibility by design*: Every project is a self-contained narrative, with its data, code, and notes bundled together, so you can always return to the state of understanding at any moment.
+
+
+* 2. The Knowledge Base
+
+** 2a. Data Ingestion
+
+A simple way to bring in data (files, datasets, APIs, notes from papers) and record what it is, where it came from, and what it means.
+
+*** Concept
+
+Data arrives in many forms: a CSV of river flow rates, a stack of cortical images, a scanned field notebook, a PDF of a seminal paper. =Data Ingestion= is the *sensory periphery* of MāyāLucIA—it receives raw signals from the world and tags them with *provenance* (where did this come from?), *modality* (what kind of measurement is this?), and *semantics* (what does it represent?).
+
+This is not just file import. It is *epistemological registration*: you are telling the system, "This measurement exists, and here is what I believe it means."
+
+*** Why It Matters
+
+- *Trust and traceability*: In science, the value of a number depends on how it was obtained. Recording provenance lets you propagate uncertainty and catch errors.
+- *Multi-modal integration*: A valley model might combine satellite imagery, river gauge data, and field notes. Ingestion unifies these into a common semantic space.
+
+
+** 2b. Data Atlas
+
+A map of our data: what we have, how it connects, and what it covers (space, time, scale, modality). Helps us find and compare sources.
+
+*** Concept
+
+The =Data Atlas= is a *cartography of knowledge*—a map that shows not just what data exists, but how it is distributed across space, time, and scale. For a Himalayan valley, the Atlas might show: "We have high-resolution DEM data for the lower valley, sparse river flow measurements at three points, and dense climate records from a nearby station." For a brain circuit, it might show: "We have cell densities for layers 2-6, but morphological reconstructions only for layer 5."
+
+The Atlas is *indexical*: it points to data without duplicating it, and it is *gap-aware*: it highlights where measurements are missing or uncertain.
+
+*** Why It Matters
+
+- *Strategic data collection*: By seeing what you have and what you lack, you can plan the next experiment—physical or computational.
+- *Cross-referencing*: When you reconstruct a valley, you need to know which elevation points are measured and which are inferred. The Atlas keeps this distinction clear.
+
+
+** 2c. Assumptions & Constraints Ledger
+
+A place to explicitly write down the rules we're using (physics constraints, biological constraints, priors, simplifications), and track changes over time.
+
+*** Concept
+
+Every model rests on a foundation of assumptions—some explicit ("water flows downhill"), some implicit ("the river has not changed course in the last century"). The =Assumptions & Constraints Ledger= is a *logbook of epistemic commitments*: it records what you are taking for granted, and why.
+
+This is not bureaucratic overhead. It is *intellectual hygiene*. When your reconstruction fails to match observation, the Ledger tells you which assumptions to question first.
+
+*** Why It Matters
+
+- *Transparent reasoning*: Science advances by making assumptions explicit and testing them. The Ledger is your record of what you believe and why.
+- *Model evolution*: As you learn more, assumptions change. The Ledger tracks this evolution, so you can compare your model at different stages of understanding.
+
+
+* 3. Reconstruction Workshop & Engine
+
+Tools for building a "digital twin" from sparse inputs—starting coarse, then refining. Supports iterative reconstruction: add one anchor measurement, propagate implications, re-check consistency.
+
+** Digital Form Builder
+
+*** What It Is
+
+Tools that create instances—whether a neuron morphology, a valley cross-section, or a rock formation.
+
+*** Core Function
+
+Takes sparse anchors from the Atlas and fills in statistically faithful details.
+
+*** Concept
+
+The =Digital Form Builder= is a *generative sculptor*: given a few known points (a ridge height here, a river confluence there), it synthesizes the rest of the landscape according to learned or prescribed statistical rules. This is not interpolation—it is *probabilistic completion*, where the generated form is one statistically faithful instance from a distribution of possible forms.
+
+The underlying mathematics draws from *stochastic geometry* and *generative modeling*: given a set of constraints (elevations, slopes, drainage patterns), the Builder samples a plausible landscape that satisfies them. The result is not "the" valley, but "a" valley that is consistent with what we know.
+
+*** Analogy
+
+A sculptor who, given a few reference points (ridge heights, river paths), can carve a complete landscape.
+
+
+** The Constraint Sculptor
+
+The implementation of the "Radical Hypothesis." This is where sparse data becomes a dense digital twin.
+
+*** Function
+
+Uses logical rules and scientific interdependencies to fill in the gaps between known measurements.
+
+*** Role
+
+It acts as the "conceptual chisel," inferring a full river path from a few elevation points, or a dense neural circuit from cell densities and biological rules.
+
+*** Concept
+
+Markram's "radical hypothesis" asserts that in a complex natural system, parameters are so interdependent that knowing a few constrains the rest. The =Constraint Sculptor= operationalizes this: it takes your anchor data and propagates constraints through a *web of interdependencies* (physics, biology, geometry) to infer what must be true elsewhere.
+
+This is *inverse problem solving*: given partial observations, find a consistent configuration of the whole. The mathematics is that of *constraint propagation*, *Bayesian inference*, and *optimization under constraints*.
+
+*** Example
+
+In a valley: knowing the elevation at three points and the river's endpoint constrains the drainage network. In a brain: knowing cell densities and a few morphological exemplars constrains the likely connectivity.
+
+
+* 4. Simulation Lab
+
+A controlled sandbox to run dynamics: erosion, flow, spiking neurons, diffusion, growth—whatever the current model supports—so the twin can be "tested" by behavior, not just shape.
+
+** Dynamics Engine
+
+*** What It Is
+
+Runs the physics—water flows downhill, neurons spike, rocks erode.
+
+*** Core Function
+
+Takes a generated form and lets time act upon it.
+
+*** Concept
+
+A digital twin is not just a snapshot; it is a *dynamical system* that evolves in time. The =Dynamics Engine= integrates the equations of motion—whether Navier-Stokes for fluid flow, Hodgkin-Huxley for neural spiking, or landscape evolution equations for erosion.
+
+The Engine is *modular*: you can swap in different physics for different scales or phenomena. It is also *observable*: at any time, you can extract measurements from the simulated world, just as you would from the real one.
+
+*** Analogy
+
+Wind and weather acting on the sculpture, showing how it would age or behave.
+
+
+* 5. Observing Eye
+
+A movable "sensor rig" inside the digital world: camera, probes, measurement tools. Lets us generate observations from the twin the same way we observe nature.
+
+** Perception Interface
+
+*** What It Is
+
+Your eye into the generated world—cameras, sonifications, interactive views.
+
+*** Core Function
+
+Renders what the simulator produces into something human senses can grasp.
+
+*** Concept
+
+The =Observing Eye= is a *virtual instrument*—a camera, microphone, or probe that can be placed anywhere in the simulated world. It generates data streams (images, time series, spectra) that mimic what a real observer would record.
+
+This is crucial for validation: if your model cannot reproduce the measurements you would make in reality, something is wrong. But it is also crucial for *artistic expression*: by choosing where to look and how to render, you shape the perceptual experience.
+
+*** Analogy
+
+Standing at a viewpoint in the digital twin, choosing where to look and what to listen to.
+
+
+** Interaction & Visualization
+
+Our camera and probe within the digital world.
+
+*** Function
+
+A statistically faithful "virtual camera" that can be placed anywhere in the simulated space.
+
+*** Role
+
+Allows you to "walk" through a Himalayan valley or "fly" along a dendrite, generating data-driven views rather than just pre-rendered video.
+
+*** Concept
+
+This extends the Perception Interface to *interaction*: you can move through the world, change parameters, and see the consequences in real time. The visualization is not a static picture—it is a *live window* into the model's state.
+
+The mathematics here is *rendering* (ray tracing, volume visualization) and *signal processing* (sonification, haptic feedback). The goal is to translate numerical arrays into perceptual forms that engage human intuition.
+
+
+* 6. Comparison, Calibration, & Validation
+
+Tools to compare model outputs to real data (images, time series, statistics). Helps answer: "Does this reconstruction agree with what we measured?"
+
+** Concept
+
+Every model makes predictions; comparison is how we test them. The =Comparison, Calibration, & Validation= module provides tools to *align* model outputs with real observations, *quantify* the discrepancy, and *diagnose* the source of mismatch.
+
+This is *statistical inference*: given model and data, how likely is the model to have generated the data? If the likelihood is low, where does the model fail?
+
+** Why It Matters
+
+- *Scientific honesty*: A model is only as good as its agreement with reality. This module keeps you honest.
+- *Iterative refinement*: By identifying mismatches, you learn which assumptions to revise, closing the loop between model and data.
+
+
+* 7. Expression Studio (Artistic Translation)
+
+Turns the model into interactive visuals, animations, and sound—where abstraction is allowed, but stays grounded in the model and its uncertainties.
+
+** The Synesthete
+
+The bridge between raw numbers and human intuition.
+
+*** Function
+
+Maps scientific variables to artistic parameters (e.g., river flow rate → sound pitch; neuron spike capability → color intensity).
+
+*** Role
+
+Turns the simulation into an aesthetic experience, using art as a method of hypothesis and observation.
+
+*** Concept
+
+The =Synesthete= is a *translation engine*: it takes numerical variables from the model (velocity fields, spike trains, concentrations) and maps them to perceptual parameters (color, pitch, texture, motion). This mapping is not arbitrary—it should preserve *structure*: things that are close or similar in the model should be close or similar in the rendering.
+
+The mathematics is *dimensionality reduction* and *psychophysics*: how do we compress high-dimensional data into the low-dimensional space of human perception, while preserving the relationships that matter?
+
+*** Example
+
+A river's flow velocity can be mapped to sound pitch: fast flow is high-pitched, slow flow is low. The result is a soundscape that lets you "hear" the valley's hydrology.
+
+
+* 8. An Intelligent Agentic Guide
+
+The conversational collaborator that helps us: ask the next question, propose experiments, write code, explain concepts, and keep track of decisions—without taking control away.
+
+** The Guide and Orchestrator
+
+The interface between you and the code.
+
+*** Function
+
+An LLM-driven coding companion that writes the boilerplate, suggests libraries, and translates your high-level intent into executable Python/C++.
+
+*** Role
+
+Keeps you in the creative flow, handling technical complexity so you can focus on the scientific and artistic concepts.
+
+*** Concept
+
+The =Guide= is your *intelligent interlocutor*: it understands your intent, knows the available tools, and can compose them into workflows. It is not a black box—it explains its reasoning, asks clarifying questions, and respects your autonomy.
+
+The underlying mathematics is *planning* (what sequence of actions achieves the goal?) and *natural language understanding* (what did the user mean?). The Guide should be *transparent*: you can always inspect what it did and why.
+
+
+* 9. Notebook Forge
+
+A system for making "living documents" that mix narrative, code, figures, and results—so each project becomes a reproducible learning trail.
+
+** Concept
+
+A notebook is not just a report—it is a *computational narrative*, where prose, code, and output are interwoven. The =Notebook Forge= is the tool that creates and maintains these living documents, ensuring that every figure can be regenerated and every claim can be traced to its source.
+
+** Why It Matters
+
+- *Reproducibility*: The notebook is both the record and the means of reproduction. Running it recreates the results.
+- *Teaching and learning*: By reading a notebook, a newcomer can follow your reasoning step by step, learning both the science and the craft.
+
+
+* 10. Library & Memory
+
+Our personal reference layer: papers, excerpts, definitions, known-good code patterns, and "what I learned" notes—searchable and linkable to projects.
+
+** Concept
+
+Science builds on prior work. The =Library & Memory= is your *personal knowledge graph*: it stores references, annotations, and code snippets, all cross-linked to your projects. When you ask, "What did Markram say about the radical hypothesis?", the Library can retrieve the relevant passage.
+
+** Why It Matters
+
+- *Intellectual scaffolding*: You don't have to remember everything—just know where to look.
+- *Cumulative growth*: As you read and learn, the Library grows, becoming a richer resource for future projects.
+
+
+* 11. Provenance & Reproducibility
+
+Records what ran, with what inputs, what changed, and what outputs were produced—so you can return to any result and rebuild it.
+
+** Concept
+
+Every result has a history: what code was run, what data was used, what parameters were set. The =Provenance & Reproducibility= module captures this history, so that any output can be traced back to its origins and regenerated.
+
+** Why It Matters
+
+- *Trust*: You can verify that a result is not a fluke but a reproducible consequence of the model.
+- *Debugging*: When something goes wrong, provenance tells you where to look.
+
+
+* 12. Packaging & Publishing
+
+Lightweight ways to export an interactive artifact: a webpage, a small app, a dataset bundle, or a narrated notebook—so your understanding becomes shareable when you want it to.
+
+** Concept
+
+Understanding is valuable not just to you, but to others. The =Packaging & Publishing= module lets you export your work in forms that others can engage with—an interactive web app, a downloadable notebook, a dataset with documentation.
+
+** Why It Matters
+
+- *Communication*: Science advances by sharing. This module makes sharing easy.
+- *Legacy*: Your work outlives your immediate attention. By packaging it well, you make it accessible to your future self and to the community.
+#+end_src
+
+***
+
+***
+
+
+* References
+
+- [[https://auraml.com/blog/introducing-project-maya-our-blueprint-for-building-the-future-for-robotics-simulation][auraml.com]] – Project Maya: a generative multi‑modal world model for robotics simulation.
+- [[https://thousandbrains.org/][thousandbrains.org]] – Thousand Brains Project: sensorimotor learning, reference frames, and modularity for AI and robotics.
+- [[https://arxiv.org/abs/2412.18354][arxiv.org/abs/2412.18354]] – The Thousand Brains Project: A New Paradigm for Sensorimotor Intelligence.
+
+***

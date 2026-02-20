@@ -1,42 +1,44 @@
-# Collaboration spaces - ephemeral, outside version control
-collab/
-
-# Emacs artifacts
-*~
-\#*\#
-*.elc
-.dir-locals.el
-
-# Org-mode tangled/exported files (regenerable)
-*.html
-*.tex
-*.pdf
-
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.eggs/
-*.egg
-.venv/
-venv/
-.python-version
-
 # Build artifacts
-build/
-dist/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.dblite
+*.os
+*.o
 *.so
 *.dylib
 
-# IDE / Editor
-.idea/
-.vscode/
-*.swp
-*.swo
+# Generated figures (regenerate from source)
+experment/magnetic-bugs/fig_*.png
 
-# OS artifacts
+# Agent session transcripts (large, ephemeral)
+.agent-shell/
+
+# SCons
+.sconsign.dblite
+
+# Editor/OS
+*~
+\#*\#
 .DS_Store
-Thumbs.db
 
-# OpenCode agent sessions (local)
-.opencode/
+# Duplicate CLAUDE files (org is source of truth)
+CLAUDE-comprehensive.md
+CLAUDE-root-only.md
+
+# Python
+__pycache__/
+*.pyc
+
+# LaTeX generated (keep .org and .tex, not build output)
+*.pdf
+
+# Submodule working trees managed by their own repos
+# bravli/code/ is in github.com/mayalucia/bravli
+# modules/mayajiva build artifacts
+modules/mayajiva/.sconsign.dblite
+modules/mayajiva/godot/.godot/
+collab/.local/*.pdf
+collab/.local/*.html

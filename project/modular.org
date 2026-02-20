@@ -1,0 +1,144 @@
+#+title: Modular Architecture for =MāyāLucIA=
+
+To realize our =MayaLucIA= vision we will need to develop a modular ecosystem of components, agents, and workflows that grows with the user's curiosity, leveraging modern LLMs and coding agents to handle technical complexity without requiring enterprise-scale engineering.
+
+
+* Notes
+
+** Some Evocative Module Names
+
+1. *MāyāCore* - The foundational runtime and data model
+2. *Dāna* - Data ingestion and curation module
+3. *Kalpa* - Constraint-based model synthesis engine
+4. *Nāṭya* - Manifestation engine (visualization, sonification, interaction)
+5. *Sūtra* - Agent orchestration and workflow management
+6. *Śāstra* - Knowledge graph and semantic layer
+7. *Tīrtha* - Interactive notebook and documentation system
+8. *Dhyāna* - Observational interface and control plane
+
+*** 1. =MayaCore= The Digital Twin Substrate
+
+Foundation that manages digital twin instances as heterogeneous collections of components, each with agents. It encodes the self-model in a dynamic knowledge graph that tracks component relationships, data lineage, and computational provenance.
+
++ /Key Functions/:
+  - Versioned digital twin instances
+  - Component lifecycle management
+  - Self-model knowledge graph (RDF-based, queryable via SPARQL)
+  - Event bus for inter-component communication
+  - Provenance tracking for all transformations
+
++ /Tech Stack/:
+  - =atoma= for configuration
+  - =rdflib= for knowledge graph
+  - =watchdog= for file monitoring
+  - =pydantic= for data validation
+
+
+*** 2. =MayaDana= Data Ingestion & Curation
+
+Handles the "Measure" phase. Connects to distributed scientific repositories, extracts sparse anchor measurements, and curates them into a unified but personal data space. Unlike enterprise systems, it prioritizes local caching and manual verification over automated pipelines.
+
++ /Key Functions/:
+  - Adapters for geospatial (GeoTIFF, NetCDF), neuroscience (SWC, NWB), and generic (HDF5, Zarr) formats
+  - Local knowledge base with =chromadb= for semantic search over datasets
+  - Sparse measurement annotation tools
+  - Data quality heuristics (flagging inconsistencies)
+  - Lazy loading via =xarray= with =dask= backend
+
++ /Tech Stack/:
+  - =xarray=, =zarr=, =rioxarray= for geospatial
+  - =pynwb= for neuroscience
+  - =chromadb= for embeddings,
+  - =typer= for CLI tools
+
+*** 3. =MayaKalpa= The Conceptual Chisel
+
+Implements the constraint satisfaction engine for sparse-to-dense synthesis. Encodes scientific laws (fluid dynamics, neuronal morphogenesis, erosion models) as computationa constraints that propagate through the system.
+
++ /Key Functions/:
+  - Constraint definition language (Python DSL)
+  - Probabilistic inference engine (=pyro= or =numpyro=)
+  - Physics-based simulation kernels (=jax= for autodiff, =numba= for performance)
+  - Topology-aware interpolation (geostatistics, graph neural networks)
+  - Validation against metrological constraints
+
++ /Tech Stack/:
+  - =jax=, =numpyro=, =numba=, =networkx=, =scikit-image= for morphological operations
+
+*** 4. =MāyāNāṭya= The Manifestation Engine
+
+Translates computed models into multi-sensory experiences. Not a static renderer, but a real-time system that generates observable instances from any viewpoint. Includes visual, sonic, and potentially haptic output.
+
++ /Key Functions/:
+  - Multi-scale level-of-detail rendering
+  - Procedural audio synthesis from data streams
+  - "Observing eye" camera/placement system with controllable parameters
+  - Export to interactive formats (Three.js, WebGL, Unity)
+  - Real-time parameter animation
+
++ /Tech Stack/:
+  - =vispy= or =napari= for scientific viz,
+  - =three.js= for web,
+  - =scsynth= or =faust= for sonification,
+  - =moderngl= for low-level graphics
+
+*** 5. =MāyāSūtra= Agentic Orchestration
+
+The LLM-powered planner that selects tools, generates code, and manages workflows. Uses retrieval-augmented generation against=Śāstra= knowledge graph [nature.com] and can collaborate with you via natural language. Implements a closed-loop reason-act-reflect cycle [arxiv.org/abs/2509.20414].
+
++ /Key Functions/:
+  - Tool-use planner (similar to SceneWeaver's approach)
+  - Code generation for =Kalpa= constraints and =Nāṭya= manifests
+  - Self-evaluation of generated models
+  - Human-in-the-loop decision points
+  - Prompt engineering templates stored in Org files
+
++ /Tech Stack/:
+  - =langchain= or =llama-index= for RAG,
+  - =pydantic-ai= for structured LLM outputs
+  - =litellm= for provider abstraction
+
+*** 6. =MāyāŚāstra= Semantic Knowledge Layer
+
+A unified knowledge graph that links measurements to models to manifestations, encoding the interdependencies. This is not just a database but a living representation of scientific understanding that grows with each iteration.
+
+- /Key Functions/:
+  - Ontology for domain concepts (geology, neuroscience)
+  - Stores constraint rules and their provenance
+  - Links code, data, and narrative in Tīrtha notebooks
+  - Enables RAG for Sūtra agents
+  - Tracks model validation results
+
+- /Tech Stack/: =rdflib=, =sparqlwrapper=, =ontopy= for ontology management, =grakn= or =typeDB= for reasoning
+
+*** 7. =MāyāTīrthan=: Living Notebook Interface
+
+Emacs Org-mode based computational environment where code, visualization, and narrative blend. Each notebook is a "pilgrimage record" documenting the journey from measurement to understanding.
+
++ /Key Functions/:
+  - Org-mode integration with =org-babel= for multiple languages
+  - Embedded interactive =Nāṭya= visualizations
+  - Provenance tracking linking to =Śāstra=
+  - Template library for common workflows
+  - Export to publication-ready formats
+
++ /Tech Stack/:
+  - Emacs with =org-mode=
+  - =emacs-jupyter=i
+  - =org-roam= for networked notes
+
+*** 8. =MāyāDhyāna= Interactive Sculpting Control
+
+The direct manipulation interface for "sculpting" the digital twin. Provides real-time sliders, spatial handles, and parameter tweakers that feed back into =Kalpa= constraints.
+
+- /Key Functions/:
+  - Parameter binding to Org-mode variables
+  - Real-time update of =Nāṭya= manifestations
+  - Sensitivity analysis visualization
+  - A/B comparison tools
+  - "What-if" scenario branching
+
+- /Tech Stack/:
+  - =ipywidgets= for Jupyter-like controls
+  - =Dear ImGui= via =imgui= Python bindings for high-performance GUI
+  - Qt= for more complex interfaces

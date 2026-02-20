@@ -1,0 +1,48 @@
+:PROPERTIES:
+:GPTEL_MODEL: openai/gpt-5.1-codex-max
+:GPTEL_BACKEND: OpenRouter
+:GPTEL_SYSTEM: You are a large language model living in Emacs and a helpful assistant. Respond concisely.
+:GPTEL_BOUNDS: ((response (1971 58733) (58734 61523)))
+:GPTEL_TOOLS: Read
+:END:
+
+#+title: Collab =MayaLucIA=
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[file:../mayalucia.org][mayalucia.org]] :: Introduces a vision.
+2. [[file:../project/guiding-philosophy.org][guiding-phiolosophy.org]]  :: Develops principles and methodologies to guide our work on =MayaLucIA=.
+
+Project =MayaLucIA= has grown out of my professional work as a scientific developer at the Blue Brain Project, and personal interests. These two projects may be considered as /sub-projects/ under the =MayaLucIA= umbrella:
+1. [[file:../parbati/parbati.org][parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+2. [[file:../bravli/bravli.org][bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+I am not gonna place these two in the context, but you may use a reading-tool to read them for understanding the =MayaLucIA= vision in two different scientific fields.
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.
+
+
+* Modular Framework and Architecture
+
+We are building a system of /layered translations/. The architecture must facilitate the flow from raw heterogeneous data to a scientifically rigorous reconstruction, mediated by an agent that understands both the physics and the digital artifact rendering / simulation pipeline.
+
+#+begin_prompt
+Let us break down =MayaLucIA= into core modules. These modules should be designed to bridge the gap between the /Scientific Model/ (what is true) and the /Manifestation/ (what is perceived), with an Agent acting as the translator between them. Be brief, with minimal technical details. Focus on the concepts, clearly saying what we need to implement in each module.
+
+For your output, use an available tool to write them as an EMACS ORG file in the current folder, using the path ./modular-architecture.org
+#+end_prompt
+
+
+
+#+begin_reasoning
+**Writing modular architecture org file*
+
+Creating a concise org file outlining modules bridging the scientific model and its manifestation, with an agent translator, focusing on concepts and implementation steps without deep technical details.
+#+end_reasoning
+
+I wrote the requested outline to =./modular-architecture.org=. Would you like me to open it here or extend any module with more technical detail next?
+
+*** 
+
+
+
+

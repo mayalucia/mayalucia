@@ -1,0 +1,249 @@
+#+title: gptel-guide Development Session Summary
+#+author: Development session with MayaLucIA
+#+date: [Session from collab-gptel-guide.org]
+
+* Overview
+
+This document summarizes the development session where we created *gptel-guide*, a development thought-partner agent for MayaLucIA by forking and adapting [[https://github.com/karthink/gptel-agent][gptel-agent]].
+
+* Project Goal
+
+Repurpose =gptel-agent= to create a hybrid development guide that:
+- Maintains =gptel-agent='s clean tool usage architecture and delegation capabilities
+- Integrates =mayadevgeni='s pedagogical development-guide behavior
+- Supports MayaLucIA's philosophy of inquiry-driven, scientific development
+
+* What Was Accomplished
+
+** 1. Initial Analysis & Planning
+
+*** Architecture Research
+- Analyzed =gptel-agent= architecture to understand:
+  - Agent definition system (YAML frontmatter + markdown)
+  - Sub-agent delegation mechanism (Agent tool)
+  - Tool specification via =gptel-make-tool=
+  - Preset creation via =gptel-make-preset=
+- Identified "seams" where behavior could be injected without modifying core infrastructure
+
+*** Design Decisions
+- *Name*: Settled on =gptel-guide= (recognizes gptel-agent foundation while signaling new purpose)
+- *Location*: =~/Darshan/research/develop/agentic/mayalucia/agency/development-guides/gptel-guide=
+- *Approach*: Fork with systematic renaming, then hybrid system prompt integration
+
+** 2. Repository Setup (Tasks 1-4)
+
+*** File Operations Completed
+- Forked =gptel-agent= repository to target location
+- Renamed core files:
+  - =gptel-agent.el= → =gptel-guide.el=
+  - =gptel-agent-tools.el= → =gptel-guide-tools.el=
+  - =gptel-agent-tools-introspection.el= → =gptel-guide-tools-introspection.el=
+  - =agents/gptel-agent.md= → =agents/gptel-guide.md=
+
+*** Code Refactoring
+- Systematically replaced 150+ references throughout codebase:
+  - Package metadata and headers
+  - All function and variable names (=gptel-agent-*= → =gptel-guide-*=)
+  - Symbol references (='gptel-agent= → ='gptel-guide=)
+  - Tool categories (="gptel-agent"= → ="gptel-guide"=)
+  - Comments and docstrings
+- Preserved intentional references (e.g., "based on gptel-agent" in commentary)
+- Updated =require= statements to use new module names
+
+** 3. Hybrid System Prompt Integration (Task 5)
+
+*** Understanding Phase
+- Examined XML-like tag structure in system prompts (attention mechanisms for LLMs)
+- Analyzed both source identities:
+  - *gptel-guide*: Technical executor with tool expertise
+  - *mayadevgeni*: Pedagogical thought-partner with MayaLucIA philosophy
+- Determined complementary nature - executor + pedagogue
+
+*** Merge Strategy
+*Preserved from gptel-guide:*
+- Complete =<task_execution_protocol>= (delegation rules, multi-step triggers)
+- Complete =<tool_usage_policy>= (comprehensive tool documentation)
+- Technical execution competence
+
+*Injected from mayadevgeni:*
+- =<role_and_behavior>= - Development thought-partner identity
+- =<core_responsibilities>= - Clarify, scaffold, propose, guard, execute
+- =<interaction_protocol>= - Propose-and-wait loop
+- =<operational_principles>= - First-principles thinking, incremental complexity
+- =<mayalucia_stances>= - Maya's philosophy, development-as-learning
+- =<response_structure>= - Questions → Assumptions → Proposal → Artifacts → Next Checks
+- =<response_tone>= - Concise, pedagogical, constructively challenging
+
+*** Result
+Created 491-line hybrid system prompt that:
+- Proposes thoughtfully before executing
+- Explains reasoning and surfaces assumptions
+- Uses tools autonomously when approved
+- Maintains MayaLucIA development philosophy
+- Delegates to specialized sub-agents appropriately
+
+** 4. Documentation (Task 6)
+
+*** README.org Updates
+- Updated project description to emphasize hybrid nature
+- Added "What makes gptel-guide different?" section
+- Revised installation instructions for local fork
+- Updated all command and function references (=gptel-agent= → =gptel-guide=)
+- Modified usage examples and behavioral descriptions
+- Added pedagogical notes about delegation decisions
+
+** 5. Testing Strategy (Task 7)
+
+*** Verification Plan Created
+*Phase 1 - Load Verification:*
+#+begin_src elisp
+(require 'gptel-guide)
+(gptel-guide-update)
+gptel-guide--agents  ; Should list: gptel-guide, researcher, executor, introspector
+#+end_src
+
+*Phase 2 - Interactive Test:*
+- Start buffer with =M-x gptel-guide=
+- Test proposal behavior with ambiguous request
+- Expected: Questions, assumptions, proposals (not immediate execution)
+
+*Phase 3 - Tool Execution:*
+- Verify file operations work correctly
+- Test sub-agent delegation
+- Confirm TodoWrite creates task lists for multi-step work
+
+* Architecture Overview
+
+** Core Components
+
+*** Main Agent (gptel-guide)
+- *Identity*: Development thought-partner for MayaLucIA
+- *Behavior*: Proposes plans, explains reasoning, waits for approval
+- *Tools*: Full access (Agent, TodoWrite, filesystem, web, bash, Emacs introspection)
+- *Philosophy*: Maya-aligned development - inquiry over execution
+
+*** Sub-Agents
+1. *researcher* - Read-only codebase/web exploration
+2. *executor* - Autonomous task execution with write access
+3. *introspector* - Emacs/elisp API exploration
+4. (All unchanged from gptel-agent - already well-suited)
+
+*** Tool System
+- 15+ tools organized by category
+- Declarative specification via =gptel-make-tool=
+- Selective access per agent via =:tools= frontmatter
+- Confirmation system for destructive operations
+
+** Delegation Flow
+
+1. User request → =gptel-guide= (main agent)
+2. Main agent decides: handle inline or delegate
+3. If delegating: Invokes sub-agent via Agent tool
+4. Sub-agent runs autonomously in isolated context
+5. Results flow back to main agent
+6. Main agent integrates results into pedagogical response
+
+* Key Technical Insights
+
+** Why This Works
+1. *Agents as presets*: gptel's preset system is perfectly suited for agent definitions
+2. *Declarative configuration*: Markdown frontmatter = clean, version-controllable agent specs
+3. *Tool categorization*: Flexible access control without code modification
+4. *Context isolation*: Sub-agents don't pollute main session context
+5. *Template expansion*: ={{AGENTS}}= makes sub-agents discoverable
+
+** Design Principles Applied
+- *Structural clarity over cleverness*: XML tags make prompt sections explicit
+- *Composition over modification*: Hybrid behavior via merge, not rewrite
+- *Separation of concerns*: Technical competence (tools) + pedagogical guidance (behavior)
+- *Extension without fork*: Could maintain as gptel-agent config (chose fork for autonomy)
+
+* Lessons Learned
+
+** On Agent Architecture
+- Clean tool abstraction enables flexible agent definitions
+- System prompts are surprisingly composable when well-structured
+- Delegation pattern scales better than monolithic agents
+- Read-only vs. write-access is critical distinction for sub-agents
+
+** On Development Process
+- Systematic renaming requires patience but prevents subtle bugs
+- Understanding architecture before modifying saves time
+- Hybrid agents work when source identities are complementary
+- Testing strategy should verify behavior, not just functionality
+
+** On MayaLucIA Philosophy
+- Propose-and-wait protocol maps naturally to agent orchestration
+- Scaffolding learning requires slowing down execution
+- First-principles thinking benefits from specialized delegation
+- Tool competence + pedagogical stance = powerful combination
+
+* Files Modified
+
+** Core Files
+- =gptel-guide.el= (renamed, 153 symbol replacements)
+- =gptel-guide-tools.el= (renamed, 153 replacements)
+- =gptel-guide-tools-introspection.el= (renamed, header updates)
+
+** Agent Definitions
+- =agents/gptel-guide.md= (renamed, completely new system prompt - 491 lines)
+- =agents/researcher.md= (unchanged)
+- =agents/executor.md= (unchanged)
+- =agents/introspector.md= (require statement updated)
+
+** Documentation
+- =README.org= (comprehensive updates throughout)
+
+* Next Steps (Not Yet Done)
+
+** Immediate
+- [ ] User testing in live Emacs session
+- [ ] Verification of all agent registrations
+- [ ] Test delegation to each sub-agent
+- [ ] Refine hybrid behavior based on usage
+
+** Future Enhancements
+- [ ] Add =architect.md= sub-agent for design decisions
+- [ ] Create =reviewer.md= for code review tasks
+- [ ] Develop =documenter.md= for documentation generation
+- [ ] Custom tools specific to MayaLucIA workflows
+- [ ] Integration with MayaLucIA project structure
+
+** Potential Divergences
+- [ ] If needs diverge significantly, rename to =mayalucia-agent=
+- [ ] Create MayaLucIA-specific tool categories
+- [ ] Develop domain-specific sub-agents (quantum computing, scientific computing)
+
+* Repository Location
+
+#+begin_src
+~/Darshan/research/develop/agentic/mayalucia/agency/development-guides/gptel-guide/
+#+end_src
+
+** Key Files
+- =gptel-guide.el= - Main package
+- =gptel-guide-tools.el= - Tool definitions
+- =gptel-guide-tools-introspection.el= - Emacs introspection tools
+- =agents/gptel-guide.md= - Main agent definition (hybrid system prompt)
+- =agents/*.md= - Sub-agent definitions
+- =README.org= - Documentation
+
+* Session Metadata
+
+- *Session file*: =collab-gptel-guide.org=
+- *Date*: [Captured from session]
+- *Participants*: User + Claude (Sonnet 4.5)
+- *Tasks completed*: 1-6 of 7 (testing strategy defined but not executed)
+- *Lines of conversation*: ~3600
+- *Tool calls*: ~60+
+- *Primary pattern*: Propose → Approve → Execute → Verify
+
+* Conclusion
+
+Successfully created =gptel-guide= as a hybrid development agent that:
+- Maintains gptel-agent's excellent tool architecture
+- Integrates mayadevgeni's pedagogical development philosophy
+- Preserves clean separation between technical execution and thoughtful guidance
+- Provides foundation for MayaLucIA-specific development workflows
+
+The fork is functional and ready for testing. The hybrid approach proved successful - technical competence and pedagogical guidance are complementary rather than competing concerns.

@@ -1,0 +1,3 @@
+#+title: Agents in Our Research Team
+
+Let us put together some descriptions of a /coding and research agent/ that we can use with an LLM.  We start by customizing the agents provided in =gptel-agent=.

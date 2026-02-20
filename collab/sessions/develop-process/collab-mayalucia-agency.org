@@ -1,0 +1,166 @@
+:PROPERTIES:
+:GPTEL_MODEL: mistralai/codestral-2508
+:GPTEL_BACKEND: OpenRouter
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should respond only to the one that appears last in your input text. If you are confused about which =prompt= to respond to, notify me and wait for my response before proceeding.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_TOOLS: Write Read
+:GPTEL_BOUNDS: ((response (14 89489)))
+:END:
+#+title: Development-Guide Agent
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[MayaLucIA:mayalucia.org]] : Introduces a vision.
+2. [[MayaLucIA:develop/guide/philosophy.org]] : Develops principles and methodologies to guide our work=.
+3. [[MayaLucIA:parbati/parbati.org]] : Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+4. [[MayaLucIA/bravli/bravli.org]]  : Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+These files are my "vision" of a computational framework to help the user (/i.e./ me) personally in growing as a scientist and a programmer in 2026. Let us specify more concretely what we want to do here.
+
+Here, in this ORG buffer, we will collaborate on the development of =MayaLucIA=.
+
+
+*How should we start on something like =MayaLucIA=?*
+Let us begin by emphasizing that we are essentially building an *"Intelligence Amplifier"* for a single scientific user. I will use it myself for developing several scientific inquiries. Personalization is important. If well documented, and disseminated, it can be opened to the world to learn from. Done well, it may even be useful beyond my own enjoyment.
+
+
+*Hold on for technical implementation*
+We have a lot of terminology in our =MayaLuciA= documents. These documents should serve as rough guidelines. We should not try to come up with a technical implementation for each of these concepts or processes that we will need in our project. That will only bog us down in decisions like =Python= libraries.
+
+
+*MayaLucIA *as a software product*
+If =MayaLucIA= cannot be a traditional software product --- /i.e/ software in the form of an executable binary that runs the application, along with source code. Instead, we will ship =MayaLucIA= as an /agency/, /i.e/ an /organization/ of AI agents that guide the user find their way to understand natural phenomena at each stage of =MayaLucIA='s  /Measure->Model->Manifest->Evaluate/ cycle. So instead of /architecting/ the final computational artifact, let us first build a /team of agents/.
+
+
+*What exactly do you mean by “ship” here?*
+We will definitely ship open-source artifacts. If we have good stories developed with =MayaLucIA= we can present them at a hosted service.
+
+
+*Who are the initial users besides me (if any)?*
+I am a  solo researche.
+
+
+*What is the boundary of an “agent” in our agency?*
+Let us start with role-based LLM prompts that have /capabilities/ in the form of function tools that we can input to the LLM. Once we have developed an initial prototype that we can disseminate we will move on to agents augmented with memory, as well as execute code autonomously. We will experiment with all these as we develop. It will be a long process. There is a lot to learn.
+
+
+*What counts as success in 3 months vs 12 months?*
+Three month success would be a beautifully rendered /MayaDarshan/ of a landscape system depicting the river valleys originating around the Parvati Pyramid. This should get us started on studying mountain-river-systems (see [[MayaLucIA:parbati/parbati.org]]). In twelve months this animated landscape visualization should become a simulation in which the user can set the parameters and algorithms graphically, while being able to program the system from an editor with plain text (interpreted by an agent). This editor mediated interaction must be possible while the user is visually and sonically interacting with the simulation. The editor should also show in natural language and in real-time the graphical mouse or trackpad based commands.
+
+
+*How to Read the MayaLucIA Files*
+To understand my vision of =MayaLucIA= read [[MayaLucIA:mayalucia.org]] that introduces the vision, and  [[MayaLucIA:develop/guide/philosophy.org]] that develops principles and methodologies to guide our work. There are two scientific domains described in   [[MayaLucIA:parbati/parbati.org]] (mountain ruver systems) and  [[MayaLucIA/bravli/bravli.org]] (brain neuronal circuits).
+
+
+*Initial Framing Suggestion*
+Here is a suggested framing that you may use as a template. Be free to add to it if it fits well.
+- Treat “agency” as a /governance model/ rather than a product.
+- Define a minimal /operational core/:
+  - role taxonomy
+  - protocol for handoffs
+  - artifact outputs (ORG docs, code, notebooks, datasets)
+- Ship as:
+  - a reusable /process/ (playbooks + templates)
+  - plus a minimal /tooling scaffold/ (scripts, prompts, org files)
+
+
+*Repository structure for =MayaLucIA=*
+We expect the repository structure to be complex. At the moment assume that we do not have any!
+
+
+*Versioning Tool*
+I am used to =git=, but find it optimized for code and not scientific discussion. Are there any better tools? Any new tools that start with LLMs in the design? Should we develop one?
+
+
+*Primary Working Environment*
+We will do our development work mostly on a Mac Book Pro or a Linux Ubuntu 22.04 machine. While a local machine is necessary for developing visualization. at the same time we should target the web-browser using WebGPU or other similar technologies.
+
+
+*Executable Scaffolding for the Agents*
+We will need a harness to connect with the LLM, and run tools on our local machine. At the beginning we will depend on =gptel= within =Emacs-ORG= for this. So we can develop an =Emacs= package in which we can include the /executable scaffolding/ that may include, for example scripts, prompt runners, LLM orchestration.
+
+
+*First Concrete Scientific Inquiry*
+Let us begin with the Parvati mountain system: a beautifully rendered /MayaDarshan/ of a landscape system depicting the river valleys originating around the Parvati Pyramid.
+
+
+*Second Concrete Scientific Inquiry*
+A visual simulation system to help the /neuroscientist/ explore single cells --- their morphology (upto synaptic resolution) as well as their physiology by running biophysical simulations (using the simulators NEURON or ARBOR). We will have to provide simpler single cell solutions such as integrate and fire.
+
+
+*Scope Focus*
+The first shipment will target only =Parvati=.
+
+
+*Interaction Cadence*
+Within a =MayaLucIA= session, the user should have access to the agents, /i.e./ they should be able to use agents /on-demand/, as well as toggle to an /always-on/ agent for continuous guidance. I can imagine a pedagogical session for a beginner to run a /always-on/ agent in the background to parse and understand what the novice is doing to provide continous feedback.
+
+
+*Artifact boundaries*
+The first shipment can be mostly only ORG files, with minimal code stubs.
+
+
+*Collaboration*
+Anyone who forks the repo should be able to collaborate through pull requiests. However for developing =MayaLucIA= agency our main focus agency should be a single user,  but documented for /multi-user/ later.
+
+
+*Evaulation Criteria*
+What counts as “done” for the first shipment?
+- 3–5 concrete use cases
+- one story
+- one demo
+
+
+*Motivation and Success Criteria*
+I would say “MayaLucIA is already worth it” in 4–6 weeks if I can play around in a virtual landscape.
+My priorites:
+1. /learning/, 3. /daily workflow support/, 2. /artifact production/
+
+
+*Working Style and Cadence*
+I would like structured milestones weekly, and prefer frequent check-ins.
+
+
+*Scope Boundaries (First Shipment)*
+For =Parvati=, the /minimum viable artifact/ will be short animation, with several capabilities such as terrain generation, river carving, camera path.
+
+
+*Tooling and Environment*
+There will not be any primary environment. We will target Mac, Ubuntu and the browser --- while being pragmatic and knowing that not all features may be possible. Our focus will be on the concepts. We remain open to a minimal JS/WebGPU prototype early, or should we start with offline rendering?
+
+
+*Agent Agency and Handoffs*
+You may need to know,
+ - What decisions should agents /never/ make without explicit approval?
+ - How do you want agent handoffs recorded: ORG headings, a changelog file, or both?
+I can not answer these questions now because I do not know the topic well enough. Let us not get bogged down clarifying this issue. I am sure we will come back to this soon enough after we have some simple working agents.
+
+
+*Documentation Style*
+We will structure documentation in ORG files, organized hierarchically by field of study and topic. We keep a “living glossary” early.
+
+
+*My Abilities and Preferences*
+I want code examples in both =Python= and =C++=, and sometimes I may want to explore =Julia= or =Rust=. I am comfortable with build system =CMake=. Should that be enough, or do we need another one?
+
+
+*Target Users*
+We want the “agency” to be /single-user only/ in version 1 (me), but documented for multi-user.
+
+
+*Agent Autonomy*
+For the first shipment, the agents should be allowed to execute /local scripts/ only and there should be a /human-in-the-loop only/ for every other action that an agent wants to take.
+
+
+*Further Clarification*
+I am sure you can come up with further clarifications if so prompted. I think my description is fairly detailed. So I will ask you to desist from asking for more clarification.
+
+
+#+begin_prompt
+What would it mean to ship =MayaLucIA= not as a software product, but an AI /agency/ as dicussed above?
+Can you propose:
+
+1. A concrete definition of “agency”
+2. A minimal set of agents and their responsibilities
+3. A first shipment artifact (ORG‑based) with versioning and workflow
+4. Propose an initial minimal "operational core"
+#+end_prompt

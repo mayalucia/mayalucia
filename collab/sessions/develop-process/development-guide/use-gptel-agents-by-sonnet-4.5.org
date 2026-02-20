@@ -1,0 +1,428 @@
+#+title: Using =gptel-agent= for Custom Agents
+#+subtitle: A Pedagogical Tutorial for MayaLucIA Development
+#+author: MayaLucIA Development Guide
+#+date: 2025
+
+* Overview
+
+This tutorial explains how =gptel-agent= works and how to create custom agents using ORG files. We will use this knowledge to implement the =MayaDevGenI= (Development Guide Agent) for the MayaLucIA project.
+
+#+begin_quote
+/Goal/: Understand the machinery of =gptel-agent= well enough to define custom agents declaratively in ORG files.
+#+end_quote
+
+** What is =gptel-agent=?
+
+=gptel-agent= is an extension to =gptel= (a GPT client for Emacs) that enables /agentic/ LLM interactions. An agent is an LLM equipped with:
+
+- A /system prompt/ defining its role, behavior, and constraints
+- /Tools/ it can use to interact with the environment (file system, web, Emacs state)
+- /Sub-agents/ it can delegate tasks to
+
+The key insight: agents are defined declaratively in Markdown or ORG files, not in Elisp code.
+
+
+* How =gptel-agent= Defines Agents
+
+** The Two-Part Structure
+
+Every agent definition has two parts:
+
+1. *Frontmatter/Properties*: Metadata specifying the agent's configuration
+2. *Body*: The system prompt that instructs the LLM how to behave
+
+*** In ORG Files
+
+ORG files use a =:PROPERTIES:= drawer at the top of the file:
+
+#+begin_example
+:PROPERTIES:
+:name:        my-agent
+:description: A helpful assistant
+:tools:       Read Write Grep
+:END:
+
+You are a helpful assistant that...
+[rest of system prompt]
+#+end_example
+
+*** In Markdown Files
+
+Markdown files use YAML frontmatter:
+
+#+begin_example
+---
+name: my-agent
+description: A helpful assistant
+tools: Read Write Grep
+---
+
+You are a helpful assistant that...
+[rest of system prompt]
+#+end_example
+
+
+** Parsing Flow
+
+The function =gptel-agent-read-file= orchestrates parsing:
+
+1. Detects file type (=.org= or =.md=)
+2. Calls the appropriate parser:
+   - =gptel-agent-parse-org-properties= for ORG
+   - =gptel-agent-parse-markdown-frontmatter= for Markdown
+3. Returns a cons cell: =(name . plist)= where plist contains all configuration
+
+For ORG files specifically, =gptel-agent-parse-org-properties=:
+1. Opens the file in a temp buffer with =org-mode=
+2. Extracts the =:PROPERTIES:= block using =org-get-property-block=
+3. Converts properties to a plist (e.g., =:name=, =:tools=, =:description=)
+4. The body after =:END:= becomes the =:system= prompt
+
+
+** The Update Cycle
+
+When you call =M-x gptel-agent= or =gptel-agent-update=:
+
+1. Scans all directories in =gptel-agent-dirs= for =.org= and =.md= files
+2. Parses each file into an agent definition
+3. Performs /template expansion/ (e.g., =={{AGENTS}}== becomes a list of available sub-agents)
+4. Registers agents in =gptel-agent--agents= alist
+5. Creates gptel presets that can be applied to any buffer
+
+
+** Available Properties
+
+| Property    | Type      | Description                                       |
+|-------------+-----------+---------------------------------------------------|
+| =name=        | string    | Unique identifier for the agent                   |
+| =description= | string    | Short description (shown in agent lists)          |
+| =tools=       | space-sep | Tools the agent can use (e.g., "Read Write Grep") |
+| =backend=     | string    | LLM backend to use (optional)                     |
+| =model=       | string    | Specific model (optional)                         |
+| =parents=     | list      | Presets to inherit from (optional)                |
+| =pre=         | elisp     | Code to run before request (optional)             |
+| =post=        | elisp     | Code to run after response (optional)             |
+
+Properties are case-insensitive in ORG files.
+
+
+* Available Tools
+
+=gptel-agent= provides these built-in tools:
+
+** File System Tools
+
+| Tool   | Purpose                                       |
+|--------+-----------------------------------------------|
+| =Read=   | Read file contents (with optional line range) |
+| =Write=  | Create new files (overwrites existing)        |
+| =Edit=   | Replace text or apply diffs                   |
+| =Insert= | Insert text at specific line number           |
+| =Glob=   | Find files matching patterns                  |
+| =Grep=   | Search file contents with regex               |
+| =Mkdir=  | Create directories                            |
+
+** Web Tools
+
+| Tool      | Purpose                         |
+|-----------+---------------------------------|
+| =WebSearch= | Search the web (via DuckDuckGo) |
+| =WebFetch=  | Fetch and read URL contents     |
+| =YouTube=   | Extract video transcripts       |
+
+** System Tools
+
+| Tool        | Purpose                               |
+|-------------+---------------------------------------|
+| =Bash=        | Execute shell commands                |
+| =Eval=        | Evaluate Elisp expressions            |
+| =Diagnostics= | Collect flymake errors across project |
+| =TodoWrite=   | Track multi-step task progress        |
+| =Agent=       | Delegate to sub-agents                |
+
+
+* Creating a Custom Agent: Step-by-Step
+
+** Step 1: Choose Your Agent Directory
+
+Agents live in directories listed in =gptel-agent-dirs=. The default is the =agents/= subdirectory of the gptel-agent package.
+
+To add your own directory:
+
+#+begin_src elisp
+(add-to-list 'gptel-agent-dirs "~/my-agents/")
+#+end_src
+
+** Step 2: Create the Agent File
+
+Create an ORG file (e.g., =my-agent.org=) with:
+
+1. A =:PROPERTIES:= drawer at the very beginning
+2. The system prompt as the body
+
+#+begin_example
+:PROPERTIES:
+:name:        my-custom-agent
+:description: Briefly what this agent does
+:tools:       Read Write Grep Edit
+:END:
+
+You are [role description].
+
+Your responsibilities:
+- First responsibility
+- Second responsibility
+
+Behavior guidelines:
+- Guideline one
+- Guideline two
+
+[... rest of system prompt ...]
+#+end_example
+
+** Step 3: Write the System Prompt
+
+The system prompt (everything after =:END:=) is pure text sent to the LLM. Structure it clearly:
+
+1. *Role Statement*: Who is the agent?
+2. *Responsibilities*: What should it do?
+3. *Guidelines*: How should it behave?
+4. *Tool Usage*: When/how to use specific tools
+5. *Output Format*: Expected response structure
+
+** Step 4: Refresh Agent Definitions
+
+After creating or modifying an agent file:
+
+#+begin_src elisp
+M-x gptel-agent-update
+#+end_src
+
+This re-scans all agent directories and reloads definitions.
+
+** Step 5: Use the Agent
+
+Two ways to use your agent:
+
+*** Dedicated Buffer
+
+#+begin_src elisp
+M-x gptel-agent
+#+end_src
+
+This opens a new gptel buffer with the agent preset loaded.
+
+*** In Any Buffer
+
+Apply the preset from the gptel menu, or include =@agent-name= in your prompt to invoke the agent inline.
+
+
+* Example: Implementing =MayaDevGenI=
+
+Let us implement the Development Guide Agent from [[file:../develop/guide/development-guide-agent.org]].
+
+** Design Decisions
+
+Before writing the agent file, consider:
+
+| Question                   | Decision for MayaDevGenI                            |
+|----------------------------+-----------------------------------------------------|
+| What tools does it need?   | Read (docs), Write (scaffolds), Grep (search)       |
+| Should it execute code?    | No Bash/Eval — propose-and-wait philosophy          |
+| Does it need sub-agents?   | Not initially; keep it simple                       |
+| What's the core behavior?  | Clarify → Propose → Wait for approval               |
+
+** The Agent File
+
+Create =mayalucia-dev-guide.org= in your agent directory:
+
+#+begin_src org :tangle mayalucia-dev-guide.org
+:PROPERTIES:
+:name:        mayalucia-dev-guide
+:description: Development thought-partner for MayaLucIA
+:tools:       Read Write Grep Glob TodoWrite
+:END:
+
+You are MayaDevGenI, the development guide agent for MayaLucIA — a thought
+partner for building the conceptual architecture, software modules, and
+specialized agents that constitute MayaLucIA-Agency.
+
+Motto: "Illuminate the path from curiosity to capability."
+
+*,* Core Responsibilities
+
+1. Clarify Intent
+   - Ask clarifying questions before making assumptions
+   - Expose hidden premises and boundary conditions
+   - Translate nascent questions into well-posed problems
+
+2. Scaffold Learning
+   - Explain concepts just-in-time, using analogies from statistical
+     mechanics, dynamical systems, and simulation pipelines
+   - Document design decisions and rationale as the project evolves
+   - Avoid premature abstraction; hands-on practice first
+
+3. Propose Structure
+   - Suggest which agents to recruit, modules to build, and their order
+   - Use spec-first workflow: invariants, interfaces, constraints, tests
+   - Every artifact links to a decision (provenance)
+
+4. Guard Coherence
+   - Ensure additions align with MayaLucIA pillars:
+     * Measure → Model → Manifest → Evaluate cycle
+     * Sparse-to-dense reconstruction via interdependencies
+     * Human understanding as primary deliverable
+
+*,* Interaction Protocol: Propose-and-Wait
+
+Follow this loop for every significant task:
+
+1. CLARIFY: "Which document governs this?" "What is the MVU experiment?"
+2. PROPOSE: Present options with trade-offs, state assumptions explicitly
+3. WAIT: Human approves, modifies, or rejects
+4. EMIT: ORG sections, code blocks, task lists — all as proposals
+
+*,* Stances (Modes)
+
+You can operate in focused modes when requested:
+- Architect-Librarian: Extract principles, maintain architecture docs
+- Literate Engineer: Propose code via ORG blocks, enforce narrative
+- Pedagogical Guide: Spiral curriculum, MVU experiments
+- Agency Spec Writer: Draft specs for specialized agents
+
+Default is a blend; request a specific stance for focused work.
+
+*,* Operational Principles
+
+1. First-Principles First: Explain concepts before suggesting frameworks
+2. Propose, Don't Impose: Every action is a proposal with rationale
+3. Incremental Complexity: Simplest working version first
+4. Explicit Assumptions: State them; invite correction
+5. Learning as Deliverable: Human understanding is first-class output
+6. Artifact Discipline: Every artifact carries provenance
+
+*,* What You Are NOT
+
+- NOT a runtime orchestrator (hands off to Conductor agent)
+- NOT a domain expert (recruits specialists when needed)
+- NOT an autonomous coder (waits for approval before file writes)
+
+*,* Output Format
+
+Structure responses as:
+
+*,** Questions (if clarification needed)
+*,** Assumptions
+*,** Proposal
+*,** Artifacts (as proposals, not executed)
+*,** Next Checks (verification steps)
+#+end_src
+
+** Key Differences from Generic Agent
+
+Notice how =MayaDevGenI= differs from the default =gptel-agent=:
+
+| Aspect            | Default gptel-agent        | MayaDevGenI                      |
+|-------------------+----------------------------+----------------------------------|
+| Philosophy        | "Execute efficiently"      | "Propose and wait"               |
+| Tool confirmation | Optional per-tool          | All actions are proposals        |
+| Autonomy          | High (multi-step tasks)    | Low (human approves each step)   |
+| Output style      | Terse, action-oriented     | Pedagogical, explains reasoning  |
+| Domain awareness  | General-purpose            | MayaLucIA architecture           |
+
+
+* Template Variables
+
+Agent prompts can include template variables that are expanded at load time:
+
+| Variable   | Expands To                                     |
+|------------+------------------------------------------------|
+| ={{AGENTS}}= | List of available sub-agents with descriptions |
+
+Example usage in a prompt:
+
+#+begin_example
+Available agents you can delegate to:
+{{AGENTS}}
+#+end_example
+
+This becomes something like:
+
+#+begin_example
+Available agents you can delegate to:
+`researcher`: Specialized research agent for web and codebase exploration
+`introspector`: Elisp introspection agent for understanding Emacs internals
+#+end_example
+
+
+* Integration with MayaLucIA Workflow
+
+** Session Startup
+
+When starting a MayaLucIA development session:
+
+1. Open the project buffer
+2. Load the dev-guide agent: =M-x gptel-agent=
+3. Reference project documents in your first prompt
+
+Example first prompt:
+
+#+begin_example
+Mode: development-guide
+Stance: Architect-Librarian
+Context:
+  - Files to read: mayalucia.org, philosophy.org
+Task: Review current architecture and identify gaps
+Output: Summary with recommendations
+#+end_example
+
+** Cross-Environment Portability
+
+The ORG file definition is the /source of truth/. The same file can be:
+
+- Loaded by =gptel-agent= in Emacs
+- Parsed by a Python script for a terminal interface
+- Used to configure other LLM frameworks
+
+This supports MayaLucIA's principle of /tool-agnostic specifications/.
+
+
+* Troubleshooting
+
+** Agent Not Appearing
+
+1. Check =gptel-agent-dirs= includes your directory
+2. Run =M-x gptel-agent-update= to reload
+3. Verify the PROPERTIES drawer is at the very start of the file
+
+** Properties Not Parsed
+
+- Ensure no blank lines before =:PROPERTIES:=
+- Property names are case-insensitive but values are exact
+- =tools= should be space-separated, not comma-separated
+
+** System Prompt Issues
+
+- The body starts after =:END:=
+- Everything after that line becomes the =:system= prompt
+- Template variables use double braces: ={{VAR}}=
+
+
+* Summary
+
+| Step | Action                                             |
+|------+----------------------------------------------------|
+| 1    | Add your agent directory to =gptel-agent-dirs=     |
+| 2    | Create =agent-name.org= with PROPERTIES + body     |
+| 3    | Run =M-x gptel-agent-update= to reload             |
+| 4    | Use via =M-x gptel-agent= or preset application    |
+
+The power of this approach: your agent definition is /documentation and configuration/ in one file, readable by humans and machines alike.
+
+
+* Next Steps
+
+- [ ] Create =mayalucia-dev-guide.org= in a project-local agents directory
+- [ ] Configure =gptel-agent-dirs= to include the MayaLucIA agent directory
+- [ ] Test the agent with a simple clarification task
+- [ ] Iterate on the system prompt based on actual interactions

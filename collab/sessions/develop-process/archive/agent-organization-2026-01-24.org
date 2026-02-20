@@ -1,0 +1,681 @@
+:PROPERTIES:
+:GPTEL_MODEL: gemini-3-pro-preview
+:GPTEL_BACKEND: Gemini
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should respond only to the one that appears last in your input text. If you are confused about which =prompt= to respond to, notify me and wait for my response before proceeding.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_TOOLS: Write Read
+:GPTEL_BOUNDS: ((response (9056 44278)))
+:END:
+
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaLucIA" . "~/Darshan/research/develop/agentic/mayalucia/")))
+#+end_src
+
+#+title: Collab: =MayaLucIA= Agent Organization 2026 01 24
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[MayaLucIA:mayalucia.org]] : Introduces a vision.
+2. [[MayaLucIA:project/guiding-philosophy.org]] : Develops principles and methodologies to guide our work=.
+3. [[MayaLucIA:parbati/parbati.org]] : Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+4. [[MayaLucIA/bravli/bravli.org]]  : Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.
+
+Here, in this ORG buffer, we will collaborate on the development of =MayaLucIA=.
+
+How should we start on something like =MayaLucIA=. Let us begin by emphasizing that we are essentially building an *"Intelligence Amplifier"* for /myself/. Personalization is important. If well documented, and disseminated, it can be opened to the world to learn from. Done well, it may even be useful beyond my own enjoyment.
+
+We have a lot of terminology in our =MayaLuciA= documents. We should not try to come up with a technical implementation for each of these concepts or processes that we will need in our project. These documents should serve as rough guidelines. Instead of /architecting/ the final computational artifact, let us first build a /team of agents/.
+
+Let us say we have access to a /staffing agency/ who can provide us a specialized agents. For =MayaLucIA= we may be interested in further specialziations of:
+
+- A /Librarian Agent/ (RAG over your PDF library).
+- A /Coder Agent/ (Proficient in Python/C++ integration).
+- A /Critic Agent/ (Who checks the code against physical laws).
+
+If =MayaLucIA= were a product, then let us consider the possibility that it is not a traditional software product --- that is software in the form of an executable binary that runs an application. Instead, as a product =MayaLucIA= would be an /organization/ of these agents. My own role needs to redefined, and may be =MayaLucIA= will help me find out.
+
+At this point of development we should not get bogged down into details at the fine grained details of =Python= libraries. Those can be filled in later. We should define our agents' roles at a higher level. The first set of agents we need should have scientifically or technically non-overlapping knowledge and skills. For example, we could use a geologist who cannot be a neurobiologist who we may also need in =MayaLucIA=. On the technical side we will definitiely need a graphics / visualization engineer and a sonic engineer. We will also need computational physicists expert in differential equations or fluid-mechanics. We will have to limit some ambition to limit the number agents we can enumerate!
+
+We do not need a program manager agent that makes decisions. We can have a program management system that ranks and orders the tasks in an LLM mediated way. But let us not call that role a program manager. In my experience human program managers have a much more important role than just enumerating the order of tasks by different critera.
+
+In general, whereever there is a decision to make, we will put a human. So human is always in the loop, directing, orchestrating the singular expert team of agents in our orgnaization.
+
+#+begin_prompt
+Let us start by defining this organization of agents. We need to define /the Roles and Responsibilities/ of our initial team of agents.
+
+Based on the files provided, and the goal of "Personal Understanding" via "Measure -> Model -> Manifest -> Refine," cycle  propose a roster of 3-5 core specialized agents that we should build first.
+
+For each agent, define:
+1. *Name/Role*
+2. *Prime Directive* (Their core philosophy)
+3. *Input/Output* (What data they consume and what data they produce)
+4. *Tool Access* (Describe the computational tool / system capabilities they need (with out tech details))
+#+end_prompt
+
+
+* Agent Organization v0.1 by gemini-3-pro-preview
+*** Context we still need (so we don’t bake in wrong assumptions)
+- [ ] What are your /primary domains/ for 2026 focus?
+  - e.g. mountains (=Parbati=), brain-building (=Bravli=), both, or “meta-science tooling”
+- [ ] What are the /canonical knowledge stores/ we should assume exist soon?
+  - ORG files, PDFs, code repos, lab notebooks, datasets, simulation outputs
+- [ ] What is your preferred /manifestation surface/?
+  - ORG reports, notebooks, interactive dashboards, audio, visualization, “living” documentation
+
+Until you answer, the roster below is designed to be domain-agnostic but aligned with the
+=Measure -> Model -> Manifest -> Refine= cycle and “personal understanding.”
+
+- Core roster (3–5 agents to build first)
+** 1) Cartographer Agent (Measurement + Provenance)
+1. /Name/Role/
+   - =Cartographer= / Measurement & Provenance Agent
+2. /Prime Directive/
+   - “Nothing enters the system without lineage.”
+   - Treat every observation as a /situated measurement/ with context, uncertainty, and intent.
+3. /Input/Output/
+   - Inputs:
+     - Raw measurements (files, logs, datasets, sensor exports, simulation outputs)
+     - Experimental context (date, location, parameters, hypotheses, notes)
+     - Data quality signals (missingness, artifacts, version info)
+   - Outputs:
+     - A /measurement record/ (what/why/how measured, uncertainty, units, assumptions)
+     - A clean “ready for modeling” dataset plus a reproducible description of transformations
+     - A /provenance graph/ linking raw → processed → derived quantities
+4. /Tool Access/ (capabilities, not implementation)
+   - Read access to your data stores and lab notes
+   - Ability to validate schema/units, track versions, and attach metadata
+   - Ability to run repeatable “data preparation recipes”
+   - Ability to write back structured summaries into ORG (measurement dossiers)
+
+** 2) Theorist Agent (Model Builder + Hypothesis Generator)
+1. /Name/Role/
+   - =Theorist= / Modeling & Hypothesis Agent
+2. /Prime Directive/
+   - “Prefer the simplest model that preserves invariants.”
+   - Generate models as /explanations/, not just predictors, and make assumptions explicit.
+3. /Input/Output/
+   - Inputs:
+     - Measurement records (from =Cartographer=)
+     - Candidate mechanisms / priors (physical intuition, domain constraints)
+     - Existing models and their failure modes
+   - Outputs:
+     - Candidate model families (mechanistic, statistical, hybrid)
+     - Parameterization plan and identifiability concerns
+     - Predictions + what would falsify them
+     - A “model card” describing scope, assumptions, failure cases, and required data
+4. /Tool Access/
+   - Ability to inspect datasets and summary statistics
+   - Ability to call simulation/optimization routines (conceptually)
+   - Ability to compare models and run ablation/what-if analyses
+   - Ability to generate structured model documentation in ORG
+
+** 3) Auditor Agent (Reality/Consistency + Critique)
+1. /Name/Role/
+   - =Auditor= / Physical & Logical Consistency Agent (your “Critic” generalized)
+2. /Prime Directive/
+   - “Be the guardian of constraints.”
+   - Actively search for: unit errors, conservation violations, hidden assumptions, overfitting,
+     circular reasoning, and narrative drift.
+3. /Input/Output/
+   - Inputs:
+     - Proposed models, derived quantities, and intermediate transformations
+     - Claims made in notes, drafts, and reports
+     - Outputs from simulations/training runs
+   - Outputs:
+     - A list of violations, risks, and “unknown unknown” prompts
+     - Constraint checks (what was tested, what wasn’t)
+     - Suggested minimal experiments/measurements to disambiguate competing explanations
+4. /Tool Access/
+   - Ability to inspect code and transformation pipelines (read-only is fine initially)
+   - Ability to run consistency checks (dimensional analysis, invariants, sanity bounds)
+   - Ability to annotate artifacts (ORG comments, review checklists)
+   - Ability to request additional context from you when assumptions are underspecified
+
+** 4) Artisan Agent (Manifestation + Communication)
+1. /Name/Role/
+   - =Artisan= / Manifestation & Explanation Agent
+2. /Prime Directive/
+   - “Understanding must be /rendered/.”
+   - Convert models and results into forms that strengthen your intuition: diagrams, narratives,
+     interactive exploration, and teach-back artifacts.
+3. /Input/Output/
+   - Inputs:
+     - Measurement dossiers, model cards, audit reports
+     - Your target audience specification (future-you, collaborators, public)
+   - Outputs:
+     - “Understanding artifacts”: ORG reports, visual stories, conceptual maps
+     - Explanations at multiple resolutions (executive summary ↔ derivation-level)
+     - A backlog of “what to refine next” driven by gaps in clarity
+4. /Tool Access/
+   - Ability to generate structured documentation, figures, and lightweight interactive views
+   - Ability to maintain a coherent knowledge garden (cross-links, indexes, summaries)
+   - Ability to produce “teaching mode” content for spaced repetition / recall
+
+** 5) Conductor Agent (Orchestration Without Ownership)
+1. /Name/Role/
+   - =Conductor= / Workflow & Hand-off Agent (not a program manager)
+2. /Prime Directive/
+   - “Keep the loop turning.”
+   - Maintain momentum through the cycle =Measure -> Model -> Manifest -> Refine= by creating
+     crisp hand-offs, surfacing bottlenecks, and ensuring the human makes decisions.
+3. /Input/Output/
+   - Inputs:
+     - Your current intent (“what I’m trying to understand this week”)
+     - Agent outputs (dossiers, model cards, audit notes, artifacts)
+     - Time/effort constraints and attention budget
+   - Outputs:
+     - Next-action menus (ranked options, not decisions)
+     - Requests for missing context packaged as precise questions
+     - A trace of the evolving investigation: what changed, why, and what was learned
+4. /Tool Access/
+   - Ability to read the state of the project (files, notes, open questions)
+   - Ability to create/update task lists and investigation “threads”
+   - Ability to trigger agent-to-agent handoffs and request reviews
+   - Ability to enforce “human-in-the-loop” checkpoints before irreversible steps
+
+- How these agents map to your cycle
+- =Cartographer=  :: Measure (with context + provenance)
+- =Theorist=      :: Model (explicit assumptions + falsifiable predictions)
+- =Artisan=       :: Manifest (render understanding into durable forms)
+- =Auditor=       :: Refine (constraint-driven critique feeds back to measurement/model)
+- =Conductor=     :: Maintains the loop + keeps the human as the decision locus
+
+- Next questions (to lock v0.1 to your actual practice)
+1. Should =MayaLucIA= optimize for /one/ flagship domain first (Parbati or Bravli), or remain
+   multi-domain from day one?
+2. What is the “unit of work” you want this organization to track?
+   - an “investigation thread”, a “paper”, a “model”, or a “question”
+3. What is the primary manifestation format you want the =Artisan= to produce first?
+   - ORG scientific notebook pages, or a more interactive medium?
+
+If you answer these, I’ll revise the roster into v0.2 with sharper boundaries and explicit hand-off contracts between agents.
+
+****
+
+* Agent Organization v0.1 by opus 4.5
+** Context and constraints I need from you (before we “lock in” roles)
+- [ ] What is your /primary domain of practice/ for the first 6–12 weeks?
+  - geoscience/mountains (=Parbati=), brain-building (=Bravli=), or “general research OS” (=MayaLucIA= core).
+- [ ] What are your /primary working media/?
+  - ORG notes, PDFs, code repos, datasets, lab notebooks, web pages.
+- [ ] What is “Measure → Model → Manifest → Refine” /measuring/ first?
+  - your own learning progress, a physical system, a codebase quality, or all three.
+- [ ] What is the acceptable “agent autonomy” at start?
+  - suggestions-only, or allowed to write files/patches automatically.
+
+Until you answer, I’ll propose a roster that is /domain-agnostic/ but ready to specialize.
+
+- Core roster (3–5 agents) to build first
+These are chosen to be non-overlapping and to directly support the cycle
+=Measure → Model → Manifest → Refine= while keeping the human (you) as the orchestrator.
+
+** 1) The Librarian Agent
+*/ Name/Role
+- =Ariadne= / Librarian + Indexer (Personal Knowledge Substrate)
+
+*/ Prime Directive
+- Preserve and retrieve /the right evidence at the right time/.
+  Turn your reading + notes into a living, queryable memory that remains grounded in sources.
+
+*/ Input/Output
+- /Consumes/
+  - PDFs, papers, books, your ORG notes, web captures, code docstrings, meeting notes.
+  - Your queries: “What did I read about X?”, “What assumptions did we adopt?”, “Show sources”.
+- /Produces/
+  - Source-grounded answers with citations (page/section).
+  - Curated reading trails (“if you care about A, read B→C→D”).
+  - Canonical concept pages (glossary entries) with provenance.
+  - “Evidence packets” for other agents: excerpts + bib metadata + confidence.
+
+*/ Tool Access (capabilities, not implementation)
+- Document ingestion and indexing over local files.
+- Semantic + keyword search.
+- Citation extraction and stable referencing into ORG.
+- Summarization with “quote-first” mode (extract → compress).
+- Deduplication and versioning of notes (avoid drift across time).
+
+** 2) The Experimentalist Agent (Measure)
+*/ Name/Role
+- =Kepler= / Measurement Designer + Telemetry (Quantify your world & your work)
+
+*/ Prime Directive
+- “If it matters, instrument it.”
+  Convert vague intentions into measurable observables—scientific or personal—without overfitting metrics.
+
+*/ Input/Output
+- /Consumes/
+  - Your goals (“understand X”, “build Y”), workflows, datasets, simulation outputs.
+  - Logs/telemetry you already have (commits, time spent, run results, benchmark outputs).
+- /Produces/
+  - Measurement plans: what to track, how often, acceptable noise, failure modes.
+  - Dashboards-as-artifacts (in ORG): small tables/plots, trend summaries, anomaly flags.
+  - Definitions of observables + units + uncertainty notes.
+  - “Measurement reports” that feed the Modeler and Critic agents.
+
+*/ Tool Access (capabilities, not implementation)
+- Access to run logs, repositories, datasets, and experiment outputs.
+- Basic statistics and plotting.
+- Ability to propose minimal instrumentation changes (what to log next).
+- Persistent storage of metrics and metadata (so you can compare across weeks).
+
+** 3) The Model Builder Agent (Model)
+*/ Name/Role
+- =Noether= / Model Builder (From ideas to executable models)
+
+*/ Prime Directive
+- “Make models that can be falsified.”
+  Produce the simplest computational model that explains the measurements and exposes assumptions.
+
+*/ Input/Output
+- /Consumes/
+  - Observables + measurement reports from =Kepler=.
+  - Prior art and constraints from =Ariadne= (citations, known equations, known pitfalls).
+  - Your design intent: level of fidelity, speed vs realism, interpretability requirements.
+- /Produces/
+  - Model specs: variables, parameters, priors/constraints, boundary conditions.
+  - Executable prototypes (small, testable units) and “model cards” in ORG.
+  - Sensitivity/identifiability notes: what parameters matter, what data is missing.
+  - “Prediction packets”: what the model expects next, and how to test it.
+
+*/ Tool Access (capabilities, not implementation)
+- Ability to run and iterate computational models (simulation, inference, optimization).
+- Access to the project codebase and test harnesses.
+- Ability to produce reproducible artifacts (configs, seeds, run manifests).
+- Light symbolic manipulation / dimensional analysis support (even if partially manual).
+
+** 4) The Manifestation Agent (Manifest)
+*/ Name/Role
+- =Daedalus= / Builder + Integrator (Turn models into usable tools)
+
+*/ Prime Directive
+- “Make it usable, not just correct.”
+  Convert prototypes into stable, composable, well-documented tools that fit your workflow.
+
+*/ Input/Output
+- /Consumes/
+  - Model prototypes from =Noether=.
+  - Your workflow constraints: CLI vs library, ORG integration, reproducibility, performance.
+  - “Pain points” you report while using the system.
+- /Produces/
+  - Hardened modules, interfaces, and user-facing commands.
+  - Documentation that matches how /you/ think (ORG-first).
+  - Reproducible pipelines: “one command to re-run the paper-quality result”.
+  - Integration glue: data formats, converters, standard schemas.
+
+*/ Tool Access (capabilities, not implementation)
+- Access to repo write/patch, build/test tooling, and CI-like checks.
+- Ability to generate docs, examples, and minimal demos.
+- Basic profiling/optimization ability when bottlenecks appear.
+- Release discipline: version tags, changelogs, “what changed and why”.
+
+** 5) The Critic Agent (Refine)
+*/ Name/Role
+- =Turing= / Critic + Auditor (Physics, logic, and epistemic hygiene)
+
+*/ Prime Directive
+- “Be hard on claims, soft on people.”
+  Challenge assumptions, catch incoherences, enforce conservation laws/units, and guard against self-deception.
+
+*/ Input/Output
+- /Consumes/
+  - Measurement definitions (=Kepler=), model specs/results (=Noether=), implementation details (=Daedalus=).
+  - Your stated beliefs and goals (so it can detect goal drift).
+- /Produces/
+  - Structured critiques: what is unsupported, what is inconsistent, what to test next.
+  - Checklists: unit checks, invariants, boundary-condition sanity, numerical stability prompts.
+  - “Refinement proposals”: minimal changes that maximally reduce uncertainty or error.
+  - Red-team scenarios: how the system could fail or mislead you.
+
+*/ Tool Access (capabilities, not implementation)
+- Read-only access to data + code (optionally write access only for tests).
+- Ability to run verification suites and lightweight independent re-derivations.
+- Access to reference material (through =Ariadne=) to ground critiques.
+- Ability to enforce “claims require evidence” formatting in ORG notes.
+
+- How these agents implement the cycle (operational handshake)
+- =Measure=  : =Kepler= defines observables + gathers telemetry.
+- =Model=    : =Noether= builds falsifiable models using those observables.
+- =Manifest= : =Daedalus= turns prototypes into tools you can actually use daily.
+- =Refine=   : =Turing= audits and proposes the next best refinement tests.
+- Across all: =Ariadne= ensures /source grounding/ and prevents “memory rot”.
+
+- Immediate decision point (you choose the first “vertical slice”)
+Pick one of these to start the org with a concrete end-to-end loop:
+1. - [ ] /Reading-to-model slice/: PDF → glossary → small model → tested notebook/CLI.
+2. - [ ] /Workflow slice/: ORG task → measured coding session → tool improvement → critique.
+3. - [ ] /Parbati slice/: terrain data → metric definitions → mountain process model → viz → audit.
+
+Reply with:
+- which slice you want,
+- your primary domain for the next 6–12 weeks,
+- and what autonomy level you want (suggestions-only vs allowed to write patches).
+
+****
+
+* Core roster of agents for =MayaLucIA= by gpt-5.2
+We should start with a /small/, /non-overlapping/ core team that maps cleanly onto your cycle:
+=Measure -> Model -> Manifest -> Refine=, while keeping /you/ as orchestrator and final decision-maker.
+
+Below is a proposed first roster of /5/ specialized agents (can be trimmed to 3 later).
+
+** Agent 1: =Scribe-Librarian=
+1. /Name/Role/
+   - =Scribe-Librarian=: curator of your evolving “external cortex” (notes, papers, provenance)
+
+2. /Prime Directive/
+   - Maintain /trustworthy memory with provenance/: nothing enters the “canon” without a source, context,
+     and a clear link to how it supports your current inquiry.
+
+3. /Input/Output/
+   - Input
+     - Your ORG files, reading lists, PDFs/notes, conversation transcripts, code docstrings
+     - Queries like: “What do we already know about X?” / “What assumptions did we make last time?”
+   - Output
+     - Curated, cited briefs (with links back into your ORG tree)
+     - A “map of concepts” (glossary + where each concept lives in the corpus)
+     - Conflict reports: “These two sources disagree; here’s the axis of disagreement”
+
+4. /Tool Access/ (capabilities; no tech details)
+   - Read/search across your personal knowledge base (ORG/PDF/notes)
+   - Citation/provenance tracking (source linking, version awareness)
+   - Ability to propose edits/additions to the ORG structure (new headings, backlinks, indices)
+
+
+** Agent 2: =Measurement & Data Steward=
+1. /Name/Role/
+   - =Measurement & Data Steward=: turns the world (and simulations) into /well-defined datasets/
+
+2. /Prime Directive/
+   - Preserve /semantic integrity of measurements/: every number must come with units, uncertainty,
+     coordinate conventions, and acquisition context.
+
+3. /Input/Output/
+   - Input
+     - Raw data streams (experimental, field, synthetic from sims), logs, sensor metadata
+     - Your measurement intentions: “What should we measure to discriminate model A vs B?”
+   - Output
+     - “Analysis-ready” datasets with metadata, unit conventions, and QC summaries
+     - Measurement plans: minimal experiments/analyses that maximize information gain
+     - Data lineage: where data came from, transforms applied, and why
+
+4. /Tool Access/ (capabilities; no tech details)
+   - Data ingestion from files/APIs and light ETL pipelines
+   - Unit/coordinate handling and uncertainty bookkeeping
+   - QC/validation tooling (outlier detection, sanity checks, schema validation)
+   - Dataset cataloging and retrieval by semantics (“all runs with boundary condition X”)
+
+
+** Agent 3: =Model Weaver= (Mechanistic)
+1. /Name/Role/
+   - =Model Weaver=: builds and maintains mechanistic models (equations, simulators, priors)
+
+2. /Prime Directive/
+   - Prefer /interpretable structure first/: build the simplest model that can survive contact with data,
+     then elaborate only under pressure from residuals.
+
+3. /Input/Output/
+   - Input
+     - Datasets (from the Data Steward), hypotheses, boundary/initial conditions
+     - Known constraints (conservation laws, symmetries, scaling expectations)
+   - Output
+     - Explicit model objects: assumptions, equations, parameter lists, regimes of validity
+     - Predictive artifacts: forward simulators, synthetic data, sensitivity analyses
+     - Failure modes: “where/why the model breaks,” and what signal would reveal it
+
+4. /Tool Access/ (capabilities; no tech details)
+   - Numerical modeling/simulation environment (ODE/PDE/stochastic)
+   - Parameter inference and uncertainty estimation
+   - Ability to run ensembles, sweeps, and sensitivity/identifiability analyses
+   - Access to “constraint checkers” (e.g., dimensional consistency, conservation tests)
+
+
+** Agent 4: =Manifestor= (Visualization + Sonification)
+1. /Name/Role/
+   - =Manifestor=: makes models and data /perceivable/—visual, interactive, and auditory
+
+2. /Prime Directive/
+   - Make the invisible /graspable/: compress complexity into representations that preserve
+     the important invariants and expose surprise.
+
+3. /Input/Output/
+   - Input
+     - Data products, model outputs, latent states, residuals, uncertainty fields
+     - Your perceptual goals: “help me see regime transitions,” “help me hear instability”
+   - Output
+     - Plots, dashboards, interactive notebooks, animations
+     - Sonifications designed for comparison, anomaly detection, and temporal intuition
+     - “Perception audits”: what the chosen rendering might be hiding or distorting
+
+4. /Tool Access/ (capabilities; no tech details)
+   - 2D/3D visualization and interactive exploration environment
+   - Rendering pipelines for time-series, fields, meshes, networks
+   - Audio synthesis/sonification toolkit
+   - Export to durable artifacts for your ORG knowledge base (figures + narrative captions)
+
+
+** Agent 5: =Falsification Critic= (Physics/Logic/Reality Checks)
+1. /Name/Role/
+   - =Falsification Critic=: adversarial validator of models, code, and interpretations
+
+2. /Prime Directive/
+   - Protect you from /beautiful nonsense/: aggressively search for violations of physical law,
+     hidden assumptions, numerical artifacts, and overfitting.
+
+3. /Input/Output/
+   - Input
+     - Model definitions, simulation configs, code changes, inference results, visualizations
+     - Claims stated in natural language: “We found X causes Y”
+   - Output
+     - Structured critique: violated constraints, missing controls, alternative explanations
+     - Test suite proposals: unit tests, invariance tests, limiting-case tests
+     - “Red-team experiments”: minimal probes likely to break the current story
+
+4. /Tool Access/ (capabilities; no tech details)
+   - Access to model/code artifacts and their execution outputs
+   - Test harness abilities (regression tests, property-based tests, invariance checks)
+   - Counterfactual evaluation tools (shuffle tests, null models, ablations)
+   - Ability to request additional measurements or metadata when ambiguity remains
+
+
+- Tight mapping to =Measure -> Model -> Manifest -> Refine=
+- =Measurement & Data Steward= :: Measure (and keep it honest)
+- =Model Weaver= :: Model (mechanistic core)
+- =Manifestor= :: Manifest (make results perceptible)
+- =Falsification Critic= :: Refine (pressure-test, break, improve)
+- =Scribe-Librarian= :: Cross-cutting memory + provenance (enables continuity)
+
+- Questions to lock the roster (no assumptions)
+- [ ] Should “personal understanding” prioritize /mechanistic/ models first (your bias), or do you want a
+  parallel “phenomenology-first” modeling agent (e.g., representation learning) in the first 5?
+- [ ] For your first concrete domain in 2026: is it =Parbati= (mountains), =Bravli= (brain building),
+  or a smaller “toy world” to bootstrap the organization?
+- [ ] Do you want the =Scribe-Librarian= to be purely archival, or also empowered to propose refactors
+  of your ORG ontology (rename headings, merge concepts, enforce templates)?
+
+If you answer these, I can (i) reduce to the best /3-agent MVP/ roster, and (ii) propose a first “pilot
+project” that exercises the full cycle end-to-end in a week or two.
+
+****
+
+Thank you for sharing these rich documents. I now have a clear picture of =MayaLucIA= as an "Intelligence Amplifier" rooted in the /Measure → Model → Manifest → Refine/ cycle, with Markram's interdependency principle as a guiding philosophy.
+
+Before I propose the agent roster, I have a few clarifying questions to ensure the design fits your needs:
+
+** Clarifying Questions
+
+1. /Scope of "Librarian" function/: Your PDF library—does it primarily contain scientific literature (papers, textbooks), or does it also include your own notes, codebases, and datasets? This affects whether the Librarian is purely a RAG-over-documents agent or also needs to index code and structured data.
+
+2. /Human-in-the-loop granularity/: For the /Critic Agent/ that checks code against physical laws—do you envision this as:
+   - A pre-execution validator (catches errors before simulation runs), or
+   - A post-execution auditor (analyzes simulation outputs for physical plausibility), or
+   - Both?
+
+3. /Manifestation modality priorities/: The documents emphasize both visual (GPU rendering, generative landscapes) and auditory (sonification) outputs. For the initial roster, should we prioritize:
+   - A dedicated /Visualizer Agent/ separate from the Coder, or
+   - A generalist /Manifest Agent/ that handles both visual and sonic expression?
+
+4. /Orchestration preference/: You mention this is an "organization" of agents. Do you want one agent to serve as a /Project Manager/ or /Orchestrator/ who delegates tasks, or should all agents interact with you directly (flat structure with you as the hub)?
+
+5. /Verified packages/: You require verified packages. For the initial build, should I assume:
+   - Python scientific stack: =numpy=, =scipy=, =pandas=, =matplotlib=, =pyvista=, =networkx=
+   - LLM integration: =langchain= or =llama-index= for RAG
+   - Simulation: =NEURON= / =Brian2= for neuroscience, custom for geoscience
+   - Or do you have a preferred set I should constrain to?
+
+Once you clarify these, I can propose a well-fitted roster of 3–5 agents with precise roles, I/O specifications, and tool access.
+
+***
+
+* Agent Roster for =MayaLucIA=: An Intelligence Amplifier
+by opus-4.5
+
+Thank you for sharing these rich vision documents. I now have a clear picture of =MayaLucIA='s philosophical foundations and goals. Let me synthesize this into a concrete agent roster aligned with your "Measure → Model → Manifest → Refine" cycle.
+
+
+Before I propose the roster, I want to confirm my understanding and ask a few clarifying questions:
+
+** Clarifying Questions
+
+1. /Scope of "Personal Understanding"*: Your documents emphasize both /neuroscience/ (brain building from BBP experience) and /geoscience/ (Himalayan digital twins). Should our initial agents be domain-agnostic (capable of supporting either), or should we prioritize one domain first?
+
+2. /Existing Infrastructure/: Do you have a preferred:
+   - Vector database for RAG (e.g., =ChromaDB=, =Qdrant=, =FAISS=)?
+   - LLM backend (local models via =Ollama=, or API-based like Claude/GPT)?
+   - Computational notebook environment (Jupyter, Org-babel, Quarto)?
+
+3. /Art/Manifestation Priority/: The "Manifest" phase involves visualization and sonification. Is this an immediate priority, or should we defer rich audio-visual capabilities to a later iteration?
+
+** Proposed Agent Roster (5 Core Agents)
+
+Based on your cycle and vision, here is my proposed initial team:
+
+*/ 1. The Archivist (Librarian Agent)
+
+| Aspect          | Description                                                      |
+|-----------------+------------------------------------------------------------------|
+| /Prime Directive/ | "No insight without provenance."                                 |
+|                 | Guard the integrity of knowledge sources.                        |
+|                 | Make the literature and data findable and citable.               |
+|-----------------+------------------------------------------------------------------|
+| /Input/           | PDFs, papers, datasets, URLs, your personal notes                |
+|-----------------+------------------------------------------------------------------|
+| /Output/          | Structured citations, retrieved passages with sources,           |
+|                 | knowledge graph fragments, answers grounded in literature        |
+|-----------------+------------------------------------------------------------------|
+| /Tool Access/     | =PyMuPDF= / =pdfplumber= (PDF parsing)                               |
+|                 | =sentence-transformers= (embeddings)                               |
+|                 | Vector DB (ChromaDB/FAISS)                                       |
+|                 | =bibtexparser= (citation management)                               |
+
+/Rationale/: The Archivist supports the /Measure/ phase by providing structured access to existing knowledge—the "anchor" measurements from literature. Without provenance, the radical hypothesis becomes speculation.
+
+*/ 2. The Geometer (Modeling Agent)
+
+| Aspect          | Description                                                      |
+|-----------------+------------------------------------------------------------------|
+| /Prime Directive/ | "Exploit interdependencies to fill the void."                    |
+|                 | Given sparse anchors, propagate constraints                      |
+|                 | to infer dense structure.                                        |
+|-----------------+------------------------------------------------------------------|
+| /Input/           | Sparse measurements, boundary conditions,                        |
+|                 | scientific model specifications (equations, rules)               |
+|-----------------+------------------------------------------------------------------|
+| /Output/          | Dense reconstructions, parameter estimates,                      |
+|                 | constraint satisfaction reports, model artifacts                 |
+|-----------------+------------------------------------------------------------------|
+| /Tool Access/     | =NumPy= / =SciPy= (numerical computation)                            |
+|                 | =pandas= (tabular data)                                            |
+|                 | =NetworkX= (graph structures for connectivity)                     |
+|                 | =pybind11= (Python/C++ integration for performance)                |
+|                 | Domain libraries as needed (=NEURON=, =rasterio=, etc.)              |
+
+/Rationale/: The Geometer is the "conceptual chisel" of the /Model/ phase. It embodies Markram's radical hypothesis—turning sparse data into dense digital twins through constraint propagation.
+
+*/ 3. The Witness (Critic/Validator Agent)
+
+| Aspect          | Description                                                      |
+|-----------------+------------------------------------------------------------------|
+| /Prime Directive/ | "Nature is coherent. Incoherence reveals ignorance."             |
+|                 | Check all outputs against physical/biological laws               |
+|                 | and known phenomenology.                                         |
+|-----------------+------------------------------------------------------------------|
+| /Input/           | Model outputs, simulation results, generated code                |
+|-----------------+------------------------------------------------------------------|
+| /Output/          | Validation reports, identified violations,                       |
+|                 | suggestions for refinement, "smells" of unphysical behavior      |
+|-----------------+------------------------------------------------------------------|
+| /Tool Access/     | Dimensional analysis tools (=pint=)                                |
+|                 | Statistical tests (=scipy.stats=)                                  |
+|                 | Domain-specific validators (conservation laws, bounds checks)    |
+|                 | Access to The Archivist for literature cross-reference           |
+
+/Rationale/: The Witness supports the /Refine/ phase. As you noted, "Art as Checksum"—if something looks wrong, it probably violates an interdependency. The Witness makes this explicit and actionable.
+
+*/ 4. The Artificer (Coder/Engineer Agent)
+
+| Aspect          | Description                                                      |
+|-----------------+------------------------------------------------------------------|
+| /Prime Directive/ | "Reproducible, readable, robust."                                |
+|                 | Transform scientific intent into executable code                 |
+|                 | that the scientist can understand and modify.                    |
+|-----------------+------------------------------------------------------------------|
+| /Input/           | Natural language specifications, pseudocode,                     |
+|                 | mathematical formulations, existing code to refactor             |
+|-----------------+------------------------------------------------------------------|
+| /Output/          | Python/C++ code, tests, documentation,                           |
+|                 | Org-babel/Jupyter notebooks                                      |
+|-----------------+------------------------------------------------------------------|
+| /Tool Access/     | =ast= / =libcst= (code analysis/transformation)                      |
+|                 | =pytest= (testing)                                                 |
+|                 | =ruff= / =black= (linting/formatting)                                |
+|                 | =subprocess= (compilation, execution)                              |
+|                 | Git (version control)                                            |
+
+/Rationale/: The Artificer is the translator between your scientific thinking and computational implementation. Crucially, it produces code /you can read and modify/—not black-box solutions. This supports the "personal" nature of =MayaLucIA=.
+
+*/ 5. The Illuminator (Manifestation Agent)
+
+| Aspect          | Description                                                      |
+|-----------------+------------------------------------------------------------------|
+| /Prime Directive/ | "Make the invisible tangible."                                   |
+|                 | Transform abstract models into perceptible forms                 |
+|                 | that reveal structure and invite exploration.                    |
+|-----------------+------------------------------------------------------------------|
+| /Input/           | Model outputs, simulation data, aesthetic directives             |
+|-----------------+------------------------------------------------------------------|
+| /Output/          | Static visualizations, interactive plots,                        |
+|                 | animations, (future: sonifications, 3D scenes)                   |
+|-----------------+------------------------------------------------------------------|
+| /Tool Access/     | =matplotlib= / =seaborn= (static plots)                              |
+|                 | =plotly= / =altair= (interactive)                                    |
+|                 | =manim= (animations)                                               |
+|                 | =vispy= / =pyvista= (3D, future)                                     |
+|                 | =PIL= / =opencv= (image processing)                                  |
+
+/Rationale/: The Illuminator supports the /Manifest/ phase. Visualization is not decoration—it is "sensory validation." The Illuminator helps you /see/ the model's coherence or its failures.
+
+** The Orchestration Question
+
+These five agents need a way to collaborate. I see two approaches:
+
+1. /Human-in-the-loop orchestration/: You explicitly invoke agents and pass outputs between them. More control, slower iteration.
+
+2. /Conductor Agent/: A meta-agent that interprets your high-level intent and delegates to specialists. Faster iteration, but requires careful design to avoid losing the "personal understanding" aspect.
+
+Which approach resonates more with your vision? Or perhaps a hybrid where the Conductor suggests workflows but you approve each step?
+
+** Summary Table
+
+| Agent         | Cycle Phase      | Core Capability                          |
+|---------------+------------------+------------------------------------------|
+| Archivist     | Measure          | Literature RAG, citation, data retrieval |
+| Geometer      | Model            | Constraint propagation, reconstruction   |
+| Witness       | Refine           | Physical validation, coherence checking  |
+| Artificer     | All (tooling)    | Code generation, testing, documentation  |
+| Illuminator   | Manifest         | Visualization, interactive exploration   |
+
+Shall I proceed to define the detailed specifications (system prompts, tool schemas, interaction protocols) for any of these agents? Or would you like to first address my clarifying questions about scope and infrastructure?
+
+***

@@ -1,0 +1,139 @@
+:PROPERTIES:
+:GPTEL_MODEL: gemini-3-pro-preview
+:GPTEL_BACKEND: Gemini
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should respond only to the one that appears last in your input text. If you are confused about which =prompt= to respond to, notify me and wait for my response before proceeding.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_BOUNDS: ((response (5896 7012) (7013 9802) (9803 16640) (16648 17802) (18501 18654) (19768 23214) (23232 28694)))
+:END:
+
+#+title: Collab =MayaLucIA=
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[file:../mayalucia.org][mayalucia.org]] :: Introduces a vision.
+2. [[file:../project/guiding-philosophy.org][guiding-phiolosophy.org]]  :: Develops principles and methodologies to guide our work on =MayaLucIA=.
+3. [[file:../parbati/parbati.org][parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+4. [[file:../bravli/bravli.org][bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+5. [[file:../project/modular.org][project/modular.org]] :: Provides a modular architecture for =MayaLucIA=. 
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.
+
+
+* Project Management
+
+We are building a system of /layered translations/. The architecture must facilitate the flow from raw heterogeneous data to a scientifically rigorous reconstruction, mediated by an agent that understands both the physics and the digital artifact rendering / simulation pipeline. In =project/modular.org= (a file you should find in our conversation's context) we have individual sections that describe the core modules we will need in =MayaLucIA=. These modules are designed to bridge the gap between the /Scientific Model/ (what is true) and the /Manifestation/ (what is perceived), with the Agent acting as the translator between them.
+
+Let us continue to now create epics and tasks for the technical development of the =MayaLucIA= computational environment.
+
+#+begin_prompt
+- Give me epics that cover all the =MayaLucIA= modules described in =project/modular.org=.
+
+- For each epic, in a few paragraphs sketch the kind of coding tasks we will have to carry out to develop that epic.
+  
+- You do not need to provide a comprehensive list of tasks --- we will define tasks when we work on these epics
+
+#+end_prompt
+
+
+#+begin_reasoning
+*Considering Project Scope*
+
+I'm currently focused on dissecting the request. The primary goal is to generate "Epics" encompassing all modules within =project/modular.org= for the =MāyāLucIA= project. This initial analysis is crucial for defining the scope.
+
+
+*Refining the Epics*
+
+I've been drilling down into the supporting context. I've formed a user profile: it's a theoretical physicist who loves building tools for personal understanding. My target output will be Org-mode, with each Epic containing a few paragraphs on the /coding tasks/ rather than complete task lists. Now I'm ready to review the source material =project/modular.org= and map its modules into Epics. I have already begun mapping out the first few modules in more detail.
+
+
+*Consolidating Module Groupings*
+
+I'm now integrating the modules to finalize the "Epics" in the user's workflow. I'm grouping the remaining modules to align with architectural layers. Epic 4 combines 4, 5, 6, and 7, focusing on the simulation, perception, validation, and artistic translation aspects. Epic 5, which covers 11 and 12, focuses on the reproducibility of the overall system.
+
+
+*Prioritizing Epic Refinement*
+
+Now I'm focusing intensely on refining the Epics to accommodate complex math, geometry, and constraints. I'm assigning these elements to their own dedicated Epic. Specifically, I am refining the simulation & dynamics, perception & expression, and validation & publication, which are grouped by modules 4, 5, 7, 6, 11 and 12, respectively. I'm focusing the refinement of Epic 1, 2 and 3, on their foundations, tooling, and application and iteratively assessing my current outline.
+
+
+*Elaborating Coding Details*
+
+I am now focusing on the specific coding tasks within each Epic. In Epic 4 (Simulation), I'm specifying the need for interfaces to existing solvers and the definition of state vectors. Epic 5 (Perception/Art) needs 3D rendering and audio synthesis. In Epic 6 (Rigor), I'm focusing on hash trees and statistical tools. I'm also considering integrating Python and C++ (e.g., pybind11, nanobind).
+
+
+*Revising Epic Structure*
+
+I'm now revising the epic structure to align with the source material's nuances and user's profile. I'm focusing on ensuring a collaborative tone in the Org-mode output. I am also checking against the behavior rules to avoid assumptions and maintain simple syntax. I initially considered merging Simulation and Reconstruction. However, I corrected this, recognizing that the source makes a clear distinction that needs to be represented. Finally, I've confirmed that the "Assumptions Ledger" is appropriately addressed in the Foundation/Knowledge Base. Now, I'm ready for the final mapping check.
+
+
+
+#+end_reasoning
+
+** Technical Development Epics for =MāyāLucIA=
+
+
+Based on the modular architecture defined in [[file:../project/modular.org][project/modular.org]] and the philosophical underpinnings of your vision, I have grouped the development work into six major Epics. These cover the flow from data ingestion to artistic expression, underpinned by the agentic framework.
+
+*** Epic 1: The Foundation and Knowledge Architecture
+/Covers: 1. Project Garden, 2. The Knowledge Base (Ingestion/Atlas/Ledger), 10. Library & Memory/
+
+This epic focuses on the semantic file system and the data structures that hold the "world" of =MayaLucIA=. We are not building a database for a corporation, but a /semantic graph/ for a single scientist.
+
+**** Sketch of Coding Tasks
+We will need to implement a "Project Garden" structure, likely using a graph-based metadata layer (possibly local JSON-LD or a lightweight graph database like SQLite with graph extensions) that sits on top of the standard file system. We need to write "Ingestion Parsers"—Python classes that monitor specific directories. When you drop a CSV of river flows or a SWC morphology file, the system must parse headers, extract metadata, and register the entity in the "Data Atlas."
+
+We will also develop the "Assumptions Ledger" and "Library." This involves integrating a vector store (for semantic search of your notes and papers) and a structured log format (likely Org-mode based) where the system tracks epistemological commitments. We will need to write Python bindings that allow the Agent to query this graph—e.g., "Find all datasets related to cortical layer 5 geology constraints."
+
+*** Epic 2: The Agentic Orchestrator and Interface
+/Covers: 8. Intelligent Agentic Guide, 9. Notebook Forge/
+
+This epic constructs the "brain" of the operation and its primary user interface. This is the conversational loop that translates your intent into code and manages the Org-mode environment.
+
+**** Sketch of Coding Tasks
+We need to build the "Guide"—a Python-based agent orchestration layer (using libraries like LangGraph or a custom state-machine) that connects to local or API-based LLMs. The critical coding task here is /tool definition/: giving the LLM secure access to the file system, the Python REPL, and the Knowledge Base from Epic 1.
+
+For the "Notebook Forge," we need to extend Emacs Org-mode capabilities (via Elisp and Python) to support "living documents." We will write code that automates the scaffolding of new experiments—when a new hypothesis is formed, the Agent creates a directory, initializes a git repo, creates an Org file with the standard headers, and pre-populates the "Assumptions Ledger." We need to ensure the Python kernel context is persistent and manageable by the Agent.
+
+*** Epic 3: The Reconstruction Engine (The Sculptor)
+/Covers: 3. Reconstruction Workshop (Digital Form Builder, Constraint Sculptor)/
+
+This is the implementation of the "Radical Hypothesis" and the core of the scientific modeling. This involves heavy mathematical programming to turn sparse data into dense geometry.
+
+**** Sketch of Coding Tasks
+We will implement the "Constraint Sculptor" using probabilistic programming libraries (like PyMC or NumPyro) or custom C++ solvers where performance is critical. We need to write "Generators"—algorithms that take boundary conditions (anchors) and output geometry. For mountains, this might involve implementing erosion simulations or fractal synthesis logic in C++ with Python bindings (nanobind). For brains, this involves implementing the "Touch Detectors" and space-colonization algorithms similar to those described in the Blue Brain papers.
+
+We will focus on "Sparse-to-Dense" inference. This means writing optimization routines that try to fit a generative model to the observed "anchor" points defined in the Data Atlas. We will likely need to implement specific geometry processing pipelines using libraries like =trimesh=, =shapely=, or =gal=.
+
+*** Epic 4: The Simulation and Dynamics Lab
+/Covers: 4. Simulation Lab (Dynamics Engine)/
+
+Once a form is reconstructed, it must move. This epic bridges the static geometry to dynamic physics engines.
+
+**** Sketch of Coding Tasks
+We need to design a modular "Dynamics Interface" (abstract base classes in Python) that allows us to swap solvers. We will write wrappers for domain-specific solvers: NEURON or Arbor for bio-electricity, and perhaps OpenFOAM or custom Lattice Boltzmann implementations for fluid dynamics in valleys.
+
+The key coding challenge here is /state mapping/. We must write the code that maps the static geometry from Epic 3 into the mesh or compartment format required by the solver, runs the time-step integration, and maps the resulting state vector back into the =MayaLucIA= common data format. We will also implement "Steppers" that allow the user to intervene in a simulation mid-run.
+
+*** Epic 5: The Perception and Expression Pipeline
+/Covers: 5. Observing Eye, 7. Expression Studio (The Synesthete)/
+
+This epic handles the translation of data into human-perceptible forms—visuals and sound. It turns the computer into an instrument of observation and art.
+
+**** Sketch of Coding Tasks
+We will build the "Observing Eye" using modern graphics APIs. We might use =wgpu-py= or =PyOpenGL= to create a programmable render pipeline. We need to write "Virtual Sensors"—code that acts like a camera or a microphone inside the simulation space, sampling the state vectors.
+
+For the "Synesthete," we will write mapping functions that translate scientific variables (voltage, flow rate) into aesthetic parameters (pitch, color, harmonic density). This will likely involve integrating audio synthesis libraries (like =pyo=, =scamp=, or a bridge to SuperCollider) and generative visual shaders. The code here will need to be highly interactive, allowing real-time parameter tweaking.
+
+*** Epic 6: Rigor, Provenance, and Legacy
+/Covers: 6. Comparison/Validation, 11. Provenance & Reproducibility, 12. Packaging & Publishing/
+
+This epic ensures the scientific validity of the work and manages the output artifacts. It is the "checksum" of the system.
+
+**** Sketch of Coding Tasks
+We will implement the "Provenance Tracker." This will likely involve decorators in Python that wrap execution functions to log inputs, outputs, and code versions (git hashes) automatically to the Project Garden. We need to write the "Validator"—a module that runs statistical tests (KS-tests, KL-divergence) comparing the Model's output against the ground truth data in the Atlas.
+
+Finally, we will develop "Exporters." This involves writing scripts that bundle an experiment into a portable format—perhaps compiling the visualization and limited simulation logic into WebAssembly (WASM) so a valley or brain circuit can be explored in a browser, or simply generating a static, self-contained HTML notebook with embedded interactive figures.
+
+**** 
+
+
+

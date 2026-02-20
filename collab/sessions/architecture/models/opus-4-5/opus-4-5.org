@@ -1,0 +1,88 @@
+:PROPERTIES:
+:GPTEL_MODEL: claude-opus-4-5-20251101
+:GPTEL_BACKEND: Claude
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should respond only to the one that appears last in your input text. If you are confused about which =prompt= to respond to, notify me and wait for my response before proceeding.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_BOUNDS: ((response (5729 9284) (9984 10137) (11251 14697) (14715 20177)))
+:END:
+
+#+title: Collab =MayaLucIA=
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[file:../mayalucia.org][mayalucia.org]] :: Introduces a vision.
+2. [[file:../project/guiding-philosophy.org][guiding-phiolosophy.org]]  :: Develops principles and methodologies to guide our work on =MayaLucIA=.
+2. [[file:../parbati/parbati.org][parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+3. [[file:../bravli/bravli.org][bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.
+
+
+* Modular Framework and Architecture
+
+We are building a system of /layered translations/. The architecture must facilitate the flow from raw heterogeneous data to a scientifically rigorous reconstruction, mediated by an agent that understands both the physics and the digital artifact rendering / simulation pipeline.
+
+We break down =MayaLucIA= into core modules. These modules are designed to bridge the gap between the /Scientific Model/ (what is true) and the /Manifestation/ (what is perceived), with the Agent acting as the translator between them.
+
+#+begin_collab
+- Suggest modules that will comprise =MayaLucIA=.
+- Keep your suggestions brief --- a headline and short description should do
+- Do not get buried in technical jargon. Use simple language for technical concepts
+#+end_collab
+
+I see five core pillars that would need to work together. Let me sketch them out simply.
+
+*** 1. The Atlas (Knowledge Scaffold)
+
+- What it is :: A structured library that holds not just data, but /relationships/ between data
+- Core function :: Knows that "this measurement" constrains "that property" — capturing Markram's interdependencies
+- Analogy :: Like a web of interconnected index cards, where pulling one reveals threads to others
+
+*** 2. The Generator (Digital Form Builder)
+
+- What it is :: Tools that create instances — whether a neuron morphology, a valley cross-section, or a rock formation
+- Core function :: Takes sparse anchors from the Atlas and fills in statistically faithful details
+- Analogy :: A sculptor who, given a few reference points (ridge heights, river paths), can carve a complete landscape
+
+*** 3. The Simulator (Dynamics Engine)
+
+- What it is :: Runs the physics — water flows downhill, neurons spike, rocks erode
+- Core function :: Takes a generated form and lets time act upon it
+- Analogy :: Wind and weather acting on the sculpture, showing how it would age or behave
+
+*** 4. The Observer (Perception Interface)
+
+- What it is :: Your eye into the generated world — cameras, sonifications, interactive views
+- Core function :: Renders what the simulator produces into something human senses can grasp
+- Analogy :: Standing at a viewpoint in the digital twin, choosing where to look and what to listen to
+
+*** 5. The Scribe (Documentation & Iteration)
+
+- What it is :: The notebook that tracks every hypothesis, every parameter choice, every artistic decision
+- Core function :: Makes the journey reproducible and the understanding cumulative
+- Analogy :: A field journal where each day's observations build on the last
+
+*** How They Connect
+
+#+begin_example
+Atlas ──► Generator ──► Simulator ──► Observer
+  │           │              │            │
+  └───────────┴──────────────┴────────────┘
+              ▲
+              │
+           Scribe
+     (records all transactions)
+#+end_example
+
+The Agent (your LLM collaborator) moves /between/ these modules — querying the Atlas, invoking the Generator, interpreting Simulator outputs, configuring the Observer, and logging everything to the Scribe.
+
+*** Questions for You
+
+Before I elaborate further:
+
+1. /Priority/ :: Which domain calls to you first — mountains or brains? This affects which Generators and Simulators we prototype first.
+
+2. /Existing tools/ :: Do you have existing codebases (from BBP or elsewhere) that should become the seed of any module? Or are we starting fresh?
+
+3. /The Agent role/ :: Do you envision a single orchestrating agent, or specialized agents per module (e.g., a "geology agent," a "visualization agent")?
+
+**** 

@@ -1,0 +1,178 @@
+#+TITLE: Magnetic Bugs — Next Phase Plan
+#+AUTHOR: mu2tau + Claude
+#+DATE: 2026-02-12
+#+STARTUP: overview
+
+* Where We Are
+
+Two sessions produced a working radical-pair compass → ring attractor → bug
+locomotion pipeline, plus a systematic parameter analysis. The central finding:
+navigation has a sharp contrast threshold at $C \sim 0.1$. Above it, compass
+details don't matter. Below it, every bit of anisotropy counts. Three
+suppression mechanisms (relaxation, rate asymmetry, orientational disorder)
+bring computed contrasts toward literature values, and FAD-O_2 retains 3×
+margin while FAD-TrpH is marginal.
+
+The physics of the compass is well-characterized. The open questions are now
+about /context/: what happens when the compass operates in a real environment
+(Direction A), with a real brain (Direction B), rendered as a real experience
+(Direction C)?
+
+* Direction A: Magnetic Anomalies
+
+** Why
+
+Everything so far assumes a spatially uniform field. This is the spherical-cow
+assumption of magnetoreception. Real landscapes have structure: volcanic
+intrusions create dipolar anomalies of 100s of nT, fault zones juxtapose
+rocks with different remanent magnetisation, and even altitude changes the
+field through the vertical gradient (~30 nT/m). Migratory insects fly through
+all of this.
+
+The question isn't whether anomalies exist — they do. The question is whether
+the compass, which we've shown to be sensitive to contrast suppression at the
+$C \sim 0.1$ level, is also sensitive to spatial field perturbations at the
+100 nT level. A 100 nT anomaly on a 50,000 nT background is 0.2% — tiny.
+But it could systematically bias the heading estimate, and a systematic bias
+compounds under path integration.
+
+** What We'd Build
+
+1. *Parameterised anomaly landscape*: extend =landscape.py= with physically
+   motivated anomaly models:
+   - Dipole source (buried magnetised body): strength, depth, position
+   - Linear fault (juxtaposition): azimuth, contrast, position
+   - Regional gradient: magnitude, direction
+
+2. *Navigation through anomaly fields*: run ensemble simulations through
+   landscapes with varying anomaly density and strength. Metrics:
+   - Heading error accumulation
+   - Path deviation from optimal
+   - Success rate (reaches target within tolerance)
+
+3. *Critical anomaly magnitude*: find the perturbation strength at which
+   navigation degrades by 30° (matching the compass contrast threshold
+   analysis).
+
+** What Success Looks Like
+
+A figure showing navigation error vs anomaly magnitude, with the "safe" and
+"dangerous" regimes identified. The punchline: /what geological features
+could a migrating bug detect through its navigation behaviour?/ This inverts
+the usual framing — instead of asking "can the bug sense the field?", we ask
+"what does the field landscape look like through the bug's eyes?"
+
+** Estimated Effort
+
+Small. Uses existing =landscape.py= and =analysis.py= infrastructure. Main
+work is adding the anomaly models and running the sweeps. One session.
+
+* Direction B: Path Integration (CPU4/CPU1)
+
+** Why
+
+The memoryless bug is a caricature. Real insects in the central complex
+maintain a home vector through path integration: $\mathbf{h}(t) = \int_0^t
+v(t') \hat{e}(\theta(t'))\, dt'$, where $\theta$ comes from the ring
+attractor. The CPU4/CPU1 circuit (Stone et al. 2017) provides a concrete
+computational model.
+
+Path integration changes the noise analysis in a fundamental way. The
+compass noise we've been studying ($\sigma_{\mathrm{compass}}$) is a
+/per-reading/ error. Path integration averages over many readings, improving
+the heading estimate by $\sim 1/\sqrt{N}$. But it also introduces
+/integration drift/ — any systematic compass bias accumulates linearly in
+time. The balance between noise reduction and drift accumulation determines
+whether path integration helps or hurts.
+
+This matters for the FAD-TrpH vs FAD-O_2 debate: if path integration
+efficiently compensates for compass noise, then even the marginal FAD-TrpH
+compass might be sufficient. If drift dominates, the margin question becomes
+more acute.
+
+** What We'd Build
+
+1. *CPU4/CPU1 rate model*: 8 CPU4 neurons receiving ring attractor output,
+   computing velocity-scaled heading vector. Follows Stone et al. (2017)
+   equations 1–4.
+
+2. *Home vector readout*: the integrated displacement estimate, compared
+   against the true displacement.
+
+3. *Modified agent*: the bug steers using the home vector (goal-directed
+   path integration) rather than just the instantaneous compass heading.
+
+4. *Noise × drift analysis*: sweep compass noise and systematic bias,
+   compare memoryless vs path-integrating bugs.
+
+** What Success Looks Like
+
+A phase diagram with two axes: compass noise ($\sigma_{\mathrm{compass}}$)
+and systematic bias ($\epsilon$). Regions where path integration helps
+vs hurts, and the crossover. The punchline: /does the bug need a better
+compass, or a better brain?/
+
+** Estimated Effort
+
+Medium. The CPU4/CPU1 model is well-documented (Stone et al. 2017 has
+explicit equations). Main work is implementing the circuit, coupling it to
+the ring attractor, and running the noise/bias analysis. One to two sessions.
+
+** Key Reference
+
+Stone T, Webb B, Adden A, et al. (2017) An anatomically constrained model
+for path integration in the bee brain. Curr. Biol. 27:3069–3085.
+
+* Direction C: MayaPortal — The Bug in the Valley
+
+** Why
+
+Understanding through manifestation. The parameter analyses produce numbers
+and figures, but the /experience/ of watching a bug struggle through a
+magnetically complex landscape — seeing the ring attractor bump flicker as
+it passes an anomaly, watching the home vector drift, seeing the path curve
+toward the wrong valley — would convey the science in a way that plots
+cannot.
+
+This is the Feynman Imperative extended: not just "what I cannot create, I
+do not understand" but "what I cannot /experience/, I do not fully
+comprehend."
+
+** What We'd Build
+
+1. *Simulation-to-renderer bridge*: the Python simulation produces state
+   (position, heading, ring attractor activity, compass readings) at each
+   timestep. MayaPortal consumes this as a time series or runs a C++ port
+   in real-time.
+
+2. *Parvati Valley magnetic landscape*: combine the existing DEM (in
+   =parbati/=) with IGRF geomagnetic model + synthetic geological anomalies.
+
+3. *Visual vocabulary*: how to render the compass state. Options:
+   - Colour overlay on the landscape (field direction / magnitude)
+   - Ring attractor as a radial HUD element
+   - Trail colouring by heading error
+   - Field lines in 3D
+
+** What Success Looks Like
+
+A real-time 3D scene: a bug (camera or avatar) navigates the Parvati Valley
+from Bhuntar toward the Pin Parvati Pass, using the radical-pair compass.
+The viewer sees the field, the compass state, and the navigation in one
+unified experience.
+
+** Estimated Effort
+
+Large. Requires MayaPortal development (ongoing), DEM/geomagnetic data
+integration, and the visual design. Multiple sessions spanning weeks.
+
+* Sequencing
+
+Directions A and B are independent and can proceed in any order. Both
+produce scientific insight that feeds into Direction C.
+
+Recommended: *A first* (small, uses existing code, answers a concrete
+question), then *B* (medium, adds the most scientific novelty), then *C*
+(large, integrates everything).
+
+The plan.org is authoritative over any spec.org that follows.

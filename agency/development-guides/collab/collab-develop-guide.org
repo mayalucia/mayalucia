@@ -1,0 +1,5 @@
+#+title: Collab: A Development Guide
+
+:LOGBOOK:
+(<2026-02-02 Feb>) We started here, but will continue follow this line of (re-)thought as topic for =Darshan=, coming back here after we have a concrete idea of how to implement this as a usable /tool/,
+:END:

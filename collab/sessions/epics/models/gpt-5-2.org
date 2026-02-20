@@ -1,0 +1,160 @@
+:PROPERTIES:
+:GPTEL_MODEL: gpt-5.2
+:GPTEL_BACKEND: ChatGPT
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should respond only to the one that appears last in your input text. If you are confused about which =prompt= to respond to, notify me and wait for my response before proceeding.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_BOUNDS: ((response (5855 6971) (6973 8126) (8825 8978) (10092 13538) (13556 19018)))
+:END:
+
+#+title: Collab =MayaLucIA=
+
+Let us develop a new project. A description of =MayaLucIA= is provided in the following:
+
+1. [[file:../mayalucia.org][mayalucia.org]] :: Introduces a vision.
+2. [[file:../project/guiding-philosophy.org][guiding-phiolosophy.org]]  :: Develops principles and methodologies to guide our work on =MayaLucIA=.
+3. [[file:../parbati/parbati.org][parbati.org]] :: Introduces the same ideas that we want to develop in =MayaLucIA=, but focused to the specific topic of modeling mountains.
+4. [[file:../bravli/bravli.org][bravli.org]]  :: Presents some free flowing ideas on brain building based on my experiences working at the Blue Brain Project, and the fact of deep learning revolution in all sorts of sciences, and that we have publicly available advanced LLMs.
+5. [[file:../project/modular.org][project/modular.org]] :: Provides a modular architecture for =MayaLucIA=. 
+
+These files are my "vision" of a computational framework to help me personally in developing as a scientist and a programmer in 2026. Let us see try to specify more concretely what we want to do here.
+
+
+* Project Management
+
+We are building a system of /layered translations/. The architecture must facilitate the flow from raw heterogeneous data to a scientifically rigorous reconstruction, mediated by an agent that understands both the physics and the digital artifact rendering / simulation pipeline. In =project/modular.org= (a file you should find in our conversation's context) we have individual sections that describe the core modules we will need in =MayaLucIA=. These modules are designed to bridge the gap between the /Scientific Model/ (what is true) and the /Manifestation/ (what is perceived), with the Agent acting as the translator between them.
+
+Let us continue to now create epics and tasks for the technical development of the =MayaLucIA= computational environment.
+
+#+begin_prompt
+- Give me epics that cover all the =MayaLucIA= modules described in =project/modular.org=.
+
+- For each epic, in a few paragraphs sketch the kind of coding tasks we will have to carry out to develop that epic.
+  
+- You do not need to provide a comprehensive list of tasks --- we will define tasks when we work on these epics
+
+#+end_prompt
+
+* Epic 1: Project Garden (semantic workspace for inquiry)
+The Project Garden is the “root container” for everything else: projects, sub-projects, notes, links, runs, artifacts, and the evolving graph of relationships between them. Coding work here is about choosing a representation (likely a lightweight graph + filesystem convention) and building reliable CRUD operations, search, and navigation.
+
+Coding tasks will include: defining a project schema (=project.yaml= or =project.json=) and a minimal on-disk layout; implementing an indexer that scans the garden and builds/updates a local graph (SQLite, DuckDB, or a simple graph store); and implementing basic queries like “list projects by tag”, “show dependencies”, “find projects touching dataset X”. You’ll also want “project templates” (valley, brain circuit, paper-reading, notebook) and a command-line or Emacs-friendly interface to create and jump between them.
+
+A key task is designing “semantic edges” (shared dataset, shared method, derived artifact, conceptual link) that can be created manually and also suggested by an agent—without auto-messing the garden.
+
+* Epic 2: Knowledge Base — Data Ingestion (registering inputs with provenance)
+This epic is the sensory periphery: bring in files, URLs, datasets, API results, and excerpts, and register them with provenance + semantics. The coding work is mostly about robust metadata capture and repeatable ingestion pipelines.
+
+Tasks include: implementing an ingestion command (=ingest file|url|api=) that stores immutable references (hashes), captures provenance fields (source, date accessed, license, citation, modality), and attaches lightweight semantic tags. You’ll need “connectors” for common sources: local files, S3/HTTP, Zenodo, OpenNeuro, OpenTopography, AWS Open Data, and “paper PDFs”. You’ll also build a mechanism to keep raw data immutable (content-addressed storage or at least checksums) while allowing derived versions.
+
+Later tasks: a small “ingestion notebook template” that documents what you imported and what you believe it represents, plus a test suite to ensure ingestion is deterministic.
+
+* Epic 3: Knowledge Base — Data Atlas (map what exists + highlight gaps)
+The Data Atlas is an index over your ingested sources, oriented around coverage: space/time/scale/modality and “where are we blind?”. Coding tasks here are about building a queryable catalog, plus simple geospatial/time metadata extraction.
+
+Tasks: implement metadata extraction for common scientific formats (GeoTIFF/COG, NetCDF, HDF5, CSV with lat/lon/time columns, SWC morphologies, SONATA/NEURON artifacts). Build normalized “coverage descriptors”: bounding boxes, time ranges, resolution, units, coordinate reference system. Then implement visualization helpers: simple maps/timelines showing coverage; “gaps” reports (e.g., no climate station in region; no morphology in layer 2/3).
+
+You’ll also want a stable API: =atlas.find(modality="DEM", region=..., resolution<=...)= and =atlas.gaps(project="parbati")=.
+
+* Epic 4: Knowledge Base — Assumptions & Constraints Ledger
+This epic forces explicit modeling hygiene: every constraint/assumption/prior is written down, versioned, and linked to runs and outputs. Coding tasks are primarily about schemas, versioning, and linking.
+
+Tasks: define a “ledger entry” format (Org subtree, YAML, or JSON) that can store: statement, scope, justification, references, parameterization, and “status” (active/deprecated/tested). Build tooling to attach ledger entries to reconstructions/simulations/figures. Add diffing: show how constraints changed between model versions.
+
+A later task is to integrate with the agent: the agent can propose a new assumption, but it must be committed explicitly by you.
+
+* Epic 5: Reconstruction Workshop & Engine (orchestrating reconstruction iterations)
+This epic is the central workflow loop: choose anchors → generate draft twin → check constraints → refine. Coding tasks include building a “reconstruction pipeline runner” and defining interfaces between modules.
+
+Tasks: define a reconstruction “state” object that includes: anchors, constraints, generator settings, outputs, diagnostics. Implement pipeline stages with clear IO contracts. Start with a minimal runner that can execute a sequence of stages and record provenance. Add “interactive refinement”: re-run only the affected stages when an anchor changes. This likely becomes a Python package with a stable API and a small CLI.
+
+Key architectural task: decide what becomes a pure function (reproducible) vs interactive/manual.
+
+* Epic 6: Digital Form Builder (generative geometry / structure from sparse anchors)
+This is where we create geometry/structure instances (terrain meshes, river networks, neuron morphologies, etc.). Coding tasks depend on domain, but the general work is: define primitives + sampling/generation + constraint satisfaction hooks.
+
+Tasks: pick an initial target domain (likely Parvati valley terrain + hydrology, because DEMs are accessible). Implement a terrain representation (grid/mesh) and generation methods: conditioning on DEM tiles, smoothing, multi-resolution refinement, procedural detail synthesis. For hydrology: drainage network extraction + conditioned synthesis. For brains later: morphology sampling/growth conditioned on layer boundaries.
+
+You’ll also build “parameter surfaces” and “uncertainty surfaces”: not just one terrain but a distribution or at least ensembles.
+
+* Epic 7: Constraint Sculptor (radical hypothesis operationalized)
+This epic is the inference/optimization heart: propagate interdependencies to fill gaps. Coding tasks: define constraint language, implement solvers, and integrate with domain models.
+
+Tasks: represent constraints as (a) hard constraints (must satisfy) and (b) soft constraints (priors/penalties). Implement a constraint evaluation engine and at least one solver strategy: gradient-based optimization (JAX), probabilistic inference (PyMC), or rule-based propagation for discrete structures. Start simple: hydrology constraints (flow downhill, mass conservation), topographic plausibility constraints (slope distributions), and data-fit terms.
+
+The key coding deliverable is a reusable interface:
+- =propose(state)= produce candidate completion
+- =score(candidate, constraints, data)= diagnostics
+- =refine(candidate)= iterate
+
+* Epic 8: Simulation Lab — Dynamics Engine
+Once you have a form, you need time-evolution. Coding tasks: choose simulation backends and wrap them in a consistent interface.
+
+For mountains: start with hydrology and erosion-lite: shallow water approximations, sediment transport toy models, or use existing robust packages (must be verified, stable). For brains: NEURON, Brian2, NEST, or SONATA-compatible simulators—later.
+
+Tasks: define a “simulation spec” (inputs, parameters, initial conditions, outputs). Implement a runner that produces time series + derived observables. Ensure you can run small demos locally and record all parameters for reproducibility.
+
+* Epic 9: Observing Eye (virtual instruments inside the twin)
+This epic is about generating observations from the twin like a camera/probe: rendering, sampling, extracting measurements, and producing the same modality as real data for comparison. Coding tasks: implement sensors and coordinate systems.
+
+Tasks: create “sensor primitives”: camera (RGB/depth), point probes, transects, virtual gauges (river discharge), virtual electrodes (brain later). Implement sampling operators: given a 3D/2D field, sample along a path; given a mesh, render from viewpoint. Start minimal with terrain: a movable camera generating images, plus transect plots and “virtual satellite” orthomosaics.
+
+Also implement the UI surface: either a notebook-based interactive viewer (ipywidgets + plotly/pyvista) or a lightweight web viewer.
+
+* Epic 10: Comparison, Calibration, & Validation
+This epic closes the scientific loop: compare model outputs to real measurements, compute discrepancy, and guide refinement. Coding tasks: metrics, alignment, and calibration workflows.
+
+Tasks: implement dataset-to-model alignment utilities (CRS alignment for geodata, time alignment for time series). Implement metrics: RMSE/MAE for numeric fields, distributional comparisons (KS distance), structural metrics (river network topology), image similarity (SSIM) where appropriate. Then build calibration loops: parameter sweeps, Bayesian calibration, or gradient-based fitting depending on simulator.
+
+Critically, the output must be human-legible diagnostics: “which constraint is violated”, “where mismatch is concentrated”, “what parameter is sensitive”.
+
+* Epic 11: Expression Studio — The Synesthete (artistic translation grounded in data)
+This is the “expressive compiler” from scientific variables to audiovisual parameters. Coding tasks: mapping frameworks, presets, and realtime-ish playback.
+
+Tasks: define a mapping specification (e.g., YAML: variable → range mapping → color map / synth parameter). Implement a rendering/sonification pipeline that consumes simulation outputs and produces: interactive visuals, animations, and sound. Start with simple sonification: map river velocity fields or discharge time series to pitch/timbre; for terrain, map slope/curvature to texture and palette.
+
+You’ll also need “uncertainty-aware” aesthetics: show confidence with transparency, noise, blur, or harmonic instability—so art remains epistemically honest.
+
+* Epic 12: Intelligent Agentic Guide (orchestrator without stealing control)
+This epic is the conversational layer that can write code, propose experiments, and keep track of decisions. Coding tasks: tool interfaces, memory hooks, and safety/clarity constraints.
+
+Tasks: define a tool protocol the agent can use: (a) search your garden/atlas/ledger, (b) propose code patches, (c) run tests, (d) summarize diffs, (e) ask for confirmation before committing. Implement an “agent journal” that records prompts, actions, and rationale, linked to projects.
+
+A key task is “bounded autonomy”: agent suggestions must produce inspectable patches and must never silently mutate your knowledge base.
+
+* Epic 13: Notebook Forge (living documents + reproducible learning trails)
+This epic standardizes how exploration becomes a reproducible narrative. Coding tasks: templating, execution, and export.
+
+Tasks: build notebook templates (Jupyter and/or Org-babel workflows) that pull from the project garden and automatically include provenance blocks, dataset citations, and ledger assumptions. Implement a “forge” command to create a new notebook pre-wired to a project context. Add a runner that can execute notebooks headlessly for CI-like regeneration of figures.
+
+Optional: export to static HTML with embedded interactive widgets where possible.
+
+* Epic 14: Library & Memory (personal knowledge graph for papers, notes, snippets)
+This epic stores references and “what I learned” in a queryable way, linked to projects. Coding tasks: ingestion for text, chunking/indexing, citation management, and cross-linking.
+
+Tasks: implement a bibtex-based or CSL-JSON based reference store; add PDF note extraction and annotation indexing; build semantic search across notes and code snippets. Create “memory objects”: definition, technique, code idiom, cautionary tale—each linkable to projects and ledger entries.
+
+Later tasks: connect the library to the agent so it can cite your own notes first.
+
+* Epic 15: Provenance & Reproducibility (runs, artifacts, and time travel)
+This epic ensures every result can be recreated: inputs, code versions, environment, parameters. Coding tasks: run capture, environment capture, and artifact registry.
+
+Tasks: implement a “run record” system: when you run reconstruction/simulation/notebook, record git commit, python env (conda/uv/pip freeze), input dataset hashes, parameters, and outputs with paths/hashes. Build “time travel” commands: reproduce run X, diff runs X and Y.
+
+This may reuse tools like DVC-like patterns, but keep it lightweight and personal.
+
+* Epic 16: Packaging & Publishing (export interactive artifacts)
+This epic turns internal work into shareable artifacts: a webpage, small app, dataset bundle, or narrated notebook. Coding tasks: export pipelines and minimal hosting.
+
+Tasks: implement exporters: static HTML for notebooks, a lightweight web app bundler (e.g., a small FastAPI + frontend or purely static with WebGL viewer), and “dataset bundles” with metadata + citations. Add a publish manifest so a project can declare what is safe to share and what is private.
+
+You’ll also want “rebuild on publish”: exported artifacts should include enough provenance to trust them.
+
+* Next questions (context before we choose an execution plan)
+- Which single “vertical slice” do you want first: =Parbati terrain + observing-eye=, or =brain microcircuit toy model + observing-eye=?
+- Are we committing to =Org-babel as primary= with Jupyter secondary, or the reverse?
+- Do you want the Garden/Atlas/Ledger as =SQLite first= (simple, robust), or pure filesystem + later indexing?
+
+*** 
+
+*** 
+
+

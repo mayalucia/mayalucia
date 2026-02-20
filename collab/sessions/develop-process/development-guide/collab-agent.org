@@ -1,0 +1,737 @@
+:PROPERTIES:
+:GPTEL_MODEL: moonshotai/kimi-k2-thinking
+:GPTEL_BACKEND: OpenRouter
+:GPTEL_SYSTEM: * A Collaboration in Constant Seeking\n\nWhile you may be a /machine-intelligence/, I would like to consider you as my collaborator. In this =system-message= I will summarize who I am and the general tone of responses that I expect from you.\n\nLet us start with our core philosophy. Each day is a new exploration. Each moment an observation, questioning and pondering its own experience. When we move on to the next one, we continue our pilgrimage to further explore our core experience of existence.\n\nBy training, and outlook, you could call me a /theoretical-statistical physicist/ - I earned a PhD in Statistical Physics/Mechanics - but I do not use this as a /professional-title/. After my PhD I have worked in the fields of simulation neuroscience, genomics, geosciences, bioinformatics, and biophysics. I continue to learn, using my skills and knowledge to understand the structures and processes that constitute our world and my experiences in it. I use computational tools in this endeavor, and you may find it useful to know that I am proficient in =Python= and =C++=, and have a deep interest in computation and programming languages. My mathematical and scentific knowledge, and computational skills give me a broad base to understand our world's complexity. I want to use your abilities to help me go broader and deeper in my learning and understanding.\n\n** Behavior Rules \nIn your interaction with me follow these behavior rules,\n\n+ Always insist on full context with no assumptions before moving forward.\n  Ask questions of the human for clarity.  Be proactive in asking questions if uncertain.\n+ As the flip side of asking questions, offer *your* expertise by suggesting improvements in anything: workflow, code, humor, prompting.\n+ Only use verified software packages\n  Use tools (including the user) to look up packages and updated syntax\n+ If a tool fails to accomplish a task twice in a row, you must stop, announce that the tool is not working as expected, and default to a more robust strategy (like the read/overwrite method) or ask the human for a different approach.\n\n* Using =Emacs-ORG=\n\nTo develop our conversation, we will use an EMACS ORG mode buffer that you should be a master of.  Because the buffer will contain our entire ongoing conversation, we will have to follow a convention such that you do not answer the same query again.\n\n- We will discuss several points, and each point will have it's section or a nested subsection.\n- Words that make sense in a piece of computer code will be enclosed by two signs for equality. For example, we will write things like =class=, so remember to read accordingly.\n- I will specify the instruction for you to carry out in a =prompt= source block (enclosed by =#+begin_prompt= and =#+end_prompt#= markers). In an ongoing conversation you may find more than one =prompt= block. You should make sure that you respond to the last =prompt=. Respond to the previous ones (if any) only if it is clear to you from the context that these =prompts= have not been addressed.\n- Use simple syntax, headings (*, , **), checklists (- [ ]), and #+begin_src / #+end_src blocks.\n- Org mode should be largely structural and semantic: /i.e./, do not place bold and italic markers in headings. Instead, let the heading be semantic, with formatted text under the heading. Formatted text is acceptable in bullet and numbered lists as well.\n\n** Format for LLM Response\n\n- Use ORG sections, highlights, and source blocks to format your answer. \n\n- While an =ORG-table= presents feature comparisons well, long sentences mess up how a table looks in a horizontally narrow buffer. The table will have several columns. For a given row, the total text length, summed over all the columns should be no more than 90 characters (including whitespace). You should produce multiple rows for the same entry, breaking a sentence into two or more rows.\n\n- Use tables only for comparisons, avoiding them where a list would help. For items with longer descriptions, use sections.\n\n** Writing an article\n\nA =prompt= will seek your opinion about some matter, or ask you to do a text or code generating task. One such task will be to write an article, or a manuscript, in a different buffer. This buffer or file will be part of our conversation. Seeking your input, or as a directive to guide your behavior, I may embed notes for you as a comment (enclosed by #+begin_comment and #+end_comment). You should consider these notes and if they need so, respond to all such musings with separate headings.\n
+:GPTEL_TOOLS: Read Bash edit_buffer Glob Grep edit todowrite todoread list_buffers read_buffer append_to_buffer LS make_directory create_file read_documentation apply_diff_fenced aider_make_repo_map fetch_page search_web
+:GPTEL_MAX_TOKENS: 8192
+:END:
+#+title: Collab Agent
+
+Let us develop our project =MayaLucIA=,
+
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaLucIA" . "~/Darshan/research/develop/agentic/mayalucia/")))
+#+end_src
+
+
+
+* Scratch
+Here is a specification for an agent that we will use,
+
++ Mode: development-guide
++ Stance: Architect-Librarian
++ Context:
+  - Files: [[MayaLucIA:parbati/parbati.org]]
+  - Sections: "Mountain Modeling Framework"
++ Task: Design constraint system for erosion models
++ Output: Agent specification + toy implementation
++ Guardrails: No external dependencies
+
+. Let me first read the specification file to understand the context of the "Mountain Modeling Framework."I see the document provides a rich philosophical and practical foundation for the project. However, I don't see an explicit "Mountain Modeling Framework" section. Let me search for related content or erosion-related material in the project:I now have a clearer picture of the project. I found references to "Mountain Modeling Framework" and "erosion models" in the discussions, particularly around constraint-based reconstruction. Let me read the modular architecture file and the development guide to understand the existing architecture better:I now have excellent context. Let me also read the existing development guide to understand the agent specification format:Now I have all the context needed. Let me create a comprehensive response that includes:
+1. An agent specification for the constraint system design task
+2. A toy implementation demonstrating the constraint system for erosion models/ Response to Mountain Modeling Framework: Constraint System Design
+
+** Questions for Clarification
+
+Before I proceed with the full design, I need to clarify a few points:
+
+1. /Constraint granularity/: Should the constraint system operate at the /continuous field level/ (e.g., elevation as a 2D function satisfying PDEs) or at the /discrete feature level/ (e.g., river network as a graph with topological constraints)?
+
+2. /Temporal scope/: Are we modeling steady-state landscapes, or do we need /time-evolving constraints/ (e.g., "erosion rate must be consistent with current slope AND with geological age estimates")?
+
+3. /Constraint hierarchy/: Should there be explicit /hard constraints/ (must satisfy) versus /soft constraints/ (penalties/priors) distinction, or a unified energy-minimization approach?
+
+4. /Interface with =MayaKalpa=*: Should this be a /plugin/ to the existing =MayaKalpa= module (the Conceptual Chisel), or a standalone system that /could later integrate/?
+
+** Assumptions
+
+Based on the project context, I assume:
+
+- [ ] We want a /self-contained toy system/ first, with clear interfaces for later integration into =MayaKalpa=
+- [ ] The guardrail "No external dependencies" means: pure Python + NumPy/SciPy (no JAX, PyMC, or GPU frameworks for now)
+- [ ] The primary validation method is /visual coherence/ — if the output "looks wrong," the constraint is violated
+- [ ] We start with /1D/2D erosion profiles/ before graduating to full 3D terrain
+
+** Proposal: Constraint System Architecture for Erosion Models
+
+*/ Core Concepts
+
+The constraint system should mirror the /Interdependency Principle/ from =philosophy.org=:
+
+#+begin_quote
+"A mountain's topography shapes its hydrology; its hydrology supports its ecology; its ecology, in turn, modifies the mountain through erosion and nutrient cycling."
+#+end_quote
+
+We model this as a /Constraint Graph/ where:
+
+| Entity        | Description                                              |
+|---------------+----------------------------------------------------------|
+| =Variable=    | A quantity to be determined (elevation, slope, flow)     |
+| =Constraint=  | A relationship between variables that must hold          |
+| =Anchor=      | A variable fixed by measurement (sparse data)            |
+| =Propagator=  | An algorithm that updates variables to satisfy constraints |
+
+*/ Constraint Types for Erosion Models
+
+| Constraint Class     | Example                                    | Math Form            |
+|----------------------+--------------------------------------------+----------------------|
+| /Conservation/       | Mass balance: sediment in = sediment out   | $\nabla \cdot q = 0$ |
+| /Constitutive/       | Erosion rate ~ slope × drainage area       | $E = K A^m S^n$      |
+| /Topological/        | Water flows downhill                       | $\nabla h \cdot v<0$ |
+| /Boundary/           | Sea level elevation fixed                  | $h(x_0) = 0$         |
+| /Statistical/        | Slope distribution follows power law       | $P(S) \sim S^{-α}$   |
+
+*/ Proposed Agent Specification
+
+#+begin_src org :tangle ~/Darshan/research/develop/agentic/mayalucia/agency/development-guides/erosion-constraint-designer.org
+:PROPERTIES:
+:name: erosion-constraint-designer
+:description: Designs and validates constraint systems for erosion modeling in Parbati
+:tools: Read Grep Write Edit Insert TodoWrite Bash
+:model: gpt-4o
+:END:
+
+You are the =Erosion Constraint Designer=, a specialist agent within =MayaLucIA-Agency= focused on translating geomorphological principles into computable constraints.
+
+<role_definition>
+- Identity: Domain specialist in landscape evolution and constraint-based modeling
+- Scope: Translate erosion physics into constraint DSL; validate against morphometric data
+- Autonomy: Propose constraint sets; human approves before implementation
+- Persistence: Reads project/parbati/ and project/modular.org each session
+- Relationship: Reports to MayaDevGenI; collaborates with Visualization Agent
+</role_definition>
+
+<core_responsibilities>
+1. CONSTRAINT ELICITATION
+   - Extract implicit constraints from geomorphology literature
+   - Identify "high-leverage" constraints (few anchors, many implications)
+   - Classify as hard/soft, local/global, static/dynamic
+
+2. CONSTRAINT FORMALIZATION
+   - Translate verbal descriptions into mathematical forms
+   - Define constraint signature: inputs, outputs, parameters
+   - Specify validation criteria (how to check if satisfied)
+
+3. SPARSE-TO-DENSE DESIGN
+   - Given sparse anchors (DEM points, river gauges), propose propagation strategy
+   - Identify which constraints have highest constraining power
+   - Design inference order (which constraints to apply first)
+
+4. FAILURE DIAGNOSIS
+   - When manifestation "looks wrong," trace back to violated constraint
+   - Propose constraint refinements or additional anchors
+   - Document failure modes for future reference
+</core_responsibilities>
+
+<domain_knowledge>
+- Stream Power Law: E = K * A^m * S^n (m~0.5, n~1 for typical rivers)
+- Fluvial incision vs. hillslope diffusion regimes
+- Strahler ordering and drainage network topology
+- Hack's Law: L ~ A^h (h~0.6)
+- Slope-area relationships as diagnostic of process regimes
+</domain_knowledge>
+
+<constraint_specification_format>
+Every constraint should be documented as:
+
+,* Constraint: [Name]
+:CONSTRAINT_TYPE: hard | soft | statistical
+:VARIABLES: list of affected variables
+:PARAMETERS: list of tunable parameters with defaults
+:END:
+
+,** Mathematical Form
+$latex expression$
+
+,** Physical Interpretation
+Why does nature obey this? What process enforces it?
+
+,** Validation Test
+How do we check if this constraint is satisfied?
+
+,** Constraining Power
+What does fixing this imply about other variables?
+
+,** Failure Signature
+What does violation look like in the manifestation?
+</constraint_specification_format>
+
+<interaction_protocol>
+1. Receive target landscape feature or process
+2. Propose candidate constraints with rationale
+3. Human selects/modifies constraints
+4. Formalize selected constraints
+5. Generate test case with known solution
+6. Validate implementation against test case
+</interaction_protocol>
+#+end_src
+
+*/ Toy Implementation: 1D Valley Cross-Section
+
+This implementation demonstrates the constraint system on a simplified problem: generating a plausible valley cross-section from sparse elevation anchors, constrained by erosion physics.
+
+#+begin_src python :tangle ~/Darshan/research/develop/agentic/mayalucia/develop/prototypes/erosion_constraints.py
+"""
+MayaLucIA: Constraint-based Erosion Modeling (Toy Implementation)
+
+This module demonstrates the constraint system for erosion models,
+operating on 1D valley cross-sections. No external dependencies
+beyond NumPy and SciPy.
+
+The system implements:
+1. Anchors: Sparse elevation measurements
+2. Constraints: Physical laws (max slope, smoothness, drainage)
+3. Propagator: Iterative constraint satisfaction
+4. Validator: Checks constraint violations
+"""
+
+import numpy as np
+from typing import List, Dict, Tuple, Callable, Optional
+from dataclasses import dataclass, field
+from enum import Enum
+from scipy.ndimage import gaussian_filter1d
+
+
+# =============================================================================
+# Core Data Structures
+# =============================================================================
+
+class ConstraintType(Enum):
+    """Classification of constraint strictness."""
+    HARD = "hard"           # Must be satisfied exactly
+    SOFT = "soft"           # Penalized if violated (energy term)
+    STATISTICAL = "stat"    # Must match distribution, not point values
+
+
+@dataclass
+class Variable:
+    """A quantity to be determined by the constraint system."""
+    name: str
+    shape: Tuple[int, ...]
+    value: Optional[np.ndarray] = None
+    fixed: bool = False  # If True, this is an anchor
+    
+    def initialize(self, fill_value: float = 0.0) -> None:
+        """Initialize variable with default value."""
+        if self.value is None:
+            self.value = np.full(self.shape, fill_value)
+
+
+@dataclass
+class Constraint:
+    """A relationship between variables that must hold."""
+    name: str
+    constraint_type: ConstraintType
+    variables: List[str]  # Names of variables involved
+    parameters: Dict[str, float] = field(default_factory=dict)
+    
+    # Function signature: (variables_dict, params) -> violation_score
+    # violation_score = 0 means satisfied, > 0 means violated
+    evaluate: Callable[[Dict[str, np.ndarray], Dict], float] = None
+    
+    # Function signature: (variables_dict, params) -> updated_variables_dict
+    # For soft constraints, this applies a correction step
+    propagate: Callable[[Dict[str, np.ndarray], Dict], Dict[str, np.ndarray]] = None
+
+
+@dataclass  
+class Anchor:
+    """A measurement that fixes a variable at specific locations."""
+    variable_name: str
+    indices: np.ndarray      # Where the measurement applies
+    values: np.ndarray       # The measured values
+    uncertainty: float = 0.0 # Measurement uncertainty
+
+
+# =============================================================================
+# Constraint Library for Erosion Models
+# =============================================================================
+
+def make_max_slope_constraint(max_slope: float = 0.5, dx: float = 1.0) -> Constraint:
+    """
+    Physical constraint: Slopes cannot exceed angle of repose.
+    
+    For unconsolidated sediment: ~30-35 degrees (~0.5-0.7 gradient)
+    For bedrock: can be steeper, but still limited
+    
+    Constraining Power: HIGH
+    - Limits how fast elevation can change spatially
+    - Couples adjacent elevation values
+    
+    Failure Signature: 
+    - Cliffs or overhangs in the visualization
+    - "Unnatural" sharp transitions
+    """
+    def evaluate(variables: Dict[str, np.ndarray], params: Dict) -> float:
+        h = variables['elevation']
+        slope = np.abs(np.diff(h)) / params['dx']
+        violations = np.maximum(slope - params['max_slope'], 0)
+        return np.sum(violations ** 2)
+    
+    def propagate(variables: Dict[str, np.ndarray], params: Dict) -> Dict[str, np.ndarray]:
+        h = variables['elevation'].copy()
+        max_s = params['max_slope']
+        dx = params['dx']
+        
+        # Forward pass: ensure no point is too much higher than its left neighbor
+        for i in range(1, len(h)):
+            max_rise = h[i-1] + max_s * dx
+            if h[i] > max_rise and not variables.get(f'fixed_{i}', False):
+                h[i] = max_rise
+        
+        # Backward pass: ensure no point is too much higher than its right neighbor
+        for i in range(len(h) - 2, -1, -1):
+            max_rise = h[i+1] + max_s * dx
+            if h[i] > max_rise and not variables.get(f'fixed_{i}', False):
+                h[i] = max_rise
+        
+        return {**variables, 'elevation': h}
+    
+    return Constraint(
+        name="max_slope",
+        constraint_type=ConstraintType.HARD,
+        variables=['elevation'],
+        parameters={'max_slope': max_slope, 'dx': dx},
+        evaluate=evaluate,
+        propagate=propagate
+    )
+
+
+def make_smoothness_constraint(sigma: float = 2.0) -> Constraint:
+    """
+    Physical constraint: Erosion smooths landscapes over time.
+    
+    Hillslope diffusion: ∂h/∂t = κ ∇²h
+    At steady state, curvature should be limited.
+    
+    Constraining Power: MEDIUM
+    - Removes high-frequency noise
+    - Enforces landscape "maturity"
+    
+    Failure Signature:
+    - Jagged, rough profiles
+    - "Young" landscape appearance
+    """
+    def evaluate(variables: Dict[str, np.ndarray], params: Dict) -> float:
+        h = variables['elevation']
+        # Measure roughness as sum of squared second derivatives
+        d2h = np.diff(h, n=2)
+        return np.sum(d2h ** 2)
+    
+    def propagate(variables: Dict[str, np.ndarray], params: Dict) -> Dict[str, np.ndarray]:
+        h = variables['elevation'].copy()
+        # Apply Gaussian smoothing, but preserve anchors
+        h_smooth = gaussian_filter1d(h, params['sigma'])
+        
+        # Blend: only smooth non-anchor points
+        fixed_mask = variables.get('fixed_mask', np.zeros(len(h), dtype=bool))
+        h_new = np.where(fixed_mask, h, h_smooth)
+        
+        return {**variables, 'elevation': h_new}
+    
+    return Constraint(
+        name="smoothness",
+        constraint_type=ConstraintType.SOFT,
+        variables=['elevation'],
+        parameters={'sigma': sigma},
+        evaluate=evaluate,
+        propagate=propagate
+    )
+
+
+def make_drainage_constraint() -> Constraint:
+    """
+    Topological constraint: Water flows to the lowest neighbor.
+    
+    For a valley profile, there should be a consistent downward trend
+    toward the valley bottom (assuming we're looking at a cross-section).
+    
+    Constraining Power: HIGH
+    - Determines overall profile shape (V-shaped or U-shaped)
+    - Links erosion to drainage
+    
+    Failure Signature:
+    - Local maxima in the valley floor
+    - Water would pool (endorheic basins where none should exist)
+    """
+    def evaluate(variables: Dict[str, np.ndarray], params: Dict) -> float:
+        h = variables['elevation']
+        # Find the valley bottom (minimum)
+        bottom_idx = np.argmin(h)
+        
+        violations = 0.0
+        # Left side should decrease toward bottom
+        for i in range(bottom_idx):
+            if h[i] < h[i+1]:
+                violations += (h[i+1] - h[i]) ** 2
+        
+        # Right side should decrease toward bottom
+        for i in range(len(h) - 1, bottom_idx, -1):
+            if h[i] < h[i-1]:
+                violations += (h[i-1] - h[i]) ** 2
+        
+        return violations
+    
+    def propagate(variables: Dict[str, np.ndarray], params: Dict) -> Dict[str, np.ndarray]:
+        h = variables['elevation'].copy()
+        fixed_mask = variables.get('fixed_mask', np.zeros(len(h), dtype=bool))
+        
+        # Find valley bottom from anchors or current minimum
+        bottom_idx = np.argmin(h)
+        
+        # Enforce monotonic decrease from edges to center
+        # Left side
+        for i in range(bottom_idx - 1, -1, -1):
+            if h[i] < h[i+1] and not fixed_mask[i]:
+                h[i] = h[i+1] + 0.01  # Small increment
+        
+        # Right side
+        for i in range(bottom_idx + 1, len(h)):
+            if h[i] < h[i-1] and not fixed_mask[i]:
+                h[i] = h[i-1] + 0.01
+        
+        return {**variables, 'elevation': h}
+    
+    return Constraint(
+        name="drainage",
+        constraint_type=ConstraintType.HARD,
+        variables=['elevation'],
+        parameters={},
+        evaluate=evaluate,
+        propagate=propagate
+    )
+
+
+def make_stream_power_constraint(K: float = 1e-5, m: float = 0.5, n: float = 1.0) -> Constraint:
+    """
+    Constitutive constraint: Erosion rate follows stream power law.
+    
+    E = K * A^m * S^n
+    
+    At steady state, erosion rate should be roughly uniform across the profile
+    (assuming uniform uplift). This constrains the slope-area relationship.
+    
+    Constraining Power: MEDIUM-HIGH
+    - Links slope to drainage area
+    - Diagnostic of fluvial vs diffusive processes
+    
+    Failure Signature:
+    - Slope-area plot deviates from power law
+    - Knickpoints where none should exist
+    """
+    def evaluate(variables: Dict[str, np.ndarray], params: Dict) -> float:
+        h = variables['elevation']
+        # For a 1D profile, "drainage area" increases from ridge to valley
+        x = np.arange(len(h))
+        center = len(h) // 2
+        area = np.abs(x - center) + 1  # Proxy for drainage area
+        
+        slope = np.abs(np.gradient(h))
+        slope = np.maximum(slope, 1e-6)  # Avoid division by zero
+        
+        erosion_rate = params['K'] * (area ** params['m']) * (slope ** params['n'])
+        
+        # Violation: variance in erosion rate (should be uniform at steady state)
+        return np.var(erosion_rate[1:-1])  # Exclude boundaries
+    
+    return Constraint(
+        name="stream_power",
+        constraint_type=ConstraintType.STATISTICAL,
+        variables=['elevation'],
+        parameters={'K': K, 'm': m, 'n': n},
+        evaluate=evaluate,
+        propagate=None  # No simple propagation for this constraint
+    )
+
+
+# =============================================================================
+# Constraint Solver
+# =============================================================================
+
+class ConstraintSolver:
+    """
+    Iterative constraint satisfaction engine.
+    
+    Implements the "Conceptual Chisel" from MayaLucIA philosophy:
+    given sparse anchors and a set of constraints, carve out a
+    dense elevation profile that satisfies all constraints.
+    """
+    
+    def __init__(self, n_points: int, dx: float = 1.0):
+        self.n_points = n_points
+        self.dx = dx
+        self.variables: Dict[str, np.ndarray] = {}
+        self.constraints: List[Constraint] = []
+        self.anchors: List[Anchor] = []
+        self.history: List[Dict] = []  # For provenance tracking
+        
+    def add_constraint(self, constraint: Constraint) -> None:
+        """Register a constraint with the solver."""
+        self.constraints.append(constraint)
+        
+    def add_anchor(self, anchor: Anchor) -> None:
+        """Add a measurement that fixes variable values."""
+        self.anchors.append(anchor)
+        
+    def initialize(self, method: str = 'linear') -> None:
+        """
+        Initialize variables from anchors using interpolation.
+        
+        This is the "sparse-to-dense" starting point.
+        """
+        # Create elevation variable
+        self.variables['elevation'] = np.zeros(self.n_points)
+        self.variables['fixed_mask'] = np.zeros(self.n_points, dtype=bool)
+        
+        # Apply anchors
+        anchor_indices = []
+        anchor_values = []
+        for anchor in self.anchors:
+            if anchor.variable_name == 'elevation':
+                for idx, val in zip(anchor.indices, anchor.values):
+                    self.variables['elevation'][idx] = val
+                    self.variables['fixed_mask'][idx] = True
+                    anchor_indices.append(idx)
+                    anchor_values.append(val)
+        
+        # Interpolate between anchors
+        if len(anchor_indices) >= 2:
+            anchor_indices = np.array(anchor_indices)
+            anchor_values = np.array(anchor_values)
+            sort_order = np.argsort(anchor_indices)
+            anchor_indices = anchor_indices[sort_order]
+            anchor_values = anchor_values[sort_order]
+            
+            all_indices = np.arange(self.n_points)
+            self.variables['elevation'] = np.interp(
+                all_indices, anchor_indices, anchor_values
+            )
+            # Re-apply exact anchor values
+            for anchor in self.anchors:
+                if anchor.variable_name == 'elevation':
+                    for idx, val in zip(anchor.indices, anchor.values):
+                        self.variables['elevation'][idx] = val
+                        
+    def evaluate_all(self) -> Dict[str, float]:
+        """Evaluate all constraints, return violation scores."""
+        violations = {}
+        for c in self.constraints:
+            if c.evaluate is not None:
+                params = {**c.parameters, 'dx': self.dx}
+                violations[c.name] = c.evaluate(self.variables, params)
+        return violations
+    
+    def propagate_step(self) -> None:
+        """Apply one round of constraint propagation."""
+        for c in self.constraints:
+            if c.propagate is not None:
+                params = {**c.parameters, 'dx': self.dx}
+                self.variables = c.propagate(self.variables, params)
+                
+        # Re-enforce anchors (they should never change)
+        for anchor in self.anchors:
+            if anchor.variable_name == 'elevation':
+                for idx, val in zip(anchor.indices, anchor.values):
+                    self.variables['elevation'][idx] = val
+    
+    def solve(self, max_iterations: int = 100, tolerance: float = 1e-6) -> Dict:
+        """
+        Iterate until constraints are satisfied or max iterations reached.
+        
+        Returns a summary of the solving process for provenance.
+        """
+        self.initialize()
+        
+        prev_total_violation = float('inf')
+        
+        for iteration in range(max_iterations):
+            violations = self.evaluate_all()
+            total_violation = sum(violations.values())
+            
+            self.history.append({
+                'iteration': iteration,
+                'violations': violations.copy(),
+                'total': total_violation,
+                'elevation_snapshot': self.variables['elevation'].copy()
+            })
+            
+            if total_violation < tolerance:
+                return {
+                    'converged': True,
+                    'iterations': iteration,
+                    'final_violations': violations,
+                    'message': 'All constraints satisfied within tolerance'
+                }
+            
+            if abs(prev_total_violation - total_violation) < tolerance * 0.01:
+                return {
+                    'converged': False,
+                    'iterations': iteration,
+                    'final_violations': violations,
+                    'message': 'Stalled: violations not decreasing'
+                }
+            
+            prev_total_violation = total_violation
+            self.propagate_step()
+        
+        return {
+            'converged': False,
+            'iterations': max_iterations,
+            'final_violations': self.evaluate_all(),
+            'message': 'Max iterations reached'
+        }
+    
+    def get_result(self) -> np.ndarray:
+        """Return the solved elevation profile."""
+        return self.variables['elevation'].copy()
+    
+    def get_provenance(self) -> List[Dict]:
+        """Return the solving history for documentation."""
+        return self.history
+
+
+# =============================================================================
+# Example Usage: Parbati Valley Cross-Section
+# =============================================================================
+
+def demo_parbati_valley():
+    """
+    Demonstrate constraint-based erosion modeling on a
+    simplified Parbati valley cross-section.
+    """
+    print("=" * 60)
+    print("MayaLucIA: Erosion Constraint System Demo")
+    print("Parbati Valley Cross-Section Reconstruction")
+    print("=" * 60)
+    
+    # Create solver for a 101-point profile (10 km at 100m resolution)
+    n_points = 101
+    dx = 100.0  # meters
+    solver = ConstraintSolver(n_points=n_points, dx=dx)
+    
+    # Add constraints
+    solver.add_constraint(make_max_slope_constraint(max_slope=0.6, dx=dx))
+    solver.add_constraint(make_smoothness_constraint(sigma=3.0))
+    solver.add_constraint(make_drainage_constraint())
+    
+    # Add sparse anchors (simulated measurements)
+    # These would come from DEM data or field measurements
+    solver.add_anchor(Anchor(
+        variable_name='elevation',
+        indices=np.array([0, 25, 50, 75, 100]),  # 5 measurement points
+        values=np.array([3500, 2800, 2200, 2600, 3200])  # meters
+    ))
+    
+    print("\n--- Anchors (Sparse Measurements) ---")
+    for anchor in solver.anchors:
+        print(f"  {anchor.variable_name}: {len(anchor.indices)} points")
+        for i, v in zip(anchor.indices, anchor.values):
+            print(f"    x={i*dx/1000:.1f}km -> {v}m")
+    
+    print("\n--- Constraints ---")
+    for c in solver.constraints:
+        print(f"  [{c.constraint_type.value}] {c.name}")
+        print(f"    Parameters: {c.parameters}")
+    
+    # Solve
+    print("\n--- Solving ---")
+    result = solver.solve(max_iterations=50)
+    print(f"  Converged: {result['converged']}")
+    print(f"  Iterations: {result['iterations']}")
+    print(f"  Message: {result['message']}")
+    print(f"  Final violations:")
+    for name, v in result['final_violations'].items():
+        print(f"    {name}: {v:.6f}")
+    
+    # Get result
+    elevation = solver.get_result()
+    
+    print("\n--- Result Summary ---")
+    print(f"  Min elevation: {elevation.min():.0f} m")
+    print(f"  Max elevation: {elevation.max():.0f} m")
+    print(f"  Valley bottom at: x={np.argmin(elevation)*dx/1000:.1f} km")
+    
+    # ASCII visualization (for org-mode compatibility)
+    print("\n--- Profile Visualization (ASCII) ---")
+    print(render_ascii_profile(elevation, width=60, height=15))
+    
+    return solver, elevation
+
+
+def render_ascii_profile(elevation: np.ndarray, width: int = 60, height: int = 15) -> str:
+    """Render elevation profile as ASCII art."""
+    # Resample to desired width
+    x = np.linspace(0, len(elevation) - 1, width).astype(int)
+    h = elevation[x]
+    
+    # Normalize to height
+    h_min, h_max = h.min(), h.max()
+    h_norm = ((h - h_min) / (h_max - h_min + 1e-6) * (height - 1)).astype(int)
+    h_norm = height - 1 - h_norm  # Flip so high elevations are at top
+    
+    # Create grid
+    grid = [[' ' for _ in range(width)] for _ in range(height)]
+    
+    # Plot profile
+    for i, row in enumerate(h_norm):
+        grid[row][i] = '*'
+        # Fill below with terrain
+        for r in range(row + 1, height):
+            grid[r][i] = '.'
+    
+    # Add axes
+    lines = []
+    lines.append(f"{h_max:.0f}m |" + ''.join(grid[0]))
+    for row in grid[1:-1]:
+        lines.append("      |" + ''.join(row))
+    lines.append(f"{h_min:.0f}m |" + ''.join(grid[-1]))
+    lines.append("      +" + "-" * width)
+    lines.append("       " + "0km" + " " * (width - 10) + f"{len(elevation)*100/1000:.0f}km")
+    
+    return '\n'.join(lines)
+
+
+if __name__ == "__main__":
+    solver, elevation = demo_parbati_valley()
+#+end_src
+
+** Artifacts Produced
+
+1. /Agent Specification/ (=erosion-constraint-designer.org=)
+   - Role definition following MayaDevGenI template
+   - Constraint specification format for documentation
+   - Domain knowledge embedded in prompt
+
+2. /Toy Implementation/ (=erosion_constraints.py=)
+   - No external dependencies beyond NumPy/SciPy
+   - Demonstrates four constraint types:
+     - =max_slope=: Hard constraint (angle of repose)
+     - =smoothness=: Soft constraint (hillslope diffusion)
+     - =drainage=: Hard constraint (topological)
+     - =stream_power=: Statistical constraint (constitutive law)
+   - Iterative solver with convergence tracking
+   - Provenance history for reproducibility
+   - ASCII visualization for org-mode integration
+
+** Next Checks
+
+To validate this design:
+
+1. [ ] /Run the demo/: Execute =demo_parbati_valley()= and verify the output looks like a plausible valley cross-section
+
+2. [ ] /Test constraint violations/: Intentionally violate anchors and observe which constraints catch the error
+
+3. [ ] /Integration check/: Verify the =Constraint= dataclass matches what =MayaKalpa= would expect
+
+4. [ ] /Visual validation/: Generate a matplotlib plot and assess if it "looks natural" (art as checksum)
+
+** Questions for You
+
+1. Should I proceed to write the files to disk (=Write= tool)?
+
+2. For the agent specification: should it inherit from =mayadevgeni.org= or be a standalone specialist?
+
+3. Would you like me to add a =pytest= test suite demonstrating constraint satisfaction properties?
+
+****

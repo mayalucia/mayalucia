@@ -1,0 +1,49 @@
+*Collaboration Context for our project*
+-----------
+#+begin_src elisp :results none
+(setq org-link-abbrev-alist
+      '(("MayaDevGeni" . "~/Darshan/research/develop/agentic/mayadevgeni/")
+        ("MayaDevGenZ" . "~/Darshan/research/develop/agentic/mayadevgeni/agency/mayadevgenz/")
+        ("MayaLucIA"   . "~/Darshan/research/develop/agentic/mayalucia/")
+        ("MayaPortal"  . "~/Darshan/research/develop/agentic/mayalucia/modules/mayaportal/")))
+#+end_src
+
+*Project Topology*
+-----------
+#+begin_example
+MayaLucIA          — personal computational environment
+├── MayaPortal     — module: data/model portal
+└── built via MayaDevGenI (dev methodology + AI collaboration)
+    └── MayaDevGenZ — Emacs harness: operationalizes agents via gptel-agent
+#+end_example
+
+*Project Documents*
+-----------
++ =MayaLucIA=:
+  | [[MayaLucIA:mayalucia.org]]                  | vision            |
+  | [[MayaLucIA:develop/guiding-philosophy.org]] | principles        |
+  | [[MayaLucIA:agency/mayalucia-agency.org]]    | agent org         |
+  | [[MayaLucIA:parbati/parbati.org]]            | domain: mountains |
+  | [[MayaLucIA:bravli/bravli.org]]              | domain: brain     |
+-----------
++ =MayaPortal=
+  | [[MayaPortal:mayaportal.org]]                  | vision              |
+  | [[MayaPortal:project/monadic-composition.org]] | functional patterns |
+  | [[MayaPortal:project/techstack.org]]           | tech stack          |
+  | [[MayaPortal:development-process/]]            | plans               |
+-----
++ =MayaDevGenI=
+  | [[MayaDevGeni:mayadevgeni.org]]             | vision          |
+  | [[MayaDevGeni:project/manifesto.org]]       | manifesto       |
+  | [[MayaDevGeni:project/project.org]]         | roadmap         |
+  | [[MayaDevGeni:develop/develop.org]]         | dev process     |
+  | [[MayaDevGeni:develop/system-prompt/]]      | prompt craft    |
+-----
++ =MayaDevGenZ= (the harness — =gptel-agent= fork + =mayadevgeni.el=)
+  | [[MayaDevGenZ:mayadevgenz.org]]   | plan & architecture |
+  | [[MayaDevGenZ:README.org]]        | gptel-agent upstream docs |
+  | [[MayaDevGenZ:mayadevgeni.el]]    | our harness code |
+  | [[MayaDevGeni:agency/agency.org]] | agency framework |
+-----
+
+
