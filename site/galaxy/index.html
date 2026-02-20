@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MāyāLucIA — Knowledge Galaxy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="galaxy"></canvas>
+  <div id="tooltip"></div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import { indexBodies } from './core/graph.js';
+    import { place } from './core/placement.js';
+    import { createScene, startLoop } from './view/scene.js';
+    import { createBodies } from './view/bodies.js';
+    import { createConnections } from './view/connections.js';
+    import { setupInteraction } from './view/interaction.js';
+
+    async function main() {
+      // Load knowledge graph
+      const response = await fetch('./data/mayalucia.json');
+      const galaxy = await response.json();
+
+      // Compute positions (pure)
+      const positions = place(galaxy.bodies, galaxy.bonds, { algorithm: 'orbital' });
+
+      // Build scene (effectful)
+      const canvas = document.getElementById('galaxy');
+      const ctx = createScene(canvas);
+
+      const bodyIndex = indexBodies(galaxy.bodies);
+      const meshMap = createBodies(ctx.scene, galaxy.bodies, positions);
+      createConnections(ctx.scene, galaxy.bonds, positions, bodyIndex);
+      const onFrame = setupInteraction(ctx, meshMap);
+
+      // Start render loop
+      startLoop(ctx, onFrame);
+    }
+
+    main().catch(console.error);
+  </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "name": "MāyāLucIA",
+    "version": "0.1",
+    "description": "A personal computational environment for scientific understanding through creation"
+  },
+  "bodies": [
+    {
+      "id": "mayalucia",
+      "label": "MāyāLucIA",
+      "kind": "galaxy-center",
+      "mass": 1.0,
+      "color": [1.0, 0.85, 0.3],
+      "children": ["mayaportal", "mayajiva", "bravli", "mayapramana", "manifesto", "mayadevgeni", "mayaloom"]
+    },
+    {
+      "id": "mayaportal",
+      "label": "MāyāPortal",
+      "kind": "star",
+      "mass": 0.7,
+      "color": [0.2, 0.6, 1.0],
+      "domain": "rendering",
+      "children": ["portal-wgpu", "portal-sdl3", "portal-codev"]
+    },
+    {
+      "id": "mayajiva",
+      "label": "MāyāJīva",
+      "kind": "star",
+      "mass": 0.5,
+      "color": [0.3, 0.9, 0.4],
+      "domain": "simulation",
+      "children": ["jiva-core", "jiva-godot"]
+    },
+    {
+      "id": "bravli",
+      "label": "Bravli",
+      "kind": "star",
+      "mass": 0.6,
+      "color": [0.9, 0.3, 0.5],
+      "domain": "neuroscience"
+    },
+    {
+      "id": "mayapramana",
+      "label": "MāyāPramāṇa",
+      "kind": "star",
+      "mass": 0.65,
+      "color": [0.7, 0.4, 1.0],
+      "domain": "quantum-sensing",
+      "children": ["pramana-bloch", "pramana-demo"]
+    },
+    {
+      "id": "manifesto",
+      "label": "Manifesto",
+      "kind": "planet",
+      "mass": 0.3,
+      "color": [1.0, 0.6, 0.2],
+      "domain": "philosophy"
+    },
+    {
+      "id": "mayadevgeni",
+      "label": "MāyāDevGenī",
+      "kind": "star",
+      "mass": 0.4,
+      "color": [0.9, 0.8, 0.2],
+      "domain": "methodology"
+    },
+    {
+      "id": "mayaloom",
+      "label": "MāyāLoom",
+      "kind": "planet",
+      "mass": 0.35,
+      "color": [0.5, 0.9, 0.9],
+      "domain": "knowledge-weaving"
+    },
+    {
+      "id": "portal-wgpu",
+      "label": "WebGPU",
+      "kind": "moon",
+      "mass": 0.15,
+      "color": [0.3, 0.5, 0.9]
+    },
+    {
+      "id": "portal-sdl3",
+      "label": "SDL3",
+      "kind": "moon",
+      "mass": 0.12,
+      "color": [0.4, 0.7, 0.9]
+    },
+    {
+      "id": "portal-codev",
+      "label": "Literate Source",
+      "kind": "moon",
+      "mass": 0.1,
+      "color": [0.5, 0.8, 1.0]
+    },
+    {
+      "id": "jiva-core",
+      "label": "C++ Core",
+      "kind": "moon",
+      "mass": 0.12,
+      "color": [0.2, 0.8, 0.3]
+    },
+    {
+      "id": "jiva-godot",
+      "label": "Godot Extension",
+      "kind": "moon",
+      "mass": 0.1,
+      "color": [0.4, 0.9, 0.5]
+    },
+    {
+      "id": "pramana-bloch",
+      "label": "Bloch Equations",
+      "kind": "moon",
+      "mass": 0.15,
+      "color": [0.6, 0.3, 0.9]
+    },
+    {
+      "id": "pramana-demo",
+      "label": "Interactive Demo",
+      "kind": "moon",
+      "mass": 0.12,
+      "color": [0.8, 0.5, 1.0]
+    }
+  ],
+  "bonds": [
+    { "from": "mayajiva", "to": "mayaportal", "kind": "renders-through", "strength": 0.9 },
+    { "from": "bravli", "to": "mayapramana", "kind": "methodology-feeds", "strength": 0.5 },
+    { "from": "mayadevgeni", "to": "mayaloom", "kind": "spawns", "strength": 0.7 },
+    { "from": "mayapramana", "to": "manifesto", "kind": "instantiates", "strength": 0.6 },
+    { "from": "mayaportal", "to": "manifesto", "kind": "instantiates", "strength": 0.5 },
+    { "from": "mayadevgeni", "to": "manifesto", "kind": "operationalizes", "strength": 0.8 },
+    { "from": "bravli", "to": "mayajiva", "kind": "inspires", "strength": 0.3 },
+    { "from": "mayaloom", "to": "mayapramana", "kind": "structures", "strength": 0.6 }
+  ]
+}
