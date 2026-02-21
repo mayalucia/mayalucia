@@ -1,5 +1,6 @@
 // scene.js — Three.js scene setup, camera, post-processing bloom, render loop.
 // This is the effectful shell. Owns the WebGL context and animation frame.
+// Scene-level config (background, camera, bloom) comes from the active theme.
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -7,7 +8,9 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-export function createScene(canvas) {
+export function createScene(canvas, theme) {
+  const defaults = theme.getSceneDefaults();
+
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -15,36 +18,42 @@ export function createScene(canvas) {
   renderer.toneMappingExposure = 1.0;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x020210);
+  scene.background = new THREE.Color(defaults.background);
 
+  const [cx, cy, cz] = defaults.cameraPos;
   const camera = new THREE.PerspectiveCamera(
-    60, window.innerWidth / window.innerHeight, 0.1, 500
+    60, window.innerWidth / window.innerHeight,
+    defaults.cameraNear || 0.1,
+    defaults.cameraFar || 500,
   );
-  camera.position.set(0, 8, 22);
+  camera.position.set(cx, cy, cz);
 
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
-  controls.minDistance = 3;
-  controls.maxDistance = 100;
+  controls.minDistance = defaults.orbitMinDistance || 3;
+  controls.maxDistance = defaults.orbitMaxDistance || 100;
 
-  // Post-processing: bloom
+  if (defaults.cameraTarget) {
+    const [tx, ty, tz] = defaults.cameraTarget;
+    controls.target.set(tx, ty, tz);
+    camera.lookAt(tx, ty, tz);
+  }
+
+  // Post-processing: bloom (strength varies by theme)
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
 
   const bloom = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    1.2,   // strength
-    0.4,   // radius
-    0.2    // threshold
+    defaults.bloomStrength,
+    defaults.bloomRadius,
+    defaults.bloomThreshold,
   );
   composer.addPass(bloom);
 
-  // Star field background
-  addStarField(scene);
-
-  // Ambient light so bodies are visible from all angles
-  scene.add(new THREE.AmbientLight(0x404060, 0.5));
+  // Let the theme set up environment (lighting, background geometry, fog)
+  theme.renderEnvironment(scene);
 
   // Resize handler
   window.addEventListener('resize', () => {
@@ -55,27 +64,6 @@ export function createScene(canvas) {
   });
 
   return { renderer, scene, camera, controls, composer };
-}
-
-function addStarField(scene) {
-  const count = 2000;
-  const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    const r = 80 + Math.random() * 120;
-    const theta = Math.acos(2 * Math.random() - 1);
-    const phi = 2 * Math.PI * Math.random();
-    positions[i * 3] = r * Math.sin(theta) * Math.cos(phi);
-    positions[i * 3 + 1] = r * Math.sin(theta) * Math.sin(phi);
-    positions[i * 3 + 2] = r * Math.cos(theta);
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const material = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size: 0.15,
-    sizeAttenuation: true,
-  });
-  scene.add(new THREE.Points(geometry, material));
 }
 
 // Render loop — call each frame callback, then composite

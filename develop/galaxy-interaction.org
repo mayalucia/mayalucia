@@ -1,0 +1,513 @@
+#+title: Crystalline Knowledge Galaxy — Interaction Design Tutorial
+#+author: MāyāLucIA (mu2tau + Claude)
+#+date: <2026-02-21>
+#+startup: overview
+
+* Introduction
+
+The MāyāLucIA Knowledge Galaxy is an interactive 3D visualization where the
+project's structure — modules, submodules, concepts — is rendered as a cosmos
+of crystalline polytopes. The user navigates by clicking, hovering, and spinning
+crystals. Each facet of a crystal reveals a different aspect of the knowledge it
+represents.
+
+This document is a pedagogical discussion of how the interaction design evolved,
+what problems we solved, and what we learned. It is written for anyone building
+interactive 3D knowledge interfaces — or anyone curious about the design space
+between information architecture and spatial navigation.
+
+** What we built
+
+A single-page web application (~500 lines of JS, ~120 lines of CSS, ~400 lines
+of data) that renders 15 knowledge bodies as faceted polytopes in Three.js
+(r170). The user experience:
+
+1. *Overview*: Bodies float in space. Hovering shows a tooltip; bonded partners
+   glow sympathetically (colour resonance).
+2. *Focus*: Clicking a crystal flies the camera close. All other bodies dim to
+   near-invisibility. A frosted glass text panel appears.
+3. *Inspect*: Hovering the focused crystal makes it vivid and the text blurry.
+   Dragging rotates the crystal. Each rotation reveals a new facet of content.
+4. *Read*: Moving the mouse off the crystal sharpens the text and dims the
+   crystal. The user reads the facet description.
+5. *Return*: Pressing Escape flies back to the overview.
+
+** Technology
+
+- Three.js r170 via CDN importmap (ES modules, no build step)
+- =MeshStandardMaterial= with =onBeforeCompile= shader injection
+- =UnrealBloomPass= post-processing
+- Vanilla CSS with =backdrop-filter= for frosted glass
+- No framework, no bundler, no dependencies beyond Three.js
+
+* Stage 1: Polytope Rendering and Placement
+
+The first question was how to map a knowledge graph onto 3D geometry.
+
+** Bodies as polytopes
+
+The project hierarchy (galaxy-center → stars → planets → moons) maps onto
+polytope complexity:
+
+| Kind          | Geometry                         | Visual Role       |
+|---------------+----------------------------------+-------------------|
+| galaxy-center | =IcosahedronGeometry(r, 1)=      | Central, complex  |
+| star          | =DodecahedronGeometry(r, 0)=     | Major modules     |
+| planet        | =IcosahedronGeometry(r, 0)=      | Submodules        |
+| moon          | =OctahedronGeometry(r, 0)=       | Leaf concepts     |
+
+Higher-detail polytopes have more faces, which means more facets of content.
+This is a natural encoding: more important bodies carry more information.
+
+** Colour resonance instead of visible bonds
+
+Traditional knowledge graphs draw edges as lines. We chose /invisible bonds/
+with /sympathetic glow/: hovering a crystal causes its bonded partners to
+brighten. This keeps the visual field clean while preserving the topology.
+
+The implementation is a simple adjacency map (=bondGraph=) consulted during
+=highlightBody()=.
+
+** Orbital placement
+
+Bodies are placed in concentric shells by hierarchy depth, with angular
+offsets to avoid overlap. The placement algorithm is in =core/placement.js=.
+
+* Stage 2: Facet-Mapped Content
+
+The key insight: a polytope has /faces/, and each face can carry /meaning/.
+
+** Logical face extraction
+
+A Three.js =DodecahedronGeometry(r, 0)= has 36 triangles, but only 12 logical
+faces (pentagons). We cluster coplanar triangles by normal direction:
+
+#+begin_src javascript
+// Cluster by normal direction (dot > 0.96 ≈ 15°)
+for (let j = i + 1; j < triCount; j++) {
+  if (triangles[i].normal.dot(triangles[j].normal) > 0.96) {
+    // Same logical face
+  }
+}
+#+end_src
+
+This yields the natural face count: 20 for icosahedra, 12 for dodecahedra, 8
+for octahedra. Each logical face is assigned per-vertex attributes
+(=aFaceId=, =aFaceNormal=, =aFaceCenter=) so the shader can identify which face
+a fragment belongs to.
+
+** Facet data model
+
+Each body in =mayalucia.json= carries a =facets= array:
+
+#+begin_example
+{
+  "id": "mayalucia",
+  "facets": [
+    { "title": "Core Cycle", "text": "Measure → Model → Manifest ..." },
+    { "title": "The Sculptor", "text": "Measurement is the raw material ..." },
+    ...
+  ]
+}
+#+end_example
+
+Logical faces map to facets cyclically: face /i/ maps to =facets[i % N]=. The
+galaxy center (icosahedron detail 1) has 80 triangles clustering into ~20 faces,
+mapped over 8 facets. Smaller bodies have fewer faces and fewer facets.
+
+** Facet detection per frame
+
+Each frame, we find the logical face most aligned with the camera view direction:
+
+#+begin_src javascript
+for (let i = 0; i < logicalFaces.length; i++) {
+  _worldNormal.copy(logicalFaces[i].normal);
+  _worldNormal.applyQuaternion(mesh.quaternion);
+  const dot = -_worldNormal.dot(_camDir);
+  if (dot > bestDot) {
+    bestDot = dot;
+    bestFaceIdx = i;
+  }
+}
+#+end_src
+
+When the best face changes (because the user spun the crystal), a 150ms
+crossfade transitions the text panel to the new facet content. The user
+experiences this as: /spin the crystal → read a different aspect/.
+
+* Stage 3: Procedural Glyph Inscriptions
+
+Flat-coloured polytopes felt inert. We wanted the crystals to feel /inscribed/
+— as if ancient knowledge were etched into their surfaces.
+
+** Shader injection via onBeforeCompile
+
+Three.js =MeshStandardMaterial= provides PBR lighting, but doesn't natively
+support per-face procedural textures. We inject custom GLSL into the compiled
+shader:
+
+1. *Vertex shader*: Pass =aFaceId=, =aFaceNormal=, =aFaceCenter= as varyings
+2. *Fragment shader*: Compute face-local UVs, select a glyph pattern, modulate
+   the emissive radiance
+
+The injection preserves PBR lighting and bloom — the glyphs are /etched into/
+the material rather than painted on top.
+
+** Face-local UV computation
+
+Each face needs its own 2D coordinate system for glyph rendering:
+
+#+begin_src glsl
+vec2 faceLocalUV(vec3 pos, vec3 center, vec3 norm) {
+  vec3 toPos = pos - center;
+  vec3 up = abs(norm.y) < 0.9 ? vec3(0,1,0) : vec3(1,0,0);
+  vec3 u = normalize(cross(norm, up));
+  vec3 v = cross(norm, u);
+  return vec2(dot(toPos, u), dot(toPos, v));
+}
+#+end_src
+
+This projects the 3D fragment position onto the face plane, giving a consistent
+UV space for each logical face regardless of the polytope's orientation.
+
+** Five glyph patterns
+
+We implemented five procedural GLSL patterns, assigned cyclically by face index:
+
+| Pattern     | Visual                                  | Metaphor                   |
+|-------------+-----------------------------------------+----------------------------|
+| Spiral      | Logarithmic spiral with radial rings    | Growth, self-similarity     |
+| Mandala     | Six-fold rotational symmetry            | Wholeness, meditation       |
+| Circuit     | Grid lines with signal pulses           | Information, computation    |
+| Scrollwork  | Intertwined sinusoidal waves            | Manuscript, tradition       |
+| Concentric  | Expanding rings with angular cuts       | Ripples, propagation        |
+
+All patterns are time-animated (=uTime= uniform) for gentle, living movement.
+
+** The etch technique
+
+The critical rendering decision was /how/ to apply glyphs to the emissive
+surface. We tried two approaches:
+
+1. *Additive* (=totalEmissiveRadiance += glyph * color=): Glyphs glow on top of
+   the base colour. Problem: on bright bodies the glyphs disappear into the
+   existing emissive field.
+
+2. *Etch/modulate* (=totalEmissiveRadiance *= etch=): Glyphs darken grooves and
+   brighten lines. The effect is like inscriptions carved into a glowing
+   surface — visible regardless of base brightness.
+
+#+begin_src glsl
+float etch = mix(
+  1.0 - uGlyphIntensity * 0.15,   // groove: slightly darker
+  1.0 + uGlyphIntensity * 0.2,    // line:   slightly brighter
+  gv                                // glyph value [0,1]
+);
+totalEmissiveRadiance *= etch;
+#+end_src
+
+The etch range (0.85 to 1.07) is deliberately subtle. The glyphs are felt more
+than seen — ambient inscriptions rather than loud textures.
+
+** Debugging: the black screen saga
+
+The initial implementation used uniform arrays (=uniform vec3 uFaceNormals[N]=)
+with dynamic indexing. This caused a black screen on some WebGL drivers —
+variable-index access into uniform arrays is unreliably supported.
+
+The fix: pass face data as per-vertex attributes through varyings. No dynamic
+indexing needed. Every vertex carries its own face ID, normal, and center.
+
+Another pitfall: cache-busting with =?v=timestamp= query strings on dynamic
+imports broke the importmap — Three.js bare specifier resolution only applies
+to the exact module URLs in the map. The fix was =<meta http-equiv="Cache-Control"
+content="no-cache">= instead.
+
+* Stage 4: The Prominent Text Panel
+
+The polytopes are beautiful navigation tools, but the /content/ is in the text.
+The design challenge: make the text primary without hiding the crystals entirely.
+
+** Full-viewport frosted glass
+
+The info panel covers the entire viewport as a semi-transparent overlay:
+
+#+begin_src css
+#info-panel {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  background: rgba(6, 6, 14, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 10vw;
+}
+#+end_src
+
+The crystal remains visible through the frosted glass — present but secondary.
+Font sizes are generous: 28px for labels, 17px for descriptions, with
+=max-width: 640px= for comfortable reading.
+
+** Uniform visual size on focus
+
+A design problem: clicking a moon (small polytope) brought the camera very close,
+while clicking the galaxy center (large) left it far away. The visual sizes were
+inconsistent.
+
+Solution: compute camera distance from the mesh's bounding sphere so every body
+subtends the same angle:
+
+#+begin_src javascript
+if (!mesh.geometry.boundingSphere) mesh.geometry.computeBoundingSphere();
+const radius = mesh.geometry.boundingSphere.radius;
+const viewDist = radius / Math.tan(0.15);  // ~0.15 rad
+#+end_src
+
+Now every focused body fills approximately the same proportion of the screen.
+
+** Dimming non-focused bodies
+
+When focused on one crystal, all others fade to 8% opacity:
+
+#+begin_src javascript
+dimOthers(focusedMesh) {
+  for (const [id, mesh] of meshById) {
+    if (mesh === focusedMesh) continue;
+    mesh.material.transparent = true;
+    mesh.material.opacity = 0.08;
+    mesh.material.emissiveIntensity = 0.01;
+  }
+}
+#+end_src
+
+This directs attention absolutely. The focused crystal becomes the only
+substantial object in the scene.
+
+* Stage 5: Dual-Focus Interaction
+
+The final interaction design addresses a fundamental tension: the crystal and
+the text compete for the user's attention. They cannot both be vivid
+simultaneously without visual clutter.
+
+** The solution: mutual exclusivity
+
+- *Mouse on crystal zone*: Crystal is vivid, text panel blurs and fades
+- *Mouse off crystal*: Text sharpens, crystal dims behind the frosted overlay
+
+This is implemented with a single CSS class toggle:
+
+#+begin_src css
+#info-panel.crystal-active {
+  background: rgba(6, 6, 14, 0.15);
+  backdrop-filter: blur(0px);
+}
+#info-panel.crystal-active .panel-text {
+  opacity: 0.12;
+  filter: blur(3px);
+}
+#+end_src
+
+#+begin_src javascript
+// In onPointerMove:
+if (focusedMesh && root === focusedMesh) {
+  infoPanel.classList.add('crystal-active');
+} else if (focusedMesh) {
+  infoPanel.classList.remove('crystal-active');
+}
+#+end_src
+
+** The interaction rhythm
+
+The user settles into a natural rhythm:
+
+1. Hover crystal → it lights up, text recedes
+2. Drag to spin → new facet rotates into view
+3. Move mouse away → crystal recedes, text sharpens with the new facet content
+4. Read → absorb the facet description
+5. Return to crystal → spin to next facet
+6. Escape → fly back to overview
+
+This is /embodied navigation/. The physical act of moving toward and away from
+the crystal mirrors the cognitive act of switching between visual inspection and
+textual comprehension. The interface teaches itself: the first time the user
+moves the mouse off the crystal and sees the text sharpen, they understand the
+rhythm.
+
+* Landscape: Where This Fits
+
+How does a crystalline knowledge galaxy relate to existing tools and trends in
+interactive visualization?
+
+** The state of knowledge visualization (2026)
+
+The dominant paradigm in personal knowledge management is the *2D node-link
+graph*. Obsidian, Roam Research, Logseq — all render knowledge as circles
+connected by lines. These are useful for seeing topology but carry no semantic
+information in their geometry. A node is a node is a node.
+
+A few tools venture into 3D:
+
+- *TheBrain* (since the 1990s): animated 3D thought networks, mature but
+  proprietary, still uses conventional node-link metaphor
+- *IVGraph*: 3D graph view for Notion, handles 10,000+ linked pages, but again
+  node-link
+- *Kineviz GraphXR*: enterprise 3D graph analytics, powerful but aimed at data
+  analysts, not knowledge workers
+
+Academic tools like *VOSviewer* (scientific citation landscapes) and
+*Open Knowledge Maps* visualize research domains as 2D clusters. The emerging
+*Knowledge Cosmos* project (IEEE VIS 2025) reimagines research as a navigable
+3D universe — closest to our galaxy metaphor, but focused on literature rather
+than personal knowledge.
+
+** What's different about polytopes
+
+Node-link graphs encode one thing: /connection/. A polytope encodes /structure/.
+
+| Feature           | Node-Link Graph          | Polytope Galaxy               |
+|-------------------+--------------------------+-------------------------------|
+| Node geometry     | Circle (no information)  | Polytope type signals kind    |
+| Edge semantics    | Line (connection exists) | Colour resonance (strength)   |
+| Multi-aspect      | One label per node       | Multiple facets per body      |
+| Spatial rotation  | No meaning               | Reveals different content     |
+| Visual hierarchy  | Size or colour only      | Geometry complexity encodes depth |
+
+The key insight: *rotation maps to conceptual rotation*. Spinning a dodecahedron
+through its 12 pentagonal faces is a physical metaphor for examining a concept
+from 12 different angles. This is not possible with a circle.
+
+** Emerging enablers
+
+Three converging trends make this approach viable in 2026:
+
+1. *WebGPU maturation*: ~70% browser coverage, 2-10x performance over WebGL.
+   Three.js r171+ supports WebGPU with automatic WebGL 2 fallback. Complex
+   shader injection (like our glyph system) is increasingly practical.
+
+2. *AI-assisted 3D development*: LLMs can generate working Three.js code,
+   lowering the barrier to 3D web development. But this also /commoditizes/
+   basic implementations — differentiation requires novel conceptual approaches,
+   not just technical execution.
+
+3. *Spatial computing*: AR/VR research shows 3D spatial memory significantly
+   outperforms 2D for complex relationships. The galaxy metaphor aligns with
+   cognitive science evidence about how humans navigate and remember information.
+
+** The gap
+
+No existing tool combines:
+
+- Polytope-based geometric metaphor
+- Per-face content mapping (facets)
+- Procedural inscriptions (shader glyphs)
+- Scientific digital twin integration
+- Literate programming provenance
+- Open-source, zero-dependency web deployment
+
+The crystalline knowledge galaxy occupies a genuinely novel position in the
+design space. It is not an incremental improvement on node-link graphs — it is
+a different /kind/ of representation, one where geometry carries meaning.
+
+** Opportunities
+
+- *Research navigation*: Visualize paper collections, citation networks, or
+  course curricula as navigable galaxies. Each polytope facet carries an abstract,
+  a key finding, a method summary.
+- *Portfolio and project sites*: Replace flat pages with spatial navigation.
+  Visitors explore a cosmos of work rather than scrolling a timeline.
+- *Educational tools*: MāyāLoom cadenza annotations could power adaptive
+  learning systems where students navigate prerequisite structures spatially.
+- *Obsidian/Notion integration*: Import existing vaults or workspaces into a 3D
+  polytope galaxy as an alternative to the flat graph view.
+
+* Technical Reference
+
+** File structure
+
+#+begin_example
+site/galaxy/
+├── index.html              Entry point, importmap, error catcher
+├── style.css               Full-viewport frosted panel, crystal-active states
+├── data/
+│   └── mayalucia.json      Bodies, bonds, facets
+├── core/
+│   ├── types.js            KIND enum, BASE_RADIUS
+│   ├── graph.js            Body indexing
+│   └── placement.js        Orbital placement algorithm
+└── view/
+    ├── scene.js            Three.js setup, bloom, render loop
+    ├── interaction.js      Hover, click, focus, spin, facet detection
+    └── themes/
+        ├── theme.js        Theme validation
+        └── galaxy.js       Polytope rendering, shader injection, resonance
+#+end_example
+
+** Key data flows
+
+1. =mayalucia.json= → =placement.js= → positions map
+2. positions + bodies → =galaxy.js:renderBody= → Three.js meshes with shader
+3. meshes → =interaction.js:setupInteraction= → event handlers + per-frame update
+4. per-frame: =updateFacet()= detects front face → crossfade text panel
+5. hover: =highlightBody()= → resonance via =bondGraph= adjacency
+
+** Shader pipeline
+
+#+begin_example
+Vertex Shader:
+  attributes: aFaceId, aFaceNormal, aFaceCenter
+  → varyings: vFaceId, vFaceNorm, vFaceCent, vObjPos
+
+Fragment Shader:
+  faceLocalUV(vObjPos, vFaceCent, vFaceNorm) → 2D coords
+  selectGlyph(uv, faceId, uTime) → glyph value [0,1]
+  smoothstep(0.55, 0.85, gv) → crisp edges
+  etch = mix(0.85, 1.07, gv) → emissive modulation
+  totalEmissiveRadiance *= etch
+#+end_example
+
+* Lessons Learned
+
+** Uniform arrays in WebGL are fragile
+
+Dynamic indexing into =uniform vec3 arr[N]= fails silently on many GPU drivers.
+Per-vertex attributes are more verbose but universally reliable.
+
+** Cache-busting and importmaps do not mix
+
+Appending =?v=timestamp= to dynamic =import()= URLs defeats importmap bare
+specifier resolution. Use HTTP cache headers instead.
+
+** Etch, don't add
+
+For glyphs on emissive surfaces, multiplicative modulation (etch) works at all
+brightness levels. Additive glow disappears on bright bodies.
+
+** Visual size should be perceptually uniform
+
+When flying to objects of different sizes, compute camera distance from the
+bounding sphere, not from a fixed offset. Otherwise small objects look tiny
+and large objects fill the screen.
+
+** Mutual exclusivity resolves attention competition
+
+When two visual elements (crystal + text) compete for attention, don't try to
+show both at full strength. Let the user's mouse position decide which one is
+primary. The interface teaches itself through the first interaction.
+
+** Start with content, end with aesthetics
+
+The shader glyphs were the last addition, not the first. The content pipeline
+(facets → detection → crossfade) was working before any visual embellishment.
+Aesthetics built on a functioning interaction model amplify it; aesthetics
+without interaction are decoration.
+
+* What's Next
+
+- Deploy to GitHub Pages for public access
+- Scale testing: 100, 500, 1000 bodies with instancing and LOD
+- WebXR prototype: spatial memory in AR should outperform screen-based navigation
+- MāyāLoom integration: cadenza annotations drive facet content automatically
+- Kalman filter + feedback loop panels for the Bloch sphere demo (MāyāPramāṇa)
+- Cross-domain navigation: brain circuits ↔ mountain valleys ↔ quantum sensors
+  as a unified galaxy

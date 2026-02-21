@@ -6,7 +6,7 @@
 
 body {
   overflow: hidden;
-  background: #020210;
+  background: #0A0A12;
   font-family: 'Inter', system-ui, sans-serif;
 }
 
@@ -29,4 +29,92 @@ canvas {
   transition: opacity 0.15s;
   z-index: 10;
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#info-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(6, 6, 14, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 48px 10vw;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 15px;
+  line-height: 1.6;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s, background 0.3s, backdrop-filter 0.3s, -webkit-backdrop-filter 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#info-panel .panel-text {
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+#info-panel.visible {
+  opacity: 1;
+}
+
+/* Mouse on crystal: text fades, background clears so crystal is vivid */
+#info-panel.crystal-active {
+  background: rgba(6, 6, 14, 0.15);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+}
+
+#info-panel.crystal-active .panel-text {
+  opacity: 0.12;
+  filter: blur(3px);
+}
+
+#info-label {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+#info-domain {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 20px;
+}
+
+#info-facet-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 8px;
+  transition: opacity 0.15s;
+}
+
+#info-desc {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 640px;
+  margin-bottom: 12px;
+  transition: opacity 0.15s;
+}
+
+#info-status {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+#info-hint {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+  text-align: right;
 }

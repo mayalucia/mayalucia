@@ -109,6 +109,44 @@ Background seeds (detail on individual aspects):
 - [[file:seeds/project-management.org][project-management.org]] (session protocol detail)
 - [[file:seeds/literate-agency.org][literate-agency.org]] (unified seed, pre-naming)
 
+** ACTIVE Knowledge Galaxy: Interactive 3D Visualization        :galaxy:site:
+:PROPERTIES:
+:FILES:    site/galaxy/, develop/galaxy-interaction.org
+:END:
+
+3D crystalline knowledge galaxy where MāyāLucIA's project structure
+is rendered as faceted polytopes. Click to focus, spin to explore
+facets, frosted glass text panel for reading.
+
+*State*: Stage 5 complete. All interaction layers working:
+- Polytope rendering with 5 polytope types by hierarchy
+- Colour resonance bonds (invisible edges, sympathetic glow)
+- Per-face procedural glyph inscriptions (5 GLSL patterns, etch technique)
+- Facet-mapped content: spin crystal → crossfade text
+- Uniform visual size on focus (bounding-sphere-based camera distance)
+- Full-viewport frosted glass panel with dual-focus interaction
+- Dim non-focused bodies to 8% opacity
+- Crystal-active toggle: mouse on crystal → vivid crystal / blurred text
+
+*Files*:
+- =site/galaxy/index.html= — entry point (Three.js r170, importmap)
+- =site/galaxy/style.css= — frosted panel, crystal-active states
+- =site/galaxy/data/mayalucia.json= — 15 bodies with facet arrays
+- =site/galaxy/view/interaction.js= — hover, click, focus, spin, facet detection
+- =site/galaxy/view/themes/galaxy.js= — polytope rendering, shader injection
+- =develop/galaxy-interaction.org= — tutorial / design discussion
+
+*Done so far*:
+- Stage 1: polytope rendering, orbital placement, colour resonance
+- Stage 2: facet-mapped content with logical face extraction
+- Stage 3: procedural glyph inscriptions (shader injection)
+- Stage 4: prominent text panel, uniform visual size, dim others
+- Stage 5: dual-focus interaction (crystal-active mutual exclusivity)
+- Tutorial written: develop/galaxy-interaction.org
+
+*Next*: deploy to GitHub Pages, scale testing (100+ bodies),
+WebXR prototype, MāyāLoom integration for automatic facet content.
+
 ** ACTIVE Saikat Invitation                                   :outreach:
 :PROPERTIES:
 :FILES:    invitations/saikat-ghosh.org, invitations/saikat-ghosh.md
@@ -209,6 +247,60 @@ needed). Format:
 #+end_example
 
 * Session Log
+
+** 2026-02-21: Knowledge Galaxy — Stages 2-5, tutorial, market research
+:PROPERTIES:
+:SESSION:  Claude Code (Opus 4.6)
+:DURATION: ~3 hours (2 context windows)
+:END:
+
+Continued from previous session that built Stage 1 (polytope
+rendering, orbital placement, colour resonance, basic click-to-focus).
+
+*What was done:*
+
+1. *Facet-mapped content* — added facets arrays to all 15 bodies in
+   mayalucia.json. Implemented logical face extraction (coplanar
+   triangle clustering), per-frame facet detection via dot product,
+   150ms crossfade text transitions.
+
+2. *Procedural glyph inscriptions* — shader injection via
+   onBeforeCompile. Five GLSL patterns (spiral, mandala, circuit,
+   scrollwork, concentric). Per-vertex attributes to avoid dynamic
+   uniform array indexing. Etch technique for emissive modulation.
+
+3. *Brightness tuning* — multiple rounds: reduced base emissive
+   strengths, bloom parameters, glyph intensity. Etch approach
+   replaced additive glow.
+
+4. *Prominent text panel* — full-viewport frosted glass overlay,
+   uniform visual size via bounding sphere, dim non-focused bodies.
+
+5. *Dual-focus interaction* — crystal-active CSS toggle: mouse on
+   crystal → vivid crystal / blurred text; mouse off → sharp text /
+   dim crystal. Natural rhythm of inspect ↔ read.
+
+6. *Tutorial* — develop/galaxy-interaction.org: pedagogical discussion
+   of all 5 stages, technical reference, lessons learned, market
+   landscape section.
+
+7. *Market research* — comprehensive survey of 3D knowledge viz tools
+   (TheBrain, IVGraph, GraphXR, Obsidian, etc.), WebGPU trends,
+   spatial computing research, polytope uniqueness analysis. Key
+   finding: no existing tool combines polytope geometry + facet
+   content + procedural inscriptions + scientific digital twins.
+
+*Debugging:*
+- Black screen from dynamic uniform array indexing → per-vertex attributes
+- Cache-busting ?v= broke importmap → HTTP cache headers instead
+- const t redeclaration in onFrame → renamed to const now
+- Shader uTime access when bypass active → defensive optional chaining
+
+*Decisions made:*
+- Etch (multiplicative) over additive for glyph rendering
+- Per-vertex attributes over uniform arrays for face data
+- Full-viewport panel over corner panel for text prominence
+- Mutual exclusivity (crystal vs text) over simultaneous display
 
 ** 2026-02-20 (session 2): MāyāLoom validation, interactive demo, Saikat rewrite
 :PROPERTIES:

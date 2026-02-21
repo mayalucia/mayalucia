@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
   <title>MāyāLucIA — Knowledge Galaxy</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <canvas id="galaxy"></canvas>
   <div id="tooltip"></div>
+  <div id="info-panel">
+    <div class="panel-text">
+      <div id="info-label"></div>
+      <div id="info-domain"></div>
+      <div id="info-facet-title"></div>
+      <div id="info-desc"></div>
+      <div id="info-status"></div>
+      <div id="info-hint">hover crystal to spin · move away to read · esc to return</div>
+    </div>
+  </div>
 
   <script type="importmap">
   {
@@ -19,36 +31,77 @@
   }
   </script>
 
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      showErr(msg + '\n' + src + ':' + line + ':' + col + '\n' + (err && err.stack || ''));
+    };
+    window.addEventListener('unhandledrejection', function(e) {
+      showErr('Unhandled rejection:\n' + (e.reason && e.reason.stack || e.reason));
+    });
+    function showErr(text) {
+      var d = document.getElementById('err-display');
+      if (!d) {
+        d = document.createElement('pre');
+        d.id = 'err-display';
+        d.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#111;color:#f88;padding:2em;font-size:14px;overflow:auto;white-space:pre-wrap;';
+        document.body.appendChild(d);
+      }
+      d.textContent += text + '\n\n';
+    }
+  </script>
+
   <script type="module">
     import { indexBodies } from './core/graph.js';
     import { place } from './core/placement.js';
     import { createScene, startLoop } from './view/scene.js';
-    import { createBodies } from './view/bodies.js';
-    import { createConnections } from './view/connections.js';
     import { setupInteraction } from './view/interaction.js';
+    import { validateTheme } from './view/themes/theme.js';
+
+    const params = new URLSearchParams(window.location.search);
+    const themeName = params.get('theme') || 'galaxy';
+
+    async function loadTheme(name) {
+      const mod = await import(`./view/themes/${name}.js`);
+      return validateTheme(mod.default);
+    }
 
     async function main() {
-      // Load knowledge graph
+      const theme = await loadTheme(themeName);
+
       const response = await fetch('./data/mayalucia.json');
       const galaxy = await response.json();
 
-      // Compute positions (pure)
       const positions = place(galaxy.bodies, galaxy.bonds, { algorithm: 'orbital' });
 
-      // Build scene (effectful)
       const canvas = document.getElementById('galaxy');
-      const ctx = createScene(canvas);
+      const ctx = createScene(canvas, theme);
 
       const bodyIndex = indexBodies(galaxy.bodies);
-      const meshMap = createBodies(ctx.scene, galaxy.bodies, positions);
-      createConnections(ctx.scene, galaxy.bonds, positions, bodyIndex);
-      const onFrame = setupInteraction(ctx, meshMap);
+      const meshMap = new Map();
+      for (const body of galaxy.bodies) {
+        const pos = positions.get(body.id);
+        if (!pos) continue;
+        const mesh = theme.renderBody(ctx.scene, body, pos);
+        meshMap.set(body.id, mesh);
+      }
 
-      // Start render loop
+      for (const bond of galaxy.bonds) {
+        const fromPos = positions.get(bond.from);
+        const toPos = positions.get(bond.to);
+        if (!fromPos || !toPos) continue;
+        theme.renderBond(ctx.scene, bond, fromPos, toPos,
+          bodyIndex.get(bond.from), bodyIndex.get(bond.to));
+      }
+
+      if (theme.generateTerrain) {
+        await theme.generateTerrain(ctx.scene, ctx.camera, ctx.controls);
+      }
+
+      const onFrame = setupInteraction(ctx, meshMap, theme);
       startLoop(ctx, onFrame);
     }
 
-    main().catch(console.error);
+    main().catch(err => showErr(err.stack || err.message || String(err)));
   </script>
 </body>
 </html>
