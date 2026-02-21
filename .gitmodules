@@ -1,12 +1,6 @@
 [submodule "modules/mayaportal"]
 	path = modules/mayaportal
-	url = ./modules/mayaportal
-[submodule "modules/mayajiva/godot-cpp"]
-	path = modules/mayajiva/godot-cpp
-	url = https://github.com/godotengine/godot-cpp.git
-[submodule "website/themes/PaperMod"]
-	path = website/themes/PaperMod
-	url = https://github.com/adityatelange/hugo-PaperMod.git
+	url = https://github.com/mayalucia/mayaportal.git
 [submodule "modules/mayapramana"]
 	path = modules/mayapramana
 	url = https://github.com/mayalucia/mayapramana.git

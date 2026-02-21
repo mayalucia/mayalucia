@@ -11,10 +11,13 @@
 *.dylib
 
 # Generated figures (regenerate from source)
-experment/magnetic-bugs/fig_*.png
+experiment/magnetic-bugs/fig_*.png
 
 # Agent session transcripts (large, ephemeral)
 .agent-shell/
+
+# Claude Code local config
+.claude/
 
 # SCons
 .sconsign.dblite
@@ -44,7 +47,3 @@ collab/.local/*.html
 # OpenCode agent sessions (local)
 .opencode/
 
-# Hugo website build artifacts (generated output)
-website/public/
-website/resources/
-website/.hugo_build.lock
