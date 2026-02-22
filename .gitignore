@@ -47,3 +47,6 @@ collab/.local/*.html
 # OpenCode agent sessions (local)
 .opencode/
 
+# Deployment staging area (Hugo build output)
+deployment/.staging/
+

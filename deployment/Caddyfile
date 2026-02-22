@@ -1,0 +1,34 @@
+# Personal site
+vishalsood.dev {
+    reverse_proxy web:8000
+}
+
+# MayaLucIA ecosystem
+mayalucia.dev {
+    root * /srv/mayalucia
+    file_server
+    encode gzip
+    handle_errors {
+        rewrite * /404.html
+        file_server
+    }
+}
+
+# Redirect legacy portal subdomain to root
+portal.mayalucia.dev {
+    redir https://mayalucia.dev{uri} permanent
+}
+
+comptoir.mayalucia.dev {
+    reverse_proxy comptoir:8501
+}
+
+devgeni.mayalucia.dev {
+    root * /srv/mayadevgeni
+    file_server
+    encode gzip
+    handle_errors {
+        rewrite * /404.html
+        file_server
+    }
+}

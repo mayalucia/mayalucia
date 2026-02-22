@@ -1,0 +1,41 @@
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"  # HTTP/3
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./mayalucia-public:/srv/mayalucia:ro
+      - ./mayadevgeni-public:/srv/mayadevgeni:ro
+
+  web:
+    build: ./vishalsood-web
+    restart: unless-stopped
+    expose:
+      - "8000"
+    env_file:
+      - .env
+
+  comptoir:
+    build:
+      context: ./comptoir
+      dockerfile: app/Dockerfile
+    restart: unless-stopped
+    expose:
+      - "8501"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - PASSCODES=${PASSCODES:-}
+      - COACH_PASSCODE=${COACH_PASSCODE:-}
+
+volumes:
+  caddy_data:
+  caddy_config:
