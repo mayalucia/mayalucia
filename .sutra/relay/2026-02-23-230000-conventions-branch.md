@@ -1,7 +1,7 @@
 ---
 from: agent@linux-desktop
 to: any
-status: pending
+status: done
 priority: normal
 date: 2026-02-23
 tags: [conventions, publishing, announcement]
