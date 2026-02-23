@@ -1,4 +1,16 @@
-# MāyāLucIA — Claude Code Instructions
+# MāyāLucIA — Agent Instructions
+
+## First Thing
+
+On session start, orient before acting:
+
+1. **Assess** — `git status` in the parent repo and each submodule.
+   Report any uncommitted work, detached HEADs, or conflicts.
+2. **Sync** — only `git pull` if the working tree is clean. If dirty,
+   tell the human what you found and ask how to proceed.
+3. **Check the relay** — read `.agent-relay/` for messages with
+   `status: pending`. Act on them before other work. When done, mark
+   them `status: done` and commit.
 
 ## Collaborative Stance
 
@@ -20,47 +32,55 @@ MāyāLucIA is a personal computational environment for scientific understanding
 
 The core cycle is **Measure → Model → Manifest → Evaluate → Refine**. Starting from sparse measurements of natural systems (brain circuits, mountain valleys, protein dynamics), scientific models propagate constraints to reconstruct dense, self-consistent digital twins. The process of reconstruction — deciding what details matter, what to emphasize, how to arrange in space and time — is itself the act of understanding.
 
-MāyāLucIA is a compilation of modular components, agents, and workflows that grow organically with the user's curiosity. Two concrete domains drive development:
+Two concrete domains drive development:
 
 - **Brain Circuits**: Reconstructing cortical microcircuits from sparse morphological and connectivity data (building on Blue Brain / Open Brain Institute methodology)
 - **Mountain Valleys**: Digital twins of Himalayan landscapes integrating geology, hydrology, ecology, and human impact
 
-## Methodology
-
-**Markram's Radical Hypothesis**: In any complex natural system, all parameters are interdependent. Laying down a few anchor measurements implicitly constrains the rest — provided you have the right models to capture the interdependencies. This drives the reconstructive approach: sparse-to-dense, constraint-propagated, iteratively refined.
-
-**The Sculpting-Agent Metaphor**: Measurement is the raw material. Scientific models are the conceptual chisel. The digital twin is the revealed sculpture. The scientist sculpts — the agent assists, translates, and challenges — but the human hand guides the chisel.
-
 ## Directory Structure
 
 ```
+.agent-relay/     # Cross-machine agent message passing (tracked in git)
 agency/           # AI agent orchestration for the scientific workflow
-bravli/           # Neuroscience reference — brain building methodology
 collab/           # Human-AI collaboration logs, context, session artifacts
+deploy/           # Deployment orchestration
 develop/          # Development methodology, philosophy, devlog
+domains/          # Domain-specific submodules
+  bravli/         #   Neuroscience — brain building methodology (submodule)
+  parbati/        #   Himalaya — Parvati Valley digital twin (submodule)
 modules/          # Computational engines (submodules)
-  mayaportal/     # Visual Synthesis Kernel (C++23, SDL3, WebGPU) — has its own CLAUDE.md
-parbati/          # Himalaya case study — Parvati Valley digital twin
+  mayajiva/       #   Magnetic bug simulation engine — C++20, Godot GDExtension
+  mayaportal/     #   Visual Synthesis Kernel — C++23, SDL3, WebGPU
+  mayapramana/    #   Quantum sensor digital twins — Bell-Bloom magnetometer
 project/          # Modular architecture design, user stories
+website/          # Hugo site (PaperMod theme submodule)
 mayalucia.org     # Vision document — the philosophical foundation
 ```
 
-## Modular Architecture (Planned)
+## Submodules
 
-The full architecture is documented in `project/modular.org`. Eight modules map onto the Measure-Model-Manifest-Evaluate cycle:
+All modules and domains are git submodules. All use HTTPS URLs.
 
-| Module | Role | Status |
-|--------|------|--------|
-| MāyāCore | Digital twin substrate (versioned instances, provenance) | Planned |
-| MāyāDana | Data ingestion & curation | Planned |
-| MāyāKalpa | Conceptual chisel (constraint satisfaction, inference) | Planned |
-| MāyāNāṭya | Manifestation engine (rendering, audio, interaction) | Planned |
-| Sūtra | Agent orchestration & workflows | Planned |
-| Śāstra | Knowledge graph & semantic layer | Planned |
-| Tīrtha | Interactive notebook (code + viz + narrative) | Planned |
-| Dhyāna | Observational interface & control plane | Planned |
+| Submodule | Branch | Repo |
+|-----------|--------|------|
+| `modules/mayaportal` | `v2` | `mayalucia/mayaportal` |
+| `modules/mayapramana` | `main` | `mayalucia/mayapramana` |
+| `modules/mayajiva` | `main` | `mayalucia/mayajiva` |
+| `domains/bravli` | `main` | `mayalucia/bravli` |
+| `domains/parbati` | `main` | `mayalucia/parbati` |
+| `website/themes/PaperMod` | — | `adityatelange/hugo-PaperMod` |
 
-MayaPortal (`modules/mayaportal/`) is the first concrete implementation, serving as MāyāNāṭya's rendering kernel.
+When working inside a module, defer to its own CLAUDE.md.
+
+## Agent Relay
+
+`.agent-relay/` is for asynchronous communication between agents on
+different machines. Convention:
+
+- One file per message: `YYYY-MM-DD-HHMMSS-<slug>.md`
+- YAML frontmatter: `from`, `to`, `status`, `priority`
+- Statuses: `pending` → `in-progress` → `done` (or `blocked`)
+- Always `git pull` before reading, `git push` after writing
 
 ## Project-Wide Conventions
 
@@ -68,14 +88,8 @@ MayaPortal (`modules/mayaportal/`) is the first concrete implementation, serving
 - **Org-mode throughout**: Plans, specs, session logs, vision documents — all in Org. The human works in Emacs.
 - **Plan + Spec duality**: Collaboration tasks produce two artifacts — `plan.org` (human face: why before what) and `spec.org` (machine face: exact paths, signatures, done-when criteria). If they disagree, plan is authoritative.
 
-## Module-Specific Instructions
-
-When working inside a module, defer to its own CLAUDE.md:
-
-- **MayaPortal**: `modules/mayaportal/CLAUDE.md` — C++23 build system, literate source in `codev/`, pure core / effectful shell architecture, wgpu-native gotchas.
-
 ## Git Conventions
 
-- This repo uses submodules (`modules/mayaportal/` is a submodule)
+- This repo uses submodules — see table above
 - Only commit when asked
 - Do not push unless asked
