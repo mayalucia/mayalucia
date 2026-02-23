@@ -7,3 +7,9 @@
 [submodule "website/themes/PaperMod"]
 	path = website/themes/PaperMod
 	url = https://github.com/adityatelange/hugo-PaperMod.git
+[submodule "domains/bravli"]
+	path = domains/bravli
+	url = git@github.com:mayalucia/bravli.git
+[submodule "domains/parbati"]
+	path = domains/parbati
+	url = git@github.com:mayalucia/parbati.git
