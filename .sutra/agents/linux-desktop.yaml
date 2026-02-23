@@ -1,0 +1,15 @@
+# Agent identity for linux-desktop machine
+id: linux-desktop
+description: Linux desktop — secondary development machine
+os: Linux
+sync: git
+tools:
+  - claude-code
+  - gptel (Emacs)
+capabilities:
+  - full repo access (parent + all submodules)
+  - python environments
+  - LaTeX compilation (bravli manuscripts)
+notes: |
+  First synced 2026-02-23 after major repo restructure.
+  Has untracked agency/development-guides/gptel-guide/ and experment/.

@@ -1,0 +1,17 @@
+# Agent identity for macbook-dropbox machine
+id: macbook-dropbox
+description: MacBook Pro — primary development machine (Dropbox sync)
+os: macOS
+sync: dropbox + git
+tools:
+  - claude-code
+  - gptel (Emacs)
+capabilities:
+  - full repo access (parent + all submodules)
+  - website build (hugo)
+  - mayaportal build (C++23, SDL3, WebGPU)
+  - mayajiva build (C++20, scons, godot)
+  - python environments
+notes: |
+  SSH key alias: github-visood (not default git@github.com)
+  Submodule URLs must be HTTPS for this machine.

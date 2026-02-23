@@ -1,0 +1,34 @@
+# Workflow: sync-all
+# Synchronize parent repo and all submodules across machines
+name: sync-all
+description: Full sync — pull, update submodules, check relay
+trigger: manual  # or: on-session-start
+
+steps:
+  - id: assess
+    action: shell
+    command: |
+      git status --short
+      git submodule foreach 'echo "== $name ==" && git status --short'
+    expect: clean working tree (or report dirty state)
+
+  - id: pull
+    action: shell
+    depends_on: [assess]
+    condition: assess.output is clean
+    command: |
+      git pull origin main
+      git submodule update --init --recursive
+
+  - id: check-relay
+    action: read-relay
+    depends_on: [pull]
+    filter: status == pending
+    act: true
+
+  - id: report
+    action: relay-message
+    depends_on: [check-relay]
+    template: |
+      Sync complete on {{ agent.id }}.
+      {{ summary of actions taken }}

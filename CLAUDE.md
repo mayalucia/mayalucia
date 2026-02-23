@@ -8,9 +8,11 @@ On session start, orient before acting:
    Report any uncommitted work, detached HEADs, or conflicts.
 2. **Sync** — only `git pull` if the working tree is clean. If dirty,
    tell the human what you found and ask how to proceed.
-3. **Check the relay** — read `.agent-relay/` for messages with
+3. **Check the relay** — read `.sutra/relay/` for messages with
    `status: pending`. Act on them before other work. When done, mark
    them `status: done` and commit.
+4. **Read state** — check `.sutra/state/current.yaml` for project
+   context, active threads, and known issues.
 
 ## Collaborative Stance
 
@@ -40,7 +42,7 @@ Two concrete domains drive development:
 ## Directory Structure
 
 ```
-.agent-relay/     # Cross-machine agent message passing (tracked in git)
+.sutra/           # Agent orchestration protocol (relay, state, workflows)
 agency/           # AI agent orchestration for the scientific workflow
 collab/           # Human-AI collaboration logs, context, session artifacts
 deploy/           # Deployment orchestration
@@ -72,15 +74,18 @@ All modules and domains are git submodules. All use HTTPS URLs.
 
 When working inside a module, defer to its own CLAUDE.md.
 
-## Agent Relay
+## Sūtra Protocol
 
-`.agent-relay/` is for asynchronous communication between agents on
-different machines. Convention:
+`.sutra/` is the agent orchestration directory. Full spec in
+`.sutra/protocol.org`. Quick reference:
 
-- One file per message: `YYYY-MM-DD-HHMMSS-<slug>.md`
-- YAML frontmatter: `from`, `to`, `status`, `priority`
-- Statuses: `pending` → `in-progress` → `done` (or `blocked`)
-- Always `git pull` before reading, `git push` after writing
+- **Relay** (`.sutra/relay/`): async messages between agents.
+  One file per message: `YYYY-MM-DD-HHMMSS-<slug>.md`.
+  YAML frontmatter: `from`, `to`, `status`, `priority`.
+  Statuses: `pending` → `in-progress` → `done` (or `blocked`).
+- **Agents** (`.sutra/agents/`): machine descriptors (`<id>.yaml`).
+- **State** (`.sutra/state/current.yaml`): persistent project context.
+- **Workflows** (`.sutra/workflows/`): declarative DAGs for recurring ops.
 
 ## Project-Wide Conventions
 

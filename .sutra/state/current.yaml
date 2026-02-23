@@ -1,0 +1,35 @@
+# Sūtra persistent state — context that transfers between sessions
+# Updated: 2026-02-23
+
+topology:
+  tag: v0.1-topology
+  description: |
+    First stable topology. 6 submodules, 2 domains, 3 modules,
+    1 theme. All URLs HTTPS. SSH alias github-visood on macbook.
+
+active_threads:
+  - name: sutra-protocol
+    description: Designing and implementing the Sūtra agent orchestration protocol
+    status: in-progress
+    started: 2026-02-23
+
+  - name: bravli-paper
+    description: Commit manuscripts/mb-dynamics/paper.tex in domains/bravli
+    status: pending-linux
+    relay_message: 2026-02-23-210000-commit-bravli-paper.md
+
+  - name: social-media-prep
+    description: Prepare mayalucia content for social media presence
+    status: waiting
+    depends_on: [sutra-protocol, bravli-paper]
+    notes: Discussed but deferred until square-zero sync is complete
+
+known_issues:
+  - modules/mayaportal on branch v2, may detach on submodule update
+  - linux-desktop has untracked dirs (gptel-guide, experment)
+
+conventions_established:
+  - agent-relay message format (YAML frontmatter + markdown body)
+  - session bootstrap: assess → sync (if clean) → check relay
+  - .attic/ for archived artifacts (gitignored)
+  - HTTPS-only submodule URLs
