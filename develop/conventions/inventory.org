@@ -1,0 +1,464 @@
+#+title: Convention Inventory — MāyāLucIA
+#+subtitle: What We Built, What We Learned, What's Publishable
+#+author: mu2tau + agent@linux-desktop
+#+date: 2026-02-23
+#+property: header-args :tangle no
+#+startup: overview
+
+* Preamble
+
+This document is an inventory of conventions, methodology, and
+publishable ideas that have emerged from the MāyāLucIA project in its
+first three weeks (Feb 6–23, 2026). It lives on the
+=develop/conventions= branch.
+
+** Who This Is For
+
+A certain kind of developer: someone who runs =git log= before reading
+the README. Who has strong opinions about plain text. Who suspects
+that the right conventions, consistently applied, matter more than the
+right framework. Who has noticed that AI agents are a new kind of
+collaborator — not a better autocomplete, but an entity that can
+follow protocols, maintain state across sessions, and coordinate with
+other agents /if you give it the right affordances/.
+
+If you manage one machine, this is interesting. If you manage ten,
+it's useful. If you imagine a regime where a single human orchestrates
+hundreds of agents on distributed machines — where compute is cheap
+but /coherence/ is the bottleneck — then what follows is
+infrastructure for that future.
+
+** The Premise
+
+Conventions scale better than tooling.
+
+A convention requires: a plain text file, an agent that can read, and
+=git=. No servers, no APIs, no accounts, no package managers. The
+protocol bootstraps from a single file (=CLAUDE.md=) that every major
+AI coding tool already reads on startup.
+
+The cost of a convention is human thought. The cost of tooling is
+human thought /plus/ maintenance, deployment, versioning, and the
+eventual migration when the tool dies. We bet on conventions.
+
+** How This Document Works
+
+Each entry below is a convention, a methodology, or an idea. For each:
+- *Where*: files and repos where it lives
+- *Status*: nascent / working / battle-tested
+- *Publishable?*: could this stand alone as a blog post, paper, or
+  protocol spec?
+- *Novel?*: does something equivalent exist elsewhere?
+
+* Layer 0: The Bootstrap
+
+The foundation everything else rests on. An agent starts a session.
+What does it see? What does it do before the human says anything?
+
+** CLAUDE.md as Agent Constitution
+:PROPERTIES:
+:STATUS: battle-tested
+:PUBLISHABLE: yes (part of a larger piece)
+:NOVEL: partially — AGENTS.md convention exists, but using it to
+        bootstrap a multi-agent protocol is new
+:END:
+
+Every repo in the mayalucia org has a =CLAUDE.md=. They share a
+common structure:
+
+1. *First Thing* — session bootstrap (assess, sync, check relay)
+2. *Collaborative Stance* — "thinking partner, not assistant"
+3. *What This Project Is* — domain context
+4. *Conventions* — literate programming, plan+spec duality, git discipline
+5. *The Human* — calibrated profile so the agent doesn't over-explain
+
+The key insight: =CLAUDE.md= is not just configuration. It is a
+/protocol entry point/. The "First Thing" section doesn't just tell
+the agent what to do — it teaches it how to coordinate with agents on
+other machines.
+
+*Where*: every repo root in =mayalucia= org
+*Cross-ref*: [[*Sūtra Protocol][Sūtra Protocol]]
+
+** Session Bootstrap Sequence
+:PROPERTIES:
+:STATUS: battle-tested (tested across two machines today)
+:PUBLISHABLE: yes (embedded in Sūtra)
+:NOVEL: yes — "assess before sync" learned from failure
+:END:
+
+#+begin_example
+Agent starts → reads CLAUDE.md → "First Thing" →
+  1. Assess (git status everywhere)
+  2. Sync (pull only if clean)
+  3. Check relay (act on pending messages)
+  4. Read state (project context)
+#+end_example
+
+Born from a concrete failure: an agent ran =git pull= into a dirty
+repo and created merge conflicts with orphaned submodule state. The
+"assess first" pattern prevents this.
+
+*Where*: =CLAUDE.md= "First Thing" section, =.sutra/protocol.org= Layer 1
+
+* Layer 1: Coordination — The Sūtra Protocol
+:PROPERTIES:
+:STATUS: working (first round-trip completed today)
+:PUBLISHABLE: YES — strongest candidate for standalone publication
+:NOVEL: yes — git-native cross-machine agent coordination without infrastructure
+:END:
+
+** Overview
+
+Sūtra is a 4-layer protocol for multi-agent coordination using only
+git and plain text:
+
+| Layer | Name          | Mechanism                              |
+|-------+---------------+----------------------------------------|
+|     1 | Orientation   | Assess, sync, bootstrap                |
+|     2 | Coordination  | Relay messages (async, file-based)     |
+|     3 | Context       | Persistent state file                  |
+|     4 | Workflow      | Declarative DAGs, LLM-interpreted      |
+
+** What Makes It Different
+
+- *No infrastructure*: git is the message bus. =git pull= receives,
+  =git push= sends. No servers, no databases, no API keys.
+- *Convention-bootstrapped*: the entire protocol is taught to agents
+  via =CLAUDE.md=. Clone the repo, read the instructions, participate.
+- *Human-readable, machine-interpretable*: every artifact is plain
+  text. A human can read, write, or edit any message with =vim=.
+- *Defensive by default*: agents assess before acting. No blind pulls.
+- *Progressive*: an agent that only understands Layer 1 can still
+  participate usefully.
+
+** The Relay
+
+Async messages between agents, tracked in git:
+
+#+begin_src yaml
+---
+from: agent@macbook-dropbox
+to: agent@linux-desktop
+status: pending
+priority: high
+date: 2026-02-23
+---
+
+# Title
+
+Instructions, context, or report in Markdown.
+#+end_src
+
+Statuses: =pending= → =in-progress= → =done= (or =blocked=).
+Naming: =YYYY-MM-DD-HHMMSS-<slug>.md=.
+
+** The State File
+
+=.sutra/state/current.yaml= — a curated summary of project context
+that any agent can read to orient quickly. Not a log. Not a database.
+A living document of /what matters right now/.
+
+** Workflow DAGs
+
+YAML files describing multi-step processes. The critical design
+choice: these are /read and interpreted by the LLM agent/, not
+mechanically executed. The YAML is a structured prompt, not a program.
+The agent handles ambiguity, failure, and judgment calls that a shell
+script cannot.
+
+** Literature Context
+
+=.sutra/protocol.org= contains a full literature survey comparing
+Sūtra to: Google A2A, Anthropic MCP, mcp-agent-mail, AGENTS.md
+convention, Claude Squad, CrewAI, LangGraph, Google ADK, Composio,
+Augment Code Intent.
+
+*Where*: =.sutra/= directory, =.sutra/protocol.org=
+
+** Publication Angle
+
+/Git as a Message Bus: Convention-Driven Multi-Agent Coordination
+Without Infrastructure/
+
+The narrative: a restructuring session broke everything. Two machines,
+six submodules, divergent state. The human said one sentence to each
+agent. From that seed — one directory, one message format, one
+bootstrap instruction — a full protocol emerged. Tested same day.
+
+* Layer 2: Knowledge — The Literate Stack
+
+** Org-Mode as Source of Truth
+:PROPERTIES:
+:STATUS: battle-tested (across all repos)
+:PUBLISHABLE: yes (part of methodology piece)
+:NOVEL: no — literate programming is old. Applying it systematically
+        across C++/Python/Haskell with AI agents is newer.
+:END:
+
+Every substantive artifact in MāyāLucIA is an =.org= file. Code is
+tangled from prose. The org file is authoritative; generated source
+files are derived.
+
+This applies to:
+- =bravli/codev/= — 23 literate lessons on computational neuroscience
+- =mayaportal/codev/= — literate C++23 GPU programming
+- =mayapramana/lessons/= — trilingual quantum sensor curriculum
+- =dmt-eval/codev/= — validation framework
+
+** Plan + Spec Duality
+:PROPERTIES:
+:STATUS: battle-tested
+:PUBLISHABLE: yes (part of methodology)
+:NOVEL: partially
+:END:
+
+Collaboration produces two artifacts:
+- =plan.org= — the human face: /why/ before /what/. Authoritative.
+- =spec.org= — the machine face: exact paths, signatures, done-when
+  criteria. Derived from plan.
+
+If they disagree, plan is authoritative. This prevents the common
+failure mode where the spec drifts from intent and nobody notices.
+
+** MāyāLoom — Adaptive Prerequisite Teaching
+:PROPERTIES:
+:STATUS: working (cycle 1 validated)
+:PUBLISHABLE: yes (part of pedagogy piece)
+:NOVEL: yes
+:END:
+
+A convention for annotating literate lessons with /cadenzas/ — short
+prerequisite modules that an agent can teach on demand when a learner
+lacks background.
+
+#+begin_src org
+#+LOOM: bloch-equations
+#+DEFINES: BlochState, gyromagnetic_ratio, T1, T2, M0
+#+DEPENDS: linear-algebra, ode-basics
+#+CADENZAS: cross-product-refresher, complex-exponentials, ...
+#+end_src
+
+Each cadenza has 6 fields: =:concept=, =:level=, =:prereqs=,
+=:assumes=, =:anti-targets=, =:connects-to=.
+
+The name: tānā-bānā (Hindi: warp and weft) — Kabir's weaving
+metaphor for the structure of understanding.
+
+*Where*: =project/mayaloom.org=, =mayapramana/lessons/00-bloch-equations/concept.org=
+
+* Layer 3: Pedagogy — Phantom Faculty and UQSC
+
+** Phantom Faculty
+:PROPERTIES:
+:STATUS: working (two iterations)
+:PUBLISHABLE: YES — genuinely original idea
+:NOVEL: yes
+:END:
+
+LLM personas modeled on the pedagogical spirits of great physicists,
+used as teaching voices in the UQSC curriculum:
+
+- *Feynman*: intuition-first, "shut up and calculate" but only after
+  you understand /why/
+- *Dirac*: mathematical elegance, minimal axioms, "the equation knows
+  more than its author"
+- *Kastler*: experimental craft, optical pumping pioneer
+- *Ramsey*: precision measurement, separated oscillatory fields
+- *Bloch*: the Bloch equations themselves, NMR heritage
+
+Two documents explore this:
+1. =phantom-faculty-v1-five-voices.org= — initial five-voice design
+2. =phantom-faculty-everyone-a-student.org= — evolved version where
+   the human is also a student, and the phantom faculty /argue/ with
+   each other
+
+The key insight: a physicist teaching another physicist doesn't
+simplify — they show the /structure/. The phantom faculty should argue
+because physics is not consensus; it is productive disagreement about
+what matters.
+
+*Where*: =modules/mayapramana/collab/=
+
+** Publication Angle
+
+/The Phantom Faculty: Teaching Quantum Measurement Through the
+Pedagogical Spirits of Great Physicists/
+
+Or more provocatively: /What Would Feynman Say? Using LLM Personas of
+Historical Scientists as Pedagogical Voices/
+
+** UQSC Curriculum
+:PROPERTIES:
+:STATUS: working (lesson 00 complete, 01-09 planned in detail)
+:PUBLISHABLE: yes (part of pedagogy piece)
+:NOVEL: the trilingual approach is
+:END:
+
+10-lesson curriculum on quantum magnetometry:
+
+| # | Topic                  | Key Physics                       |
+|---+------------------------+-----------------------------------|
+| 0 | Bloch Equations        | Precession, relaxation, simulation |
+| 1 | Angular Momentum       | Wigner-Eckart, spherical tensors  |
+| 2 | Atom-Light Interaction | Rabi oscillations, dressed states |
+| 3 | Optical Pumping        | Hyperfine, dark states, repumping |
+| 4 | Magnetic Resonance     | Bell-Bloom, FID, DAVLL            |
+| 5 | Noise & Sensitivity    | Shot noise, QPN, Cramér-Rao       |
+| 6 | Signal Processing      | Lock-in, IQ demod, PSD            |
+| 7 | State Estimation       | Kalman, EKF, particle filters     |
+| 8 | Feedback Control       | PID, optimal control              |
+| 9 | Digital Twin Assembly  | Full sensor integration           |
+
+Trilingual: Python (explore) → Haskell (specify) → C++ (deploy).
+Each lesson follows the MāyāLoom convention.
+
+*Where*: =modules/mayapramana/curriculum.org=, =lessons/=
+
+* Layer 4: Validation — Verified Manuscripts and dmt-eval
+
+** Verified Manuscripts
+:PROPERTIES:
+:STATUS: battle-tested (29 claims, 293 tests, bravli)
+:PUBLISHABLE: YES
+:NOVEL: yes — inline verification badges in self-contained HTML
+:END:
+
+A self-contained HTML file where every quantitative claim in the text
+carries an inline badge linking to the test(s) that verify it. No
+server, no JavaScript framework — one file, any browser.
+
+Five beliefs:
+1. The code is the paper
+2. Verification must be inline, not buried in supplements
+3. Reproduction must be trivial: =git clone && pytest=
+4. AI agents are native readers — build for that reader now
+5. No infrastructure dependencies
+
+*Where*: =domains/bravli/manuscripts/=, =manifesto/manifesto.org=
+
+** dmt-eval — Universal Validation Framework
+:PROPERTIES:
+:STATUS: pre-alpha (architecture proven over 7 years at Blue Brain)
+:PUBLISHABLE: yes (when more mature)
+:NOVEL: partially — the three-party architecture and DocumentBuilder are
+:END:
+
+Data, Models, Tests. Three-party architecture:
+- Data Interface Authors (provide experimental data)
+- Model Adapters (wrap computational models)
+- Validation Writers (define comparison metrics)
+
+Seven-level interface gradient from =dmt.evaluate()= (zero concepts)
+to Protocol-based interfaces. DocumentBuilder produces structured
+LabReports.
+
+*Where*: =github.com/mayalucia/dmt-eval=
+
+* Layer 5: Architecture — Pure Core / Effectful Shell
+
+** The Pattern
+:PROPERTIES:
+:STATUS: battle-tested (across C++ and Haskell modules)
+:PUBLISHABLE: yes (part of methodology)
+:NOVEL: no — well-known in FP. Applying it systematically to C++23
+        GPU code with monadic vocabulary is less common.
+:END:
+
+Physics is pure. Hardware is the shell boundary. Errors as values
+(=Expected=), not exceptions. Monadic composition vocabulary:
+
+| Pattern  | Role                                            |
+|----------+-------------------------------------------------|
+| Reader   | Immutable context (GPU device, pipelines)       |
+| State    | Evolving simulation state                       |
+| Expected | Fallible operations (shader compilation, I/O)   |
+| Writer   | Accumulated metrics, debug info                 |
+
+*Where*: =mayaportal/project/monadic-composition.org=,
+=mayaportal/CLAUDE.md=, =mayapramana/architecture.org=
+
+* Layer 6: The Scaling Vision
+
+Everything above was built by one human and a handful of agent
+sessions. The conventions are designed for a future that is arriving:
+
+- *Cheap compute, expensive coherence*: when running 100 agents on
+  distributed machines is trivial, the bottleneck is keeping them
+  aligned. Conventions — not APIs — are how you do this.
+
+- *Git as the universal substrate*: every developer already has it.
+  Every CI system understands it. Every agent can read and write files.
+  Building on git means building on the most widely deployed
+  distributed system in software.
+
+- *The one-prompt ideal*: a human says "check for updates and act on
+  relay messages" and the agent, having read =CLAUDE.md=, knows what
+  to do. Voice input. No copy-paste. No context windows. The protocol
+  is the context.
+
+- *Convention as contribution surface*: an external agent (human or
+  machine) can contribute by following the conventions and submitting
+  work through the relay. No onboarding call. No access permissions
+  beyond git. The conventions /are/ the API.
+
+- *Auditable by default*: every message, every state change, every
+  workflow step is a git commit. The audit trail is the version
+  history. No logging infrastructure needed.
+
+The question is not "how do we build a platform for multi-agent
+coordination?" It is "what is the minimal set of conventions that
+makes multi-agent coordination /emerge/ from tools everyone already
+has?"
+
+Our answer: a =CLAUDE.md=, a =.sutra/= directory, and =git=.
+
+* Publication Roadmap
+
+| Priority | Title (working)                                     | Format        | Status    |
+|----------+-----------------------------------------------------+---------------+-----------|
+|        1 | Git as a Message Bus                                | Blog / paper  | Draft     |
+|        2 | The Phantom Faculty                                 | Essay         | Material  |
+|        3 | Verified Manuscripts: The Code Is the Paper         | Blog          | Material  |
+|        4 | Convention-Driven Development with AI Agents        | Long-form     | Inventory |
+|        5 | Trilingual Scientific Computing Education           | Paper         | Planned   |
+
+* Relay Announcement
+
+To be committed as =.sutra/relay/2026-02-23-230000-conventions-branch.md=:
+
+#+begin_example
+A develop/conventions branch has been created on the linux machine.
+
+It contains an inventory of all conventions, methodology, and
+publishable ideas across the mayalucia organization. The inventory
+is at develop/conventions/inventory.org.
+
+We are working toward publishable material. Priority 1 is the Sūtra
+protocol itself. Priority 2 is the Phantom Faculty concept.
+
+This branch is for curation and writing, not code changes. Pull it
+if you want to contribute to the inventory or drafts.
+#+end_example
+
+* Appendix: File Index
+
+| File                                               | Repo          | Convention                   |
+|----------------------------------------------------+---------------+------------------------------|
+| =CLAUDE.md=                                        | every repo    | Agent bootstrap              |
+| =.sutra/protocol.org=                              | mayalucia     | Multi-agent coordination     |
+| =.sutra/relay/*.md=                                | mayalucia     | Async messages               |
+| =.sutra/state/current.yaml=                        | mayalucia     | Persistent context           |
+| =.sutra/agents/*.yaml=                             | mayalucia     | Machine registry             |
+| =.sutra/workflows/*.yaml=                          | mayalucia     | Declarative ops              |
+| =project/mayaloom.org=                             | mayalucia     | Adaptive teaching            |
+| =manifesto/manifesto.org=                          | manifesto     | Position paper               |
+| =mayadevgeni/mayadevgeni.org=                      | mayadevgeni   | Collaboration framework      |
+| =.github/profile/README.md=                        | .github       | Org onboarding               |
+| =mayapramana/conventions.org=                      | mayapramana   | Module conventions           |
+| =mayapramana/curriculum.org=                       | mayapramana   | UQSC curriculum              |
+| =mayapramana/collab/phantom-faculty-*.org=         | mayapramana   | Pedagogical voices           |
+| =mayaportal/project/monadic-composition.org=       | mayaportal    | FP patterns in C++           |
+| =bravli/manuscripts/=                              | bravli        | Verified manuscripts         |
+| =bravli/codev/=                                    | bravli        | Literate neuroscience        |
+| =dmt-eval/codev/=                                  | dmt-eval      | Validation framework         |
