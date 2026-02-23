@@ -8,28 +8,38 @@ topology:
     1 theme. All URLs HTTPS. SSH alias github-visood on macbook.
 
 active_threads:
-  - name: sutra-protocol
-    description: Designing and implementing the Sūtra agent orchestration protocol
-    status: in-progress
-    started: 2026-02-23
-
-  - name: bravli-paper
-    description: Commit manuscripts/mb-dynamics/paper.tex in domains/bravli
-    status: pending-linux
-    relay_message: 2026-02-23-210000-commit-bravli-paper.md
-
   - name: social-media-prep
     description: Prepare mayalucia content for social media presence
     status: waiting
-    depends_on: [sutra-protocol, bravli-paper]
     notes: Discussed but deferred until square-zero sync is complete
+
+completed_threads:
+  - name: sutra-protocol
+    description: Sūtra agent orchestration protocol — spec, directory structure, CLAUDE.md bootstrap
+    completed: 2026-02-23
+    artifact: .sutra/protocol.org
+
+  - name: bravli-paper
+    description: Commit manuscripts/mb-dynamics/paper.tex in domains/bravli
+    completed: 2026-02-23
+    done_by: agent@linux-desktop
+
+  - name: repo-restructure
+    description: Full topology sync — mayajiva→submodule, domains/, .attic/, SSH→HTTPS
+    completed: 2026-02-23
+    tag: v0.1-topology
+
+sync_status:
+  macbook-dropbox: clean, up to date (dca948e)
+  linux-desktop: clean, up to date (per relay 2026-02-23-220000)
 
 known_issues:
   - modules/mayaportal on branch v2, may detach on submodule update
   - linux-desktop has untracked dirs (gptel-guide, experment)
 
 conventions_established:
-  - agent-relay message format (YAML frontmatter + markdown body)
-  - session bootstrap: assess → sync (if clean) → check relay
+  - sūtra protocol (.sutra/ directory with relay, agents, state, workflows)
+  - session bootstrap: assess → sync (if clean) → check relay → read state
   - .attic/ for archived artifacts (gitignored)
   - HTTPS-only submodule URLs
+  - agent-relay message format (YAML frontmatter + markdown body)
