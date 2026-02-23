@@ -1,0 +1,134 @@
+#+title: Preserving Collaboration Artifacts
+#+subtitle: When ephemeral work becomes worth keeping
+
+* The Problem
+
+=collab/= directories are gitignored — by design. They're working space:
+drafts, conversation logs, exploratory scripts, raw data. Most of it is
+ephemeral. But occasionally a session produces something worth preserving:
+
+- A survey with curated data (e.g., the OBI GitHub survey)
+- A reusable script that took iteration to get right
+- A report that synthesizes research into actionable structure
+- An instruction file that encodes a repeatable workflow pattern
+
+The question: /how do we selectively preserve without undermining the
+ephemeral convention?/
+
+* Context: What Triggered This
+
+Session =bravli/collab/sessions/obi-projects/= produced:
+- =obi-github-survey.org= — Org-as-instruction-file with embedded report
+- =scripts/obi_survey.py= — reusable stdlib-only Python script
+- =data/*.json= — raw API data (114 repos, 305 issues)
+
+These are too valuable to lose to a =rm -rf collab/= cleanup, but don't
+belong in the committed project tree as-is.
+
+* Discussion Points
+
+** 1. What makes a =collab/= artifact "worth keeping"?
+
+Possible criteria:
+- /Reusable/ — script or pattern that applies beyond this session
+- /Referential/ — data or report that other work will cite
+- /Pedagogical/ — demonstrates a workflow or technique
+- /Irreproducible/ — API data from a specific point in time (repos change)
+
+Counter-criterion:
+- If it can be regenerated cheaply (re-run the script), preservation is
+  less urgent — but the /interpretation/ layered on top may not be cheap.
+
+** 2. Where should preserved artifacts live?
+
+Three candidate patterns:
+
+*** Option A: Archive in place
+Keep =collab/= gitignored but add a =collab/archive/= that IS tracked
+(via =!collab/archive/= in =.gitignore=).
+
+- + Minimal disruption to current conventions
+- + Artifacts stay near their origin session
+- − Mixes tracked and untracked in the same tree (confusing)
+- − =git status= noise
+
+*** Option B: Separate archive tree
+A top-level =archive/= directory (tracked) with subdirectories mirroring
+the session structure:
+: archive/bravli/obi-github-survey/
+:   report.org
+:   obi_survey.py
+:   data/
+
+- + Clean separation: =collab/= is always ephemeral, =archive/= is always persistent
+- + Easy to browse preserved artifacts independently
+- − Another top-level directory to maintain
+- − Breaks links between session conversation and its artifacts
+
+*** Option C: Promote to project tree
+When an artifact is worth keeping, move it to the appropriate place in the
+committed project structure:
+- Survey report → =bravli/surveys/obi-github-2025-07.org=
+- Reusable script → =scripts/github_survey.py= or =bravli/scripts/=
+- Devlog entry references the promoted location
+
+- + Artifacts live where they'll be found and used
+- + No new conventions — just the existing project tree
+- + Forces a curation step (decide what's worth promoting, clean it up)
+- − Loses the session context (the conversation that produced it)
+- − Promotion requires editorial effort
+
+*** Option D: External version control
+Use a separate mechanism entirely:
+- Tarball with date stamp in a known location
+- A =collab-snapshots/= git repo outside the main tree
+- Cloud backup (but loses the local-first principle)
+
+- + Doesn't pollute the main repo at all
+- − Out of sight, out of mind — will be forgotten
+- − Breaks the "everything in one tree" principle
+
+** 3. The devlog as index
+
+Regardless of where artifacts live, the devlog can serve as the /index/:
+- Each significant session gets a Work Log entry
+- The entry links to preserved artifacts (wherever they live)
+- The devlog IS committed, so the /record/ of what was done persists
+  even if the raw artifacts don't
+
+This is already the pattern: the devlog entry for the OBI survey
+references the session directory. If the directory vanishes, the entry
+still documents what was found and what was decided.
+
+** 4. The Org-as-instruction-file pattern
+
+This is a separate but related question. The OBI survey demonstrated:
+- An Org file as /simultaneously/ task spec, execution log, and report
+- An agent (Claude Code) reads it, executes, writes back into it
+
+Should the /pattern itself/ be documented as a reusable template?
+If so, it belongs in the dev process docs (=develop/=), not in =collab/=.
+
+* Recommendation (preliminary)
+
+/Option C (promote to project tree)/ with the devlog as index:
+
+1. When a session produces something worth keeping, promote it:
+   - Clean up the artifact (remove session-specific noise)
+   - Place it in the appropriate project subtree
+   - Add a devlog entry linking to both the promoted artifact and
+     (optionally) the original session path
+2. The =collab/= session remains ephemeral — it can be cleaned up
+   without losing the promoted work.
+3. The devlog entry persists as the /record/ of the session's outcomes.
+
+This avoids new conventions, keeps the repo clean, and forces a useful
+curation step. The cost is editorial effort — but that effort is itself
+valuable (deciding what to keep sharpens judgment about what matters).
+
+* Open Questions
+
+- Should we formalize a "promote" workflow? (e.g., a script or checklist)
+- How do we handle time-sensitive data (the OBI survey will go stale)?
+  Datestamp in filename? Metadata header in the Org file?
+- Should the Org-as-instruction-file pattern get its own template in =develop/=?

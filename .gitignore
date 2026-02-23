@@ -10,9 +10,6 @@
 *.so
 *.dylib
 
-# Generated figures (regenerate from source)
-experiment/magnetic-bugs/fig_*.png
-
 # Agent session transcripts (large, ephemeral)
 .agent-shell/
 
@@ -38,9 +35,7 @@ __pycache__/
 # LaTeX generated (keep .org and .tex, not build output)
 *.pdf
 
-# Submodule working trees managed by their own repos
-modules/mayajiva/.sconsign.dblite
-modules/mayajiva/godot/.godot/
+# Collab local artifacts
 collab/.local/*.pdf
 collab/.local/*.html
 
@@ -52,4 +47,11 @@ deployment/.staging/
 
 # Hugo generated site (rebuild from source)
 website/public/
+website/.hugo_build.lock
+
+# Attic — archived artifacts for later review
+.attic/
+
+# Experiments — local scratch work
+experiments/
 

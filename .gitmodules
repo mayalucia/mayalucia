@@ -9,7 +9,10 @@
 	url = https://github.com/adityatelange/hugo-PaperMod.git
 [submodule "domains/bravli"]
 	path = domains/bravli
-	url = git@github.com:mayalucia/bravli.git
+	url = https://github.com/mayalucia/bravli.git
 [submodule "domains/parbati"]
 	path = domains/parbati
-	url = git@github.com:mayalucia/parbati.git
+	url = https://github.com/mayalucia/parbati.git
+[submodule "modules/mayajiva"]
+	path = modules/mayajiva
+	url = https://github.com/mayalucia/mayajiva.git
