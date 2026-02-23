@@ -4,3 +4,6 @@
 [submodule "modules/mayapramana"]
 	path = modules/mayapramana
 	url = https://github.com/mayalucia/mayapramana.git
+[submodule "website/themes/PaperMod"]
+	path = website/themes/PaperMod
+	url = https://github.com/adityatelange/hugo-PaperMod.git

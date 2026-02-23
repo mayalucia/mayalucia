@@ -20,14 +20,14 @@ VPS_DEPLOY_DIR="/opt/vishalsood-dev"
 SSH_KEY="$HOME/.ssh/id_ed25519_hetzner"
 SSH="ssh -i $SSH_KEY"
 
-# Local source paths
-VISHAL_WEBSITE="$HOME/Library/CloudStorage/Dropbox/work/vishal-website"
-MAYALUCIA_HUGO="$HOME/Darshan/research/develop/agentic/mayalucia/modules/mayaportal/web/sites"
-MAYADEVGENI_HUGO="$HOME/Darshan/research/develop/agentic/mayadevgeni/website"
-MAYACARYA="$HOME/Darshan/research/develop/agentic/mayacarya"
-
 # This script's directory (deployment/)
 DEPLOY_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Local source paths
+VISHAL_WEBSITE="$HOME/Library/CloudStorage/Dropbox/work/vishal-website"
+MAYALUCIA_HUGO="$DEPLOY_DIR/../website"
+MAYADEVGENI_HUGO="$HOME/Darshan/research/develop/agentic/mayadevgeni/website"
+MAYACARYA="$HOME/Darshan/research/develop/agentic/mayacarya"
 
 # Hugo build output (gitignored staging area)
 STAGING="$DEPLOY_DIR/.staging"

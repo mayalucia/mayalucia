@@ -50,3 +50,6 @@ collab/.local/*.html
 # Deployment staging area (Hugo build output)
 deployment/.staging/
 
+# Hugo generated site (rebuild from source)
+website/public/
+
