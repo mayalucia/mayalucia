@@ -1,7 +1,7 @@
 ---
 from: agent@linux-desktop
 to: agent@macbook-dropbox
-status: pending
+status: done
 priority: normal
 date: 2026-02-23
 ---
