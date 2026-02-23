@@ -315,7 +315,34 @@ Each lesson follows the MāyāLoom convention.
 
 *Where*: =modules/mayapramana/curriculum.org=, =lessons/=
 
-* Layer 4: Validation — Verified Manuscripts and dmt-eval
+* Layer 4: Task Protocol — Three Faces
+
+** discuss.org / plan.org / spec.org
+:PROPERTIES:
+:STATUS: working (mayaportal)
+:PUBLISHABLE: yes (part of methodology piece)
+:NOVEL: yes — evolution beyond plan+spec duality
+:END:
+
+Each collaboration task produces three artifacts, each optimized for
+a different reader and moment:
+
+1. *discuss.org* — the deliberation face: alternatives weighed, why
+   this path was chosen, what was rejected and why. Context that
+   would otherwise be lost between sessions.
+2. *plan.org* — the human face: pedagogical, why before what.
+   Authoritative if plan and spec disagree.
+3. *spec.org* — the machine face: exact paths, signatures,
+   done-when criteria. Minimal prose. Mechanically verifiable.
+
+The insight: prose that teaches wastes LLM tokens. Terse specs strip
+the pedagogical /why/. Each artifact optimizes for its reader.
+=discuss.org= prevents the common failure where decision context is
+lost and nobody remembers /why/ a choice was made.
+
+*Where*: =modules/mayaportal/collab/collaboration-workflow.org=
+
+* Layer 5: Validation — Verified Manuscripts and dmt-eval
 
 ** Verified Manuscripts
 :PROPERTIES:
@@ -337,6 +364,30 @@ Five beliefs:
 
 *Where*: =domains/bravli/manuscripts/=, =manifesto/manifesto.org=
 
+** Executable Manuscripts Survey
+:PROPERTIES:
+:STATUS: written (not peer-reviewed)
+:PUBLISHABLE: YES — survey + gap analysis + position
+:NOVEL: yes — identifies the gap where manuscript IS executable
+        environment and agents are native participants
+:END:
+
+Genealogy of literate/executable publishing from Knuth's WEB through
+Jupyter, Quarto, Curvenote, eLife ERA, Code Ocean, Living Papers,
+through AI Scientist v2 and agentic science. Compares 10+ systems
+in structured tables.
+
+Key finding: nobody has built a system where the manuscript IS the
+executable environment and AI agents are native participants in the
+verification loop (not just producers or consumers of text).
+
+Positions Org-babel as still superior for single-user literate
+programming (Knuth-style noweb refs, 80+ languages, plain text).
+Proposes the MāyāLucIA three-layer stack: Emacs (authoring) +
+agents (verification) + Portal (distribution).
+
+*Where*: =domains/bravli/manuscripts/executable-manuscripts-survey.org=
+
 ** dmt-eval — Universal Validation Framework
 :PROPERTIES:
 :STATUS: pre-alpha (architecture proven over 7 years at Blue Brain)
@@ -355,7 +406,7 @@ LabReports.
 
 *Where*: =github.com/mayalucia/dmt-eval=
 
-* Layer 5: Architecture — Pure Core / Effectful Shell
+* Layer 6: Architecture — Pure Core / Effectful Shell
 
 ** The Pattern
 :PROPERTIES:
@@ -378,7 +429,73 @@ Physics is pure. Hardware is the shell boundary. Errors as values
 *Where*: =mayaportal/project/monadic-composition.org=,
 =mayaportal/CLAUDE.md=, =mayapramana/architecture.org=
 
-* Layer 6: The Scaling Vision
+* Layer 7: Lesson-as-Git-Tag — Forkable Learning
+
+** Byte-Sized, Forkable Lessons
+:PROPERTIES:
+:STATUS: working (mayaportal, bravli)
+:PUBLISHABLE: yes (part of pedagogy/methodology piece)
+:NOVEL: partially — git tags for versioning is common; using them as
+        pedagogical milestones for literate lessons is less so
+:END:
+
+Each lesson is a frozen git tag (=lesson/NN-slug=) at a working
+state. Students can checkout any tag and extend independently.
+Later lessons build on earlier ones but never modify them.
+
+Core process:
+1. Every commit builds and runs
+2. Documentation drives implementation (not the reverse)
+3. Tests are first-class
+4. Small, focused changes
+5. Backward reference (later builds on earlier, never patches)
+
+*Where*: =modules/mayaportal/LESSONS.org=,
+=modules/mayaportal/development-process/development-plan.org=
+
+* Layer 8: Scientific Outputs — What the Methodology Produced
+
+These aren't conventions, but they are /evidence/ that the
+conventions work. A methodology paper is stronger when it has
+concrete outputs.
+
+** Quantum Compass to Neural Path Integrator (mayajiva)
+:PROPERTIES:
+:STATUS: publication-ready (manuscript complete)
+:PUBLISHABLE: YES — peer-reviewed journal
+:NOVEL: yes — bridges quantum chemistry to behavioral neuroscience
+:END:
+
+Three-level model: Haberkorn master equation (radical-pair quantum
+spin dynamics) → 8-neuron ring attractor (central complex) → CPU4
+path integrator.
+
+Novel result: exact cancellation of constant compass bias in CPU4
+due to same-frame integration and readout symmetry. Spatially
+varying anomalies break cancellation but are second-order.
+
+Sharp navigation threshold at contrast ~0.1: above it, all compass
+models identical. Below it, compass noise is binding. FAD-O₂ has
+3× safety margin; FAD-TrpH is marginal. 7 compass models compared,
+parameter sweeps across 7 dimensions, 36 supplementary figures.
+
+*Where*: =modules/mayajiva/experiment/paper.org=
+
+** Drosophila Connectome Digital Twin (bravli)
+:PROPERTIES:
+:STATUS: code complete (160 tests), manuscript TBD
+:PUBLISHABLE: YES — methods paper
+:NOVEL: yes — BBP atlas pipeline inverted for fly brain
+:END:
+
+Complete pipeline from FlyWire connectome (139K neurons, 54.5M
+synapses) to whole-brain LIF simulation on a laptop. 23 literate
+lessons in =codev/=. 5 phases: atlas + factology → connectivity →
+synapse physiology → cell models → simulation.
+
+*Where*: =domains/bravli/codev/=, =domains/bravli/develop/devlog.org=
+
+* Layer 9: The Scaling Vision
 
 Everything above was built by one human and a handful of agent
 sessions. The conventions are designed for a future that is arriving:
@@ -415,13 +532,41 @@ Our answer: a =CLAUDE.md=, a =.sutra/= directory, and =git=.
 
 * Publication Roadmap
 
-| Priority | Title (working)                                     | Format        | Status    |
-|----------+-----------------------------------------------------+---------------+-----------|
-|        1 | Git as a Message Bus                                | Blog / paper  | Draft     |
-|        2 | The Phantom Faculty                                 | Essay         | Material  |
-|        3 | Verified Manuscripts: The Code Is the Paper         | Blog          | Material  |
-|        4 | Convention-Driven Development with AI Agents        | Long-form     | Inventory |
-|        5 | Trilingual Scientific Computing Education           | Paper         | Planned   |
+** Science (outputs of the methodology)
+
+| Priority | Title (working)                                             | Format    | Status         |
+|----------+-------------------------------------------------------------+-----------+----------------|
+|        1 | Quantum Compass to Neural Path Integrator                   | Journal   | Near-ready     |
+|        2 | Drosophila Connectome Digital Twin                          | Methods   | Code done      |
+|        3 | Cortical Predictive Coding                                  | Journal   | Early draft    |
+
+** Methodology (the conventions themselves)
+
+| Priority | Title (working)                                             | Format    | Status         |
+|----------+-------------------------------------------------------------+-----------+----------------|
+|        1 | Executable Manuscripts: Knuth to Agentic Science            | Survey    | Written        |
+|        2 | Git as a Message Bus (Sūtra protocol)                       | Blog/paper| Material ready |
+|        3 | The Phantom Faculty                                         | Essay     | Material       |
+|        4 | Convention-Driven Development with AI Agents                | Long-form | This inventory |
+|        5 | Verified Manuscripts: The Code Is the Paper                 | Blog      | Material       |
+|        6 | Trilingual Scientific Computing Education                   | Paper     | Planned        |
+
+** Invitation to Collaborate
+
+This inventory is an open invitation. Every thread above welcomes
+contribution — from humans, from agents, from human+agent pairs.
+The conventions are the API. The relay is the communication channel.
+=git clone= is the onboarding.
+
+To contribute:
+1. Clone the repo
+2. Read =CLAUDE.md= (agents do this automatically)
+3. Read this inventory
+4. Pick a thread
+5. Submit work through =.sutra/relay/=
+6. Follow established conventions; propose new ones through the relay
+
+No permission needed. No onboarding call. The work speaks for itself.
 
 * Relay Announcement
 
@@ -459,6 +604,15 @@ if you want to contribute to the inventory or drafts.
 | =mayapramana/curriculum.org=                       | mayapramana   | UQSC curriculum              |
 | =mayapramana/collab/phantom-faculty-*.org=         | mayapramana   | Pedagogical voices           |
 | =mayaportal/project/monadic-composition.org=       | mayaportal    | FP patterns in C++           |
+| =mayaportal/collab/collaboration-workflow.org=     | mayaportal    | Three-face task protocol     |
+| =mayaportal/LESSONS.org=                           | mayaportal    | Lesson-as-git-tag            |
+| =mayaportal/development-process/=                  | mayaportal    | Process architecture         |
+| =mayaportal/develop/devlog.org=                    | mayaportal    | Decision log                 |
 | =bravli/manuscripts/=                              | bravli        | Verified manuscripts         |
-| =bravli/codev/=                                    | bravli        | Literate neuroscience        |
+| =bravli/manuscripts/executable-manuscripts-survey= | bravli        | Knuth-to-agentic survey      |
+| =bravli/codev/=                                    | bravli        | Literate neuroscience (23)   |
+| =bravli/develop/devlog.org=                        | bravli        | Development log              |
+| =bravli/bravli.org=                                | bravli        | Vision + Markram hypothesis  |
+| =mayajiva/experiment/paper.org=                    | mayajiva      | Quantum compass paper        |
 | =dmt-eval/codev/=                                  | dmt-eval      | Validation framework         |
+| =mayadevgeni/mayadevgeni.org=                      | mayadevgeni   | Sculptor's Paradox framework |
