@@ -109,6 +109,15 @@ Essays, fictions, and parables from the MayaLucIA project --- where the process 
 
 #+include: "../collab/sessions/devprocess/sutra-genesis/dyers-gorge/the-dyers-gorge.org" :lines "5-"
 
+* The Phantom Faculty                                                :writing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: the-phantom-faculty
+:EXPORT_HUGO_SECTION: writing
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Twenty-one cognitive modes for scientific understanding --- from Landau's derivations to Faraday's iron filings to Karpathy's minimal implementations. Not persona-bots but cognitive constitutions, executable by any sufficiently capable attention mechanism."
+:END:
+
+#+include: "../collab/sessions/devprocess/sutra-genesis/phantom-faculty/the-phantom-faculty.org" :lines "5-"
+
 * COMMENT Local Variables
 # Local Variables:
 # eval: (org-hugo-auto-export-mode)

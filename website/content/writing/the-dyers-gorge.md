@@ -17,6 +17,8 @@ The reader should know that Kamala Devi never wrote a word about dyeing. She dye
 
 ## I. The Valley That Swallows Light
 
+![The Parvati Gorge at dawn — the valley that swallows light](/images/writing/dyers-gorge/view-gorge.png)
+
 In the Parvati gorge the light arrives late and departs early. This is not a valley that the sun crosses — it is a valley the sun *peers into*, briefly, at midday, before withdrawing behind one ridge or another. The river runs a thousand metres below the ridgeline, and in winter the gorge floor may see direct sunlight for only four hours. Everything that lives here has learned to work in shade.
 
 Kamala Devi learned colour in this shade. Her mother's mother had kept a dye-house in Tosh, on the south-facing slope above the gorge, where the village catches what sun the valley permits. The dye-house was a single room of stacked slate with a beaten-earth floor and three iron vats set over a hearth that was never allowed to go cold between Baisakhi and the first snow. In summer, when the Gaddi shepherds brought their flocks down from the Chandrakhani pass, the raw wool arrived still warm from the animals, greasy with lanolin, carrying the particular smell of whatever altitude the sheep had grazed. Kamala Devi claimed she could tell, by smell alone, whether wool had come from above or below the treeline.
@@ -34,6 +36,8 @@ Each pigment had its altitude. Each altitude had its season. The dyer's calendar
 ## II. Five Pigments, Five Altitudes
 
 The dyer's year began not in spring but in autumn, when the lichen ripened.
+
+![The treeline transition — birch forest giving way to alpine meadow, where boulders wear coats of Xanthoria](/images/writing/dyers-gorge/view-treeline.png)
 
 Above Pulga, where the birch forest thins to twisted trunks and the first boulders of the moraine appear, the rocks wear coats of *Xanthoria* and *Usnea* — orange and grey-green, the colours of patience. Lichen grows slowly. A palm-sized colony may be older than the village below. Kamala Devi harvested with a flat blade, taking no more than a third of any rock's coat, returning to the same boulders each year the way a farmer returns to the same fields. She had names for the boulders. This was not sentiment. It was inventory management.
 
@@ -93,6 +97,8 @@ This is the paradox of Malana's isolationism: it produced a dependency on the ve
 
 There was one colour that Kamala Devi made that did not come from the valley. Or rather — it came from the valley in a way that the other colours did not. The five pigments — iron, lichen, indigo, walnut, slate — were extractive. You went to the source, you took the material, you processed it. The sixth colour was *emergent*. It appeared only when certain other colours were combined in a specific sequence, on a specific fibre, at a specific temperature, and it could not be produced directly.
 
+![Monsoon twilight in the gorge — the iridescent, shifting light that makes everything ambiguous](/images/writing/dyers-gorge/view-monsoon.png)
+
 She discovered it by accident — or the valley discovered it through her. A batch of lichen-gold yarn, improperly rinsed, was over-dyed with indigo. The expected result was green. What appeared instead was a colour that witnesses describe variously as *the inside of a mussel shell*, *moonlight on wet slate*, *the moment before the monsoon breaks*. It had depth. It shifted. In direct light it appeared silver-green; in shade it turned toward violet; at twilight it seemed to contain its own faint luminescence.
 
 She spent years trying to reproduce it reliably. The key, she eventually determined, was not in the pigments themselves but in their *interaction with the mordant residue* left from the first dyeing. The alum crystals, incompletely rinsed, created nucleation sites where the indigo molecules arranged themselves in a pattern different from their usual disordered deposition. The result was a structural colour — not pigment-colour but *interference-colour*, like a butterfly wing or an oil film on water. The dye molecules, ordered by the residual mordant geometry, split light instead of merely absorbing it.
@@ -116,6 +122,8 @@ The gradient blankets that Kamala Devi made are still used by families in Tosh. 
 And the sixth colour? On the few pieces where it appears — perhaps half a dozen blankets, total — it has not faded at all. The structural colour, being a property of molecular arrangement rather than pigment concentration, does not bleach. It will outlast the cloth itself. When the wool finally disintegrates, the pattern of light-splitting will persist in whatever fragments remain, like a fossil of colour, like the valley's own memory pressed into fibre, waiting to be read by hands that know what they are touching.
 
 The dye-house in Tosh can be found by anyone who climbs above the village and looks for a building with a chimney that has not smoked in eleven years. The iron vats are still inside. The stone mortar sits by the door. The shelves hold jars of pigment that Kamala Devi ground and never used — iron oxide the colour of the first light on Deo Tibba, indigo the colour of the gorge in shadow, lichen the colour of patience.
+
+![Deo Tibba at dawn — the first light catches the summit while the valley below remains in shadow](/images/writing/dyers-gorge/view-deo-tibba-dawn.png)
 
 The valley keeps its colours. It simply waits for someone to come and read them again.
 
