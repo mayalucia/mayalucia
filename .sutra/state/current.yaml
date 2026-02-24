@@ -1,5 +1,5 @@
 # Sūtra persistent state — context that transfers between sessions
-# Updated: 2026-02-23
+# Updated: 2026-02-24
 
 topology:
   tag: v0.1-topology
@@ -8,12 +8,31 @@ topology:
     1 theme. All URLs HTTPS. SSH alias github-visood on macbook.
 
 active_threads:
+  - name: project-browser
+    description: |
+      Interactive constellation browser for MāyāLucIA project ecosystem.
+      Reuses phantom-faculty architecture (CLJS/Reagent/d3-force).
+      Template: website/phantom-faculty/ARCHITECTURE.org
+    status: ready
+    notes: |
+      Architecture documented. Template checklist in ARCHITECTURE.org.
+      Next: write data.cljs for projects, adapt node renderer + info panel.
+
   - name: social-media-prep
     description: Prepare mayalucia content for social media presence
     status: waiting
     notes: Discussed but deferred until square-zero sync is complete
 
 completed_threads:
+  - name: phantom-faculty-constellation
+    description: |
+      Interactive force-directed constellation of 32 phantoms (cognitive modes).
+      Two-column layout, hover interaction, full descriptions from manuscript.
+      CLJS/Reagent/d3-force, embedded in Hugo page.
+    completed: 2026-02-24
+    artifact: website/phantom-faculty/
+    commit: 87b0870
+
   - name: sutra-protocol
     description: Sūtra agent orchestration protocol — spec, directory structure, CLAUDE.md bootstrap
     completed: 2026-02-23
@@ -30,12 +49,13 @@ completed_threads:
     tag: v0.1-topology
 
 sync_status:
-  macbook-dropbox: clean, up to date (dca948e)
-  linux-desktop: clean, up to date (per relay 2026-02-23-220000)
+  macbook-dropbox: clean, up to date (87b0870)
+  linux-desktop: needs pull (last known: dca948e)
 
 known_issues:
   - modules/mayaportal on branch v2, may detach on submodule update
   - linux-desktop has untracked dirs (gptel-guide, experment)
+  - modules/mayapramana has uncommitted change to collab/phantom-faculty-everyone-a-student.org
 
 conventions_established:
   - sūtra protocol (.sutra/ directory with relay, agents, state, workflows)
@@ -43,3 +63,4 @@ conventions_established:
   - .attic/ for archived artifacts (gitignored)
   - HTTPS-only submodule URLs
   - agent-relay message format (YAML frontmatter + markdown body)
+  - constellation browser template (website/phantom-faculty/ARCHITECTURE.org)

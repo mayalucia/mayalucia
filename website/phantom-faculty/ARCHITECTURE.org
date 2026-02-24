@@ -1,0 +1,142 @@
+#+title: Constellation Browser — Architecture Template
+#+author: mu2tau & Claude
+#+date: February 2026
+
+* Overview
+
+The Phantom Faculty constellation browser is a reusable pattern for
+building interactive node-graph browsers embedded in Hugo pages.
+ClojureScript + Reagent + d3-force, compiled via shadow-cljs.
+
+This document captures the architecture so we can instantiate new
+browsers (project explorer, neuron viewer, paper network) from the
+same template.
+
+* Architecture: Pure Core / Effectful Shell
+
+#+begin_example
+data.cljs       (pure)   — entities, edges, colours, derived lookups
+     ↓
+state.cljs      (ratoms) — hover, zoom, positions; query functions
+     ↓
+components/*    (view)   — Reagent, reads ratoms, emits DOM events
+     ↓
+force.cljs      (effect) — d3-force writes positions to ratom on tick
+#+end_example
+
+D3-force does *not* own rendering. It computes positions, writes to a
+ratom, and Reagent re-renders. Simulation and view are decoupled.
+
+* Data Model
+
+Each entity is a map:
+
+| Field        | Type            | Purpose                        |
+|--------------+-----------------+--------------------------------|
+| :id          | string          | Foreign key, unique            |
+| :name        | string          | Display name                   |
+| :cluster     | string          | Group membership               |
+| :glyph       | string (1 char) | Unicode symbol                 |
+| :skill       | string          | Short descriptor               |
+| :one-liner   | string          | Tagline                        |
+| :description | string          | Full prose (optional)          |
+| :weights     | map             | Cluster colour blend weights   |
+| :x, :y       | number          | Hand-tuned position            |
+| :anchor      | string          | Intra-page link target         |
+
+Derived lookups computed once at load:
+- =entities-by-id= — O(1) id → entity
+- =entity-colours= — pre-blended hex per entity
+- =connections= — undirected adjacency set-of-sets
+
+Edges are ={:source id :target id :type keyword}=.
+
+* Reactive State (3 Ratoms)
+
+| Ratom              | Written by        | Read by              |
+|--------------------+-------------------+----------------------|
+| !node-positions    | force tick        | node, edge           |
+| !hover             | mouse enter/leave | node, edge, tooltip  |
+| !zoom-transform    | d3-zoom handler   | zoom-group transform |
+
+All are =defonce= (survive hot-reload). No explicit subscriptions —
+Reagent tracks deref and auto-updates.
+
+* Two-Column Layout
+
+#+begin_src clojure
+[:div {:style {:display "grid"
+               :grid-template-columns "1fr 240px"}}
+  [:div.left  [:svg ...constellation...]]
+  [:div.right [info-panel]]]
+#+end_src
+
+Left column is responsive (1fr). Right column is fixed (240px).
+Info panel shows entity detail on hover, empty state otherwise.
+
+* Interaction Model
+
+Three-state hover:
+
+| State     | Scale | Opacity | Edges   |
+|-----------+-------+---------+---------|
+| Hovered   |  1.5× |    100% | visible |
+| Connected | 1.15× |     90% | visible |
+| Dimmed    | 0.85× |     18% | hidden  |
+| Default   |  1.0× |     85% | hidden  |
+
+Node labels hide when hovered (info panel takes over).
+
+* Hugo Integration
+
+1. Markdown page embeds =<div id="mount-id">= with noscript fallback.
+2. =extend_head.html= conditionally loads JS by page permalink.
+3. Cache-busting: =?v={{ now.Unix }}= on script URL.
+4. =core.cljs/init!= finds the div, removes loading message, mounts Reagent root.
+
+* Build Toolchain
+
+- =shadow-cljs.edn=: target :browser, output to =../static/js/=
+- =deps.edn=: reagent, shadow-cljs, js-interop
+- npm: d3-force, d3-zoom, d3-selection
+- Dev: =shadow-cljs watch app= (hot-reload + nREPL)
+- Release: =shadow-cljs release app= (single minified file)
+
+* Template Checklist for a New Browser
+
+** Data Layer
+- [ ] Define entity vector with :id, :name, :x, :y, + domain fields
+- [ ] Define edges (relationships between entities)
+- [ ] Add derived lookups (by-id, colours, connections)
+
+** State Layer
+- [ ] Keep !node-positions, !hover, !zoom-transform
+- [ ] Add domain-specific ratoms if needed (e.g., !filter)
+
+** Simulation
+- [ ] Decide: pinned layout or free force-directed
+- [ ] Configure forces (link distance, charge, collision)
+
+** Components
+- [ ] Rewrite node renderer for domain entity
+- [ ] Rewrite info panel for domain fields
+- [ ] Keep edge renderer, hover logic, zoom integration
+- [ ] Adjust background and cluster labels
+
+** Hugo
+- [ ] Add mount div to content page
+- [ ] Add conditional script load in extend_head.html
+- [ ] Add CSS in assets/css/extended/
+- [ ] Provide noscript fallback image
+
+* What's Generic vs Specific
+
+| Generic (copy)                       | Specific (adapt)                    |
+|--------------------------------------+-------------------------------------|
+| Ratom + query pattern                | Entity data (phantoms → your domain)|
+| Two-column grid layout               | Node renderer (glyph → your visual) |
+| d3-zoom → ratom integration          | Info panel fields                   |
+| Three-state hover dimming            | Edge semantics and types            |
+| Hugo conditional script loading      | Colour scheme                       |
+| shadow-cljs build config             | SVG viewBox and coordinates         |
+| Component tree structure             | Force simulation parameters         |
