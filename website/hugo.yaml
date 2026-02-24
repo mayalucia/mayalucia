@@ -47,6 +47,10 @@ menu:
       name: Devlog
       url: /devlog/
       weight: 50
+    - identifier: writing
+      name: Writing
+      url: /writing/
+      weight: 55
     - identifier: search
       name: Search
       url: /search/

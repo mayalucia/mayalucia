@@ -1,0 +1,1093 @@
+#+TITLE: Illustrations from the Thread Walker's Notebooks
+#+AUTHOR: mu2tau + Claude
+#+DATE: 2026-02-23
+#+STARTUP: showall
+#+PROPERTY: header-args:python :results file :exports both :eval no-export
+
+* Illustrations from the Thread Walker's Notebooks
+
+These illustrations accompany /The Thread Walkers/, a fiction set in
+the workshops of the Disputed Passes.  They are rendered in the
+manuscript style of the Thread Walker's notebooks — parchment ground,
+sepia ink, the imprecise hand of someone drawing at altitude with cold
+fingers and a pencil that has been sharpened too many times.
+
+The source blocks below are executable.  Each tangles to a Python
+script and produces a PDF.  The drawings encode real knowledge
+— real geography, real weaving drafts, real cord notation — dressed in
+the fiction's clothing.
+
+#+begin_quote
+/The Thread Walker's notebooks have never been located, though
+references to them appear in workshop archives across the network.
+What follows was reconstructed from margin notes in pattern cards,
+from diagrams scratched into loom frames, and from a set of
+illustrations found folded inside a knotted cord in the Nubra Valley
+archive, in a hand that matches no known sample./
+#+end_quote
+
+** Map of the Disputed Passes
+:PROPERTIES:
+:header-args:python: :tangle map-of-passes.py :results file :file map-of-passes.png
+:END:
+
+The map was found folded into quarters, tucked behind the standing
+card in the Spiti workshop.  It shows the principal valleys, the
+passes between them, and the locations of the Guild's workshops — each
+marked with a tiny loom glyph.  The disputed border is indicated by a
+dashed line that fades at both ends, as though the cartographer could
+not decide where the dispute began or ended.
+
+The mountains are drawn in the old survey style: inverted-V marks
+whose size approximates relative elevation.  The rivers are in faded
+indigo.  The compass rose is hand-drawn.  The parchment shows its
+age in ochre blotches and scattered speckle.
+
+#+begin_src python
+"""
+Generate a hand-drawn manuscript-style map of high Himalayan valleys and passes
+for "The Thread Walkers" literary fiction.
+
+Usage:
+    uv run --with matplotlib --with numpy python3 map-of-passes.py
+"""
+
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
+from pathlib import Path as FSPath
+
+# --- Reproducible randomness ---
+rng = np.random.default_rng(42)
+
+# --- Canvas ---
+fig, ax = plt.subplots(figsize=(11, 14), dpi=200)
+fig.patch.set_facecolor("#f4e8c1")
+ax.set_facecolor("#f4e8c1")
+ax.set_xlim(-0.05, 1.05)
+ax.set_ylim(-0.05, 1.35)
+ax.set_aspect("equal")
+ax.axis("off")
+
+
+# --- Helper: hand-drawn line ---
+def hand_line(x0, y0, x1, y1, n=60, jitter=0.003):
+    """Return wobbly line coordinates between two points."""
+    t = np.linspace(0, 1, n)
+    x = x0 + (x1 - x0) * t + rng.normal(0, jitter, n)
+    y = y0 + (y1 - y0) * t + rng.normal(0, jitter, n)
+    return x, y
+
+
+def hand_curve(pts, n=120, jitter=0.002):
+    """Spline-ish hand-drawn curve through a sequence of (x,y) waypoints."""
+    pts = np.array(pts)
+    # linear interpolation along segments, then jitter
+    total = len(pts) - 1
+    per_seg = n // total
+    xs, ys = [], []
+    for i in range(total):
+        t = np.linspace(0, 1, per_seg, endpoint=(i == total - 1))
+        xs.append(pts[i, 0] + (pts[i + 1, 0] - pts[i, 0]) * t)
+        ys.append(pts[i, 1] + (pts[i + 1, 1] - pts[i, 1]) * t)
+    x = np.concatenate(xs) + rng.normal(0, jitter, sum(len(a) for a in xs))
+    y = np.concatenate(ys) + rng.normal(0, jitter, sum(len(a) for a in ys))
+    return x, y
+
+
+# --- Helper: mountain cluster ---
+def draw_mountains(cx, cy, count=5, spread=0.04, size=0.018):
+    """Draw a cluster of inverted-V mountain marks."""
+    for _ in range(count):
+        mx = cx + rng.uniform(-spread, spread)
+        my = cy + rng.uniform(-spread * 0.5, spread * 0.5)
+        s = size * rng.uniform(0.7, 1.3)
+        lx, ly = hand_line(mx - s * 0.6, my, mx, my + s, n=15, jitter=0.001)
+        rx, ry = hand_line(mx, my + s, mx + s * 0.6, my, n=15, jitter=0.001)
+        ax.plot(lx, ly, color="#5c4a2f", lw=0.7, alpha=0.75)
+        ax.plot(rx, ry, color="#5c4a2f", lw=0.7, alpha=0.75)
+
+
+# --- Helper: pass chevron symbol ---
+def draw_pass(cx, cy, label, label_offset=(0, -0.025)):
+    s = 0.008
+    # double chevron
+    for dy in [0, s * 0.6]:
+        ax.plot([cx - s, cx, cx + s], [cy + s + dy, cy + dy, cy + s + dy],
+                color="#5c4a2f", lw=1.2, solid_capstyle="round")
+    ax.text(cx + label_offset[0], cy + label_offset[1], label,
+            fontsize=6.5, fontstyle="italic", fontfamily="serif",
+            color="#5c4a2f", ha="center", va="top")
+
+
+# --- Helper: loom glyph (workshop) ---
+def draw_loom(cx, cy, label, label_offset=(0.025, 0)):
+    """Two vertical posts with three horizontal bars — a tiny loom."""
+    h = 0.016
+    w = 0.008
+    # posts
+    for dx in [-w / 2, w / 2]:
+        lx, ly = hand_line(cx + dx, cy, cx + dx, cy + h, n=12, jitter=0.0005)
+        ax.plot(lx, ly, color="#5c4a2f", lw=1.0)
+    # bars
+    for frac in [0.25, 0.5, 0.75]:
+        bx, by = hand_line(cx - w / 2, cy + h * frac,
+                           cx + w / 2, cy + h * frac, n=10, jitter=0.0004)
+        ax.plot(bx, by, color="#5c4a2f", lw=0.8)
+    ax.text(cx + label_offset[0], cy + label_offset[1], label,
+            fontsize=5.5, fontfamily="serif", color="#5c4a2f",
+            ha="left", va="center")
+
+
+# --- Elevation shading (subtle ochre blobs) ---
+for _ in range(80):
+    ex = rng.uniform(0.05, 0.95)
+    ey = rng.uniform(0.1, 1.2)
+    er = rng.uniform(0.03, 0.09)
+    circle = plt.Circle((ex, ey), er, color="#c9a84c", alpha=rng.uniform(0.03, 0.08))
+    ax.add_patch(circle)
+
+
+# --- Mountain ranges ---
+# Great Himalaya spine
+for cx in np.linspace(0.1, 0.9, 12):
+    draw_mountains(cx, 0.55 + 0.08 * np.sin(cx * 5), count=rng.integers(3, 7),
+                   spread=0.03, size=0.02)
+# Pir Panjal / southern range
+for cx in np.linspace(0.05, 0.5, 6):
+    draw_mountains(cx, 0.35 + 0.04 * np.sin(cx * 7), count=rng.integers(2, 5),
+                   spread=0.025, size=0.015)
+# Karakoram (northern, fading)
+for cx in np.linspace(0.3, 0.95, 8):
+    draw_mountains(cx, 0.95 + 0.06 * np.sin(cx * 4), count=rng.integers(3, 6),
+                   spread=0.035, size=0.022)
+# Zanskar range (middle)
+for cx in np.linspace(0.15, 0.65, 5):
+    draw_mountains(cx, 0.72 + 0.03 * np.sin(cx * 6), count=rng.integers(2, 4),
+                   spread=0.02, size=0.016)
+
+
+# --- Rivers (faded indigo) ---
+river_color = "#3b5998"
+river_alpha = 0.45
+river_lw = 1.1
+
+# Chandra river — through Lahaul
+rx, ry = hand_curve([(0.05, 0.48), (0.15, 0.45), (0.25, 0.43),
+                      (0.32, 0.44), (0.38, 0.48)], jitter=0.003)
+ax.plot(rx, ry, color=river_color, lw=river_lw, alpha=river_alpha)
+ax.text(0.18, 0.44, "Chandra", fontsize=5, fontfamily="serif",
+        fontstyle="italic", color=river_color, alpha=0.6, rotation=-5)
+
+# Bhaga river
+rx, ry = hand_curve([(0.15, 0.55), (0.22, 0.50), (0.30, 0.47),
+                      (0.32, 0.44)], jitter=0.003)
+ax.plot(rx, ry, color=river_color, lw=river_lw, alpha=river_alpha)
+ax.text(0.17, 0.52, "Bhaga", fontsize=5, fontfamily="serif",
+        fontstyle="italic", color=river_color, alpha=0.6, rotation=-25)
+
+# Spiti river
+rx, ry = hand_curve([(0.45, 0.62), (0.50, 0.55), (0.55, 0.48),
+                      (0.58, 0.40), (0.55, 0.32)], jitter=0.003)
+ax.plot(rx, ry, color=river_color, lw=river_lw, alpha=river_alpha)
+ax.text(0.53, 0.50, "Spiti", fontsize=5, fontfamily="serif",
+        fontstyle="italic", color=river_color, alpha=0.6, rotation=-60)
+
+# Shyok river (far north)
+rx, ry = hand_curve([(0.55, 1.10), (0.62, 1.02), (0.70, 0.95),
+                      (0.78, 0.90), (0.88, 0.88)], jitter=0.004)
+ax.plot(rx, ry, color=river_color, lw=1.3, alpha=river_alpha * 0.8)
+ax.text(0.68, 0.99, "Shyok", fontsize=5, fontfamily="serif",
+        fontstyle="italic", color=river_color, alpha=0.5, rotation=-18)
+
+
+# --- Valleys (labels) ---
+valley_style = dict(fontsize=9, fontfamily="serif", color="#5c4a2f",
+                    fontweight="bold", ha="center")
+ax.text(0.25, 0.40, "L A H A U L", **valley_style)
+ax.text(0.28, 0.375, "(Keylong)", fontsize=6, fontfamily="serif",
+        fontstyle="italic", color="#7a6a4f", ha="center")
+
+ax.text(0.52, 0.42, "S P I T I", **valley_style)
+ax.text(0.52, 0.395, "(Kaza)", fontsize=6, fontfamily="serif",
+        fontstyle="italic", color="#7a6a4f", ha="center")
+
+ax.text(0.72, 0.35, "K I N N A U R", **valley_style)
+
+ax.text(0.65, 0.85, "N U B R A", **valley_style)
+ax.text(0.65, 0.825, "V A L L E Y", fontsize=7, fontfamily="serif",
+        color="#7a6a4f", ha="center")
+
+# "Beyond the Karakoram" — fading
+ax.text(0.55, 1.18, "beyond  the  Karakoram . . .",
+        fontsize=8, fontfamily="serif", fontstyle="italic",
+        color="#7a6a4f", alpha=0.4, ha="center")
+
+
+# --- Passes ---
+draw_pass(0.18, 0.50, "Rohtang La")
+draw_pass(0.40, 0.52, "Kunzum La")
+draw_pass(0.30, 0.62, "Baralacha La")
+draw_pass(0.58, 0.78, "Khardung La", label_offset=(0.04, 0.005))
+draw_pass(0.70, 1.05, "Karakoram\nPass", label_offset=(0.0, -0.03))
+
+
+# --- Workshops (loom glyphs) ---
+draw_loom(0.22, 0.42, "weaving house", label_offset=(0.018, 0.008))
+draw_loom(0.50, 0.44, "thread-hall", label_offset=(0.018, 0.008))
+draw_loom(0.62, 0.87, "the high loom", label_offset=(0.018, 0.008))
+draw_loom(0.35, 0.58, "dye-works", label_offset=(0.018, 0.008))
+
+
+# --- Disputed borders (dashed, fading) ---
+border_pts = [(0.02, 0.90), (0.15, 0.88), (0.30, 0.92), (0.45, 0.98),
+              (0.60, 1.05), (0.75, 1.10), (0.90, 1.12), (1.02, 1.15)]
+bx, by = hand_curve(border_pts, n=200, jitter=0.005)
+# fade alpha along the line
+n_pts = len(bx)
+seg_len = 4
+for i in range(0, n_pts - seg_len, seg_len):
+    fade = 0.35 * (1.0 - 0.4 * abs(i / n_pts - 0.5))
+    ax.plot(bx[i:i + seg_len + 1], by[i:i + seg_len + 1],
+            color="#5c4a2f", lw=0.8, alpha=fade,
+            linestyle=(0, (3, 4)), solid_capstyle="round")
+
+ax.text(0.45, 1.01, "— disputed —", fontsize=5, fontfamily="serif",
+        fontstyle="italic", color="#7a6a4f", alpha=0.45, ha="center",
+        rotation=8)
+
+
+# --- Compass rose (upper-left) ---
+cx_c, cy_c = 0.10, 1.15
+arm = 0.035
+# N-S
+for dx, dy, label in [(0, arm, "N"), (0, -arm, "S"),
+                       (arm, 0, "E"), (-arm, 0, "W")]:
+    lx, ly = hand_line(cx_c, cy_c, cx_c + dx, cy_c + dy, n=15, jitter=0.001)
+    ax.plot(lx, ly, color="#5c4a2f", lw=1.0, alpha=0.7)
+    ax.text(cx_c + dx * 1.5, cy_c + dy * 1.5, label,
+            fontsize=6, fontfamily="serif", fontweight="bold",
+            color="#5c4a2f", ha="center", va="center", alpha=0.7)
+# diamond at center
+diamond_x = [cx_c, cx_c + 0.006, cx_c, cx_c - 0.006, cx_c]
+diamond_y = [cy_c + 0.008, cy_c, cy_c - 0.008, cy_c, cy_c + 0.008]
+ax.fill(diamond_x, diamond_y, color="#5c4a2f", alpha=0.5)
+
+
+# --- Title cartouche ---
+# Decorative border
+cart_x, cart_y = 0.50, 1.28
+cart_w, cart_h = 0.34, 0.055
+rect = FancyBboxPatch((cart_x - cart_w, cart_y - cart_h), cart_w * 2, cart_h * 2,
+                       boxstyle="round,pad=0.008", linewidth=1.0,
+                       edgecolor="#5c4a2f", facecolor="#f4e8c1", alpha=0.9)
+ax.add_patch(rect)
+
+ax.text(cart_x, cart_y + 0.015, "The Disputed Passes",
+        fontsize=13, fontfamily="serif", fontweight="bold",
+        color="#3d2e1a", ha="center", va="center")
+ax.text(cart_x, cart_y - 0.022, "from the Thread Walker\u2019s notebooks",
+        fontsize=7.5, fontfamily="serif", fontstyle="italic",
+        color="#7a6a4f", ha="center", va="center")
+
+
+# --- Edge vignette (radial fade) ---
+# Overlay transparent-to-background rectangles around edges
+for side_alpha in np.linspace(0.0, 0.55, 20):
+    margin = side_alpha * 0.06
+    edge_rect = plt.Rectangle((-0.05 + margin, -0.05 + margin),
+                               1.10 - 2 * margin, 1.40 - 2 * margin,
+                               fill=False, edgecolor="#f4e8c1",
+                               lw=6, alpha=side_alpha * 0.8)
+    ax.add_patch(edge_rect)
+
+# Stronger fade at very edges
+for thickness, alpha in [(0.04, 0.7), (0.03, 0.5), (0.02, 0.3)]:
+    for (x, y, w, h) in [
+        (-0.05, -0.05, 1.10, thickness),           # bottom
+        (-0.05, 1.35 - thickness, 1.10, thickness), # top
+        (-0.05, -0.05, thickness, 1.40),            # left
+        (1.05 - thickness, -0.05, thickness, 1.40), # right
+    ]:
+        ax.add_patch(plt.Rectangle((x, y), w, h,
+                     facecolor="#f4e8c1", alpha=alpha, edgecolor="none"))
+
+
+# --- Speckle / aging texture ---
+n_specks = 600
+sx = rng.uniform(-0.02, 1.02, n_specks)
+sy = rng.uniform(-0.02, 1.32, n_specks)
+ss = rng.uniform(0.2, 1.5, n_specks)
+sa = rng.uniform(0.02, 0.10, n_specks)
+ax.scatter(sx, sy, s=ss, c="#8b7355", alpha=sa, edgecolors="none")
+
+
+# --- Save ---
+out_dir = FSPath(__file__).parent
+for ext in ("pdf", "png"):
+    out_path = out_dir / f"map-of-passes.{ext}"
+    fig.savefig(out_path, bbox_inches="tight", facecolor=fig.get_facecolor(),
+                pad_inches=0.15, dpi=200)
+    print(f"Saved: {out_path}")
+plt.close()
+#+end_src
+
+#+RESULTS:
+[[file:map-of-passes.png]]
+
+** Weaving Drafts: River Braid
+:PROPERTIES:
+:header-args:python: :tangle generate_drafts.py :results file :file draft-river-braid.png
+:END:
+
+*** On reading a draft
+
+A weaving draft is a score.  Like a musical score it records, in a
+notation of extreme compression, the instructions for producing a
+physical artifact.  Unlike a musical score it is read in four
+directions simultaneously.
+
+The draft is divided into four quadrants:
+
+- *Threading* (top right): which warp thread passes through which
+  heddle.  Read right to left — the first warp end is at the right
+  edge of the cloth.  Each column is one warp end; the row it occupies
+  indicates its shaft.
+- *Tie-up* (top left): which shafts rise when each treadle is pressed.
+  This is the mechanical linkage of the loom.  A filled square means
+  "this treadle lifts this shaft."
+- *Treadling* (bottom left): the sequence of treadle presses — one per
+  row of weft (one /pick/).  Read top to bottom.
+- *Drawdown* (bottom right): the resulting cloth, computed from the
+  other three.  A filled square means the warp thread floats over the
+  weft at that intersection — what the eye sees as the warp colour.
+  An empty square means the weft is visible.
+
+*** The disputed pattern
+
+The drafts below show the River Braid in both variants — the
+Lahaul workshop's point twill and the distant workshop's straight
+twill.  Same name.  Same threading (a 1-2-3-4-3-2 repeat, called
+/pointed/ or /return/ threading).  Same tie-up (six treadles, each
+raising two of four shafts).  Different treadling — and therefore
+different cloth.
+
+The point twill reverses in both threading /and/ treadling, producing
+the diamond / lozenge / bird's-eye pattern that looks, to a weaver
+in the Lahaul valley, like braided water.  The straight twill
+reverses only in the threading, producing a zigzag chevron — a
+different fabric from the same named pattern.
+
+This is the disorder the Lahaul weaver found.  Both cords said
+"River Braid."  Both produced cloth.  The cloth was not the same.
+
+#+begin_src python
+#!/usr/bin/env python3
+"""
+Generate weaving draft diagrams for "River Braid" — a point twill pattern
+on four shafts, rendered in two variants:
+
+  1. Point twill treadling  -> diamond / lozenge cloth  (Lahaul)
+  2. Straight twill treadling -> diagonal twill cloth    (Leh variant)
+
+Both share the same pointed threading (1-2-3-4-3-2 repeat) and
+the same tie-up, but produce radically different cloth.
+
+The drafts follow standard weaving-draft convention:
+  - Threading: top-right quadrant  (shafts x warp ends)
+  - Tie-up:    top-left quadrant   (shafts x treadles)
+  - Treadling: bottom-left quadrant (picks x treadles)
+  - Drawdown:  bottom-right quadrant (picks x warp ends, computed)
+
+Warp-dominant squares (raised shaft -> warp floats over weft) are filled.
+Weft-dominant squares are left in the ground colour.
+
+Run:
+    uv run --with matplotlib --with numpy python3 generate_drafts.py
+"""
+
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from pathlib import Path
+
+# ---------------------------------------------------------------------------
+# Colour palette — manuscript / parchment aesthetic
+# ---------------------------------------------------------------------------
+BG         = "#f4e8c1"   # warm parchment
+INDIGO     = "#2c3e6b"   # dark indigo — warp-dominant face
+GRID_LINE  = "#c4a96a"   # light sepia grid lines
+TEXT_DARK  = "#3b2a1a"   # near-black sepia for titles
+TEXT_MID   = "#6b5032"   # mid sepia for labels
+TEXT_LIGHT = "#8a7050"   # light sepia for annotations
+
+# ---------------------------------------------------------------------------
+# Weaving structure definitions
+# ---------------------------------------------------------------------------
+
+NUM_SHAFTS   = 4
+NUM_TREADLES = 6
+
+# Threading: pointed / return twill on 4 shafts.
+# One repeat unit: 1,2,3,4,3,2  (6 ends).
+# Internally 0-indexed: shaft 0 = weaver's shaft 1.
+THREADING_UNIT = [0, 1, 2, 3, 2, 1]
+
+# Tie-up: which shafts are RAISED for each treadle.
+# tieup[treadle_index, shaft_index] = True  =>  shaft is raised.
+#
+# For a 2/2 balanced twill the convention is to raise exactly 2 of 4
+# shafts per treadle.  With 4 shafts there are C(4,2) = 6 such pairs,
+# giving us 6 distinct treadles — exactly the number needed.
+#
+#   Treadle 1  (idx 0):  shafts 1,2   — the "adjacent" pairs that
+#   Treadle 2  (idx 1):  shafts 2,3     walk around the shaft order
+#   Treadle 3  (idx 2):  shafts 3,4     clockwise
+#   Treadle 4  (idx 3):  shafts 1,4
+#   Treadle 5  (idx 4):  shafts 1,3   — the "skip" pairs
+#   Treadle 6  (idx 5):  shafts 2,4
+#
+# For point twill treadling we use treadles 1-4; treadles 5-6 are
+# available on the loom but used only in tabby / other structures.
+
+TIEUP = np.zeros((NUM_TREADLES, NUM_SHAFTS), dtype=bool)
+TIEUP[0, [0, 1]] = True   # treadle 1: shafts 1,2
+TIEUP[1, [1, 2]] = True   # treadle 2: shafts 2,3
+TIEUP[2, [2, 3]] = True   # treadle 3: shafts 3,4
+TIEUP[3, [0, 3]] = True   # treadle 4: shafts 1,4
+TIEUP[4, [0, 2]] = True   # treadle 5: shafts 1,3
+TIEUP[5, [1, 3]] = True   # treadle 6: shafts 2,4
+
+
+# ---------------------------------------------------------------------------
+# Construction helpers
+# ---------------------------------------------------------------------------
+
+def build_threading(n_warp: int) -> np.ndarray:
+    """Return shape (n_warp,), values in 0..3. Point-twill repeat."""
+    reps = (n_warp // len(THREADING_UNIT)) + 1
+    return np.array((THREADING_UNIT * reps)[:n_warp], dtype=int)
+
+
+def threading_to_grid(threading: np.ndarray) -> np.ndarray:
+    """
+    Shape (NUM_SHAFTS, n_warp).  grid[shaft, col] = True if that end
+    is threaded on that shaft.
+    """
+    n = len(threading)
+    grid = np.zeros((NUM_SHAFTS, n), dtype=bool)
+    grid[threading, np.arange(n)] = True
+    return grid
+
+
+def treadling_to_grid(treadling_seq: list, n_picks: int) -> np.ndarray:
+    """
+    Shape (n_picks, NUM_TREADLES). grid[row, treadle] = True.
+    """
+    grid = np.zeros((n_picks, NUM_TREADLES), dtype=bool)
+    seq = np.array(treadling_seq)
+    full = np.tile(seq, (n_picks // len(seq)) + 1)[:n_picks]
+    grid[np.arange(n_picks), full] = True
+    return grid
+
+
+def compute_drawdown(threading: np.ndarray, tieup: np.ndarray,
+                     treadling_seq: list, n_picks: int) -> np.ndarray:
+    """
+    Shape (n_picks, n_warp).  True = warp on top (warp-dominant).
+
+    For each pick, the pressed treadle determines which shafts rise
+    (via tie-up).  Each warp end that sits on a raised shaft floats
+    over the weft.
+    """
+    n_warp = len(threading)
+    seq = np.array(treadling_seq)
+    full_seq = np.tile(seq, (n_picks // len(seq)) + 1)[:n_picks]
+
+    drawdown = np.zeros((n_picks, n_warp), dtype=bool)
+    for row in range(n_picks):
+        raised = tieup[full_seq[row]]          # (NUM_SHAFTS,) bool
+        drawdown[row] = raised[threading]       # broadcast via fancy index
+    return drawdown
+
+
+# ---------------------------------------------------------------------------
+# Drawing
+# ---------------------------------------------------------------------------
+
+def draw_grid_cells(ax, grid, ox, oy, cell,
+                    fill=INDIGO, empty=BG, edge=GRID_LINE, lw=0.5):
+    """
+    Render a boolean grid as filled/empty rectangles.
+
+    (ox, oy) is the bottom-left corner in data coords.
+    Row 0 of *grid* appears at the TOP of the rendered block
+    (standard draft convention: first pick at top of drawdown /
+    treadling; highest shaft at top of threading / tie-up after
+    the caller flips the axis).
+    """
+    nr, nc = grid.shape
+    for r in range(nr):
+        for c in range(nc):
+            x = ox + c * cell
+            y = oy + (nr - 1 - r) * cell      # row 0 -> top
+            colour = fill if grid[r, c] else empty
+            ax.add_patch(mpatches.Rectangle(
+                (x, y), cell, cell,
+                facecolor=colour, edgecolor=edge, linewidth=lw))
+
+
+def generate_draft(
+    title: str,
+    subtitle: str,
+    treadling_seq: list,
+    n_warp: int,
+    n_picks: int,
+    output_path: str,
+    annotation: str = ""
+):
+    """Produce a complete four-quadrant weaving draft and save to PDF."""
+
+    # --- build the four grids ---
+    threading     = build_threading(n_warp)
+    threading_g   = threading_to_grid(threading)        # (4, n_warp)
+    treadling_g   = treadling_to_grid(treadling_seq, n_picks)  # (n_picks, 6)
+    drawdown      = compute_drawdown(threading, TIEUP, treadling_seq, n_picks)
+
+    # For display, the threading and tie-up grids need shaft 1 at the
+    # BOTTOM and shaft 4 at the TOP.  Our raw grids have shaft 0 (=1)
+    # in row 0.  draw_grid_cells puts row 0 at the top, so we flip
+    # the shaft axis before passing:
+    threading_disp = threading_g[::-1]                  # shaft 4 in row 0
+    tieup_disp     = TIEUP.T[::-1]                      # (shafts, treadles), flipped
+
+    # --- layout geometry ---
+    cell = 0.22
+    gap  = 0.45          # space between quadrants (for labels)
+
+    tu_w = NUM_TREADLES * cell   # tie-up width
+    tu_h = NUM_SHAFTS   * cell
+    th_w = n_warp  * cell        # threading width
+    th_h = NUM_SHAFTS * cell
+    tr_w = NUM_TREADLES * cell   # treadling width
+    tr_h = n_picks * cell
+    dd_w = n_warp  * cell        # drawdown width
+    dd_h = n_picks * cell
+
+    # quadrant origins (bottom-left corners)
+    tu_ox, tu_oy = 0,             tr_h + gap
+    th_ox, th_oy = tu_w + gap,    tr_h + gap
+    tr_ox, tr_oy = 0,             0
+    dd_ox, dd_oy = tu_w + gap,    0
+
+    content_w = tu_w + gap + dd_w
+    content_h = tr_h + gap + th_h
+
+    ml, mr, mt, mb = 2.0, 0.8, 1.8, 1.4   # margins
+    fig_w = ml + content_w + mr
+    fig_h = mb + content_h + mt
+
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+    fig.patch.set_facecolor(BG)
+    ax.set_facecolor(BG)
+    ax.set_xlim(-0.2, fig_w + 0.2)
+    ax.set_ylim(-0.2, fig_h + 0.2)
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    # offset for margins
+    ox, oy = ml, mb
+
+    # --- render quadrants ---
+    draw_grid_cells(ax, tieup_disp,     ox + tu_ox, oy + tu_oy, cell)
+    draw_grid_cells(ax, threading_disp, ox + th_ox, oy + th_oy, cell)
+    draw_grid_cells(ax, treadling_g,    ox + tr_ox, oy + tr_oy, cell)
+    draw_grid_cells(ax, drawdown,       ox + dd_ox, oy + dd_oy, cell)
+
+    # --- shaft labels (between tie-up and threading, in the gap) ---
+    for s in range(NUM_SHAFTS):
+        lx = ox + tu_ox + tu_w + gap * 0.5
+        ly = oy + tu_oy + s * cell + cell * 0.5
+        ax.text(lx, ly, str(s + 1),
+                ha='center', va='center', fontsize=7,
+                color=TEXT_MID, fontfamily='serif')
+
+    # --- treadle labels (between tie-up and treadling, in the gap) ---
+    for t in range(NUM_TREADLES):
+        lx = ox + tu_ox + t * cell + cell * 0.5
+        ly = oy + tu_oy - gap * 0.45
+        ax.text(lx, ly, str(t + 1),
+                ha='center', va='center', fontsize=6,
+                color=TEXT_MID, fontfamily='serif')
+
+    # --- quadrant labels ---
+    label_kw = dict(ha='center', va='center', fontsize=10,
+                    color=TEXT_MID, fontfamily='serif', fontstyle='italic')
+
+    ax.text(ox + tu_ox + tu_w * 0.5,
+            oy + tu_oy + tu_h + 0.28,
+            "Tie-up", **label_kw)
+
+    ax.text(ox + th_ox + th_w * 0.5,
+            oy + th_oy + th_h + 0.28,
+            "Threading", **label_kw)
+
+    ax.text(ox + tr_ox - 0.35,
+            oy + tr_oy + tr_h * 0.5,
+            "Treadling", rotation=90, **label_kw)
+
+    ax.text(ox + dd_ox + dd_w * 0.5,
+            oy + dd_oy - 0.35,
+            "Drawdown", **label_kw)
+
+    # --- title / subtitle ---
+    ax.text(fig_w * 0.5, fig_h - 0.35,
+            title,
+            ha='center', va='top', fontsize=14,
+            color=TEXT_DARK, fontfamily='serif', fontweight='bold')
+
+    ax.text(fig_w * 0.5, fig_h - 0.78,
+            subtitle,
+            ha='center', va='top', fontsize=9,
+            color=TEXT_MID, fontfamily='serif', fontstyle='italic')
+
+    # --- threading repeat annotation ---
+    repeat_str = "-".join(str(s + 1) for s in THREADING_UNIT)
+    ax.text(ox + th_ox + th_w * 0.5,
+            oy + th_oy - gap * 0.75,
+            f"threading repeat: {repeat_str}",
+            ha='center', va='top', fontsize=6,
+            color=TEXT_LIGHT, fontfamily='serif')
+
+    # --- treadling sequence annotation ---
+    tread_str = "-".join(str(t + 1) for t in treadling_seq)
+    ax.text(ox + tr_ox + tr_w + 0.15,
+            oy + tr_oy + tr_h + 0.15,
+            f"treadling: {tread_str}",
+            ha='left', va='bottom', fontsize=5.5,
+            color=TEXT_LIGHT, fontfamily='serif', fontstyle='italic')
+
+    # --- bottom annotation ---
+    if annotation:
+        ax.text(fig_w * 0.5, 0.35,
+                annotation,
+                ha='center', va='bottom', fontsize=7,
+                color=TEXT_LIGHT, fontfamily='serif', fontstyle='italic')
+
+    # --- legend ---
+    ax.add_patch(mpatches.Rectangle(
+        (ox + dd_ox + dd_w - 1.6, oy + dd_oy - 0.85),
+        cell, cell, facecolor=INDIGO, edgecolor=GRID_LINE, lw=0.5))
+    ax.text(ox + dd_ox + dd_w - 1.6 + cell + 0.08,
+            oy + dd_oy - 0.85 + cell * 0.5,
+            "warp over weft", ha='left', va='center',
+            fontsize=5.5, color=TEXT_LIGHT, fontfamily='serif')
+
+    ax.add_patch(mpatches.Rectangle(
+        (ox + dd_ox + dd_w - 0.55, oy + dd_oy - 0.85),
+        cell, cell, facecolor=BG, edgecolor=GRID_LINE, lw=0.5))
+    ax.text(ox + dd_ox + dd_w - 0.55 + cell + 0.08,
+            oy + dd_oy - 0.85 + cell * 0.5,
+            "weft over warp", ha='left', va='center',
+            fontsize=5.5, color=TEXT_LIGHT, fontfamily='serif')
+
+    # --- save ---
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    for ext in ("pdf", "png"):
+        p = Path(output_path).with_suffix(f".{ext}")
+        fig.savefig(p, bbox_inches='tight', dpi=200,
+                    facecolor=fig.get_facecolor(), edgecolor='none')
+        print(f"Saved: {p}")
+    plt.close(fig)
+
+
+# ===========================================================================
+# Generate both variants
+# ===========================================================================
+
+OUT_DIR = Path(__file__).parent
+
+N_WARP = 30   # 5 full repeats of the 6-end threading unit
+N_PICKS = 30  # 5 full repeats of the 6-pick point treadling
+
+# --- Variant 1: Point twill treadling -> diamond / lozenge ---
+#
+# Treadling mirrors the threading: 1,2,3,4,3,2 (0-indexed: 0,1,2,3,2,1).
+# Combined with the pointed threading, this produces the classic
+# diamond / lozenge / "bird's eye" pattern.  The reversal in BOTH
+# threading and treadling creates a two-axis symmetry — the diamonds
+# that, to a weaver in the Lahaul valley, look like braided water.
+
+POINT_TREADLING = [0, 1, 2, 3, 2, 1]
+
+generate_draft(
+    title="River Braid \u2014 Point Twill on Four Shafts",
+    subtitle="from the archive of the Lahaul workshop",
+    treadling_seq=POINT_TREADLING,
+    n_warp=N_WARP,
+    n_picks=N_PICKS,
+    output_path=str(OUT_DIR / "draft-river-braid.pdf"),
+    annotation="selvedge treatment: plain weave for 4 picks at each edge"
+)
+
+# --- Variant 2: Straight twill treadling -> diagonal ---
+#
+# Treadling runs straight: 1,2,3,4 (0-indexed: 0,1,2,3) repeating.
+# Same threading, same tie-up — but the treadling never reverses.
+# Over the pointed threading this produces a zigzag diagonal:
+# the warp's reversal creates a chevron, but without the treadling
+# reversal there are no closed diamonds.  A different cloth entirely
+# from the same named pattern.
+
+STRAIGHT_TREADLING = [0, 1, 2, 3]
+
+generate_draft(
+    title="River Braid (Leh variant) \u2014 Straight Twill on Four Shafts",
+    subtitle="from the archive of the distant workshop",
+    treadling_seq=STRAIGHT_TREADLING,
+    n_warp=N_WARP,
+    n_picks=N_PICKS,
+    output_path=str(OUT_DIR / "draft-river-braid-variant.pdf"),
+    annotation="selvedge treatment: plain weave for 4 picks at each edge"
+)
+#+end_src
+
+#+RESULTS:
+[[file:draft-river-braid.png]]
+
+The second variant — same threading, different treadling, different cloth:
+
+[[file:draft-river-braid-variant.png]]
+
+** Correction Letter No. 1 — The Knotted Cord
+:PROPERTIES:
+:header-args:python: :tangle cord-correction-letter.py :results file :file cord-correction-letter.png
+:END:
+
+This diagram was reconstructed from descriptions in the Spiti workshop
+archive.  It represents the first correction letter — the one the
+Lahaul weaver knotted through the night and the Thread Walker carried
+across every open pass.
+
+The encoding follows khipu convention as the Guild adapted it:
+
+- *Colour* encodes the domain of the correction — indigo for pattern
+  records, madder for dye records, ochre for classification and filing,
+  sage green for thread-weight standards.
+- *Knot type* encodes the nature of the instruction — an overhand knot
+  (simple round bead) for quantities, an elongated knot for
+  references, a figure-eight for procedural instructions.
+- *Position* along the cord encodes sequence — corrections nearer the
+  primary cord must be applied before those farther down.
+- *Subsidiary cords* — thinner threads tied partway down a pendant
+  cord — encode the specific difficulties the recipient will
+  encounter: the stale index, the older transliteration, the aspirated
+  consonant.
+
+Cord 9 is visibly longer and more complex than the others.  It is the
+correction that requires the thread-weight derivation — the one that,
+as the Lahaul weaver warned, "will seem obvious here and seem like a
+dream in Kaza."
+
+#+begin_src python
+#!/usr/bin/env python3
+"""
+Correction Letter No. 1 — Lahaul to All Workshops
+A knotted cord diagram in the notation of the Guild of Thread Walkers.
+
+Generates a museum-style illustration of a khipu-inspired correction letter
+encoding seventeen corrections as pendant cords hung from a primary cord.
+
+Usage:
+    uv run --with matplotlib --with numpy python3 cord-correction-letter.py
+"""
+
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch, Ellipse
+from matplotlib.path import Path
+import matplotlib.patches as mpatches
+from pathlib import Path as FSPath
+
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+PARCHMENT = "#f4e8c1"
+PRIMARY_CORD_COLOR = "#3e2a1a"
+COLORS = {
+    "pattern":  "#2c3e6b",   # dark indigo
+    "dye":      "#8b3a3a",   # madder red
+    "filing":   "#c4a35a",   # ochre
+    "weight":   "#5a7a5a",   # sage green
+}
+
+# Category assignment for each of the 17 pendant cords (0-indexed internally)
+CATEGORIES = [
+    "pattern", "dye",    "pattern", "filing",  "weight", "pattern",   # 1-6
+    "dye",    "filing",  "pattern", "weight",  "dye",    "pattern",   # 7-12
+    "filing", "weight",  "pattern", "dye",     "filing",              # 13-17
+]
+
+# Pendant cord lengths (visual complexity proxy)
+LENGTHS = [
+    3.2, 2.4, 3.8, 2.0, 2.6, 3.0,
+    2.8, 2.2, 5.0, 2.6, 3.4, 3.6,
+    2.2, 2.8, 3.0, 2.4, 2.0,
+]
+
+# Knot specifications per cord: list of (relative_position, knot_type)
+#   relative_position in [0, 1] along the cord length
+#   knot_type: "overhand" | "long" | "figure8"
+KNOTS = [
+    [(0.25, "overhand"), (0.55, "long")],
+    [(0.3, "overhand"), (0.7, "overhand")],
+    [(0.2, "figure8"), (0.5, "overhand"), (0.8, "long")],
+    [(0.4, "overhand")],
+    [(0.3, "long"), (0.65, "overhand")],
+    [(0.2, "overhand"), (0.5, "figure8")],
+    [(0.35, "long"), (0.7, "overhand")],
+    [(0.4, "overhand")],
+    [(0.15, "figure8"), (0.35, "long"), (0.52, "overhand"),           # cord 9
+     (0.68, "figure8"), (0.85, "long")],
+    [(0.3, "overhand"), (0.6, "long")],
+    [(0.2, "overhand"), (0.5, "overhand"), (0.75, "long")],
+    [(0.2, "figure8"), (0.45, "long"), (0.7, "overhand")],
+    [(0.4, "overhand")],
+    [(0.25, "long"), (0.6, "overhand")],
+    [(0.2, "overhand"), (0.5, "figure8"), (0.8, "overhand")],
+    [(0.35, "overhand"), (0.65, "long")],
+    [(0.4, "overhand")],
+]
+
+# Which cords have subsidiary (difficulty) cords: (attach_frac, sub_length)
+SUBSIDIARIES = {
+    2:  (0.40, 1.0),
+    5:  (0.35, 0.8),
+    8:  (0.30, 1.4),   # cord 9 — extra annotation
+    11: (0.50, 0.9),
+    14: (0.45, 0.7),
+}
+
+rng = np.random.default_rng(42)
+
+# ---------------------------------------------------------------------------
+# Drawing helpers
+# ---------------------------------------------------------------------------
+
+def wavy_cord(ax, x0, y0, x1, y1, color, lw=2.0, alpha=1.0):
+    """Draw an organic, slightly wavy cord using a cubic Bezier."""
+    dx = x1 - x0
+    dy = y1 - y0
+    length = np.hypot(dx, dy)
+    wobble = length * 0.04
+    ctrl1_x = x0 + rng.uniform(-wobble, wobble)
+    ctrl1_y = y0 + (y1 - y0) * 0.33 + rng.uniform(-wobble * 0.5, wobble * 0.5)
+    ctrl2_x = x0 + rng.uniform(-wobble, wobble)
+    ctrl2_y = y0 + (y1 - y0) * 0.66 + rng.uniform(-wobble * 0.5, wobble * 0.5)
+    verts = [(x0, y0), (ctrl1_x, ctrl1_y), (ctrl2_x, ctrl2_y), (x1, y1)]
+    codes = [Path.MOVETO, Path.CURVE4, Path.CURVE4, Path.CURVE4]
+    path = Path(verts, codes)
+    patch = mpatches.PathPatch(path, facecolor="none", edgecolor=color,
+                               lw=lw, capstyle="round", alpha=alpha)
+    ax.add_patch(patch)
+    return verts
+
+
+def point_on_bezier(verts, t):
+    """Evaluate a cubic Bezier at parameter t in [0,1]."""
+    p0, p1, p2, p3 = [np.array(v) for v in verts]
+    return ((1 - t)**3 * p0 + 3*(1 - t)**2 * t * p1 +
+            3*(1 - t) * t**2 * p2 + t**3 * p3)
+
+
+def draw_overhand_knot(ax, x, y, color):
+    """Small filled circle — simple overhand knot."""
+    ax.plot(x, y, "o", color=color, markersize=5.5, zorder=5,
+            markeredgecolor=color, markeredgewidth=0.5)
+
+
+def draw_long_knot(ax, x, y, color):
+    """Elongated bump — an ellipse along the cord."""
+    e = Ellipse((x, y), width=0.12, height=0.28, angle=0,
+                facecolor=color, edgecolor=color, lw=0.8, zorder=5, alpha=0.9)
+    ax.add_patch(e)
+
+
+def draw_figure8_knot(ax, x, y, color):
+    """Small figure-eight / infinity shape."""
+    r = 0.07
+    theta = np.linspace(0, 2 * np.pi, 60)
+    # lemniscate of Bernoulli (figure-8 curve), scaled
+    denom = 1 + np.sin(theta)**2
+    fx = r * 1.6 * np.cos(theta) / denom + x
+    fy = r * 1.6 * np.cos(theta) * np.sin(theta) / denom + y
+    ax.fill(fx, fy, color=color, zorder=5, alpha=0.9)
+    ax.plot(fx, fy, color=color, lw=0.7, zorder=6)
+
+
+KNOT_DRAWERS = {
+    "overhand": draw_overhand_knot,
+    "long":     draw_long_knot,
+    "figure8":  draw_figure8_knot,
+}
+
+
+# ---------------------------------------------------------------------------
+# Main figure
+# ---------------------------------------------------------------------------
+
+fig, ax = plt.subplots(figsize=(14, 9))
+fig.set_facecolor(PARCHMENT)
+ax.set_facecolor(PARCHMENT)
+ax.set_xlim(-0.5, 14.5)
+ax.set_ylim(-8.5, 2.0)
+ax.set_aspect("equal")
+ax.axis("off")
+
+# --- Primary cord ---
+primary_y = 0.5
+n_seg = 80
+px = np.linspace(0.2, 13.8, n_seg)
+py = primary_y + 0.06 * np.sin(np.linspace(0, 4 * np.pi, n_seg))
+ax.plot(px, py, color=PRIMARY_CORD_COLOR, lw=5.5, solid_capstyle="round", zorder=3)
+ax.plot(px, py + 0.03, color="#5a4030", lw=1.2, solid_capstyle="round",
+        alpha=0.4, zorder=4)
+
+# --- Pendant cord positions (with grouping gaps) ---
+def pendant_x_positions(n=17):
+    """Compute x positions with gaps between groups 1-6, 7-12, 13-17."""
+    positions = []
+    spacing = 0.65
+    gap = 0.45
+    x = 1.0
+    for i in range(n):
+        positions.append(x)
+        x += spacing
+        if i == 5 or i == 11:
+            x += gap
+    return positions
+
+x_positions = pendant_x_positions()
+
+# --- Draw pendant cords, knots, labels ---
+for i in range(17):
+    x0 = x_positions[i]
+    y0 = np.interp(x0, px, py)
+    cat = CATEGORIES[i]
+    color = COLORS[cat]
+    length = LENGTHS[i]
+    y1 = y0 - length
+
+    sway = rng.uniform(-0.12, 0.12)
+    x1 = x0 + sway
+
+    verts = wavy_cord(ax, x0, y0, x1, y1, color, lw=1.8)
+
+    ax.text(x0, y0 + 0.25, str(i + 1), ha="center", va="bottom",
+            fontsize=6.5, fontfamily="serif", color="#4a3a2a", zorder=7)
+
+    for (frac, ktype) in KNOTS[i]:
+        pt = point_on_bezier(verts, frac)
+        KNOT_DRAWERS[ktype](ax, pt[0], pt[1], color)
+
+    if i in SUBSIDIARIES:
+        attach_frac, sub_len = SUBSIDIARIES[i]
+        attach_pt = point_on_bezier(verts, attach_frac)
+        sub_x1 = attach_pt[0] + rng.uniform(0.25, 0.45)
+        sub_y1 = attach_pt[1] - sub_len
+        sub_color = "#7a6a5a"
+        wavy_cord(ax, attach_pt[0], attach_pt[1], sub_x1, sub_y1,
+                  sub_color, lw=0.9, alpha=0.7)
+        ax.plot(sub_x1, sub_y1, "o", color=sub_color, markersize=2.5,
+                zorder=5, alpha=0.7)
+
+    if i == 8:
+        bottom_pt = point_on_bezier(verts, 0.97)
+        ax.text(bottom_pt[0] + 0.15, bottom_pt[1] - 0.15, r"$\S 9$",
+                ha="left", va="top", fontsize=7.5, fontfamily="serif",
+                fontstyle="italic", color="#2c3e6b", zorder=7)
+
+# --- Title and subtitle ---
+ax.text(7.0, 1.65, "Correction Letter No. 1 \u2014 Lahaul to All Workshops",
+        ha="center", va="bottom", fontsize=13, fontfamily="serif",
+        fontweight="bold", color="#3e2a1a")
+ax.text(7.0, 1.28, "seventeen corrections, ordered by dependency",
+        ha="center", va="bottom", fontsize=9, fontfamily="serif",
+        fontstyle="italic", color="#6a5a4a")
+
+# --- Footnote ---
+footnote = ("Cord 6 depends on Cord 3.  Cord 12 depends on Cord 6.  "
+            "Cord 9 requires derivation from the thread-weight conversion table.")
+ax.text(7.0, -8.1, footnote, ha="center", va="top", fontsize=6.5,
+        fontfamily="serif", color="#6a5a4a", fontstyle="italic")
+
+# --- Legend (bottom right) ---
+legend_x, legend_y = 11.2, -5.4
+legend_bg = FancyBboxPatch((legend_x - 0.3, legend_y - 2.55), 3.2, 2.7,
+                           boxstyle="round,pad=0.15", facecolor=PARCHMENT,
+                           edgecolor="#a09080", lw=0.8, zorder=6)
+ax.add_patch(legend_bg)
+
+ax.text(legend_x + 1.3, legend_y - 0.05, "Legend", ha="center", va="bottom",
+        fontsize=8, fontfamily="serif", fontweight="bold", color="#3e2a1a", zorder=7)
+
+dy = -0.38
+colour_items = [
+    ("Pattern records",         COLORS["pattern"]),
+    ("Dye records",             COLORS["dye"]),
+    ("Classification / filing", COLORS["filing"]),
+    ("Thread-weight standards", COLORS["weight"]),
+]
+for j, (label, col) in enumerate(colour_items):
+    yy = legend_y + dy * (j + 1) - 0.1
+    ax.plot([legend_x, legend_x + 0.45], [yy, yy], color=col, lw=2.2, zorder=7)
+    ax.text(legend_x + 0.6, yy, label, va="center", fontsize=6,
+            fontfamily="serif", color="#3e2a1a", zorder=7)
+
+knot_label_y = legend_y + dy * 5 - 0.25
+knot_items = [
+    ("overhand", "Quantity",    draw_overhand_knot),
+    ("long",     "Reference",   draw_long_knot),
+    ("figure8",  "Instruction", draw_figure8_knot),
+]
+for j, (ktype, label, drawer) in enumerate(knot_items):
+    yy = knot_label_y + dy * j
+    drawer(ax, legend_x + 0.15, yy, "#4a3a2a")
+    ax.text(legend_x + 0.6, yy, label, va="center", fontsize=6,
+            fontfamily="serif", color="#3e2a1a", zorder=7)
+
+# ---------------------------------------------------------------------------
+# Save
+# ---------------------------------------------------------------------------
+out_dir = FSPath(__file__).parent
+for ext in ("pdf", "png"):
+    out = out_dir / f"cord-correction-letter.{ext}"
+    fig.savefig(out, bbox_inches="tight", dpi=200, facecolor=fig.get_facecolor())
+    print(f"Saved: {out}")
+plt.close(fig)
+#+end_src
+
+#+RESULTS:
+[[file:cord-correction-letter.png]]
+
+** Notes on Reproduction
+
+To regenerate all illustrations from Emacs, place point inside any
+source block and press =C-c C-c=.  Or tangle the entire file with
+=C-c C-v t= and run the scripts from a shell:
+
+#+begin_example
+uv run --with matplotlib --with numpy python3 map-of-passes.py
+uv run --with matplotlib --with numpy python3 generate_drafts.py
+uv run --with matplotlib --with numpy python3 cord-correction-letter.py
+#+end_example
+
+The scripts use =matplotlib.use("Agg")= for headless rendering —
+no display server required.  Seed =42= in the random number generator
+ensures reproducible hand-drawn jitter.

@@ -83,6 +83,32 @@ Both domains feed into [[/portal/][MayaPortal]], the visual synthesis kernel tha
 
 #+include: "../develop/devlog.org" :lines "4-"
 
+* Writing                                                            :writing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: writing
+:END:
+
+Essays, fictions, and parables from the MayaLucIA project --- where the process of building becomes the subject of the writing.
+
+* The Thread Walkers                                                 :writing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: the-thread-walkers
+:EXPORT_HUGO_SECTION: writing
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "A parable about coordination, amnesia, and the invention of convention --- set in the high valleys where Kullu ends and Tibet begins"
+:END:
+
+#+include: "../collab/sessions/devprocess/sutra-genesis/thread-walkers/the-thread-walkers.org" :lines "6-"
+
+* The Dyer's Gorge                                                  :writing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: the-dyers-gorge
+:EXPORT_HUGO_SECTION: writing
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "A dyer in the Parvati gorge reads the valley by its pigments --- iron-red from hot springs, indigo from wild bushes, lichen-gold from birch boulders --- encoding altitude into cloth"
+:END:
+
+#+include: "../collab/sessions/devprocess/sutra-genesis/dyers-gorge/the-dyers-gorge.org" :lines "5-"
+
 * COMMENT Local Variables
 # Local Variables:
 # eval: (org-hugo-auto-export-mode)
