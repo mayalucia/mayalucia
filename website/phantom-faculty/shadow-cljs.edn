@@ -1,0 +1,19 @@
+{:deps   true
+ :nrepl  {:port 7002}
+
+ :builds
+ {:app
+  {:target    :browser
+   :output-dir "../static/js"
+   :asset-path "/js"
+
+   :modules
+   {:phantom-faculty
+    {:init-fn phantom-faculty.core/init!}}
+
+   :devtools
+   {:http-root "../.."
+    :http-port 3333}
+
+   :compiler-options
+   {:infer-externs :auto}}}}

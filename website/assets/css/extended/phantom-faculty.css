@@ -1,0 +1,127 @@
+/* === Phantom Faculty Interactive Constellation === */
+
+.phantom-constellation {
+  position: relative;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.constellation-svg {
+  width: 100%;
+  height: auto;
+  min-height: 400px;
+  max-height: 80vh;
+  background: #1a1a2e;
+  border-radius: var(--radius, 4px);
+  display: block;
+}
+
+/* --- Glyph: gentle oscillation on hover --- */
+.phantom-node .glyph {
+  font-family: "DejaVu Sans", sans-serif;
+  transition: opacity 0.3s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.phantom-node.hovered .glyph,
+.phantom-node .glyph.rotating {
+  animation: glyph-rock 2s ease-in-out infinite;
+}
+
+@keyframes glyph-rock {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(12deg); }
+  75%  { transform: rotate(-12deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* --- Glow pulse on hover --- */
+.phantom-node .glow-outer,
+.phantom-node .glow-inner {
+  transition: opacity 0.3s ease;
+}
+
+.phantom-node.hovered .glow-outer {
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.35; }
+}
+
+/* --- Dim unconnected nodes when hovering --- */
+.phantom-node.dimmed .glyph,
+.phantom-node.dimmed .name-label,
+.phantom-node.dimmed .skill-label {
+  opacity: 0.25;
+  transition: opacity 0.3s ease;
+}
+
+/* --- Connected nodes brighten --- */
+.phantom-node.connected .glyph {
+  opacity: 1;
+}
+
+.phantom-node.connected .glow-inner {
+  opacity: 0.20;
+}
+
+/* --- Edge transitions --- */
+.correction-edge {
+  transition: opacity 0.2s ease, stroke-width 0.2s ease;
+}
+
+/* --- Tooltip --- */
+.constellation-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(26, 26, 46, 0.95);
+  color: #e8e4d4;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(232, 228, 212, 0.2);
+  font-family: serif;
+  font-size: 14px;
+  max-width: 300px;
+  z-index: 100;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.constellation-tooltip strong {
+  color: #e8e4d4;
+}
+
+.constellation-tooltip .mode {
+  color: #8a8678;
+}
+
+.constellation-tooltip .one-liner {
+  font-size: 12px;
+  color: #8a8678;
+  margin: 4px 0 0;
+  white-space: normal;
+}
+
+/* --- Theme integration --- */
+:root[data-theme="light"] .phantom-constellation {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+:root[data-theme="dark"] .phantom-constellation {
+  box-shadow: none;
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .constellation-svg {
+    min-height: 280px;
+  }
+  .constellation-tooltip {
+    font-size: 12px;
+    padding: 6px 8px;
+    max-width: 220px;
+  }
+}

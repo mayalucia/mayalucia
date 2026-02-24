@@ -1,0 +1,6 @@
+{{- /* Phantom Faculty: load constellation JS on its page only */ -}}
+{{- if eq .RelPermalink "/writing/the-phantom-faculty/" }}
+{{- $ts := now.Unix }}
+<link rel="preload" href="/js/phantom-faculty.js?v={{ $ts }}" as="script">
+<script defer src="/js/phantom-faculty.js?v={{ $ts }}"></script>
+{{- end }}

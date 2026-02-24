@@ -1,0 +1,7 @@
+# Hugo build output
+public/
+resources/_gen/
+
+# Dev-mode CLJS runtime (639 files, only needed for shadow-cljs watch)
+static/js/cljs-runtime/
+static/js/manifest.edn
