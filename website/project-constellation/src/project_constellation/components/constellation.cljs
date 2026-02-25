@@ -192,8 +192,8 @@
 
              [cluster-label/all-cluster-labels]
              [edge/all-edges]
-             [node/diamond]
-             [node/all-nodes]]]]
+             [node/all-nodes]
+             [node/diamond]]]]
 
           ;; Right column: info panel
           [tooltip/info-panel]

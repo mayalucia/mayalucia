@@ -63,6 +63,8 @@ The code has a single `unit-diamond` definition (pre-computed vertices in unit c
 
 ---
 
+[**&#9671; See it live in the constellation**](/projects/) --- hover the diamond at the center.
+
 **Literate source:** [`codev/00-one-crystal-four-lights.org`](https://github.com/mayalucia/mayalucia) --- the full lesson with code blocks, architecture diagrams, design decisions, and exercises.
 
 **Implementation:** [`components/node.cljs`](https://github.com/mayalucia/mayalucia) (diamond, crystal-view, unit-diamond), [`components/constellation.cljs`](https://github.com/mayalucia/mayalucia) (SVG gradient defs).

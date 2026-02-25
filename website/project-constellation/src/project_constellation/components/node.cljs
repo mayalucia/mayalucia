@@ -12,6 +12,9 @@
   [pts]
   (apply str (interpose " " (map (fn [[x y]] (str x "," y)) pts))))
 
+(defn- navigate! [url]
+  (when url (set! (.-location js/window) url)))
+
 ;; === One crystal, four lights =================================================
 ;; Brilliant-cut diamond viewed from above. Vertices point at cardinals
 ;; (toward phases). The same geometry serves both the central diamond at (0,0)
@@ -107,13 +110,21 @@
           {:keys [table kites]} geo
           hover      @state/!hover
           phase-ids  #{"measure" "model" "manifest" "evaluate"}
-          phase-hov? (contains? phase-ids hover)
+          self-hov?  (= hover "diamond-center")
+          phase-hov? (or self-hov? (contains? phase-ids hover))
           r-sight    3.4
           phase-dirs [["measure"  [-1  0] :k-left]
                       ["model"    [ 0 -1] :k-up]
                       ["manifest" [ 1  0] :k-right]
                       ["evaluate" [ 0  1] :k-down]]]
-      [:g.diamond {:style {:pointer-events "none"}}
+      [:g.diamond
+       {:style {:cursor "pointer"}
+        :on-mouse-enter #(reset! state/!hover "diamond-center")
+        :on-mouse-leave #(when (= "diamond-center" @state/!hover)
+                           (reset! state/!hover nil))
+        :on-click       (fn [e]
+                          (.stopPropagation e)
+                          (navigate! "/projects/one-crystal-four-lights/"))}
        ;; Ambient glow
        [:circle {:cx 0 :cy 0 :r 1.8
                  :fill "url(#diamond-glow)"
@@ -133,8 +144,10 @@
                     (resolve-vertex outer-b geo)
                     (resolve-vertex outer-a geo)]
                grad (if primary? "top" "left")
-               op  (if-not phase-hov?
-                     (if primary? 0.18 0.14)
+               op  (cond
+                     (not phase-hov?)  (if primary? 0.18 0.14)
+                     self-hov?         (if primary? 0.45 0.35)
+                     :else
                      (case (cycle-distance hover pid)
                        0 (if primary? 0.65 0.50)
                        1 (if primary? 0.30 0.22)
@@ -150,6 +163,7 @@
          (let [tip (resolve-vertex k-key geo)
                op  (cond
                      (not phase-hov?) 0.08
+                     self-hov?        0.25
                      (= hover pid)    0.35
                      (= 1 (cycle-distance hover pid)) 0.15
                      :else 0.08)]
@@ -166,6 +180,7 @@
                sight [(* dx r-sight) (* dy r-sight)]
                op    (cond
                        (not phase-hov?) 0.07
+                       self-hov?        0.18
                        (= hover pid)    0.25
                        (= 1 (cycle-distance hover pid)) 0.12
                        :else 0.07)]
@@ -236,9 +251,6 @@
                :stroke "#ffffff"
                :stroke-width (* 0.015 s)
                :opacity (* op 0.3)}])]))
-
-(defn- navigate! [url]
-  (when url (set! (.-location js/window) url)))
 
 (defn entity-node
   "Render a single entity node. Visual treatment varies by :type."
@@ -343,20 +355,19 @@
          :fill colour
          :opacity (if (= status :active) 0.8 0.3)}])
 
-     ;; Glyph
-     (when-not hovered?
+     ;; Glyph (hidden for phase nodes — the crystal is the glyph)
+     (when (and (not hovered?) (not phase?))
        [:text.glyph
         {:x (:x pos) :y (:y pos)
          :text-anchor "middle"
          :dominant-baseline "central"
-         :fill (if phase? data/chalk colour)
+         :fill colour
          :opacity glyph-opacity
-         :font-size (str glyph-size "px")
-         :font-weight (if phase? "bold" "normal")}
+         :font-size (str glyph-size "px")}
         glyph])
 
-     ;; Name label
-     (when-not hovered?
+     ;; Name label (hidden for phase nodes — cluster label serves this role)
+     (when (and (not hovered?) (not phase?))
        [:text.name-label
         {:x (:x pos) :y (+ (:y pos) (* 0.38 scale))
          :text-anchor "middle"

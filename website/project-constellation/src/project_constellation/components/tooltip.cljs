@@ -28,6 +28,7 @@
     :impl      "IMPLEMENTATION"
     :artifact  "ARTIFACT"
     :component "COMPONENT"
+    :crystal   "CENTRAL CRYSTAL"
     ""))
 
 (defn- status-label [status]

@@ -486,6 +486,19 @@
     :weights {"thread" 1.0}
     :x 5.5 :y 1.5}])
 
+;; === Central Diamond (virtual — not in force layout, info-panel only) ========
+
+(def diamond-entity
+  "The central diamond. Lives outside `entities` so it doesn't enter the
+   force simulation, but is included in lookup maps for tooltip display."
+  {:id "diamond-center" :name "One Crystal, Four Lights" :type :crystal :cluster "philosophy"
+   :glyph "◇" :subtitle "The diamond at the center"
+   :one-liner "Four phases, one inferential process = understanding"
+   :description "At a certain epistemological depth, Measure, Model, Manifest, and Evaluate dissolve into a single act: inference. The diamond at the center is not a fifth element — it is the recognition that the four phases were never separate. One geometry, four light sources. The lit face tells you which direction you are looking from."
+   :url "/projects/one-crystal-four-lights/"
+   :weights {"philosophy" 0.4 "measure" 0.15 "model" 0.15 "manifest" 0.15 "evaluate" 0.15}
+   :x 0.0 :y 0.0})
+
 ;; === Derived lookups =========================================================
 
 (defn drillable?
@@ -494,17 +507,19 @@
   (some? (:children entity)))
 
 (def ^:private all-entities
-  "All entities flattened: top-level + all children."
-  (into entities
-        (mapcat (fn [e] (get-in e [:children :entities])))
-        entities))
+  "All entities flattened: top-level + all children + diamond."
+  (conj
+    (into entities
+          (mapcat (fn [e] (get-in e [:children :entities])))
+          entities)
+    diamond-entity))
 
 (def entities-by-id
-  "Map from entity id to its data map. Includes children."
+  "Map from entity id to its data map. Includes children and diamond."
   (into {} (map (juxt :id identity)) all-entities))
 
 (def entity-colours
-  "Pre-computed blended colour for each entity. Includes children."
+  "Pre-computed blended colour for each entity. Includes children and diamond."
   (into {} (map (fn [{:keys [id weights]}]
                   [id (blend-colour weights)]))
         all-entities))
@@ -516,9 +531,9 @@
    {:source "measure"  :target "model"    :type :cycle-flow}
    {:source "model"    :target "manifest" :type :cycle-flow}
    {:source "manifest" :target "evaluate" :type :cycle-flow}
+   {:source "evaluate" :target "measure"  :type :cycle-flow}
 
    ;; Refine arcs (always visible, curved)
-   {:source "evaluate" :target "measure"  :type :refine-arc}
    {:source "evaluate" :target "model"    :type :refine-arc}
    {:source "evaluate" :target "manifest" :type :refine-arc}
 
