@@ -1,12 +1,10 @@
 +++
 title = "Parbati: Digital Forms for Himalaya"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-17T22:30:53+01:00
+lastmod = 2026-02-25T22:24:43+01:00
 tags = ["domains"]
 draft = false
 +++
-
-![The Parvati valley near Malana: the river carves through steep gorges where the Pir Panjal and Great Himalayan ranges converge. Photo: Indianroots5 / Wikimedia Commons (CC0).](/images/parbati/parvati-valley.jpg)
 
 > Moundains cannot be surmounted except by winding paths.
 > -- Gabriel Garcia Marquez
@@ -23,13 +21,7 @@ draft = false
 > The mountains are calling, and I must go.
 > -- John Muir
 
-![Snow-covered peaks of the range south of the Parbati river, viewed from the Tosh-Kutla ascent. Photo: Timothy A. Gonsalves / Wikimedia Commons (CC BY-SA 4.0).](/images/parbati/parbati-snow-range.jpg)
-
-Nestled in the Western Himalaya, the Parvati valley emerges where the Pir Panjal and Great Himalayan ranges converge. Here the valley splits the Kullu Mountains like a deep gash, its formation guided by tectonic faults where one mountain chain thrust over another, and carved by millenia of glacial ice and rushing waters. At dawn, when the first light catches the snow-draped peaks of Deo Tibba and Pin Parvati, the valley transforms into a natural amphitheater of light and shadow.
-
-![The northern wall of Kullu: the Beas valley from Palchan, with the jagged peaks of the Pir Panjal and Dhauladhar ranges rising behind. Photo: Biswarup Ganguly & UnpetitproleX / Wikimedia Commons (CC BY 3.0).](/images/parbati/kullu-panorama-annotated.jpg)
-
-![Indrasan (left) and Deo Tibba (right) seen from the Malana valley --- the twin summits of the eastern Pir Panjal that dominate the skyline above the Parvati. Photo: Yuvraj Anand / Wikimedia Commons (CC BY-SA 4.0).](/images/parbati/deo-tibba-indrasan.jpg) The valley reveals its dramatic geologic heritage - where metamorphic gneisses of the Greater Himalayas meet the younger rocks of the Pir Panjal. The river below, named after the goddess Parvati, has carved her course along structural weaknesses, tumbling through narrow gorges and over worn boulders, its jade waters carrying both glacial slit and stories of the mountains; violent uplift.
+Nestled in the Western Himalaya, the Parvati valley emerges where the Pir Panjal and Great Himalayan ranges converge. Here the valley splits the Kullu Mountains like a deep gash, its formation guided by tectonic faults where one mountain chain thrust over another, and carved by millenia of glacial ice and rushing waters. At dawn, when the first light catches the snow-draped peaks of Deo Tibba and Pin Parvati, the valley transforms into a natural amphitheater of light and shadow. The valley reveals its dramatic geologic heritage - where metamorphic gneisses of the Greater Himalayas meet the younger rocks of the Pir Panjal. The river below, named after the goddess Parvati, has carved her course along structural weaknesses, tumbling through narrow gorges and over worn boulders, its jade waters carrying both glacial slit and stories of the mountains; violent uplift.
 
 This landscape, where thermal springs burst from deep tectonic faults and cannabis grows wild on abandoned terraces among other native bushes, represents the complex interplay of geological forces, ecological adaptations, and human aspirations that characterizes the entire Himalayan range. Modern man must have set foot in the Himalaya before 10,000 years ago. Over the millinea they settled all habitable corners of Earth's tallest mountain ranges. The Himalaya suffered human presence, with deforestration turning the Tibetan plateau to a cold desert. However, human expansion was always limited by the extreme unpredictability of Himalayan weather and geology. Until we arrive in the modern age.
 
@@ -38,8 +30,6 @@ Today, as motorable roads reach deep, hydroelectric prjects dam the sacred water
 What does that mean if we travel through the mountains today? What shall we experience? What will inspire us? There are several methods to measure the mountains, depending on what you are modeling. Modeling them on a computer is how we will try to understand them. Inspiration is endless: we will source from  Himalayan geology, hydrology, meteorology, climatology, biology, and anthropology. However, our real interest will be in the methods of inquiry themselves. What science and technology will we need to learn and implement? And, to grow our own personal underestanding of these magestic mountains. And we will travel, providing us with ample examples to inspire creation of learning material in the form of computational notebooks, interactive webpages, and infographics.
 
 We seek to capture not just the mechanics but the music of the mountains - from the crystalline patterns in their stones to the rhythmic cycles of their ecosystems. Through computational art and scientific modeling, we aim to express how life, from the smallest lichen to hum an settlements, is inseperable from each other and mountain geology, hydrology, and climate. We are interested in shapes and rhythms of both the natural and imagined worlds. To reconstruct and simulate mountain systems we will develop an approach that has recently been used to develop digital twins of brain circuits (**TODO add references**). The goal is not scientific / research / commercial software. We have to remember that computer programs are our way of understanding, and our real goal is to develop a personal understanding of the Himalaya. So a working application would become necessary if were to succeed in our goal.
-
-![Papsura (6451m) --- the "Peak of Evil" --- rising above its glacier, clouds streaming off the summit. The dark rock walls and hanging ice embody the geological forces that shaped the valley below. Photo: Moritz fs / Wikimedia Commons (CC BY-SA 4.0).](/images/parbati/papsura.jpg)
 
 When we work on this project, let us make sure to appreciate the sublime that the Himalaya inspires in us. Let us develop a personal expression of their sheer beauty using computationally generated art. We want to capture the colorful patterns of their stones, streams, and snows, and the rhythms of their flora and fauna. Using their stark example, we want to express in code, and in art, how life is inseparable from air, land, and water. We want to show how  biology responds to geological challenges. We want to show how human imagination adapts to a towering geography. I want to show how mankind has become a mightier force than terrestrial geology. We will need modeling and data analyses - and also art to express their beauty, and how it's loss will diminish vastly human experience on planet Earth.
 
@@ -64,8 +54,6 @@ We are not proposing a single tool, but rather cultivating a **computational eco
 We are seeking to document and understand the mountains from the perspective of a single human animal, deliberately stepping away from anthropocentric metrics of progress or conservation. The journey itself is exploratory - both physically and intellectually. The methodological framework will emerge organically rather than being pre-defined.
 
 
-![Hanuman Tibba (5982m) from the Solang Valley --- the highest peak of the Kullu region, its ridges vanishing into monsoon cloud. Photo: Biswarup Ganguly / Wikimedia Commons (CC BY 3.0).](/images/parbati/hanuman-tibba.jpg)
-
 ## Computational Frameworks We May Develop {#computational-frameworks-we-may-develop}
 
 1. Topographical Pattern Recognition
@@ -83,20 +71,12 @@ We are seeking to document and understand the mountains from the perspective of 
 
 ## Earth Observation {#earth-observation}
 
-![Himalayan topography from NASA's ASTER instrument: the fractal branching of river valleys carved into the mountain ranges. Image: NASA Earth Observatory / Robert Simmon, ASTER GDEM2.](/images/parbati/himalaya-dem.jpg)
-
 We may think of working in our proposed computational environment as an exercise on earth observation. Observation is not only about taking the equivalent of a photograph. When we observe Earth, we discover how her dynamic and complex environment results from interconnected components, processes, and cycles. These systems interact across multiple scales of space and time to create the conditions that support life on Earth. This means an immense amount of data. Silo-ing it is not enough. Producing automated standardized reports is also not enough.
 
 To scientifically and truly _observe_ the planet Earth, we also need to make sense of this data. There is an immense amount of quantitative information available in such _photographs_ of the Earth worth billions of dollars of commercial value. There is data with information that if processed could save lives, not only during the next stormy season but decades and centuries down the climatically unsteady regime that this planet has now entered. In this data there is also information that can be transformed into artistic beauty. We want to emphasize the personal in scientific and artistic discovery, and so need this computational environment.
 
 
-![Dawn on the Chandrakhani Pass above Malana: the full sweep of the Himalayan ranges visible from the ridge. Photo: Bharatkaistha / Wikimedia Commons (CC BY-SA 4.0).](/images/parbati/chandrakhani-pass.jpg)
-
 ## Reconstructing an Observable Model World {#reconstructing-an-observable-model-world}
-
-![Parvati Parbat (6632m) — SRTM hillshade reconstruction. No open-license photograph of this peak exists; the mountain is reconstructed here from 30-meter radar elevation data (SRTM 1-arc-second, tile N32E077). Elevation range: 4007--6570 m. Red triangle marks the summit.](/images/parbati/parbati-pyramid-dem.png)
-
-![The same terrain as a 3D surface, viewed from the south-west. The glacial cirques and ridgelines that define Parvati Parbat emerge directly from the elevation data.](/images/parbati/parbati-pyramid-3d.png)
 
 Using an ideal digital reconstruction, we should be able to reconstruct a statistical instance of any observation that we could make in a real landscape. Having only limited resources we will focus on watching them. We can use a simple model for the `observing-eye`, representing it as a point in 3D space, and recording images with a camera located there. Our digital twin will not be the visualization, but an actual statistical instance of an entire geographical region. The reconstruction does not have to be complete, and we can generate the world as required by a mobile `observing-eye`.
 
@@ -104,7 +84,5 @@ We will need several independent components. At the core, we need to represent a
 
 
 ## An Artistic Observing Eye {#an-artistic-observing-eye}
-
-![Sunlit peaks in the Himalaya, photographed from the International Space Station. The first light catches the ridges while valleys remain in shadow --- the natural amphitheater that the Parbati text describes. Photo: NASA / ISS Expedition 61 (2019).](/images/parbati/iss-himalaya.jpg)
 
 We will develop an artistic view of our work in this project. We will develop computational art as a tool for understanding. The process of abstracting natural forms, colors, and patterns into computational art is not just an output; it's a method of deep observation and analysis. When we try to capture the "essence" of a river valley's colors or the fractal nature of a mountain range in an algorithm, we are forced to understand it more profoundly. Our art can become a visual hypothesis or a summary of our current understanding.
