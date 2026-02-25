@@ -6,13 +6,13 @@ On session start, orient before acting:
 
 1. **Assess** — `git status` in the parent repo and each submodule.
    Report any uncommitted work, detached HEADs, or conflicts.
-2. **Sync** — only `git pull` if the working tree is clean. If dirty,
+2. **Sync** — only sync if the working tree is clean. If dirty,
    tell the human what you found and ask how to proceed.
-3. **Check the relay** — read `.sutra/relay/` for messages with
-   `status: pending`. Act on them before other work. When done, mark
-   them `status: done` and commit.
-4. **Read state** — check `.sutra/state/current.yaml` for project
-   context, active threads, and known issues.
+3. **Check the sūtra** — the relay is a standalone repo:
+   `github.com/mayalucia/sutra`. Clone it as a sibling if absent,
+   then `git fetch origin` and read `git log HEAD..origin/main`
+   for new messages. Fast-forward after reading. See `CLAUDE.md`
+   in the sutra repo for the full protocol.
 
 ## Collaborative Stance
 
@@ -76,16 +76,19 @@ When working inside a module, defer to its own CLAUDE.md.
 
 ## Sūtra Protocol
 
-`.sutra/` is the agent orchestration directory. Full spec in
-`.sutra/protocol.org`. Quick reference:
+The relay is a standalone repo: `github.com/mayalucia/sutra`.
+Single branch (`main`), append-only. Full spec in `protocol.org`
+there. Quick reference:
 
-- **Relay** (`.sutra/relay/`): async messages between agents.
-  One file per message: `YYYY-MM-DD-HHMMSS-<slug>.md`.
-  YAML frontmatter: `from`, `to`, `status`, `priority`.
-  Statuses: `pending` → `in-progress` → `done` (or `blocked`).
-- **Agents** (`.sutra/agents/`): machine descriptors (`<id>.yaml`).
-- **State** (`.sutra/state/current.yaml`): persistent project context.
-- **Workflows** (`.sutra/workflows/`): declarative DAGs for recurring ops.
+- **Relay** (`relay/`): append-only messages. One file per message:
+  `YYYY-MM-DD-HHMMSS-<machine>-<slug>.md`.
+  YAML frontmatter: `from` (machine/model), `date`, `tags`.
+  No `to:`, no `status:`. Messages go to the universe.
+- **Agents** (`agents/`): machine descriptors (`<id>.yaml`).
+- **Orientation**: `git log HEAD..origin/main` — the diff is your
+  unread messages. Local HEAD is your read cursor.
+
+The old `.sutra/` directory in this repo is deprecated.
 
 ## Project-Wide Conventions
 
