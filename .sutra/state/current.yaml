@@ -1,5 +1,5 @@
 # Sūtra persistent state — context that transfers between sessions
-# Updated: 2026-02-24
+# Updated: 2026-02-25
 
 topology:
   tag: v0.1-topology
@@ -8,22 +8,40 @@ topology:
     1 theme. All URLs HTTPS. SSH alias github-visood on macbook.
 
 active_threads:
-  - name: project-browser
+  - name: content-filling
     description: |
-      Interactive constellation browser for MāyāLucIA project ecosystem.
-      Reuses phantom-faculty architecture (CLJS/Reagent/d3-force).
-      Template: website/phantom-faculty/ARCHITECTURE.org
-    status: ready
+      Constellation entities link to stub pages. Need to flesh out
+      content for each module, domain, and project page. Priority:
+      mayapramana lessons (ox-hugo export from concept.org files).
+    status: in-progress
     notes: |
-      Architecture documented. Template checklist in ARCHITECTURE.org.
-      Next: write data.cljs for projects, adapt node renderer + info panel.
+      Bloch Equations page exists as summary. Full lesson (885 lines)
+      lives in modules/mayapramana/lessons/00-bloch-equations/concept.org.
+      Needs ox-hugo pipeline to export derivations, code blocks, exercises.
+
+  - name: pipeline-automation
+    description: |
+      Build pipeline is fully manual: shadow-cljs release app → hugo → deploy.sh.
+      No watch mode, no CI/CD, no auto-rebuild on source change.
+    status: waiting
+    notes: Discussed but not prioritised yet.
 
   - name: social-media-prep
     description: Prepare mayalucia content for social media presence
     status: waiting
-    notes: Discussed but deferred until square-zero sync is complete
+    notes: Discussed but deferred until constellation and content are mature.
 
 completed_threads:
+  - name: project-constellation
+    description: |
+      Interactive force-directed constellation browser for the MāyāLucIA
+      project ecosystem. 15 entities, 5 clusters, typed edges, drill-down
+      navigation. Central brilliant-cut diamond unifies four phases.
+      Now serves as the mayalucia.dev home page.
+    completed: 2026-02-25
+    artifact: website/project-constellation/
+    commits: [5b81320, 6f0377d, fe312ea, b214fff, cbf0980]
+
   - name: phantom-faculty-constellation
     description: |
       Interactive force-directed constellation of 32 phantoms (cognitive modes).
@@ -48,14 +66,23 @@ completed_threads:
     completed: 2026-02-23
     tag: v0.1-topology
 
+  - name: hugo-bundle-fixes
+    description: |
+      Converted 5 leaf bundles to branch bundles across website content.
+      Fixed: modules/mayapramana, modules/mayajiva, portal, domains/bravli,
+      domains/parbati. All constellation URLs now resolve.
+    completed: 2026-02-25
+    commit: cbf0980
+
 sync_status:
-  macbook-dropbox: clean, up to date (87b0870)
-  linux-desktop: needs pull (last known: dca948e)
+  macbook-dropbox: clean, up to date (cbf0980)
+  linux-desktop: needs sync (last known: dca948e, ~20 commits behind). Assess first.
 
 known_issues:
   - modules/mayaportal on branch v2, may detach on submodule update
   - linux-desktop has untracked dirs (gptel-guide, experment)
-  - modules/mayapramana has uncommitted change to collab/phantom-faculty-everyone-a-student.org
+  - pipeline is manual — no watch mode or CI/CD
+  - many constellation entity pages are stubs needing content
 
 conventions_established:
   - sūtra protocol (.sutra/ directory with relay, agents, state, workflows)
@@ -64,3 +91,7 @@ conventions_established:
   - HTTPS-only submodule URLs
   - agent-relay message format (YAML frontmatter + markdown body)
   - constellation browser template (website/phantom-faculty/ARCHITECTURE.org)
+  - Hugo branch bundles (_index.md) for any directory with child pages
+  - constellation as home page (layouts/partials/home_info.html override)
+  - project-constellation JS loaded on / and /projects/ (extend_head.html)
+  - never say "git pull" in relay messages — always "follow session bootstrap"
