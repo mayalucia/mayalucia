@@ -493,7 +493,7 @@
    force simulation, but is included in lookup maps for tooltip display."
   {:id "diamond-center" :name "One Crystal, Four Lights" :type :crystal :cluster "philosophy"
    :glyph "◇" :subtitle "The diamond at the center"
-   :one-liner "Four phases, one inferential process = understanding"
+   :one-liner "Understanding in four phases, but at the core, one inferential process"
    :description "At a certain epistemological depth, Measure, Model, Manifest, and Evaluate dissolve into a single act: inference. The diamond at the center is not a fifth element — it is the recognition that the four phases were never separate. One geometry, four light sources. The lit face tells you which direction you are looking from."
    :url "/projects/one-crystal-four-lights/"
    :weights {"philosophy" 0.4 "measure" 0.15 "model" 0.15 "manifest" 0.15 "evaluate" 0.15}
