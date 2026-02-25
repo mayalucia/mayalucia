@@ -39,6 +39,10 @@ menu:
       name: Domains
       url: /domains/
       weight: 30
+    - identifier: papers
+      name: Papers
+      url: /papers/
+      weight: 35
     - identifier: portal
       name: MayaPortal
       url: /portal/
@@ -136,6 +140,26 @@ markup:
   goldmark:
     renderer:
       unsafe: true
+    extensions:
+      passthrough:
+        delimiters:
+          block:
+            - - '\['
+              - '\]'
+            - - $$
+              - $$
+            - - '\begin{equation}'
+              - '\end{equation}'
+            - - '\begin{align}'
+              - '\end{align}'
+            - - '\begin{align*}'
+              - '\end{align*}'
+          inline:
+            - - '\('
+              - '\)'
+            - - $
+              - $
+        enable: true
   highlight:
     noClasses: false
     codeFences: true

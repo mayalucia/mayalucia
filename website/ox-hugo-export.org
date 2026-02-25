@@ -57,7 +57,7 @@ Both domains feed into [[/portal/][MayaPortal]], the visual synthesis kernel tha
 :EXPORT_HUGO_SECTION: domains
 :END:
 
-#+include: "../bravli/bravli.org" :lines "3-"
+#+include: "../domains/bravli/bravli.org" :lines "3-"
 
 * Parbati: Digital Forms for Himalaya                                :domains:
 :PROPERTIES:
@@ -65,7 +65,7 @@ Both domains feed into [[/portal/][MayaPortal]], the visual synthesis kernel tha
 :EXPORT_HUGO_SECTION: domains
 :END:
 
-#+include: "../parbati/parbati.org" :lines "3-"
+#+include: "../domains/parbati/parbati.org" :lines "3-"
 
 * MayaPortal: The Visual Synthesis Kernel                             :portal:
 :PROPERTIES:
@@ -117,6 +117,46 @@ Essays, fictions, and parables from the MayaLucIA project --- where the process 
 :END:
 
 #+include: "../collab/sessions/devprocess/sutra-genesis/phantom-faculty/the-phantom-faculty.org" :lines "5-"
+
+* Papers                                                             :papers:
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: papers
+:END:
+
+Research manuscripts from the bravli domain.
+
+| Paper | Topic | Status |
+|-------+-------+--------|
+| [[/papers/mb-dynamics/][Mushroom Body Dynamics]] | Connectome-constrained simulation | Draft |
+| [[/papers/executable-manuscripts/][Executable Manuscripts]] | Survey of literate scientific publishing | Draft |
+| [[/papers/cortical-predictive-coding/][The Lazy Cortical Column]] | Boundary-condition reconstruction | Draft |
+
+* MB Dynamics                                                        :papers:
+:PROPERTIES:
+:EXPORT_FILE_NAME: mb-dynamics
+:EXPORT_HUGO_SECTION: papers
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :math true
+:END:
+
+#+include: "../domains/bravli/manuscripts/mb-dynamics/paper.org" :lines "19-"
+
+* Executable Manuscripts Survey                                      :papers:
+:PROPERTIES:
+:EXPORT_FILE_NAME: executable-manuscripts
+:EXPORT_HUGO_SECTION: papers
+:END:
+
+#+include: "../domains/bravli/manuscripts/executable-manuscripts-survey.org" :lines "4-"
+
+* The Lazy Neuroscientist's Cortical Column                          :papers:
+:PROPERTIES:
+:EXPORT_FILE_NAME: cortical-predictive-coding
+:EXPORT_HUGO_SECTION: papers
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :math true
+:END:
+
+#+include: "../domains/bravli/manuscripts/cortical-predictive-coding.org" :lines "6-"
 
 * COMMENT Local Variables
 # Local Variables:

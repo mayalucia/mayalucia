@@ -11,3 +11,22 @@
 <link rel="preload" href="/js/project-constellation.js?v={{ $ts }}" as="script">
 <script defer src="/js/project-constellation.js?v={{ $ts }}"></script>
 {{- end }}
+
+{{- /* KaTeX: load on pages with math: true */ -}}
+{{ if or .Params.math .Site.Params.math }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '\\begin{equation}', right: '\\end{equation}', display: true},
+      {left: '\\begin{align}', right: '\\end{align}', display: true},
+      {left: '\\begin{align*}', right: '\\end{align*}', display: true}
+    ],
+    throwOnError: false
+  });"></script>
+{{ end }}
