@@ -1,0 +1,43 @@
+/* Project Constellation Browser — scoped styles */
+
+.project-constellation {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 0;
+  background: #12121e;
+}
+
+.constellation-svg {
+  min-height: 450px;
+  max-height: 80vh;
+}
+
+.constellation-info-panel {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Thread pulse animation */
+.thread-dot {
+  animation: thread-pulse 2s ease-in-out infinite;
+}
+
+@keyframes thread-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+}
+
+/* Responsive: collapse to single column on small screens */
+@media (max-width: 640px) {
+  .project-constellation {
+    grid-template-columns: 1fr;
+  }
+  .constellation-info-panel {
+    max-height: 200px;
+    border-left: none;
+    border-top: 1px solid rgba(232,228,212,0.08);
+  }
+  .constellation-svg {
+    min-height: 300px;
+  }
+}

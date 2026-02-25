@@ -4,3 +4,10 @@
 <link rel="preload" href="/js/phantom-faculty.js?v={{ $ts }}" as="script">
 <script defer src="/js/phantom-faculty.js?v={{ $ts }}"></script>
 {{- end }}
+
+{{- /* Project Constellation: load on /projects/ page only */ -}}
+{{- if eq .RelPermalink "/projects/" }}
+{{- $ts := now.Unix }}
+<link rel="preload" href="/js/project-constellation.js?v={{ $ts }}" as="script">
+<script defer src="/js/project-constellation.js?v={{ $ts }}"></script>
+{{- end }}
