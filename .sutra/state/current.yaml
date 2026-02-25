@@ -1,5 +1,5 @@
 # Sūtra persistent state — context that transfers between sessions
-# Updated: 2026-02-23
+# Updated: 2026-02-25
 
 topology:
   tag: v0.1-topology
@@ -7,29 +7,75 @@ topology:
     First stable topology. 6 submodules, 2 domains, 3 modules,
     1 theme. All URLs HTTPS. SSH alias github-visood on macbook.
 
+branches:
+  mayalucia:
+    main:
+      description: Stable trunk
+      status: default
+    develop/conventions:
+      description: |
+        Convention inventory, publishable ideas curation,
+        website Papers section (Hugo + KaTeX + ox-hugo pipeline)
+      started: 2026-02-23
+      status: active
+      merge_target: main
+      recent_work:
+        - Convention inventory and tūrīya essay
+        - Papers section with three bravli manuscripts on web
+        - Goldmark passthrough + KaTeX for math rendering
+        - Fixed bravli/parbati include paths in ox-hugo-export.org
+  bravli:
+    main:
+      description: Neuroscience domain — lessons, manuscripts, explorations
+      status: active
+      recent_work:
+        - Lesson 22 (ion channels, KCNQ2 R581Q, M-current)
+        - hh_neuron.py minimal HH simulator
+        - Three manuscripts in manuscripts/
+
 active_threads:
+  - name: papers-on-web
+    description: Publish bravli manuscripts as Hugo web pages
+    status: deployed-pending
+    branch: develop/conventions
+    relay_message: 2026-02-25-223000-papers-on-web.md
+    notes: |
+      Infrastructure committed. Needs ox-hugo export + deploy on
+      target machine. Future: automate with Makefile or CI.
+
+  - name: ion-channel-prep
+    description: OBI webinar prep — KCNQ2 R581Q, M-current, Virtual Labs
+    status: complete
+    branch: bravli/main
+    notes: Lesson 22 + hh_neuron.py written
+
+  - name: conventions-inventory
+    description: Inventory of all conventions and publishable ideas
+    status: in-progress
+    branch: develop/conventions
+    started: 2026-02-23
+
   - name: sutra-protocol
     description: Designing and implementing the Sūtra agent orchestration protocol
     status: in-progress
     started: 2026-02-23
 
-  - name: bravli-paper
-    description: Commit manuscripts/mb-dynamics/paper.tex in domains/bravli
-    status: pending-linux
-    relay_message: 2026-02-23-210000-commit-bravli-paper.md
-
   - name: social-media-prep
     description: Prepare mayalucia content for social media presence
     status: waiting
-    depends_on: [sutra-protocol, bravli-paper]
-    notes: Discussed but deferred until square-zero sync is complete
+    depends_on: [sutra-protocol, papers-on-web]
+    notes: Deferred until papers are live
 
 known_issues:
   - modules/mayaportal on branch v2, may detach on submodule update
   - linux-desktop has untracked dirs (gptel-guide, experment)
+  - ox-hugo escapes underscores in LaTeX — requires fix-math-export.sh after every export
+  - Citations render as literal text in web papers (no citeproc pipeline yet)
 
 conventions_established:
   - agent-relay message format (YAML frontmatter + markdown body)
   - session bootstrap: assess → sync (if clean) → check relay
   - .attic/ for archived artifacts (gitignored)
   - HTTPS-only submodule URLs
+  - branch tracking in .sutra/state/current.yaml (this file)
+  - website content generated from org via ox-hugo — never edit content/ directly
