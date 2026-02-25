@@ -1,0 +1,335 @@
+#+title: Lesson 00 — One Crystal, Four Lights
+#+subtitle: SVG crystal geometry for the MāyāLucIA project constellation
+#+author: mu2tau + Claude
+#+property: header-args:clojurescript :mkdirp yes :eval no
+#+startup: showall
+
+* What This Lesson Teaches
+
+The MāyāLucIA project cycle has four phases — Measure, Model, Manifest,
+Evaluate. Early in development, these were rendered as four distinct 3D
+crystal shapes: an octahedron, an isometric cube, a hexagonal prism, and
+a tetrahedron. Each was its own geometry, its own code path, its own
+visual identity.
+
+Then a philosophical question dissolved the implementation:
+
+#+begin_quote
+At a certain epistemological layer, all the stages — 3 Ms and an E —
+are all a type of inference in the human brain. And if you peel the
+onion that far you will also agree that that is the only reality — that
+which goes on inside the human's head. Here there is only one.
+#+end_quote
+
+The four crystals are not four things. They are four /viewpoints/ of one
+thing. One diamond. Four light sources. Different facets illuminate
+depending on which direction you look from.
+
+This lesson traces the journey from distinct shapes to a unified
+geometry, and extracts the general principles for rendering pseudo-3D
+faceted forms in SVG.
+
+** Learning Objectives
+
+- [ ] Understand the three-ring brilliant-cut geometry (table, stars, kites)
+- [ ] Implement a faceted polygon renderer using SVG =<polygon>= + linear gradients
+- [ ] Apply directional lighting by assigning gradient tiers to facet quadrants
+- [ ] Use =cycle-distance= on a ring topology for resonance effects
+- [ ] Reuse a single unit geometry with =translate-scale= for multiple instances
+
+** File Map
+
+| File                                     | Role                                |
+|------------------------------------------+-------------------------------------|
+| =components/node.cljs=                   | Diamond + crystal-view rendering    |
+| =components/constellation.cljs=          | SVG gradient/filter defs            |
+| =data.cljs=                              | Phase colours + entity definitions  |
+| =state.cljs=                             | Reactive hover state                |
+
+* The Evolution
+
+This section documents the design evolution — not as history for its own
+sake, but because each stage teaches a technique that the next stage
+absorbs.
+
+** Stage 1: Four Distinct Shapes
+
+The first implementation gave each phase a unique crystal geometry:
+
+| Phase    | Shape             | Facets | Visual Metaphor            |
+|----------+-------------------+--------+----------------------------|
+| Measure  | Octahedron        |      4 | Diamond profile — precise  |
+| Model    | Isometric cube    |      3 | Structured, rational       |
+| Manifest | Hexagonal prism   |      5 | Gem, faceted, luminous     |
+| Evaluate | Tetrahedron       |      4 | Minimal, irreducible       |
+
+Each was a separate =defn-= with hand-tuned vertex coordinates. The code
+worked, but it encoded a lie: that the phases are fundamentally
+different kinds of thing.
+
+*** What we learned
+
+*Faceted 3D illusion in SVG* requires only three ingredients:
+
+1. *Multi-polygon decomposition* — break the form into 3-5 planar facets
+2. *Tonal gradient assignment* — bright/medium/dark gradients simulate a light source
+3. *Edge highlights* — thin white lines at varying opacity trace the ridges
+
+The gradients are the key. Three linear gradients per phase colour
+(=crystal-top-{phase}=, =crystal-left-{phase}=, =crystal-right-{phase}=)
+create a consistent light-from-upper-left convention:
+
+#+begin_src clojurescript
+;; Top/lit facet: white highlight → base colour
+[:linearGradient {:id (str "crystal-top-" phase-id)
+                  :x1 "0.2" :y1 "0" :x2 "0.8" :y2 "1"}
+ [:stop {:offset "0%"   :stop-color "#ffffff" :stop-opacity "0.7"}]
+ [:stop {:offset "50%"  :stop-color base-hex  :stop-opacity "0.95"}]
+ [:stop {:offset "100%" :stop-color base-hex  :stop-opacity "0.85"}]]
+
+;; Left facet: base colour → dark navy
+[:linearGradient {:id (str "crystal-left-" phase-id)
+                  :x1 "0" :y1 "0" :x2 "1" :y2 "1"}
+ [:stop {:offset "0%"   :stop-color base-hex  :stop-opacity "0.85"}]
+ [:stop {:offset "100%" :stop-color "#1a1a2e" :stop-opacity "0.5"}]]
+
+;; Right facet: base colour → deep shadow
+[:linearGradient {:id (str "crystal-right-" phase-id)
+                  :x1 "1" :y1 "0" :x2 "0" :y2 "1"}
+ [:stop {:offset "0%"   :stop-color base-hex  :stop-opacity "0.6"}]
+ [:stop {:offset "100%" :stop-color "#0a0a16" :stop-opacity "0.7"}]]
+#+end_src
+
+These gradients survived every subsequent refactor unchanged. The visual
+vocabulary — bright/medium/dark — is independent of the geometry that
+uses it.
+
+** Stage 2: The Thurium (Central Unity)
+
+The first response to "these are all one" was to add a central form —
+the /thurium/ (incense altar) — at the origin. Four kite-shaped facets
+radiated toward the phase nodes, each carrying that phase's colour. Sight
+lines (dashed SVG lines) connected the thurium to the outer crystals.
+
+*** What we learned
+
+*Cycle-distance on a ring.* The four phases form a ring:
+Measure → Model → Manifest → Evaluate → Measure. When you hover
+one phase, how bright should the other facets be? The answer is
+topological distance on the ring:
+
+#+begin_src clojurescript
+(def ^:private phase-cycle
+  ["measure" "model" "manifest" "evaluate"])
+
+(defn- cycle-distance
+  "Steps between two phases in the 4-phase ring (0, 1, or 2)."
+  [a b]
+  (let [ia (.indexOf phase-cycle a)
+        ib (.indexOf phase-cycle b)]
+    (when (and (>= ia 0) (>= ib 0))
+      (min (mod (- ib ia) 4) (mod (- ia ib) 4)))))
+#+end_src
+
+Distance 0 = self (brightest). Distance 1 = adjacent (warm). Distance 2
+= opposite (gentle). This creates /resonance/ — hovering Measure warms
+Model and Evaluate, because the cycle connects them. The unity doesn't
+break when you attend to a part.
+
+** Stage 3: One Diamond, Four Lights
+
+The final insight: the outer crystals should not be four different
+shapes. They should be the /same/ shape as the central diamond, but
+illuminated from different directions. One geometry function. One vertex
+set. The only variable is which quadrant catches the light.
+
+This required:
+
+1. Rotating the diamond so vertices (not flat edges) point at the cardinals
+2. Defining a =crystal-view= function that renders the shared geometry
+   with directional lighting based on the crystal's position
+3. Removing four separate geometry functions and replacing them with one
+
+* Architecture
+
+#+begin_example
+             S-ul                S-ur
+               \    K-up (Model)  /
+                \      ↑        /
+                 \  T6   T7    /
+                  \ |  table | /
+          K-left ← T4 ···· T0 → K-right
+          (Measure) | ····  |  (Manifest)
+                  / T2   T1  \
+                 /      ↓      \
+                /  K-down       \
+               /  (Evaluate)     \
+             S-dl                S-dr
+
+
+  Three concentric rings:
+  ─────────────────────────────────────
+  Ring 0  Table octagon     r = 0.38    8 vertices at i×45°
+  Ring 1  Star tips         r = 0.90    4 at intercardinals
+  Ring 2  Kite tips         r = 1.40    4 at cardinals (toward phases)
+
+  8 crown facets = 2 per quadrant (one primary, one secondary).
+  Primary facet straddles the kite tip → brighter gradient.
+  Secondary facet straddles the star tip → subdued gradient.
+#+end_example
+
+The kite tips at the cardinals are the outermost reach — they point
+directly at the phase nodes. The star tips at the intercardinals
+connect adjacent phases. The table octagon is the innermost ring — the
+heart of the diamond.
+
+* Implementation
+
+** The Unit Diamond
+
+All vertices are pre-computed in unit coordinates, centered at the
+origin. To place a diamond at =(cx, cy)= with scale =s=, multiply each
+vertex by =s= and add =(cx, cy)=.
+
+#+begin_src clojurescript :tangle ../src/project_constellation/components/node.cljs
+;; (This block shows the geometry definition; the actual source
+;;  is in node.cljs and should be edited there directly.
+;;  Shown here for pedagogical exposition.)
+
+(def ^:private unit-diamond
+  (let [r-t 0.38   ;; table octagon radius
+        r-k 1.40   ;; kite tip radius (toward phases)
+        r-s 0.90   ;; star tip radius (between phases)
+        ;; Table: vertex i at angle i×45°
+        ;; → vertex 0 points right, 2 down, 4 left, 6 up
+        table (vec (for [i (range 8)]
+                     (let [a (* (/ js/Math.PI 180) (* i 45))]
+                       [(* r-t (js/Math.cos a))
+                        (* r-t (js/Math.sin a))])))
+        kites {:right [r-k 0]     :down [0 r-k]
+               :left [(- r-k) 0]  :up [0 (- r-k)]}
+        ss (* r-s (/ (js/Math.sqrt 2) 2))
+        stars {:ur [ss (- ss)]  :dr [ss ss]
+               :dl [(- ss) ss]  :ul [(- ss) (- ss)]}]
+    {:table table :kites kites :stars stars}))
+#+end_src
+
+Note the rotation: vertices at =i × 45°= (not =22.5 + i × 45°=). This
+places table vertices on the cardinal axes, so the diamond /points/ at
+the phases rather than presenting flat edges toward them. The visual
+effect is sharper and more crystalline.
+
+** Facet Definitions as Data
+
+Rather than hard-coding 8 polygon renderers, we define each facet as a
+data tuple:
+
+#+begin_src clojurescript
+(def ^:private diamond-facet-defs
+  ;; [phase-id, table-idx-a, table-idx-b, outer-a, outer-b, primary?]
+  [["manifest" 7 0 :s-ur :k-right true]
+   ["manifest" 0 1 :k-right :s-dr  false]
+   ["evaluate" 1 2 :s-dr :k-down  true]
+   ["evaluate" 2 3 :k-down :s-dl  false]
+   ["measure"  3 4 :s-dl :k-left  true]
+   ["measure"  4 5 :k-left :s-ul  false]
+   ["model"    5 6 :s-ul :k-up    true]
+   ["model"    6 7 :k-up :s-ur    false]])
+#+end_src
+
+Each facet is a quadrilateral: two adjacent table vertices + two outer
+vertices (one kite tip, one star tip — or vice versa). The =primary?=
+flag determines the gradient tier:
+
+- =true= → =crystal-top-{phase}= (bright, white-highlighted)
+- =false= → =crystal-left-{phase}= (subdued, base-to-shadow)
+
+This is /data-driven rendering/. Adding a facet or changing a quadrant
+assignment means editing one vector, not rewriting polygon coordinates.
+
+** Directional Lighting for Outer Crystals
+
+The core insight: each outer crystal is the same diamond, but with a
+different quadrant illuminated. The light comes from the center —
+therefore the lit face is the one that faces /inward/.
+
+#+begin_src clojurescript
+(def ^:private phase-lit-quadrant
+  "Which quadrant faces the center (light source) for each phase."
+  {"measure"  "manifest"    ;; at left, lit from right
+   "model"    "evaluate"    ;; at top, lit from below
+   "manifest" "measure"     ;; at right, lit from left
+   "evaluate" "model"})     ;; at bottom, lit from above
+#+end_src
+
+This creates a beautiful inversion: each crystal's brightest face is
+named after its /opposite/ phase. Measure's lit face is the Manifest
+quadrant. Model's lit face is the Evaluate quadrant. To understand one
+aspect, you must look at it from the other's direction.
+
+The =crystal-view= function uses =cycle-distance= between each facet's
+owning phase and the lit quadrant to choose a gradient tier:
+
+#+begin_src clojurescript
+(let [dist (cycle-distance pid lit)]
+  (case dist
+    0 "top"     ;; lit face — brightest gradient
+    1 "left"    ;; side faces — medium gradient
+    2 "right")) ;; far face — darkest gradient
+#+end_src
+
+Same three gradients. Same geometry. Different assignment. The visual
+difference between a brightly-lit diamond and a shadowed one emerges
+entirely from which gradient lands on which facet.
+
+* Key Design Decisions
+
+| Decision                                   | Rationale                                                                             |
+|--------------------------------------------+---------------------------------------------------------------------------------------|
+| Vertices on cardinals, not flat edges       | Sharper, more crystalline; diamond /points at/ the phases                              |
+| Kite tips (r=1.40) at cardinals             | Outermost reach toward phases; star tips (r=0.90) fill the gaps                        |
+| One geometry, parameterised lighting        | Philosophical: the phases are viewpoints, not distinct objects                          |
+| =cycle-distance= for resonance opacity     | Adjacent phases warm when one is hovered; the ring never breaks                        |
+| Data-driven facet defs (vector of tuples)   | Adding/reordering facets doesn't require new code, only data edits                     |
+| Reuse existing 3-tier gradients             | =crystal-top/left/right-{phase}= serve both central diamond and outer crystals         |
+| =translate-scale= for outer instances       | One unit geometry placed at four locations; DRY without abstraction overhead            |
+| =phase-lit-quadrant= maps to opposite       | Physical: light comes from center; philosophical: understanding requires the other view |
+
+* Exercises for the Reader
+
+1. *Add a fifth phase.* The cycle becomes a pentagon. How does
+   =cycle-distance= change? What happens to the diamond geometry — does
+   it gain a fifth quadrant, or remain 4-fold with one phase sharing?
+
+2. *Animate the lighting.* Instead of hover-driven opacity, implement a
+   slow rotation of the "light source" around the ring. Each quadrant
+   takes turns brightening. Use =requestAnimationFrame= or a Reagent
+   timer atom.
+
+3. *Depth perspective.* The current diamonds are top-down. Add a slight
+   perspective tilt: compress the y-coordinates of the far ring by 15%
+   to simulate looking at the diamond from an angle. How does this
+   affect the gradient assignments?
+
+4. *Facet subdivision.* Real brilliant-cut diamonds have 57 facets. Add
+   a fourth ring between stars and kites, creating 16 smaller facets
+   instead of 8. Each sub-facet can respond independently to hover,
+   creating a more detailed shimmer.
+
+* Requirements for Agents                                          :noexport:
+
+#+begin_src yaml
+lesson: 00-one-crystal-four-lights
+status: complete
+verifiable_criteria:
+  - shadow-cljs compiles with 0 warnings
+  - central diamond renders 8 crown facets + table at (0,0)
+  - each outer crystal uses identical geometry with directional lighting
+  - hover a phase → corresponding quadrant brightens (central + outer)
+  - cycle-distance resonance: adjacent quadrants warm, opposite gentle
+  - drill-down hides diamond (only visible at root)
+dependencies: []
+artifacts:
+  - components/node.cljs (diamond, crystal-view, unit-diamond)
+  - components/constellation.cljs (diamond-glow, diamond-table gradients)
+#+end_src
