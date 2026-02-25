@@ -1,7 +1,7 @@
 +++
 title = "Domains"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-25T22:24:42+01:00
+lastmod = 2026-02-26T00:38:44+01:00
 tags = ["domains"]
 draft = false
 +++

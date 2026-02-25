@@ -1,6 +1,8 @@
 +++
 title = "Writing"
 author = ["A Human-Machine Collaboration"]
+lastmod = 2026-02-26T00:38:44+01:00
+tags = ["writing"]
 draft = false
 +++
 
