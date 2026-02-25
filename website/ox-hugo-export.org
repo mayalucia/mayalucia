@@ -118,6 +118,15 @@ Essays, fictions, and parables from the MayaLucIA project --- where the process 
 
 #+include: "../collab/sessions/devprocess/sutra-genesis/phantom-faculty/the-phantom-faculty.org" :lines "5-"
 
+* The Logbook of the Unnamed River                                   :writing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: the-logbook-of-the-unnamed-river
+:EXPORT_HUGO_SECTION: writing
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "When the post office broke --- status knots retied by two hands, addresses delivered to weavers who no longer existed, a shared ledger tangled by too many crossings --- the Thread Walker burned nothing. He simply stopped carrying the ledger. What replaced it was a river."
+:END:
+
+#+include: "../collab/sessions/devprocess/sutra-genesis/logbook/the-logbook-of-the-unnamed-river.org" :lines "6-"
+
 * Papers                                                             :papers:
 :PROPERTIES:
 :EXPORT_FILE_NAME: _index
