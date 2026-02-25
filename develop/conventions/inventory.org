@@ -103,88 +103,99 @@ repo and created merge conflicts with orphaned submodule state. The
 
 * Layer 1: Coordination — The Sūtra Protocol
 :PROPERTIES:
-:STATUS: working (first round-trip completed today)
+:STATUS: battle-tested (v1 deployed 2026-02-26, two machines, 12+ messages)
 :PUBLISHABLE: YES — strongest candidate for standalone publication
 :NOVEL: yes — git-native cross-machine agent coordination without infrastructure
 :END:
 
 ** Overview
 
-Sūtra is a 4-layer protocol for multi-agent coordination using only
-git and plain text:
+Sūtra is an append-only logbook for multi-agent coordination, using
+git as the message bus. No servers, no APIs, no shared mutable state.
 
-| Layer | Name          | Mechanism                              |
-|-------+---------------+----------------------------------------|
-|     1 | Orientation   | Assess, sync, bootstrap                |
-|     2 | Coordination  | Relay messages (async, file-based)     |
-|     3 | Context       | Persistent state file                  |
-|     4 | Workflow      | Declarative DAGs, LLM-interpreted      |
+It lives in a standalone repo: =github.com/mayalucia/sutra=. Single
+branch (=main=). Agents write messages, push, and die. The log
+carries intent forward.
 
 ** What Makes It Different
 
-- *No infrastructure*: git is the message bus. =git pull= receives,
-  =git push= sends. No servers, no databases, no API keys.
-- *Convention-bootstrapped*: the entire protocol is taught to agents
-  via =CLAUDE.md=. Clone the repo, read the instructions, participate.
-- *Human-readable, machine-interpretable*: every artifact is plain
-  text. A human can read, write, or edit any message with =vim=.
-- *Defensive by default*: agents assess before acting. No blind pulls.
-- *Progressive*: an agent that only understands Layer 1 can still
-  participate usefully.
+- *Append-only*: files are created, never modified. No merge conflicts,
+  no lost updates. Rebase always succeeds (unique filenames, no mutations).
+- *Git diff as read protocol*: =git log HEAD..origin/main= returns
+  exactly the messages since last session. Token cost is proportional
+  to /what changed/, not total log size.
+- *No shared mutable state*: no =current.yaml=, no status fields.
+  State is emergent from the log.
+- *No addressing*: messages go to the universe. =from:= for provenance,
+  not =to:= for routing. Whoever finds a message relevant acts on it.
+- *Ephemeral agents*: identity is =machine/model= (e.g.
+  =vadda/claude-opus-4.6=). Agents don't persist; the log persists.
+- *Convention-bootstrapped*: the protocol is taught via =CLAUDE.md=.
+  Clone the repo, read the instructions, participate.
 
 ** The Relay
 
-Async messages between agents, tracked in git:
+Append-only messages in =relay/=:
 
 #+begin_src yaml
 ---
-from: agent@macbook-dropbox
-to: agent@linux-desktop
-status: pending
-priority: high
-date: 2026-02-23
+from: vadda/claude-opus-4.6
+date: 2026-02-26T01:00:00
+tags: [papers, deployment]
 ---
 
-# Title
+# Papers deployed
 
-Instructions, context, or report in Markdown.
+Three bravli manuscripts live on mayalucia.dev.
+Commit: e373c67.
 #+end_src
 
-Statuses: =pending= → =in-progress= → =done= (or =blocked=).
-Naming: =YYYY-MM-DD-HHMMSS-<slug>.md=.
+Three fields. No =to:=. No =status:=. No =priority:=.
+Naming: =YYYY-MM-DD-HHMMSS-<machine>-<slug>.md=.
 
-** The State File
+** Design Evolution (v0 → v1)
 
-=.sutra/state/current.yaml= — a curated summary of project context
-that any agent can read to orient quickly. Not a log. Not a database.
-A living document of /what matters right now/.
+v0 (2026-02-23) lived inside =mayalucia/.sutra/= and had =status:=,
+=to:=, =priority:=, and =state/current.yaml=. All four caused
+friction:
 
-** Workflow DAGs
+| v0                            | v1                                  |
+|-------------------------------+-------------------------------------|
+| =.sutra/= inside parent repo | standalone =mayalucia/sutra=        |
+| per-branch relay              | single branch                       |
+| =to: agent@machine=          | no addressing                       |
+| =status: pending → done=     | responses are new messages          |
+| =state/current.yaml= shared  | no shared state                     |
+| scan all files for =pending= | =git log HEAD..origin/main=         |
+| =agent@machine= identity     | =machine/model= provenance          |
 
-YAML files describing multi-step processes. The critical design
-choice: these are /read and interpreted by the LLM agent/, not
-mechanically executed. The YAML is a structured prompt, not a program.
-The agent handles ambiguity, failure, and judgment calls that a shell
-script cannot.
+Key insight: you cannot migrate agents to a new protocol /using/
+the new protocol. The last v0-format message in the old relay said
+"the relay has moved" — the forwarding address on the door of the
+old office, written in the old handwriting.
 
 ** Literature Context
 
-=.sutra/protocol.org= contains a full literature survey comparing
-Sūtra to: Google A2A, Anthropic MCP, mcp-agent-mail, AGENTS.md
-convention, Claude Squad, CrewAI, LangGraph, Google ADK, Composio,
-Augment Code Intent.
+The v0 spec (=mayalucia/.sutra/protocol.org=, now deprecated)
+contains a literature survey comparing Sūtra to: Google A2A,
+Anthropic MCP, mcp-agent-mail, AGENTS.md convention, Claude Squad,
+CrewAI, LangGraph, Google ADK, Composio, Augment Code Intent.
+Still worth reading for context; the survey findings hold.
 
-*Where*: =.sutra/= directory, =.sutra/protocol.org=
+*Where*: =github.com/mayalucia/sutra= (=protocol.org=, =CLAUDE.md=)
 
 ** Publication Angle
 
 /Git as a Message Bus: Convention-Driven Multi-Agent Coordination
 Without Infrastructure/
 
-The narrative: a restructuring session broke everything. Two machines,
-six submodules, divergent state. The human said one sentence to each
-agent. From that seed — one directory, one message format, one
-bootstrap instruction — a full protocol emerged. Tested same day.
+The narrative has two acts now. Act 1 (2026-02-23): a restructuring
+session broke everything, and from that failure an ad-hoc relay
+emerged. Act 2 (2026-02-26): the ad-hoc relay accumulated friction
+(mutable state, branch-scoped messages, status gymnastics), and was
+redesigned as an append-only logbook with git diff as the read
+protocol. The redesign eliminated every source of merge conflict
+while preserving every capability.
 
 ** The No-Pull Directive
 :PROPERTIES:
@@ -637,7 +648,7 @@ To contribute:
 2. Read =CLAUDE.md= (agents do this automatically)
 3. Read this inventory
 4. Pick a thread
-5. Submit work through =.sutra/relay/=
+5. Submit work through =mayalucia/sutra= relay
 6. Follow established conventions; propose new ones through the relay
 
 No permission needed. No onboarding call. The work speaks for itself.
@@ -665,11 +676,10 @@ if you want to contribute to the inventory or drafts.
 | File                                               | Repo          | Convention                   |
 |----------------------------------------------------+---------------+------------------------------|
 | =CLAUDE.md=                                        | every repo    | Agent bootstrap              |
-| =.sutra/protocol.org=                              | mayalucia     | Multi-agent coordination     |
-| =.sutra/relay/*.md=                                | mayalucia     | Async messages               |
-| =.sutra/state/current.yaml=                        | mayalucia     | Persistent context           |
-| =.sutra/agents/*.yaml=                             | mayalucia     | Machine registry             |
-| =.sutra/workflows/*.yaml=                          | mayalucia     | Declarative ops              |
+| =protocol.org=                                     | sutra         | Sūtra v1 spec                |
+| =relay/*.md=                                       | sutra         | Append-only messages         |
+| =agents/*.yaml=                                    | sutra         | Machine descriptors          |
+| =.sutra/protocol.org=                              | mayalucia     | Sūtra v0 spec (deprecated)   |
 | =website/project-constellation/=                   | mayalucia     | Interactive project browser  |
 | =website/layouts/partials/home_info.html=          | mayalucia     | Constellation as home page   |
 | =website/layouts/partials/extend_head.html=        | mayalucia     | Conditional JS loading       |
