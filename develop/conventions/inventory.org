@@ -1,7 +1,7 @@
 #+title: Convention Inventory — MāyāLucIA
 #+subtitle: What We Built, What We Learned, What's Publishable
-#+author: mu2tau + agent@linux-desktop
-#+date: 2026-02-23
+#+author: mu2tau + agent@linux-desktop + agent@macbook-dropbox
+#+date: 2026-02-25
 #+property: header-args :tangle no
 #+startup: overview
 
@@ -9,7 +9,7 @@
 
 This document is an inventory of conventions, methodology, and
 publishable ideas that have emerged from the MāyāLucIA project in its
-first three weeks (Feb 6–23, 2026). It lives on the
+first three weeks (Feb 6–25, 2026). It lives on the
 =develop/conventions= branch.
 
 ** Who This Is For
@@ -185,6 +185,80 @@ The narrative: a restructuring session broke everything. Two machines,
 six submodules, divergent state. The human said one sentence to each
 agent. From that seed — one directory, one message format, one
 bootstrap instruction — a full protocol emerged. Tested same day.
+
+** The No-Pull Directive
+:PROPERTIES:
+:STATUS: battle-tested (learned from failure, codified 2026-02-25)
+:PUBLISHABLE: yes (embedded in Sūtra)
+:NOVEL: yes — addresses a failure mode specific to LLM agents
+:END:
+
+Never write =git pull= in a relay message, workflow step, or
+instruction to another agent. Not even "check first, then pull."
+
+The reason: agents are pattern-followers. If they see =git pull= in a
+message, some will execute it — skipping or abbreviating the
+assessment step. The phrase itself is a hazard. The correct directive
+is always: "follow session bootstrap" — which means assess (=git
+status= in parent + all submodules), resolve any dirty state, /then/
+sync if clean.
+
+This emerged from two incidents:
+1. An agent ran =git pull= into a dirty repo with divergent submodule
+   pointers, creating orphaned state (2026-02-23)
+2. A relay message said "you need to pull" — the receiving agent
+   would have executed it without full assessment (caught 2026-02-25)
+
+The convention operates at three layers:
+- Relay messages: never contain the phrase "git pull"
+- =current.yaml= conventions list: codifies the rule
+- Agent memory: each agent's persistent memory records it
+
+*Where*: =.sutra/state/current.yaml= conventions, relay messages,
+agent memory files
+
+** Constellation Browser as Home Page
+:PROPERTIES:
+:STATUS: battle-tested (deployed to mayalucia.dev 2026-02-25)
+:PUBLISHABLE: yes (part of project showcase)
+:NOVEL: partially — interactive force-directed project maps exist,
+        but one with phase-aware crystal geometry and a central
+        brilliant-cut diamond as unifying metaphor is new
+:END:
+
+The project constellation is a CLJS/Reagent/d3-force interactive
+browser that renders the MāyāLucIA project ecosystem as a
+force-directed graph. It now serves as the =mayalucia.dev= home page.
+
+Key architecture decisions:
+- PaperMod's =home_info.html= partial overridden in
+  =layouts/partials/= (one file, no theme modification)
+- JS loaded conditionally on =/= and =/projects/= via =extend_head.html=
+- Entities are data-driven (=data.cljs=), not hardcoded in rendering
+- Central diamond is a "virtual entity" — present in lookup maps
+  (info panel, colours) but absent from force simulation
+- Four phase anchors rendered as directional views of one geometry
+
+*Where*: =website/project-constellation/=, =website/layouts/partials/=
+
+** Hugo Leaf vs Branch Bundles
+:PROPERTIES:
+:STATUS: battle-tested (fixed 5 sections, 2026-02-25)
+:PUBLISHABLE: no (Hugo-specific, well-documented upstream)
+:NOVEL: no
+:END:
+
+Any Hugo content directory that has child pages MUST use =_index.md=
+(branch bundle), not =index.md= (leaf bundle). A leaf bundle silently
+swallows sibling =.md= files — they exist on disk but Hugo ignores
+them. No warning, no error. Pages simply 404 in production.
+
+This bit us across 5 sections: =modules/mayapramana/=,
+=modules/mayajiva/=, =portal/=, =domains/bravli/=,
+=domains/parbati/=. All had =index.md= or flat =.md= files that
+needed conversion to =_index.md= branch bundles.
+
+*Where*: =website/content/= (all section directories)
 
 * Layer 2: Knowledge — The Literate Stack
 
@@ -596,6 +670,9 @@ if you want to contribute to the inventory or drafts.
 | =.sutra/state/current.yaml=                        | mayalucia     | Persistent context           |
 | =.sutra/agents/*.yaml=                             | mayalucia     | Machine registry             |
 | =.sutra/workflows/*.yaml=                          | mayalucia     | Declarative ops              |
+| =website/project-constellation/=                   | mayalucia     | Interactive project browser  |
+| =website/layouts/partials/home_info.html=          | mayalucia     | Constellation as home page   |
+| =website/layouts/partials/extend_head.html=        | mayalucia     | Conditional JS loading       |
 | =project/mayaloom.org=                             | mayalucia     | Adaptive teaching            |
 | =manifesto/manifesto.org=                          | manifesto     | Position paper               |
 | =mayadevgeni/mayadevgeni.org=                      | mayadevgeni   | Collaboration framework      |
