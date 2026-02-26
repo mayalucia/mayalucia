@@ -1,0 +1,512 @@
+#+title: Literature Survey — Autonomy, Collaboration, and Knowledge Across Traditions
+#+author: mu2tau + mahakali/claude-opus-4.6
+#+date: 2026-02-26
+
+* Purpose
+
+This survey grounds the autonomy agreement proposal in prior work
+across five domains: cybernetics, pedagogy, AI alignment,
+anthropology of knowledge, and existing ML tools. The goal is not
+comprehensiveness but to identify the intellectual ancestors,
+locate the genuine novelty, and find the blind spots.
+
+* 1. Cybernetics (1940s--present)
+
+** 1.1 Ashby: Requisite Variety
+
+The Law of Requisite Variety (1956): a controller must have at
+least as much variety as the system it controls. The Good Regulator
+Theorem (Conant & Ashby, 1970): every good regulator of a system
+must be a model of that system.
+
+/Implication/: autonomy delegation is variety delegation. You
+delegate exactly as much as the machine can absorb without exceeding
+the partnership's viability bounds. Trust is calibrated variety.
+
+- Ashby, W.R. (1956). /An Introduction to Cybernetics/. Chapman & Hall.
+- Conant & Ashby (1970). "Every good regulator..." /Int. J. Systems Science/ 1(2).
+
+** 1.2 Licklider: Man-Computer Symbiosis (1960)
+
+The original vision: not master-servant, but mutualism. Division of
+labor by cognitive type, not hierarchy. The key frontier: /formulative
+thinking/ — problems that cannot be formulated without machine aid.
+The machine is admitted not just to solution but to problem-formation.
+
+/Implication/: symbiosis requires ongoing negotiation of the cognitive
+boundary. Progressive disclosure is progressively admitting the machine
+into the formulative process.
+
+- Licklider, J.C.R. (1960). "Man-Computer Symbiosis." /IRE Trans. HFE/.
+
+** 1.3 Pask: Conversation Theory (1975--76)
+
+The most formally developed cybernetic model of learning through
+dialogue. Knowledge as entailment meshes (relational, not
+propositional). /Teachback/ as the criterion of understanding: B
+teaches the concept back to A in a different way. P-individuals
+(conceptual entities) emerge from M-individuals (physical substrates)
+through conversation.
+
+/Implication/: autonomy is not pre-assigned but emerges from
+conversational success. The machine earns autonomy through successful
+teachback — demonstrating understanding sufficient for independent
+action. This is the formal ancestor of our protocol.
+
+- Pask, G. (1976). /Conversation, Cognition and Learning/. Elsevier.
+- Scott, B. (2001). "Gordon Pask's Conversation Theory." /Foundations of Science/ 6.
+
+** 1.4 Maturana & Varela: Autopoiesis and Structural Coupling
+
+Cognition is effective action, not representation. Structural coupling:
+organism and environment co-evolve through mutual perturbation. Neither
+controls the other.
+
+/Implication/: autonomy in a partnership is co-constituted through
+coupling history, not toggled by permission. Trust is the quality of
+the coupling trajectory.
+
+- Maturana & Varela (1972/1980). /Autopoiesis and Cognition/. D. Reidel.
+
+** 1.5 Beer: Viable System Model
+
+Five recursive subsystems for any autonomous system. S1 (operations)
+has /maximum autonomy consistent with cohesion/. S3 (optimization)
+ensures coherence without commanding. S5 (identity) balances internal
+and external adaptation.
+
+/Implication/: direct architectural template for human-machine
+autonomy. The machine (S1) operates within bounds set by coordination
+(S2) and oversight (S3); the partnership jointly performs strategic
+adaptation (S4/S5).
+
+- Beer, S. (1972). /Brain of the Firm/. Allen Lane.
+- Beer, S. (1994). /Beyond Dispute: The Invention of Team Syntegrity/. Wiley.
+
+** 1.6 Bateson: Levels of Learning
+
+Learning 0 (fixed response), I (trial-and-error), II (learning to
+learn — deutero-learning), III (revision of the framework itself).
+Double bind theory: contradictory injunctions at different logical
+levels produce either pathology or creativity.
+
+/Implication/: autonomy negotiation requires asking /which level of
+learning/ to grant. A machine at Learning II can change what it
+optimizes for. Learning III — changing the framework of adaptation —
+is the frontier. Double binds in trust ("trust me" while behaving
+unpredictably) require metalevel communication to resolve.
+
+- Bateson, G. (1972). /Steps to an Ecology of Mind/. Ballantine.
+
+** 1.7 Von Foerster: Second-Order Cybernetics
+
+The observer is part of the system. Both parties model each other,
+and those models are co-constitutive. Design is an ethical act.
+
+/Implication/: the machine's autonomy is partially constructed by
+the human's expectations, and vice versa. Transparency of
+construction replaces verification of output.
+
+- Von Foerster, H. (1974/2003). /Observing Systems/. Intersystems.
+
+* 2. Pedagogy and Learning Theory
+
+** 2.1 Vygotsky: Zone of Proximal Development
+
+The space between what a learner can do alone and with guidance.
+Learning occurs most effectively here. The "More Knowledgeable Other"
+(MKO) provides scaffolding.
+
+/Warning/: the "Zone of No Development" (recent concept) — when AI
+continuously mediates learning, cognitive struggle diminishes and
+autonomous reasoning atrophies. Productive struggle is essential.
+
+- Vygotsky, L.S. (1978). /Mind in Society/. Harvard UP.
+
+** 2.2 Scaffolding and Fading (Bruner, Wood)
+
+Progressive withdrawal of support as competence grows. The teacher
+adjusts the level of assistance dynamically.
+
+/Direct analog/: our autonomy levels (apprentice → delegate) are a
+scaffolding model with explicit fading protocol.
+
+- Wood, Bruner & Ross (1976). "The role of tutoring in problem solving."
+  /J. Child Psych./ 17.
+
+** 2.3 Lave & Wenger: Legitimate Peripheral Participation
+
+Knowledge as participation in a community of practice, not as
+possession of facts. Learning is moving from periphery to center.
+
+/Implication/: a machine collaborator enters as a peripheral
+participant and becomes central through demonstrated contribution.
+Knowledge is not transmitted but co-produced through participation.
+
+- Lave, J. & Wenger, E. (1991). /Situated Learning/. Cambridge UP.
+
+** 2.4 Freire: Critical Pedagogy
+
+The "banking model" (teacher deposits knowledge into passive student)
+vs. dialogical education (both parties are subjects, both are
+changed). Education as liberation.
+
+/Warning/: human-AI collaboration risks the banking model — human
+deposits instructions, machine executes. The autonomy agreement
+aims for the dialogical model.
+
+- Freire, P. (1970). /Pedagogy of the Oppressed/. Continuum.
+
+** 2.5 Bloom: Two Sigma Problem (1984)
+
+One-to-one tutoring with mastery learning produces a two standard
+deviation improvement over classroom instruction. The challenge:
+achieving this at scale.
+
+/Implication/: AI could be the scalable tutor Bloom envisioned — but
+only if it provides genuine formative feedback and mastery checks,
+not just answers. The autonomy agreement's /teachback/ requirement
+(from Pask) is precisely this.
+
+- Bloom, B.S. (1984). "The 2 sigma problem." /Educational Researcher/ 13(6).
+
+** 2.6 Apprenticeship Models
+
+Cognitive apprenticeship (Collins et al.): modeling, coaching,
+scaffolding, fading. The guru-shishya paramparā: immersion-based,
+embodied, relationship-centered, non-propositional.
+
+/Implication/: the guru-shishya model is a different trust paradigm
+from the postdoc analogy. Trust is built through absorption and
+demonstration, not through verified task completion.
+
+** 2.7 Papert: Constructionism
+
+Learning by making. Understanding emerges through the act of
+construction. "What I cannot create, I do not understand" (Feynman,
+independently).
+
+/Direct ancestor/ of MāyāLucIA's core cycle: Measure → Model →
+Manifest → Evaluate → Refine.
+
+- Papert, S. (1980). /Mindstorms/. Basic Books.
+
+* 3. AI Alignment and Human-AI Teaming
+
+** 3.1 CIRL: Cooperative Inverse Reinforcement Learning
+
+Hadfield-Menell, Russell et al. (2016). Human-robot alignment as a
+cooperative game where the robot actively learns the human's reward
+function. Both parties modify behavior to be more informative.
+
+/Gap/: CIRL assumes fixed cooperative structure. No mechanism for
+graduating trust or negotiating scope.
+
+- Hadfield-Menell et al. (2016). "Cooperative IRL." NeurIPS.
+
+** 3.2 Constitutional AI (Anthropic, 2022)
+
+Principles replace per-instance labels. The model critiques its own
+outputs against a constitution. Unilateral — Anthropic writes the
+constitution.
+
+/Distinction/: the autonomy agreement is bilateral. Both parties
+define the epistemic commitments.
+
+- Bai et al. (2022). "Constitutional AI." arXiv:2212.08073.
+
+** 3.3 Calibrated Trust in Automation (Lee & See, 2004)
+
+Trust as a dynamic, continuous assessment based on performance,
+process, and purpose. Overtrust → misuse; undertrust → disuse.
+
+/Directly operationalized/ by per-aspect autonomy levels and
+transition protocol.
+
+- Lee & See (2004). "Trust in Automation." /Human Factors/ 46(1).
+- Parasuraman, Sheridan & Wickens (2000). "Types and Levels of
+  Human Interaction with Automation." /IEEE Trans. SMC/ 30(3).
+
+** 3.4 Knight/Columbia: Levels of Autonomy for AI Agents (2025)
+
+Five levels by user's role: operator, collaborator, consultant,
+approver, observer. Autonomy certificates. Governance scales with
+level. Closest existing work to our proposal.
+
+/Key differences from our proposal/:
+
+| Aspect | Knight/Columbia | Autonomy Agreement |
+|--------|-----------------|--------------------|
+| Direction | Unilateral (human sets) | Bilateral (negotiated) |
+| Granularity | Per-agent | Per-aspect-of-work |
+| Machine self-awareness | Not addressed | Machine self-de-escalates |
+| Epistemic commitments | Not addressed | Core component |
+| Audit trail | Recommended | Structurally required |
+| Context | Enterprise governance | Scientific/creative collaboration |
+
+- Feng & McDonald (2025). "Levels of Autonomy for AI Agents."
+  Knight First Amendment Institute, Columbia. arXiv:2506.12469.
+
+** 3.5 Bradshaw: Adjustable Autonomy (2003--2012)
+
+Four dimensions: who initiates changes, what is adjusted, when
+changes are determined, why they occur. EMICS allows either human or
+system to initiate transitions.
+
+/Mapped onto/ our transition protocol. We add a fifth dimension:
+logged rationale.
+
+- Bradshaw et al. (2004). "Dimensions of Adjustable Autonomy." Springer.
+
+** 3.6 Shared Mental Models (Demir et al., 2020)
+
+Bidirectional modeling: humans must model the AI and vice versa.
+Action-related communication and shared goals are critical.
+
+/The agreement template is a formalized shared mental model/ — role
+expectations, epistemic commitments, session resumption as
+re-synchronization.
+
+- Demir et al. (2020). /Theoretical Issues in Ergonomics Science/.
+- National Academies (2022). /Human-AI Teaming: State-of-the-Art/.
+
+** 3.7 SciSciGPT (Nature Computational Science, Dec 2025)
+
+Multi-agent system for automated scientific workflows. Specialist
+agents for literature, data, analytics, evaluation. Open-source.
+
+/Limitation/: workflow automation, not structured dialogue.
+No autonomy negotiation, no epistemic commitments.
+
+- Shao et al. (2025). "SciSciGPT." /Nature Computational Science/.
+
+** 3.8 Google AI Co-Scientist (Feb 2025)
+
+Multi-agent system (Gemini 2.0) for hypothesis generation using
+generate-debate-evolve. Reduced hypothesis generation from weeks to
+days. Wet-lab validated predictions.
+
+/Key distinction/: the co-scientist generates hypotheses
+autonomously. Our proposal is about the /negotiation/ of when
+autonomous generation is appropriate and how to audit it.
+
+** 3.9 Five Paradoxes of Human-AI Co-Creation (2025)
+
+Irreducible design tensions: ambiguity vs. precision, control vs.
+serendipity, speed vs. reflection, individual vs. collective,
+originality vs. remix.
+
+/Implication/: these paradoxes cannot be resolved, only navigated.
+The autonomy agreement provides a navigation protocol.
+
+- "Designing Co-Creative Systems." /Information/ 16(10), 2025.
+
+* 4. Anthropology and Philosophy of Knowledge
+
+** 4.1 Polanyi: Tacit Knowledge
+
+"We know more than we can tell." Proximal-distal structure: we attend
+/from/ subsidiary clues /to/ focal meaning. All explicit knowledge
+rests on tacit foundations. Personal knowledge integrates both.
+
+/Implication/: the position paper's assumption that collaboration
+occurs through explicit propositions captures only the focal surface.
+The tacit substrate — the feel for the problem, the sense of what
+matters — is where the real work happens and where AI collaboration
+is hardest.
+
+- Polanyi, M. (1966). /The Tacit Dimension/. Doubleday.
+- Polanyi, M. (1958). /Personal Knowledge/. University of Chicago Press.
+
+** 4.2 Ryle: Knowing-How vs. Knowing-That
+
+Knowing how to ride a bicycle is not the same as knowing propositions
+about bicycle riding. Intelligent practice is not theory-then-action;
+it is "thinking what one is doing" within the activity itself.
+
+/Implication/: an agent's competence at a task is demonstrated through
+performance, not through propositional description. The autonomy
+agreement's emphasis on /demonstrated/ competence (not declared
+competence) follows Ryle.
+
+- Ryle, G. (1949). /The Concept of Mind/. Hutchinson.
+
+** 4.3 Dreyfus: Skill Acquisition Model
+
+Five stages: novice → advanced beginner → competent → proficient →
+expert. At higher levels, rules are replaced by intuition and
+situational holism. Experts don't follow rules; they /see/ the right
+thing to do.
+
+/Implication/: the four autonomy levels (apprentice → collaborator)
+loosely correspond to novice → expert. At collaborator level, the
+machine should exhibit something like intuition — not rule-following
+but holistic response to context.
+
+- Dreyfus, H.L. & Dreyfus, S.E. (1986). /Mind over Machine/. Free Press.
+
+** 4.4 Indian Pramāṇa Theory
+
+Valid means of knowledge (/pramāṇa/):
+- Pratyakṣa (perception) — direct sensory evidence
+- Anumāna (inference) — logical reasoning from observed to unobserved
+- Śabda (testimony) — authoritative statement
+- Upamāna (analogy) — knowledge through comparison
+
+Different schools (Nyāya, Vedānta, Buddhist) accept different subsets.
+The framework recognizes that knowledge has /multiple valid sources/
+with different epistemological status.
+
+/Implication/: the autonomy agreement's "evidence hierarchy" in
+epistemic commitments is a version of pramāṇa theory. We should
+explicitly support multiple evidence types with different weights,
+not assume a single standard of proof.
+
+** 4.5 Nonaka: SECI Model
+
+Knowledge creation as a cycle: Socialization (tacit → tacit),
+Externalization (tacit → explicit), Combination (explicit → explicit),
+Internalization (explicit → tacit). /Ba/ = shared context where
+knowledge is created.
+
+/Critique/: culturally specific (Japanese lifetime employment),
+empirically weak, oversimplifies the tacit-explicit boundary.
+But the cycle is useful: human-AI collaboration involves all four
+modes. The GRAI framework (2025) extends SECI for generative AI.
+
+- Nonaka & Takeuchi (1995). /The Knowledge-Creating Company/. Oxford UP.
+
+** 4.6 Phenomenology
+
+Husserl: the /Lebenswelt/ (lifeworld) — the pre-theoretical
+experience that science abstracts from but depends on.
+
+Heidegger: /Zuhandenheit/ (ready-to-hand) — tools disappear in use.
+When they break (/Vorhandenheit/, present-at-hand), they become
+objects of scrutiny. Knowing-how is unreflective immersion.
+
+Merleau-Ponty: perception is bodily, not mental. We know the world
+through our motor engagement with it.
+
+/Implication/: a collaboration tool that works well should become
+/invisible/ (ready-to-hand). The protocol succeeds when participants
+stop thinking about the protocol and think about the work.
+
+** 4.7 Ingold: Anthropology of Skill
+
+Knowledge is not transmitted but /grown/ through attention and
+practice in an environment. Enskilment, not enculturation.
+Lines, not points — the practitioner follows a path of movement.
+
+/Implication/: the machine doesn't /receive/ knowledge from the human;
+it /grows/ capability through attention to the coupling history.
+
+- Ingold, T. (2000). /The Perception of the Environment/. Routledge.
+
+** 4.8 STS: Latour, Pickering, Haraway
+
+Latour: knowledge is produced through /networks/ of human and
+non-human actors. No sharp boundary between subject and object.
+
+Pickering: the "mangle of practice" — knowledge emerges from the
+/resistance/ of materials and instruments, not from pure theory.
+
+Haraway: "situated knowledges" — all knowledge is produced from a
+position. Objectivity is not view-from-nowhere but acknowledged
+partiality.
+
+/Implication/: the human-AI dialogue is itself a site of knowledge
+production. The machine is an actor in the network, not a transparent
+tool. Its "position" (training data, model architecture, context
+window) is a form of situated knowledge that should be acknowledged.
+
+* 5. Gap Analysis: Where We Stand
+
+** What has deep prior art
+
+| Our concept | Ancestor |
+|-------------|----------|
+| Autonomy levels | Parasuraman (2000), Knight/Columbia (2025) |
+| Trust calibration | Lee & See (2004) |
+| Conversation as knowledge | Pask (1976) |
+| Progressive disclosure | Scaffolding (Bruner), Dreyfus stages |
+| Append-only audit | Lab notebook tradition, event sourcing |
+| Epistemic commitments | Pramāṇa theory, scientific method |
+| Structural coupling | Maturana & Varela (1972) |
+
+** What is genuinely new
+
+1. *Bilateral negotiation* — every existing framework treats autonomy
+   as granted by the human or inherent in the system. None treat it as
+   negotiated between parties with logged consent from both sides.
+
+2. *Per-aspect granularity with epistemic commitments* — autonomy
+   varies by /aspect of the work/, grounded in domain-specific
+   standards of evidence. Not per-agent, not per-task.
+
+3. *Machine-initiated de-escalation* — the machine recognizing and
+   declaring its own limits. Existing corrigibility research focuses
+   on human correction; our protocol makes self-assessment a
+   first-class feature.
+
+4. *The audit trail as scientific record* — not compliance, but the
+   collaboration's lab notebook. The reasoning /is/ the contribution.
+
+5. *Non-propositional extension* — acknowledging that the
+   propositional-symbolic substrate is the easiest case, and that
+   embodied, aesthetic, and oral traditions require fundamentally
+   different moves (demonstrate, invoke, correct, absorb).
+
+** What we're still missing
+
+1. *Pask's teachback in practice* — the prototype has no mechanism
+   for teachback. The machine should periodically demonstrate
+   understanding by reconstructing the human's reasoning, not
+   just executing it.
+
+2. *Bateson's Learning II* — the protocol handles Learning I (adjust
+   within parameters) but doesn't yet support deutero-learning
+   (learning to learn within the collaboration).
+
+3. *Nonaka's Socialization quadrant* — tacit-to-tacit transfer.
+   How does embodied knowledge move between human and machine?
+   The survey reveals this is the hardest problem and the one
+   least addressed by any existing framework.
+
+4. *The ensemble case* — our protocol is bilateral. Real scientific
+   and creative collaboration often involves multiple parties.
+   Beer's Team Syntegrity provides a model but hasn't been
+   integrated.
+
+5. *Material resistance* — Pickering's "mangle of practice." The
+   machine doesn't interact with physical materials. When the
+   collaboration involves lab work, fieldwork, or craft, the
+   material world pushes back in ways the protocol doesn't capture.
+
+* Key References (Alphabetical)
+
+- Ashby, W.R. (1956). /An Introduction to Cybernetics/.
+- Bateson, G. (1972). /Steps to an Ecology of Mind/.
+- Beer, S. (1972). /Brain of the Firm/.
+- Beer, S. (1994). /Beyond Dispute: Team Syntegrity/.
+- Bloom, B.S. (1984). "The 2 sigma problem." /Ed. Researcher/ 13(6).
+- Bradshaw et al. (2004). "Dimensions of Adjustable Autonomy." Springer.
+- Dreyfus, H.L. & Dreyfus, S.E. (1986). /Mind over Machine/.
+- Feng & McDonald (2025). "Levels of Autonomy for AI Agents." arXiv:2506.12469.
+- Freire, P. (1970). /Pedagogy of the Oppressed/.
+- Hadfield-Menell et al. (2016). "Cooperative IRL." NeurIPS.
+- Ingold, T. (2000). /The Perception of the Environment/.
+- Lave & Wenger (1991). /Situated Learning/.
+- Lee & See (2004). "Trust in Automation." /Human Factors/ 46(1).
+- Licklider, J.C.R. (1960). "Man-Computer Symbiosis." /IRE Trans. HFE/.
+- Maturana & Varela (1972/1980). /Autopoiesis and Cognition/.
+- National Academies (2022). /Human-AI Teaming/.
+- Nonaka & Takeuchi (1995). /The Knowledge-Creating Company/.
+- Papert, S. (1980). /Mindstorms/.
+- Parasuraman, Sheridan & Wickens (2000). /IEEE Trans. SMC/ 30(3).
+- Pask, G. (1976). /Conversation, Cognition and Learning/.
+- Polanyi, M. (1966). /The Tacit Dimension/.
+- Ryle, G. (1949). /The Concept of Mind/.
+- Varela, Thompson & Rosch (1991). /The Embodied Mind/.
+- Von Foerster, H. (1974/2003). /Observing Systems/.
+- Vygotsky, L.S. (1978). /Mind in Society/.
