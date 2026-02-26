@@ -4,7 +4,6 @@
   display: grid;
   grid-template-columns: 1fr 280px;
   gap: 0;
-  background: #12121e;
 }
 
 .constellation-svg {
@@ -15,6 +14,7 @@
 .constellation-info-panel {
   max-height: 80vh;
   overflow-y: auto;
+  border-left: 1px solid rgba(232,228,212,0.08);
 }
 
 /* Thread pulse animation */
@@ -27,17 +27,18 @@
   50% { opacity: 0.4; }
 }
 
-/* Responsive: collapse to single column on small screens */
-@media (max-width: 640px) {
+/* Portrait / narrow screens: stack info panel below constellation */
+@media (max-width: 768px) {
   .project-constellation {
     grid-template-columns: 1fr;
   }
   .constellation-info-panel {
-    max-height: 200px;
+    max-height: 40vh;
     border-left: none;
     border-top: 1px solid rgba(232,228,212,0.08);
   }
   .constellation-svg {
-    min-height: 300px;
+    min-height: 55vw;
+    max-height: 60vh;
   }
 }

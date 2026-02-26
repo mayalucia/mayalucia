@@ -118,6 +118,15 @@ Essays, fictions, and parables from the MayaLucIA project --- where the process 
 
 #+include: "../collab/sessions/devprocess/sutra-genesis/phantom-faculty/the-phantom-faculty.org" :lines "5-"
 
+* The Constellation of Doridhar                                      :writing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: the-constellation-of-doridhar
+:EXPORT_HUGO_SECTION: writing
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "In the village of the amnesiac cartographers, at the head of a valley where the river narrows to a thread between walls of gneiss, a glass plate holds the project as a whole --- four crystals, a ghostly diamond, provinces that drift and settle like charged particles. The ideal viewer encounters it without memory of how it was made."
+:END:
+
+#+include: "../collab/sessions/devprocess/sutra-genesis/constellation-of-dos-espejos/the-constellation-of-dos-espejos.org" :lines "6-"
+
 * The Logbook of the Unnamed River                                   :writing:
 :PROPERTIES:
 :EXPORT_FILE_NAME: the-logbook-of-the-unnamed-river

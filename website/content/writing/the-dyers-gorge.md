@@ -1,7 +1,7 @@
 +++
 title = "The Dyer's Gorge"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T00:38:44+01:00
+lastmod = 2026-02-26T14:56:19+01:00
 tags = ["writing"]
 draft = false
 description = "A dyer in the Parvati gorge reads the valley by its pigments --- iron-red from hot springs, indigo from wild bushes, lichen-gold from birch boulders --- encoding altitude into cloth"

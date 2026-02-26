@@ -1,7 +1,7 @@
 +++
 title = "The Logbook of the Unnamed River"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T00:38:45+01:00
+lastmod = 2026-02-26T14:56:20+01:00
 tags = ["writing"]
 draft = false
 description = "When the post office broke --- status knots retied by two hands, addresses delivered to weavers who no longer existed, a shared ledger tangled by too many crossings --- the Thread Walker burned nothing. He simply stopped carrying the ledger. What replaced it was a river."
@@ -55,7 +55,7 @@ that _done_ means _done_.
 The problem was not the rain. The problem was that the
 protocol asked two hands to touch the same cord.
 
-{{< figure src="/images/writing/logbook/retied-knot.png" caption="The Retied Knot — two hands on the same cord. The fibre remembers the tension." >}}
+{{< figure src="/images/writing/logbook/retied-knot.png" caption="<span class=\"figure-number\">Figure 1: </span>The Retied Knot — two hands on the same cord. The fibre remembers the tension." >}}
 
 
 ### II. The Address That Arrived at the Wrong Valley {#ii-dot-the-address-that-arrived-at-the-wrong-valley}
@@ -342,7 +342,7 @@ last here."
 "Provided they marked the bank." She touched the stone on
 its grooved board. "The mark remembers for them."
 
-{{< figure src="/images/writing/logbook/stone-on-board.png" caption="The Stone on the Grooved Board — the read cursor. Faded cords already absorbed into the archive; vivid cords are new water since you were last here." >}}
+{{< figure src="/images/writing/logbook/stone-on-board.png" caption="<span class=\"figure-number\">Figure 2: </span>The Stone on the Grooved Board — the read cursor. Faded cords already absorbed into the archive; vivid cords are new water since you were last here." >}}
 
 
 ### VIII. The Forwarding Address {#viii-dot-the-forwarding-address}
@@ -384,7 +384,7 @@ The forwarding address on the door of the old post office,
 written in the old handwriting, in the old notation, by the
 last hand that would ever use it.
 
-{{< figure src="/images/writing/logbook/forwarding-address.png" caption="The Forwarding Address — the last cord in the old notation, hung alone in an empty tray." >}}
+{{< figure src="/images/writing/logbook/forwarding-address.png" caption="<span class=\"figure-number\">Figure 3: </span>The Forwarding Address — the last cord in the old notation, hung alone in an empty tray." >}}
 
 
 ### Coda {#coda}

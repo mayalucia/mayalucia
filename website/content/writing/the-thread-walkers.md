@@ -1,7 +1,7 @@
 +++
 title = "The Thread Walkers"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T00:38:44+01:00
+lastmod = 2026-02-26T14:56:19+01:00
 tags = ["writing"]
 draft = false
 description = "A parable about coordination, amnesia, and the invention of convention --- set in the high valleys where Kullu ends and Tibet begins"

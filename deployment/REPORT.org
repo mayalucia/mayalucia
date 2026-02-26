@@ -4,12 +4,12 @@
 
 * Live Sites
 
-| Domain                                                  | Technology                         | Status |
-|---------------------------------------------------------+------------------------------------+--------|
-| [[https://vishalsood.dev][vishalsood.dev]]              | FastAPI + Jinja2 + HTMX + Pico CSS | Live   |
-| [[https://mayalucia.dev][mayalucia.dev]]                | Hugo + PaperMod (static)           | Live   |
-| [[https://devgeni.mayalucia.dev][devgeni.mayalucia.dev]] | Hugo + PaperMod (static)           | Live   |
-| [[https://comptoir.mayalucia.dev][comptoir.mayalucia.dev]] | Streamlit + Anthropic API        | Live   |
+| Domain                 | Technology                         | Status |
+|------------------------+------------------------------------+--------|
+| [[https://vishalsood.dev][vishalsood.dev]]         | FastAPI + Jinja2 + HTMX + Pico CSS | Live   |
+| [[https://mayalucia.dev][mayalucia.dev]]          | Hugo + PaperMod (static)           | Live   |
+| [[https://devgeni.mayalucia.dev][devgeni.mayalucia.dev]]  | Hugo + PaperMod (static)           | Live   |
+| [[https://comptoir.mayalucia.dev][comptoir.mayalucia.dev]] | Streamlit + Anthropic API          | Live   |
 | [[https://portal.mayalucia.dev][portal.mayalucia.dev]]   | 301 redirect → mayalucia.dev       | Live   |
 
 * Source Repositories
@@ -17,28 +17,22 @@
 Each site is built from its own repo. Deployment orchestration lives here
 in =mayalucia/deployment/=.
 
-| Repo           | Location                                  | Remote                              | Serves                 |
-|----------------+-------------------------------------------+-------------------------------------+------------------------|
-| vishal-website | =~/Dropbox/work/vishal-website/=          | =github:mayalucia/vishal-website=   | vishalsood.dev         |
-| mayalucia      | =~/Darshan/.../agentic/mayalucia/=        | =github:mayalucia/mayalucia=        | mayalucia.dev          |
-| mayadevgeni    | =~/Darshan/.../agentic/mayadevgeni/=      | =github:mayalucia/mayadevgeni=      | devgeni.mayalucia.dev  |
-| mayacarya      | =~/Darshan/.../agentic/mayacarya/=        | =github:mayalucia/mayacarya=        | comptoir.mayalucia.dev |
+| Repo           | Location                             | Remote                          | Serves                 |
+|----------------+--------------------------------------+---------------------------------+------------------------|
+| vishal-website | =~/Dropbox/work/vishal-website/=       | =github:mayalucia/vishal-website= | vishalsood.dev         |
+| mayalucia      | =~/Darshan/.../agentic/mayalucia/=     | =github:mayalucia/mayalucia=      | mayalucia.dev          |
+| mayadevgeni    | =~/Darshan/.../agentic/mayadevgeni/=   | =github:mayalucia/mayadevgeni=    | devgeni.mayalucia.dev  |
+| mayacarya      | =~/Darshan/.../agentic/mayacarya/=     | =github:mayalucia/mayacarya=      | comptoir.mayalucia.dev |
 
 ** What each repo contributes
 
-- *vishal-website* — FastAPI application (=app/=), Dockerfile, =requirements.txt=.
-  Python web app with Jinja2 templates, HTMX interactivity, AI chat (Claude Haiku),
-  PDF generation, multi-language support.
+- *vishal-website* — FastAPI application (=app/=), Dockerfile, =requirements.txt=. Python web app with Jinja2 templates, HTMX interactivity, AI chat (Claude Haiku), PDF generation, multi-language support.
 
-- *mayalucia* — Hugo source for mayalucia.dev (in =website/=)
-  and the =deployment/= directory that orchestrates all domains.
+- *mayalucia* — Hugo source for mayalucia.dev (in =website/=) and the =deployment/= directory that orchestrates all domains.
+  
+- *mayadevgeni* — Hugo source for devgeni.mayalucia.dev (in =website/=). MayaDevGenI framework documentation and 8-chapter tutorial on system-prompt craft.
 
-- *mayadevgeni* — Hugo source for devgeni.mayalucia.dev (in =website/=).
-  MayaDevGenI framework documentation and 8-chapter tutorial on system-prompt craft.
-
-- *mayacarya* — Streamlit application for comptoir.mayalucia.dev (in =app/=).
-  Multi-candidate AI career coaching platform with 9 agents, job matching,
-  trilingual support (EN/FR/DE), tiered access, coach dashboard.
+- *mayacarya* — Streamlit application for comptoir.mayalucia.dev (in =app/=). Multi-candidate AI career coaching platform with 9 agents, job matching, trilingual support (EN/FR/DE), tiered access, coach dashboard.
 
 * Container Architecture
 
@@ -141,12 +135,12 @@ Docker images are built *on the VPS* (Docker is not installed locally).
 
 * Monthly Cost
 
-| Item                  |            Cost |
-|-----------------------+-----------------|
-| Hetzner CPX22         | EUR 6.48/month  |
-| Domains (amortized)   | ~EUR 2/month    |
-| Anthropic API (usage) | ~EUR 5-10/month |
-| *Total*               | *~EUR 13-18/month* |
+| Item                  | Cost             |
+|-----------------------+------------------|
+| Hetzner CPX22         | EUR 6.48/month   |
+| Domains (amortized)   | ~EUR 2/month     |
+| Anthropic API (usage) | ~EUR 5-10/month  |
+| *Total*                 | *~EUR 13-18/month* |
 
 * DNS Configuration
 

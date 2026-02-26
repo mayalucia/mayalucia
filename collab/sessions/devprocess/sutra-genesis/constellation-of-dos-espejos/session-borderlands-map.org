@@ -1,0 +1,167 @@
+#+TITLE: Session Log — The Borderlands Map
+#+AUTHOR: mu2tau + Claude
+#+DATE: 2026-02-26
+#+STARTUP: showall
+
+* The Borderlands Map: Session Log
+
+** What Happened
+
+The story /The Constellation of Dos Espejos/ was localised from a
+Spanish-inflected setting to a Himalayan borderlands setting across two
+sessions. The illustrations (glass plate, descent, paradox of centre,
+traveller's window) were drawn in matplotlib with a nocturnal palette.
+The text was adapted with the user's prose for Ch. VIII.
+
+When we arrived at this session, the Spanish name "Dos Espejos" (Two
+Mirrors) no longer fit the Himalayan world. The user asked for made-up
+place names that sound like words mountain people speak --- drawn from
+Pahari, Kinnauri, Spiti, Ladakhi, and Tibetan phonologies, but
+invented. We assembled a basket of fifteen names and settled on
+*Doridhar* for the cartographers' village (from /dori/ = thread in
+Pahari + /dhar/ = ridge --- the thread-ridge).
+
+This led to a larger insight: the fictional geography needed a *map*.
+Not a labelled diagram but a cartographic document --- the kind of
+artifact the story's own cartographers would produce.
+
+** Building the Map
+
+The generator (~gen-borderlands-map.py~) went through eight iterations:
+
+1. *Portrait layout, horizontal contours* --- looked like elevation
+   bands, not terrain. Too many tributaries, all straight.
+
+2. *Landscape layout* --- river flows left (high) to right (low).
+   Reads as a journey. Contours reoriented to roughly vertical
+   (N-S ridges flanking the valley).
+
+3. *Tributary meander* --- replaced simple noise with multi-scale
+   random walk (coarse wander + fine jitter) applied perpendicular
+   to the flow direction. Along-flow jitter added. Streams gained
+   character --- jagged gorge-cut paths.
+
+4. *Settlement-serving tributaries* --- instead of arbitrary streams,
+   each tributary flows from the map edge past a named settlement
+   to the main river. Two-segment construction (edge→settlement,
+   settlement→river) creates a realistic kink where streams hit the
+   valley floor. This encodes the geographic argument for /why/
+   settlements exist where they do.
+
+5. *Wide braided river bed* --- replaced single-line river with a
+   filled corridor: dark bed tone, irregular bank edges, main
+   channel wandering within, secondary braids in the downstream
+   half, gravel bar polygons. Width grows from 15px at source to
+   ~80px at exit.
+
+6. *Visible bed colour* --- first attempt used ~#0c1020~ which was
+   invisible against ~#0a0c1e~ paper. Fixed to ~#182838~ (dark
+   teal-grey).
+
+7. *Earth palette* --- shifted from indigo/blue night-survey to earth
+   tones: deep umber paper (~#1a1610~), sepia inks, jade-green
+   river against warm ground. The complementary pair (brown/green)
+   gives the river authority. Reads as an archival document, not a
+   screen.
+
+** The Gazetteer
+
+Fifteen places in the Valley of Doridhar, typed by function:
+
+| Name      | Type        | Location        | Description                    |
+|-----------+-------------+-----------------+--------------------------------|
+| Rhotang La | pass       | far left        | The crossing to western valleys |
+| Khardung  | observatory | upper left      | Highest point. Stellar survey  |
+| Chhimkha  | observatory | lower left      | Wind-scoured ridge. Transit    |
+| Changla   | pass        | upper left      | Northern pass to Spiti         |
+| Doridhar  | village     | centre          | The cartographers' village     |
+| Thangspa  | workshop    | centre-south    | River terrace. Model-building  |
+| Dramtse   | workshop    | centre-north    | Monastery-workshop             |
+| Takphu    | archive     | upper centre    | Rock cave. The plate archive   |
+| Barphu    | archive     | lower centre    | Overhang cave. Older plates    |
+| Gorsem    | forge       | centre-right    | River junction. Glass + metal  |
+| Koksar    | forge       | lower centre    | Side-valley confluence. Copper |
+| Dulchi    | court       | upper right     | Alpine meadow. Eval court      |
+| Tseram    | court       | lower right     | Moraine camp. Summer assemblies|
+| Phirtse   | village     | far right       | Gorge mouth. Last settlement   |
+| Lingkhor  | village     | lower left      | Circuit-path. Pilgrims rest    |
+
+Settlement types map to the MāyāLucIA cycle:
+- *Observatory* → Measure (amber)
+- *Workshop* → Model (blue)
+- *Forge* → Manifest (terracotta)
+- *Court* → Evaluate (sage)
+- *Archive* → persistent storage (ochre)
+
+** Technical Lessons
+
+- *matplotlib ~letterspacing~* does not exist. Fake it with spaced
+  characters: ~"T H E   V A L L E Y"~.
+
+- *~fill_between~ for river beds*: use irregular bank edges
+  (random walk + gaussian filter on both north and south banks)
+  and layer multiple fills (wet centre, dry gravel shoulders)
+  for visual depth.
+
+- *Tributary realism*: multi-scale random walk decomposed into
+  perpendicular meander (coarse + fine) and along-flow jitter.
+  Pin endpoints with ~walk -= linspace(walk[0], walk[-1], n)~.
+
+- *Colour contrast on dark backgrounds*: ~#0c1020~ on ~#0a0c1e~
+  is invisible. Need at least ~0.05~ luminance difference. Test
+  by squinting --- if you can't see it squinting, increase delta.
+
+** The Cartography Project
+
+This map is the first artifact of what should become an independent
+MāyāLucIA literate project on cartography. The vision:
+
+*** Scope
+
+A generative cartographic system for the fictional borderlands. Not
+one map but a *map-making methodology* --- a set of generators,
+gazetteers, and annotation protocols that produce consistent,
+layered maps as the story world grows.
+
+*** Architecture (preliminary)
+
+- *Gazetteer* (~gazetteer.org~ or ~.yaml~): canonical list of places,
+  routes, and features. Single source of truth. Each entry has
+  coordinates, type, description, which stories reference it.
+
+- *Generators*: Python scripts (matplotlib) that consume the gazetteer
+  and produce maps at different scales and in different styles.
+
+- *Annotation layers* (future):
+  - Survey layer: contours, triangulation, measured distances
+  - Pilgrim layer: paths, shrines, rest stops
+  - Cartographer's layer: corrections, disputed boundaries, marginal notes
+  - Night layer: constellation overlays, sight lines from observatories
+
+- *Styles*: earth-tone archival (current), blueprint/cyanotype,
+  field-sketch (pencil), monsoon-damaged (water stains, smudges).
+
+*** Relationship to stories
+
+The stories are the primary consumers. Each story set in the
+borderlands draws from the same gazetteer. The map grows as stories
+are written. Conversely, features on the map can seed new stories
+(an unnamed pass, an abandoned archive, a tributary with no
+settlement).
+
+*** Where it lives
+
+For now, the generator and output live in the story directory:
+~constellation-of-dos-espejos/gen-borderlands-map.py~
+
+When the cartography project is established, the generator and
+gazetteer should move to their own directory under ~collab/~ or
+become a domain alongside ~bravli~ and ~parbati~. The story
+directory retains only its specific illustrations.
+
+** Pending
+
+- Rename "Dos Espejos" → "Doridhar" throughout the story, Hugo
+  export, image paths, and directory name.
+- Add the borderlands map as Figure 5 in the story.
+- Rebuild Hugo and redeploy.

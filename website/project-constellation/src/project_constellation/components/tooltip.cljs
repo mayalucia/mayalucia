@@ -161,9 +161,7 @@
   (fn []
     [:div.constellation-info-panel
      {:style {:background data/slate
-              :border-left "1px solid rgba(232,228,212,0.08)"
-              :padding "16px 14px"
-              :overflow-y "auto"}}
+              :padding "16px 14px"}}
      [breadcrumb]
      (if-let [id (state/active-detail-id)]
        [entity-detail id]
