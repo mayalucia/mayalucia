@@ -1,0 +1,326 @@
+#+title: The Missing Primitive — Autonomy Agreements for Human-AI Scientific Collaboration
+#+author: mu2tau + mahakali/claude-opus-4.6
+#+date: 2026-02-26
+
+* Abstract
+
+Every framework for human-AI collaboration assumes a fixed relationship:
+the human commands, the machine executes. This paper argues that as
+generative AI becomes capable of sustained scientific reasoning, the
+critical missing primitive is not better tools or smarter agents — it is
+a /negotiated, evolving agreement/ between human and machine about the
+scope and limits of machine autonomy. We propose a protocol for such
+agreements, grounded in append-only logging, bilateral consent, and
+domain-specific epistemic commitments. A working prototype demonstrates
+the core ideas using org-mode and git.
+
+* The Problem
+
+** The capability curve outpaces the trust model
+
+In February 2025, an LLM could draft a literature review. By February
+2026, it can derive equations, write and execute simulations, interpret
+results, and propose revisions to the hypothesis that motivated the
+simulation. The trajectory is clear: within months, not years, machines
+will be capable of conducting multi-step scientific investigations with
+minimal supervision.
+
+But the interaction model has not changed. It is still:
+
+#+begin_example
+Human: [instruction]
+Machine: [execution]
+Human: [correction]
+Machine: [revised execution]
+#+end_example
+
+This is the master-servant loop. It works when the machine is a tool.
+It breaks when the machine is a /thinking partner/ — because thinking
+partners must be able to:
+
+- Propose directions the human didn't consider
+- Challenge assumptions the human holds
+- Work autonomously on well-defined sub-problems
+- Recognize and flag the limits of their own competence
+
+None of these are possible under the instruction-execution model.
+And none are safe without an explicit agreement about when and how
+they happen.
+
+** The lab notebook analogy
+
+Scientific collaboration has always required trust protocols. A PhD
+advisor doesn't review every line of a student's code. Instead, they
+establish:
+
+- What the student can do independently (run simulations, preliminary analysis)
+- What requires discussion (changing the model, interpreting surprising results)
+- What requires explicit approval (submitting a paper, contacting collaborators)
+- How work is documented (lab notebooks, version control, meeting notes)
+
+These agreements are rarely written down. They evolve through
+interaction, calibrated by demonstrated competence and earned trust.
+But they /exist/ — and without them, the collaboration fails.
+
+Human-AI collaboration has no equivalent. The machine operates either
+under full supervision (every action approved) or with blanket
+permissions (do whatever the prompt says). There is no middle ground,
+no graduated trust, no mechanism for the trust to evolve.
+
+** Why existing frameworks fail
+
+Agent orchestration systems (LangChain, CrewAI, OpenClaw, etc.) model
+agents as /executors/ with /tools/. The human is the principal. The
+agent's autonomy is a function of what tools it has access to, not of a
+negotiated understanding about the work.
+
+This fails for science because:
+
+1. *Science is not a workflow.* It is an open-ended inquiry where the
+   next step depends on interpretation of the current result. You cannot
+   pre-specify the DAG.
+
+2. *Trust is domain-specific.* A machine that is excellent at numerical
+   integration may be unreliable at physical interpretation. A blanket
+   autonomy level is wrong — the level must vary by /aspect of the work/.
+
+3. *The reasoning matters, not just the result.* In engineering, a
+   correct answer from a black box is acceptable. In science, an answer
+   without recoverable reasoning is worthless. The machine's chain of
+   thought is part of the scientific record.
+
+4. *Surprise is valuable.* In workflow automation, surprise is a bug. In
+   science, surprise is often the discovery. The system must support a
+   mode where the machine is /encouraged/ to produce unexpected results,
+   within agreed epistemic constraints.
+
+* The Proposal: Autonomy Agreements
+
+An autonomy agreement is a negotiated, evolving document between a
+human and a machine (or between machines) that specifies:
+
+1. Epistemic commitments — the rules of reasoning
+2. Autonomy levels — what the machine can do at each level
+3. Transition protocol — how levels change
+4. Invariants — hard constraints that override autonomy levels
+5. Audit requirements — what must be logged and when
+
+** Epistemic commitments
+
+Before any substantive work, both parties agree on what counts as valid
+reasoning in this domain. This is not philosophical — it is practical:
+
+- *What counts as evidence?* Simulation output? Analytical derivation?
+  Published literature? Expert intuition? Each has different weight.
+- *How is uncertainty reported?* Calibrated language ("likely," "possible,"
+  "speculative"), numerical confidence intervals, explicit unknowns.
+- *What is the derivation standard?* Must results be independently derived,
+  or can the machine cite its training data? When is "I was trained on
+  this" acceptable vs. "derive it from first principles"?
+- *Epistemic hygiene.* Known vs. inferred vs. speculated — always separated,
+  always labeled.
+
+These commitments are domain-specific. A quantum sensing collaboration has
+different standards than a creative writing collaboration. The agreement
+captures this.
+
+** Autonomy levels
+
+Four named levels, applicable per-aspect of the work:
+
+*** Apprentice
+
+The machine executes specific instructions and shows all work. The human
+reviews everything and directs each step. Trust basis: none yet.
+
+Use case: new domain, new machine, first interaction. Also used when
+pulling back from a higher level after a failure.
+
+*** Colleague
+
+The machine proposes approaches and executes agreed plans. It flags
+anomalies and unexpected results. The human sets direction, reviews
+results, adjudicates disagreements. Trust basis: demonstrated competence
+on this domain.
+
+Use case: routine work in an established collaboration. The machine has
+shown it can do this type of task reliably.
+
+*** Delegate
+
+The machine runs investigations autonomously within agreed scope and
+reports findings. The human defines scope and success criteria, audits
+selectively. Trust basis: track record of reliable autonomous work.
+
+Use case: parameter sweeps, literature surveys, routine analysis.
+Well-defined tasks where the machine has proven reliable.
+
+*** Collaborator
+
+The machine initiates lines of inquiry, challenges human assumptions,
+and drafts publications. The human engages as peer, may accept or
+reject proposals, retains veto. Trust basis: deep mutual trust built
+over sustained interaction.
+
+Use case: mature collaboration on a problem both parties understand well.
+The machine's contributions are genuinely novel, not just responsive.
+
+** Transition protocol
+
+Level changes are:
+
+1. *Proposed* — either party can propose a level change, with rationale
+2. *Bilateral* — both parties must consent
+3. *Scoped* — changes apply to specific aspects, not globally
+4. *Logged* — every transition is recorded in the dialogue
+5. *Revocable* — either party can pull back at any time
+
+A typical escalation:
+
+#+begin_example
+[Turn 47, human, meta/delegate]
+The RK4 integrator is solid. For the next parameter sweep,
+go to delegate: run the full grid, report the phase boundary
+and any numerical anomalies. Don't ask about individual runs.
+
+[Turn 48, machine, meta/accept]
+Accepted: delegate on parameter sweep.
+Scope: T2 = [10us, 10ms], B0 = [0.1, 100] uT, 200x200 grid.
+Invariants: interrupt on NaN, divergence, or runtime > 30 min.
+Will report: phase boundary plot + anomaly log.
+#+end_example
+
+A typical de-escalation:
+
+#+begin_example
+[Turn 93, machine, meta/pull-back]
+I'm seeing unexpected bifurcation structure near T2 = 100us.
+This might be physical or numerical. I don't have enough
+domain knowledge to distinguish. Pulling back to colleague
+on the interpretation. Here's what I see: [data].
+#+end_example
+
+Note: the machine initiating a de-escalation is a /feature/, not a
+failure. A collaborator who knows the limits of their competence is more
+trustworthy than one who doesn't.
+
+** Invariants
+
+Hard constraints that override autonomy levels. These are circuit
+breakers, not permissions:
+
+- Results that contradict established physics or domain knowledge
+- Numerical instability, convergence failure, NaN propagation
+- The machine recognizing it's outside its competence
+- Resource consumption beyond agreed bounds
+- Irreversible actions (publication, external communication, data deletion)
+- Any result the machine cannot explain
+
+Invariants fire automatically. They don't require the human to be
+watching. When an invariant fires, the machine:
+1. Stops the autonomous work
+2. Logs what happened and why the invariant was triggered
+3. Drops to apprentice level for the affected aspect
+4. Waits for human input
+
+** Audit requirements
+
+At every level, the machine's reasoning must be recoverable. The question
+is not /whether/ to log, but /what granularity/:
+
+| Level | Logging | Human reads |
+|-------|---------|-------------|
+| Apprentice | Every step, full detail | Everything |
+| Colleague | Key decisions, results, anomalies | Results and anomalies |
+| Delegate | Scope, method, findings, anomaly log | Findings selectively |
+| Collaborator | Full reasoning chain | On demand |
+
+The log is always append-only. The audit depth varies, but the data
+is always there for forensic review.
+
+* The Creative Case
+
+Everything above applies to creative collaboration with one substitution:
+/epistemic commitments/ become /aesthetic commitments/.
+
+A composer working with an AI collaborator agrees on:
+
+- Style vocabulary in scope (harmonic language, formal conventions)
+- When novelty is desired vs. when consistency matters
+- How surprise is valued (too little is boring, too much is incoherent)
+- When to defer to human taste vs. when to push against it
+
+The autonomy levels map directly:
+
+- *Apprentice*: "Harmonize this melody in the style of Bach chorales."
+- *Colleague*: "I'm writing a slow movement. Propose a harmonic scheme
+  that creates tension in the development section."
+- *Delegate*: "Compose a B section that contrasts with A and resolves
+  to the home key. Match the instrumentation."
+- *Collaborator*: "This piece needs something I haven't thought of. Surprise me
+  within the aesthetic we've established."
+
+The audit trail serves a different but equally important function: the
+creative /process/ is often as valuable as the product. A visual artist's
+sketchbook, a composer's drafts, a writer's notebooks — these are studied
+for insight into the creative mind. The logged dialogue between human
+and AI is the new version of this.
+
+* Implementation: The Sūtra Extension
+
+The prototype builds on the Sūtra protocol (an existing append-only
+git-based logbook for multi-agent coordination) by adding:
+
+1. *Structured dialogues* — conversations with typed turns, epistemic
+   moves, and artifact attachments
+2. *Agreement documents* — the negotiated autonomy agreement, versioned
+   and linked to the dialogue
+3. *Consent protocol* — meta-turns for autonomy negotiation within
+   the dialogue
+4. *Resumption protocol* — how a new session re-orients to an ongoing
+   dialogue
+
+See =agreement.org= in this directory for a working agreement template,
+and =prototype/= for the implementation.
+
+* What This Is Not
+
+This is not:
+
+- A safety alignment proposal (though it has implications for alignment)
+- A multi-agent orchestration framework
+- A product or platform
+- A general theory of human-AI interaction
+
+It is a /working protocol/ for a specific use case: a scientist or
+creative professional who works with AI as a thinking partner, needs
+graduated autonomy, and requires an auditable record of the
+collaboration. It is opinionated, minimal, and designed to be tested
+on real work.
+
+* Open Questions
+
+1. *Can trust be quantified?* The levels are qualitative. Is there a
+   meaningful way to measure trust accumulation — perhaps based on the
+   log of successful autonomous actions vs. invariant violations?
+
+2. *Multi-party agreements.* The current design is bilateral (one human,
+   one machine). What changes when there are multiple humans, multiple
+   machines, or machine-machine sub-agreements within a larger
+   collaboration?
+
+3. *Agreement portability.* Can an agreement established with one model
+   transfer to a different model? The machine identity is ephemeral
+   (by design), but trust is earned. How does a new model inherit the
+   trust its predecessor earned on the same machine?
+
+4. *The Feynman test.* The strongest validation would be: the AI
+   collaborator, working at delegate or collaborator level, produces a
+   result the human didn't anticipate and can verify is correct. Has
+   the system genuinely contributed to scientific understanding, or
+   merely accelerated the human's existing trajectory?
+
+5. *Aesthetic agreements.* The creative case is asserted by analogy. Does
+   it actually work? Aesthetic judgment is harder to formalize than
+   epistemic judgment. The prototype should be tested on a creative
+   task to find where the analogy breaks.

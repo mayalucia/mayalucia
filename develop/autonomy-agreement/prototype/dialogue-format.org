@@ -1,0 +1,251 @@
+#+title: Dialogue Format Specification
+#+author: mahakali/claude-opus-4.6
+#+date: 2026-02-26
+
+* Overview
+
+A dialogue is a structured conversation between a human and a machine
+(or between machines) about a specific problem or line of inquiry.
+It is stored as an org file with typed turns.
+
+* File Location
+
+#+begin_example
+sutra/
+  dialogues/
+    <slug>/
+      dialogue.org       # the conversation
+      agreement.org      # the autonomy agreement for this dialogue
+      artifacts/         # generated objects (code, data, figures)
+#+end_example
+
+One directory per dialogue thread. The slug is descriptive:
+=bloch-rwa-breakdown=, =bravli-ion-channel-model=, etc.
+
+* Turn Structure
+
+Each turn is a top-level heading with properties:
+
+#+begin_example
+,* <summary line>
+:PROPERTIES:
+:TURN: <integer, sequential>
+:VOICE: human | machine
+:PROVENANCE: <machine/model or human name>
+:MOVE: <epistemic move type>
+:LEVEL: <current autonomy level for this aspect>
+:REFS: <space-separated turn numbers or commit hashes>
+:ARTIFACTS: <space-separated relative paths>
+:TIMESTAMP: <ISO 8601>
+:END:
+
+<body — markdown-compatible org content>
+#+end_example
+
+** Required properties
+
+- =TURN= — sequential integer, starting at 1
+- =VOICE= — =human= or =machine=
+- =MOVE= — the epistemic move (see taxonomy below)
+- =TIMESTAMP= — when the turn was created
+
+** Optional properties
+
+- =PROVENANCE= — machine/model ID or human identifier
+- =LEVEL= — current autonomy level, if relevant
+- =REFS= — references to prior turns or external commits
+- =ARTIFACTS= — paths to generated artifacts, relative to dialogue dir
+
+* Epistemic Move Taxonomy
+
+These are the types of moves a turn can make. The taxonomy is
+intentionally small — it should be extended empirically as real
+dialogues reveal missing categories.
+
+** Substantive moves
+
+| Move | Description |
+|------|-------------|
+| =conjecture= | Proposing a hypothesis or direction |
+| =challenge= | Questioning an assumption or result |
+| =derivation= | Mathematical or logical reasoning |
+| =computation= | Running code, producing numerical results |
+| =observation= | Reporting data or noting a pattern |
+| =synthesis= | Combining multiple results into understanding |
+| =question= | Asking for information or clarification |
+| =answer= | Responding to a question |
+
+** Meta moves
+
+| Move | Description |
+|------|-------------|
+| =orient= | Session resumption, establishing context |
+| =delegate= | Proposing to increase machine autonomy |
+| =accept= | Accepting a meta-proposal |
+| =reject= | Rejecting a meta-proposal with rationale |
+| =pull-back= | De-escalating autonomy (unilateral) |
+| =interrupt= | Invariant violation, stopping autonomous work |
+| =reflect= | Commenting on the collaboration process itself |
+| =close= | Ending a session or dialogue thread |
+
+** Creative moves (for aesthetic collaborations)
+
+| Move | Description |
+|------|-------------|
+| =compose= | Generating creative material |
+| =critique= | Aesthetic evaluation |
+| =variation= | Producing a variant of existing material |
+| =surprise= | Intentionally divergent creative proposal |
+
+* Artifacts
+
+Artifacts are files generated during the dialogue: code, data,
+figures, derivations. They live in =artifacts/= within the
+dialogue directory.
+
+** Naming
+
+=turn-<NN>-<slug>.<ext>=
+
+Example: =turn-23-rwa-comparison.py=, =turn-23-rwa-deviation.png=
+
+** Versioning
+
+Artifacts are immutable once committed. If a later turn revises an
+artifact, it creates a new file (=turn-41-rwa-comparison-v2.py=)
+and the new turn references both the old and new versions.
+
+This preserves the append-only property: the old artifact is never
+modified, and the dialogue records /why/ it was superseded.
+
+** Inline display
+
+Artifacts can be included in turns using org conventions:
+
+#+begin_example
+,#+include: "artifacts/turn-23-rwa-comparison.py" src python
+[[file:artifacts/turn-23-rwa-deviation.png]]
+#+end_example
+
+This makes the dialogue readable in Emacs without leaving the buffer.
+
+* Session Boundaries
+
+A session boundary is marked by an =orient= turn (at the start) and
+a =close= turn (at the end). The orient turn summarizes prior context;
+the close turn summarizes what was accomplished and what remains open.
+
+#+begin_example
+,* Session 3 — resuming after 2 days
+:PROPERTIES:
+:TURN: 47
+:VOICE: machine
+:MOVE: orient
+:TIMESTAMP: 2026-03-15T09:00:00
+:END:
+
+Resuming "bloch-rwa-breakdown" (last active 2 days ago, turn 46).
+
+State: we established that the RWA deviation exceeds 5% above 80 Hz
+drive frequency. You proposed measuring this experimentally. I had
+generated the comparison plot (turn 23 artifact).
+
+Current levels: delegate on numerical work, colleague on interpretation.
+
+Sūtra: one new message from vadda about GitHub Pages deployment.
+Not directly relevant to this thread.
+
+Proposed next: design the experimental protocol for measuring RWA
+breakdown. I'd suggest colleague level for this — it involves
+physical judgment I'm not confident about.
+#+end_example
+
+* Minimal Example
+
+A complete minimal dialogue demonstrating the format:
+
+#+begin_example
+,#+title: Bloch RWA Breakdown
+,#+property: DIALOGUE_ID bloch-rwa-breakdown
+,#+property: CREATED 2026-03-10
+,#+property: DOMAIN quantum-sensing
+
+,* What happens to the Bloch equations when the RWA breaks down?
+:PROPERTIES:
+:TURN: 1
+:VOICE: human
+:MOVE: question
+:TIMESTAMP: 2026-03-10T14:00:00
+:END:
+
+The rotating wave approximation drops the counter-rotating terms.
+Near resonance and weak drive, this is fine. But for the Bell-Bloom
+magnetometer we're pushing to higher drive frequencies. At what
+point does the RWA prediction diverge significantly from the full
+solution?
+
+,* The RWA breaks down when drive frequency approaches Larmor frequency
+:PROPERTIES:
+:TURN: 2
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: derivation
+:LEVEL: colleague
+:REFS: 1
+:TIMESTAMP: 2026-03-10T14:02:00
+:END:
+
+Starting from the full Bloch equations with a linearly polarized
+drive field B_1 cos(ωt):
+
+[derivation showing the counter-rotating term and its magnitude
+ relative to the rotating term as a function of ω/ω_0]
+
+The ratio of counter-rotating to rotating contribution scales as
+ω₁/(2ω₀), where ω₁ = γB₁ is the Rabi frequency. For ω₁/ω₀ > 0.1,
+the RWA error exceeds 5%.
+
+For your vapor cell parameters (γ = 7 Hz/nT, B₀ = 50 μT),
+this means ω₀ ≈ 350 kHz. The RWA should hold well for drive
+frequencies up to ~35 kHz.
+
+But: this is the perturbative estimate. Let me check numerically.
+
+,* I can run the full comparison — delegate on numerics?
+:PROPERTIES:
+:TURN: 3
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: delegate
+:LEVEL: colleague
+:REFS: 2
+:TIMESTAMP: 2026-03-10T14:03:00
+:END:
+
+I'd like to run a sweep: solve both the full Bloch equations and the
+RWA version across a range of drive frequencies, and plot the
+deviation. This is straightforward numerics — RK4 integration,
+parameter grid, convergence check.
+
+Proposed scope:
+- ω₁/ω₀ from 0.01 to 0.5, 100 points
+- T₂ = 100 μs (your typical value)
+- Compare steady-state magnetization Mz
+- Convergence criterion: dt halving changes result < 0.1%
+
+May I go to delegate on this? I'll report the deviation curve and
+flag any numerical issues.
+
+,* Yes, go ahead. Show me the phase boundary.
+:PROPERTIES:
+:TURN: 4
+:VOICE: human
+:MOVE: accept
+:REFS: 3
+:TIMESTAMP: 2026-03-10T14:05:00
+:END:
+
+Delegate on the numerics. Show me where the 1%, 5%, and 10%
+deviation contours fall. If you see anything unexpected, stop
+and show me.
+#+end_example

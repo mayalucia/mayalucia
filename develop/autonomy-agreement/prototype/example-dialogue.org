@@ -1,0 +1,341 @@
+#+title: Bloch RWA Breakdown — When Does the Approximation Fail?
+#+property: DIALOGUE_ID bloch-rwa-breakdown
+#+property: CREATED 2026-03-10
+#+property: DOMAIN quantum-sensing
+
+* What happens to the Bloch equations when the RWA breaks down?
+:PROPERTIES:
+:TURN: 1
+:VOICE: human
+:MOVE: question
+:TIMESTAMP: 2026-03-10T14:00:00
+:END:
+
+The rotating wave approximation drops the counter-rotating terms.
+Near resonance and weak drive, this is fine. But for the Bell-Bloom
+magnetometer we're pushing to higher drive frequencies. At what
+point does the RWA prediction diverge significantly from the full
+solution?
+
+I want a quantitative answer, not a textbook handwave.
+
+* The perturbative estimate gives a clean scaling
+:PROPERTIES:
+:TURN: 2
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: derivation
+:LEVEL: colleague
+:REFS: 1
+:TIMESTAMP: 2026-03-10T14:02:00
+:END:
+
+Starting from the full optical Bloch equations with linearly
+polarized drive B₁cos(ωt), decompose into co- and counter-rotating
+components.
+
+The counter-rotating term amplitude relative to the co-rotating
+scales as ω₁/(2ω₀), where ω₁ = γB₁ (Rabi frequency) and
+ω₀ = γB₀ (Larmor frequency).
+
+For your vapor cell parameters:
+- γ = 7 Hz/nT (⁸⁷Rb)
+- B₀ = 50 μT → ω₀ ≈ 350 kHz
+- Typical B₁ ~ 1 μT → ω₁ ≈ 7 kHz
+
+So ω₁/(2ω₀) ≈ 0.01 — the RWA is excellent here. The 5% deviation
+threshold is at ω₁/ω₀ ≈ 0.1, meaning B₁ ~ 5 μT or drive
+frequency approaching 35 kHz.
+
+But this is perturbative. The actual deviation near the boundary
+could be larger due to nonlinear coupling. Numerical comparison
+would settle it.
+
+* I want to see it, not just estimate it. Can you run the comparison?
+:PROPERTIES:
+:TURN: 3
+:VOICE: human
+:MOVE: question
+:REFS: 2
+:TIMESTAMP: 2026-03-10T14:05:00
+:END:
+
+Run both the full integration and the RWA version. Sweep over
+drive strength. Show me where they diverge.
+
+* Proposing delegate level for the numerical sweep
+:PROPERTIES:
+:TURN: 4
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: delegate
+:LEVEL: colleague
+:REFS: 3
+:TIMESTAMP: 2026-03-10T14:06:00
+:END:
+
+This is straightforward numerics. I propose going to delegate:
+
+Scope:
+- ω₁/ω₀ from 0.01 to 0.5, 100 points
+- T₂ = 100 μs, T₁ = 1 ms
+- RK4 integration, dt = 0.01/ω₀ (100 steps per Larmor period)
+- Run to steady state (10×T₂)
+- Compare steady-state ⟨Mz⟩ between full and RWA
+- Convergence check: halve dt, verify < 0.1% change
+
+I'll report: deviation curve with 1%, 5%, 10% contours.
+
+Interrupt conditions:
+- NaN or divergence in integrator
+- Deviation > 50% (suggesting a qualitative failure, not just drift)
+- Runtime > 5 minutes
+
+* Go ahead
+:PROPERTIES:
+:TURN: 5
+:VOICE: human
+:MOVE: accept
+:REFS: 4
+:TIMESTAMP: 2026-03-10T14:07:00
+:END:
+
+Delegate on the numerics. Those interrupt conditions are fine.
+Add one: if the convergence check fails at any point in the
+sweep, stop and show me where.
+
+* Sweep complete — the boundary is sharper than expected
+:PROPERTIES:
+:TURN: 6
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: computation
+:LEVEL: delegate
+:REFS: 4 5
+:ARTIFACTS: artifacts/turn-06-rwa-sweep.py artifacts/turn-06-rwa-deviation.dat
+:TIMESTAMP: 2026-03-10T14:15:00
+:END:
+
+Sweep completed. 100 points, all converged (dt-halving test passed
+at every point). Runtime: 47 seconds.
+
+Results:
+| ω₁/ω₀ | RWA deviation (Mz) |
+|--------|--------------------|
+| 0.01   | 0.02%              |
+| 0.05   | 0.5%               |
+| 0.08   | 1.3%               |
+| 0.10   | 2.1%               |
+| 0.15   | 5.2%               |
+| 0.20   | 9.8%               |
+| 0.30   | 22%                |
+| 0.50   | 41%                |
+
+Contours:
+- 1% deviation at ω₁/ω₀ = 0.075
+- 5% deviation at ω₁/ω₀ = 0.148
+- 10% deviation at ω₁/ω₀ = 0.203
+
+The boundary is sharper than the perturbative estimate predicted.
+The perturbative scaling (linear in ω₁/ω₀) underestimates the
+deviation above ~0.1 because of parametric resonance effects
+from the counter-rotating terms.
+
+This is a quantitative result I can present with confidence.
+
+What I'm less sure about: the /physical/ interpretation of why the
+boundary is sharp. I have a hypothesis (Bloch-Siegert shift creating
+an effective detuning that amplifies nonlinearly) but this involves
+physical judgment. Staying at colleague level for interpretation.
+
+* That's interesting — the sharpness. Tell me your hypothesis.
+:PROPERTIES:
+:TURN: 7
+:VOICE: human
+:MOVE: question
+:REFS: 6
+:TIMESTAMP: 2026-03-10T14:18:00
+:END:
+
+The numerical result is clean, good. Now I want the physics.
+What's your hypothesis for the sharp boundary?
+
+* Bloch-Siegert shift as the mechanism for the sharp crossover
+:PROPERTIES:
+:TURN: 8
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: conjecture
+:LEVEL: colleague
+:REFS: 6 7
+:TIMESTAMP: 2026-03-10T14:20:00
+:END:
+
+Hypothesis: the counter-rotating term doesn't just add a small
+perturbative correction — it shifts the effective resonance
+frequency (Bloch-Siegert shift). This shift is:
+
+  δω_BS ≈ ω₁²/(4ω₀)
+
+At ω₁/ω₀ = 0.1, the shift is δω_BS/ω₀ = 0.0025 — small. But
+the magnetometer operates on resonance, where the response is
+maximally steep (∂Mz/∂ω is large). A small frequency shift on a
+steep response curve creates a large amplitude change.
+
+The sharpness of the boundary then comes from the /product/ of a
+quadratically growing shift and a resonance-enhanced sensitivity
+to that shift.
+
+This is speculation — I can derive it quantitatively to check if
+the numbers match, but I want to flag that I'm reasoning by
+analogy from dressed-state physics. You'd know better than I
+whether the dressed-state picture applies cleanly to a
+relaxation-broadened system.
+
+* Good instinct, but you're missing the T₂ dependence
+:PROPERTIES:
+:TURN: 9
+:VOICE: human
+:MOVE: challenge
+:REFS: 8
+:TIMESTAMP: 2026-03-10T14:25:00
+:END:
+
+The Bloch-Siegert mechanism is right, but the sharpness depends
+on T₂. A long T₂ means a narrow resonance, which means the
+shift matters more. A short T₂ smears it out.
+
+Run the sweep again at T₂ = 10 μs, 100 μs, 1 ms. If the
+boundary sharpness varies with T₂, the Bloch-Siegert + resonance
+sensitivity picture is confirmed.
+
+You can stay at delegate for this — same numerical scope as before,
+just three runs.
+
+* Running T₂-dependent sweep
+:PROPERTIES:
+:TURN: 10
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: computation
+:LEVEL: delegate
+:REFS: 9
+:ARTIFACTS: artifacts/turn-10-t2-sweep.py artifacts/turn-10-t2-comparison.dat
+:TIMESTAMP: 2026-03-10T14:32:00
+:END:
+
+Three sweeps completed. All converged. Runtime: 2 min 13 sec.
+
+5% deviation contour:
+| T₂     | ω₁/ω₀ at 5% deviation |
+|--------|------------------------|
+| 10 μs  | 0.22                   |
+| 100 μs | 0.148                  |
+| 1 ms   | 0.089                  |
+
+Confirmed: longer T₂ → sharper boundary → deviation onset at
+lower drive strength. The 5% contour shifts by a factor of ~2.5
+across a factor of 100 in T₂.
+
+This is consistent with your Bloch-Siegert + resonance sensitivity
+picture. The linewidth goes as 1/T₂, and the slope of the
+resonance at ω₀ goes as T₂. So the amplitude error from a given
+Bloch-Siegert shift scales roughly as T₂ × δω_BS = T₂ ω₁²/(4ω₀).
+
+Setting this equal to a threshold ε:
+  ω₁/ω₀ at threshold ~ √(4ε/(ω₀ T₂))
+
+For ε = 0.05 and ω₀ = 350 kHz:
+- T₂ = 10 μs:  ω₁/ω₀ ~ 0.24 (predicted) vs 0.22 (measured)
+- T₂ = 100 μs: ω₁/ω₀ ~ 0.076 (predicted) vs 0.148 (measured)
+- T₂ = 1 ms:   ω₁/ω₀ ~ 0.024 (predicted) vs 0.089 (measured)
+
+The scaling trend is right but the quantitative agreement is off —
+the predicted boundary moves faster with T₂ than the numerical
+result shows.
+
+INTERRUPT: pulling back to colleague on interpretation.
+
+* Pulling back — the simple model doesn't fully explain the numerics
+:PROPERTIES:
+:TURN: 11
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: pull-back
+:LEVEL: delegate
+:REFS: 10
+:TIMESTAMP: 2026-03-10T14:33:00
+:END:
+
+The trend is qualitatively right (longer T₂ → sharper boundary),
+but the quantitative prediction from the simple Bloch-Siegert +
+slope model overshoots. The actual boundary is less sensitive to
+T₂ than predicted.
+
+This suggests something beyond the simple picture is relevant —
+possibly the nonlinear dynamics of the full Bloch equations at
+moderate drive (saturation effects, power broadening competing
+with the Bloch-Siegert shift).
+
+I don't trust myself to resolve this without more careful analysis.
+Back to colleague: what do you think?
+
+* This is a real result
+:PROPERTIES:
+:TURN: 12
+:VOICE: human
+:MOVE: synthesis
+:REFS: 10 11
+:TIMESTAMP: 2026-03-10T14:40:00
+:END:
+
+The discrepancy is the interesting part. Power broadening acts as
+an effective T₂ shortening at high drive — so the resonance isn't
+as narrow as bare T₂ suggests, and the Bloch-Siegert shift doesn't
+bite as hard. The two effects partially cancel.
+
+This is actually useful for the magnetometer: it means we have more
+headroom on drive strength than the naive Bloch-Siegert estimate
+predicts. The sensor is more robust than expected.
+
+Good work catching the discrepancy rather than papering over it.
+
+Let's close this thread for now. The numerical results are solid.
+The physical picture is: Bloch-Siegert shift + resonance sensitivity,
+partially compensated by power broadening. Write it up as a note
+in the MāyāPramāṇa repo.
+
+* Session close — RWA breakdown characterized
+:PROPERTIES:
+:TURN: 13
+:VOICE: machine
+:PROVENANCE: mahakali/claude-opus-4.6
+:MOVE: close
+:LEVEL: colleague
+:REFS: 12
+:TIMESTAMP: 2026-03-10T14:42:00
+:END:
+
+Summary of this session:
+
+Established:
+- RWA deviation in Bloch equations as function of drive strength
+- 5% deviation at ω₁/ω₀ ≈ 0.15 for T₂ = 100 μs
+- Boundary sharpness depends on T₂ (confirmed numerically)
+- Physical mechanism: Bloch-Siegert shift × resonance sensitivity,
+  partially compensated by power broadening
+
+Artifacts:
+- =turn-06-rwa-sweep.py=, =turn-06-rwa-deviation.dat= — initial sweep
+- =turn-10-t2-sweep.py=, =turn-10-t2-comparison.dat= — T₂ comparison
+
+Autonomy record:
+- Started at colleague
+- Escalated to delegate for numerical sweeps (turns 4-5)
+- De-escalated to colleague for interpretation (turn 11)
+- Machine-initiated pull-back when model didn't match numerics
+
+Open:
+- Write up the result as a note in MāyāPramāṇa
+- Quantify the power-broadening compensation analytically
+- Determine operational envelope for Bell-Bloom magnetometer
