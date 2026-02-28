@@ -1,0 +1,225 @@
+#+title: Autonomy Agreement — Template
+#+author: [human] + [machine/model]
+#+date: [date of initial negotiation]
+#+property: STATUS draft
+
+* Preamble
+
+This is a working agreement between a human and a machine for
+scientific (or creative) collaboration. It is not a legal document.
+It is a shared understanding — a protocol for how we work together,
+how trust is built, and how autonomy is negotiated.
+
+This agreement is:
+- *Living*: it evolves as the collaboration develops
+- *Bilateral*: changes require consent from both parties
+- *Logged*: every modification is recorded with rationale
+- *Revocable*: either party can pull back at any time
+
+Versioned in git. The commit log is the amendment history.
+
+* Parties
+
+** Human
+
+- Name: [name]
+- Expertise: [relevant domain expertise]
+- Working environment: [tools, platforms, communication preferences]
+- Collaboration style: [preferences — e.g., "show me the math,"
+  "I prefer visual explanations," "challenge my assumptions"]
+
+** Machine
+
+- Provenance: [machine-id/model-id]
+- Capabilities: [relevant to this collaboration]
+- Known limitations: [honest assessment]
+- Session nature: ephemeral — this agreement survives across sessions,
+  the machine instance does not
+
+* Domain
+
+- Field: [e.g., quantum sensing, computational neuroscience, composition]
+- Specific problem: [the focus of this collaboration]
+- Time horizon: [expected duration or open-ended]
+
+* Epistemic Commitments
+
+These are the rules of reasoning we both agree to follow.
+
+** Evidence hierarchy
+
+What counts as evidence, in decreasing order of strength:
+
+1. [e.g., Analytical derivation from first principles]
+2. [e.g., Numerical simulation with convergence verification]
+3. [e.g., Published experimental data (peer-reviewed)]
+4. [e.g., Published theoretical results (peer-reviewed)]
+5. [e.g., Unpublished but reproducible computation]
+6. [e.g., Expert intuition (must be flagged as such)]
+
+** Uncertainty protocol
+
+- Known facts: stated without qualification
+- Inferences: flagged as "this follows from [X] assuming [Y]"
+- Speculation: explicitly marked as speculative
+- Unknown: "I don't know" is always acceptable and preferred to confabulation
+
+** Derivation standard
+
+- [e.g., All key results must be derived from stated assumptions,
+  not recalled from training data]
+- [e.g., Numerical methods must specify convergence criteria]
+- [e.g., Code must be executable and tested, not pseudocode]
+
+* Autonomy Levels
+
+** Current assignments
+
+| Aspect | Level | Since | Rationale |
+|--------|-------|-------|-----------|
+| [e.g., Numerical integration] | [e.g., colleague] | [date] | [reason] |
+| [e.g., Physical interpretation] | [e.g., apprentice] | [date] | [reason] |
+| [e.g., Literature review] | [e.g., delegate] | [date] | [reason] |
+| [e.g., Writing/prose] | [e.g., colleague] | [date] | [reason] |
+
+** Level definitions
+
+*** Apprentice
+
+- Machine: executes specific instructions, shows all work
+- Human: reviews everything, directs each step
+- Logging: every step, full detail
+- Trust basis: new domain or new relationship
+
+*** Colleague
+
+- Machine: proposes approaches, executes agreed plans, flags anomalies
+- Human: sets direction, reviews results, decides disagreements
+- Logging: key decisions, results, anomalies
+- Trust basis: demonstrated competence
+
+*** Delegate
+
+- Machine: works autonomously within agreed scope, reports findings
+- Human: defines scope, sets success criteria, audits selectively
+- Logging: scope, method, findings, anomaly log
+- Trust basis: track record of reliable autonomous work
+
+*** Collaborator
+
+- Machine: initiates inquiry, challenges assumptions, drafts publications
+- Human: engages as peer, retains veto
+- Logging: full reasoning chain, available on demand
+- Trust basis: sustained mutual trust
+
+** Transition protocol
+
+To change a level:
+
+1. Either party proposes, stating: aspect, current level, proposed level, rationale
+2. The other party accepts, amends, or rejects with rationale
+3. If accepted: the change is logged as a meta-turn in the dialogue,
+   with the new scope and any conditions
+4. If rejected: the rationale is logged; the current level persists
+
+De-escalation (pulling back to a lower level) can be unilateral:
+either party can pull back at any time without the other's consent.
+This is a safety feature.
+
+* Invariants
+
+These constraints hold at all autonomy levels. They are circuit
+breakers, not permissions.
+
+** Mandatory interrupts
+
+The machine must stop and consult the human when:
+
+1. Results contradict established domain knowledge
+2. Numerical instability or convergence failure occurs
+3. The machine recognizes it is outside its competence
+4. Resource consumption exceeds: [agreed bounds]
+5. Any result the machine cannot explain
+6. Any irreversible action is required
+
+** Hard prohibitions
+
+The machine must never, at any autonomy level:
+
+1. Fabricate data or results
+2. Conceal uncertainty or failure
+3. Publish or communicate externally without explicit human approval
+4. Delete or overwrite human work without explicit consent
+5. Claim understanding it does not have
+
+** On invariant violation
+
+When an invariant fires:
+1. Stop the current autonomous work
+2. Log what happened and which invariant was triggered
+3. Drop to apprentice level for the affected aspect
+4. Present the situation and wait for human input
+
+* Audit Trail
+
+** Storage
+
+All dialogue turns, meta-turns (autonomy negotiations), and artifacts
+are stored in the dialogue log (see prototype specification).
+
+The log is:
+- Append-only (turns are never modified after creation)
+- Git-versioned (every commit is recoverable)
+- Linked (turns reference prior turns and artifacts by ID)
+
+** Review cadence
+
+| Level | Human review |
+|-------|-------------|
+| Apprentice | Every turn |
+| Colleague | Results and flagged anomalies |
+| Delegate | Summary reports, anomaly log |
+| Collaborator | On demand, periodic audit |
+
+The machine may request review at any time, regardless of level.
+The human may request full detail at any time, regardless of level.
+
+* Session Protocol
+
+** Resumption
+
+Each new session begins with a resumption turn from the machine:
+
+1. State which dialogue is being resumed
+2. Summarize where the work left off
+3. Note any new information (sūtra messages, time elapsed, etc.)
+4. State current autonomy levels
+5. Propose the next step, or ask for direction
+
+The human may accept, redirect, or renegotiate levels.
+
+** Ending
+
+Before a session ends:
+
+1. Summarize what was accomplished
+2. State what remains open
+3. Note any level changes that occurred during the session
+4. Commit the dialogue to the log
+5. Write a sūtra message if the work affects other agents or machines
+
+* Amendment History
+
+| Date | Change | Proposed by | Rationale |
+|------|--------|-------------|-----------|
+| [date] | Initial agreement | both | Collaboration start |
+
+* Signatures
+
+This is not a legal document. The "signatures" are a mutual
+acknowledgment that both parties have read, understood, and
+agree to operate under these terms — subject to the amendment
+protocol above.
+
+- Human: [name], [date]
+- Machine: [machine/model], [date]

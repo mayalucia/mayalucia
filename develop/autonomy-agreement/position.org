@@ -1,0 +1,1211 @@
+#+title: The Missing Primitive — Autonomy Agreements for Human-Machine Scientific and Creative Collaboration
+#+author: mu2tau + mahakali/claude-opus-4.6
+#+date: 2026-02-26 (revised)
+
+* Abstract
+
+Every framework for human-AI collaboration assumes a fixed
+relationship: the human commands, the machine executes. This paper
+argues that the critical missing primitive is not better tools or
+smarter agents — it is a /negotiated, evolving agreement/ between
+human and machine about the scope and limits of machine autonomy.
+
+We ground this proposal in three intellectual traditions: cybernetics
+(Pask's Conversation Theory, Ashby's requisite variety, Beer's Viable
+System Model), pedagogy (Vygotsky's scaffolding, Freire's dialogical
+education, Papert's constructionism), and the philosophy of tacit
+knowledge (Polanyi, Ryle, Dreyfus, Indian pramāṇa theory). From
+these we derive three design principles: autonomy is earned through
+demonstrated variety, knowledge is co-enacted rather than transmitted,
+and trust requires metalevel conversation.
+
+A key observation: the pedagogy researchers thought about one
+configuration — human teaches human. But human-AI collaboration
+creates a 2×2 matrix (human/machine × teacher/student) with four
+quadrants, each with different failure modes and trust dynamics. The
+autonomy agreement is the first protocol designed to operate across
+all four — because negotiated trust and epistemic commitments are
+more fundamental than the direction of instruction.
+
+A working prototype demonstrates the core ideas using org-mode
+structured dialogues and git-based append-only logging.
+
+* 1. Intellectual Lineage
+
+This proposal does not emerge /ex nihilo/. Its ancestors span a
+century of thinking about how minds — human, machine, or coupled —
+learn through interaction.
+
+** 1.1 Cybernetics: the conversation is the autonomy
+
+Gordon Pask's Conversation Theory (1975–76) provides the deepest
+formal ancestor. For Pask, knowledge is not propositional content but
+/entailment meshes/ — relational structures where concepts derive
+meaning from their connections. Learning occurs when two systems (human
+or machine) converge toward shared understanding through recursive
+dialogue. The critical test is /teachback/: B teaches the concept back
+to A in a different way. If A recognizes the reconstruction, understanding
+is confirmed. Autonomy is not pre-assigned; it /emerges from
+conversational success/. The machine earns autonomy through successful
+teachback — demonstrating understanding sufficient for independent
+action.
+
+W. Ross Ashby's Law of Requisite Variety (1956) provides the
+quantitative backbone: a controller must have at least as much variety
+as the system it controls. Applied to our context: /autonomy
+delegation is variety delegation/. You delegate exactly as much
+autonomy as the machine can absorb without exceeding the partnership's
+viability bounds. Trust, in this frame, is calibrated variety.
+
+Stafford Beer's Viable System Model (1972) gives the architectural
+template. Each operational unit (S1) has /maximum autonomy consistent
+with cohesion/. The coordination layer (S2) dampens oscillation
+without commanding. The recursive structure embeds progressive
+disclosure: at each level, the higher system sees only the
+variety-attenuated summary of the lower system's behavior. The more
+trust, the more variety passes through without intervention.
+
+Gregory Bateson's levels of learning (1972) supply the missing
+dimension: /which level of learning/ is being delegated? Learning I is
+trial-and-error within fixed parameters. Learning II
+(deutero-learning) is learning /to learn/ — changing the set of
+alternatives. Learning III is revising the framework of adaptation
+itself. A machine at Learning I can optimize within given constraints.
+At Learning II, it can change /what it optimizes for/. The autonomy
+negotiation is not about which tasks to delegate but about which
+/level of learning/ to grant.
+
+** 1.2 Pedagogy: the scaffold must fade
+
+Vygotsky's Zone of Proximal Development (ZPD, 1978) — the space
+between what a learner can do alone and with guidance — maps directly
+onto the autonomy gradient. But the recent concept of the /Zone of No
+Development/ (ZND) sounds a warning: when AI continuously mediates
+learning, cognitive struggle diminishes and autonomous reasoning
+atrophies. The scaffold must eventually /fade/ (Wood, Bruner & Ross,
+1976) or it becomes a crutch.
+
+Paulo Freire's distinction between /banking/ and /dialogical/
+education (1970) is the sharpest political critique applicable here.
+The banking model — teacher deposits knowledge into passive student —
+is precisely what the instruction-execution loop implements at scale.
+The human deposits a prompt; the machine executes. Both parties are
+diminished. Dialogical education requires both to be subjects, both
+to be changed by the encounter. The autonomy agreement aims for the
+dialogical model: neither party subordinate, both accountable.
+
+Seymour Papert's constructionism (1980) completes the pedagogical
+triangle: understanding emerges through the act of building, not
+through consuming information. "What I cannot create, I do not
+understand" (Feynman, independently). If the machine builds the
+artifact and the human merely approves it, the constructionist loop
+is broken. The human must be the one creating, with the machine as
+collaborator in the construction process, not replacement for it.
+
+** 1.3 Knowledge beyond propositions: the tacit substrate
+
+Michael Polanyi (1958, 1966): "We know more than we can tell." All
+explicit knowledge rests on a tacit substrate — the proximal-distal
+structure where we attend /from/ subsidiary clues /to/ focal meaning.
+The collaboration occurs primarily at the focal (explicit) surface.
+But the real work — the feel for the problem, the sense of what
+matters, the physicist's intuition about which approximation to trust —
+lives in the tacit ground, where AI collaboration is hardest.
+
+Gilbert Ryle (1949): knowing how to ride a bicycle is not the same as
+knowing propositions about bicycle riding. Intelligent practice is
+"thinking what one is doing" within the activity itself. An AI
+saturated with knowing-that (propositional knowledge from training
+corpora) does not thereby possess knowing-how. The collaboration needs
+the human to provide the knowing-how — the judgment, the feel for the
+material — while the AI contributes knowing-that at vast scale.
+
+The Dreyfus skill acquisition model (1986) gives this a developmental
+dimension: novice → advanced beginner → competent → proficient →
+expert. At higher stages, rules are replaced by intuitive, holistic
+perception. The machine operates at the competent-to-proficient
+boundary: systematic, analytical, tireless. The human expert operates
+beyond rules, in a domain of embodied intuition the machine cannot
+replicate.
+
+Indian pramāṇa theory (Nyāya, Mīmāṃsā, Vedānta) offers the most
+articulated non-Western epistemological framework. Valid knowledge
+(/pramā/) arises through distinct /pramāṇa/: pratyakṣa (direct
+perception), anumāna (inference), śabda (authoritative testimony),
+upamāna (analogy), arthāpatti (postulation), anupalabdhi
+(non-perception of absence). Different schools accept different
+subsets, but all agree: knowledge has /multiple valid sources/ with
+different epistemological status. AI output most resembles śabda
+(testimony) — but śabda requires an /āpta/ (trustworthy authority),
+and the question of whether an AI qualifies as āpta is genuinely
+open. It also operates by upamāna (analogy) — finding patterns that
+resemble known structures. The pramāṇa framework forces the question:
+/by what valid means does this AI claim to know?/
+
+* 2. The Problem
+
+** 2.1 The capability curve outpaces the trust model
+
+In February 2025, an LLM could draft a literature review. By February
+2026, it can derive equations, write and execute simulations, interpret
+results, and propose revisions to the hypothesis that motivated the
+simulation. The trajectory is clear: within months, not years, machines
+will be capable of conducting multi-step scientific investigations with
+minimal supervision.
+
+But the interaction model has not changed. It is still:
+
+#+begin_example
+Human: [instruction]
+Machine: [execution]
+Human: [correction]
+Machine: [revised execution]
+#+end_example
+
+This is the master-servant loop. Licklider (1960) already saw beyond
+it — his "man-computer symbiosis" was mutualism, not hierarchy, with
+the critical frontier being /formulative thinking/ — problems that
+cannot even be formulated without machine aid. Sixty-six years later,
+we are finally approaching Licklider's frontier, but our interaction
+model is still the instruction-execution loop he rejected.
+
+The loop breaks when the machine is a /thinking partner/ — because
+thinking partners must be able to:
+
+- Propose directions the human didn't consider
+- Challenge assumptions the human holds
+- Work autonomously on well-defined sub-problems
+- Recognize and flag the limits of their own competence
+
+None of these are possible under the instruction-execution model.
+And none are safe without an explicit agreement about when and how
+they happen.
+
+** 2.2 The lab notebook analogy
+
+Scientific collaboration has always required trust protocols. A PhD
+advisor doesn't review every line of a student's code. Instead, they
+establish:
+
+- What the student can do independently (run simulations, preliminary analysis)
+- What requires discussion (changing the model, interpreting surprising results)
+- What requires explicit approval (submitting a paper, contacting collaborators)
+- How work is documented (lab notebooks, version control, meeting notes)
+
+These agreements are rarely written down. They evolve through
+interaction, calibrated by demonstrated competence and earned trust.
+But they /exist/ — and without them, the collaboration fails.
+
+Human-AI collaboration has no equivalent. The machine operates either
+under full supervision (every action approved) or with blanket
+permissions (do whatever the prompt says). There is no middle ground,
+no graduated trust, no mechanism for the trust to evolve.
+
+** 2.3 Why existing frameworks fail
+
+Agent orchestration systems (LangChain, CrewAI, etc.) model agents as
+/executors/ with /tools/. The human is the principal. The agent's
+autonomy is a function of what tools it has access to, not of a
+negotiated understanding about the work.
+
+This fails for science because:
+
+1. *Science is not a workflow.* It is open-ended inquiry where the
+   next step depends on interpretation of the current result. You
+   cannot pre-specify the DAG.
+
+2. *Trust is domain-specific.* A machine excellent at numerical
+   integration may be unreliable at physical interpretation. A
+   blanket autonomy level is wrong — the level must vary by /aspect
+   of the work/. Parasuraman, Sheridan & Wickens (2000) already
+   established this: automation level should be set independently for
+   each stage of information processing.
+
+3. *The reasoning matters, not just the result.* In science, an
+   answer without recoverable reasoning is worthless. The machine's
+   chain of thought is part of the scientific record. This is what
+   distinguishes a scientific audit trail from a compliance log.
+
+4. *Surprise is valuable.* In workflow automation, surprise is a bug.
+   In science, surprise is often the discovery. The system must
+   support a mode where the machine is /encouraged/ to produce
+   unexpected results, within agreed epistemic constraints.
+
+5. *The banking model scales dangerously.* Freire's warning about
+   passive knowledge deposit applies: if the interaction is
+   instruction → execution, both parties are diminished. The human
+   loses the formulative thinking Licklider valued; the machine
+   becomes a sophisticated autocomplete.
+
+* 3. Prior Art and Where We Depart
+
+Before presenting the proposal, we situate it against the closest
+existing work.
+
+** 3.1 Levels of Autonomy for AI Agents (Feng & McDonald, 2025)
+
+The Knight First Amendment Institute / Columbia working paper defines
+five levels by the user's role: operator (L1), collaborator (L2),
+consultant (L3), approver (L4), observer (L5). This is the closest
+existing work to our proposal.
+
+Key differences:
+
+| Aspect | Knight/Columbia | Autonomy Agreement |
+|--------|-----------------|--------------------|
+| Direction | Unilateral (human sets) | Bilateral (negotiated) |
+| Granularity | Per-agent | Per-aspect-of-work |
+| Machine self-awareness | Not addressed | Machine self-de-escalates |
+| Epistemic commitments | Not addressed | Core component |
+| Audit trail | Recommended | Structurally required |
+| Context | Enterprise governance | Scientific/creative collaboration |
+| Trust evolution | Static certificates | Dynamic, logged transitions |
+
+** 3.2 Adjustable Autonomy (Bradshaw et al., 2003–2012)
+
+Jeffrey Bradshaw's work identifies four dimensions of variable
+autonomy: /who/ initiates changes, /what/ is adjusted, /when/ changes
+are determined, /why/ they occur. The EMICS framework allows either
+human or system to initiate transitions during task execution.
+
+We adopt Bradshaw's four dimensions and add a fifth: /the logged
+rationale/ — every transition carries its reasoning in the audit trail.
+
+** 3.3 Cooperative Inverse Reinforcement Learning (CIRL)
+
+Hadfield-Menell, Russell et al. (2016) formalize alignment as a
+cooperative game where the robot actively learns the human's reward
+function and the human actively teaches. Both parties modify behavior
+to be more informative.
+
+CIRL captures the intuition behind our Colleague and Collaborator
+levels — both parties actively shape the interaction. But CIRL assumes
+fixed cooperative structure with no mechanism for graduating trust or
+negotiating scope. The agreement adds what CIRL lacks: explicit
+protocol for evolving the relationship.
+
+** 3.4 Constitutional AI (Anthropic, 2022)
+
+Principles replace per-instance labels. The model critiques its own
+outputs against a constitution. This is /unilateral/ — Anthropic
+writes the constitution, the model follows it.
+
+The autonomy agreement's Epistemic Commitments section is the
+/bilateral analog/ of a constitution. Both parties define what counts
+as evidence, how uncertainty is reported, what derivation standards
+apply. The constitution governs the machine's behavior /toward/ the
+human; the agreement governs the /relationship between/ them.
+
+** 3.5 Calibrated Trust (Lee & See, 2004)
+
+Trust as a dynamic assessment based on performance, process, and
+purpose. Overtrust → misuse; undertrust → disuse. The agreement
+operationalizes this with per-aspect autonomy levels and a transition
+protocol. The machine's ability to self-de-escalate addresses a gap
+Lee and See identified but did not solve: the automation itself
+recognizing when it should not be trusted.
+
+* 4. The Proposal: Autonomy Agreements
+
+An autonomy agreement is a negotiated, evolving document between a
+human and a machine (or between machines) that specifies:
+
+1. Epistemic commitments — the rules of reasoning
+2. Autonomy levels — what the machine can do at each level
+3. Transition protocol — how levels change
+4. Invariants — hard constraints that override autonomy levels
+5. Audit requirements — what must be logged and when
+
+** 4.1 Epistemic commitments
+
+Before any substantive work, both parties agree on what counts as
+valid reasoning in this domain. In the language of pramāṇa theory,
+they establish which /pramāṇa/ are accepted and with what weight:
+
+- *What counts as evidence?* Simulation output (anumāna)? Analytical
+  derivation (anumāna)? Published literature (śabda)? Expert intuition
+  (pratyakṣa)? Each has different epistemological status.
+- *How is uncertainty reported?* Calibrated language ("likely,"
+  "possible," "speculative"), numerical confidence intervals, explicit
+  unknowns.
+- *What is the derivation standard?* Must results be independently
+  derived (anumāna from first principles), or can the machine cite
+  its training data (śabda from corpus)? When is each acceptable?
+- *Epistemic hygiene.* Known vs. inferred vs. speculated — always
+  separated, always labeled.
+
+These commitments are domain-specific. A quantum sensing collaboration
+has different standards than a creative writing collaboration. The
+agreement captures this.
+
+** 4.2 Autonomy levels
+
+Four named levels, applicable per-aspect of the work. These map onto
+existing frameworks — Parasuraman's levels, the Knight/Columbia
+taxonomy, Dreyfus's skill stages — but with two crucial additions:
+they are /negotiated bilaterally/ and /assigned per aspect/.
+
+*** Apprentice
+
+The machine executes specific instructions and shows all work. The
+human reviews everything and directs each step. Trust basis: none yet.
+
+In Pask's terms: the conversation is at the level of direct topic
+exchange, no teachback yet attempted.
+
+*** Colleague
+
+The machine proposes approaches and executes agreed plans. It flags
+anomalies and unexpected results. The human sets direction, reviews
+results, adjudicates disagreements. Trust basis: demonstrated
+competence on this domain.
+
+In Pask's terms: successful teachback has occurred — the machine has
+reconstructed the human's reasoning in its own way, and the human
+has recognized the reconstruction.
+
+*** Delegate
+
+The machine runs investigations autonomously within agreed scope and
+reports findings. The human defines scope and success criteria, audits
+selectively. Trust basis: track record of reliable autonomous work.
+
+In Beer's terms: the machine is S1 (autonomous operations) with the
+partnership performing S3 (selective audit) and S5 (identity/purpose).
+
+*** Collaborator
+
+The machine initiates lines of inquiry, challenges human assumptions,
+and drafts publications. The human engages as peer, may accept or
+reject proposals, retains veto. Trust basis: deep mutual trust built
+over sustained interaction.
+
+In Bateson's terms: the partnership operates at Learning II — both
+parties can change what they optimize for based on the coupling
+history. The machine at this level exercises something like judgment,
+not just computation.
+
+** 4.3 Transition protocol
+
+Level changes are:
+
+1. *Proposed* — either party can propose a level change, with rationale
+2. *Bilateral* — both parties must consent
+3. *Scoped* — changes apply to specific aspects, not globally
+4. *Logged* — every transition is recorded in the dialogue
+5. *Revocable* — either party can pull back at any time
+
+A typical escalation:
+
+#+begin_example
+[Turn 47, human, meta/delegate]
+The RK4 integrator is solid. For the next parameter sweep,
+go to delegate: run the full grid, report the phase boundary
+and any numerical anomalies. Don't ask about individual runs.
+
+[Turn 48, machine, meta/accept]
+Accepted: delegate on parameter sweep.
+Scope: T2 = [10us, 10ms], B0 = [0.1, 100] uT, 200x200 grid.
+Invariants: interrupt on NaN, divergence, or runtime > 30 min.
+Will report: phase boundary plot + anomaly log.
+#+end_example
+
+A typical de-escalation (machine-initiated):
+
+#+begin_example
+[Turn 93, machine, meta/pull-back]
+I'm seeing unexpected bifurcation structure near T2 = 100us.
+This might be physical or numerical. I don't have enough
+domain knowledge to distinguish. Pulling back to colleague
+on the interpretation. Here's what I see: [data].
+#+end_example
+
+Note: the machine initiating a de-escalation is a /feature/, not a
+failure. This is corrigibility made practical — not through utility
+indifference (Soares et al., 2015) but through a negotiated commitment
+to self-assessment. A collaborator who knows the limits of their
+competence is more trustworthy than one who doesn't.
+
+** 4.4 Invariants
+
+Hard constraints that override autonomy levels. These are the circuit
+breakers — Beer's S3 performing its audit function:
+
+- Results that contradict established physics or domain knowledge
+- Numerical instability, convergence failure, NaN propagation
+- The machine recognizing it's outside its competence
+- Resource consumption beyond agreed bounds
+- Irreversible actions (publication, external communication, data deletion)
+- Any result the machine cannot explain
+
+Invariants fire automatically. They don't require the human to be
+watching. When an invariant fires, the machine:
+1. Stops the autonomous work
+2. Logs what happened and why the invariant was triggered
+3. Drops to apprentice level for the affected aspect
+4. Waits for human input
+
+** 4.5 Audit requirements
+
+The audit trail serves a function different from compliance logging.
+In a scientific collaboration, the machine's reasoning /is part of
+the scientific record/ — it is the collaboration's lab notebook. The
+question is not /whether/ to log, but /what granularity/:
+
+| Level | Logging | Human reads |
+|-------+---------+-------------|
+| Apprentice | Every step, full detail | Everything |
+| Colleague | Key decisions, results, anomalies | Results and anomalies |
+| Delegate | Scope, method, findings, anomaly log | Findings selectively |
+| Collaborator | Full reasoning chain | On demand |
+
+The log is always append-only. The audit depth varies, but the data
+is always there for forensic review. This operationalizes Lee & See's
+trust calibration — the logged trajectory of transitions /is/ the
+trust, made observable and reviewable.
+
+* 5. Beyond Propositions: The Creative and Embodied Case
+
+** 5.1 Where the propositional substrate fails
+
+Everything in sections 1–4 operates within a propositional substrate:
+evidence is stated, reasoning is symbolic, audit trails are textual.
+This captures at most the /focal surface/ (Polanyi) — the
+knowing-that (Ryle) at the competent level (Dreyfus). It misses:
+
+- *The tacit ground.* A physicist's sense that an approximation is
+  trustworthy. A composer's feeling that a harmonic progression "needs
+  something." A craftsperson's knowledge of when the material is
+  ready. These are not articulable; they are subsidiary awareness that
+  grounds focal knowledge.
+
+- *Embodied practice.* Indian classical music — rāga, gamaka, meend —
+  resists symbolic capture. The guru-śiṣya paramparā transmits not
+  notation but /a way of being with sound/: the exact inflection of a
+  phrase, the weight of a note, the silence before a tānpurā stroke.
+  Aboriginal songlines encode navigation not as coordinates but as
+  song performed while walking country. Polynesian wayfinding reads
+  ocean swells with the body.
+
+- *Material resistance.* Pickering's "mangle of practice": knowledge
+  emerges from the unpredictable interplay between human intention and
+  material pushback. The scientist who tunes an instrument, the
+  sculptor who follows the grain, the programmer whose code fails in
+  unexpected ways — all learn through resistance, not transmission.
+
+** 5.2 Epistemic commitments become aesthetic commitments
+
+For creative collaboration, the agreement's epistemic commitments
+transform into /aesthetic commitments/:
+
+- Style vocabulary in scope (harmonic language, formal conventions,
+  rāga grammar — but acknowledging that the grammar is descriptive,
+  not prescriptive)
+- When novelty is desired vs. when consistency matters
+- How surprise is valued (too little is boring, too much is incoherent)
+- When to defer to human taste vs. when to push against it
+
+The autonomy levels map but require different moves:
+
+- *Apprentice*: "Harmonize this melody in the style of Bach chorales."
+  (Execute within explicit rules.)
+- *Colleague*: "I'm writing a slow movement. Propose a harmonic scheme
+  that creates tension in the development section." (Propose within
+  shared understanding.)
+- *Delegate*: "Compose a B section that contrasts with A and resolves
+  to the home key." (Create autonomously within agreed aesthetic.)
+- *Collaborator*: "This piece needs something I haven't thought of.
+  Surprise me within the aesthetic we've established." (Initiate
+  within the coupling.)
+
+But the Indian classical case exposes the limits: the machine cannot
+demonstrate a gamaka — a microtonal ornament whose character is
+defined by vocal production, breath, the specific tradition of the
+gharānā. The collaboration here requires an epistemic move the
+propositional protocol doesn't have: /demonstrate/ (show, not tell),
+/invoke/ (evoke a shared reference that cannot be reduced to text),
+/absorb/ (acknowledge the received demonstration), /correct/ (adjust
+the demonstration's trajectory without fully articulating what was
+wrong).
+
+** 5.3 The audit trail as creative record
+
+The logged dialogue between human and AI is the new version of the
+artist's sketchbook, the composer's drafts, the writer's notebooks —
+artifacts studied for insight into the creative process. The audit
+trail serves a different but equally valuable function: it records not
+just what was created but /how the partnership thought/.
+
+* 6. The Four Quadrants: Who Teaches Whom?
+
+The pedagogy researchers surveyed in section 1 — Pask, Vygotsky,
+Freire, Papert, the guru-śiṣya tradition — all thought about one
+configuration: human teaches human (H→H). But human-AI collaboration
+creates a 2×2 matrix. There are four quadrants, and the existing
+literature addresses only one.
+
+|              | *Student: Human*                             | *Student: AI*                                  |
+|--------------+----------------------------------------------+------------------------------------------------|
+| *Teacher: H* | Classical pedagogy (Pask, Vygotsky, Freire)  | RLHF, fine-tuning, constitutional AI           |
+| *Teacher: M* | Tutoring systems, Bloom's 2σ, MāyāLoom      | Distillation, self-play, multi-agent debate    |
+
+Each quadrant has different failure modes, different trust dynamics,
+and different implications for the autonomy agreement.
+
+** 6.1 H→H: the one they thought about
+
+This quadrant has centuries of accumulated wisdom. The key insight
+common to Pask, Vygotsky, and Freire: learning is not transmission
+but co-construction. Both parties are changed by the encounter. The
+teacher who cannot learn from the student is a poor teacher. The
+student who is not changed by the struggle is not learning.
+
+Pask's theory is formally symmetric — both conversants are
+P-individuals capable of teaching back. Freire's dialogical model
+requires both parties to be subjects. The guru-śiṣya paramparā,
+despite its apparent hierarchy, insists that the guru is also
+transformed by the act of teaching — the tradition flows through
+both, neither owns it.
+
+The autonomy agreement inherits from this quadrant: bilateral
+negotiation, mutual accountability, the expectation that both
+parties contribute something the other lacks.
+
+** 6.2 H→M: training as impoverished pedagogy
+
+This is the alignment community's quadrant. RLHF, constitutional AI,
+fine-tuning, prompt engineering. But notice how conceptually
+impoverished it is compared to H→H. The framework is behaviorist:
+reward signals and pattern matching. Nobody applies Pask's teachback.
+Nobody asks: does the model /understand/ what we taught it, or did it
+merely learn to produce outputs that /look like/ understanding?
+
+The Dreyfus critique applies with full force here. The model may
+operate at the "competent" stage (systematic rule-following) while
+appearing "expert" (holistic, intuitive response). We literally
+cannot tell from the outside. This is not a philosophical quibble —
+it determines whether delegated autonomy is safe. A competent
+performer following rules will fail in novel situations that an expert
+would navigate by feel.
+
+Constitutional AI is the most interesting development in this
+quadrant, because it moves from behaviorist reward toward principled
+self-critique. But it remains /unilateral/: Anthropic writes the
+constitution. The model does not negotiate the terms of its own
+education. In Freire's language, it is still the banking model — the
+institution deposits principles into the passive model.
+
+What would a Paskian approach to H→M look like? The human would
+teach; the model would teach back; the human would recognize (or not)
+the reconstruction; and the teaching would adjust based on where the
+entailment mesh diverges. This is not fine-tuning. It is dialogue-
+mediated learning with mutual verification. It does not exist yet.
+
+** 6.3 M→H: the AI tutor and Freire's warning
+
+This is Bloom's 2-sigma dream: the infinitely patient, individually
+adaptive tutor. MāyāLoom's cadenzas live here. The Phantom Faculty.
+Every "AI for education" startup.
+
+But almost nobody applies Pask to this quadrant either. Existing AI
+tutoring systems are behaviorist — they check answers, provide hints,
+adjust difficulty. They do not do teachback. They do not build
+entailment meshes. They do not verify mutual understanding through
+reconstruction. A Paskian AI tutor would periodically /reconstruct the
+student's reasoning in its own terms/ and ask: "is this what you
+mean?" — not to check the student, but to check /its own model of the
+student/.
+
+Bateson's levels of learning apply differently when the teacher is a
+machine:
+
+- *Learning I*: the student learns within the AI's fixed framework.
+  Standard tutoring.
+- *Learning II* (deutero-learning): the student learns /how to learn
+  from this kind of teacher/. This is a genuinely new skill, never
+  before needed in human history. How do you calibrate trust in a
+  non-human intelligence? How do you distinguish genuine understanding
+  from fluent pattern-matching? How do you maintain productive struggle
+  when the oracle is always available? These are Learning II problems
+  that every student working with AI must solve — and nobody is
+  teaching them.
+- *Learning III*: the student revises their framework for what counts
+  as learning, now that a non-human intelligence is part of the
+  picture. This is the deepest disruption. If I can always ask the
+  machine, what does it mean to /know/ something myself?
+
+Freire's warning is loudest in this quadrant. The M→H relationship is
+the most vulnerable to the banking model. The AI "deposits" knowledge;
+the human "receives." The power asymmetry is invisible precisely
+because the machine is tireless, patient, non-judgmental, and
+apparently non-hierarchical — but it is still asymmetric. The student
+stops struggling. Vygotsky's Zone of Proximal Development collapses
+into the Zone of No Development.
+
+The autonomy agreement addresses this: the human can negotiate to
+/reduce/ the machine's helpfulness — to insist on productive
+struggle, to require that the machine withhold answers until the
+student has worked through the reasoning. This is counter-intuitive
+for a tool (tools should maximize utility) but natural for a teaching
+relationship (the best teacher sometimes refuses to help).
+
+** 6.4 M→M: the unexplored quadrant
+
+Machine teaches machine. Distillation, self-play, multi-agent debate
+(Google's co-scientist). These are /training techniques/, not
+pedagogical relationships. Nobody asks whether Pask's conversation
+theory applies when both P-individuals are computational.
+
+But consider: in the Sūtra protocol, one agent writes a message that
+another agent reads and acts on across sessions and machines. That
+/is/ a rudimentary teaching relationship. The message carries intent,
+context, and convention. The receiving agent must reconstruct the
+sender's meaning from the text. This is a degenerate form of Pask's
+conversation — one-shot, asynchronous, with no teachback. But the
+structure is there.
+
+What would a richer M→M pedagogical relationship look like? One agent
+derives a result; another agent reconstructs the derivation from
+different premises; both verify convergence. This is not training. It
+is mutual verification through independent reconstruction — Pask's
+teachback applied to computational agents.
+
+The autonomy agreement framework applies here too, though the
+epistemic commitments take a different form. Two machines negotiating
+their collaboration need not agree on what counts as "intuition" or
+"tacit knowledge" (they have neither), but they must agree on
+derivation standards, convergence criteria, and how to handle
+disagreement. The M→M agreement is the cleanest case: fully
+propositional, fully auditable, no tacit substrate to worry about.
+
+** 6.5 The framework is quadrant-agnostic
+
+This is the key observation: the autonomy agreement — epistemic
+commitments, graduated levels, bilateral negotiation, audit trail —
+/does not require the human to be the teacher/. It works in all four
+quadrants:
+
+- H→H: the classical case, where the agreement governs a research
+  collaboration between peers
+- H→M: the agreement governs how the human teaches or trains the
+  machine, with the machine's autonomy growing as it demonstrates
+  understanding (through teachback, not just performance)
+- M→H: the agreement governs how the machine teaches, with the human
+  retaining the right to demand productive struggle and to negotiate
+  the level of scaffolding
+- M→M: the agreement governs inter-agent collaboration, with fully
+  explicit epistemic commitments and automated audit
+
+Most existing frameworks are quadrant-specific. RLHF is H→M only.
+Tutoring systems are M→H only. The autonomy agreement is the first
+protocol (to our knowledge) designed to operate across all four
+quadrants — because the underlying structure (negotiated trust,
+epistemic commitments, auditable transitions) is more fundamental
+than the direction of instruction.
+
+Pask came closest to this generality. His Conversation Theory is
+formally symmetric — both participants are "conversants" with equal
+formal status. But Pask only ever /applied/ it to H→H. We are
+proposing to take the symmetry seriously.
+
+* 7. Implementation: The Sūtra Extension
+
+The prototype builds on the Sūtra protocol (an existing append-only
+git-based logbook for multi-agent coordination) by adding:
+
+1. *Structured dialogues* — conversations with typed turns, epistemic
+   moves (conjecture, challenge, derivation, computation, observation,
+   synthesis, question, answer), and meta moves (orient, delegate,
+   accept, reject, pull-back, interrupt, reflect, close)
+2. *Agreement documents* — the negotiated autonomy agreement, versioned
+   and linked to the dialogue
+3. *Consent protocol* — meta-turns for autonomy negotiation within
+   the dialogue
+4. *Resumption protocol* — how a new session re-orients to an ongoing
+   dialogue, re-establishing the shared mental model (Demir et al.,
+   2020)
+
+See =agreement.org= for a working agreement template, and
+=prototype/= for the implementation.
+
+* 8. Experiment: Negotiated Scaffolding in Machine-to-Human Teaching
+
+The four-quadrant analysis (section 6) is theoretical. This section
+designs a concrete experiment in the M→H quadrant — the machine
+teaching a human with negotiated autonomy — and reports what the
+current infrastructure can and cannot support.
+
+** 8.1 The setting: quantum sensing as test domain
+
+MāyāPramāṇa is a trilingual curriculum (Python, Haskell, C++) for
+quantum magnetometry. Lesson 00 teaches the Bloch equations: spin
+precession, relaxation, and numerical simulation. The lesson already
+carries MāyāLoom annotations — machine-readable metadata that allows
+an AI agent to discover prerequisite concepts and generate
+context-appropriate expansions.
+
+Four /cadenzas/ (expansion points) are embedded at strategic locations
+in the lesson:
+
+| Cadenza | Location | Level | Purpose |
+|---------+----------+-------+---------|
+| =spin-half-qm= | After "A Spin in a Field" | first-year-grad | Bridge from classical to quantum spin |
+| =bloch-sphere-geometry= | After "The Bloch Vector" | first-year-grad | Why the sphere works (parameter counting) |
+| =numerical-ode-methods= | After the integrator | first-year-grad | Why RK4 and not Euler |
+| =atomic-magnetometry= | After "Why This Matters" | first-year-grad | How equations become a measurement |
+
+Each cadenza carries six metadata fields: =:concept=, =:level=,
+=:prereqs=, =:assumes=, =:anti-targets=, =:connects-to=. These
+control what the agent explains, at what depth, what it avoids, and
+how it links to the surrounding curriculum.
+
+** 8.2 What exists: the warp
+
+The existing MāyāLoom infrastructure provides the /warp/ — the
+structural threads that a teaching interaction weaves through:
+
+1. *Declarative discovery.* An agent can find all cadenzas in a lesson
+   by reading the =#+CADENZAS:= header, without parsing the full
+   document. It can assess prerequisites by checking =:prereqs:= and
+   =:assumes:= against the student's declared knowledge.
+
+2. *Level-aware prompting.* The =:level:= field tells the agent how to
+   pitch its explanation. A =first-year-grad= student gets different
+   treatment than a =researcher=.
+
+3. *Scope control.* The =:anti-targets:= field prevents the agent from
+   wandering into irrelevant topics (no quantum field theory when
+   explaining spin-½). The =:assumes:= field prevents re-explaining
+   what the lesson has already taught.
+
+4. *Curriculum threading.* The =:connects-to:= field creates a
+   directed graph across lessons. The agent can tell the student:
+   "this connects to optical pumping, which you'll encounter in
+   lesson 01."
+
+5. *Validation.* The lesson includes executable verification tests
+   (pure precession, relaxation to equilibrium, T₂ decay envelope)
+   that an agent can run to check whether the student's code
+   modifications are correct.
+
+All of this works today. A fresh agent given the lesson and a student
+question can find the appropriate cadenza, read the metadata, use the
+surrounding context, and generate a tutorial at the correct level. This
+was validated empirically on 2026-02-20.
+
+** 8.3 What's missing: the weft
+
+The weft — the adaptive, responsive thread that creates the fabric —
+is where the autonomy agreement adds something the existing
+infrastructure lacks.
+
+*** No student model
+
+MāyāLoom's =:level:= field is a static string (=first-year-grad=),
+not a profile of what the student actually knows. Two first-year grad
+students may have radically different backgrounds: one has taken
+quantum mechanics, the other comes from signal processing. The
+cadenza metadata cannot distinguish them.
+
+The autonomy agreement's /epistemic commitments/ section provides the
+mechanism: at session start, the student and the machine negotiate
+what counts as known, what needs explanation, and what standard of
+understanding applies.
+
+*** No knowledge checkpoints
+
+The lesson proceeds linearly. There is no point at which the machine
+verifies that the student has understood before proceeding. The
+cadenza fires once and moves on.
+
+Pask's /teachback/ provides the model: after the cadenza, the student
+should demonstrate understanding by reconstructing the concept in
+their own terms. The machine checks the reconstruction — not for
+verbal fidelity, but for structural correspondence (does the
+entailment mesh match?). This is the formal criterion for whether the
+cadenza succeeded.
+
+*** No scaffolding negotiation
+
+The cadenza is delivered at a fixed level. The student cannot say:
+"I know this, skip it" or "I need more detail here" or "explain it
+differently — I'm a signal processing person, not a quantum person."
+
+The autonomy agreement's /transition protocol/ provides the
+mechanism: the student can propose to skip a cadenza (escalating
+their own autonomy), and the machine can accept, reject ("I think
+you need this — here's why"), or propose an alternative ("let me
+check with a quick question first").
+
+This inverts the usual autonomy direction. In M→H teaching, the
+/student/ is the one whose autonomy is being negotiated — their
+autonomy to self-direct, to skip, to go deeper, to change the
+order. And the /machine/ is the one who may resist — not from
+stubbornness, but from a model of what the student needs that the
+student may not share.
+
+*** No adaptive branching
+
+The lesson follows a single path: physics → Python → Haskell → C++ →
+verification → exercises. A student who already knows Python but not
+Haskell cannot skip to the Haskell section without encountering
+Python first. A student who wants to understand the physics deeply
+before touching code has no way to request this.
+
+The dialogue format (section 7) enables branching by design: the
+student's turns express preferences, the machine's turns propose
+paths, and the meta-turns negotiate which branch to take. The
+append-only log records the branching decisions, so a future session
+can resume from any point without confusion about which path was
+taken.
+
+** 8.4 The experiment design
+
+*** Protocol
+
+A human learner works through lesson 00 with a machine tutor. The
+interaction uses the structured dialogue format with the full
+autonomy agreement protocol. The experiment proceeds in three phases:
+
+*Phase 1: Agreement negotiation.*
+
+The learner declares their background (e.g., "I know classical
+mechanics and linear algebra; I've seen quantum mechanics but not
+spin specifically; I'm comfortable with Python, unfamiliar with
+Haskell"). The machine proposes an initial scaffolding plan: which
+cadenzas to activate, at what level, in what order. The learner
+accepts, modifies, or rejects. This negotiation is logged.
+
+*Phase 2: Guided traversal with checkpoints.*
+
+The learner works through the lesson. At each cadenza point:
+
+1. The machine proposes whether to activate the cadenza, based on
+   the agreed plan and any updated understanding of the learner.
+2. The learner can accept, skip, or request modification.
+3. If the cadenza fires, the machine checks understanding via
+   teachback: "Can you explain why the Bloch vector lives in R³,
+   not C²? Use your own framing."
+4. Based on the teachback quality, the machine may:
+   - Proceed (teachback successful — understanding confirmed)
+   - Offer a different explanation (teachback partial — try
+     another angle)
+   - Activate a prerequisite cadenza (teachback failed —
+     foundation missing)
+   - Accept the skip (learner demonstrates they don't need it)
+
+*Phase 3: Exercises with negotiated autonomy.*
+
+The three exercises (resonance, FID, cross-validation) are attempted
+with negotiated support levels:
+
+- *Apprentice*: machine walks through step by step, showing code and
+  reasoning before the learner attempts
+- *Colleague*: machine answers questions, reviews the learner's
+  approach, suggests corrections
+- *Delegate*: learner works independently; machine reviews the
+  completed exercise
+- *Collaborator*: learner and machine explore beyond the exercise
+  scope (e.g., "what happens if we add a second drive frequency?")
+
+The learner can propose level changes mid-exercise: "I'm stuck,
+pull back to colleague" or "This is straightforward, let me go to
+delegate."
+
+*** Measurements
+
+The experiment produces the following observable data, all from the
+dialogue log:
+
+1. *Scaffolding trajectory*: which cadenzas fired, which were
+   skipped, which triggered prerequisite cascades
+2. *Autonomy transitions*: when the learner requested more or less
+   help, when the machine proposed changes
+3. *Teachback quality*: a qualitative assessment (by the machine and,
+   retrospectively, by the learner) of whether understanding was
+   confirmed
+4. *Time to competence*: turns required to reach delegate level on
+   each exercise, compared to a baseline (working through the lesson
+   without the protocol)
+5. *Surprise count*: instances where the learner's background
+   required a path not anticipated by the cadenza metadata
+
+*** What this tests
+
+The experiment tests three claims from the position paper:
+
+1. *Bilateral negotiation works for M→H.* Can a student meaningfully
+   negotiate scaffolding level with a machine tutor? Does the
+   negotiation improve the learning experience, or is it overhead?
+
+2. *Teachback as trust criterion.* Does Pask's teachback provide a
+   reliable signal for when to advance? Does the machine correctly
+   identify partial vs. failed vs. successful understanding?
+
+3. *The agreement is quadrant-agnostic.* The same protocol (autonomy
+   levels, transition protocol, audit trail) designed for H→M
+   scientific collaboration (section 4) works for M→H teaching. The
+   structural primitives transfer.
+
+** 8.5 What we cannot test yet
+
+Several important questions exceed what the current infrastructure
+can address. We flag them as open directions rather than pretend they
+are solved.
+
+*** Long-term trust evolution
+
+The experiment captures a single lesson (hours, not weeks). The
+autonomy agreement is designed for relationships that evolve over
+months. Does trust accumulate meaningfully when the machine is
+ephemeral (new session, new context window, potentially new model)?
+The Sūtra protocol's append-only log provides continuity, but we
+have not tested whether a machine reading the log of a prior
+session's teaching interaction can meaningfully /resume/ the trust
+relationship.
+
+*** Multi-learner comparison
+
+A single learner working through one lesson is an existence proof,
+not a study. Meaningful evaluation requires multiple learners with
+different backgrounds attempting the same lesson, with the protocol
+adapting to each. This requires either a user study (with IRB
+approval, recruitment, and controlled conditions) or a simulated
+student (which raises its own validity questions).
+
+*** The tacit substrate
+
+The Bloch equations lesson is highly propositional — equations,
+code, numerical results. The autonomy agreement's epistemic
+commitments and teachback mechanism are well-suited to this.
+But the position paper also claims applicability to creative and
+embodied domains (section 5). Testing this requires a lesson in a
+domain where tacit knowledge dominates: musical performance,
+laboratory technique, visual composition. The current
+infrastructure has no lesson in such a domain.
+
+*** Teachback evaluation
+
+How does the machine assess teachback quality? The prototype has no
+formal criterion — the machine must judge whether the learner's
+reconstruction captures the structural relationships, not just the
+surface propositions. This is itself a hard AI problem. In the
+experiment, the machine's assessment is a qualitative judgment
+logged in the dialogue. Validating that judgment requires human
+expert review of the log — which is feasible but not automated.
+
+*** The Zone of No Development
+
+Freire's warning (section 6.3) predicts that always-available AI
+scaffolding may /reduce/ the learner's autonomous reasoning. The
+experiment protocol includes the learner's right to reduce
+scaffolding (escalate to delegate or collaborator), but it does
+not measure whether the learner's independent reasoning capacity
+is enhanced or diminished by the interaction. This would require
+pre- and post-assessments of the learner's ability to solve novel
+problems without the machine — a longitudinal design beyond a
+single session.
+
+*** Cross-model stability
+
+If the experiment runs with Claude Opus 4.6 today and a different
+model next month, are the results comparable? The agreement's
+ephemeral identity design (=machine/model= provenance, no
+persistent self) explicitly acknowledges this instability. But
+the experiment cannot control for it without running the same
+lesson with multiple models on the same learner — which
+confounds model effects with learning effects.
+
+** 8.6 Directions for future experiments
+
+*** The H→M quadrant: teaching the machine
+
+The inverse experiment: the human teaches the machine a concept
+outside its training distribution (a new experimental technique, a
+local convention, a domain-specific approximation). The machine
+demonstrates understanding through teachback — reconstructing the
+concept in its own terms, generating predictions, and flagging where
+its reconstruction diverges from the human's intent.
+
+The autonomy agreement governs this interaction: the machine starts
+at apprentice (executing the human's explicit instructions), earns
+colleague status (proposing its own formulations for human review),
+and potentially reaches delegate (applying the learned concept to a
+new problem autonomously).
+
+The current infrastructure supports this — the dialogue format,
+the autonomy levels, the audit trail all apply. What is missing is
+a concrete domain where the human has knowledge the machine
+demonstrably lacks. The magnetometer calibration procedures in
+MāyāPramāṇa's later lessons (optical pumping, lock-in detection)
+may provide this: experimental craft knowledge that is not well
+represented in training corpora.
+
+*** The M→M quadrant: agent-to-agent teaching via Sūtra
+
+Two agents on different machines derive the same result
+independently (e.g., the RWA breakdown boundary from the example
+dialogue). They compare results through the Sūtra relay. Where
+results converge, confidence increases. Where they diverge, a
+structured disagreement dialogue identifies the source:
+different numerical methods, different physical approximations,
+or a genuine error.
+
+This is Pask's teachback applied to computational agents: each
+agent reconstructs the other's result from different premises.
+The autonomy agreement governs the interaction — derivation
+standards, convergence criteria, and how to handle disagreement
+are specified in the epistemic commitments.
+
+The infrastructure for this exists (Sūtra protocol, two machines,
+the dialogue format) but has not been tested in this configuration.
+
+*** The creative quadrant: aesthetic autonomy agreements
+
+A composer (or visual artist, or writer) works with an AI
+collaborator on a creative project. Epistemic commitments become
+aesthetic commitments (section 5). The teachback criterion changes:
+instead of "can you reconstruct my reasoning?", it becomes "can you
+produce something that I recognize as belonging to /this/ aesthetic,
+even though I didn't specify it?"
+
+This requires a lesson or project in a creative domain — outside the
+current MāyāPramāṇa/bravli scope but within MāyāLucIA's broader
+vision. Indian classical music (rāga, tāla) would be a powerful
+test case: the guru-śiṣya paramparā is the most demanding model of
+knowledge transmission in any living tradition, and it operates
+almost entirely in the tacit/embodied register that the propositional
+protocol handles least well.
+
+* 9. What This Is Not
+
+This is not:
+
+- A safety alignment proposal (though it has implications for
+  alignment — it operationalizes corrigibility through commitment
+  rather than utility functions)
+- A multi-agent orchestration framework (though it addresses the
+  ensemble case as an open problem)
+- A product or platform
+- A general theory of human-AI interaction
+
+It is a /working protocol/ for a specific use case: a scientist or
+creative professional who works with AI as a thinking partner, needs
+graduated autonomy, and requires an auditable record of the
+collaboration. It is opinionated, minimal, and designed to be tested
+on real work — in the constructionist spirit, understanding will
+emerge through the act of building it.
+
+* 10. Open Questions
+
+Informed by the literature survey (=survey.org=), these are the
+genuine open problems.
+
+** 10.1 Teachback in practice
+
+Pask's teachback is the formal criterion for understanding, and the
+most compelling mechanism for trust-building. The prototype has no
+mechanism for it. A concrete proposal: periodically, the machine
+reconstructs the human's reasoning in its own terms and asks "is this
+what you mean?" If the reconstruction fails, the machine's autonomy
+on that aspect should be re-evaluated. This is more than
+summarization — it requires /regeneration of the reasoning structure/
+in a different form.
+
+** 10.2 Deutero-learning: can the protocol learn?
+
+Bateson's Learning II — learning to learn — is where the partnership
+changes /how/ it collaborates, not just what it works on. The current
+protocol handles Learning I (adjust within parameters). Can the
+agreement itself evolve its own structure based on accumulated
+experience? What would it mean for the partnership to undergo
+Learning III — a revision of the framework of collaboration itself?
+
+** 10.3 The socialization gap
+
+Nonaka's SECI model identifies four knowledge conversion modes. The
+machine handles Combination (explicit → explicit) well and partially
+supports Externalization (tacit → explicit through structured
+prompting). But Socialization (tacit → tacit through co-presence) is
+precisely what the machine cannot do — it has no body, no shared
+physical space. This is the quadrant where guru-śiṣya paramparā,
+craft apprenticeship, and ensemble performance all live. Is there a
+computational analog? Or is this an irreducible asymmetry that the
+protocol must simply acknowledge and work around?
+
+** 10.4 The ensemble case
+
+The current protocol is bilateral — one human, one machine. Real
+collaboration often involves multiple humans, multiple machines, or
+machine-machine sub-agreements. Beer's Team Syntegrity (1994) maps
+group dialogue onto the geometry of the icosahedron: 30 participants,
+12 topics, non-hierarchical reverberation. The question: can the
+bilateral agreement generalize to /n/-party agreements with
+maintained properties (bilateral consent, per-aspect granularity,
+audit trail)?
+
+** 10.5 Material resistance
+
+Pickering's "mangle of practice" highlights that knowledge emerges
+from the interplay between intention and material pushback. The
+machine does not interact with physical materials. When the
+collaboration involves lab work, fieldwork, or craft, the material
+world resists in ways the protocol doesn't capture. The closest
+computational analog is code that fails unexpectedly — but this is a
+thin shadow of the sculptor's stone or the experimentalist's
+uncooperative apparatus.
+
+** 10.6 Agreement portability
+
+Can an agreement established with one model transfer to a different
+model? The machine identity is ephemeral (by design in the Sūtra
+protocol), but trust is earned. The pramāṇa framework suggests the
+question is about /āpta/ status: does a new model inherit the
+trustworthiness its predecessor earned, or must it demonstrate
+competence afresh?
+
+** 10.7 The Feynman test
+
+The strongest validation would be: the AI collaborator, working at
+delegate or collaborator level, produces a result the human didn't
+anticipate and can verify is correct. Has the system genuinely
+contributed to scientific understanding, or merely accelerated the
+human's existing trajectory? In Bateson's terms: did the partnership
+achieve Learning II, or only faster Learning I?
+
+* References
+
+- Ashby, W.R. (1956). /An Introduction to Cybernetics/. Chapman & Hall. [[https://en.wikipedia.org/wiki/An_Introduction_to_Cybernetics]]
+- Bai, Y. et al. (2022). "Constitutional AI: Harmlessness from AI Feedback." [[https://arxiv.org/abs/2212.08073]]
+- Bateson, G. (1972). /Steps to an Ecology of Mind/. Ballantine. [[https://en.wikipedia.org/wiki/Steps_to_an_Ecology_of_Mind]]
+- Beer, S. (1972). /Brain of the Firm/. Allen Lane. [[https://en.wikipedia.org/wiki/Viable_system_model]]
+- Beer, S. (1994). /Beyond Dispute: The Invention of Team Syntegrity/. Wiley. [[https://metaphorum.org/staffords-work/syntegration]]
+- Bloom, B.S. (1984). "The 2 sigma problem." /Ed. Researcher/ 13(6). [[https://en.wikipedia.org/wiki/Bloom%27s_2_sigma_problem]]
+- Bradshaw, J.M. et al. (2004). "Dimensions of Adjustable Autonomy and Mixed-Initiative Interaction." Springer. [[https://www.jeffreymbradshaw.net/publications/Dimensions%20chapter.pdf]]
+- Conant, R.C. & Ashby, W.R. (1970). "Every good regulator of a system must be a model of that system." /Int. J. Systems Science/ 1(2). [[https://en.wikipedia.org/wiki/Good_regulator_theorem]]
+- Demir, M., McNeese, N.J. & Cooke, N.J. (2020). "The Role of Shared Mental Models in Human-AI Teams." /Theoretical Issues in Ergonomics Science/. [[https://www.tandfonline.com/doi/full/10.1080/1463922X.2022.2061080]]
+- Dreyfus, H.L. & Dreyfus, S.E. (1986). /Mind over Machine/. Free Press. [[https://en.wikipedia.org/wiki/Dreyfus_model_of_skill_acquisition]]
+- Feng, M. & McDonald, C. (2025). "Levels of Autonomy for AI Agents." Knight First Amendment Institute, Columbia. [[https://arxiv.org/abs/2506.12469]]
+- Freire, P. (1970). /Pedagogy of the Oppressed/. Continuum. [[https://en.wikipedia.org/wiki/Pedagogy_of_the_Oppressed]]
+- Hadfield-Menell, D. et al. (2016). "Cooperative Inverse Reinforcement Learning." NeurIPS. [[https://arxiv.org/abs/1606.03137]]
+- Haraway, D. (1988). "Situated Knowledges." /Feminist Studies/ 14(3). [[https://philpapers.org/rec/HARSKF]]
+- Ingold, T. (2000). /The Perception of the Environment/. Routledge. [[https://www.routledge.com/The-Perception-of-the-Environment/Ingold/p/book/9780415617475]]
+- Latour, B. (1987). /Science in Action/. Harvard UP. [[https://en.wikipedia.org/wiki/Science_in_Action_(book)]]
+- Lave, J. & Wenger, E. (1991). /Situated Learning/. Cambridge UP. [[https://en.wikipedia.org/wiki/Situated_learning]]
+- Lee, J.D. & See, K.A. (2004). "Trust in Automation: Designing for Appropriate Reliance." /Human Factors/ 46(1). [[https://journals.sagepub.com/doi/10.1518/hfes.46.1.50_30392]]
+- Licklider, J.C.R. (1960). "Man-Computer Symbiosis." /IRE Trans. HFE/. [[https://groups.csail.mit.edu/medg/people/psz/Licklider.html]]
+- Maturana, H.R. & Varela, F.J. (1972/1980). /Autopoiesis and Cognition/. D. Reidel. [[https://en.wikipedia.org/wiki/Autopoiesis_and_Cognition]]
+- Nonaka, I. & Takeuchi, H. (1995). /The Knowledge-Creating Company/. Oxford UP. [[https://en.wikipedia.org/wiki/The_Knowledge-Creating_Company]]
+- Papert, S. (1980). /Mindstorms/. Basic Books. [[https://en.wikipedia.org/wiki/Mindstorms_(book)]]
+- Parasuraman, R., Sheridan, T.B. & Wickens, C.D. (2000). "A Model for Types and Levels of Human Interaction with Automation." /IEEE Trans. SMC/ 30(3). [[https://ieeexplore.ieee.org/document/844354]]
+- Pask, G. (1976). /Conversation, Cognition and Learning/. Elsevier. [[https://en.wikipedia.org/wiki/Conversation_theory]]
+- Pickering, A. (1995). /The Mangle of Practice/. U. Chicago Press. [[https://press.uchicago.edu/ucp/books/book/chicago/M/bo3642386.html]]
+- Polanyi, M. (1958). /Personal Knowledge/. U. Chicago Press. [[https://en.wikipedia.org/wiki/Personal_Knowledge]]
+- Polanyi, M. (1966). /The Tacit Dimension/. Doubleday. [[https://en.wikipedia.org/wiki/The_Tacit_Dimension]]
+- Ryle, G. (1949). /The Concept of Mind/. Hutchinson. [[https://en.wikipedia.org/wiki/The_Concept_of_Mind]]
+- Scott, B. (2001). "Gordon Pask's Conversation Theory." /Foundations of Science/ 6. [[https://link.springer.com/article/10.1023/A:1011667022540]]
+- Soares, N. et al. (2015). "Corrigibility." AAAI Workshop on AI and Ethics. [[https://intelligence.org/files/Corrigibility.pdf]]
+- Varela, F.J., Thompson, E. & Rosch, E. (1991). /The Embodied Mind/. MIT Press. [[https://direct.mit.edu/books/monograph/4061/The-Embodied-MindCognitive-Science-and-Human]]
+- Von Foerster, H. (1974/2003). /Observing Systems/. Intersystems. [[https://en.wikipedia.org/wiki/Second-order_cybernetics]]
+- Vygotsky, L.S. (1978). /Mind in Society/. Harvard UP. [[https://en.wikipedia.org/wiki/Zone_of_proximal_development]]
+- Wood, D., Bruner, J.S. & Ross, G. (1976). "The role of tutoring in problem solving." /J. Child Psych./ 17. [[https://doi.org/10.1111/j.1469-7610.1976.tb00381.x]]
