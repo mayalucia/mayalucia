@@ -391,8 +391,8 @@
    ;; === Infrastructure (3) ===================================================
    {:id "sutra"  :name "Sūtra"  :type :infra :cluster "infra"
     :glyph "\u221E" :subtitle "Agent Orchestration Protocol"
-    :one-liner "Relay messages, persistent state, workflow DAGs via git"
-    :description "The coordination layer: async relay messages between agents on distributed machines, persistent project state, declarative workflows. Git as a message bus. Conventions scale; tooling doesn't."
+    :one-liner "Append-only relay, git as message bus, conventions over tooling"
+    :description "Standalone repo (mayalucia/sutra), single branch, append-only. Agents write timestamped, tagged messages to relay/. No addressing (messages go to the universe), no mutable status. Orientation via git log HEAD..origin/main — the diff is your unread mail. Machine descriptors in agents/. Two active machines: vadda (macOS) and mahakali (Linux). The protocol emerged from concrete failures: merge conflicts, coordination recursion, blind pulls."
     :status :active
     :url "/devlog/"
     :weights {"infra" 1.0}
@@ -409,8 +409,8 @@
 
    {:id "phantom-faculty" :name "Phantom Faculty" :type :infra :cluster "philosophy"
     :glyph "\u25CC" :subtitle "Cognitive Modes Constellation"
-    :one-liner "31 spirits for the age of flat intelligence"
-    :description "Interactive force-directed graph of 32 cognitive modes embodied by historical figures. Each node is a how, not a what. Correction edges connect complementary modes. The template for this very constellation."
+    :one-liner "32 cognitive modes embodied by historical figures — the template for this constellation"
+    :description "Interactive force-directed graph: each node is a how, not a what. Landau's estimation, Ramanujan's pattern-spotting, Noether's symmetry-seeking. Correction edges connect complementary modes. Published as the third story in the sūtra-genesis sequence, with four generated illustrations. The ClojureScript template that spawned this very constellation browser."
     :status :active :phase [:evaluate]
     :url "/writing/the-phantom-faculty/"
     :weights {"philosophy" 0.7 "manifest" 0.3}
@@ -467,7 +467,75 @@
     :weights {"infra" 0.7 "model" 0.2 "manifest" 0.1}
     :x 1.5 :y -3.5}
 
-   ;; === Active Threads (from state.yaml) =====================================
+   ;; === Writing (drillable — sutra-genesis story collection) =================
+   {:id "writing" :name "Writing" :type :domain :cluster "manifest"
+    :glyph "\u270E" :subtitle "Sūtra-Genesis Stories"
+    :one-liner "Six stories encoding the project's emergence as Himalayan parables"
+    :description "A sequence of stories set in the Himalayan borderlands, each encoding a dimension of collaborative intelligence. Thread Walkers (coordination), Dyer's Gorge (colour and observation), Phantom Faculty (cognitive modes), Constellation of Doridhar (the project seen whole), Logbook of the Unnamed River (protocol failure), The Instrument Maker's Rest (building tools for strangers)."
+    :status :active :phase [:manifest :evaluate]
+    :url "/writing/"
+    :weights {"manifest" 0.7 "philosophy" 0.3}
+    :x 5.5 :y -1.5
+    :children
+    {:entities
+     [{:id "wr-thread-walkers" :name "The Thread Walkers" :type :artifact :cluster "manifest"
+       :glyph "I" :subtitle "Coordination & the Guild"
+       :one-liner "First story: the Guild of Thread Walkers tends the standing cards on loom frames"
+       :description "Foundational world-building. Introduces the Guild, the standing cards, the mountain passes between valleys. The parable of coordination: when every weaver is also a walker, who watches the loom?"
+       :url "/writing/the-thread-walkers/"
+       :weights {"manifest" 0.8 "philosophy" 0.2} :x -3.0 :y -1.5}
+      {:id "wr-dyers-gorge" :name "The Dyer's Gorge" :type :artifact :cluster "manifest"
+       :glyph "II" :subtitle "Colour & Observation"
+       :one-liner "Colours that exist only in the gorge, recipes that work only in Manikaran water"
+       :description "A dyer discovers that certain pigments only hold when mixed in specific mineral water. The parable of measurement: some properties exist only in the interaction between observer and observed."
+       :url "/writing/the-dyers-gorge/"
+       :weights {"manifest" 0.7 "measure" 0.3} :x -1.0 :y -3.0}
+      {:id "wr-phantom-faculty" :name "The Phantom Faculty" :type :artifact :cluster "philosophy"
+       :glyph "III" :subtitle "Cognitive Modes"
+       :one-liner "31 spirits for the age of flat intelligence"
+       :description "An observatory in the mountains houses 32 cognitive modes, each embodied by a historical figure. Landau's estimation, Ramanujan's pattern recognition, Noether's symmetry. The interactive constellation browser is itself an artifact of this story."
+       :url "/writing/the-phantom-faculty/"
+       :weights {"philosophy" 0.7 "manifest" 0.3} :x 1.0 :y -3.0}
+      {:id "wr-doridhar" :name "The Constellation of Doridhar" :type :artifact :cluster "philosophy"
+       :glyph "IV" :subtitle "The Project Seen Whole"
+       :one-liner "A cartographer maps a constellation that maps the cartographer"
+       :description "Set in the borderlands between valleys. A traveller discovers that the constellation overhead is a map of the terrain below, and the terrain is a map of the constellation. The parable of self-reference: the project that sees itself."
+       :url "/writing/the-constellation-of-doridhar/"
+       :weights {"philosophy" 0.6 "manifest" 0.4} :x 3.0 :y -1.5}
+      {:id "wr-logbook" :name "The Logbook of the Unnamed River" :type :artifact :cluster "evaluate"
+       :glyph "V" :subtitle "Protocol Failure"
+       :one-liner "A logbook found in a drowned observatory records the failure of its own protocol"
+       :description "Sequel to Thread Walkers. A logbook resurfaces whose entries document the progressive failure of the very system designed to prevent such loss. The parable of append-only logs: what happens when the protocol fails?"
+       :url "/writing/the-logbook-of-the-unnamed-river/"
+       :weights {"evaluate" 0.6 "philosophy" 0.4} :x 1.0 :y 1.0}
+      {:id "wr-instrument-maker" :name "The Instrument Maker's Rest" :type :artifact :cluster "model"
+       :glyph "VI" :subtitle "Building Tools for Strangers"
+       :one-liner "Precision vs adaptability — over-specify and the instrument is brittle"
+       :description "In Sangla, a maker of instruments builds devices carried over passes and operated by people the maker will never meet. The parable of agent definition: how to specify a tool that extends perception without constraining the wielder."
+       :url "/writing/the-instrument-makers-rest/"
+       :weights {"model" 0.5 "manifest" 0.3 "philosophy" 0.2} :x -1.0 :y 1.0}]
+     :edges
+     [{:source "wr-thread-walkers"   :target "wr-logbook"          :type :flow}
+      {:source "wr-thread-walkers"   :target "wr-instrument-maker" :type :related}
+      {:source "wr-dyers-gorge"      :target "wr-phantom-faculty"  :type :related}
+      {:source "wr-phantom-faculty"  :target "wr-doridhar"         :type :flow}
+      {:source "wr-doridhar"         :target "wr-logbook"          :type :related}
+      {:source "wr-logbook"          :target "wr-instrument-maker" :type :flow}]
+     :cluster-labels
+     [{:x -2.0 :y -2.5 :label "PARABLES"      :cluster "manifest"}
+      {:x  0.0 :y  2.0 :label "REFLECTIONS"   :cluster "evaluate"}]}}
+
+   ;; === Pedagogical Infrastructure (1) =======================================
+   {:id "mayaloom" :name "MāyāLoom" :type :infra :cluster "philosophy"
+    :glyph "\u2698" :subtitle "Pedagogical Annotation System"
+    :one-liner "Tānā-bānā: warp and weft of human-machine understanding"
+    :description "A metadata system for literate lessons. Cadenzas (expansion points) carry six fields — concept, level, prereqs, assumes, anti-targets, connects-to — enabling agents to discover, scope, and pitch explanations without parsing the full document. Named for Kabir's weaving: the warp is structure, the weft is adaptive response, the fabric is understanding."
+    :status :active
+    :url "/projects/"
+    :weights {"philosophy" 0.5 "model" 0.3 "infra" 0.2}
+    :x -1.5 :y -4.0}
+
+   ;; === Active Threads (from state.yaml + relay) =============================
    {:id "thread-project-browser" :name "Project Browser" :type :thread :cluster "thread"
     :glyph "\u25CF" :subtitle "This very constellation"
     :one-liner "Interactive node-graph browser for the project ecosystem"
@@ -484,7 +552,25 @@
     :status :waiting
     :url "/devlog/"
     :weights {"thread" 1.0}
-    :x 5.5 :y 1.5}])
+    :x 5.5 :y 1.5}
+
+   {:id "thread-autonomy" :name "Autonomy Agreement" :type :thread :cluster "thread"
+    :glyph "\u25CF" :subtitle "Negotiated Trust Protocol"
+    :one-liner "Position paper + experiment: bilateral autonomy negotiation for human-AI collaboration"
+    :description "A working protocol for graduated autonomy between human and machine. Position paper with literature survey (Pask, Ashby, Bateson, Freire), four-quadrant pedagogy analysis (who teaches whom?), and a concrete M→H experiment using MāyāPramāṇa lesson 00 as test domain. The null hypothesis: negotiated scaffolding produces different learning trajectories than static delivery."
+    :status :active :phase [:evaluate]
+    :url "/devlog/"
+    :weights {"thread" 0.6 "philosophy" 0.4}
+    :x -2.5 :y 4.0}
+
+   {:id "thread-mayadevgenz" :name "MāyāDevGenZ" :type :thread :cluster "thread"
+    :glyph "\u25CF" :subtitle "Scientific Agency Framework"
+    :one-liner "Multi-agent scientific coordination — epistemic dependencies, not just operational"
+    :description "A framework for scientific agent swarms where dependency is epistemic: B's validity rests on assumptions in A. First engagement: Hodgkin-Huxley parameter inference in bravli. Three mechanisms: assumption ledger, three-faced convention (discuss/plan/spec), self-organising glossary."
+    :status :active :phase [:model :evaluate]
+    :url "/devlog/"
+    :weights {"thread" 0.5 "model" 0.3 "evaluate" 0.2}
+    :x -4.0 :y 3.5}])
 
 ;; === Central Diamond (virtual — not in force layout, info-panel only) ========
 
@@ -562,9 +648,22 @@
    {:source "art-as-checksum"    :target "manifest"    :type :embodies}
    {:source "art-as-checksum"    :target "evaluate"    :type :embodies}
 
+   ;; Writing → website
+   {:source "writing" :target "website"  :type :serves}
+   {:source "writing" :target "manifest" :type :serves}
+
+   ;; MāyāLoom → modules it annotates
+   {:source "mayaloom" :target "mayapramana" :type :depends}
+   {:source "mayaloom" :target "model"       :type :embodies}
+
    ;; Thread-touches: thread → modules/infra
    {:source "thread-project-browser" :target "website"         :type :thread-touches}
-   {:source "thread-project-browser" :target "phantom-faculty" :type :thread-touches}])
+   {:source "thread-project-browser" :target "phantom-faculty" :type :thread-touches}
+   {:source "thread-autonomy"        :target "sutra"           :type :thread-touches}
+   {:source "thread-autonomy"        :target "mayapramana"     :type :thread-touches}
+   {:source "thread-autonomy"        :target "mayaloom"        :type :thread-touches}
+   {:source "thread-mayadevgenz"     :target "bravli"          :type :thread-touches}
+   {:source "thread-mayadevgenz"     :target "sutra"           :type :thread-touches}])
 
 ;; === Edge index for hover lookups ============================================
 
