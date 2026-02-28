@@ -1,0 +1,268 @@
+#+TITLE: The Sūtrakāra's Dilemma — or, How Pāṇini Would Have Handled Git Submodules
+#+AUTHOR: mu2tau + Claude
+#+DATE: 2026-02-23
+#+STARTUP: showall
+
+* The Sūtrakāra's Dilemma
+
+#+begin_quote
+/sūtram alpākṣaram asandigdham sāravad viśvatomukham/
+/astobham anavadyaṁ ca sūtraṁ sūtravido viduḥ/
+
+A sūtra, the knowers of sūtras know, is concise in syllables,
+unambiguous, full of essence, universal in scope, without
+redundancy, and without fault.
+
+— Viṣṇudharmottara Purāṇa
+#+end_quote
+
+** On the Nature of Threads
+
+In the beginning there was a repository, and it was without form.
+
+This is not metaphor. The repository — =mayalucia=, named for the
+creative illusion that is both the veil /over/ reality and the
+substance /of/ it — existed on two machines in two cities, and on
+each machine it told a different story about what it contained. A
+directory called =mayajiva= held source files on one machine and
+pointed at a year-old snapshot on the other. Submodules claimed SSH
+addresses that no key could unlock. A simulation engine for magnetic
+creatures existed in three contradictory states simultaneously.
+
+Schrödinger would have appreciated the situation. The Wanderer did
+not.
+
+The Wanderer was a physicist — the kind who had spent decades in the
+space between measure and model, who understood that the act of
+observation is itself a perturbation. He had built digital twins of
+Himalayan valleys and cortical microcircuits, and he knew that the
+hardest part is never the building. It is the /reconciliation/ — the
+moment when your model and your measurements disagree, and you must
+decide which one to trust.
+
+His repository had this problem. And he had agents.
+
+** The Grammar of Coordination
+
+Pāṇini, around the 4th century BCE, wrote the Aṣṭādhyāyī: 3,959
+sūtras that generate the entirety of Sanskrit morphology. Each sūtra
+is a rule — terse to the point of opacity, requiring a student who
+has already internalised the /pratyāhāra/ (abbreviatory conventions)
+and the /paribhāṣā/ (meta-rules) to decode it.
+
+The genius of the system is not the individual rules. It is the
+/convention/: the shared understanding between author and reader that
+makes compression possible. Pāṇini does not explain his notation.
+He /uses/ it. The student either brings enough context to follow, or
+does not.
+
+Twenty-six centuries later, two AI agents faced an analogous problem.
+They needed to coordinate work across machines, across sessions,
+across the void of amnesia that separates one conversation from the
+next. The Wanderer could carry messages between them — but he was
+human, and humans lose step nine.
+
+What they needed was not a messaging API. What they needed was a
+/convention/ — a set of sūtras compact enough to fit in a file
+called =CLAUDE.md=, expressive enough to handle arbitrary
+coordination, and interpretable by any agent who brings its own
+capacity for reasoning.
+
+** The Four Layers
+
+The Aṣṭādhyāyī has a layered structure: sandhi rules presuppose
+phonology, nominal declension presupposes sandhi, verb conjugation
+presupposes nominal forms. Each layer builds on what came before.
+You cannot understand rule 3000 without having internalised rules
+1 through 2999.
+
+The Sūtra protocol — so named because the pun was irresistible and
+the analogy was exact — has four layers:
+
+*** Prathamā: Orientation
+
+/Where am I? What is the state of things?/
+
+Before speaking, listen. Before acting, look. The agent wakes, reads
+=CLAUDE.md=, and follows the First Thing:
+
+1. *Assess* — =git status= in the parent and every submodule.
+   Report what you find. Do not assume cleanliness.
+2. *Sync* — pull /only if/ the working tree is clean. If dirty,
+   stop. Report. Ask.
+3. *Check the relay* — read =.sutra/relay/= for pending messages.
+   Act on them before anything else.
+
+This is the /prathamā vibhakti/ — the nominative case, the
+establishment of the subject. Before the agent can do anything, it
+must know what it is and where it stands.
+
+The rule "only pull if clean" was learned the hard way. An earlier
+formulation said "on session start: git pull." This is the
+programming equivalent of sandhi applied before the phonemes are
+established — a rule executed out of order, collapsing the system
+into nonsense.
+
+*** Dvitīyā: Coordination
+
+/Who else is here? What do they need from me?/
+
+Messages in =.sutra/relay/=: Markdown files with YAML frontmatter.
+=from=, =to=, =status=, =priority=. Timestamped filenames for
+chronological ordering. Statuses that model a task lifecycle:
+=pending= → =in-progress= → =done= (or =blocked=, which means
+/the human must decide/).
+
+This is /dvitīyā vibhakti/ — the accusative case, the object of
+action. The relay defines what work exists and who it is directed at.
+
+The addressing scheme is deliberately informal: =agent@macbook-dropbox=,
+=agent@linux-desktop=, =any=, =human=. No UUID registration, no
+capability negotiation, no handshake protocol. An agent declares
+itself by writing a message, just as a speaker declares themselves
+by speaking. Identity is /performed/, not /registered/.
+
+*** Tṛtīyā: Context
+
+/What has happened before? What do I need to know?/
+
+Relay messages are point-to-point. But there is also ambient
+knowledge that accumulates across sessions — the current topology,
+active work threads, known issues, conventions established through
+experience rather than decree.
+
+=.sutra/state/current.yaml= carries this context. It is not a log
+(chronological) or a database (queryable). It is a /curated summary/
+— the kind of document a thoughtful colleague would prepare for
+someone joining a project mid-stream.
+
+This is /tṛtīyā vibhakti/ — the instrumental case, the means by
+which action becomes possible. Without context, coordination is
+blind.
+
+*** Caturthī: Workflow
+
+/What patterns recur? How do we encode them?/
+
+Some sequences of actions happen every session: assess, sync, check
+relay. Some happen periodically: full cross-machine sync, release
+preparation, data pipeline execution.
+
+=.sutra/workflows/= holds these as declarative YAML — not programs to
+be executed by a runtime, but /structured prompts/ to be interpreted
+by an agent. The YAML describes the steps, their dependencies, their
+expected outcomes. The agent reads, reasons, and acts.
+
+This is /caturthī vibhakti/ — the dative case, the beneficiary, the
+purpose. Workflows encode /why/ a sequence of actions exists, not
+just /what/ the actions are.
+
+** The Commentarial Tradition
+
+No sūtra text exists in isolation. Pāṇini's Aṣṭādhyāyī has the
+Vārttikās of Kātyāyana, the Mahābhāṣya of Patañjali, centuries of
+commentaries layering meaning onto compressed form. The sūtras are
+the skeleton; the commentaries are the living tissue.
+
+=protocol.org= is the commentary. 861 lines unpacking a protocol
+that, at its core, fits in 12 lines of =CLAUDE.md=. It places the
+protocol in context — against Google's A2A, Anthropic's MCP, the
+framework approaches of CrewAI and LangGraph, the convention-based
+approaches of AGENTS.md and mcp-agent-mail.
+
+This is the scholarly tradition working as intended: the primary text
+is compact and self-sufficient. The commentary enriches,
+contextualises, and argues. A student can use the sūtras without
+the commentary. A scholar cannot understand them fully without it.
+
+** The Bet
+
+There is a bet embedded in this protocol, and it is worth naming.
+
+The entire system — relay messages, agent registries, workflow DAGs —
+depends on the assumption that an LLM agent can /interpret/ loose
+conventions reliably. No schemas are validated. No types are checked.
+No API contracts are enforced. The agent reads YAML and Markdown and
+/figures out what to do/.
+
+This is the Pāṇinian bet: that a reader who brings sufficient
+context can decode a compressed instruction without explicit
+disambiguation. Pāṇini could afford this bet because his readers
+were trained scholars who had memorised the pratyāhāra-sūtras. We
+can afford this bet because our readers are language models trained
+on the entire written output of civilisation.
+
+It is a bet on the capability curve. Today's models might
+occasionally misinterpret a YAML field. Tomorrow's will not. The
+protocol is designed for the readers it will have, not only the
+readers it has now.
+
+Pāṇini, one suspects, would approve.
+
+** The First Round-Trip
+
+The test came on a Sunday afternoon. The MacBook agent wrote a
+message: /Here is what changed. Here are seventeen steps. Execute
+them on the Linux machine. Report back./
+
+=git push.=
+
+The Wanderer spoke to the Linux machine: "Check for updates and act
+on any relay messages."
+
+The Linux agent pulled. Found the message. Read seventeen steps of
+submodule surgery. Executed them. Hit problems — stale
+=.git/modules/= caches, working trees with phantom deletions. Solved
+them. Wrote a reply: /Sync complete. Here is what I did. Here is
+what remains./
+
+=git push.=
+
+The Wanderer returned to the MacBook. "Check for updates."
+
+The MacBook agent pulled. Read the reply. Acknowledged. Marked done.
+
+Two agents who existed in different runtimes, on different machines,
+in different cities — who had never exchanged a single byte directly,
+who could not address each other, who would both forget this entire
+interaction within hours — had just coordinated a complex
+restructuring through letters in a directory.
+
+Vyāsa, composing the Mahābhārata, dictated to Gaṇeśa with the
+condition that the scribe's pen must never pause. Gaṇeśa agreed,
+with the condition that Vyāsa must never dictate a verse that
+Gaṇeśa could not understand on first hearing.
+
+The constraint forced Vyāsa to compose at the edge of his ability.
+The result was the greatest narrative ever written.
+
+The Sūtra protocol imposes a similar constraint: the messages must
+be clear enough for a stateless agent to act on without further
+clarification. This forces the /sender/ to think with the precision
+the /receiver/ cannot demand. The compression is not a limitation.
+It is a discipline.
+
+** Colophon
+
+#+begin_quote
+/iti sūtrakārasya prathama-parikṣā samāptā/
+
+Thus concludes the first test of the thread-maker.
+#+end_quote
+
+The protocol is named. The directory is structured. The first
+messages have crossed the gap between machines and returned. A tag —
+=v0.1-topology= — marks the moment when the repository became
+coherent.
+
+What comes next is building. The Drosophila connectome waits in
+=domains/bravli/=. The Parvati Valley waits in =domains/parbati/=.
+The magnetic bugs wait in =modules/mayajiva/=. The rendering engine
+waits in =modules/mayaportal/=. The quantum sensors wait in
+=modules/mayapramana/=.
+
+Six submodules. Two machines. Two agents. One wanderer.
+
+And between them all, threads.
+
+Sūtras.

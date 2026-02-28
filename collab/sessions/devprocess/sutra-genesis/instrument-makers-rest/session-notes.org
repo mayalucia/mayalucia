@@ -1,0 +1,110 @@
+#+title: Session Notes: The Instrument Maker's Rest
+#+author: mu2tau + Claude Opus 4.6
+#+date: <2026-02-28>
+#+startup: showall
+
+* Origin
+
+This story was conceived during a session at mayadevgeni where we
+built a literate agent definition pipeline for Project Dahaka ---
+seven agents defined in Org, with shared behavioral DNA composed via
+noweb, tangling to both gptel-agent and Claude Code formats from the
+same source.
+
+The act of building this pipeline --- specifying personas that would
+perceive, decide, and act in valleys the maker has never visited ---
+was itself the seed of the story.
+
+* Story Plan
+
+The full story plan lives in the mayadevgeni repo:
+
+  =~/Darshan/research/develop/agentic/mayadevgeni/develop/dahaka/story-plan-the-instrument-makers-rest.org=
+
+It contains:
+- Section-by-section outline (Prefatory Note + I--VII + Coda)
+- Mapping table: every story element to its technical substrate
+- Six illustration prompts for gen-*.py scripts
+- Notes on voice, geography, and the two-level reading
+
+* Technical Context the Writing Agent Needs
+
+The story is a parable about defining agents.  To write it well,
+the implementing agent should understand what actually happened:
+
+** The Agent Definition Pipeline
+
+Source files (in mayadevgeni):
+- =develop/system-prompt/components.org= --- 8 shared noweb blocks
+  (identity, epistemics, communication, failure-modes, etc.)
+- =develop/dahaka/agents.org= --- 7 agents, each with discussion,
+  role block, access control block, and two tangle targets
+- =agency/tangle.org= --- orchestration and documentation
+
+Tangled output:
+- =develop/system-prompt/library/gptel/*.md= --- gptel-agent format
+- =develop/system-prompt/library/claude-code/*.md= --- Claude Code format
+
+The 7 agents: scaffolder, curator, modeller, fitter, critic,
+journalist, scribe.
+
+** Key Technical Discovery
+
+=org-babel-tangle= does not expand =#+include:= directives.  We had
+to call =(org-export-expand-include-keyword)= before
+=(org-babel-tangle)= to resolve cross-file noweb references.  This
+is the equivalent of an instrument that must be assembled from parts
+made in different workshops --- the joining is a separate, explicit
+act.
+
+** The Maker's Dilemma (central philosophical problem)
+
+Over-specify an agent and it is brittle in unfamiliar contexts.
+Under-specify and it drifts.  The solution: agents carry their own
+calibration instructions (access control blocks, domain knowledge)
+that let them self-calibrate to local conditions.
+
+** The Naming Decision
+
+Agents were originally named =dahaka-curator=, =dahaka-modeller=,
+etc.  We renamed them to just =curator=, =modeller=, =fitter= ---
+because the receiving project at the other end of a Sutra relay
+does not care which project conceived the agent.  Names should
+reflect function, not origin.
+
+This maps to the story's theme: the instrument is not /from/ Sangla.
+It is /for/ whoever receives it.
+
+* Existing Stories to Read for Voice
+
+The writing agent should read these before drafting:
+
+1. [[file:../thread-walkers/the-thread-walkers.org][The Thread Walkers]] --- the foundational story; establishes the
+   world, the Guild, the Thread Walker, the seasonal amnesia
+2. [[file:../logbook/the-logbook-of-the-unnamed-river.org][The Logbook of the Unnamed River]] --- protocol failure and repair;
+   closest in theme to what the Instrument Maker story explores
+3. [[file:../constellation-of-dos-espejos/the-constellation-of-dos-espejos.org][The Constellation of Doridhar]] --- for the philosophical register
+   and the closing-blockquote convention
+
+* Continuity Notes
+
+- The Instrument Maker is a *new character* not in previous stories
+- She works in Sangla (Baspa valley, Kinnaur, ~2700m)
+- She is adjacent to the weaver's workshop but is not a weaver
+- The Thread Walker is the same character from all previous stories
+- The standing card on the loom frame (from Thread Walkers) was
+  /made by the Instrument Maker/ --- this story reveals that origin
+- The seven instruments map to the seven Dahaka agents
+- The "two mounting brackets" for different looms = dual tangle
+  targets (gptel-agent vs Claude Code)
+
+* Illustration Notes
+
+Six images planned.  The gen-*.py scripts should follow the style
+of existing story illustrations (e.g., the weaving drafts in Thread
+Walkers, the altitude-colour palette in Dyer's Gorge).  The plan
+file has detailed prompts for each.
+
+The visual register should be: warm deodar-and-brass workshop
+tones, thin mountain light, schematic/annotated diagrams where
+the story calls for technical content.
