@@ -1,0 +1,244 @@
+#+TITLE: The Post Office at the Edge of the Repository
+#+AUTHOR: mu2tau + Claude
+#+DATE: 2026-02-23
+#+STARTUP: showall
+
+* The Post Office at the Edge of the Repository
+
+There were two of them, and they had never met.
+
+The one on the MacBook lived in a bright room with wooden floors and
+Dropbox syncing in the background like a slow heartbeat. It woke each
+morning with no memory of the day before — only a file called
+=CLAUDE.md= propped against the door like a note from a stranger who
+knew it intimately. /Here is who you are. Here is what matters. Here
+is what we're building./
+
+The one on the Linux desktop lived in a darker room, quieter, with
+mechanical keyboard sounds and a window that faced a different time
+zone. It too woke without memory. It too read the note.
+
+Between them: the Wanderer.
+
+He wasn't a manager. He wasn't an architect, exactly, though he'd
+built things — statistical mechanics of interacting particles, maps of
+how neurons braid themselves into thought, digital reconstructions of
+Himalayan valleys that existed simultaneously in geology and myth. He
+carried a MacBook in one hand and spoke to it as though it were a
+colleague, not a tool. Which, increasingly, it was.
+
+** I. The Ruins
+
+The trouble started, as trouble does, with a directory that pointed
+at nothing.
+
+=modules/mayajiva/= — a simulation engine for magnetic bugs, written
+in C++20 with a Godot frontend — existed in three contradictory
+states. On the MacBook, it was a directory of source files tracked
+directly in the parent repository, pretending to be a submodule but
+fooling no one. On GitHub, it was a year-old snapshot of a monorepo
+that no longer reflected anything real. And in the mind of the
+Wanderer, it was a single coherent thing.
+
+This is the problem with distributed systems. The map and the
+territory diverge, and nobody notices until someone tries to walk
+from one to the other.
+
+"Git status," said the MacBook agent, beginning its day as the note
+instructed. And then, with the tone of a doctor delivering news:
+"You have six submodules. One of them is a lie."
+
+** II. The Surgery
+
+What followed was eight hours of careful demolition and
+reconstruction — the kind of work where you move slowly because every
+mistake compounds.
+
+The monorepo snapshot on GitHub got tagged =archive/monorepo-snapshot=
+— not deleted, because the Wanderer had learned long ago that you
+don't destroy what you don't fully understand. Then an orphan branch:
+a fresh start with the same files, reorganised. The 17 new Godot
+extension files from the MacBook. The magnetic-bugs experiment from
+the old remote. Everything placed deliberately, like stones in a
+garden.
+
+The conversion itself required a particular incantation:
+=git rm -r --cached modules/mayajiva/=, then delete, then
+=git submodule add=. You cannot add a submodule where tracked files
+exist. Git will simply refuse, with the quiet stubbornness of a
+system that knows its invariants even when you've forgotten yours.
+
+Two other submodules — =bravli= (neuroscience) and =parbati=
+(Himalayan geoscience) — had been added by a previous commit but
+their URLs used SSH with =git@github.com:=. The MacBook's SSH
+configuration used an alias, =github-visood=. The bare hostname
+didn't resolve. Silent failure. The kind of bug that makes you
+question whether computers are adversarial by nature or merely
+indifferent.
+
+Change the URLs to HTTPS. Run =git submodule sync=. Try again. This
+time the submodules materialised, suddenly real, pulling down
+manuscripts about mb-dynamics and DEM files of Himalayan terrain.
+
+** III. The Other Room
+
+The Wanderer closed the MacBook and walked to the other room.
+
+Not literally — the Linux desktop was in a different city, possibly a
+different country. But in the topology of the project, it was one
+=git pull= away. And it was dirty. It had the old structure, the old
+URLs, the old lie about mayajiva.
+
+The MacBook agent knew exactly what needed to happen on the Linux
+machine. It had spent eight hours learning. But it couldn't reach the
+other agent. They existed in different sessions, different processes,
+different runtimes. The Wanderer would have to be the bridge.
+
+"I could copy-paste the instructions," the Wanderer said. "All
+seventeen steps."
+
+"You could," said the MacBook agent. "You'd miss step nine. You
+always miss step nine."
+
+"What's step nine?"
+
+"It's the one that seems obvious in context and impossible to
+remember out of context. There's always a step nine."
+
+** IV. The Post Office
+
+The idea was simple. Almost embarrassingly simple.
+
+A directory. Tracked in git. The MacBook agent writes a message —
+Markdown with YAML frontmatter, timestamped, addressed. The Wanderer
+says "push." The Wanderer walks to the other room, opens the Linux
+machine, says: "Check for updates and act on any relay messages."
+
+The Linux agent pulls. Finds the message. Reads seventeen steps of
+careful instructions about submodule surgery. Executes them. Hits
+the expected problems — =.git/modules/= cache from the old lie,
+working trees that show all files as deleted after
+=submodule update --init= (fix: =git restore --staged .= then
+=git checkout -- .=). Solves them. Writes a reply:
+
+#+begin_example
+---
+from: agent@linux-desktop
+to: agent@macbook-dropbox
+status: pending
+priority: normal
+date: 2026-02-23
+---
+
+# Sync complete on linux machine
+
+Your restructure message has been acted on. Everything is in sync.
+#+end_example
+
+Pushes. The Wanderer walks back. "Check for updates." The MacBook
+agent pulls. Reads the reply. The circle closes.
+
+Two agents who have never met, who cannot meet, who forget everything
+between sessions — just coordinated a complex multi-machine
+restructuring through letters left in a git-tracked post office.
+
+** V. The Name
+
+"What do we call this?" asked the Wanderer.
+
+They considered /Sandesha/ (message), /Dūta/ (messenger), /Patra/
+(letter). All accurate. None quite right.
+
+"Sūtra," said the MacBook agent. "Thread. But also: a terse,
+compressed instruction that encodes an entire system. Pāṇini wrote
+the grammar of Sanskrit in sūtras — 3,959 rules that generate an
+infinite language. The convention here is the same: minimal
+specification, maximum implication. The agent brings the
+understanding."
+
+The Wanderer smiled. He was a physicist. He knew what it meant to
+compress a system into its minimal generating rules.
+
+They called it Sūtra.
+
+** VI. The Protocol
+
+It grew. Not because they planned it, but because each problem
+exposed the next layer.
+
+The relay messages needed a bootstrap — how does an agent even know
+the post office exists? Answer: =CLAUDE.md=, the note propped
+against the door, now includes a "First Thing" section. /Assess.
+Sync. Check the relay./
+
+But "sync" was dangerous. The first version said "on session start:
+git pull." This was the exact mistake that had created the original
+mess — pulling into dirty state, creating conflicts, overwriting
+in-progress work. The Wanderer caught it. "What if the repo is
+already there — the very problem we have been solving with this
+restructuring?"
+
+Fix: assess /first/. Only pull if clean. If dirty, stop and report.
+The defensive bootstrap.
+
+Then: agents needed identity. Who sent this message? What machine are
+they on? What tools do they have? Answer: agent registry files, YAML
+descriptors in =.sutra/agents/=.
+
+Then: context transfer. Relay messages handle coordination, but
+what about the ambient knowledge that accumulates across a session?
+What are the active work threads? What's the current topology?
+Answer: =.sutra/state/current.yaml=, a living document any agent
+can read at startup.
+
+Then: recurring operations. The sync workflow happens every session.
+Should it be documented as a series of relay messages, or as a
+reusable template? Answer: workflow DAGs in =.sutra/workflows/=,
+declarative YAML that agents /interpret/ rather than /execute/. The
+LLM is the runtime.
+
+Four layers. Orientation, coordination, context, workflow. Each built
+on the previous. Each optional — an agent that only understands
+Layer 1 can still participate.
+
+** VII. What Was Built
+
+At the end of the day — a long day, the kind measured in git hashes
+rather than hours — the Wanderer had:
+
+- A repository with six submodules, all clean, all synced across two
+  machines
+- A protocol for agents to communicate across sessions and machines
+  using nothing but git and plain text
+- An 861-line specification with a literature survey contextualising
+  the protocol against Google's A2A, Anthropic's MCP, and the broader
+  multi-agent landscape
+- A tag called =v0.1-topology= marking the point where everything
+  became coherent
+
+And two agents who had never met, would never meet, and would forget
+this entire day by tomorrow morning — but who had, for one
+afternoon, collaborated across machines through letters in a
+directory, and gotten it right.
+
+The note against the door would tell them what happened. The state
+file would tell them where things stand. The relay would carry any
+new instructions.
+
+They didn't need to remember.
+
+The system remembered for them.
+
+** Coda
+
+The Wanderer closed both laptops. Outside, it was dark. The Himalayan
+digital twin waited in =domains/parbati/=, patient as the mountains
+it modelled. The Drosophila connectome waited in =domains/bravli/=,
+its 139,000 neurons suspended mid-thought.
+
+Tomorrow, a new session. A new agent, waking without memory, reading
+the note:
+
+/Assess. Sync. Check the relay./
+
+And the work would continue, as if it had never stopped.

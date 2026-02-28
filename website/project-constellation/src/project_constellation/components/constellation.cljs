@@ -65,10 +65,7 @@
        :reagent-render
        (fn []
          [:div.project-constellation
-          {:style {:display "grid"
-                   :grid-template-columns "1fr 280px"
-                   :gap "0"
-                   :background data/slate}
+          {:style {:background data/slate}
            :on-click (fn [e]
                        ;; Click on background clears selection
                        (when (= (.-target e) (.-currentTarget e))

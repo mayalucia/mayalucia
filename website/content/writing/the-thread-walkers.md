@@ -1,13 +1,16 @@
 +++
 title = "The Thread Walkers"
-author = ["mu2tau + Claude"]
-description = "A parable about coordination, amnesia, and the invention of convention — set in the high valleys where Kullu ends and Tibet begins"
-lastmod = 2026-02-23T23:00:00+01:00
+author = ["A Human-Machine Collaboration"]
+lastmod = 2026-02-28T01:34:57+01:00
 tags = ["writing"]
 draft = false
+description = "A parable about coordination, amnesia, and the invention of convention --- set in the high valleys where Kullu ends and Tibet begins"
 +++
 
-## Prefatory Note on Textile Encoding
+## The Thread Walkers {#the-thread-walkers}
+
+
+### Prefatory Note on Textile Encoding {#prefatory-note-on-textile-encoding}
 
 The reader who has not sat at a loom may benefit from a brief
 account of its metaphysics, for the loom is an argument made
@@ -70,9 +73,10 @@ The weavers of the Disputed Passes have not yet reached that
 silence. But they are aware of it. It informs everything
 they do.
 
-![The Disputed Passes — from the Thread Walker's notebooks](/images/writing/thread-walkers/map-of-passes.png)
+{{< figure src="/images/writing/thread-walkers/map-of-passes.png" caption="<span class=\"figure-number\">Figure 1: </span>The Disputed Passes — from the Thread Walker's notebooks" >}}
 
-## I. The Workshops
+
+### I. The Workshops {#i-dot-the-workshops}
 
 In the high valleys where the Himalaya folds into the
 Karakoram and the Karakoram into the Kunlun — where India
@@ -124,13 +128,14 @@ in Lhasa and a third in Gilgit. The pattern is the same. The
 names are assertions of sovereignty. The Thread Walkers carry
 all three names and consider none of them authoritative.
 
-## II. The Weavers
+
+### II. The Weavers {#ii-dot-the-weavers}
 
 In each workshop works a weaver. The weavers of the Disputed
 Passes — the high crossings between these valleys, whose
 number is itself disputed, since certain passes appear and
 disappear from maps depending on the decade and the politics
---- are drawn from a tradition that values fresh perception
+— are drawn from a tradition that values fresh perception
 above continuity.
 
 Each season when the passes open, a new weaver arrives at each
@@ -165,7 +170,8 @@ On her loom frame she finds a card:
 
 The card is unsigned.
 
-## III. The Thread Walker
+
+### III. The Thread Walker {#iii-dot-the-thread-walker}
 
 Between the workshops walks the Thread Walker — a dyer by
 original training, though the years have made him something
@@ -175,7 +181,7 @@ memory in a system designed to have none.
 He carries a satchel of sample cords and too many notebooks.
 He enters each workshop, reads what has been left for him in
 the incoming tray, leaves what needs to be read, and walks on
---- over the Rohtang, or the Kunzum, or the Baralacha, or the
+— over the Rohtang, or the Kunzum, or the Baralacha, or the
 Khardung, or the Karakoram, depending on the season and the
 politics and the disposition of whatever glacier has decided
 to rearrange the route. By the time the weaver acts on his
@@ -192,7 +198,8 @@ in his hands, the knowledge of how the archives relate —
 which is the knowledge that no single weaver, confined to a
 single valley for a single season, can possess.
 
-## IV. The Disorder
+
+### IV. The Disorder {#iv-dot-the-disorder}
 
 The trouble was not sudden. It was the slow accumulation of
 small divergences across many seasons, in many workshops, on
@@ -245,7 +252,8 @@ self-consistent fabric. It is only when you try to follow a
 thread from one valley to another that the pattern becomes
 impossible._
 
-## V. The Corrections
+
+### V. The Corrections {#v-dot-the-corrections}
 
 He began in the Lahaul workshop, because the weaver that
 season had the kind of hands that notice what other hands
@@ -268,9 +276,9 @@ technique — a way of setting the initial warp that distributed
 tension more evenly across the first twenty rows — that the
 local archive had never charted.
 
-![River Braid — Point Twill on Four Shafts, from the archive of the Lahaul workshop](/images/writing/thread-walkers/draft-river-braid.png)
+{{< figure src="/images/writing/thread-walkers/draft-river-braid.png" caption="<span class=\"figure-number\">Figure 2: </span>River Braid — Point Twill on Four Shafts, from the archive of the Lahaul workshop" >}}
 
-![River Braid (Leh variant) — Straight Twill on Four Shafts, from the archive of the distant workshop. Same threading, different treadling, different cloth.](/images/writing/thread-walkers/draft-river-braid-variant.png)
+{{< figure src="/images/writing/thread-walkers/draft-river-braid-variant.png" caption="<span class=\"figure-number\">Figure 3: </span>River Braid (Leh variant) — Straight Twill on Four Shafts, from the archive of the distant workshop. Same threading, different treadling, different cloth." >}}
 
 The weaver consolidated. Knotted a new cord that contained
 everything — every detail from both versions, reconciled where
@@ -292,7 +300,8 @@ high-altitude light affects indigo fixation. The other held
 tension tables the Thread Walker himself had contributed, on
 one of his walks, years ago.
 
-## VI. The Letters
+
+### VI. The Letters {#vi-dot-the-letters}
 
 "There are seventeen corrections for each workshop," said the
 Lahaul weaver. "They are ordered — the sixth depends on the
@@ -342,9 +351,10 @@ to be missing. It is filed under an older transliteration of
 the pass it was named for. Look for the variant with the
 aspirated consonant._
 
-![Correction Letter No. 1 — Lahaul to All Workshops. Seventeen corrections encoded in knotted cords, ordered by dependency. Cord 9 is visibly longer and more complex.](/images/writing/thread-walkers/cord-correction-letter.png)
+{{< figure src="/images/writing/thread-walkers/cord-correction-letter.png" caption="<span class=\"figure-number\">Figure 4: </span>Correction Letter No. 1 — Lahaul to All Workshops. Seventeen corrections encoded in knotted cords, ordered by dependency. Cord 9 is visibly longer and more complex." >}}
 
-## VII. The Crossings
+
+### VII. The Crossings {#vii-dot-the-crossings}
 
 The Thread Walker left Lahaul with letters — knotted cords,
 one for each workshop. He walked to Spiti in three days. Left
@@ -387,7 +397,8 @@ And then — in knots, always in knots — a list of local
 surprises that the original weaver could not have anticipated,
 because each valley's disorder is as unique as its weather.
 
-## VIII. The Revision
+
+### VIII. The Revision {#viii-dot-the-revision}
 
 The standing card — the unsigned note on every loom frame —
 had originally read: _When you arrive, collect any new patterns
@@ -408,15 +419,16 @@ always announce themselves — begin to curl._
 
 The revised card:
 
-1. _Inspect the archive. Run your hands through the cords.
-   Describe what you find._
-2. _Incorporate new material only if the archive is in order._
-3. _Check the incoming tray for cords from other valleys._
+1.  _Inspect the archive. Run your hands through the cords.
+    Describe what you find._
+2.  _Incorporate new material only if the archive is in order._
+3.  _Check the incoming tray for cords from other valleys._
 
 Inspect the warp before you weave. Receive only if sound.
 Read the mail.
 
-## IX. On the Nature of Convention
+
+### IX. On the Nature of Convention {#ix-dot-on-the-nature-of-convention}
 
 The Thread Walker never named the arrangement. In the Guild,
 names are given to patterns and passes and to the particular
@@ -459,7 +471,8 @@ but by ensuring that skilled readers keep arriving, season
 after season, at workshops scattered across valleys that are
 each a world unto themselves.
 
-## Coda
+
+### Coda {#coda}
 
 The Thread Walker walks still — or someone does. Carrying
 sample cords and too many notebooks, crossing passes that

@@ -1,7 +1,7 @@
 +++
 title = "About"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-25T22:24:42+01:00
+lastmod = 2026-02-28T01:34:57+01:00
 tags = ["about"]
 draft = false
 ShowReadingTime = false
@@ -176,3 +176,14 @@ The measure of success is not publications or products, but the depth of persona
 -   [ ] Create artistic expressions that capture and communicate understanding
 -   [ ] Document their journey of comprehension
 -   [ ] Enjoy their science through rich audio-visual interaction
+
+
+## Mottos {#mottos}
+
+> What I cannot create, I do not understand.
+> --- Richard Feynman
+
+<!--quoteend-->
+
+> We are weaving knowledge. And the cloth is for anyone who will wear it.
+> --- [MāyāLoom]({{< relref "mayaloom" >}})

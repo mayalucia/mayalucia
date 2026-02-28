@@ -34,6 +34,11 @@ __pycache__/
 
 # LaTeX generated (keep .org and .tex, not build output)
 *.pdf
+*.fdb_latexmk
+*.fls
+
+# ox-hugo LaTeX intermediates (org is source of truth)
+website/ox-hugo-export.tex
 
 # Collab local artifacts
 collab/.local/*.pdf

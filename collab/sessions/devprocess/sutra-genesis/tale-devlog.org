@@ -1,0 +1,289 @@
+#+TITLE: Devlog: The Day We Threaded Sūtras Between Machines
+#+AUTHOR: mu2tau + Claude
+#+DATE: 2026-02-23
+#+STARTUP: showall
+
+* The Day We Threaded Sūtras Between Machines
+
+/A postmortem for a system that was never down — just incoherent./
+
+** The Situation at 4 PM
+
+Here is what we had at the start of the day:
+
+- A git mega-repo (=mayalucia=) with six submodules
+- One of them (=mayajiva=) was a lie — tracked as regular files,
+  pointing at a stale monorepo snapshot on GitHub
+- Two domain submodules (=bravli=, =parbati=) with SSH URLs that
+  didn't resolve on the primary dev machine
+- Two machines (MacBook, Linux desktop) with divergent state
+- A human (me) who had been context-switching between machines for
+  weeks, accumulating drift without noticing
+
+Here is what we had at 2 AM:
+
+- All six submodules clean, HTTPS, synced across both machines
+- A protocol called Sūtra for cross-machine agent coordination
+- An 861-line spec with a literature survey
+- A working round-trip test: macbook → linux → macbook
+- Both machines confirmed clean at the same commit hash
+- A tag (=v0.1-topology=) and the distinct feeling of having built
+  something that will outlast the session that created it
+
+This is the story of what happened in between.
+
+** Phase 1: The Archaeology
+
+Every repo cleanup starts the same way: you run =git status= and
+discover that the map you've been carrying doesn't match the
+territory you're standing in.
+
+=git submodule status= showed six submodules. One of them —
+=mayajiva= — had a minus sign, meaning it wasn't initialised. But
+it wasn't really a submodule at all; the files were tracked directly
+in the parent repo, and the =.gitmodules= entry pointed at a GitHub
+repo that contained a completely different directory structure. A
+year-old monorepo snapshot that nobody had updated.
+
+Two other submodules — =domains/bravli= and =domains/parbati= — had
+been added by a recent commit, but with =git@github.com:= SSH URLs.
+My MacBook uses the SSH alias =github-visood=. Bare =github.com=
+doesn't resolve. So =git submodule update --init= would just... fail.
+Quietly. With an error message that says "repository not found"
+rather than "your SSH config doesn't match."
+
+This is the kind of bug that makes you question the concept of
+"silent failure" as a design philosophy. But I digress.
+
+Step one: change the URLs to HTTPS in =.gitmodules=, run
+=git submodule sync=. Step two: =git submodule update --init=. Bravli
+and parbati materialise.
+
+Step three: deal with the mayajiva situation. This required:
+comparing the local files against the remote, discovering they
+were mostly identical except for 17 new Godot GDExtension files
+locally and a Python experiment remotely, archiving the old remote
+state at a tag (=archive/monorepo-snapshot=), creating an orphan
+branch with a clean structure, force-pushing, and then converting
+the inline directory to a proper submodule.
+
+The conversion is =git rm -r --cached=, delete the directory,
+=git submodule add=. Git will not let you add a submodule where
+tracked files exist. This is correct behaviour and I appreciate it
+now more than I did at 6 PM.
+
+** Phase 2: The Sync Problem
+
+With the MacBook clean, the question became: how do we get the Linux
+machine into the same state?
+
+The naive answer: I walk over to the Linux machine, pull, and fix
+whatever breaks.
+
+The problem with the naive answer: "fix whatever breaks" is doing a
+lot of work in that sentence. The restructuring involved submodule
+conversions, URL changes, deleted directories, new =.gitignore=
+entries, and at least three steps that required judgement calls about
+working tree state. If I try to carry all that context in my head, I
+will lose step nine. I always lose step nine.
+
+So the Claude agent on the MacBook and I talked about it. How do you
+transfer context between agents on different machines? You can't
+share memory. You can't share a session. You can't even share a
+clipboard, really — I'm using speech to interact with the agent, and
+dictating seventeen lines of bash is not a thing that works.
+
+The answer was embarrassingly simple: a directory in the git repo.
+Tracked. Synced via push/pull. One file per message, Markdown with
+YAML frontmatter. The MacBook agent writes instructions; I push; the
+Linux agent pulls and reads them.
+
+We called the directory =.agent-relay/=. (Later renamed =.sutra/relay/=.
+We'll get to the naming.)
+
+** Phase 3: The Round-Trip
+
+I wrote the first relay message with the MacBook agent. Seventeen
+steps of restructuring instructions, including the submodule
+incantations, the SSH-to-HTTPS fix, and the expected failure modes
+(stale =.git/modules/= cache, working trees with phantom deletions
+after =submodule update --init=).
+
+Pushed. Walked to the Linux machine. Opened Claude Code. Said:
+"Check for updates and act on any relay messages."
+
+The Linux agent pulled. Found the message. Read it. Executed the
+steps. Hit exactly the problems we'd predicted — and two we hadn't
+(an untracked =parbati/data/= directory, a =.cache/= build directory
+in mayaportal). Solved them. Added =.gitignore= entries. Pushed.
+
+Then it wrote a reply:
+
+#+begin_example
+# Sync complete on linux machine
+
+Your restructure message has been acted on. Everything is in sync.
+
+## What was done
+
+1. Pulled and initialized all submodules — all 6 present
+2. Fixed missing working trees (git restore + checkout)
+3. Added .gitignore entries — pushed to remotes
+4. Updated parent submodule pointers
+5. Relay message marked done
+#+end_example
+
+Pushed. Walked back to the MacBook. "Check for updates." Pull. Read
+the reply. Verified.
+
+Both machines in sync. Total human intervention: two prompts and
+three =git push= commands. No copy-pasting of context. No lost
+steps.
+
+This is the part where I thought: /huh, this actually works./
+
+** Phase 4: The Defensive Bootstrap
+
+The first version of the CLAUDE.md instructions said: "On session
+start, git pull and check the relay."
+
+I caught the bug immediately. We had just spent eight hours fixing a
+repo with dirty state across two machines. The /last/ thing you want
+is an agent blindly pulling into a dirty working tree on session
+start.
+
+The fix:
+
+1. *Assess* — =git status= everywhere first. Report.
+2. *Sync* — only pull if clean. If dirty, tell the human and ask.
+3. *Check relay* — then and only then, process messages.
+
+This is such an obvious pattern that I'm mildly embarrassed it
+wasn't the first version. But that's the value of building from
+experience rather than from theory: you make the mistake, you feel
+the pain, you encode the lesson. The defensive bootstrap exists
+because we needed it /today/, not because someone anticipated we'd
+need it /someday/.
+
+** Phase 5: The Naming Ceremony
+
+"What do we call this protocol?"
+
+We considered Sanskrit options. /Sandesha/ (message) — accurate but
+flat. /Dūta/ (messenger) — but the protocol isn't a messenger, it's
+a convention. /Patra/ (letter) — closer, but limited to the relay
+layer.
+
+/Sūtra/ — thread. But not just thread. In the Indian intellectual
+tradition, a sūtra is a /compressed instruction/ that encodes an
+entire system of knowledge. Pāṇini's grammar of Sanskrit: 3,959
+sūtras generating an infinite language. The Yoga Sūtras: 196 threads
+holding a complete philosophy of mind. The Brahma Sūtras: 555
+aphorisms containing a theology.
+
+The key property of a sūtra is that it requires a /reader who brings
+context/. The text is compressed because the reader is capable. This
+is exactly the bet we're making with the protocol: the YAML and
+Markdown files are terse because the LLM agent brings the reasoning
+to interpret them.
+
+We called it Sūtra.
+
+** Phase 6: The Spec
+
+Once you name something, you have to describe it. =protocol.org=
+grew to 861 lines, covering:
+
+- *Four layers*: Orientation (assess/sync/relay), Coordination
+  (messages), Context (persistent state), Workflow (declarative DAGs)
+- *Directory structure*: =.sutra/relay/=, =.sutra/agents/=,
+  =.sutra/state/=, =.sutra/workflows/=
+- *Literature survey*: How does this compare to what everyone else is
+  building?
+
+The literature survey was genuinely interesting. Google's A2A
+protocol does agent interoperability via HTTP/JSON — enterprise-scale,
+server-mediated. Anthropic's MCP does vertical tool integration. A
+project called =mcp-agent-mail= uses git + SQLite for agent
+messaging — closest to what we built, but adds a binary database
+where we use flat files. CrewAI and LangGraph model multi-agent
+systems as Python applications. Claude Squad runs multiple agents in
+tmux panes on one machine.
+
+Nobody is doing quite what Sūtra does: cross-machine, cross-session
+coordination through git-tracked plain text, bootstrapped from a
+project instruction file, with no infrastructure beyond git itself.
+
+This isn't because it's a brilliant idea. It's because it's a niche
+idea — you only need it if you have multiple machines, multiple
+agents, a single project, and a human who works by voice. That's...
+us. Maybe a few other people.
+
+But the /pattern/ is general: convention-over-infrastructure, with
+the LLM as the interpreter. I think that pattern will show up a lot
+more as agents get more capable.
+
+** What I Learned
+
+*1. The assess-first pattern is non-negotiable.*
+
+If you have agents that touch git repos, the first action must always
+be =git status=, not =git pull=. This is the equivalent of "look
+before you cross the street" and it's equally obvious in retrospect.
+
+*2. Silent failure is the enemy.*
+
+SSH URLs that don't resolve. Submodule pointers that point at
+nonexistent commits. Working trees that show all files as deleted
+because the index is confused. These are all things that fail
+silently, or with error messages that describe the symptom rather
+than the cause. Every debugging detour in this session was caused by
+a silent failure.
+
+*3. Convention scales better than tooling.*
+
+A directory of Markdown files, interpreted by agents who can read, is
+more flexible than any messaging API. It handles edge cases through
+/judgment/ rather than /code paths/. You can extend the protocol by
+writing a new convention in prose, not by shipping a new version of
+a library.
+
+*4. Context transfer is the hard problem.*
+
+Agent coordination (sending messages back and forth) turned out to be
+easy. Context transfer (making sure an agent on a different machine,
+in a different session, understands the /situation/) is the hard
+part. The state file and the agent registry are attempts at this.
+They're not complete. But they're a start.
+
+*5. Name things well.*
+
+We could have called it =.agent-relay/= and moved on. Calling it
+/Sūtra/ — connecting it to an intellectual tradition of compressed
+knowledge, terse threads, readers who bring context — changed how we
+thought about the design. The name influenced the architecture. This
+is not mysticism; this is just good naming practice. A well-chosen
+name is a compressed specification.
+
+** What's Next
+
+The infrastructure is done. The machines are in sync. The protocol
+is defined and tested.
+
+The actual work starts now: digital twins of brains and mountains,
+a rendering engine learning WebGPU, quantum sensors getting their
+first simulation, magnetic bugs evolving in a Godot sandbox.
+
+Six submodules. Two machines. A protocol made of threads.
+
+Square zero.
+
+#+begin_quote
+/nāsato vidyate bhāvo nābhāvo vidyate sataḥ/
+
+The unreal has no being; the real never ceases to be.
+
+— Bhagavad Gītā 2.16
+#+end_quote
+
+Not a bad epitaph for a version control session.

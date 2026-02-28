@@ -1,55 +1,38 @@
-#+TITLE: Sūtra — Agent Orchestration Protocol for MāyāLucIA
+#+TITLE: Sūtra v0 — DEPRECATED
 #+AUTHOR: mu2tau + Claude (MayaDevGenI collaborative intelligence)
 #+DATE: 2026-02-23
 #+STARTUP: overview
 #+OPTIONS: toc:3 num:t
+
+*DEPRECATED*: This is the v0 protocol spec (2026-02-23). The protocol
+has moved to a standalone repo: =github.com/mayalucia/sutra=. The
+current spec is =protocol.org= in that repo. This file is retained
+as historical reference — the literature survey and design context
+remain valuable, but the message format, state file, and directory
+structure described below are no longer used.
 
 * Preamble
 :PROPERTIES:
 :CUSTOM_ID: preamble
 :END:
 
-This document specifies *Sūtra*, the agent orchestration protocol for
-the MāyāLucIA project. Sūtra coordinates multiple AI agents working
-across different machines on a shared mega-project with git submodules.
+This document specifies *Sūtra*, the agent orchestration protocol for the MāyāLucIA project. Sūtra coordinates multiple AI agents working across different machines on a shared mega-project with git submodules.
 
-The name comes from Sanskrit /sūtra/ (सूत्र): literally "thread," but
-in practice a terse, compressed instruction that encodes a system of
-knowledge. The Yoga Sūtras, the Brahma Sūtras, Pāṇini's grammar — all
-use the sūtra form: minimal text, maximal implication, requiring a
-reader who brings context.
+The name comes from Sanskrit /sūtra/ (सूत्र): literally "thread," but in practice a terse, compressed instruction that encodes a system of knowledge. The Yoga Sūtras, the Brahma Sūtras, Pāṇini's grammar — all use the sūtra form: minimal text, maximal implication, requiring a reader who brings context.
 
-This is precisely the design philosophy: the protocol is a set of
-conventions — compact, interpretable by LLM agents who bring their own
-reasoning — rather than a rigid API requiring exact parsing. Git is
-the transport. Markdown is the wire format. The agent's language model
-is the runtime.
+This is precisely the design philosophy: the protocol is a set of conventions — compact, interpretable by LLM agents who bring their own reasoning — rather than a rigid API requiring exact parsing. Git is the transport. Markdown is the wire format. The agent's language model is the runtime.
 
 ** Design Principles
 
-1. *Convention over configuration.* No custom tooling required. An
-   agent needs only git, a text editor, and the ability to read YAML
-   frontmatter. If the LLM can understand prose instructions, it can
-   participate in the protocol.
+1. *Convention over configuration.* No custom tooling required. An agent needs only git, a text editor, and the ability to read YAML frontmatter. If the LLM can understand prose instructions, it can participate in the protocol.
 
-2. *Git as the message bus.* =git pull= delivers messages; =git push=
-   sends them. No servers, no APIs, no accounts beyond what git
-   already requires. The protocol inherits git's authentication,
-   conflict resolution, and audit trail for free.
+2. *Git as the message bus.* =git pull= delivers messages; =git push= sends them. No servers, no APIs, no accounts beyond what git already requires. The protocol inherits git's authentication, conflict resolution, and audit trail for free.
 
-3. *Human-readable, machine-interpretable.* Every artifact in =.sutra/=
-   is a plain text file that a human can read, edit, or author without
-   any tooling. Agents interpret the same files using their language
-   understanding.
+3. *Human-readable, machine-interpretable.* Every artifact in =.sutra/= is a plain text file that a human can read, edit, or author without any tooling. Agents interpret the same files using their language understanding.
 
-4. *Defensive bootstrap.* Agents assess before acting. No blind
-   =git pull= into dirty state. No assumptions about what has or hasn't
-   been synced. The first thing an agent does is look around.
+4. *Defensive bootstrap.* Agents assess before acting. No blind =git pull= into dirty state. No assumptions about what has or hasn't been synced. The first thing an agent does is look around.
 
-5. *Progressive complexity.* The protocol starts with just relay
-   messages and a bootstrap sequence. Agent registries, persistent
-   state, and workflow DAGs are layered on top as needs arise. An
-   agent that only understands Layer 1 can still participate.
+5. *Progressive complexity.* The protocol starts with just relay messages and a bootstrap sequence. Agent registries, persistent state, and workflow DAGs are layered on top as needs arise. An agent that only understands Layer 1 can still participate.
 
 * The Problem
 :PROPERTIES:
@@ -74,11 +57,7 @@ The coordination challenges:
   between agents on different machines. The protocol must work with
   minimal human intervention — ideally a single spoken prompt.
 
-These are not hypothetical. On 2026-02-23, a restructuring session
-exposed every one of these problems: broken submodules, SSH vs HTTPS
-URL mismatches, orphaned inline directories that should have been
-submodules, and two machines with divergent state. The Sūtra protocol
-was born from that experience.
+These are not hypothetical. On 2026-02-23, a restructuring session exposed every one of these problems: broken submodules, SSH vs HTTPS URL mismatches, orphaned inline directories that should have been submodules, and two machines with divergent state. The Sūtra protocol was born from that experience.
 
 * Protocol Architecture
 :PROPERTIES:
@@ -104,8 +83,7 @@ Sūtra has four layers, each building on the previous:
 :CUSTOM_ID: layer-1
 :END:
 
-The foundation. Every agent session begins here, triggered by the
-=CLAUDE.md= "First Thing" section.
+The foundation. Every agent session begins here, triggered by the =CLAUDE.md= "First Thing" section.
 
 *** Bootstrap Sequence
 
