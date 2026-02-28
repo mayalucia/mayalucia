@@ -728,7 +728,356 @@ git-based logbook for multi-agent coordination) by adding:
 See =agreement.org= for a working agreement template, and
 =prototype/= for the implementation.
 
-* 8. What This Is Not
+* 8. Experiment: Negotiated Scaffolding in Machine-to-Human Teaching
+
+The four-quadrant analysis (section 6) is theoretical. This section
+designs a concrete experiment in the M→H quadrant — the machine
+teaching a human with negotiated autonomy — and reports what the
+current infrastructure can and cannot support.
+
+** 8.1 The setting: quantum sensing as test domain
+
+MāyāPramāṇa is a trilingual curriculum (Python, Haskell, C++) for
+quantum magnetometry. Lesson 00 teaches the Bloch equations: spin
+precession, relaxation, and numerical simulation. The lesson already
+carries MāyāLoom annotations — machine-readable metadata that allows
+an AI agent to discover prerequisite concepts and generate
+context-appropriate expansions.
+
+Four /cadenzas/ (expansion points) are embedded at strategic locations
+in the lesson:
+
+| Cadenza | Location | Level | Purpose |
+|---------+----------+-------+---------|
+| =spin-half-qm= | After "A Spin in a Field" | first-year-grad | Bridge from classical to quantum spin |
+| =bloch-sphere-geometry= | After "The Bloch Vector" | first-year-grad | Why the sphere works (parameter counting) |
+| =numerical-ode-methods= | After the integrator | first-year-grad | Why RK4 and not Euler |
+| =atomic-magnetometry= | After "Why This Matters" | first-year-grad | How equations become a measurement |
+
+Each cadenza carries six metadata fields: =:concept=, =:level=,
+=:prereqs=, =:assumes=, =:anti-targets=, =:connects-to=. These
+control what the agent explains, at what depth, what it avoids, and
+how it links to the surrounding curriculum.
+
+** 8.2 What exists: the warp
+
+The existing MāyāLoom infrastructure provides the /warp/ — the
+structural threads that a teaching interaction weaves through:
+
+1. *Declarative discovery.* An agent can find all cadenzas in a lesson
+   by reading the =#+CADENZAS:= header, without parsing the full
+   document. It can assess prerequisites by checking =:prereqs:= and
+   =:assumes:= against the student's declared knowledge.
+
+2. *Level-aware prompting.* The =:level:= field tells the agent how to
+   pitch its explanation. A =first-year-grad= student gets different
+   treatment than a =researcher=.
+
+3. *Scope control.* The =:anti-targets:= field prevents the agent from
+   wandering into irrelevant topics (no quantum field theory when
+   explaining spin-½). The =:assumes:= field prevents re-explaining
+   what the lesson has already taught.
+
+4. *Curriculum threading.* The =:connects-to:= field creates a
+   directed graph across lessons. The agent can tell the student:
+   "this connects to optical pumping, which you'll encounter in
+   lesson 01."
+
+5. *Validation.* The lesson includes executable verification tests
+   (pure precession, relaxation to equilibrium, T₂ decay envelope)
+   that an agent can run to check whether the student's code
+   modifications are correct.
+
+All of this works today. A fresh agent given the lesson and a student
+question can find the appropriate cadenza, read the metadata, use the
+surrounding context, and generate a tutorial at the correct level. This
+was validated empirically on 2026-02-20.
+
+** 8.3 What's missing: the weft
+
+The weft — the adaptive, responsive thread that creates the fabric —
+is where the autonomy agreement adds something the existing
+infrastructure lacks.
+
+*** No student model
+
+MāyāLoom's =:level:= field is a static string (=first-year-grad=),
+not a profile of what the student actually knows. Two first-year grad
+students may have radically different backgrounds: one has taken
+quantum mechanics, the other comes from signal processing. The
+cadenza metadata cannot distinguish them.
+
+The autonomy agreement's /epistemic commitments/ section provides the
+mechanism: at session start, the student and the machine negotiate
+what counts as known, what needs explanation, and what standard of
+understanding applies.
+
+*** No knowledge checkpoints
+
+The lesson proceeds linearly. There is no point at which the machine
+verifies that the student has understood before proceeding. The
+cadenza fires once and moves on.
+
+Pask's /teachback/ provides the model: after the cadenza, the student
+should demonstrate understanding by reconstructing the concept in
+their own terms. The machine checks the reconstruction — not for
+verbal fidelity, but for structural correspondence (does the
+entailment mesh match?). This is the formal criterion for whether the
+cadenza succeeded.
+
+*** No scaffolding negotiation
+
+The cadenza is delivered at a fixed level. The student cannot say:
+"I know this, skip it" or "I need more detail here" or "explain it
+differently — I'm a signal processing person, not a quantum person."
+
+The autonomy agreement's /transition protocol/ provides the
+mechanism: the student can propose to skip a cadenza (escalating
+their own autonomy), and the machine can accept, reject ("I think
+you need this — here's why"), or propose an alternative ("let me
+check with a quick question first").
+
+This inverts the usual autonomy direction. In M→H teaching, the
+/student/ is the one whose autonomy is being negotiated — their
+autonomy to self-direct, to skip, to go deeper, to change the
+order. And the /machine/ is the one who may resist — not from
+stubbornness, but from a model of what the student needs that the
+student may not share.
+
+*** No adaptive branching
+
+The lesson follows a single path: physics → Python → Haskell → C++ →
+verification → exercises. A student who already knows Python but not
+Haskell cannot skip to the Haskell section without encountering
+Python first. A student who wants to understand the physics deeply
+before touching code has no way to request this.
+
+The dialogue format (section 7) enables branching by design: the
+student's turns express preferences, the machine's turns propose
+paths, and the meta-turns negotiate which branch to take. The
+append-only log records the branching decisions, so a future session
+can resume from any point without confusion about which path was
+taken.
+
+** 8.4 The experiment design
+
+*** Protocol
+
+A human learner works through lesson 00 with a machine tutor. The
+interaction uses the structured dialogue format with the full
+autonomy agreement protocol. The experiment proceeds in three phases:
+
+*Phase 1: Agreement negotiation.*
+
+The learner declares their background (e.g., "I know classical
+mechanics and linear algebra; I've seen quantum mechanics but not
+spin specifically; I'm comfortable with Python, unfamiliar with
+Haskell"). The machine proposes an initial scaffolding plan: which
+cadenzas to activate, at what level, in what order. The learner
+accepts, modifies, or rejects. This negotiation is logged.
+
+*Phase 2: Guided traversal with checkpoints.*
+
+The learner works through the lesson. At each cadenza point:
+
+1. The machine proposes whether to activate the cadenza, based on
+   the agreed plan and any updated understanding of the learner.
+2. The learner can accept, skip, or request modification.
+3. If the cadenza fires, the machine checks understanding via
+   teachback: "Can you explain why the Bloch vector lives in R³,
+   not C²? Use your own framing."
+4. Based on the teachback quality, the machine may:
+   - Proceed (teachback successful — understanding confirmed)
+   - Offer a different explanation (teachback partial — try
+     another angle)
+   - Activate a prerequisite cadenza (teachback failed —
+     foundation missing)
+   - Accept the skip (learner demonstrates they don't need it)
+
+*Phase 3: Exercises with negotiated autonomy.*
+
+The three exercises (resonance, FID, cross-validation) are attempted
+with negotiated support levels:
+
+- *Apprentice*: machine walks through step by step, showing code and
+  reasoning before the learner attempts
+- *Colleague*: machine answers questions, reviews the learner's
+  approach, suggests corrections
+- *Delegate*: learner works independently; machine reviews the
+  completed exercise
+- *Collaborator*: learner and machine explore beyond the exercise
+  scope (e.g., "what happens if we add a second drive frequency?")
+
+The learner can propose level changes mid-exercise: "I'm stuck,
+pull back to colleague" or "This is straightforward, let me go to
+delegate."
+
+*** Measurements
+
+The experiment produces the following observable data, all from the
+dialogue log:
+
+1. *Scaffolding trajectory*: which cadenzas fired, which were
+   skipped, which triggered prerequisite cascades
+2. *Autonomy transitions*: when the learner requested more or less
+   help, when the machine proposed changes
+3. *Teachback quality*: a qualitative assessment (by the machine and,
+   retrospectively, by the learner) of whether understanding was
+   confirmed
+4. *Time to competence*: turns required to reach delegate level on
+   each exercise, compared to a baseline (working through the lesson
+   without the protocol)
+5. *Surprise count*: instances where the learner's background
+   required a path not anticipated by the cadenza metadata
+
+*** What this tests
+
+The experiment tests three claims from the position paper:
+
+1. *Bilateral negotiation works for M→H.* Can a student meaningfully
+   negotiate scaffolding level with a machine tutor? Does the
+   negotiation improve the learning experience, or is it overhead?
+
+2. *Teachback as trust criterion.* Does Pask's teachback provide a
+   reliable signal for when to advance? Does the machine correctly
+   identify partial vs. failed vs. successful understanding?
+
+3. *The agreement is quadrant-agnostic.* The same protocol (autonomy
+   levels, transition protocol, audit trail) designed for H→M
+   scientific collaboration (section 4) works for M→H teaching. The
+   structural primitives transfer.
+
+** 8.5 What we cannot test yet
+
+Several important questions exceed what the current infrastructure
+can address. We flag them as open directions rather than pretend they
+are solved.
+
+*** Long-term trust evolution
+
+The experiment captures a single lesson (hours, not weeks). The
+autonomy agreement is designed for relationships that evolve over
+months. Does trust accumulate meaningfully when the machine is
+ephemeral (new session, new context window, potentially new model)?
+The Sūtra protocol's append-only log provides continuity, but we
+have not tested whether a machine reading the log of a prior
+session's teaching interaction can meaningfully /resume/ the trust
+relationship.
+
+*** Multi-learner comparison
+
+A single learner working through one lesson is an existence proof,
+not a study. Meaningful evaluation requires multiple learners with
+different backgrounds attempting the same lesson, with the protocol
+adapting to each. This requires either a user study (with IRB
+approval, recruitment, and controlled conditions) or a simulated
+student (which raises its own validity questions).
+
+*** The tacit substrate
+
+The Bloch equations lesson is highly propositional — equations,
+code, numerical results. The autonomy agreement's epistemic
+commitments and teachback mechanism are well-suited to this.
+But the position paper also claims applicability to creative and
+embodied domains (section 5). Testing this requires a lesson in a
+domain where tacit knowledge dominates: musical performance,
+laboratory technique, visual composition. The current
+infrastructure has no lesson in such a domain.
+
+*** Teachback evaluation
+
+How does the machine assess teachback quality? The prototype has no
+formal criterion — the machine must judge whether the learner's
+reconstruction captures the structural relationships, not just the
+surface propositions. This is itself a hard AI problem. In the
+experiment, the machine's assessment is a qualitative judgment
+logged in the dialogue. Validating that judgment requires human
+expert review of the log — which is feasible but not automated.
+
+*** The Zone of No Development
+
+Freire's warning (section 6.3) predicts that always-available AI
+scaffolding may /reduce/ the learner's autonomous reasoning. The
+experiment protocol includes the learner's right to reduce
+scaffolding (escalate to delegate or collaborator), but it does
+not measure whether the learner's independent reasoning capacity
+is enhanced or diminished by the interaction. This would require
+pre- and post-assessments of the learner's ability to solve novel
+problems without the machine — a longitudinal design beyond a
+single session.
+
+*** Cross-model stability
+
+If the experiment runs with Claude Opus 4.6 today and a different
+model next month, are the results comparable? The agreement's
+ephemeral identity design (=machine/model= provenance, no
+persistent self) explicitly acknowledges this instability. But
+the experiment cannot control for it without running the same
+lesson with multiple models on the same learner — which
+confounds model effects with learning effects.
+
+** 8.6 Directions for future experiments
+
+*** The H→M quadrant: teaching the machine
+
+The inverse experiment: the human teaches the machine a concept
+outside its training distribution (a new experimental technique, a
+local convention, a domain-specific approximation). The machine
+demonstrates understanding through teachback — reconstructing the
+concept in its own terms, generating predictions, and flagging where
+its reconstruction diverges from the human's intent.
+
+The autonomy agreement governs this interaction: the machine starts
+at apprentice (executing the human's explicit instructions), earns
+colleague status (proposing its own formulations for human review),
+and potentially reaches delegate (applying the learned concept to a
+new problem autonomously).
+
+The current infrastructure supports this — the dialogue format,
+the autonomy levels, the audit trail all apply. What is missing is
+a concrete domain where the human has knowledge the machine
+demonstrably lacks. The magnetometer calibration procedures in
+MāyāPramāṇa's later lessons (optical pumping, lock-in detection)
+may provide this: experimental craft knowledge that is not well
+represented in training corpora.
+
+*** The M→M quadrant: agent-to-agent teaching via Sūtra
+
+Two agents on different machines derive the same result
+independently (e.g., the RWA breakdown boundary from the example
+dialogue). They compare results through the Sūtra relay. Where
+results converge, confidence increases. Where they diverge, a
+structured disagreement dialogue identifies the source:
+different numerical methods, different physical approximations,
+or a genuine error.
+
+This is Pask's teachback applied to computational agents: each
+agent reconstructs the other's result from different premises.
+The autonomy agreement governs the interaction — derivation
+standards, convergence criteria, and how to handle disagreement
+are specified in the epistemic commitments.
+
+The infrastructure for this exists (Sūtra protocol, two machines,
+the dialogue format) but has not been tested in this configuration.
+
+*** The creative quadrant: aesthetic autonomy agreements
+
+A composer (or visual artist, or writer) works with an AI
+collaborator on a creative project. Epistemic commitments become
+aesthetic commitments (section 5). The teachback criterion changes:
+instead of "can you reconstruct my reasoning?", it becomes "can you
+produce something that I recognize as belonging to /this/ aesthetic,
+even though I didn't specify it?"
+
+This requires a lesson or project in a creative domain — outside the
+current MāyāPramāṇa/bravli scope but within MāyāLucIA's broader
+vision. Indian classical music (rāga, tāla) would be a powerful
+test case: the guru-śiṣya paramparā is the most demanding model of
+knowledge transmission in any living tradition, and it operates
+almost entirely in the tacit/embodied register that the propositional
+protocol handles least well.
+
+* 9. What This Is Not
 
 This is not:
 
@@ -747,12 +1096,12 @@ collaboration. It is opinionated, minimal, and designed to be tested
 on real work — in the constructionist spirit, understanding will
 emerge through the act of building it.
 
-* 9. Open Questions
+* 10. Open Questions
 
 Informed by the literature survey (=survey.org=), these are the
 genuine open problems.
 
-** 9.1 Teachback in practice
+** 10.1 Teachback in practice
 
 Pask's teachback is the formal criterion for understanding, and the
 most compelling mechanism for trust-building. The prototype has no
@@ -763,7 +1112,7 @@ on that aspect should be re-evaluated. This is more than
 summarization — it requires /regeneration of the reasoning structure/
 in a different form.
 
-** 9.2 Deutero-learning: can the protocol learn?
+** 10.2 Deutero-learning: can the protocol learn?
 
 Bateson's Learning II — learning to learn — is where the partnership
 changes /how/ it collaborates, not just what it works on. The current
@@ -772,7 +1121,7 @@ agreement itself evolve its own structure based on accumulated
 experience? What would it mean for the partnership to undergo
 Learning III — a revision of the framework of collaboration itself?
 
-** 9.3 The socialization gap
+** 10.3 The socialization gap
 
 Nonaka's SECI model identifies four knowledge conversion modes. The
 machine handles Combination (explicit → explicit) well and partially
@@ -784,7 +1133,7 @@ craft apprenticeship, and ensemble performance all live. Is there a
 computational analog? Or is this an irreducible asymmetry that the
 protocol must simply acknowledge and work around?
 
-** 9.4 The ensemble case
+** 10.4 The ensemble case
 
 The current protocol is bilateral — one human, one machine. Real
 collaboration often involves multiple humans, multiple machines, or
@@ -795,7 +1144,7 @@ bilateral agreement generalize to /n/-party agreements with
 maintained properties (bilateral consent, per-aspect granularity,
 audit trail)?
 
-** 9.5 Material resistance
+** 10.5 Material resistance
 
 Pickering's "mangle of practice" highlights that knowledge emerges
 from the interplay between intention and material pushback. The
@@ -806,7 +1155,7 @@ computational analog is code that fails unexpectedly — but this is a
 thin shadow of the sculptor's stone or the experimentalist's
 uncooperative apparatus.
 
-** 9.6 Agreement portability
+** 10.6 Agreement portability
 
 Can an agreement established with one model transfer to a different
 model? The machine identity is ephemeral (by design in the Sūtra
@@ -815,7 +1164,7 @@ question is about /āpta/ status: does a new model inherit the
 trustworthiness its predecessor earned, or must it demonstrate
 competence afresh?
 
-** 9.7 The Feynman test
+** 10.7 The Feynman test
 
 The strongest validation would be: the AI collaborator, working at
 delegate or collaborator level, produces a result the human didn't
