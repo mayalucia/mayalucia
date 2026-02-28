@@ -36,6 +36,15 @@ Never edit website/content/ directly.
 
 #+include: "../develop/guiding-philosophy.org" :lines "3-"
 
+* Turīya Substrate                                                :philosophy:
+:PROPERTIES:
+:EXPORT_FILE_NAME: turiya-substrate
+:EXPORT_HUGO_SECTION: philosophy
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "On the ground of human-machine collaboration --- the Māṇḍūkya Upaniṣad's four-state model applied to agent infrastructure, from decentralized coordination to autonomous cognition in cyberspace"
+:END:
+
+#+include: "../develop/foundation/turiya-substrate.org" :lines "5-"
+
 * Domains                                                            :domains:
 :PROPERTIES:
 :EXPORT_FILE_NAME: _index
