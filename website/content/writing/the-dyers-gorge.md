@@ -1,7 +1,7 @@
 +++
 title = "The Dyer's Gorge"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T14:56:19+01:00
+lastmod = 2026-02-28T01:34:57+01:00
 tags = ["writing"]
 draft = false
 description = "A dyer in the Parvati gorge reads the valley by its pigments --- iron-red from hot springs, indigo from wild bushes, lichen-gold from birch boulders --- encoding altitude into cloth"
@@ -220,8 +220,6 @@ plt.savefig("palette-altitude.png", dpi=200, bbox_inches="tight",
 print("palette-altitude.png")
 ```
 
-{{< figure src="/ox-hugo/palette-altitude.png" >}}
-
 
 ## I. The Valley That Swallows Light {#i-dot-the-valley-that-swallows-light}
 
@@ -414,8 +412,6 @@ plt.savefig("dye-recipe-manikaran-red.png", dpi=200, bbox_inches="tight",
 print("dye-recipe-manikaran-red.png")
 ```
 
-{{< figure src="/ox-hugo/dye-recipe-manikaran-red.png" >}}
-
 
 ## II. Five Pigments, Five Altitudes {#ii-dot-five-pigments-five-altitudes}
 
@@ -561,8 +557,6 @@ plt.savefig("five-pigments.png", dpi=200, bbox_inches="tight",
 print("five-pigments.png")
 ```
 
-{{< figure src="/ox-hugo/five-pigments.png" >}}
-
 
 ## III. What the Wool Remembers {#iii-dot-what-the-wool-remembers}
 
@@ -700,8 +694,6 @@ plt.savefig("wool-reading.png", dpi=200, bbox_inches="tight",
             facecolor=PAPER, edgecolor="none")
 print("wool-reading.png")
 ```
-
-{{< figure src="/ox-hugo/wool-reading.png" >}}
 
 
 ## IV. The Gradient Problem {#iv-dot-the-gradient-problem}
@@ -880,8 +872,6 @@ plt.savefig("gradient-blanket.png", dpi=200, bbox_inches="tight",
 print("gradient-blanket.png")
 ```
 
-{{< figure src="/ox-hugo/gradient-blanket.png" >}}
-
 
 ## V. The Conversation with Malana {#v-dot-the-conversation-with-malana}
 
@@ -1048,8 +1038,6 @@ plt.savefig("malana-exchange.png", dpi=200, bbox_inches="tight",
 print("malana-exchange.png")
 ```
 
-{{< figure src="/ox-hugo/malana-exchange.png" >}}
-
 
 ## VI. The Colour That Has No Name {#vi-dot-the-colour-that-has-no-name}
 
@@ -1201,8 +1189,6 @@ plt.savefig("unnamed-colour.png", dpi=200, bbox_inches="tight",
             facecolor="#1A1A2A", edgecolor="none")
 print("unnamed-colour.png")
 ```
-
-{{< figure src="/ox-hugo/unnamed-colour.png" >}}
 
 
 ## VII. What the Valley Keeps {#vii-dot-what-the-valley-keeps}
@@ -1358,8 +1344,6 @@ plt.savefig("valley-keeps.png", dpi=200, bbox_inches="tight",
             facecolor=PAPER, edgecolor="none")
 print("valley-keeps.png")
 ```
-
-{{< figure src="/ox-hugo/valley-keeps.png" >}}
 
 
 ## Colophon {#colophon}

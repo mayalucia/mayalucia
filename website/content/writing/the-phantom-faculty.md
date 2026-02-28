@@ -1,7 +1,7 @@
 +++
 title = "The Phantom Faculty"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T14:56:19+01:00
+lastmod = 2026-02-28T01:34:57+01:00
 tags = ["writing"]
 draft = false
 description = "Twenty-one cognitive modes for scientific understanding --- from Landau's derivations to Faraday's iron filings to Karpathy's minimal implementations. Not persona-bots but cognitive constitutions, executable by any sufficiently capable attention mechanism."

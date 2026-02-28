@@ -136,6 +136,15 @@ Essays, fictions, and parables from the MayaLucIA project --- where the process 
 
 #+include: "../collab/sessions/devprocess/sutra-genesis/logbook/the-logbook-of-the-unnamed-river.org" :lines "6-"
 
+* The Instrument Maker's Rest                                       :writing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: the-instrument-makers-rest
+:EXPORT_HUGO_SECTION: writing
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "In a workshop in Sangla, in the Baspa valley, a woman who is not a weaver makes the things that weavers need in order to see. Seven instruments for seven functions, each self-calibrating for any valley, at any altitude, in any season."
+:END:
+
+#+include: "../collab/sessions/devprocess/sutra-genesis/instrument-makers-rest/the-instrument-makers-rest.org" :lines "5-"
+
 * Papers                                                             :papers:
 :PROPERTIES:
 :EXPORT_FILE_NAME: _index

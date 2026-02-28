@@ -1,7 +1,7 @@
 +++
 title = "MB Dynamics"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T14:56:20+01:00
+lastmod = 2026-02-28T01:34:57+01:00
 tags = ["papers"]
 draft = false
 math = true

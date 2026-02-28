@@ -1,7 +1,7 @@
 +++
 title = "Parbati: Digital Forms for Himalaya"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T14:56:18+01:00
+lastmod = 2026-02-28T01:34:57+01:00
 tags = ["domains"]
 draft = false
 +++

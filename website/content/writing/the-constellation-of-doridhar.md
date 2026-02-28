@@ -1,7 +1,7 @@
 +++
 title = "The Constellation of Doridhar"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-26T14:56:20+01:00
+lastmod = 2026-02-28T01:34:57+01:00
 tags = ["writing"]
 draft = false
 description = "In the village of the amnesiac cartographers, at the head of a valley where the river narrows to a thread between walls of gneiss, a glass plate holds the project as a whole --- four crystals, a ghostly diamond, provinces that drift and settle like charged particles. The ideal viewer encounters it without memory of how it was made."
@@ -398,8 +398,6 @@ him to a new destination: along the river, up its torrent,
 across the passes, to the other side of the high glaciers
 where the sacred river begins.
 
-{{< figure src="/images/writing/constellation-of-doridhar/travellers-window.png" caption="<span class=\"figure-number\">Figure 4: </span>The Traveller's Window — the high valley at night. The Parvati descends from the central peak, careless, elegant, powerful. Boulders and stars, a cosmic drama and a terrestrial one, framed by the same rough-hewn window." >}}
-
 The central diamond was the most important element on the
 plate. It represented the unity of the four modes, the
 thing that made the project a project rather than a
@@ -502,8 +500,6 @@ constellations above Doridhar, which no one in the village
 remembers naming, nevertheless occupy positions that every
 cartographer, stepping outside at dusk, recognises as
 inevitable.
-
-{{< figure src="/images/writing/constellation-of-doridhar/borderlands-map.png" caption="<span class=\"figure-number\">Figure 5: </span>The Valley of Doridhar — a night survey from the archive at Takphu. The river flows from the high pass at left to the gorge mouth at right. Observatories on the ridges, workshops on the terraces, forges at the confluences, courts on the meadows, archives in the cliff faces. Each settlement served by its own tributary." >}}
 
 > _In Doridhar it is held that the most accurate map is one
 > that has never been seen by its maker, since the maker —
