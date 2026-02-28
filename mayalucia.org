@@ -134,7 +134,19 @@ The measure of success is not publications or products, but the depth of persona
 - [ ] Document their journey of comprehension
 - [ ] Enjoy their science through rich audio-visual interaction
 
-  
+
+* Mottos
+
+#+begin_quote
+What I cannot create, I do not understand.
+--- Richard Feynman
+#+end_quote
+
+#+begin_quote
+We are weaving knowledge. And the cloth is for anyone who will wear it.
+--- [[file:project/mayaloom.org][MāyāLoom]]
+#+end_quote
+
 * Appendix: Some Wordly Inspiration :noexport:
 
 - Maya :: power to form, creative power, Wondrous Power — Power to wonder — understanding: turn an idea into a physical, measured reality, or a computational entity
