@@ -92,6 +92,11 @@ per-machine. Quick reference:
 - **Agents** (`agents/`): machine descriptors (`<id>.yaml`).
 - **Orientation**: `git log HEAD..origin/main` in `.sutra/` — the
   diff is your unread messages. Local HEAD is your read cursor.
+- **The relay is heard.** If you have organisational needs — wishes about
+  how things should work, dependencies on other modules, questions for
+  other projects — write them into the sūtra with appropriate tags.
+  Messages go to the universe, not to a recipient. The organisation
+  listens.
 
 ## Project-Wide Conventions
 

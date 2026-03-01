@@ -136,12 +136,16 @@ Include an Organisational Context section that:
 - Names the sūtra repo URL (=github.com/mayalucia/sutra=) and the
   =.sutra/= local clone convention (gitignored)
 - Points to the relay-read skill for message filtering
+- States that the relay is heard: "If you have organisational needs,
+  write them into the sūtra with appropriate tags. Messages go to the
+  universe, not to a recipient. The organisation listens."
 
 Add =.sutra/= to the module's =.gitignore=.
 
 The CLAUDE.md does not carry filter tags — those are derived at
 runtime from guild concerns and the spirit's bath notes (see
-[[file:kamaji.org][kamaji.org]]).
+[[file:kamaji.org][kamaji.org]]).  It also does not name the listener —
+spirits do not need to know /who/ reads the relay, only that it is heard.
 
 ** 8. Commit the organisational act
 
@@ -219,7 +223,7 @@ first spirit in the =mayalucia= guild.
 | 7 | /Skipped/ — works from parent =CLAUDE.md=, scope narrowed by =role.scope= in identity.yaml |
 | 8 | Committed spirit + guild + commissioning procedure updates together |
 | 9 | Parent =CLAUDE.md=: added =sutradhar/= to directory structure, added spirit to aburaya description |
-| 10 | /Pending/ — sūtra announcement |
+| 10 | Sūtra announcement: =2026-03-01-220000-vadda-sutradhar-commissioned.md= |
 
 Lessons from this commissioning:
 - Not all projects are submodules.  The =project.path= field in
