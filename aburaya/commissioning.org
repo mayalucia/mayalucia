@@ -95,10 +95,17 @@ bathhouse but at the module. It tells any agent arriving at the
 repo: what this project is, what conventions apply, how to build,
 how to test. The CLAUDE.md belongs to the project, not the spirit.
 
-Include an Organisational Context section that names the guild and
-points to the relay-read skill for sūtra access. The CLAUDE.md does
-not carry filter tags — those are derived at runtime from guild
-concerns and the spirit's bath notes (see [[file:kamaji.org][kamaji.org]]).
+Include an Organisational Context section that:
+- Names the guild and guardian spirit
+- Names the sūtra repo URL (=github.com/mayalucia/sutra=) and the
+  =.sutra/= local clone convention (gitignored)
+- Points to the relay-read skill for message filtering
+
+Add =.sutra/= to the module's =.gitignore=.
+
+The CLAUDE.md does not carry filter tags — those are derived at
+runtime from guild concerns and the spirit's bath notes (see
+[[file:kamaji.org][kamaji.org]]).
 
 ** 8. Commit the organisational act
 

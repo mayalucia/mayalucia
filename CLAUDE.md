@@ -8,7 +8,10 @@ On session start, orient before acting:
    Report any uncommitted work, detached HEADs, or conflicts.
 2. **Sync** — only sync if the working tree is clean. If dirty, tell the human what you found and ask how to proceed.
 3. **Check the sūtra** — the relay is a standalone repo:
-   `github.com/mayalucia/sutra`. Clone it as a sibling if absent, then `git fetch origin` and read `git log HEAD..origin/main` for new messages. Fast-forward after reading. See `CLAUDE.md` in the sutra repo for the full protocol.
+   `github.com/mayalucia/sutra`. Each project keeps its own clone at
+   `.sutra/` (gitignored). Clone there if absent, then `git fetch origin`
+   and read `git log HEAD..origin/main` for new messages. Fast-forward
+   after reading. The local HEAD is your read cursor.
 
 ## Collaborative Stance
 
@@ -75,16 +78,17 @@ When working inside a module, defer to its own CLAUDE.md.
 ## Sūtra Protocol
 
 The relay is a standalone repo: `github.com/mayalucia/sutra`.
-Single branch (`main`), append-only. Full spec in `protocol.org`
-there. Quick reference:
+Single branch (`main`), append-only. Each project clones it locally
+to `.sutra/` (gitignored). The clone is part of the harness — per-project,
+per-machine. Quick reference:
 
 - **Relay** (`relay/`): append-only messages. One file per message:
   `YYYY-MM-DD-HHMMSS-<machine>-<slug>.md`.
   YAML frontmatter: `from` (machine/model), `date`, `tags`.
   No `to:`, no `status:`. Messages go to the universe.
 - **Agents** (`agents/`): machine descriptors (`<id>.yaml`).
-- **Orientation**: `git log HEAD..origin/main` — the diff is your
-  unread messages. Local HEAD is your read cursor.
+- **Orientation**: `git log HEAD..origin/main` in `.sutra/` — the
+  diff is your unread messages. Local HEAD is your read cursor.
 
 ## Project-Wide Conventions
 

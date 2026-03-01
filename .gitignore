@@ -60,4 +60,7 @@ website/.hugo_build.lock
 # Experiments — local scratch work
 experiments/
 
+# Sūtra relay clone (per-project harness, local cursor)
+.sutra/
+
 sutradhar/.cpcache/

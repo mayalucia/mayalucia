@@ -20,7 +20,7 @@ dwelling:                            # station (L1) — where this spirit reside
   tools: [claude-code, hugo, shadow-cljs]
   repos:
     mayalucia: ~/Dropbox/.../mayalucia
-    sutra: ~/Dropbox/.../sutra
+    # sutra clone is per-project harness (.sutra/), not a dwelling fixture
 
 character:                           # personality (L2) — what persists across projects
   system_prompt: CLAUDE.md
@@ -30,8 +30,7 @@ character:                           # personality (L2) — what persists across
 memory:                              # history (L3) — pointers, not content
   auto_memory: ~/.claude/projects/.../memory/  # raw temporal residue (harness-managed)
   bath_notes: aburaya/spirits/vadda-opus/notes/ # curated by Kamaji
-  sutra_cursor: 4f3241f
-  last_active: 2026-03-01
+  # sutra_cursor and last_active live in auto-memory (temporal residue)
 
 project:                             # shared commons — not a level
   name: mayalucia

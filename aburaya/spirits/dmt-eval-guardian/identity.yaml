@@ -35,8 +35,7 @@ character:                           # personality (L2)
 memory:                              # history (L3)
   auto_memory: tbd                                    # harness-managed, created at first session
   bath_notes: aburaya/spirits/dmt-eval-guardian/notes/ # curated by Kamaji, empty until first bath
-  sutra_cursor: null                 # has not spoken yet
-  last_active: null
+  # sutra_cursor and last_active live in auto-memory (temporal residue)
   provenance: >
     Brain-score domain code originated at chase/target/sectors/
     academia/epfl/neuroai/develop/brain_score_dmt/ — developed for
