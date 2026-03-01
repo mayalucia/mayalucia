@@ -17,7 +17,7 @@ survive translation into the valley's language?
 Find session transcripts from the last few days:
 
 ```
-.agent-shell/transcripts/
+../.agent-shell/transcripts/
 ```
 
 Sort by date. Read the most recent 2-3 sessions. If the human
@@ -31,15 +31,28 @@ images, and phrases that have story potential.
 
 ### 3. Read the voice
 
-Read the most recent existing story for voice calibration:
+Read at least two existing stories for voice calibration. The
+published stories live at:
 
 ```
-website/content/writing/
+../website/content/writing/
 ```
 
-The latest story is the best reference. Also consult your
-storytelling memory (auto-memory `storytelling.md` or bath notes)
-for the Tirthan Valley geography, the Miyazaki→Himalaya key, and
+| Story | Setting | Read for |
+|-------|---------|----------|
+| the-thread-walkers.md | Kullu–Tibet border | the narrator's stance |
+| the-constellation-of-doridhar.md | Doridhar village | star-mapping, notation |
+| the-dyers-gorge.md | Parvati gorge, Manikaran | longest, richest voice reference |
+| the-instrument-makers-rest.md | Sangla, Baspa valley | craft, precision |
+| the-logbook-of-the-unnamed-river.md | Spiti, Lahaul | logbook framing, multiple valleys |
+| the-phantom-faculty.md | Abstract | non-geographic register |
+| the-spirits-kund.md | Tirthan, Jalori Pass | most recent — best voice reference |
+
+The most recent story is the strongest voice reference. But read
+at least one other to absorb the range.
+
+Also consult your story-compose power (`../aburaya/powers/story-compose.md`)
+for the Western Himalaya geography, the Miyazaki→Himalaya key, and
 the fourth-wall rule.
 
 ### 4. Compose (power: story-compose)
@@ -55,7 +68,7 @@ The story should be:
 
 ### 5. Present
 
-Write the story to `website/content/writing/<slug>.md` in Hugo
+Write the story to `../website/content/writing/<slug>.md` in Hugo
 format. Tell the human it's ready. Mark it as `draft = true` —
 the human will review before publishing.
 
