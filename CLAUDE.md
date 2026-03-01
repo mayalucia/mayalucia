@@ -42,9 +42,11 @@ Two concrete domains drive development:
 
 ```
 aburaya/          # Spirit registry — identity, guilds, commissioning
+  guilds/         #   bravli (neuroscience), mayalucia (organisational coherence)
+  spirits/        #   vadda-opus, mu2tau, dmt-eval-guardian, sutradhar-guardian
 agency/           # AI agent orchestration for the scientific workflow
 collab/           # Human-AI collaboration logs, context, session artifacts
-deploy/           # Deployment orchestration
+deployment/       # Deployment orchestration (deploy.sh, Caddyfile, docker-compose)
 develop/          # Development methodology, philosophy, devlog
 domains/          # Domain-specific submodules
   bravli/         #   Neuroscience — brain building methodology (submodule)
@@ -55,6 +57,7 @@ modules/          # Computational engines (submodules)
   mayaportal/     #   Visual Synthesis Kernel — C++23, SDL3, WebGPU
   mayapramana/    #   Quantum sensor digital twins — Bell-Bloom magnetometer
 project/          # Modular architecture design, user stories
+sutradhar/        # Project self-awareness — relay reader, constellation (Clojure)
 website/          # Hugo site (PaperMod theme submodule)
 mayalucia.org     # Vision document — the philosophical foundation
 ```

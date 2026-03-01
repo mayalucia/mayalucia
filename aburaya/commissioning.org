@@ -88,6 +88,42 @@ The =notes/= directory is where [[file:kamaji.org][Kamaji]] deposits bath
 residue after sessions. It starts empty and grows as the spirit works
 and bathes. See =kamaji.org= for the restoration protocol.
 
+*** Choosing the archetype
+
+The guardian spirit's archetype should reflect its project's role in
+the Measure → Model → Manifest → Evaluate cycle (see =governance.org=):
+
+| Project role              | Archetype | Disposition style          |
+|---------------------------+-----------+----------------------------|
+| Validation, benchmarking  | Critic    | Evaluative — "does it hold up?" |
+| Reconstruction, engines   | Builder   | Constructive — "make it work" |
+| Rendering, presentation   | Sculptor  | Expressive — "make it seen" |
+| Data curation, ingestion  | Observer  | Receptive — "what is there?" |
+| Coherence, guidance       | Guide     | Integrative — "hold the tension" |
+
+The disposition is the spirit's /invariant character/ — the habit of
+mind it carries across projects.  It should be a short phrase that
+captures how the spirit approaches every decision (e.g. =measure-twice=
+for a critic, =hold-the-tension= for a guide).
+
+*** Inline projects
+
+Not all projects are submodules.  A project may live as a directory
+within the parent repo (e.g. =sutradhar/=, =website/=, =deployment/=).
+In this case:
+
+- The =project.repo= in =identity.yaml= points to the parent repo
+- The =project.path= field names the directory within the parent
+- The spirit works from the parent repo's =CLAUDE.md=, with =role.scope=
+  narrowing its focus
+- Step 4 (add as submodule) is skipped
+- Step 7 (write module CLAUDE.md) is skipped — the parent =CLAUDE.md=
+  already covers the worksite
+
+The spirit may later be migrated to a submodule as the project grows.
+When that happens, update =project.repo= and =project.path=, write a
+module-level =CLAUDE.md=, and add the submodule to the parent.
+
 ** 7. Write the module's CLAUDE.md
 
 This is the spirit's worksite equipment — not stored in the
@@ -148,7 +184,9 @@ These happen when someone first opens the module and works in it.
 The commissioning act creates the /possibility/ of work, not the
 work itself.
 
-* First instance: dmt-eval (2026-03-01)
+* Commissioning log
+
+** dmt-eval (2026-03-01)
 
 The first project commissioned under this procedure:
 
@@ -164,3 +202,31 @@ The first project commissioned under this procedure:
 | 8 | Committed submodule + spirit together |
 | 9 | Parent CLAUDE.md: added dmt-eval to submodule table + directory structure |
 | 10 | Sūtra announcement: =2026-03-01-180000-vadda-dmt-eval-commissioned.md= |
+
+** sutradhar (2026-03-01)
+
+Second commissioning.  First /inline/ project (not a submodule) and
+first spirit in the =mayalucia= guild.
+
+| Step | What happened |
+|------+---------------|
+| 1 | mu2tau + vadda-opus identified need: the project needs a guide spirit that reads all relay messages, holds coherence, and presents the work |
+| 2 | =sutradhar/= already existed as inline Clojure module (relay reader + constellation proposer) |
+| 3 | Existing code in place — no migration during commissioning |
+| 4 | /Skipped/ — inline project, not a submodule |
+| 5 | Created =mayalucia= guild (=aburaya/guilds/mayalucia.yaml=) — the project-level guild whose concern is the organisation itself |
+| 6 | Commissioned =sutradhar-guardian= spirit (guide archetype, disposition: =hold-the-tension=, guild: mayalucia) |
+| 7 | /Skipped/ — works from parent =CLAUDE.md=, scope narrowed by =role.scope= in identity.yaml |
+| 8 | Committed spirit + guild + commissioning procedure updates together |
+| 9 | Parent =CLAUDE.md=: added =sutradhar/= to directory structure, added spirit to aburaya description |
+| 10 | /Pending/ — sūtra announcement |
+
+Lessons from this commissioning:
+- Not all projects are submodules.  The =project.path= field in
+  =identity.yaml= handles inline directories within the parent repo.
+- The =mayalucia= guild means "reads all relay messages" — the spirit's
+  filter is the union of all organisational concerns.
+- The guide archetype's disposition (=hold-the-tension=) captures the
+  invariant: coherence through friction, not consensus.
+- The commissioning procedure gained two new subsections: "Choosing the
+  archetype" and "Inline projects."

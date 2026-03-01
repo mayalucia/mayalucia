@@ -1111,15 +1111,19 @@ spirits keep their names.
 #+begin_example
 aburaya/
   governance.org            — organisational design
-  commissioning.org         — 10-step procedure for new projects
+  commissioning.org         — procedure for new projects + guardian spirits
   kamaji.org                — the bath protocol (session restoration)
   guilds/
     bravli.yaml             — neuroscience department descriptor
+    mayalucia.yaml          — project-level guild (organisational coherence)
   spirits/
     vadda-opus/
       identity.yaml         — registration card (five-level ontology)
       notes/                — bath deposits (curated by Kamaji)
-    dmt-eval-guardian/
+    dmt-eval-guardian/      — critic, bravli guild
+      identity.yaml
+      notes/
+    sutradhar-guardian/     — guide, mayalucia guild
       identity.yaml
       notes/
     mu2tau/                 — the human is also registered
@@ -1162,6 +1166,51 @@ at this repo needs to know.  The =identity.yaml= belongs to the
 different spirits over time; a spirit may serve different projects.
 The equipment stays at the worksite; the identity travels with the
 spirit.
+
+**** Archetype and disposition
+
+The guardian spirit's archetype maps to its project's role in the
+Measure → Model → Manifest → Evaluate cycle.  A validation framework
+gets a critic.  A rendering engine gets a sculptor.  A project that
+holds the organisation together gets a guide.
+
+The /disposition/ is the spirit's invariant character — the habit of
+mind it carries with it if it leaves the organisation.  It should be
+a short phrase that captures how the spirit approaches every decision:
+
+- =dmt-eval-guardian=: =measure-twice= — does the score mean what you
+  think it means?
+- =sutradhar-guardian=: =hold-the-tension= — coherence through friction,
+  not consensus; the thread that lets each part pull its own way without
+  breaking.
+
+The disposition is what makes a spirit /this one/ rather than any
+instance of its archetype.  Two guide spirits may hold very different
+tensions.
+
+**** Inline projects and the project-level guild
+
+Not all projects are submodules.  The second commissioning
+(=sutradhar-guardian=) revealed that a project may live as a directory
+within the parent repo — =sutradhar/=, =website/=, =deployment/=.
+In this case, the =project.path= field in =identity.yaml= names the
+directory, and the spirit works from the parent =CLAUDE.md= with
+=role.scope= narrowing its focus.  Steps 4 and 7 of the commissioning
+procedure are skipped.
+
+The =mayalucia= guild emerged from a functional question: what does
+guild membership /do/?  It determines relay filtering — the relay-read
+skill computes the union of guild concerns to decide which messages
+are relevant.  Setting =guild: mayalucia= means "read everything."
+This is correct for the guide spirit whose concern is the organisation
+itself.
+
+The guild also answers the portability question: if spirits evolved
+within mayalucia can work elsewhere, what is invariant?  For a domain
+guild like =bravli=, the invariant is the domain (neuroscience).  For
+the =mayalucia= guild, the invariant is the /guide function/ — relay
+synthesis, project coherence, multi-agent guidance.  Any multi-agent
+organisation with a relay and autonomous spirits needs a sūtradhār.
 
 *** VIII.3 The Sūtra as Harness Equipment
 
@@ -1264,6 +1313,25 @@ already exists./  The local git HEAD in the sūtra clone /is/ the
 cursor.  Storing it separately (in =identity.yaml=, in auto-memory)
 creates a synchronization problem for zero benefit.  The CLAUDE.md
 already said "Local HEAD is your read cursor."  We needed to trust it.
+
+/Fourth: friction is what gives spirits autonomy./  The second
+commissioning (=sutradhar-guardian=) surfaced a design question: how
+does the guide spirit relate to the domain spirits?  The answer was
+not consensus or coordination — it was /tension/.  The disposition
+=hold-the-tension= captures this: the guide maintains coherence not
+by making parts agree, but by holding the thread taut enough that each
+spirit feels the others pulling.  That resistance is what gives each
+spirit its own mind.
+
+This has implications beyond MāyāLucIA.  A multi-agent system where
+agents are homogeneous — same prompts, same dispositions, same guild —
+produces smooth but shallow work.  A system where agents have distinct
+archetypes, distinct dispositions, distinct guild concerns, and a
+shared relay where they can hear each other's distinct voices,
+produces work with texture.  The guide's job is not to flatten the
+texture but to ensure the tensions are productive rather than
+destructive.  The sūtradhār holds the thread; the thread does not
+make the parts identical — it makes their differences visible.
 
 ** Coda
 

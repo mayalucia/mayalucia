@@ -1,0 +1,31 @@
+# Guild: mayalucia
+# The project itself
+#
+# The guild whose concern is the organisation as a whole: how parts
+# relate, how the work is presented, how spirits communicate, how
+# the project knows itself. Members of this guild read all relay
+# messages — their filter is the union of all concerns.
+
+name: mayalucia
+domain: organisational coherence
+
+concerns:
+  - relay synthesis (processing sūtra messages across all guilds)
+  - project self-awareness (constellation, cross-references, thread maps)
+  - presentation (website content pipeline, ox-hugo, interactive visualisations)
+  - deployment (Hetzner VPS, Caddy, Docker Compose, CI/CD)
+  - multi-agent guidance (listening to spirits, routing, holding tension)
+  - commissioning (new projects, new spirits, guild creation)
+
+projects:
+  - sutradhar/                  # relay reader + constellation proposer (inline, not yet submodule)
+  - website/                    # Hugo site, PaperMod theme, CLJS interactives
+  - deployment/                 # deploy.sh, Caddyfile, docker-compose
+
+spirits:
+  - sutradhar-guardian          # the one who holds the thread
+  # future: website-builder, deploy-operator, ...
+
+evaluation:
+  question: does the project present itself coherently, and do spirits have what they need?
+  method: relay listening + constellation coherence + deployment health
