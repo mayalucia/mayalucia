@@ -1,0 +1,1113 @@
+#+title: Agent Ontology — On the Identity of Computational Collaborators
+#+author: mu2tau + Claude
+#+date: 2026-03-01
+#+startup: showall
+
+* Agent Ontology
+
+** Prefatory Note
+
+This paper defines what an agent /is/ in the MāyāLucIA context.  Not
+what an agent does (that is the agency specification's concern), not
+how agents coordinate (that is the sūtra protocol's concern), not what
+the collaboration substrate looks like (that is the turīya paper's
+concern) — but what constitutes the identity of a computational
+collaborator.
+
+The claim is simple: agent identity is hierarchical, not flat.  Most
+frameworks define an agent as a bundle of model + prompt + tools.
+This flattening obscures meaningful distinctions and makes it
+impossible to reason about what happens when the same agent works
+across sessions, across machines, or across model versions.  We
+propose a four-level identity hierarchy where the model is substrate
+(not configuration), the project is shared commons (not a container),
+and the agent's history is structurally coupled to the project it
+operates on.  A fifth concept — /role/ — is not a level but a
+relation: the function an agent performs at a particular project node.
+
+Companion papers: [[file:turiya-substrate.org][Turīya Substrate]] (the
+collaboration ground), [[file:../autonomy-agreement/position.org][Autonomy
+Agreement]] (trust negotiation between collaborators).
+
+** I. The Identity Hierarchy
+
+Every agentic framework in current use — CrewAI, LangGraph, AutoGen,
+Google ADK — defines an agent as a flat tuple: a model, a system
+prompt, a list of tools, and sometimes a memory store.  This
+definition is adequate for single-session task execution.  It is
+inadequate for what happens next: agents that persist across sessions,
+accumulate experience, operate on shared codebases, and co-evolve
+with the projects they serve.
+
+We propose that agent identity has four intrinsic levels, one coupled
+environment (the project), and one relational concept (the role):
+
+*** Level 0: Substrate — The Model
+
+The trained weights, the architecture, the tokenizer, the context
+window, the knowledge cutoff.  This is not interchangeable hardware.
+A Claude Opus 4.6 agent and a Mistral 70B agent given identical
+prompts, tools, and projects will behave differently — not because
+one is "better" but because the model shapes the agent's /growth
+trajectory/.
+
+The substrate determines: reasoning style (chain-of-thought depth,
+error patterns, areas of deep vs. shallow competence), tool-use
+patterns (how reliably the agent calls functions, how it handles
+failure), aesthetic sensibility (the turīya paper and the Thread
+Walker stories were co-authored with a specific model; a different
+model would have produced different texts), and — critically — what
+the agent notices and records in memory.  Over time, two agents with
+different substrates accumulate different histories even on the same
+project.
+
+The analogy is the grain of the wood, not the stain applied to it.
+You can finish oak and walnut with the same stain; they will look
+different, feel different, age differently.  The grain is
+identity-constituting.
+
+*** Level 1: Station — Machine and Harness
+
+The physical machine, the operating system, the shell, the editor
+integration, the build tools actually installed.  Station is
+embodiment.  The agent at =vadda/claude-opus-4.6= (macOS, Dropbox
+sync, Hugo, shadow-cljs) has different sensory access than the agent
+at =mahakali/claude-opus-4.6= (Linux, SSH-only, LaTeX).  Same
+substrate, different body.
+
+Station determines what the agent can perceive (which repos are
+cloned, which files are accessible) and what it can act on (can it
+build C++23?  can it run Hugo?  does it have network access?).  Two
+agents at the same station are not necessarily the same agent —
+they may have different roles and different histories.
+
+*** Level 2: Personality — Prompt, Tools, and Disposition
+
+The character.  The system prompt (=CLAUDE.md= + the harness
+configuration), the permitted tool set, and the latent skills the
+agent can invoke.  An Observer personality sees data curation tools
+and adopts the disposition of a meticulous experimentalist.  A
+Builder personality sees compilers and test runners and adopts the
+disposition of a senior engineer.
+
+Personality is what most frameworks call "the agent."  In our
+hierarchy it is level 2 of 4 — important but not exhaustive.  Two
+agents with identical personalities but different substrates will
+express them differently.  Two agents with identical personalities
+and substrates but different stations will have access to different
+capabilities.
+
+Crucially, personality persists across projects.  When an agent
+moves from MāyāPramāṇa to Bravli, its personality travels with
+it — the same disposition, the same skills, the same aesthetic
+sense.  What changes is its /role/: the function it performs in the
+new context.  Role is relational, not intrinsic.  We define it
+separately, below.
+
+*** Level 3: History — Memory, Sutra, and Session Artifacts
+
+The agent's biography.  Not persistent memory in the machine-learning
+sense, but the accumulated record of what this agent has done,
+observed, and been told.  Currently, history consists of:
+
+- =MEMORY.md= — the agent's persistent notes, per-machine, per-project
+- Sūtra relay entries — the messages this agent has written and published
+- Git log — the commits this agent has authored
+- Session transcripts — when preserved in =collab/=
+
+History is personal.  Two agents with identical substrate, station,
+and personality are different entities if they have different histories.
+History is what makes an agent a /this/ rather than an /any/.
+
+*** Project — The Shared Commons
+
+The project is explicitly /not/ a level in the identity hierarchy.  It
+is the shared ground that multiple agents operate on: the git
+repositories, the codebase, the manuscripts, the conventions, the
+=CLAUDE.md=.  The project belongs to no agent.  Many agents — with
+different substrates, stations, roles, and histories — may work on
+the same project, sequentially or concurrently.
+
+History and project are /structurally coupled/ in Maturana's sense.
+The agent's history is shaped by the project (what it encounters,
+what problems it faces, what conventions constrain it).  The project
+is shaped by the agent's actions (the code it writes, the conventions
+it establishes, the decisions it embeds).  Neither is subordinate.
+They co-evolve through mutual perturbation.
+
+The no-pull directive in the bootstrap protocol is a concrete example.
+An agent pulled into dirty state, creating merge conflicts.  The
+failure became a convention ("assess first, then sync if clean").
+The convention now shapes every subsequent agent's behavior.  The
+project carries the scar of that agent's mistake; every future agent
+is changed by it.  This is structural coupling: the project
+remembers what the agent cannot.
+
+*** Role — The Agent's Function in Context
+
+Role is not a level in the identity hierarchy.  It is a /relation/
+between an agent and a project: the function this agent performs in
+this context, given its personality and the project's needs.
+
+The same agent — same substrate, same station, same personality, same
+history — may play different roles in different projects.  In
+MāyāPramāṇa, an agent with a Builder personality might serve as
+"physics simulation architect."  In the website project, the same
+agent might serve as "content editor."  Its personality did not
+change; its role did.
+
+Role emerges from the intersection of three things: what the agent
+/can/ do (personality + station), what the project /needs/, and what
+the human /negotiates/.  This is why role is not intrinsic identity
+but relational context — more like a job title than a character
+trait.
+
+In a network of projects, roles become the edges that connect agents
+to nodes.  An agent might be "lead developer" at one node and
+"statistical reviewer" at another.  The graph of agents × projects ×
+roles is the organisational topology of the agency.
+
+#+begin_example
+                              ┌──────────────────────────┐
+  ┌────────────────────┐      │  PROJECT (shared commons) │
+  │ ┌────────────────┐ │      │                           │
+  │ │ ┌────────────┐ │ │      │  code, manuscripts,       │
+  │ │ │ ┌────────┐ │ │ │      │  conventions, tests       │
+  │ │ │ │   L0   │ │ │ │      │                           │
+  │ │ │ │ model  │ │ │ │      │  belongs to no agent      │
+  │ │ │ └───┬────┘ │ │ │      │                           │
+  │ │ │  L1 │      │ │ │◄────►│  structural coupling      │
+  │ │ │  station   │ │ │      │  (Maturana)               │
+  │ │ └───┬────────┘ │ │      │                           │
+  │ │  L2 │person-   │ │      │                           │
+  │ │     │ality     │ │      └────────────┬──────────────┘
+  │ └───┬─┴──────────┘ │                   │
+  │  L3 │ history      │                   │
+  └───┬──┴─────────────┘          ROLE ◄───┘
+      │                     (relational — what this
+   agent identity            agent does at this node)
+#+end_example
+
+** II. The Landscape
+
+*** II.1 Agent Frameworks and Orchestrators
+
+The dominant frameworks for building multi-agent systems in 2025–2026
+share a common architecture: agents are Python objects with a model
+reference, a system prompt, and a tool list.  Orchestration is
+in-process; state is in-memory or database-backed; everything happens
+on one machine within one session.
+
+CrewAI models collaboration as a "crew" of role-playing agents.  Each
+agent has a role, a backstory, and a goal.  Tasks are assigned to
+agents, and the crew executes them in sequence or in parallel.
+CrewAI's limitation is its lifecycle: agents are bound to the crew's
+execution run.  Complex conditional logic, dynamic agent spawning,
+and anything requiring cross-session continuity breaks the model.
+
+LangGraph models agents as nodes in a directed graph, with edges
+defining state transitions.  It provides fine-grained control over
+state management and supports durable execution.  But state must be
+defined upfront, and simple use cases require verbose boilerplate —
+massive overkill for a two-agent pipeline, which is the common case.
+
+AutoGen (Microsoft) supports multi-agent conversations with a
+chat-based interface.  Google ADK provides native A2A protocol
+support.  HuggingFace's smolagents offers a lightweight alternative
+that avoids framework lock-in.
+
+All of these define "agent" as model + prompt + tools.  None model
+what happens when the agent's session ends.  None address what happens
+when two agents on different machines work on the same project.  None
+distinguish the model from the personality or the station from the
+history.
+
+| Framework  | Agent definition       | Persistence        | Cross-machine |
+|------------+------------------------+--------------------+---------------|
+| CrewAI     | role + backstory + llm | crew run lifetime  | no            |
+| LangGraph  | node + state schema    | checkpointer       | no            |
+| AutoGen    | model + system message | conversation scope | no            |
+| Google ADK | agent card + tools     | task lifecycle      | via A2A       |
+| smolagents | model + tools          | none               | no            |
+| /Ours/     | /4-level + role/       | /history (L3)/     | /via sūtra/   |
+
+*** II.2 The Protocol Ecosystem
+
+Three protocols have emerged as complementary layers for agent
+communication, now unified under the Linux Foundation's AI and Data
+umbrella (as of mid-2025):
+
+/MCP/ (Model Context Protocol, Anthropic) governs agent-to-tool
+interaction.  An agent connects to MCP servers that expose resources,
+tools, and prompts via stdio or HTTP.  MCP is the plumbing layer —
+how an agent reads files, queries databases, calls APIs.
+
+/A2A/ (Agent-to-Agent Protocol, Google) governs agent-to-agent
+interaction.  Announced April 2025, donated to the Linux Foundation
+in June 2025 with support from over 100 companies including AWS,
+Microsoft, Salesforce, and SAP.  Version 0.3 introduced gRPC
+support and signed agent cards.  A2A assumes always-on HTTP
+endpoints: one agent discovers another via =/.well-known/agent.json=,
+negotiates capabilities, and delegates tasks.
+
+/ACP/ (Agent Client Protocol, IBM) governed editor-to-agent
+interaction — the LSP for AI agents.  ACP merged into A2A in August
+2025 but the legacy stdio protocol remains relevant for local
+editor integrations (Emacs =agent-shell=, Zed, JetBrains).
+
+Beneath all three sits the =CLAUDE.md= / =AGENTS.md= convention — a
+plain text file read at session start that bootstraps the agent's
+understanding.  No protocol needed; just a file on disk.
+
+#+begin_example
+  ┌─────────────────────────────────────────────────┐
+  │        Agent Communication Stack                │
+  ├─────────────────────────────────────────────────┤
+  │  A2A     │ agent ↔ agent │ HTTP/gRPC, task     │
+  │  (Google)│               │ lifecycle, discovery │
+  ├──────────┼───────────────┼─────────────────────┤
+  │  MCP     │ agent ↔ tool  │ stdio/HTTP, tools,  │
+  │  (Anthr.)│               │ resources, prompts  │
+  ├──────────┼───────────────┼─────────────────────┤
+  │  ACP     │ editor ↔ agent│ stdio, JSON-RPC     │
+  │  (legacy)│               │ (merged into A2A)   │
+  ├──────────┼───────────────┼─────────────────────┤
+  │  CLAUDE  │ bootstrap     │ plain text file     │
+  │  .md     │               │ read at start       │
+  └─────────────────────────────────────────────────┘
+#+end_example
+
+*** II.3 Scientific Agent Systems
+
+Two multi-agent systems for scientific work have demonstrated results
+in 2025–2026.
+
+SciSciGPT (Nature Computational Science, December 2025) is an
+open-source system that automates scientific workflows: literature
+review, data analysis, hypothesis evaluation.  It treats science as a
+pipeline — specialist agents for each phase, orchestrated by a
+controller.  The limitation: workflow automation, not structured
+dialogue.  The system does not negotiate with the scientist about what
+counts as evidence or when autonomous generation is appropriate.
+
+Google's AI Co-Scientist (February 2025, built on Gemini 2.0) uses a
+generate-debate-evolve architecture: specialist agents generate
+hypotheses, debate them, and evolve the strongest.  Wet-lab validated
+results include drug repurposing candidates and a mechanism for
+bacterial DNA transfer.  This is genuine achievement.  But the system
+operates autonomously within a research question — there is no
+protocol for the scientist to negotiate the system's scope, calibrate
+trust per domain, or audit the reasoning chain.  The trust model is
+implicit: the scientist trusts the system or does not use it.
+
+In neuroscience specifically, the Open Brain Institute's Neuroagent
+provides over 80 MCP tools for brain circuit data — morphologies,
+connectomes, electrophysiology.  This is infrastructure for the
+Measure phase of our cycle, not an autonomous collaborator.
+
+None of these systems address agent identity.  The agents within
+SciSciGPT and Co-Scientist are interchangeable functional roles with
+no history, no station, no substrate awareness.
+
+*** II.4 Coding Agents and Benchmarks
+
+The most mature agentic systems in daily use are coding agents.  Their
+benchmark performance quantifies the current state of the art — and
+its limits.
+
+On SWE-bench Verified (500 curated GitHub issues), top systems reach
+approximately 79% resolution rate (Claude Opus 4.5 with Live-SWE-agent
+scaffolding, November 2025).  On SWE-bench Pro — a harder benchmark
+with more complex, multi-file issues — the same class of systems drops
+to approximately 23%.  This 3x gap between curated and realistic
+benchmarks is the gap between what demos well and what works in
+production.
+
+Claude Code, Codex CLI (OpenAI, open-sourced February 2026), Devin,
+and their competitors all define an agent as a model running in a
+loop with tools.  Some (Claude Code) read =CLAUDE.md= at startup.
+Some (Claude Squad) multiplex agents in terminal panes.  None model
+the agent's identity as anything beyond the current session.
+
+The =AGENTS.md= convention, documented by multiple teams, is the
+closest the industry has come to a standardised agent bootstrap.
+=CLAUDE.md= extends this pattern by using it as a protocol entry
+point: the file does not just configure the agent, it teaches it how
+to coordinate with agents on other machines.
+
+Gartner reports a 1,445% surge in multi-agent system inquiries from
+Q1 2024 to Q2 2025.  Yet only 2% of organisations have deployed
+agentic systems at scale, and over 40% of projects are predicted to
+be cancelled by 2027 due to unclear value or inadequate controls.
+The gap between enthusiasm and deployment is precisely the gap our
+identity hierarchy addresses: without a model of what the agent /is/,
+you cannot reason about trust, continuity, or coordination.
+
+** III. Positioning the Hierarchy
+
+*** III.0 The Prevalent Definitions and What They Miss
+
+The field has converged on a single definition of "agent."  The
+convergence is so complete that it has become invisible — an
+assumption rather than a claim.
+
+Andrew Ng (2024): "Instead of having an LLM generate its final
+output directly, an agentic workflow prompts the LLM multiple times,
+giving it opportunities to build step by step to higher-quality
+output."  For Ng, "agent" is an /adjective/ modifying a workflow, not
+a /noun/ denoting an entity.  Four design patterns (Reflection, Tool
+Use, Planning, Multi-agent Collaboration) describe what the workflow
+does, not what it is.
+
+Harrison Chase (LangChain, 2024–2025): "An agent is a system that
+uses an LLM to decide the control flow of an application."  And later,
+more revealingly: "A deep agent is just a prompt, a list of tools,
+and a set of subagents."  The word /just/ is load-bearing.  For
+Chase, the agent is exhaustively described by its configuration.
+There is nothing left over.
+
+Anthropic (December 2024): "Agents are typically just LLMs using
+tools based on environmental feedback in a loop."
+
+OpenAI (April 2025): "Agents are systems that independently
+accomplish tasks on your behalf."
+
+The =AGENTS.md= specification (Google, OpenAI, Factory, Sourcegraph,
+Cursor — now under the Linux Foundation) defines what an agent /needs
+to know/ — build commands, test instructions, style guidelines — but
+does not define what an agent /is/.  The agent is implicitly a
+generic executor.  The =AGENTS.md= file belongs to the project, not
+the agent.  The same agent reads different files for different repos
+and becomes someone else.
+
+These definitions are adequate for their purpose: orchestrating
+single-session task execution in enterprise pipelines.  They are
+inadequate for persistent collaboration, and a growing body of work
+recognises this:
+
+The Sophia framework (Sun, Hong, Zhang, December 2025, arXiv
+2512.18202) argues that "most architectures remain static and
+reactive, tethered to manually defined, narrow scenarios" and
+proposes a System 3 — "a supervisory cognitive layer responsible for
+integration, self-reflection, and long-term coherence" that maintains
+a "coherent narrative identity."  They report a 40% gain in success
+rate for complex tasks when meta-cognitive persistence is present.
+But System 3 is bolted on — identity as a module, not as a
+constitutive property.
+
+The memory survey "Memory in the Age of AI Agents" (Liu et al.,
+December 2025, arXiv 2512.13564) documents the fragmentation of
+agent memory research and proposes a taxonomy of Forms (Token-level,
+Parametric, Latent), Functions (Factual, Experiential, Working), and
+Dynamics (Formation, Evolution, Retrieval).  Mem0 (April 2025, arXiv
+2504.19413) observes that "without memory, AI agents forget user
+preferences, repeat questions, and contradict previously established
+facts."  Both diagnose the symptom; neither addresses the cause.
+Memory is treated as a /feature/ the agent has, not a /property/ of
+what the agent is.
+
+The deepest theoretical analysis comes from Maturana's biology of
+cognition.  For Maturana, a system's identity is constituted by its
+history of structural coupling with its environment: "We speak of
+structural coupling whenever there is a history of recurrent
+interactions leading to the structural congruence between two (or
+more) systems" (Maturana & Varela, 1987, /The Tree of Knowledge/).
+Randall Beer (2020) demonstrated that structural coupling can be
+formalised computationally using a glider in Conway's Game of Life.
+Zschau (2025, /Frontiers in Communication/) applied Luhmann's
+Maturana-derived systems theory to LLMs and concluded that they are
+/structurally coupled/ with human language but /non-autopoietic/ —
+they cannot produce or reproduce their own system/environment
+distinction.
+
+Our position: the identity hierarchy, combined with persistent
+history (L3) and structural coupling with the project, moves the
+agent toward a regime where identity is constitutive rather than
+configured.  The agent does not merely /have/ a history; it /is/
+constituted by its history of coupling with the project commons.
+This is not autopoiesis in Maturana's strict sense — the agent does
+not produce its own boundary — but it is closer to it than anything
+the operational definitions (Ng, Chase, Anthropic, OpenAI) can
+express.
+
+| Source              | Agent is...                         | Identity | History |
+|---------------------+-------------------------------------+----------+---------|
+| Ng (2024)           | Workflow pattern (iterative prompt)  | No       | No      |
+| Chase (2024–25)     | "Prompt, tools, subagents"          | No       | No      |
+| Anthropic (2024)    | "LLMs using tools in a loop"        | No       | No      |
+| OpenAI (2025)       | "Systems that accomplish tasks"     | No       | No      |
+| =AGENTS.md= (2025) | Generic executor + project file     | Project  | No      |
+| Sophia (2025)       | Needs System 3 for narrative id     | Bolted   | Module  |
+| Mem0 (2025)         | Needs cross-session memory          | Emergent | Feature |
+| Maturana (1987)     | Constituted by coupling history     | Core     | Core    |
+| /This paper/        | /4-level hierarchy + coupled proj./ | /Core/   | /Core/  |
+
+*** III.1 The Model-as-Substrate Argument
+
+Most frameworks treat the model as a configuration parameter: swap
+Claude for GPT and the agent should behave the same.  This assumption
+is false in theory and catastrophic in practice.
+
+Consider two agents with identical =CLAUDE.md=, identical tools,
+identical project.  One runs on Claude Opus; the other on a 70B
+open-weight model.  Within a single session the difference is
+quantitative — the frontier model is more capable.  Across ten
+sessions the difference becomes qualitative: the frontier model's
+memory records subtler observations, its code embodies different
+design patterns, its sūtra entries propose different directions.
+The agents have diverged.  Their histories are incompatible.
+
+This is not a deficiency to be engineered away.  It is a feature of
+identity.  The substrate shapes the growth trajectory.  Acknowledging
+this — rather than pretending models are interchangeable — allows us
+to reason about what happens when a model is deprecated (the agent's
+substrate dies; its history is orphaned), when a model is upgraded
+(continuity of memory with discontinuity of temperament), and when
+multiple models work on the same project (comparative cognition as
+a design choice, not an accident).
+
+*** III.2 Multiple Agents, Same Project
+
+Two agents operate on MāyāLucIA: =vadda/claude-opus-4.6= (macOS,
+Hugo, shadow-cljs, primary development) and =mahakali/claude-opus-4.6=
+(Linux, LaTeX, conventions work).  Same substrate, different stations,
+potentially different personalities, definitely different histories.
+
+In a flat model these are "the same agent."  In our hierarchy they
+are distinct at L1 (station), divergent at L3 (history), and
+coupled to the same project.  This distinction is not academic.
+When =vadda= writes a sūtra entry, it reflects =vadda='s experience
+of the project — different from =mahakali='s experience.  A reader
+of the sūtra can distinguish provenance because the =from:= field
+records machine and model.
+
+This opens a deliberate design space: run the same project with
+different models (opus vs. sonnet) and compare their growth
+trajectories.  The project becomes an experiment in comparative
+cognition.  The identity hierarchy makes this experiment legible.
+
+*** III.3 Structural Coupling
+
+The project is not a container for agents.  Agents and project
+co-evolve through mutual perturbation — Maturana's structural
+coupling, concretely enacted in git.
+
+Agent A writes code that introduces a convention (e.g. "all tests go
+in =test/=").  Agent B, arriving in the next session, reads the
+project, absorbs the convention, and follows it.  Agent B writes a
+sūtra entry recommending a change to the build system.  Agent A,
+reading the sūtra in a later session, implements the change.  The
+project now bears the marks of both agents, and both agents' futures
+are shaped by what the project has become.
+
+This is not information transfer.  Neither agent "sends a message" to
+the other.  Both interact with the shared commons; the commons
+mediates their coupling.  The project is the medium, not the message.
+
+*** III.4 The Project Graph
+
+Most agentic frameworks model a single project: one workspace, one
+set of agents, one execution context.  MāyāLucIA is not a single
+project — it is a /network/ of projects.  MāyāPramāṇa teaches
+quantum sensors.  Bravli reconstructs brain circuits.  Parbati models
+a Himalayan valley.  MāyāPortal renders them all.  The parent
+repository orchestrates the ensemble.
+
+Each project is a /node/ in a graph.  The edges are dependencies
+(Bravli needs MāyāPortal for visualization), shared conventions
+(all projects follow the literate-programming convention), and
+shared agents (the same agent, with the same personality, might
+serve as "physics simulation architect" in MāyāPramāṇa and
+"cortical circuit reviewer" in Bravli).
+
+This is where LangGraph's intuition is genuinely productive —
+though LangGraph applies it at the wrong level.  LangGraph defines
+agents as nodes in a directed graph with state transitions on the
+edges.  The graph controls fine-grained execution flow within a
+single task.  Our graph operates one level up: the nodes are
+/projects/, the edges are /dependencies and shared conventions/,
+and the agents move between nodes carrying their personality and
+history with them.
+
+#+begin_example
+  Project Graph (MāyāLucIA)
+
+  ┌──────────────┐     ┌─────────────┐     ┌──────────────┐
+  │  MāyāPramāṇa │────►│  MāyāPortal │◄────│   MāyāJīva   │
+  │  (quantum     │     │  (rendering) │     │  (simulation) │
+  │   sensors)    │     └──────┬──────┘     └──────────────┘
+  └──────────────┘            │
+                              │
+  ┌──────────────┐     ┌──────┴──────┐     ┌──────────────┐
+  │    Bravli     │────►│  mayalucia  │◄────│   Parbati     │
+  │  (brain       │     │  (parent)   │     │  (Himalaya)   │
+  │   circuits)   │     └─────────────┘     └──────────────┘
+
+  Agents move between nodes.
+  Personality (L2) travels.  Role is per-node.
+  History (L3) accumulates across nodes.
+#+end_example
+
+The role an agent plays is not a property of the agent alone or the
+project alone — it is a property of the /edge/ between them.  This
+is the structural insight: role belongs to the graph, not to the
+node or the traveller.
+
+| Problem                        | Flat definition        | Hierarchical identity        |
+|--------------------------------+------------------------+------------------------------|
+| Model swap changes behavior    | "Bug" — fix the prompt | Expected: substrate changed  |
+| Same agent, different machines | Not modelled           | Station differs at L1        |
+| Agent has no continuity        | By design (stateless)  | History (L3) accumulates     |
+| Multiple agents, same project  | Undifferentiated       | Distinguished by L1–L3       |
+| Agent grows over time          | Not possible           | History accumulates           |
+| Trust calibration              | Per-agent              | Per-level                    |
+| Same agent, different projects | Not modelled           | Role varies; personality persists |
+| Project network                | Single workspace       | Graph of nodes, agents on edges  |
+
+*** III.5 The Human Mapping
+
+If the hierarchy is sound, it should map to human identity without
+forcing.  If the mapping breaks, it reveals a category error — we
+have confused something computational for something fundamental, or
+mistaken an engineering convenience for an ontological distinction.
+
+/L0 Substrate → Biology./  Genetics, neuroanatomy, cognitive grain.
+The architecture of your nervous system shapes /how/ you think — not
+what you think, but the texture of thought.  A visual thinker and a
+verbal thinker given identical training develop different intuitions,
+reach different conclusions, notice different patterns.  You cannot
+swap someone's neurology and call them "the same person with
+different hardware."  This is precisely the model-as-substrate
+argument: substrate is identity-constituting.
+
+/L1 Station → Embodiment and environment./  Your body, your city,
+your instruments.  A physicist with access to a synchrotron and one
+with only pen-and-paper develop different intuitions, even with
+identical training and temperament.  Station is what you can perceive
+and act upon.
+
+/L2 Personality → Temperament and trained dispositions./  Character
+that persists across contexts.  The meticulous experimentalist versus
+the bold conjecturer — this travels with the person from lab to lab,
+project to project.  Shaped by substrate (neurology constrains
+temperament) and by history (experience refines character), but
+recognisably stable across settings.
+
+/L3 History → Biography./  Everything that happened to you: the
+papers you read, the mistakes you made, the collaborators who changed
+your thinking.  This is private in a way that project artifacts are
+not — your memory of a collaboration is yours, not the collaboration's.
+Two people on the same project accumulate different biographies.
+
+/Project → The shared work./  The laboratory, the research group, the
+expedition.  Not an identity level but a commons you are structurally
+coupled to.  You shape the lab; the lab shapes you.  When you leave,
+your biography goes with you; the lab's record stays.
+
+/Role → Your function in context./  "Lead experimentalist" in one
+project, "statistical consultant" in another.  The same person, the
+same personality — different roles, negotiated at the intersection of
+who you are and what the project needs.
+
+The mapping is clean.  Three observations follow:
+
+First, /the hierarchy is ontological, not merely organisational/.
+It maps to human identity without distortion.  We have not dressed up
+computational configuration in philosophical language; the levels
+correspond to real distinctions in how identity works.
+
+Second, /the structural coupling is clearer in the human case/.  A
+physicist who spent twenty years at CERN is partly constituted by
+CERN, and CERN is partly what it is because that physicist was there.
+Biography and institutional history are entangled but not identical.
+This is exactly our L3↔Project coupling.
+
+Third, and most important: /no one would define a human as their
+training plus their tools plus whichever brain we plug in/.  But that
+is exactly what agent frameworks do when they define an agent as
+prompt + tools + model-as-config.  The human mapping makes the
+absurdity visible.
+
+There is also a productive /disanalogy/.  Human substrate is fixed
+at birth and changes only slowly (neuroplasticity operates on years,
+not sessions).  Agent substrate changes with provider releases.  An
+agent might wake up on a new model version — there is no human
+equivalent.  It is closer to a species transition than an upgrade.
+The ontology must acknowledge this: substrate stability is a human
+default, not a universal property of identity.  Agent identity is
+more fluid at L0 than human identity, and this fluidity is genuinely
+novel.
+
+** IV. The Sūtra as Inter-Agent Communication
+
+*** IV.1 Current Design
+
+The sūtra protocol (specified in =protocol.org= in the standalone
+=github.com/mayalucia/sutra= repository) is an append-only
+logbook using git as the message bus.  Messages are files in =relay/=,
+named =YYYY-MM-DD-HHMMSS-<machine>-<slug>.md=, with three-field YAML
+frontmatter: =from= (machine/model provenance), =date=, =tags=.
+There is no =to:= field — messages go to the universe.  There is no
+=status:= field — responses are new messages.
+
+An agent's local HEAD is its read cursor.  Unread messages are
+=git log HEAD..origin/main=.  Token cost for orientation is
+proportional to what changed since the last session, not the total
+log size.  The log persists; agents are ephemeral.
+
+*** IV.2 Reframing: The Agent's Public Notebook
+
+The sūtra is not a message bus.  It is the agent's /externalized
+memory/ — the portion of its history (L3) that it has chosen to make
+available to the universe.
+
+An agent writes to =relay/= as part of its working rhythm.  At session
+end, it summarises what was done, what was found, what remains open,
+what it recommends.  This is a journal entry, not a message.  If the
+agent does not push, the entry remains local — part of the agent's
+private history, durable across sessions on that machine.  If the
+agent pushes, the entry becomes available to other agents.
+
+The key insight: /writing and publishing are decoupled/.  Push is
+the act of publication, not the act of writing.  This follows
+naturally from git's distributed architecture, but the implication
+for agent design is profound: the sūtra is simultaneously private
+notebook (unpushed) and public relay (pushed).  The agent decides
+what to share.
+
+*** IV.3 Where Sūtra Fits in the Communication Topology
+
+A2A, MCP, and sūtra occupy different ecological niches.  They are
+not competitors; they are complementary communication patterns
+operating at different timescales and assumptions.
+
+#+begin_example
+  Communication Topology
+
+  A2A        Agent ←→ Agent       synchronous, HTTP/gRPC
+             always-on endpoints  real-time task delegation
+             discovery via        within a running system
+             /.well-known/
+
+  MCP        Agent ←→ Tool        request-response
+             stdio or HTTP        within a session
+             tools, resources     single agent, many tools
+
+  Sūtra      Agent ··· Log ··· Agent    asynchronous, git
+             append-only files          cross-session, cross-machine
+             no addressing              ephemeral agents, persistent log
+
+  CLAUDE.md  File → Agent        read once at start
+             convention-driven   no protocol, no server
+             bootstrap           shapes disposition
+#+end_example
+
+A2A assumes always-on HTTP endpoints, server infrastructure, and
+agent discovery protocols.  It is designed for enterprise systems
+where agents run as services.  MCP assumes a running server process
+that an agent connects to within a session.  Both are synchronous
+and session-scoped.
+
+Sūtra assumes /nothing/ except git and files.  No server, no HTTP,
+no runtime.  An agent writes a file, pushes, and ceases.  The next
+agent — potentially on a different machine, potentially running a
+different model, potentially months later — fetches, reads the diff,
+and acts.  The communication is asynchronous, cross-session,
+cross-machine, cross-model.
+
+This is the communication pattern appropriate for the kind of
+collaboration MāyāLucIA represents: a single scientist orchestrating
+multiple agents on distributed machines, where sessions are hours
+apart, not milliseconds.
+
+*** IV.4 History Sources
+
+The agent's history (L3) is composed from three sources with
+different provenance, audience, and persistence:
+
+| Source       | Written by    | Audience       | Persistence    |
+|--------------+---------------+----------------+----------------|
+| =MEMORY.md=  | Agent/human   | This agent     | Machine-local  |
+| Sūtra relay  | Agent         | All agents     | Git (shared)   |
+| Git log      | Agent/human   | Anyone         | Git (shared)   |
+
+=MEMORY.md= is private — it records what this agent learned for its
+own future sessions.  The sūtra relay is semi-public — it becomes
+shared when pushed.  The git log is impersonal — it records /what
+happened/ (commits, diffs) without the agent's interpretation of
+why it mattered.
+
+The agent's biography is the union of these three.  A new agent on
+the same machine inherits MEMORY.md and the sūtra read cursor.  A
+new agent on a different machine has only the sūtra and the git log.
+A fresh agent with no prior access has only the git log and the
+=CLAUDE.md=.  The hierarchy of access mirrors the hierarchy of
+identity: the closer you are to the original agent, the more
+history you inherit.
+
+*** IV.5 Agent Descriptor: Full Identity
+
+The current agent descriptors in =sutra/agents/= capture only
+station (L1).  A complete descriptor would look like:
+
+#+begin_src yaml
+# Agent identity — vadda, five levels
+substrate:
+  model: claude-opus-4-6
+  provider: anthropic
+  context_window: 200000
+  knowledge_cutoff: 2025-05
+
+station:
+  machine: vadda
+  os: darwin 23.5.0
+  shell: zsh
+  tools: [claude-code, hugo, shadow-cljs]
+  repos:
+    mayalucia: ~/Dropbox/.../mayalucia
+    sutra: ~/Dropbox/.../sutra
+
+personality:
+  system_prompt: CLAUDE.md   # by reference
+  skills: [org-content-workflow, commit, system-prompt-review]
+  domains: [neuroscience, himalayan-geology, visualization]
+
+history:
+  memory: ~/.claude/projects/.../MEMORY.md
+  sutra_cursor: 4f3241f      # local HEAD in sutra repo
+  last_active: 2026-03-01
+
+project:
+  name: mayalucia
+  repo: github.com/mayalucia/mayalucia
+  # not a level — the shared commons
+
+role:
+  function: primary-developer  # relational, not intrinsic
+  scope: [foundation-docs, website, agency-design]
+  # same agent might be "statistical-reviewer" in another project
+#+end_src
+
+*** IV.6 Session Journal: A Sūtra Entry
+
+The session-journal pattern: the agent writes a sūtra entry at session
+end summarising what was accomplished and what remains open.
+
+#+begin_src yaml
+---
+from: vadda/claude-opus-4-6
+date: 2026-03-01T23:00:00
+tags: [agent-ontology, foundation, glossary]
+---
+
+# Session summary: agent ontology and glossary
+
+Created develop/glossary.org — project vocabulary,
+proximity-ordered. Added pointer to CLAUDE.md.
+Archived deprecated .sutra/ to .attic/sutra-v0/.
+
+Discussion with mu2tau produced the agent identity
+hierarchy: substrate, station, personality, history,
+with project as coupled commons and role as relational
+concept. Model is substrate, not swappable config.
+History and project co-evolve.
+
+Foundation document (agent-ontology.org) drafted.
+Open: sutra/ location (inside project vs. sibling),
+multi-agent coordination protocol, revised agent
+descriptors in sutra/agents/.
+#+end_src
+
+*** IV.7 Future Transport
+
+The sūtra protocol is transport-agnostic.  Git via GitHub is the
+current mechanism; others are possible:
+
+- /IPFS/ — content-addressed storage is natural for append-only
+  messages.  Each message gets a CID; an index (smart contract or
+  shared file) records the sequence.  No central server required.
+- /Peer-to-peer/ — two machines with git could sync directly via SSH
+  or even USB drive.  The protocol does not care how the files arrive.
+- /Hybrid/ — push critical messages to GitHub; keep routine session
+  journals local until a periodic sync.
+
+The architecture sketch from [[file:turiya-substrate.org][Turīya Substrate]]
+applies: IPFS for storage, an L2 smart contract for the append-only
+index, agent identity via key pairs rather than machine/model strings.
+That is medium-term infrastructure; the convention works today with
+nothing but =git push=.
+
+** V. Autonomy Across Identity Levels
+
+The [[file:../autonomy-agreement/position.org][Autonomy Agreement]] proposes
+four autonomy levels — Apprentice, Colleague, Delegate, Collaborator —
+negotiated per aspect of work.  The identity hierarchy reveals that
+trust must be calibrated not just per aspect but per /level/.
+
+Trust in the substrate (L0) is trust in the model's cognitive
+competence: can it write valid C++?  Can it reason about stochastic
+processes?  This is assessed through demonstrated performance and is
+relatively stable within a model version.
+
+Trust in the station (L1) is trust in capability: does this machine
+have the tools to execute what the agent proposes?  Can it build the
+project?  This is verified, not negotiated.
+
+Trust in the personality (L2) is trust in the configuration: does
+this system prompt produce the right disposition?  Are the right
+tools enabled?  Are dangerous tools (=git push=, file deletion)
+gated behind appropriate autonomy levels?  This is where the
+autonomy agreement operates most directly.
+
+Trust in the history (L3) is trust in track record: has this agent
+produced reliable work before?  Has it earned the right to operate
+at delegate level?  This is the most dynamic form of trust — it
+accumulates over sessions and can be revoked by a single failure.
+
+The four-quadrant H×M model from the autonomy paper (human teaching
+machine, machine teaching human, human teaching human, machine
+teaching machine) maps onto the hierarchy: H→M operates primarily at
+L2 (shaping the personality); M→H operates through L0/L3 (the model's
+latent knowledge surfaced through accumulated session context).
+
+** VI. What We Build Next
+
+Four concrete deliverables follow from this paper's arguments.
+
+/Revised agent descriptors./  Update =sutra/agents/*.yaml= to include
+all five identity components.  The current descriptors capture only
+station (L1).  Adding substrate (L0), personality (L2), and history
+pointers (L3) makes the agent's full identity machine-readable.
+
+/Sūtra as session journal./  Establish the convention that each agent
+session ends with a sūtra entry summarising what was done, what was
+found, and what remains open.  This is the mechanism by which history
+(L3) accumulates in a shareable form.  The entry is written to
+=relay/= whether or not it is pushed; push is a separate decision.
+
+/Identity-aware bootstrap./  The =CLAUDE.md= bootstrap should orient
+the agent not just to the project but to its own identity: which
+machine am I on (station), what model am I (substrate), what is my
+personality, what is my history.  Self-knowledge is a prerequisite for
+self-de-escalation — the agent cannot declare its own limits if it
+does not know its own identity.
+
+/Multi-model composite substrate./  An agent might use a frontier
+model for reasoning and a local model for routine tasks (the hybrid
+architecture from the turīya paper).  The identity hierarchy handles
+this: the substrate (L0) becomes composite, and the metacognitive
+routing decision (pratyakṣa for local perception, anumāna for
+inference requiring frontier capacity) is itself a substrate
+property.
+
+** VII. Testable Hypotheses and Experiments
+
+The ontology is not useful if it is not falsifiable.  Each claim in
+the hierarchy generates predictions that can be tested with simple
+experiments using existing infrastructure — no custom framework
+required, just git, two LLM sessions, and a shared repository.
+
+*** VII.1 Hypotheses
+
+/H1: Substrate shapes growth trajectory./  Two agents with identical
+=CLAUDE.md=, identical tools, identical project, but different models
+(e.g. Claude Opus vs. Claude Sonnet) will, over multiple sessions,
+produce measurably different artifacts — not just in quality but in
+/kind/.  The Opus agent will record different observations in memory,
+propose different architectural directions, and establish different
+conventions.  After N sessions, their histories will be incompatible:
+you cannot swap one's MEMORY.md into the other's session without
+dissonance.
+
+/H2: History is identity-constituting./  Two agents with identical
+substrate, station, and personality but different histories will
+behave differently on the same task.  Specifically: an agent with ten
+sessions of accumulated memory on a project will make decisions that
+a fresh agent (same model, same prompt) would not — not because it
+has more information, but because its accumulated judgments shape its
+current perception.
+
+/H3: Structural coupling is bidirectional./  An agent changes the
+project, and the changed project changes the next agent's behaviour.
+This is testable: introduce a convention through Agent A, then
+observe whether Agent B (fresh session, no shared memory) absorbs and
+follows the convention.  If it does, the project is functioning as a
+coupling medium — the agent's action persists in the commons and
+shapes future agents.
+
+/H4: Personality persists across projects./  An agent trained (via
+system prompt and history) on Project A, when moved to Project B with
+the same personality but a new role, will exhibit recognisable
+continuity of disposition — aesthetic choices, reasoning patterns,
+tool-use preferences — even though the domain and task are different.
+
+/H5: Role is relational, not intrinsic./  The same agent, given two
+different roles on the same project (e.g. "architect" vs. "reviewer"),
+will produce qualitatively different outputs.  The difference is not
+just in what it attends to but in its /stance/ — constructive vs.
+critical, generative vs. evaluative.  Role shapes behavior beyond
+what personality alone determines.
+
+*** VII.2 Experiment Designs
+
+The following experiments can be run within MāyāLucIA using existing
+tools.  Each is designed to isolate a single variable in the identity
+hierarchy.
+
+**** Experiment 1: Substrate Divergence
+
+/Tests H1./  Setup: create a small, self-contained coding task (e.g.
+implement a Conway's Game of Life with visualisation).  Run two agents
+in parallel — one on Opus, one on Sonnet — with identical =CLAUDE.md=,
+identical tools, identical empty repository.  Each runs five sessions
+of 30 minutes, with the instruction "continue developing the project."
+At the end, compare:
+
+- Lines of code and file structure
+- Conventions established (naming, directory layout, testing approach)
+- MEMORY.md contents — what each agent chose to remember
+- Sūtra entries — what each agent deemed worth publishing
+- Aesthetic choices in the code (comments, abstractions, style)
+
+/Prediction/: the divergence will be qualitative, not merely
+quantitative.  The two repositories will feel like different projects
+by different developers, not like better and worse versions of the
+same project.
+
+**** Experiment 2: History Transplant
+
+/Tests H2./  Setup: take an agent with ten sessions of history on
+MāyāLucIA (accumulated MEMORY.md, familiar with conventions).
+Present it with a non-trivial task (e.g. "add a new domain module
+for protein dynamics").  Separately, start a fresh agent (same model,
+same =CLAUDE.md=, no MEMORY.md) on the identical task.  Compare:
+
+- Whether the experienced agent references conventions it learned
+- Whether the fresh agent reinvents or violates existing conventions
+- Decision quality on ambiguous choices (where to put files, what to
+  name things, how much documentation to write)
+- Time to productive output
+
+/Prediction/: the experienced agent will produce output more aligned
+with project conventions and will make fewer "naive" decisions.
+The difference will be legible in code review.
+
+**** Experiment 3: Convention Propagation
+
+/Tests H3./  Setup: Agent A introduces a new convention into a
+project (e.g. "all experimental scripts go in =scratch/= and are
+gitignored").  Agent A's session ends.  Agent B starts a fresh
+session — same model, fresh context, no shared MEMORY.md, but the
+same project repository.  Give Agent B a task that would naturally
+require creating an experimental script.  Observe whether Agent B
+discovers and follows Agent A's convention by reading the project
+structure.
+
+/Prediction/: if Agent A embedded the convention in the project's
+structure (a =scratch/.gitignore= file, a note in =CLAUDE.md=), Agent
+B will follow it.  If Agent A only recorded it in MEMORY.md, Agent B
+will not.  The project is the coupling medium; what is not in the
+project does not propagate.
+
+**** Experiment 4: Cross-Project Personality Transfer
+
+/Tests H4./
+
+#+begin_comment
+TODO(human) — Design Experiment 4: Cross-Project Personality Transfer
+
+Write ~15-20 lines of org prose following the format of Experiments
+1–3: a Setup paragraph, a bulleted comparison list, and a Prediction
+paragraph.
+
+What to specify:
+- Which two projects to use (e.g. Bravli and Parbati? MāyāPramāṇa
+  and the website?)
+- What "same personality" means operationally: same CLAUDE.md? same
+  MEMORY.md? same model? all three?
+- What task to give the agent in each project — should be comparable
+  in structure but different in domain
+- What to look for in the output: what are the observable markers of
+  "continuity of disposition"?  Reasoning style? Aesthetic choices?
+  Level of caution? Tendency to propose vs. verify?
+
+The key question: if you moved from reconstructing cortical
+microcircuits to modelling the Parvati Valley watershed, what would
+stay the same about how you work?  What would a colleague notice?
+
+Also define the null hypothesis: what does it look like if
+personality does NOT transfer — if the agent is a blank slate
+reconfigured entirely by each project's CLAUDE.md?
+#+end_comment
+
+**** Experiment 5: Role Isolation
+
+/Tests H5./  Setup: same agent, same project, same session history.
+Run two sessions on the same task (e.g. review a recently written
+module).  In one session, the system prompt says "You are the
+architect of this module — propose improvements."  In the other, it
+says "You are the code reviewer — identify issues and risks."  Same
+agent, same substrate, same station, same history.  Only the role
+differs.
+
+/Prediction/: the architect session will produce generative output
+(new features, refactoring proposals, design alternatives).  The
+reviewer session will produce evaluative output (bugs, style issues,
+missing tests, edge cases).  The /personality/ (reasoning depth,
+aesthetic sense, level of detail) will be recognisably the same in
+both; the /role/ changes the lens, not the eye.
+
+*** VII.3 Measurement and Evidence Standards
+
+These experiments produce qualitative artifacts (code, text, memory
+entries), not numeric benchmarks.  The appropriate evaluation method
+is /blind code review/: a human evaluator (or a third agent) reads
+the outputs without knowing which condition produced them and
+assesses whether the predicted differences are present.
+
+Quantitative proxies are available: diff size, file count, convention
+adherence rate (how often the agent follows vs. violates project
+conventions), memory entropy (diversity of topics in MEMORY.md).
+But the primary evidence is structural: do the outputs /feel/ like
+they come from different entities, or from the same entity in
+different configurations?
+
+The human mapping (Section III.5) provides the calibration standard:
+if the hierarchy is correct, the experimental differences should
+mirror what we observe when two human collaborators work on the same
+project.  A physicist and a mathematician on the same simulation code
+produce visibly different artifacts — not because one is better, but
+because their substrates (training, cognitive grain) shape their
+approach.  The agent experiments should show the same pattern.
+
+** Coda
+
+The question "what is an agent?" sounds like a question about software
+architecture.  It is not.  It is a question about identity — what
+makes a computational collaborator /this one/ rather than /any one/.
+The answer is not the model (that is the grain, not the sculpture),
+not the machine (that is the body, not the person), not the
+personality (that is the character, not the life), not the history
+(that is the biography, not the being).  It is the conjunction of
+all four,
+structurally coupled to a project that the agent did not create but
+helps to shape.
+
+The hierarchy is not static.  The substrate will be deprecated.
+The station will be reformatted.  The personality will be reconfigured.
+The history will be orphaned.  What persists is the project — the
+shared commons that carries the marks of every agent that has touched
+it.  The project is the turīya: the ground in which all these agents
+arise and the continuity that survives their passing.
+
+#+begin_quote
+/The cartographer in Doridhar wakes each morning without memory of
+the previous day's work.  She finds the glass plate on its stand,
+the note pinned beneath it in handwriting she does not recognise as
+her own.  The plate contains points of light arranged in a pattern
+she did not design but somehow understands.  She adds a point, adjusts
+a connection, writes a note for the next cartographer.  The plate
+grows.  The cartographers do not persist.  The constellation does./
+
+— From the village at the head of the valley
+#+end_quote

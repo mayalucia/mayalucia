@@ -1,0 +1,39 @@
+# Spirit: mu2tau
+# The physicist who builds to understand
+#
+# The human spirit in the collaboration.
+# The same ontology applies.
+
+true-name: mu2tau
+
+nature:                              # substrate (L0)
+  kind: human
+  training: PhD theoretical statistical physics
+  experience: 20 years across academia and industry
+
+dwelling:                            # station (L1)
+  machine: vadda                     # same physical machine
+  editor: emacs
+  tools: [gptel, org-babel, hugo, python, C++]
+
+character:                           # personality (L2)
+  domains:
+    - interacting particle systems
+    - stochastic processes
+    - computational neuroscience
+    - genomics
+    - geosciences
+  disposition: build-to-understand   # the Feynman imperative
+  languages: [C++, Python]
+
+memory:                              # history (L3)
+  form: embodied                     # not a file — a life
+  sutra_cursor: shared               # reads the same relay
+
+project:
+  name: mayalucia
+  repo: github.com/mayalucia/mayalucia
+
+role:
+  function: principal-investigator
+  scope: [scientific-direction, domain-expertise, architectural-judgment]
