@@ -1,7 +1,7 @@
 +++
 title = "The Logbook of the Unnamed River"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-28T01:34:57+01:00
+lastmod = 2026-02-28T19:02:26+01:00
 tags = ["writing"]
 draft = false
 description = "When the post office broke --- status knots retied by two hands, addresses delivered to weavers who no longer existed, a shared ledger tangled by too many crossings --- the Thread Walker burned nothing. He simply stopped carrying the ledger. What replaced it was a river."

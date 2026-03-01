@@ -1,7 +1,7 @@
 +++
 title = "The Instrument Maker's Rest"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-28T01:34:57+01:00
+lastmod = 2026-02-28T19:02:26+01:00
 tags = ["writing"]
 draft = false
 description = "In a workshop in Sangla, in the Baspa valley, a woman who is not a weaver makes the things that weavers need in order to see. Seven instruments for seven functions, each self-calibrating for any valley, at any altitude, in any season."

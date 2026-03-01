@@ -1,7 +1,7 @@
 +++
 title = "The Constellation of Doridhar"
 author = ["A Human-Machine Collaboration"]
-lastmod = 2026-02-28T01:34:57+01:00
+lastmod = 2026-02-28T19:02:26+01:00
 tags = ["writing"]
 draft = false
 description = "In the village of the amnesiac cartographers, at the head of a valley where the river narrows to a thread between walls of gneiss, a glass plate holds the project as a whole --- four crystals, a ghostly diamond, provinces that drift and settle like charged particles. The ideal viewer encounters it without memory of how it was made."
