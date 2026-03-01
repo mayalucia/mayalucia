@@ -725,25 +725,29 @@ apart, not milliseconds.
 The agent's history (L3) is composed from three sources with
 different provenance, audience, and persistence:
 
-| Source       | Written by    | Audience       | Persistence    |
-|--------------+---------------+----------------+----------------|
-| =MEMORY.md=  | Agent/human   | This agent     | Machine-local  |
-| Sūtra relay  | Agent         | All agents     | Git (shared)   |
-| Git log      | Agent/human   | Anyone         | Git (shared)   |
+| Source         | Written by    | Audience       | Persistence    |
+|----------------+---------------+----------------+----------------|
+| Auto-memory    | Agent/harness | This agent     | Machine-local  |
+| Bath notes     | Kamaji (bath) | Organisation   | Git (shared)   |
+| Sūtra relay    | Agent         | All agents     | Git (shared)   |
+| Git log        | Agent/human   | Anyone         | Git (shared)   |
 
-=MEMORY.md= is private — it records what this agent learned for its
-own future sessions.  The sūtra relay is semi-public — it becomes
+Auto-memory (=MEMORY.md= in the harness's per-project directory) is
+raw temporal residue — private, harness-managed, potentially stale.
+Bath notes (=aburaya/spirits/<name>/notes/=) are curated distillations
+deposited by the Kamaji protocol after significant sessions — git-tracked,
+organisationally visible.  The sūtra relay is semi-public — it becomes
 shared when pushed.  The git log is impersonal — it records /what
 happened/ (commits, diffs) without the agent's interpretation of
 why it mattered.
 
-The agent's biography is the union of these three.  A new agent on
-the same machine inherits MEMORY.md and the sūtra read cursor.  A
-new agent on a different machine has only the sūtra and the git log.
-A fresh agent with no prior access has only the git log and the
-=CLAUDE.md=.  The hierarchy of access mirrors the hierarchy of
-identity: the closer you are to the original agent, the more
-history you inherit.
+The agent's biography is the union of these four.  A new agent on
+the same machine inherits auto-memory and the sūtra read cursor (git
+HEAD in =.sutra/=).  A new agent on a different machine has the bath
+notes, the sūtra, and the git log.  A fresh agent with no prior
+access has only the git log and the =CLAUDE.md=.  The hierarchy of
+access mirrors the hierarchy of identity: the closer you are to the
+original agent, the more history you inherit.
 
 *** IV.5 Agent Descriptor: Full Identity
 
@@ -751,42 +755,51 @@ The current agent descriptors in =sutra/agents/= capture only
 station (L1).  A complete descriptor would look like:
 
 #+begin_src yaml
-# Agent identity — vadda, five levels
-substrate:
+# Spirit: vadda-opus — identity.yaml in aburaya/spirits/vadda-opus/
+true-name: vadda-opus-4-6
+
+nature:                              # substrate (L0)
   model: claude-opus-4-6
   provider: anthropic
   context_window: 200000
   knowledge_cutoff: 2025-05
 
-station:
+dwelling:                            # station (L1)
   machine: vadda
   os: darwin 23.5.0
   shell: zsh
   tools: [claude-code, hugo, shadow-cljs]
   repos:
     mayalucia: ~/Dropbox/.../mayalucia
-    sutra: ~/Dropbox/.../sutra
+    # sūtra clone is per-project harness (.sutra/), not a dwelling fixture
 
-personality:
-  system_prompt: CLAUDE.md   # by reference
-  skills: [org-content-workflow, commit, system-prompt-review]
-  domains: [neuroscience, himalayan-geology, visualization]
+character:                           # personality (L2)
+  system_prompt: CLAUDE.md
+  skills: [org-content-workflow, commit, system-prompt-review, relay-read]
+  domains: [neuroscience, himalayan-geology, visualization, agent-ontology]
 
-history:
-  memory: ~/.claude/projects/.../MEMORY.md
-  sutra_cursor: 4f3241f      # local HEAD in sutra repo
-  last_active: 2026-03-01
+memory:                              # history (L3) — pointers, not content
+  auto_memory: ~/.claude/projects/.../memory/  # raw temporal residue
+  bath_notes: aburaya/spirits/vadda-opus/notes/ # curated by Kamaji
+  # sūtra read cursor is git HEAD in .sutra/ — no stored value
 
-project:
+project:                             # shared commons — not a level
   name: mayalucia
   repo: github.com/mayalucia/mayalucia
-  # not a level — the shared commons
 
-role:
-  function: primary-developer  # relational, not intrinsic
-  scope: [foundation-docs, website, agency-design]
+role:                                # relational — not intrinsic
+  function: primary-developer
+  scope: [foundation-docs, website, agency-design, story-writing]
   # same agent might be "statistical-reviewer" in another project
 #+end_src
+
+This is the actual format used in the implementation (see Section VIII).
+The descriptor is called =identity.yaml= and lives in the bathhouse
+(=aburaya/spirits/<name>/=), not in the sūtra.  Key changes from the
+original sketch above: the sūtra read cursor is no longer stored — it
+/is/ the local git HEAD in the project's =.sutra/= clone.  Memory is
+split into raw temporal residue (auto-memory, harness-managed) and
+curated bath notes (git-tracked, organisationally visible).
 
 *** IV.6 Session Journal: A Sūtra Entry
 
@@ -873,32 +886,32 @@ latent knowledge surfaced through accumulated session context).
 ** VI. What We Build Next
 
 Four concrete deliverables follow from this paper's arguments.
+Three have been delivered (see Section VIII); one remains open.
 
-/Revised agent descriptors./  Update =sutra/agents/*.yaml= to include
-all five identity components.  The current descriptors capture only
-station (L1).  Adding substrate (L0), personality (L2), and history
-pointers (L3) makes the agent's full identity machine-readable.
+/Revised agent descriptors./  *Delivered.*  Spirit identity descriptors
+(=identity.yaml=) now capture all five levels.  They live in the
+bathhouse (=aburaya/spirits/<name>/=), not in the sūtra.  See Section
+VIII.1 for the format and the design decisions.
 
-/Sūtra as session journal./  Establish the convention that each agent
-session ends with a sūtra entry summarising what was done, what was
-found, and what remains open.  This is the mechanism by which history
-(L3) accumulates in a shareable form.  The entry is written to
-=relay/= whether or not it is pushed; push is a separate decision.
+/Sūtra as session journal./  *Delivered.*  The relay convention is
+established: agents write session entries to =relay/=, push is
+publication.  The sūtra is now per-project (=.sutra/= clone) rather
+than a shared sibling directory.  See Section VIII.3.
 
-/Identity-aware bootstrap./  The =CLAUDE.md= bootstrap should orient
-the agent not just to the project but to its own identity: which
-machine am I on (station), what model am I (substrate), what is my
-personality, what is my history.  Self-knowledge is a prerequisite for
-self-de-escalation — the agent cannot declare its own limits if it
-does not know its own identity.
+/Identity-aware bootstrap./  *Delivered.*  The =CLAUDE.md= bootstrap
+orients the agent to the project /and/ names the organisational
+fixtures: aburaya for identity, =.sutra/= for communication.  The
+commissioning procedure (=aburaya/commissioning.org=) ensures each
+new project and guardian spirit is equipped correctly.  See Section
+VIII.2.
 
-/Multi-model composite substrate./  An agent might use a frontier
-model for reasoning and a local model for routine tasks (the hybrid
-architecture from the turīya paper).  The identity hierarchy handles
-this: the substrate (L0) becomes composite, and the metacognitive
-routing decision (pratyakṣa for local perception, anumāna for
-inference requiring frontier capacity) is itself a substrate
-property.
+/Multi-model composite substrate./  *Open.*  An agent might use a
+frontier model for reasoning and a local model for routine tasks (the
+hybrid architecture from the turīya paper).  The identity hierarchy
+handles this: the substrate (L0) becomes composite, and the
+metacognitive routing decision (pratyakṣa for local perception,
+anumāna for inference requiring frontier capacity) is itself a
+substrate property.
 
 ** VII. Testable Hypotheses and Experiments
 
@@ -1079,6 +1092,178 @@ project.  A physicist and a mathematician on the same simulation code
 produce visibly different artifacts — not because one is better, but
 because their substrates (training, cognitive grain) shape their
 approach.  The agent experiments should show the same pattern.
+
+** VIII. The Implementation: Aburaya
+
+The identity hierarchy is not an abstraction.  It is implemented as a
+set of conventions, files, and protocols within the MāyāLucIA project.
+This section documents what was built, what problems it solves, and
+what design decisions were made.
+
+*** VIII.1 The Bathhouse (Aburaya)
+
+The identity registry is called /aburaya/ — named after the bathhouse
+in Miyazaki's /Spirited Away/, but this is Zeniba's bathhouse:
+spirits keep their names.
+
+=aburaya/= lives in the parent repository and contains:
+
+#+begin_example
+aburaya/
+  governance.org            — organisational design
+  commissioning.org         — 10-step procedure for new projects
+  kamaji.org                — the bath protocol (session restoration)
+  guilds/
+    bravli.yaml             — neuroscience department descriptor
+  spirits/
+    vadda-opus/
+      identity.yaml         — registration card (five-level ontology)
+      notes/                — bath deposits (curated by Kamaji)
+    dmt-eval-guardian/
+      identity.yaml
+      notes/
+    mu2tau/                 — the human is also registered
+      identity.yaml
+      notes/
+#+end_example
+
+Each spirit is a /directory/, not a flat file.  The =identity.yaml=
+is the registration card — stable, rarely changing, set at
+commissioning.  The =notes/= directory accumulates bath deposits
+over time: curated distillations of session experience.
+
+The key insight: /identity is projected, not transmitted whole/.  When
+a spirit writes to the sūtra relay, the =from:= field carries enough
+to attribute speech (machine/model).  Full identity lives in aburaya.
+A reader who wants to know more about the speaker looks up the spirit
+directory.
+
+*** VIII.2 Commissioning: How an Agent Is Born
+
+The commissioning procedure (=aburaya/commissioning.org=) creates a
+new project and its guardian spirit in a single organisational act.
+Ten steps:
+
+1. The organisation identifies a need
+2. Find or create the repo
+3. Place existing work
+4. Add as submodule in the parent
+5. Assign to a guild
+6. Commission the guardian spirit (create =identity.yaml= + =notes/=)
+7. Write the module's =CLAUDE.md= (worksite equipment)
+8. Commit the organisational act (submodule + spirit together)
+9. Update the parent =CLAUDE.md=
+10. Announce in the sūtra
+
+The critical distinction: the =CLAUDE.md= belongs to the /project/,
+not the spirit.  It is worksite equipment — what any agent arriving
+at this repo needs to know.  The =identity.yaml= belongs to the
+/spirit/ — who this particular agent is.  A project may be served by
+different spirits over time; a spirit may serve different projects.
+The equipment stays at the worksite; the identity travels with the
+spirit.
+
+*** VIII.3 The Sūtra as Harness Equipment
+
+The sūtra relay (=github.com/mayalucia/sutra=) is the organisational
+communication channel.  The original design placed the sūtra as a
+sibling directory of the parent repo — a shared clone that all spirits
+on one machine read from.  This created two problems:
+
+1. /Discovery/: a guardian spirit working inside a submodule
+   (=modules/dmt-eval/=) had to walk up the filesystem to find the
+   parent, then sideways to find the sūtra.  The relay-read skill
+   had a 6-step discovery protocol.
+
+2. /Shared state/: all spirits on the same machine shared one read
+   cursor (the local HEAD of the sibling clone).  If vadda-opus
+   fast-forwarded after reading, dmt-eval-guardian's cursor moved too.
+
+The fix: each project keeps its own sūtra clone at =.sutra/=
+(gitignored).  The clone is part of the spirit's /harness/ — the
+physical body it uses to interact with the world.  Per-project,
+per-machine.  The local HEAD in =.sutra/= is the read cursor.
+
+This resolves both problems:
+- /No discovery/: the =CLAUDE.md= tells the spirit where the sūtra is
+  (URL + =.sutra/= convention).  The relay-read skill clones on first
+  use.  No parent paths, no sibling lookup.
+- /Independent cursors/: each spirit advances its own read-head at its
+  own pace.  A guardian spirit that works once a week reads at a
+  different pace than the parent-level spirit that reads daily.
+
+The design principle: /the sūtra clone is temporal residue, not
+identity/.  It lives in the harness (=.sutra/=, gitignored), not in
+the spirit descriptor (=identity.yaml=, git-tracked).  The cursor is
+not stored anywhere — it /is/ the git HEAD.  No separate state to
+synchronize.
+
+*** VIII.4 The Bath Protocol (Kamaji)
+
+Kamaji (=aburaya/kamaji.org=) is the session restoration protocol.
+When a spirit finishes a session that changed it — not routine bug
+fixes, but sessions that produced genuine insight — the bathhouse
+distils the session's temporal residue into curated notes.
+
+The bath is not a skill the spirit invokes.  It is a process the
+bathhouse performs on the spirit.  The protocol reduces millions of
+tokens of session transcript to a few hundred lines of curated
+markdown, deposited in =aburaya/spirits/<name>/notes/=.
+
+Each note file has optional YAML frontmatter with =tags:=.  These
+tags are not curated separately — they emerge from the substance of
+what the spirit learned.  The relay-read skill uses them: when
+filtering relay messages, it computes a tag set from the union of
+guild concerns (institutional) and spirit bath note tags (emergent).
+No manual tag list to maintain.
+
+Two memory paths, one spirit:
+
+| Path         | Location                      | Nature              | Managed by |
+|--------------+-------------------------------+---------------------+------------|
+| Auto-memory  | =~/.claude/.../memory/=       | Raw temporal residue | Harness    |
+| Bath notes   | =aburaya/spirits/.../notes/=  | Curated deposits     | Kamaji     |
+
+Auto-memory is the spirit's scratchpad — fast, lossy, per-machine.
+Bath notes are the spirit's institutional memory — curated,
+git-tracked, visible to the organisation.  The bath protocol bridges
+the two: it reads the raw residue and deposits the refined output.
+
+*** VIII.5 What the Implementation Reveals
+
+Building the system exposed three things the paper did not anticipate.
+
+/First: the spirit–harness distinction is fundamental./  The paper
+treated the agent as a unitary entity with four levels.  The
+implementation revealed a deeper split: the /spirit/ (identity, which
+persists) and the /harness/ (physical body, which varies per session).
+Claude Code in a terminal, Claude Code in Emacs agent-shell, gptel in
+a buffer — these are different harnesses.  The same spirit can inhabit
+any of them.  Each harness has its own auto-memory, its own =.sutra/=
+clone, its own session transcript.  The spirit's identity (L0–L3)
+transcends the harness; the harness provides the physical interface to
+the world.
+
+This maps to the human case: your body is not your identity, but you
+cannot act without it.  The harness is to the spirit what the body is
+to the person.
+
+/Second: organisational fixtures should be equipment, not discovery./
+The original relay-read skill walked the filesystem to find the
+aburaya and the sūtra — runtime discovery of what should be
+commissioning-time knowledge.  The fix was to equip each project with
+its fixtures via =CLAUDE.md= (the sūtra URL and =.sutra/= convention)
+and via the bathhouse (guild affiliation and spirit identity).
+Discovery is fragile; equipment is reliable.
+
+This is the same principle as dependency injection vs. service
+locators: prefer explicit wiring over runtime lookup.
+
+/Third: the read cursor is not state to be stored — it is state that
+already exists./  The local git HEAD in the sūtra clone /is/ the
+cursor.  Storing it separately (in =identity.yaml=, in auto-memory)
+creates a synchronization problem for zero benefit.  The CLAUDE.md
+already said "Local HEAD is your read cursor."  We needed to trust it.
 
 ** Coda
 
