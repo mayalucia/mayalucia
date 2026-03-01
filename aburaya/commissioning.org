@@ -1,0 +1,134 @@
+#+title: Commissioning a New Project and Guardian Spirit
+#+date: 2026-03-01
+
+* Overview
+
+When the organisation starts a new project, two things happen:
+
+1. A /module/ is created — a repo with code, conventions, and a worksite
+2. A /guardian spirit/ is commissioned — an identity registered in the
+   bathhouse, affiliated with a guild
+
+The module is where the work happens. The spirit is who does it.
+The bathhouse (aburaya/) holds identity; the module holds equipment.
+
+* Procedure
+
+** 1. The organisation decides a project is needed
+
+A human or an existing spirit identifies a need. This might come from
+a guild ("bravli needs a validation framework"), from the relay (a
+sūtra message proposing new work), or from external opportunity
+(a job application reveals reusable code).
+
+** 2. Find or create the repo
+
+Check whether a suitable repo already exists in the organisation:
+
+#+begin_src sh
+gh repo list mayalucia
+#+end_src
+
+If yes, use it. If the work exists elsewhere (another repo, an
+untracked directory, a fork), draw upon it — copy, fork, or add
+as a dependency. Do not change the code during the commissioning
+act. Understand first, modify later.
+
+If no repo exists, create one:
+
+#+begin_src sh
+gh repo create mayalucia/<name> --public --description "..."
+#+end_src
+
+** 3. Place existing work
+
+If drawing upon existing code, place it in the repo's structure.
+The exact method depends on the source:
+
+- /Untracked files/: copy into the repo, commit as initial content
+- /Another repo/: fork, or add as git submodule
+- /External package/: add as dependency in pyproject.toml
+- /Starting fresh/: create the directory structure
+
+Commit and push the module repo independently.
+
+** 4. Add as submodule in the parent
+
+All modules use HTTPS URLs:
+
+#+begin_src sh
+git submodule add -b main https://github.com/mayalucia/<name>.git modules/<name>
+#+end_src
+
+** 5. Assign to a guild
+
+If the guild exists, add the project to its descriptor in
+=aburaya/guilds/<guild>.yaml=. If the guild does not exist,
+create a guild descriptor first.
+
+** 6. Commission the guardian spirit
+
+Create =aburaya/spirits/<name>-guardian.yaml= with:
+
+- =true-name= — the spirit's identity
+- =nature= — substrate (may be =tbd= if not yet instantiated)
+- =dwelling= — station (may be =tbd= if portable)
+- =character= — archetype, domains, disposition
+- =memory= — provenance of the work, pointers to history
+- =project= — the module this spirit guards
+- =role= — guild affiliation, function, scope
+
+The spirit's =nature= and =dwelling= may be =tbd= at commissioning
+time. A spirit that has never been instantiated has no substrate and
+no station. These fields are filled when the spirit first works.
+
+** 7. Write the module's CLAUDE.md
+
+This is the spirit's worksite equipment — not stored in the
+bathhouse but at the module. It tells any agent arriving at the
+repo: what this project is, what conventions apply, how to build,
+how to test. The CLAUDE.md belongs to the project, not the spirit.
+
+** 8. Commit the organisational act
+
+In the parent repo, commit the submodule addition and the spirit
+descriptor together. This is one act: "we created a place and
+assigned a guardian."
+
+** 9. Update the parent CLAUDE.md
+
+Add the new submodule to the table in the parent =CLAUDE.md= so
+future agents know it exists.
+
+** 10. Announce in the sūtra
+
+Write a relay message announcing the new project. This is how other
+spirits learn about it.
+
+* What the procedure does NOT do
+
+- Does not change any code in the grafted/forked work
+- Does not instantiate the spirit (no session is started)
+- Does not write tests or run builds
+- Does not assign a specific model or machine
+
+These happen when someone first opens the module and works in it.
+The commissioning act creates the /possibility/ of work, not the
+work itself.
+
+* First instance: dmt-eval (2026-03-01)
+
+The first project commissioned under this procedure:
+
+| Step | What happened |
+|------+---------------|
+| 1 | mu2tau identified need: understand brain-score, build on existing work |
+| 2 | Found =mayalucia/dmt-eval= already existed (universal validation framework) |
+| 3 | Drew upon =chase/.../brain_score_dmt/= — copied package + tutorials into dmt-eval |
+| 4 | =git submodule add= under =modules/dmt-eval= |
+| 5 | Assigned to bravli guild (=aburaya/guilds/bravli.yaml= created) |
+| 6 | Commissioned =dmt-eval-guardian= spirit (critic archetype, guild: bravli) |
+| 7 | CLAUDE.md for dmt-eval: pending |
+| 8 | Committed submodule + spirit together |
+| 9 | Parent CLAUDE.md update: pending |
+| 10 | Sūtra announcement: pending |

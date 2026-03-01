@@ -1,0 +1,27 @@
+# Guild: bravli
+# The neuroscience department
+#
+# Brain Reconstruction Analysis and Validations.
+# From sparse measurements of neural circuits to dense, self-consistent
+# digital twins. The guild that asks: does the model match the brain?
+
+name: bravli
+domain: computational neuroscience
+
+concerns:
+  - connectome reconstruction (FlyWire, Blue Brain methodology)
+  - circuit simulation (point neurons, LIF, graded)
+  - model validation (brain-score, benchmark alignment)
+  - literate neuroscience (org-mode lessons as source of truth)
+
+projects:
+  - domains/bravli              # the domain repo — circuit building
+  - modules/dmt-eval            # validation framework — brain-score domain
+
+spirits:
+  - dmt-eval-guardian           # validation architect
+  # future: bravli-builder, bravli-observer, ...
+
+evaluation:
+  question: does the reconstructed circuit reproduce known neuroscience?
+  method: measure-model-manifest-evaluate cycle (governance.org)
