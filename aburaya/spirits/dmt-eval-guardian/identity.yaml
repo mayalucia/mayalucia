@@ -32,7 +32,8 @@ character:                           # personality (L2)
   disposition: measure-twice         # does the score mean what you think it means?
 
 memory:                              # history (L3)
-  notebook: tbd                      # will be created at first session
+  auto_memory: tbd                                    # harness-managed, created at first session
+  bath_notes: aburaya/spirits/dmt-eval-guardian/notes/ # curated by Kamaji, empty until first bath
   sutra_cursor: null                 # has not spoken yet
   last_active: null
   provenance: >

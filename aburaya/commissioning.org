@@ -68,19 +68,25 @@ create a guild descriptor first.
 
 ** 6. Commission the guardian spirit
 
-Create =aburaya/spirits/<name>-guardian.yaml= with:
+Create a spirit directory =aburaya/spirits/<name>-guardian/= containing:
 
-- =true-name= — the spirit's identity
-- =nature= — substrate (may be =tbd= if not yet instantiated)
-- =dwelling= — station (may be =tbd= if portable)
-- =character= — archetype, domains, disposition
-- =memory= — provenance of the work, pointers to history
-- =project= — the module this spirit guards
-- =role= — guild affiliation, function, scope
+- =identity.yaml= — the registration card:
+  - =true-name= — the spirit's identity
+  - =nature= — substrate (may be =tbd= if not yet instantiated)
+  - =dwelling= — station (may be =tbd= if portable)
+  - =character= — archetype, domains, disposition
+  - =memory= — pointers to auto-memory and bath notes
+  - =project= — the module this spirit guards
+  - =role= — guild affiliation, function, scope
+- =notes/= — empty directory for bath deposits (=.gitkeep=)
 
 The spirit's =nature= and =dwelling= may be =tbd= at commissioning
 time. A spirit that has never been instantiated has no substrate and
 no station. These fields are filled when the spirit first works.
+
+The =notes/= directory is where [[file:kamaji.org][Kamaji]] deposits bath
+residue after sessions. It starts empty and grows as the spirit works
+and bathes. See =kamaji.org= for the restoration protocol.
 
 ** 7. Write the module's CLAUDE.md
 
@@ -88,6 +94,11 @@ This is the spirit's worksite equipment — not stored in the
 bathhouse but at the module. It tells any agent arriving at the
 repo: what this project is, what conventions apply, how to build,
 how to test. The CLAUDE.md belongs to the project, not the spirit.
+
+Include an Organisational Context section that names the guild and
+points to the relay-read skill for sūtra access. The CLAUDE.md does
+not carry filter tags — those are derived at runtime from guild
+concerns and the spirit's bath notes (see [[file:kamaji.org][kamaji.org]]).
 
 ** 8. Commit the organisational act
 
@@ -104,6 +115,20 @@ future agents know it exists.
 
 Write a relay message announcing the new project. This is how other
 spirits learn about it.
+
+* After Commissioning
+
+Commissioning creates a spirit and a place. What happens next is work
+and restoration:
+
+- The spirit is instantiated when someone opens the module for the
+  first time. The =nature= and =dwelling= fields are filled.
+- After significant sessions, the spirit goes to the bathhouse.
+  [[file:kamaji.org][Kamaji]] washes the session's temporal residue and
+  deposits curated notes in =aburaya/spirits/<name>/notes/=.
+- The spirit's =character.domains= may grow over time as new interests
+  emerge through work. This is recorded in the identity descriptor
+  after a bath, not during work.
 
 * What the procedure does NOT do
 
@@ -128,7 +153,7 @@ The first project commissioned under this procedure:
 | 4 | =git submodule add= under =modules/dmt-eval= |
 | 5 | Assigned to bravli guild (=aburaya/guilds/bravli.yaml= created) |
 | 6 | Commissioned =dmt-eval-guardian= spirit (critic archetype, guild: bravli) |
-| 7 | CLAUDE.md for dmt-eval: pending |
+| 7 | CLAUDE.md for dmt-eval: updated with brain-score domain + organisational context |
 | 8 | Committed submodule + spirit together |
-| 9 | Parent CLAUDE.md update: pending |
-| 10 | Sūtra announcement: pending |
+| 9 | Parent CLAUDE.md: added dmt-eval to submodule table + directory structure |
+| 10 | Sūtra announcement: =2026-03-01-180000-vadda-dmt-eval-commissioned.md= |

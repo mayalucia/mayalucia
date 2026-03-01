@@ -28,7 +28,8 @@ character:                           # personality (L2) — what persists across
   domains: [neuroscience, himalayan-geology, visualization, agent-ontology]
 
 memory:                              # history (L3) — pointers, not content
-  notebook: ~/.claude/projects/.../MEMORY.md
+  auto_memory: ~/.claude/projects/.../memory/  # raw temporal residue (harness-managed)
+  bath_notes: aburaya/spirits/vadda-opus/notes/ # curated by Kamaji
   sutra_cursor: 4f3241f
   last_active: 2026-03-01
 

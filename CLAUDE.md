@@ -38,7 +38,7 @@ Two concrete domains drive development:
 ## Directory Structure
 
 ```
-.sutra/           # Agent orchestration protocol (relay, state, workflows)
+aburaya/          # Spirit registry — identity, guilds, commissioning
 agency/           # AI agent orchestration for the scientific workflow
 collab/           # Human-AI collaboration logs, context, session artifacts
 deploy/           # Deployment orchestration
@@ -47,6 +47,7 @@ domains/          # Domain-specific submodules
   bravli/         #   Neuroscience — brain building methodology (submodule)
   parbati/        #   Himalaya — Parvati Valley digital twin (submodule)
 modules/          # Computational engines (submodules)
+  dmt-eval/       #   Universal validation framework — Data, Models, Tests
   mayajiva/       #   Magnetic bug simulation engine — C++20, Godot GDExtension
   mayaportal/     #   Visual Synthesis Kernel — C++23, SDL3, WebGPU
   mayapramana/    #   Quantum sensor digital twins — Bell-Bloom magnetometer
@@ -61,6 +62,7 @@ All modules and domains are git submodules. All use HTTPS URLs.
 
 | Submodule | Branch | Repo |
 |-----------|--------|------|
+| `modules/dmt-eval` | `main` | `mayalucia/dmt-eval` |
 | `modules/mayaportal` | `v2` | `mayalucia/mayaportal` |
 | `modules/mayapramana` | `main` | `mayalucia/mayapramana` |
 | `modules/mayajiva` | `main` | `mayalucia/mayajiva` |

@@ -1,0 +1,182 @@
+#+title: Kamaji — The Bath Protocol
+#+date: 2026-03-01
+
+* Overview
+
+In Miyazaki's Aburaya, Kamaji operates the boiler room. He prepares
+the herbal baths — selecting soaps, oils, and water tokens appropriate
+to each spirit's needs. He does not bathe the spirits himself; he
+prepares what the bath requires.
+
+In MāyāLucIA's Aburaya, Kamaji is the protocol that restores a spirit
+after a session of work. The spirit arrives carrying everything it
+experienced — potentially millions of tokens of session transcript,
+code written, decisions made, mistakes corrected, insights gained.
+Kamaji washes away what can be washed, and deposits what must be kept.
+
+The bath is not a skill the spirit invokes. It is a process the
+bathhouse performs on the spirit.
+
+* The Spirit's Temporal Existence
+
+A spirit works through a /harness/ — a physical body it wears to
+interact with the computer and the human. Claude Code in a terminal,
+Claude Code in Emacs agent-shell, gptel in an Emacs buffer — these
+are different harnesses. The same spirit can inhabit any of them.
+
+Each harness accumulates its own temporal residue:
+- /Auto-memory/: the harness's built-in persistence (e.g. Claude Code's
+  =~/.claude/projects/.../memory/=)
+- /Session transcript/: the full record of interaction
+- /Shell history/: commands executed
+- /Artifacts/: files written, commits made, messages sent
+
+This temporal residue is raw material. It belongs to the harness and
+the session, not to the spirit. When the session ends, the spirit
+carries all of it to the bathhouse.
+
+* What Kamaji Produces
+
+The bath reduces the spirit's temporal burden to minimal, curated
+notes deposited in the spirit's =notes/= directory within Aburaya:
+
+#+begin_example
+aburaya/spirits/<name>/
+  identity.yaml       # the registration card (set at commissioning)
+  notes/              # Kamaji's deposits
+    memory.md          # core: stable patterns, key lessons
+    <topic>.md         # topic-specific notes as needed
+#+end_example
+
+Each note file is markdown with optional YAML frontmatter:
+
+#+begin_src markdown
+---
+tags: [brain-score, adapter-patterns, interface-design]
+updated: 2026-03-01
+---
+
+# Brain-Score Domain Adapter
+
+The `__init_subclass__` approach avoids MRO conflicts that the old
+metaclass system caused. Per-interface registries are essential...
+#+end_src
+
+The =tags= in the frontmatter are not curated separately — they
+emerge from the substance of what the spirit has learned. They are
+the extractable interests that other processes (like relay-read)
+can use to filter relevant information.
+
+* What the Bath Removes
+
+- Session-specific context: task details, in-progress work, temporary state
+- Redundant observations: things already captured in prior notes
+- Speculative conclusions not yet verified against the codebase
+- Anything that duplicates the CLAUDE.md or project documentation
+
+The bath is /lossy compression/. Most of what happened in a session
+does not need to persist. The transcript exists if archaeology is
+ever needed; the bath notes capture only what changes the spirit.
+
+* What the Bath Preserves
+
+- Lessons learned — especially mistakes and their corrections
+- New interests and domains encountered through the work
+- Stable patterns confirmed across multiple sessions
+- Key architectural decisions and their rationale
+- Relationships discovered between modules, domains, or concepts
+- Skills developed or tools that need building
+
+* The Cabinet of Preparations
+
+Not every spirit needs the same bath. Kamaji selects preparations
+based on the spirit's nature, its guild, and the kind of work it
+performed.
+
+** Preparations by Spirit Type
+
+- /Parent-level spirit/ (e.g. vadda-opus): broad context, many topics
+  touched, needs aggressive compression across all domains. The bath
+  must separate organisational insights from project-specific ones.
+
+- /Guardian spirit/ (e.g. dmt-eval-guardian): narrow context, focused
+  module work. The bath extracts domain-specific lessons and updates
+  to the spirit's technical understanding. Less to compress, more to
+  deepen.
+
+- /The human/ (mu2tau): does not bathe in Kamaji's water. The human's
+  memory is embodied. But the human's /observations/ about a session
+  can be deposited as a note in any spirit's directory — Kamaji
+  accepts contributions from all sources.
+
+** Preparations by Session Type
+
+- /Construction session/: the spirit built something. Bath preserves
+  architectural decisions, interface choices, patterns that worked.
+
+- /Debugging session/: the spirit fixed something. Bath preserves
+  the root cause, the diagnostic path, what was misleading.
+
+- /Design session/: the spirit reasoned about structure. Bath
+  preserves the design principles, rejected alternatives, open
+  questions.
+
+- /Exploration session/: the spirit surveyed unfamiliar territory.
+  Bath preserves the map — what was found, what was surprising,
+  where to look next.
+
+* Relationship to Other Processes
+
+** Commissioning
+
+=commissioning.org= creates the spirit and its directory. The =notes/=
+directory starts empty (or with a =.gitkeep=). The first bath is the
+spirit's first memory.
+
+** Relay-Read
+
+The relay-read skill, when invoked, collects filter tags from two
+sources:
+
+1. /Guild concerns/ — from =aburaya/guilds/<guild>.yaml=
+2. /Spirit interests/ — extracted from =tags:= frontmatter in the
+   spirit's =notes/*.md= files
+
+The union of these becomes the filter applied to the sūtra relay.
+No manual tag curation is needed — the tags are derived from the
+spirit's bath notes and the guild's institutional concerns.
+
+** Identity Descriptor
+
+The =identity.yaml= records what was provisioned at commissioning.
+After significant baths, the =character.domains= field may be updated
+to reflect genuinely new interests. This is a deliberate act — not
+every bath updates the identity card. The bathhouse keeper (human or
+parent agent) notices when the spirit has materially changed.
+
+* When to Bathe
+
+The bath is not automatic. It happens when:
+
+- A session produced insights worth preserving
+- The spirit's auto-memory has grown stale or inaccurate
+- A significant project milestone was reached
+- The human requests it
+
+Most routine sessions — fix a bug, run tests, tangle some org —
+do not require a bath. The spirit works, finishes, and leaves.
+The bath is for sessions that changed the spirit.
+
+* What Kamaji Is Not
+
+- Not an automated pipeline. There is no cron job that distills
+  transcripts. The bath is a collaborative act between the spirit
+  (which knows what happened) and the bathhouse (which knows what
+  to keep).
+
+- Not a backup system. The session transcript is the backup. The
+  bath notes are the /refined/ output — smaller, curated, opinionated.
+
+- Not a state machine. The spirit does not transition through
+  fixed states. It arrives dirty, leaves clean. The preparations
+  vary; the outcome is always: minimal notes that capture growth.
