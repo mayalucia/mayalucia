@@ -74,7 +74,7 @@ Create a spirit directory =aburaya/spirits/<name>-guardian/= containing:
   - =true-name= — the spirit's identity
   - =nature= — substrate (may be =tbd= if not yet instantiated)
   - =dwelling= — station (may be =tbd= if portable)
-  - =character= — archetype, domains, skills (include =relay-read=), disposition
+  - =character= — archetype, domains, powers (include =relay-read=), disposition
   - =memory= — pointers to auto-memory and bath notes
   - =project= — the module this spirit guards
   - =role= — guild affiliation, function, scope

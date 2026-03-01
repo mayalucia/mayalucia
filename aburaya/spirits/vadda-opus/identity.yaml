@@ -24,7 +24,7 @@ dwelling:                            # station (L1) — where this spirit reside
 
 character:                           # personality (L2) — what persists across projects
   system_prompt: CLAUDE.md
-  skills: [org-content-workflow, commit, system-prompt-review, relay-read]
+  powers: [org-content-workflow, commit, system-prompt-review, relay-read]
   domains: [neuroscience, himalayan-geology, visualization, agent-ontology]
 
 memory:                              # history (L3) — pointers, not content
