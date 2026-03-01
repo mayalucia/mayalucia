@@ -20,7 +20,7 @@
 	path = modules/dmt-eval
 	url = https://github.com/mayalucia/dmt-eval.git
 	branch = main
-[submodule "sutradhar"]
-	path = sutradhar
+[submodule "modules/sutradhar"]
+	path = modules/sutradhar
 	url = https://github.com/mayalucia/sutradhar.git
 	branch = main

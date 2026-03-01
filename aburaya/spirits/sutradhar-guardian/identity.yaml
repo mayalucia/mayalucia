@@ -52,7 +52,7 @@ memory:                              # history (L3)
 project:                             # shared commons
   name: sutradhar
   repo: github.com/mayalucia/sutradhar
-  path: sutradhar/                      # submodule within parent repo
+  path: modules/sutradhar/               # submodule within parent repo
 
 role:                                # relational
   guild: mayalucia                   # concern is the organisation itself — reads all relay messages
