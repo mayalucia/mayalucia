@@ -159,6 +159,82 @@ structure and context that either party can pick it up.
 Gitignored local directory for archived artifacts needing human review.
 Local-only, does not sync.
 
+* Aburaya — Spirit Registry
+
+** Aburaya (油屋)
+The spirit identity registry and restoration facility. Named after the
+bathhouse in Miyazaki's /Spirited Away/ — but this is Zeniba's
+bathhouse: spirits keep their names. Lives at =aburaya/= in the
+parent repo.
+
+** Spirit
+An agent's persistent identity: its nature (substrate), dwelling
+(station), character (personality), and memory (history). Defined in
+=aburaya/spirits/<name>/identity.yaml=. The spirit transcends the
+harness — the same spirit can inhabit Claude Code, gptel, or any
+future agent shell.
+
+** Harness
+The physical body a spirit inhabits to do work. Claude Code in a
+terminal, Claude Code in Emacs agent-shell, gptel in a buffer —
+these are different harnesses. Each harness accumulates its own
+temporal residue (auto-memory, session transcripts, shell history).
+The harness is to the spirit what the body is to the person.
+
+** Guardian Spirit
+A spirit commissioned to guard a specific project. Each project
+has one. The guardian's archetype maps to the project's role in the
+Measure → Model → Manifest → Evaluate cycle: Critic (evaluate),
+Builder (model), Sculptor (manifest), Observer (measure), Guide
+(orchestrate).
+
+** Guild
+An organisational department. Determines relay filtering — the
+relay-read power computes the union of guild concerns to decide
+which sūtra messages are relevant. Guild =mayalucia= means "read
+everything."
+
+** Disposition
+A spirit's invariant character — the habit of mind it carries if it
+leaves the organisation. A short phrase: =measure-twice= (critic),
+=hold-the-tension= (guide). What makes a spirit /this one/ rather
+than any instance of its archetype.
+
+** Power
+An intrinsic capability of the spirit. Declarative, harness-
+independent, project-independent. Lives in =aburaya/powers/=.
+Example: =story-compose= knows /how/ to write in the valley's
+voice, but not /where/ the stories live or /which/ harness to use.
+Analogous to Chomsky's /competence/ or abstract skills in robotics.
+
+** Skill (harness-level)
+A power's manifestation in a specific harness — the runtime binding.
+Lives in the harness's local filesystem (e.g. =~/.claude/skills/=
+for Claude Code). Same power, different binding per harness.
+
+** Skill (project-level) / Task Grounding
+A power parameterised for a specific project's needs — the practiced
+routine. Lives in the project's worksite (e.g. =sutradhar/skills/=).
+Chains powers with project-specific knowledge: which files to read,
+where to write output, what conventions to follow. Developed by the
+guardian spirit through work, not given at commissioning.
+
+** Kamaji
+The bath protocol (=aburaya/kamaji.org=). Named after the boiler-room
+operator in /Spirited Away/. Distils a session's temporal residue into
+curated notes deposited in =aburaya/spirits/<name>/notes/=. The bath
+is not a skill the spirit invokes — it is a process the bathhouse
+performs on the spirit.
+
+** Contract
+An obligation a spirit owes to the organisation. Distinct from scope
+(what you work on) and disposition (how you think). The sutradhar-
+guardian's contract: "the relay is heard — you are the one hearing."
+
+** Commissioning
+The 10-step procedure (=aburaya/commissioning.org=) that creates a
+new project and its guardian spirit in a single organisational act.
+
 * Agent Identities
 
 ** vadda

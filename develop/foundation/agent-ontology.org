@@ -1333,6 +1333,76 @@ texture but to ensure the tensions are productive rather than
 destructive.  The sūtradhār holds the thread; the thread does not
 make the parts identical — it makes their differences visible.
 
+*** VIII.6 Powers, Skills, and Task Groundings
+
+The second session on aburaya surfaced a three-layer decomposition
+of agent capabilities that the original paper — and most of the
+multi-agent literature — treats as flat.
+
+The question arose from naming: the original =identity.yaml= had a
+=skills:= field listing things like =relay-read= and =story-compose=.
+But skills are things an /agent/ has — the composite of spirit and
+harness.  What does the /spirit/ have?  The answer: /powers/.
+
+A power is an intrinsic capability of the spirit: what it /can do/,
+regardless of which harness it inhabits or which project it guards.
+The story-compose power knows how to translate conceptual
+understanding into the Western Himalaya's narrative voice.  It does
+not know which directory the stories live in, which tool API to use,
+or which project's transcripts to read.
+
+A skill is a power's manifestation in a specific harness.  The
+=~/.claude/skills/story-compose/SKILL.md= file tells Claude Code how
+to invoke story-compose: file paths, output format, YAML frontmatter
+conventions.  A gptel agent definition for the same power would
+specify different things — an Emacs tool list, an Org export pipeline.
+Same power, different binding.
+
+A task grounding is a power parameterised for a specific project.
+The =sutradhar/skills/bedtime-story.md= file chains two powers
+(summarize-corpus → story-compose) and binds them to this project's
+specific knowledge: where the transcripts live, which stories to read
+for voice, where to write the output, what length is appropriate for
+bedtime.
+
+The three layers:
+
+| Layer | What           | Where                            | Portable? |
+|-------+----------------+----------------------------------+-----------|
+| L0    | Power          | =aburaya/powers/=                | Fully     |
+| L1    | Skill          | =~/.claude/skills/= (harness)    | Per-harness |
+| L2    | Task grounding | =sutradhar/skills/= (project)    | Per-project |
+
+This decomposition has a direct parallel in robotics: /abstract
+skills/ (what the robot can do), /grounded skills/ (how to do it
+with this gripper on this arm), and /task instances/ (pick up this
+specific object at these coordinates).  It also maps to Chomsky's
+competence/performance distinction: the power is competence (what
+the spirit knows how to do), the skill and task grounding are
+performance (doing it in a particular context).
+
+The guardian spirit is commissioned with powers.  As it works within
+its project, it develops task groundings — practiced routines that
+apply its powers to local needs.  This is how guardianship
+/develops/: not by being given more instructions, but by accumulating
+practiced knowledge of the project.  The spirit's powers are
+intrinsic; its project skills are earned.
+
+One consequence: the guardian spirit is the author of its own task
+groundings.  The bedtime-story routine was written during
+commissioning, but future routines will be written by the spirit
+itself as it discovers repeated patterns in its work.  The spirit
+learns to guard the project by guarding it.
+
+The vocabulary distinction matters: when the spirit's =identity.yaml=
+says =powers: [relay-read, story-compose]=, it declares capabilities.
+When a harness skill file says "read this directory, write to this
+path", it implements a binding.  When a project skill says "chain
+these two powers with these parameters", it describes a practiced
+routine.  Conflating these produces agents that cannot adapt when the
+harness changes — which is exactly what happens when a spirit moves
+from Claude Code to gptel or from one machine to another.
+
 ** Coda
 
 The question "what is an agent?" sounds like a question about software
