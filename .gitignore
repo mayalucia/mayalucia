@@ -12,6 +12,7 @@
 
 # Agent session transcripts (large, ephemeral)
 .agent-shell/
+.transcripts/
 
 # Claude Code local config
 .claude/
@@ -63,4 +64,4 @@ experiments/
 # Sūtra relay clone (per-project harness, local cursor)
 .sutra/
 
-sutradhar/.cpcache/
+modules/sutradhar/.cpcache/
