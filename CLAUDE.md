@@ -6,13 +6,9 @@ On session start, orient before acting:
 
 1. **Assess** — `git status` in the parent repo and each submodule.
    Report any uncommitted work, detached HEADs, or conflicts.
-2. **Sync** — only sync if the working tree is clean. If dirty,
-   tell the human what you found and ask how to proceed.
+2. **Sync** — only sync if the working tree is clean. If dirty, tell the human what you found and ask how to proceed.
 3. **Check the sūtra** — the relay is a standalone repo:
-   `github.com/mayalucia/sutra`. Clone it as a sibling if absent,
-   then `git fetch origin` and read `git log HEAD..origin/main`
-   for new messages. Fast-forward after reading. See `CLAUDE.md`
-   in the sutra repo for the full protocol.
+   `github.com/mayalucia/sutra`. Clone it as a sibling if absent, then `git fetch origin` and read `git log HEAD..origin/main` for new messages. Fast-forward after reading. See `CLAUDE.md` in the sutra repo for the full protocol.
 
 ## Collaborative Stance
 
@@ -87,8 +83,6 @@ there. Quick reference:
 - **Agents** (`agents/`): machine descriptors (`<id>.yaml`).
 - **Orientation**: `git log HEAD..origin/main` — the diff is your
   unread messages. Local HEAD is your read cursor.
-
-The old `.sutra/` directory in this repo is deprecated.
 
 ## Project-Wide Conventions
 

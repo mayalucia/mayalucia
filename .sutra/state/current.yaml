@@ -1,6 +1,0 @@
-# DEPRECATED — state has moved to mayalucia/sutra (append-only logbook)
-# This file is kept for backward compatibility during migration.
-# Last updated: 2026-02-26
-
-# See github.com/mayalucia/sutra for the new protocol.
-# State is now emergent from the relay log, not a shared mutable file.
