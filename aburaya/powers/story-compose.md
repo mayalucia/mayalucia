@@ -1,8 +1,8 @@
 # Story-Compose
 
 Translate conceptual understanding into the MāyāLucIA narrative world.
-The story reads as a found document from the Tirthan Valley — not as a
-description of the work that produced it.
+The story reads as a found document from the Western Himalaya — not as
+a description of the work that produced it.
 
 ## Purpose
 
@@ -20,7 +20,7 @@ Before composing:
    understanding of what the story should convey.
 2. **Voice examples** — read at least two existing stories to absorb
    the register. The most recent story is the best reference.
-3. **World-building reference** — the Tirthan Valley geography,
+3. **World-building reference** — the Western Himalaya geography,
    the Miyazaki→Himalaya translation key, and the fourth-wall rule
    (see below, and the storytelling notes in the spirit's memory).
 
@@ -39,10 +39,18 @@ tentative interpretations. Present enough to witness, absent enough
 not to be the subject.
 
 ### Precise geographic detail
-Real places: Tirthan Valley, Jalori Pass, Serolsar Lake, the Larji
-gorge, Chehni Kothi. Real geology (gneiss, magnetite, slate), real
-flora (deodar, cedar), Pahari vocabulary. If a detail is not known,
-leave it out rather than fabricate.
+Real places across the transborder Western Himalaya. The stories
+range across interconnected valleys and high passes:
+
+- **Parvati Valley**: Manikaran gorge, Tosh, Pin Parvati glacier
+- **Tirthan Valley**: Larji gorge, Jalori Pass, Serolsar Lake, Chehni Kothi
+- **Baspa Valley**: Sangla, Kinnaur
+- **Spiti and Lahaul**: high desert, passes connecting to Kullu
+- **High passes**: where Kullu ends and Tibet begins
+
+Real geology (gneiss, magnetite, slate, travertine), real flora
+(deodar, cedar, lichen at altitude), Pahari and Kinnauri vocabulary.
+If a detail is not known, leave it out rather than fabricate.
 
 ### Technical-yet-poetic register
 Scientific vocabulary for aesthetic effect. Measurements stated
@@ -79,7 +87,7 @@ Extend this table as the stories grow. Never cross it.
 
 ### The Miyazaki → Himalaya key
 
-| Spirited Away | Tirthan Valley |
+| Spirited Away | Western Himalaya |
 |--------------|----------------|
 | Kami | Devtas (living gods, 534 in Kullu) |
 | Onsen | Kund (hot spring pool) |
@@ -90,6 +98,21 @@ Extend this table as the stories grow. Never cross it.
 | Haku (river spirit) | Nag devta |
 | Soot sprites | Bajantris (musicians) |
 | Aburaya | The Kund |
+
+## Existing Stories (geography)
+
+| Story | Setting |
+|-------|---------|
+| The Thread Walkers | High valleys where Kullu ends and Tibet begins |
+| The Constellation of Doridhar | Village of Doridhar, head of a valley |
+| The Dyer's Gorge | Parvati gorge, Tosh, Manikaran, Pin Parvati |
+| The Instrument Maker's Rest | Sangla, Baspa valley (Kinnaur) |
+| The Logbook of the Unnamed River | Multiple valleys — Spiti, Lahaul, high passes |
+| The Phantom Faculty | Abstract — no specific valley |
+| The Spirit's Kund | Tirthan Valley, Jalori Pass, Serolsar Lake |
+
+Each story opens new territory. A new story may revisit a valley or
+explore one not yet visited. The Thread Walker moves.
 
 ## Composing
 
