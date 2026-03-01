@@ -57,7 +57,7 @@ modules/          # Computational engines (submodules)
   mayaportal/     #   Visual Synthesis Kernel — C++23, SDL3, WebGPU
   mayapramana/    #   Quantum sensor digital twins — Bell-Bloom magnetometer
 project/          # Modular architecture design, user stories
-sutradhar/        # Project self-awareness — relay reader, constellation (Clojure)
+sutradhar/        # Project self-awareness — relay reader, constellation (submodule)
 website/          # Hugo site (PaperMod theme submodule)
 mayalucia.org     # Vision document — the philosophical foundation
 ```
@@ -74,6 +74,7 @@ All modules and domains are git submodules. All use HTTPS URLs.
 | `modules/mayajiva` | `main` | `mayalucia/mayajiva` |
 | `domains/bravli` | `main` | `mayalucia/bravli` |
 | `domains/parbati` | `main` | `mayalucia/parbati` |
+| `sutradhar` | `main` | `mayalucia/sutradhar` |
 | `website/themes/PaperMod` | — | `adityatelange/hugo-PaperMod` |
 
 When working inside a module, defer to its own CLAUDE.md.
