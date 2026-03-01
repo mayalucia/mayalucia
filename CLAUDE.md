@@ -95,6 +95,7 @@ The old `.sutra/` directory in this repo is deprecated.
 - **Literate programming**: Source of truth lives in `.org` files. Code is tangled from them. When working in any module that follows this pattern, never edit generated source files directly.
 - **Org-mode throughout**: Plans, specs, session logs, vision documents — all in Org. The human works in Emacs.
 - **Plan + Spec duality**: Collaboration tasks produce two artifacts — `plan.org` (human face: why before what) and `spec.org` (machine face: exact paths, signatures, done-when criteria). If they disagree, plan is authoritative.
+- **Glossary**: This project uses Sanskrit and project-specific vocabulary extensively. When you encounter an unfamiliar term, consult `develop/glossary.org` before guessing.
 
 ## Git Conventions
 

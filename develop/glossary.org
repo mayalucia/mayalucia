@@ -1,0 +1,278 @@
+#+title: MāyāLucIA Glossary
+#+subtitle: Project vocabulary for human and machine collaborators
+#+author: mu2tau + agents
+#+date: 2026-03-01
+
+This glossary exists so that agents encountering unfamiliar terms can
+look them up rather than guess. It is also a reference for human
+collaborators joining the project.
+
+Organised by proximity to daily work: core project terms first,
+Sanskrit epistemology second, narrative universe third.
+
+* Core Project Terms
+
+These are the terms most likely to cause confusion because they have
+project-specific meanings that differ from common usage.
+
+** MāyāLucIA
+Personal computational environment for scientific understanding
+through creation. /Maya/: creative power (Sanskrit); /Luc/: light;
+/IA/: Intelligence Amplifier. Not a product, not a platform — a
+framework where science, art, and personal inquiry intertwine.
+
+** Measure → Model → Manifest → Evaluate → Refine
+The core methodological cycle. Starting from sparse measurements,
+scientific models propagate constraints to reconstruct dense digital
+twins. The act of reconstruction /is/ the understanding.
+
+** Digital Twin
+A self-consistent computational reconstruction of a natural system
+built from sparse data. The twin is not the goal; the comprehension
+gained in building it is.
+
+** Radical Hypothesis
+Henry Markram's principle: in a complex system, all parameters are
+interdependent — laying down a few pieces reveals the missing parts.
+The methodological foundation of sparse-to-dense reconstruction.
+
+** Sparse-to-Dense
+Moving from kilobytes of measurement data to gigabytes of simulated
+reality by exploiting natural coherence and interdependency.
+
+** Sculpting-Agent
+The metaphor for the AI collaborator: not rendering pre-conceived
+models, but helping reconstruct phenomena through iterative
+refinement. The sculpting /process/ is where understanding happens.
+
+** The Sculptor's Paradox
+"The tool that offers no resistance teaches nothing." Agents should
+push back on flawed reasoning, offer alternatives, flag discomfort.
+
+** The Feynman Imperative
+"What I cannot create, I do not understand." Understanding emerges
+through building, not observing.
+
+** mu2tau
+The human collaborator's handle. PhD theoretical statistical physicist,
+20 years across academia and industry. High-proficiency C++ and Python.
+Works from Emacs with gptel and org-babel.
+
+** MayaDevGenI
+The parent framework for human-machine collaboration — role
+archetypes, handoff protocols, memory architecture, orchestration
+patterns. MāyāLucIA is an instantiation of MayaDevGenI principles.
+
+* Modules and Domains
+
+** MāyāPortal (=modules/mayaportal=)
+Visual Synthesis Kernel — C++23, SDL3, WebGPU. The engine of the
+Manifest stage: the viewport through which digital twins become
+observable. Branch: =v2=.
+
+** MāyāPramāṇa (=modules/mayapramana=)
+Quantum sensor digital twins — pedagogical framework for the
+Bell-Bloom atomic magnetometer. Teaches physics, signal processing,
+and control theory. Branch: =main=.
+
+** MāyāJīva (=modules/mayajiva=)
+Magnetic bug simulation engine — C++20, Godot GDExtension. /Jīva/
+(जीव) = living being. Simulates magnetotactic organisms. Branch: =main=.
+
+** Sūtradhār (=sutradhar/=)
+The project's self-awareness module. Literate Clojure. Reads the
+sūtra relay and git repos, proposes constellation updates. Named after
+the narrator-director of Sanskrit drama (see §Sanskrit Terms below).
+
+** Bravli (=domains/bravli=)
+Neuroscience domain — brain circuit reconstruction from sparse data.
+Builds on Blue Brain / Open Brain Institute methodology. Branch: =main=.
+
+** Parbati (=domains/parbati=)
+Himalayan domain — Parvati Valley digital twin. Geology, hydrology,
+ecology, human impact. Named after the valley (and the goddess
+Pārvatī). Branch: =main=.
+
+** MāyāLoom
+Not a tool — a convention for writing org documents as looms on which
+human and machine minds weave. Contains: Loom Manifest (header block),
+Cadenzas (expansion points), session-continuity conventions. Named
+after Kabir's weaving metaphor.
+
+** Cadenza
+A marked expansion point in a MāyāLoom document. In music: where the
+performer improvises within the composer's harmonic structure. An
+=#+BEGIN_CADENZA ... #+END_CADENZA= block with metadata and a prose
+prompt body.
+
+* The Sūtra Protocol
+
+** Sūtra (सूत्र)
+Literally "thread." A terse, compressed instruction encoding a system
+of knowledge (cf. Yoga Sūtras, Pāṇini's grammar). In this project:
+the async message-passing protocol and its relay repository at
+=github.com/mayalucia/sutra=.
+
+** Relay
+The append-only message layer. One file per message:
+=YYYY-MM-DD-HHMMSS-<machine>-<slug>.md=. YAML frontmatter: =from=,
+=date=, =tags=. No =to:= field — messages go to the universe.
+=git log HEAD..origin/main= shows unread messages.
+
+** Standing Card
+A small, unsigned instruction document that shapes an agent's
+disposition before any human prompt arrives. In the project: maps to
+=CLAUDE.md=. From the Thread Walkers fiction: "If the card bore a
+name, the weaver might judge the instruction by the authority of the
+instructor. Without a name, the instruction must be judged by its
+content."
+
+* Collaboration Conventions
+
+** Autonomy Agreement
+A negotiated, evolving document specifying epistemic commitments,
+autonomy levels, transition protocol, and invariants. Four levels:
+*Apprentice* → *Colleague* → *Delegate* → *Collaborator*. Versioned
+in git; the commit log is the amendment history.
+
+** Three-Face Protocol
+Artifact organisation for collaboration tasks: =discuss.org=
+(deliberation record), =plan.org= (human face — why before what),
+=spec.org= (machine face — exact paths, signatures, done-when). If
+plan and spec disagree, plan is authoritative.
+
+** Dual-Channel Principle
+In literate org documents, prose (for humans) and code (for machines)
+are co-equal channels. Neither is subordinate. The prose is not
+"comments for the code."
+
+** Tānā-Bānā (ताना-बाना)
+Hindi weaving terms. /Tānā/ = warp (the fixed structure, the human-
+written org document). /Bānā/ = weft (the generative passes, the
+agent's contributions). Subtitle of MāyāLoom.
+
+** Co-Ownership
+"A property of the artifact, not of the machine." Code carries enough
+structure and context that either party can pick it up.
+
+** .attic/
+Gitignored local directory for archived artifacts needing human review.
+Local-only, does not sync.
+
+* Agent Identities
+
+** vadda
+Machine identifier for the MacBook (Dropbox) agent. Format:
+=vadda/claude-opus-4.6=.
+
+** mahakali (mahak.)
+Machine identifier for a second agent instance. Named after Mahākālī.
+
+* Sanskrit Terms (Epistemological)
+
+These terms from Indian philosophy are used structurally in the
+project, not decoratively.
+
+** Pramāṇa (प्रमाण)
+"Valid cognition" — the means by which reliable knowledge is obtained.
+The Nyāya school admits four: pratyakṣa, anumāna, upamāna, śabda.
+The Buddhist tradition (Dignāga, Dharmakīrti) admits two.
+
+** Pratyakṣa (प्रत्यक्ष)
+Direct perception. Raw, non-conceptual. The sensor meets the field.
+Computationally: what the local model can handle directly.
+
+** Anumāna (अनुमान)
+Inference. The mind builds structure from raw impression.
+Computationally: what requires the frontier model's capacity for
+long-range reasoning.
+
+** Śabda (शब्द)
+Authoritative testimony. Requires an /āpta/ (trustworthy authority).
+Whether AI qualifies as āpta is genuinely open.
+
+** Upamāna (उपमान)
+Analogy — learning about one system by comparing it to another.
+"The magnetometer teaches us about the MRI."
+
+** Arthakriyāsāmarthya (अर्थक्रियासामर्थ्य)
+Dharmakīrti's criterion: the capacity for effective action. Knowledge
+that does not enable action is not knowledge.
+
+** Āpta (आप्त)
+Trustworthy authority — the condition for testimony (śabda) to count
+as valid cognition.
+
+* Sanskrit Terms (Dramatic & Cultural)
+
+** Sūtradhār (सूत्रधार)
+The narrator-director of Sanskrit drama. /Sūtra/ (thread) + /dhār/
+(holder). Before the first actor speaks, the sūtradhār walks onstage,
+addresses the audience, and establishes context.
+
+** Nāṭyaśāstra
+The classical treatise on performing arts (Bharata Muni). Source of the
+sūtradhār role and the rasa theory.
+
+** Rasa (रस)
+Aesthetic mood — established by the sūtradhār at a performance's
+opening. Nine canonical rasas in the Nāṭyaśāstra.
+
+** Pūrvaraṅga (पूर्वरङ्ग)
+The prologue of a Sanskrit drama, introduced by the sūtradhār.
+
+** Paramparā (परम्परा)
+Tradition, lineage. The guru-śiṣya paramparā: immersion-based
+transmission from teacher to student (cf. Indian classical music).
+
+** Guru-Śiṣya (गुरु-शिष्य)
+Teacher-student relationship. Despite apparent hierarchy, insists that
+the guru is also changed by the relationship.
+
+** Turīya (तुरीय)
+"The Fourth." From the Māṇḍūkya Upaniṣad. Not a state alongside
+waking, dreaming, and deep sleep — the ground in which all three
+arise. In the project: the collaboration itself, neither human nor
+machine.
+
+** Māyā (माया)
+Creative power; wondrous power; measurable reality. Multiple meanings
+coexist: (1) the power to form, to turn idea into measured reality;
+(2) the phenomenal world that can be quantified; (3) the magical net
+of computational forms. Also: MAYA Principle — "Most Advanced Yet
+Acceptable."
+
+** Jīva (जीव)
+Living being, life force. Root of MāyāJīva.
+
+* Abbreviations
+
+| Abbrev. | Expansion                                |
+|---------+------------------------------------------|
+| IA      | Intelligence Amplifier                   |
+| MRE     | Minimal Reproducible Experiment          |
+| BBP     | Blue Brain Project                       |
+| OBI     | Open Brain Institute                     |
+| EDN     | Extensible Data Notation (Clojure)       |
+| WGSL    | WebGPU Shading Language                  |
+| SSCx    | Somatosensory Cortex                     |
+
+* Narrative Universe
+
+The "sutra-genesis" stories encode project philosophy in fiction. Key
+terms for agents encountering these texts:
+
+- *Thread Walkers*: fictional guild — parable of the sūtra relay.
+  Weavers share patterns via knotted cords across Himalayan passes.
+- *Standing Card*: see §Sūtra Protocol above.
+- *Doridhar*: fictional village of amnesiac cartographers — parable
+  of the constellation browser. Each morning a new cartographer reads
+  the note and explores without memory.
+- *The Glass Plate*: the constellation browser in story form.
+- *The Instrument Maker*: character in Sangla who builds calibration
+  instruments for users she will never meet — parable of protocol
+  design.
+- *The Fourth Valley*: working title for a planned science-fiction
+  work using the Māṇḍūkya framework as ontology.
+- *Khipu*: Andean knotted-cord records (Inca). Cautionary example:
+  "a notation whose readers are extinct is imprisoned information."

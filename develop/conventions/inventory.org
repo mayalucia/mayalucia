@@ -101,6 +101,29 @@ repo and created merge conflicts with orphaned submodule state. The
 
 *Where*: =CLAUDE.md= "First Thing" section, =.sutra/protocol.org= Layer 1
 
+** Project Glossary
+:PROPERTIES:
+:STATUS: nascent (seeded 2026-03-01)
+:PUBLISHABLE: no (project-internal reference)
+:NOVEL: partially — the "proximity ordering" principle may be reusable
+:END:
+
+A glossary of Sanskrit and project-specific terms at
+=develop/glossary.org=, referenced from =CLAUDE.md= via a one-line
+pointer under Project-Wide Conventions.
+
+*Design decision — proximity ordering*: entries are organised by
+proximity to daily work, not alphabetically. Core project terms first,
+then modules/domains, then the sūtra protocol, then collaboration
+conventions, then Sanskrit epistemology, then narrative universe.
+Rationale: an agent encountering "pramāṇa" in a module name needs the
+project-meaning fast (§Modules), while the epistemological depth
+(§Sanskrit Terms) is there for when the term appears in a position
+paper. Alphabetical ordering would flatten this hierarchy.
+
+*Where*: =develop/glossary.org=, pointer in =CLAUDE.md= §Project-Wide Conventions.
+*Cross-ref*: [[*CLAUDE.md as Agent Constitution][CLAUDE.md as Agent Constitution]]
+
 * Layer 1: Coordination — The Sūtra Protocol
 :PROPERTIES:
 :STATUS: battle-tested (v1 deployed 2026-02-26, two machines, 12+ messages)
