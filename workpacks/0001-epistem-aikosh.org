@@ -2,6 +2,7 @@
 #+subtitle: Commissioning the epistemology guild, its module, and its guardian spirit
 #+author: mu2tau + vadda-opus
 #+date: 2026-03-02
+#+property: status tightened
 
 * Context and Motivation
 
@@ -352,21 +353,19 @@ WP-0001 (commission epistem + aikosh)     ← vadda-opus (mayalucia guild)
    │      Output: domains/epistem/surveys/spirit-ecology.org
    │      Informed by WP-0002's review methodology
    │
-   ├── WP-0004 (spirit gazetteer)            ← epistem-guardian + aikosh-guardian
-   │      Schema design done (during spec-tightening)
-   │      Population: epistem-guardian (content)
-   │      Validation: aikosh-guardian (skill injection)
-   │
-   └── WP-0005 (capability architecture)     ← vadda-opus or sutradhar-guardian
-          Defines skill injection protocol used by WP-0004
-          Reconciles governance.org with aburaya system
-          Can run in parallel with WP-0002 and WP-0003
+   └── WP-0004 (gazetteer + capability architecture)  ← coalition
+          First composite WP. Three tasks:
+          Task A: gazetteer population     ← epistem-guardian + aikosh-guardian
+          Task B: capability architecture  ← vadda-opus or sutradhar-guardian
+          Task C: governance reconciliation
+          Requires WP-0003 (content). Early steps can proceed now.
 #+end_example
 
-WP-0002, WP-0003, and WP-0005 can run in parallel after WP-0001.
-WP-0004 benefits from WP-0005 (skill injection protocol) and
-requires WP-0003 (content). WP-0004 step 2 (seed from existing
-material) can proceed before WP-0003 completes.
+WP-0002 and WP-0003 can run in parallel after WP-0001. WP-0004 is
+a composite WP — Task B (capability architecture) can run in parallel
+with WP-0002 and WP-0003; Task A (gazetteer population) requires
+WP-0003 content. WP-0004 step 2 (seed from existing material) can
+proceed before WP-0003 completes.
 
 * Acceptance Criteria
 

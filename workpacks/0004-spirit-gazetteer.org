@@ -1,9 +1,12 @@
-#+title: WP-0004 — Spirit Gazetteer: Queryable Knowledge for Story Composition
-#+subtitle: From flat tables to structured data an agent can search
+#+title: WP-0004 — Spirit Gazetteer and Capability Architecture
+#+subtitle: Queryable knowledge for story composition; cross-spirit collaboration as proving ground
 #+author: mu2tau + vadda-opus
 #+date: 2026-03-02
+#+property: status tightened
 
 * Context and Motivation
+
+** The gazetteer need
 
 WP-0003 produces a comprehensive Org document on the spirit ecology of
 the transborder Himalaya. But a comprehensive document is the wrong
@@ -24,14 +27,108 @@ every story-compose invocation wastes context window on material that is
 structure the agent can /query/ — pull in only the entries relevant to
 the story's setting, altitude zone, and thematic needs.
 
+** The capability architecture need
+
+This WP is also the first *composite work package* — multiple tasks
+requiring different spiritual competencies. Populating the gazetteer
+needs the epistem-guardian's observer eye. Validating entries needs
+aikosh-guardian's builder discipline. Documenting the capability
+architecture needs the sutradhar's coherence concern.
+
+Rather than designing a cross-spirit protocol in the abstract (the
+former WP-0005), we define it /here/, in the WP that first needs it.
+The protocol emerges from doing, not from planning.
+
+*** The coalition model
+
+A composite WP declares *tasks*, each with its own skill needs. Skills
+map to spirits. The execution spawns what's needed — ephemeral
+coalitions of spirits contributing their powers to a shared endeavour,
+each retaining their identity.
+
+This is different from simple skill injection (one spirit borrows
+another's tool). A coalition is a *formation* — multiple spirits with
+shared state (the WP's artifacts in git), each contributing their
+domain, dissolving when the WP completes.
+
+#+begin_example
+                        WP-0004 (composite)
+                              │
+               ┌──────────────┼──────────────┐
+               │              │              │
+         Task: Populate  Task: Validate  Task: Architecture
+         ┌─────────┐    ┌─────────┐     ┌──────────┐
+         │epistem-  │    │aikosh-  │     │sutradhar-│
+         │guardian  │    │guardian │     │guardian / │
+         │(observer)│    │(builder)│     │vadda-opus│
+         └─────────┘    └─────────┘     └──────────┘
+               │              │              │
+               └──────────────┼──────────────┘
+                              │
+                     Shared artifacts in git
+#+end_example
+
+** Lessons from the A2A Protocol
+
+Google's Agent2Agent (A2A) protocol (2025, now under the Linux
+Foundation) solves inter-agent communication across /organisations/
+— different companies, different frameworks, different servers. Our
+problem is inter-spirit collaboration within /one organisation/ —
+different concerns, same codebase, same relay. But the conceptual
+architecture is instructive.
+
+*** What A2A gets right
+
+| A2A Concept | Our Equivalent | Gap |
+|-------------+----------------+-----|
+| *Agent Card*: JSON declaring identity, capabilities, endpoint | =identity.yaml=: five-layer ontology with powers | Our cards don't declare /exported/ powers — what the spirit offers others |
+| *Task lifecycle*: submitted → working → input-required → completed/failed | WP execution: no formal state machine | WPs need lifecycle states, transitions via sūtra |
+| *Opacity*: agents collaborate without exposing internal state | "The harness is not the spirit" | Already a principle; coalition must preserve it |
+| *Message Parts*: TextPart, FilePart, DataPart | Sūtra relay: markdown + YAML frontmatter | Relay lacks structured artifact exchange |
+| *MCP vs A2A*: agent-to-tool vs agent-to-agent | Skill (tool-binding) vs Power (spirit-level) | We've been conflating these two layers |
+
+*** What we take
+
+1. *Exported powers in =identity.yaml=*: an =exports:= section
+   listing powers this spirit makes available to other spirits. Not
+   all powers are exported; some are internal. This is the Agent
+   Card's =skills= array adapted for our ontology.
+
+2. *Task state machine for WP execution*: =drafted → tightened →
+   executing → input-required → completed / failed=. State
+   transitions announced in the sūtra.
+
+3. *The MCP/A2A distinction mapped to our layers*: MCP is
+   agent-to-tool (our skill layer — power bound to harness). A2A is
+   agent-to-agent (our cross-spirit layer — one spirit using another
+   spirit's exported power). Keeping these distinct prevents
+   conflation.
+
+*** What we don't take
+
+- *HTTP/JSON-RPC transport* — our spirits communicate through the
+  sūtra (git-based, append-only) and shared filesystem.
+- *Streaming/SSE/webhooks* — our spirits execute sequentially, one
+  session at a time. Artifacts handed off via git, not real-time
+  streams.
+- *Enterprise auth* — spirits trust each other within the
+  organisation. Git permissions suffice.
+
+*** Sources
+
+- [[https://github.com/a2aproject/A2A][A2A Protocol — GitHub]]
+- [[https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/][Google Developers Blog — Announcing A2A]]
+- [[https://a2a-protocol.org/latest/specification/][A2A Protocol Specification]]
+- [[https://www.ibm.com/think/topics/agent2agent-protocol][IBM — What Is A2A Protocol]]
+
 ** Dependencies
 
-- *Depends on*: WP-0001 (epistem domain must exist to house the collection)
-- *Depends on*: WP-0003 (spirit ecology survey) for content to populate
-  the gazetteer. Schema design can proceed before WP-0003 delivers.
+- *Depends on*: WP-0001 (epistem domain must exist to house the
+  collection)
+- *Depends on*: WP-0003 (spirit ecology survey) for content to
+  populate the gazetteer. Schema design can proceed before WP-0003
+  delivers.
 - *Uses*: =modules/aikosh= for validation and query tooling.
-- *Benefits from*: WP-0005 (capability architecture) — defines the
-  skill injection protocol for cross-spirit execution.
 
 * Inventory (What Already Exists)
 
@@ -65,11 +162,35 @@ The story-compose power lists 5 geographic zones with real places. The published
 - GeoJSON: standard for spatial data (parbati domain)
 - Org-mode properties and drawers: per-heading metadata, searchable
 
+** Capability architecture inventory
+
+- =aburaya/powers/= — power definitions (story-compose.md,
+  summarize-corpus.md, relay-read.md, org-content-workflow.md).
+  Harness-independent capability specs. No schema, no required
+  sections, no validation.
+- =aburaya/governance.org= — the older agency framework. Defines
+  archetypes (Observer, Theorist, Builder, Sculptor, Critic, Guide),
+  the Measure→Model→Manifest→Evaluate cycle, handoff protocols,
+  scientific memory architecture. Predates the spirit/guild system.
+- =aburaya/commissioning.org= — 10-step procedure for projects and
+  guardian spirits. Does not cover cross-spirit capability sharing.
+- =develop/glossary.org= — defines power, skill, task grounding as
+  vocabulary entries.
+- Spirit =identity.yaml= files — each lists =powers:= in the
+  =character= layer. Currently only =relay-read= is shared across
+  spirits.
+- =~/.claude/skills/= — harness-managed skill directory (Claude Code
+  specific). Contains bedtime-story and other skills.
+- =modules/sutradhar/skills/= — project-level task groundings for
+  the sutradhar module.
+- No mechanism exists for one spirit's session to discover and load
+  another spirit's powers.
+- =governance.org= and the aburaya system describe overlapping concerns
+  (archetypes, agent roles) but are not reconciled.
+
 * Specification (What You Build)
 
-** The gazetteer format
-
-A *spirit gazetteer*: a structured, queryable collection of entries about supernatural beings, practices, and places across the transborder Himalaya.
+** Task A: The Gazetteer
 
 *** Entry structure
 
@@ -289,7 +410,7 @@ Org remains the source of truth for the /survey/ (WP-0003). YAML is
 the /queryable extract/ — the gazetteer is derived from the survey,
 not a replacement for it.
 
-** Query protocol for story-compose
+*** Query protocol for story-compose
 
 When composing a story, the agent:
 
@@ -303,7 +424,7 @@ When composing a story, the agent:
 
 This replaces the single flat translation table with a geographic lookup. The system → story table in =story-compose.md= remains (it maps system concepts to story register). The Miyazaki table either becomes region-specific entries in the gazetteer or is kept as a compact cultural-bridge table for readers who know the anime.
 
-** Translation table evolution
+*** Translation table evolution
 
 The current monolithic tables in =story-compose.md= evolve:
 
@@ -315,7 +436,7 @@ The current monolithic tables in =story-compose.md= evolve:
 
 The power definition (=story-compose.md=) shrinks. It says: "query the gazetteer at =domains/epistem/collections/himalayan-spirits/= for your setting's spirit vocabulary." The knowledge moves out of the power definition and into queryable data.
 
-** GIS integration (future)
+*** GIS integration (future)
 
 Each =places/= entry can include coordinates:
 
@@ -332,46 +453,232 @@ GIS digital twin. A future parbati visualisation could overlay spirit
 jurisdictions on the DEM. The YAML is convertible to GeoJSON with a
 trivial script.
 
+** Task B: Capability Architecture
+
+The three-layer decomposition, the skill injection protocol, and the
+coalition model — all defined here because this WP is where they are
+first /used/.
+
+*** B.1 The three-layer decomposition
+
+| Layer | Owned by | Lives at | Bound to | Example |
+|-------+----------+----------+----------+---------|
+| Power | Spirit | =aburaya/powers/= | Nothing (portable) | =story-compose.md= |
+| Skill | Agent | =~/.claude/skills/= | Harness | bedtime-story (Claude Code) |
+| Grounding | Project | =<project>/skills/= | Project | sutradhar story-compose |
+
+*** B.2 Power authorship protocol
+
+- Who can author a power? (The spirit whose work produces the
+  capability, or any spirit that identifies a reusable pattern)
+- What format? (Define required sections for a power definition)
+- Where do they live? (=aburaya/powers/= for organisation-wide;
+  =<module>/powers/= for module-specific?)
+- How are they versioned? (Git-tracked, same as everything else)
+
+*** B.3 Skill derivation
+
+How a power becomes a skill:
+- The harness reads the power definition
+- The skill file translates it into harness-specific instructions
+  (for Claude Code: a =.md= file in =~/.claude/skills/= or
+  =<project>/skills/=)
+- The skill may add harness-specific details (tool names, file
+  paths, Claude Code conventions)
+
+*** B.4 Skill injection protocol
+
+How one spirit's power is made available in another spirit's session:
+
+- *Discovery*: the executing agent reads the WP, which names the
+  required powers and their source spirits
+- *Loading*: the agent's session loads the power definition from
+  =aburaya/powers/= (or the source module's powers directory)
+- *Grounding*: the power is parameterised for the current project
+  context (file paths, conventions, constraints)
+- *Invocation*: the agent uses the injected capability as if it
+  were its own skill
+
+The key principle: *the spirit boundary stays clean*. The
+epistem-guardian remains an observer even when using aikosh's
+validation tools. The injected skill is a tool on the bench, not a
+change of identity.
+
+*** B.5 Exported powers (Agent Card pattern)
+
+Each spirit's =identity.yaml= gains an =exports:= section declaring
+which powers this spirit makes available to other spirits:
+
+#+begin_src yaml
+character:
+  powers: [relay-read, validate-collection, query-collection]
+  exports:                           # what other spirits can import
+    - power: validate-collection
+      definition: aburaya/powers/validate-collection.md
+      interface: >
+        Takes a collection directory path, validates all entries
+        against the schema, reports inconsistencies.
+    - power: query-collection
+      definition: aburaya/powers/query-collection.md
+      interface: >
+        Takes region, altitude_zone, landscape filters. Returns
+        matching genus file paths.
+#+end_src
+
+Not all powers are exported. =relay-read= is a personal power —
+every spirit uses it for itself, not for others. Exported powers
+are the ones a spirit offers as a service.
+
+*** B.6 WP execution lifecycle
+
+WPs have a formal lifecycle. State transitions are announced in
+the sūtra:
+
+#+begin_example
+drafted → tightened → executing → completed
+                   ↘              ↗
+               input-required → resumed
+                                  ↘
+                               failed
+#+end_example
+
+| State | Meaning | Transition by |
+|-------+---------+---------------|
+| =drafted= | WP written, not yet reviewed | Author (spirit or human) |
+| =tightened= | Spec reviewed and approved | Human |
+| =executing= | Agent working on the WP | Executing spirit |
+| =input-required= | Agent blocked, needs human input | Executing spirit |
+| =resumed= | Human provided input, work continues | Human |
+| =completed= | Acceptance criteria met | Executing spirit + human |
+| =failed= | Cannot complete, reasons documented | Executing spirit |
+
+The sūtra relay carries lifecycle messages:
+
+#+begin_example
+relay/2026-03-05-140000-macbook-wp0004-executing.md
+---
+from: macbook-dropbox/opus
+date: 2026-03-05T14:00:00
+tags: [epistem, wp-lifecycle]
+---
+WP-0004 (spirit gazetteer + capability architecture) → executing.
+Coalition: epistem-guardian, aikosh-guardian. Task A this session.
+#+end_example
+
+*** B.7 The MCP/A2A distinction in our architecture
+
+| Protocol | A2A term | Our term | What it connects |
+|----------+----------+----------+------------------|
+| MCP | Agent-to-tool | Skill | Spirit ↔ harness tools (file ops, git, web) |
+| A2A | Agent-to-agent | Exported power | Spirit ↔ spirit (via skill injection) |
+| — | — | Task grounding | Skill ↔ project (concrete paths, conventions) |
+
+The skill injection protocol (§B.4) is our A2A. The skill derivation
+protocol (§B.3) is our MCP binding. Keeping these layers distinct
+prevents a spirit from confusing "I can use this tool" (MCP/skill)
+with "another spirit can do this for me" (A2A/exported power).
+
+*** B.8 Composite work packages and coalitions
+
+A composite WP consists of *tasks*. Each task declares:
+- What it does (acceptance criterion)
+- What skills it requires (mapped to powers)
+- Which spirit holds those powers (by =exports:= reference)
+
+The coalition is the set of spirits whose exported powers are needed
+across all tasks. The coalition is ephemeral — it forms when the WP
+enters =executing= and dissolves when it reaches =completed= or
+=failed=. The permanent guardian spirits persist; the coalition is a
+temporary formation.
+
+How a composite WP executes:
+- A single agent session can serve multiple spirits if it has access
+  to all their repos (e.g. parent repo with submodules).
+- Or sequential sessions: each task runs in the spirit whose powers
+  it needs, handing off artifacts via git.
+- The WP's lifecycle state is tracked via sūtra relay messages.
+- Each task within the composite can have its own sub-state, but the
+  WP-level state governs the sūtra announcements.
+
+*** B.9 Power format specification
+
+Standard structure for power definition files:
+
+#+begin_example
+aburaya/powers/<power-name>.md
+
+Required sections:
+  ## Purpose        — what this power enables
+  ## Interface      — inputs, outputs, preconditions
+  ## Protocol       — step-by-step procedure
+  ## Constraints    — what this power does NOT do
+  ## Authored by    — which spirit developed it
+  ## Used by        — which spirits currently use it
+#+end_example
+
+Validate existing powers (story-compose, summarize-corpus,
+relay-read, org-content-workflow) against this format.
+
+** Task C: Reconcile governance.org
+
+=governance.org= predates the aburaya system. Its archetypes,
+handoff protocols, and scientific memory architecture are still
+valid but need reconciliation:
+
+- The archetype table in =governance.org= and the one in
+  =commissioning.org= should be consistent (they currently
+  overlap but use different terminology)
+- The handoff protocol in =governance.org= should reference the
+  sūtra relay as the inter-spirit communication channel
+- The scientific memory architecture should reference the bath
+  protocol (=kamaji.org=) and the auto-memory convention
+- Consider whether =governance.org= should be rewritten or
+  annotated with pointers to the newer aburaya documents
+
 * Execution
 
-** Who runs this WP
+** Coalition
 
-This is the first dual-spirit work package. Populating the gazetteer
-requires the epistem-guardian's judgment (what enters the collection,
-faithful rendering of traditions) and the aikosh-guardian's discipline
-(schema compliance, back-reference integrity, controlled vocabulary).
+This is the first composite work package. The coalition:
 
-| Phase | Spirit | Action |
-|-------+--------+--------|
-| Extraction | epistem-guardian | Read WP-0003 survey, select entries, write narrative fields (nature, diagnostic, sources) |
-| Validation | aikosh-guardian | Validate YAML against schema, check back-references, verify landscape vocabulary, confirm token budget |
-| Review | epistem-guardian | Review validated entries for faithfulness to source |
+| Task | Spirit | Powers needed | Deliverable |
+|------+--------+---------------+-------------|
+| A: Populate gazetteer | epistem-guardian | relay-read, survey methodology | YAML entries in =domains/epistem/collections/= |
+| A: Validate gazetteer | aikosh-guardian | validate-collection, query-collection | Validation report, schema compliance |
+| B: Capability architecture | vadda-opus or sutradhar-guardian | relay-read, org-content-workflow | =aburaya/capabilities.org= |
+| C: Reconcile governance | vadda-opus or sutradhar-guardian | org-content-workflow | Updated =governance.org= |
 
 Practically: a single agent session from the parent repo (which has
-access to both =domains/epistem/= and =modules/aikosh/= as submodules)
-can invoke both spirits' concerns. Or two sequential sessions — one
-to populate, one to validate.
+access to all submodules) can invoke multiple spirits' concerns. Or
+sequential sessions — one per task, handing off artifacts via git.
 
 ** Order
 
-1. *Design* (this WP) — define the entry schema, directory structure,
-   query protocol. ← done (spec-tightened)
+1. *Design* (this WP) — define entry schema, directory structure,
+   query protocol, capability architecture spec. ← done (tightened)
 2. *Seed from existing* — extract the ~10 entries implied by the
    current story-compose tables and published stories into YAML files.
    This can happen now, before WP-0003.
-3. *Populate from WP-0003* — when the spirit ecology survey is
+3. *Draft =capabilities.org=* — write the protocol document (Task B)
+   using the gazetteer as the concrete example. This crystallises the
+   coalition model, skill injection, and lifecycle conventions.
+4. *Populate from WP-0003* — when the spirit ecology survey is
    complete, extract entries into the gazetteer format (epistem-guardian).
-4. *Validate* — run aikosh validation against the populated entries
-   (aikosh-guardian).
-5. *Update story-compose.md* — replace the flat tables with a pointer
+5. *Validate* — run aikosh validation against the populated entries
+   (aikosh-guardian). This is the first live test of skill injection.
+6. *Reconcile governance.org* — update with aburaya pointers (Task C).
+7. *Update story-compose.md* — replace the flat tables with a pointer
    to the gazetteer + the compact cultural-bridge table.
-6. *Test* — compose a story set in a non-Kullu region (e.g. Ladakh)
+8. *Test* — compose a story set in a non-Kullu region (e.g. Ladakh)
    using the gazetteer query protocol. Verify that the vocabulary is
    correct and the context cost is manageable.
 
-Steps 1-2 can proceed immediately. Steps 3-6 depend on WP-0003.
+Steps 1-3 can proceed immediately. Steps 4-5 depend on WP-0003.
+Steps 6-8 can proceed once Task B establishes conventions.
 
 * Acceptance Criteria
+
+** Task A: Gazetteer
 
 - [ ] Directory structure exists: =domains/epistem/collections/himalayan-spirits/{spirits/{genera,species,instances},places,practices}/=
 - [ ] Entry schema documented (this WP or a README in the gazetteer dir)
@@ -381,6 +688,26 @@ Steps 1-2 can proceed immediately. Steps 3-6 depend on WP-0003.
 - [ ] story-compose.md updated to reference the gazetteer
 - [ ] Token budget verified: loading relevant entries for a single
   story costs <5000 tokens
+
+** Task B: Capability Architecture
+
+- [ ] =aburaya/capabilities.org= exists with sections §B.1–B.9
+- [ ] Skill injection protocol (§B.4) is concrete enough that an
+  agent reading it can set up a cross-spirit WP session
+- [ ] Exported powers (§B.5) documented: =identity.yaml= gains
+  =exports:= section; at least one spirit identity updated as example
+- [ ] WP execution lifecycle (§B.6) defined: state machine with
+  sūtra relay messages for transitions
+- [ ] Composite WP / coalition model (§B.8) documented with this WP
+  as the concrete example
+- [ ] Existing powers (4 files in =aburaya/powers/=) validated
+  against the format specification (§B.9)
+- [ ] =commissioning.org= updated to reference =capabilities.org=
+
+** Task C: Governance Reconciliation
+
+- [ ] =governance.org= annotated or reconciled with aburaya system
+  (archetypes, handoff protocol, memory architecture)
 
 * Resolved Questions
 
@@ -398,6 +725,11 @@ Steps 1-2 can proceed immediately. Steps 3-6 depend on WP-0003.
   — not under parbati (too narrow) or aburaya (wrong concern).
   Epistem is the domain of structured knowledge for agents.
 
+- *Capability architecture location*: not a separate WP. Designed
+  here, in the WP that first needs it. The Feynman principle: the
+  protocol emerges from doing, not from planning in the abstract.
+  (Former WP-0005, merged.)
+
 * Open Questions
 
 - *Versioning and authority*: the survey (Org, WP-0003) is the
@@ -408,3 +740,33 @@ Steps 1-2 can proceed immediately. Steps 3-6 depend on WP-0003.
 - *Raw knowledge base*: the web research backing the extracts needs
   a home outside git — a database, not a repository. This is a future
   aikosh work package (noted in WP-0001).
+
+- *Module-level powers*: should modules define their own powers
+  (e.g. =modules/aikosh/powers/validate-collection.md=) or should
+  all powers live in =aburaya/powers/=? The former keeps powers
+  close to the code; the latter keeps the registry centralised.
+
+- *Harness-agnostic skill injection*: the protocol should work for
+  Claude Code, gptel, and future harnesses. But each harness loads
+  skills differently. Should the protocol define an abstract
+  interface, or document each harness separately?
+
+- *Power composition*: can powers compose? (e.g. =review-compose=
+  = =web-survey= + =summarize-corpus= + =org-content-workflow=).
+  If so, how is composition expressed in the power definition?
+
+- *Runtime vs static injection*: should skill injection happen at
+  session start (static — the CLAUDE.md or WP lists what to load)
+  or during execution (dynamic — the agent discovers it needs a
+  power and loads it mid-session)?
+
+- *Artifact exchange*: A2A's Message Parts (TextPart, FilePart,
+  DataPart) support structured artifact exchange between agents. Our
+  relay uses markdown + YAML frontmatter. As composite WPs become
+  common, will we need richer artifact handoff in the sūtra — or does
+  git (shared filesystem) already provide this?
+
+- *Coalition lifecycle*: should the sūtra track coalition formation
+  and dissolution explicitly, or is the WP lifecycle sufficient?
+  If coalitions become common, tracking them may reveal patterns
+  about which spirits collaborate frequently.
