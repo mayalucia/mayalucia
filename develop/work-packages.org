@@ -201,8 +201,90 @@ This is the /Sculptor's Paradox/ applied to specification: a WP that offers no r
 
 A commissioning act (=aburaya/commissioning.org=) may begin with a WP that describes the work that motivated the new project. The WP's context section becomes the spirit's =provenance= in its =identity.yaml=. The WP's specification becomes the initial scope.
 
+* Lifecycle
+
+Every WP carries a lifecycle state as an Org property:
+
+#+begin_example
+#+property: status tightened
+#+end_example
+
+** State machine
+
+Inspired by A2A's Task lifecycle:
+
+#+begin_example
+drafted → tightened → executing → completed
+                   ↘              ↗
+               input-required → resumed
+                                  ↘
+                               failed
+#+end_example
+
+| State | Meaning | Transition by |
+|-------+---------+---------------|
+| =drafted= | WP written, not yet reviewed | Author (spirit or human) |
+| =tightened= | Spec reviewed and approved | Human |
+| =executing= | Agent working on the WP | Executing spirit |
+| =input-required= | Agent blocked, needs human input | Executing spirit |
+| =resumed= | Human provided input, work continues | Human |
+| =completed= | Acceptance criteria met | Executing spirit + human |
+| =failed= | Cannot complete, reasons documented | Executing spirit |
+
+Transitions are announced in the sūtra relay. The =#+property: status=
+line in the WP file is updated to reflect the current state.
+
+** Querying lifecycle state
+
+#+begin_src sh
+grep -rl "status tightened" workpacks/   # WPs ready for execution
+grep -rl "status executing" workpacks/   # WPs in progress
+#+end_src
+
+* Composite Work Packages
+
+A WP whose tasks span multiple spiritual domains is a *composite WP*.
+
+** Tasks
+
+A composite WP declares *tasks* — named sub-units, each with:
+- What it does (its own acceptance criteria)
+- What skills it requires (mapped to powers)
+- Which spirit holds those powers
+
+Tasks are sections within the WP, not separate files. The WP is the
+unit of planning and lifecycle tracking; tasks are internal structure.
+
+** Coalitions
+
+The set of spirits whose exported powers are needed across all tasks
+forms a *coalition*. Coalitions are ephemeral — they form when the WP
+enters =executing= and dissolve when it reaches =completed= or =failed=.
+Permanent guardian spirits persist; the coalition is a temporary
+formation around shared work.
+
+A composite WP's execution section includes a coalition table:
+
+#+begin_example
+| Task | Spirit | Powers needed | Deliverable |
+|------+--------+---------------+-------------|
+| A    | epistem-guardian | survey methodology | YAML entries |
+| A    | aikosh-guardian  | validate-collection | Validation report |
+| B    | sutradhar-guardian | org-content-workflow | Protocol document |
+#+end_example
+
+** Execution patterns
+
+- *Single session*: one agent session from the parent repo (which has
+  access to all submodules) can invoke multiple spirits' concerns.
+- *Sequential sessions*: each task runs in the spirit whose powers it
+  needs, handing off artifacts via git.
+- *Parallel tasks*: tasks within a composite WP may run in parallel
+  if they have no mutual dependencies.
+
 * Document Status
 
 | Version |       Date | Notes                                                         |
 |---------+------------+---------------------------------------------------------------|
 |     0.1 | 2026-03-02 | Initial convention, distilled from WP-13 pattern + discussion |
+|     0.2 | 2026-03-02 | Add lifecycle states (A2A-inspired), composite WPs, coalitions |

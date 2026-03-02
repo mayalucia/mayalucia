@@ -235,6 +235,48 @@ guardian's contract: "the relay is heard — you are the one hearing."
 The 10-step procedure (=aburaya/commissioning.org=) that creates a
 new project and its guardian spirit in a single organisational act.
 
+** Exported Power
+A power a spirit makes available to other spirits. Declared in the
+=exports:= section of =identity.yaml=. Not all powers are exported —
+=relay-read= is personal; =validate-collection= is a service. Inspired
+by A2A's Agent Card =skills= array.
+
+** Work Package (WP)
+A self-contained briefing specifying a unit of work for autonomous
+agent execution. Org file in =workpacks/NNNN-slug.org=. Carries a
+lifecycle state (=#+property: status <state>=). Convention:
+=develop/work-packages.org=.
+
+** WP Lifecycle
+State machine for work package execution: =drafted → tightened →
+executing → input-required → completed / failed=. Transitions
+announced in the sūtra relay. Inspired by A2A's Task lifecycle.
+
+** Composite Work Package
+A WP whose tasks span multiple spiritual domains. Declares tasks (not
+separate files — sections within the WP), each with skill requirements
+mapped to spirits. The WP is the unit of planning; the task is the
+unit of skill-mapping.
+
+** Coalition
+An ephemeral formation of spirits contributing their exported powers
+to a shared work package. Forms at =executing=, dissolves at
+=completed=/=failed=. Permanent guardian spirits persist; coalitions
+are weather, not geography. First example: WP-0004 (epistem-guardian +
+aikosh-guardian + vadda-opus/sutradhar-guardian).
+
+** Epistem
+The guild (=aburaya/guilds/epistem.yaml=) and domain (=domains/epistem/=)
+for structured knowledge for agents. How to organise knowledge so an
+agent can find what it needs without loading what it doesn't. Named
+for epistemology — "it feels nice on my tongue."
+
+** Aikosh
+AI-assisted collections. The module (=modules/aikosh/=) providing LLM
+context and computational tools for building, validating, and querying
+structured knowledge collections. Infrastructure, not content.
+Transferable outside the organisation.
+
 * Agent Identities
 
 ** vadda
