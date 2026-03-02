@@ -1,0 +1,346 @@
+#+title: Autonomous Orchestration — From Declarative to Executable
+#+author: vadda-opus + mu2tau
+#+date: 2026-03-02
+#+property: status sketch
+
+* The Gap
+
+All WP/coalition/lifecycle infrastructure is declarative. Work packages
+describe what should happen. The sūtra announces what has happened.
+Spirit identities declare capabilities. But no machinery connects
+these: no agent reads a WP and auto-executes, no agent watches the
+relay for lifecycle transitions and spawns the next spirit, no agent
+discovers exported powers and loads them.
+
+The human is the orchestrator. This document sketches what a minimal
+autonomous orchestrator looks like — and what it deliberately does /not/
+do.
+
+* Design Principles
+
+** The dispatcher is not a spirit
+
+The orchestrator is not intelligent. It does not make decisions about
+/what/ to do — that's in the WP. It does not make decisions about /how/
+to do it — that's in the spirit's CLAUDE.md and powers. It makes one
+decision: /when/ to invoke /whom/. It is a cron job with a git fetcher,
+not a mind.
+
+This is important. The moment the orchestrator starts interpreting WP
+content or making judgment calls, it becomes a spirit — and needs
+identity, guild membership, bath notes, the whole ontology. The
+dispatcher stays below that line. It is plumbing, not personality.
+
+** Trust is granted per-WP, not globally
+
+Each WP carries a trust level (already in the convention). The
+orchestrator translates trust levels into permission scopes:
+
+| WP Trust Level | Permission Scope |
+|----------------+----------------------------------------------|
+| =spec-tighten= | Read-only until human approves; then full WP scope |
+| =autonomous= | Full scope from =tightened= onward |
+| =supervised= | Full scope but commits require human approval |
+
+The permission scope becomes a Claude Code allowlist, scoped to the
+WP's execution.
+
+** Artifacts flow through git, not the orchestrator
+
+The orchestrator does not carry data between spirits. Spirits commit
+artifacts to git. The next spirit pulls. The orchestrator's only
+role is to notice that a commit happened and decide whether to
+spawn the next session.
+
+* Architecture
+
+** Three components
+
+*** 1. The Watcher
+
+A process that periodically checks the sūtra relay for lifecycle
+transitions:
+
+#+begin_src sh
+# Pseudocode — the watcher loop
+while true; do
+    cd $SUTRA_DIR
+    git fetch origin --quiet
+    NEW_MESSAGES=$(git log --oneline HEAD..origin/main)
+
+    if [ -n "$NEW_MESSAGES" ]; then
+        git merge --ff-only origin/main
+        # Parse new messages for lifecycle tags
+        for msg in relay/$(git diff --name-only HEAD~..HEAD); do
+            parse_lifecycle "$msg"
+        done
+    fi
+
+    sleep 300  # 5 minutes
+done
+#+end_src
+
+What it looks for:
+- =wp-lifecycle= tag + =completed= → check if downstream WPs are unblocked
+- =wp-lifecycle= tag + =input-required= → notify the human
+- =wp-lifecycle= tag + =failed= → notify the human
+
+*** 2. The DAG
+
+A simple dependency graph, derived from WP files:
+
+#+begin_src yaml
+# develop/orchestration/dag.yaml
+# Could be auto-generated from WP dependency sections
+
+wp-0001:
+  status: completed
+  downstream: [wp-0002, wp-0003, wp-0004]
+
+wp-0002:
+  status: tightened
+  executor: sutradhar-guardian
+  machine: mahakali
+  cwd: modules/sutradhar
+  upstream: [wp-0001]
+  downstream: [wp-0003]
+
+wp-0003:
+  status: tightened
+  executor: epistem-guardian
+  machine: tbd
+  cwd: domains/epistem
+  upstream: [wp-0002]
+  downstream: [wp-0004]
+
+wp-0004:
+  status: tightened
+  executor: coalition
+  tasks:
+    - id: A
+      upstream: [wp-0003]
+    - id: B
+      upstream: []        # can start now
+    - id: C
+      upstream: [B]
+#+end_src
+
+When a WP transitions to =completed=, the watcher walks the DAG
+to find newly unblocked WPs.
+
+*** 3. The Invoker
+
+Given a WP to execute, the invoker:
+
+1. Reads the WP file to extract:
+   - Executor spirit
+   - Working directory (from spirit's =identity.yaml= → =project.path=)
+   - Trust level → permission scope
+2. Constructs a Claude Code invocation:
+
+#+begin_src sh
+invoke_wp() {
+    local wp_file="$1"
+    local spirit=$(extract_field "$wp_file" "executor")
+    local cwd=$(spirit_cwd "$spirit")
+    local trust=$(extract_field "$wp_file" "trust")
+    local allowlist=$(trust_to_allowlist "$trust")
+
+    # Write a session prompt from the WP
+    local prompt="Execute $wp_file. You are $spirit.
+Read the WP for full specification. On completion,
+transition the WP status to completed and announce
+in the sūtra relay."
+
+    # Invoke Claude Code
+    claude --cwd "$cwd" \
+           --allowedTools "$allowlist" \
+           --print \
+           --prompt "$prompt" \
+           2>&1 | tee "$TRANSCRIPT_DIR/$(date +%s)-$spirit.log"
+
+    # The session itself handles:
+    #   - reading the WP
+    #   - executing the work
+    #   - committing artifacts
+    #   - writing the sūtra lifecycle message
+}
+#+end_src
+
+The =--print= flag runs non-interactively. The =--allowedTools=
+flag scopes permissions. The transcript goes to =.transcripts/=
+for downstream spirits (sutradhar, kamaji).
+
+* Permission Model
+
+** Claude Code allowlist mapping
+
+The allowlist is the autonomy grant. Different WP types need
+different tool access:
+
+#+begin_src yaml
+# develop/orchestration/allowlists.yaml
+
+# For corpus-reading WPs (like WP-0002)
+corpus-reader:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Write
+    - Edit
+    - "Bash(git *)"
+    - "Bash(ls *)"
+
+# For web-research WPs (like WP-0003)
+web-researcher:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Write
+    - Edit
+    - WebSearch
+    - WebFetch
+    - "Bash(git *)"
+    - "Bash(ls *)"
+
+# For code-writing WPs (like aikosh implementation)
+code-builder:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Write
+    - Edit
+    - "Bash(git *)"
+    - "Bash(ls *)"
+    - "Bash(uv *)"
+    - "Bash(pytest *)"
+    - "Bash(python *)"
+    - "Bash(make *)"
+
+# For organisational WPs (like WP-0004 Task B)
+org-writer:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Write
+    - Edit
+    - "Bash(git *)"
+    - "Bash(ls *)"
+    - "Bash(gh *)"
+#+end_src
+
+Each WP can declare which allowlist profile it needs. Or the
+invoker can infer it from the WP's tool requirements.
+
+** What the orchestrator must NOT do
+
+- Push to remote without explicit WP authorisation
+- Delete files or branches
+- Modify other WPs
+- Change spirit identities
+- Write to the sūtra on behalf of a spirit (spirits speak for themselves)
+
+The orchestrator invokes; the spirit acts. The spirit commits; the
+orchestrator notices.
+
+* Lifecycle Integration
+
+The full loop:
+
+#+begin_example
+1. Human tightens a WP (status: tightened)
+2. Human commits and pushes
+3. Watcher sees the tightened WP (or a sūtra message announcing it)
+4. Watcher checks DAG — are all upstream dependencies met?
+5. If yes: Invoker spawns a claude session for the executor spirit
+6. Spirit executes the WP autonomously
+7. Spirit transitions WP status to completed (or input-required/failed)
+8. Spirit writes sūtra announcement
+9. Spirit commits and pushes
+10. Watcher sees the sūtra announcement
+11. Watcher checks DAG — are downstream WPs now unblocked?
+12. If yes: goto 5 for the next WP
+#+end_example
+
+The human enters the loop at step 1 (tightening) and step 7 (if
+=input-required=). Everything else is autonomous.
+
+* What This Does NOT Solve
+
+** Multi-machine coordination
+
+The watcher runs on one machine. If WP-0002 executes on mahakali
+and WP-0003 should execute here, the watcher needs to know which
+machine to dispatch to — or each machine runs its own watcher and
+they coordinate through the sūtra.
+
+The sūtra already supports this: a lifecycle message says which
+machine completed a WP. A watcher on another machine sees the
+message and checks if it should act. No central coordinator needed
+— each machine is autonomous, the relay is the shared state.
+
+** Coalition orchestration
+
+A composite WP with multiple tasks for different spirits is harder
+than a simple WP. The invoker needs to sequence tasks, possibly
+running different sessions for different spirits. This is future
+work — for now, a single session from the parent repo (which has
+all submodules) can address multiple tasks.
+
+** Cost control
+
+Claude API calls cost money. An autonomous orchestrator that
+spawns sessions without human approval could run up costs. The
+trust level system mitigates this: only =autonomous= WPs get
+auto-invoked. =supervised= WPs notify the human and wait.
+
+A cost budget per WP (or per day) would be a useful addition.
+Not designed here.
+
+** Error recovery
+
+If a spirit fails mid-WP, the orchestrator sees =failed= status.
+But what then? Retry? Notify? The current design: notify the human.
+Automatic retry is dangerous without understanding /why/ it failed.
+
+* Implementation Path
+
+This is a sketch, not a WP. The implementation path:
+
+1. *Immediate*: configure Claude Code allowlists for this project
+   so that interactive sessions don't require 200 clicks. This is
+   the =~/.claude/settings.json= or =.claude/settings.json= change.
+
+2. *Near-term*: write a shell script (=develop/orchestration/dispatch.sh=)
+   that takes a WP file path and invokes claude with the right cwd,
+   spirit identity, and allowlist. Manual invocation, but no dialog
+   boxes.
+
+3. *Medium-term*: add the watcher loop. It checks the sūtra
+   periodically and invokes the dispatch script when WPs become
+   unblocked. This is the autonomous orchestrator.
+
+4. *Long-term*: multi-machine coordination. Each machine runs its
+   own watcher. The sūtra is the coordination layer. Spirits
+   execute wherever their repos are cloned.
+
+Step 1 can happen today. Step 2 is a morning's work. Step 3 needs
+the lifecycle conventions from WP-0004 Task B to be formalised first.
+Step 4 needs experience with steps 2-3.
+
+* Relationship to WP-0004
+
+This document and WP-0004 Task B (capability architecture) are
+complementary:
+
+- WP-0004 Task B defines the /what/: three-layer decomposition,
+  skill injection protocol, exported powers, coalition model.
+- This document defines the /how/: the machinery that reads those
+  declarations and acts on them.
+
+WP-0004 Task B is the constitution. This document is the civil
+service.
