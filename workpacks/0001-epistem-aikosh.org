@@ -1,0 +1,329 @@
+#+title: WP-0001 — Epistem Domain and Aikosh Module: Structured Knowledge for Agents
+#+subtitle: Commissioning the epistemology guild, its module, and its guardian spirit
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-02
+
+* Context and Motivation
+
+MāyāLucIA needs structured, queryable knowledge collections that
+agents can draw from at runtime. Two concrete needs surfaced in the
+same session:
+
+1. *Spirit gazetteer* (WP-0004): Himalayan spirit traditions organised
+   as YAML entries queryable by region, altitude, and landscape —
+   replacing flat markdown tables in =story-compose.md= that won't
+   scale beyond Kullu.
+
+2. *Literature survey practice* (WP-0002): the project's pattern of
+   researching tools, methods, and products — traversing sources,
+   extracting structured comparisons, synthesising into a report.
+
+These are the same activity at different scales: traverse a territory
+of sources, extract structure, organise for query. The tooling that
+enables this — schema definition, ingestion pipeline, validation,
+query interface — is domain-independent. It could serve a biotech
+startup surveying drug targets as readily as it serves our spirit
+gazetteer.
+
+This motivates:
+- A *domain* for the inquiry into structured knowledge for agents
+- A *module* for the computational tools
+- A *guild* for the spirits who work in this space
+- A *guardian spirit* to hold the module
+
+** Two tiers of knowledge
+
+The collections aikosh manages live in two tiers:
+
+| Tier | Content | Storage | Git? |
+|------+---------+---------+------|
+| *Extracts* | Structured YAML entries, validated, cited | =domains/epistem/collections/= | Yes (submodule) |
+| *Knowledge base* | Raw web research, full articles, found stories, notes | TBD (local DB, cloud, or managed service) | No |
+
+The extracts are the refined output — small, version-controlled,
+agent-queryable. The knowledge base is the raw material — potentially
+large, potentially sensitive, stored outside git like a database. The
+tangle step from raw to refined is a future aikosh capability.
+
+** Dependency
+
+- WP-0002 (review spirit) → aikosh subsumes its tooling needs
+- WP-0004 (spirit gazetteer) → its first collection, now homed in epistem
+- WP-0003 (spirit ecology survey) → content that populates the gazetteer
+
+* Inventory (What Already Exists)
+
+** In the project
+
+- =workpacks/0001-review-spirit.org= — WP for extracting review
+  patterns. The review practice produces structured collections;
+  aikosh provides the machinery.
+- =workpacks/0003-spirit-gazetteer.org= — WP for the Himalayan spirit
+  gazetteer. Defines the entry schema (genus → species → instance),
+  landscape primitives, query protocol. References
+  =domains/epistem/collections/himalayan-spirits/= (updated from
+  earlier =domains/parbati/gazetteer/= during spec-tightening).
+- =aburaya/commissioning.org= — the 10-step procedure this WP follows.
+- =aburaya/guilds/= — existing guilds: bravli (neuroscience),
+  mayalucia (organisational coherence).
+- =develop/work-packages.org= — the WP convention.
+
+** Technology
+
+- YAML: the gazetteer entry format (queryable by grep, parseable by
+  any language, LLM-friendly)
+- Python: likely implementation language for validation and query tools
+- Org-mode: source of truth for surveys (WP-0003), which aikosh
+  distills into YAML extracts
+
+* Specification (What You Build)
+
+** Part 1: Create =domains/epistem= (GitHub submodule)
+
+A new domain repository: =mayalucia/epistem=.
+
+The domain of inquiry: how to structure knowledge so agents can use it
+programmatically. How schemas capture traditions without flattening
+them. How queryable structure differs from narrative structure. How
+LLMs extract relevant entries from collections at runtime.
+
+Directory structure:
+
+#+begin_example
+domains/epistem/
+  CLAUDE.md                          # domain conventions
+  .gitignore                         # includes .sutra/
+  collections/                       # curated, version-controlled extracts
+    himalayan-spirits/               # first collection (from WP-0004)
+      spirits/
+        genera/
+        species/
+        instances/
+      places/
+      practices/
+    # future: literature-surveys/, tool-comparisons/, ...
+#+end_example
+
+** Part 2: Create =modules/aikosh= (GitHub submodule)
+
+A new module repository: =mayalucia/aikosh=.
+
+The computational engine: tools for building, validating, and querying
+structured knowledge collections. Aikosh provides the machinery;
+epistem houses the inquiry and the collections.
+
+Initial scope (minimal — grow through use):
+
+#+begin_example
+modules/aikosh/
+  CLAUDE.md                          # module conventions
+  .gitignore                         # includes .sutra/
+  src/aikosh/
+    schema.py                        # entry validation (genus/species/instance)
+    query.py                         # find entries by region, altitude, landscape
+    validate.py                      # consistency checks (back-references, vocabulary)
+  tests/
+#+end_example
+
+The module is the toolsmith's workshop. It does not contain
+collections — those live in =domains/epistem/collections/=. Aikosh
+validates and serves them.
+
+** Part 3: Create the epistem guild
+
+=aburaya/guilds/epistem.yaml=:
+
+#+begin_src yaml
+# Guild: epistem
+# The epistemology department
+#
+# Structured knowledge for agents. From raw sources to queryable
+# collections. The guild that asks: how do you organise knowledge
+# so an agent can use it?
+
+name: epistem
+domain: epistemology — structured knowledge for agents
+
+concerns:
+  - knowledge representation (schemas, hierarchies, controlled vocabularies)
+  - collection methodology (survey, extraction, validation, curation)
+  - query protocols (how agents find and load relevant entries at runtime)
+  - prompt economics (token cost of knowledge injection)
+
+projects:
+  - domains/epistem              # the domain — inquiry into structured knowledge
+  - modules/aikosh               # the module — tooling for collections
+
+spirits:
+  - aikosh-guardian              # the epistemologist
+  # future: survey-specialist, schema-designer, ...
+
+evaluation:
+  question: can an agent find what it needs without loading what it doesn't?
+  method: query cost (tokens loaded vs tokens relevant) + coverage (gaps in collections)
+#+end_src
+
+** Part 4: Commission the guardian spirit
+
+=aburaya/spirits/aikosh-guardian/identity.yaml=:
+
+#+begin_src yaml
+# Spirit: aikosh-guardian
+# The epistemologist — builder of instruments for structured knowledge
+#
+# Holds the aikosh module. Builds tools that let agents query
+# collections efficiently. The collections themselves live in
+# domains/epistem; the guardian builds and maintains the machinery.
+
+true-name: aikosh-guardian
+
+nature:                              # substrate (L0)
+  model: tbd
+  provider: tbd
+  note: >
+    Not yet instantiated. Will be assigned when an agent first
+    opens aikosh with its CLAUDE.md.
+
+dwelling:                            # station (L1)
+  machine: tbd
+  tools: [python, pytest, uv, yaml, org-babel]
+  repos:
+    aikosh: modules/aikosh
+    epistem: domains/epistem
+
+character:                           # personality (L2)
+  archetype: builder
+  system_prompt: modules/aikosh/CLAUDE.md
+  domains:
+    - knowledge representation
+    - schema design and validation
+    - collection methodology (survey, extraction, curation)
+    - query protocols for LLM agents
+    - prompt economics
+  powers: [relay-read]
+  disposition: structure-reveals      # good structure makes knowledge findable
+
+memory:                              # history (L3)
+  auto_memory: tbd
+  bath_notes: aburaya/spirits/aikosh-guardian/notes/
+  provenance: >
+    Born from WP-0004 (spirit gazetteer) and WP-0002 (review practice).
+    The need for structured, queryable collections surfaced when
+    story-compose's flat translation tables could not scale beyond
+    Kullu valley. The literature survey practice showed the same
+    pattern: traverse sources, extract structure, organise for query.
+
+project:
+  name: aikosh
+  repo: github.com/mayalucia/aikosh
+  path: modules/aikosh/
+
+role:
+  guild: epistem
+  function: toolsmith
+  scope:
+    - schema validation (genus/species/instance hierarchy)
+    - query interface (region, altitude, landscape lookup)
+    - collection consistency (back-references, controlled vocabulary)
+    - ingestion pipeline (survey → structured extracts)
+#+end_src
+
+=aburaya/spirits/aikosh-guardian/notes/.gitkeep= — empty, awaiting
+first bath.
+
+** Part 5: Update WP-0004
+
+Done during spec-tightening. All references now point to
+=domains/epistem/collections/himalayan-spirits/=.
+
+** Part 6: Update parent CLAUDE.md
+
+- Add =domains/epistem= and =modules/aikosh= to the submodule table
+- Add both to the directory structure
+- Add the epistem guild to the aburaya description
+
+** Part 7: Announce in the sūtra
+
+Write a relay message announcing the new domain, module, guild, and
+guardian spirit.
+
+* Execution Order
+
+The commissioning procedure (=aburaya/commissioning.org=) gives the
+sequence. Adapted for a simultaneous domain + module + guild:
+
+1. Create =mayalucia/epistem= repo on GitHub
+2. Create =mayalucia/aikosh= repo on GitHub
+3. Add both as submodules in the parent
+4. Create =aburaya/guilds/epistem.yaml=
+5. Create =aburaya/spirits/aikosh-guardian/= (identity + notes)
+6. Write CLAUDE.md for both epistem and aikosh
+7. Update WP-0004 (gazetteer location)
+8. Commit the organisational act (submodules + guild + spirit)
+9. Update parent CLAUDE.md
+10. Announce in the sūtra
+
+Trust level: *spec-tighten*. The human reviews, adjusts the spirit
+name and disposition if desired, then hands off.
+
+** Cross-WP execution order
+
+WP-0001 is the root of a dependency chain across four work packages:
+
+#+begin_example
+WP-0001 (commission epistem + aikosh)     ← FIRST: creates infrastructure
+   │
+   ├── WP-0002 (review practice extraction)  ← can start after WP-0001
+   │      Phase 1: pattern extraction (independent)
+   │      Phase 2: spirit commissioning (needs epistem guild)
+   │
+   ├── WP-0003 (spirit ecology survey)       ← can start after WP-0001
+   │      Output: domains/epistem/surveys/spirit-ecology.org
+   │      Informed by WP-0002's review methodology
+   │
+   └── WP-0004 (spirit gazetteer)            ← LAST: needs WP-0003 content
+          Schema design done (during spec-tightening)
+          Population depends on WP-0003 survey
+          Tooling depends on aikosh (WP-0001)
+#+end_example
+
+WP-0002 and WP-0003 can run in parallel after WP-0001 completes.
+WP-0004 population waits for WP-0003. WP-0004 step 2 (seed from
+existing material) can proceed before WP-0003 completes.
+
+* Acceptance Criteria
+
+- [ ] =domains/epistem= repo exists on GitHub with CLAUDE.md and
+  =collections/= directory
+- [ ] =modules/aikosh= repo exists on GitHub with CLAUDE.md and
+  initial =src/aikosh/= structure
+- [ ] Both added as submodules in parent repo
+- [ ] =aburaya/guilds/epistem.yaml= created with concerns and projects
+- [ ] =aburaya/spirits/aikosh-guardian/identity.yaml= created with
+  full five-layer ontology
+- [ ] =aburaya/spirits/aikosh-guardian/notes/.gitkeep= exists
+- [ ] WP-0004 updated: all paths reference =domains/epistem/collections/=
+- [ ] Parent CLAUDE.md updated with new submodules and guild
+- [ ] Sūtra announcement written
+
+* Open Questions
+
+- *Guardian spirit name*: =aikosh-guardian= follows the convention
+  (=dmt-eval-guardian=, =sutradhar-guardian=). The human may prefer a
+  different true-name for the spirit — a name from the borderlands
+  that evokes the epistemologist's craft.
+
+- *Aikosh module scope*: the initial =src/aikosh/= is minimal — schema
+  validation, query, consistency checks. Should it also include
+  ingestion tools (web scraper → YAML) from the start, or grow into
+  that through use?
+
+- *Knowledge base tier*: the raw research that backs the extracts
+  needs a home outside git. Options: local SQLite, a managed service,
+  a cloud bucket. This is deferred — noted here so it isn't forgotten.
+  A future aikosh WP should design this.
+
+- *Aikosh as transferable tool*: the module's value extends beyond
+  mayalucia. Should the repo be designed for external use from the
+  start (README, pypi packaging, examples), or grow into that as the
+  internal use matures?

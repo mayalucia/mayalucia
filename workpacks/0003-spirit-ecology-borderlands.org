@@ -1,4 +1,4 @@
-#+title: WP-0002 — Spirit Ecology of the Transborder Himalaya
+#+title: WP-0003 — Spirit Ecology of the Transborder Himalaya
 #+subtitle: A Knowledge Base for Stories, Agent Ontology, and Digital Twin
 #+author: mu2tau + vadda-opus
 #+date: 2026-03-02
@@ -149,9 +149,15 @@ should expand through research):
 
 * Specification (What You Build)
 
-** Output: =domains/parbati/spirit-ecology.org=
+** Output: =domains/epistem/surveys/spirit-ecology.org=
 
-An Org-mode knowledge base with the following structure:
+An Org-mode knowledge base. This is the authoritative survey — the
+source of truth from which WP-0004's YAML gazetteer extracts are
+derived. It lives in epistem (the knowledge domain) rather than
+parbati (the Parvati valley twin), because the survey spans the
+entire transborder Himalaya.
+
+Structure:
 
 *** Part 1: Regional Spirit Taxonomies
 
@@ -293,6 +299,19 @@ producing a knowledge base dense enough for both story composition and
 GIS data modelling. The human brings the interpretive frame; the agent
 brings tireless traversal of sources.
 
+* Dependencies
+
+- *Depends on*: WP-0001 (epistem domain must exist to receive the output)
+- *Feeds*: WP-0004 (the survey provides content for gazetteer entries)
+- *Informed by*: WP-0002 (the review practice patterns shape how the
+  survey is conducted)
+
+* Resolved Questions
+
+- *Where does this document live?* =domains/epistem/surveys/spirit-ecology.org=.
+  Resolved by WP-0001: epistem is the domain for structured knowledge.
+  The survey is transborder, not Parvati-specific.
+
 * Open Questions
 
 - How much depth per region? The Tibetan spirit taxonomy alone could
@@ -300,12 +319,6 @@ brings tireless traversal of sources.
   not an encyclopedia. The executing agent should aim for the level
   of detail in the existing Kullu material in =story-compose.md= —
   a working cartographer's sketch, not an ethnography.
-
-- Where does this document live? Proposed: =domains/parbati/= because
-  it is fundamentally geographic data, and parbati is the digital twin
-  domain. But it serves aburaya (agent naming) and the sutradhar
-  (story composition) too. The parbati domain issues the WP; the
-  results are read by the whole organisation.
 
 - The politics of representation. These are living traditions in
   contested territories — Kashmir, Tibet, the Durand Line. The

@@ -1,4 +1,4 @@
-#+title: WP — Review Reports: Pattern Extraction and Spirit Commissioning
+#+title: WP-0002 — Review Reports: Pattern Extraction and Spirit Commissioning
 #+author: mu2tau + vadda-opus
 #+date: 2026-03-02
 
@@ -127,76 +127,32 @@ project's established style.
 Once the pattern extraction is complete, we commission a spirit to carry
 the review practice.
 
-** Open questions for discussion
+** Resolved by WP-0001
 
-*** What kind of spirit is this?
+The following questions were open when WP-0002 was written. They have
+been resolved through the discussion that produced WP-0001:
 
-The current archetypes in =commissioning.org= are:
+- *Guild*: =epistem= — the epistemology guild (WP-0001). The review
+  practice is a form of structured knowledge work.
+- *Module*: =modules/aikosh= — the review tooling is part of aikosh's
+  collection machinery.
+- *Spirit typology*: the discussion of jogini, nāg devta, and other
+  non-guardian spirit types led to WP-0003 (spirit ecology survey).
+  The functional mapping from Himalayan spirit types to Aburaya
+  archetypes will be done in WP-0003 Part 3, not here.
 
-| Archetype | Phase | Existing spirit |
-|-----------+-------+-----------------|
-| Critic | Evaluate | dmt-eval-guardian |
-| Builder | Model | (none yet) |
-| Sculptor | Manifest | (none yet) |
-| Observer | Measure | (none yet) |
-| Guide | Orchestration | sutradhar-guardian |
+** What remains for Phase 2
 
-The review practice does not fit cleanly into one archetype:
+After Phase 1 delivers =develop/review-practice.org=, the commissioning
+proposal should:
 
-- It /observes/ (the Measure phase — "what is out there?")
-- It /evaluates/ (the Evaluate phase — "how does our work compare?")
-- It /guides/ decision-making (the Orchestration phase — "what should we do?")
-
-This cross-phase nature is the first signal that we may need a new kind
-of spirit — not a guardian (bound to a module) but something that moves
-across the project, entering any domain where review work is needed.
-
-*** Spirit typology beyond guardians
-
-The current taxonomy has only /guardian spirits/ — each bound to a
-project/module. But the Himalayan borderlands have richer spirit ecology:
-
-- /Devtas/ (village gods) — rooted, territorial, bound to a place.
-  This is the guardian spirit.
-- /Gur/ (oracle-medium) — the devta speaks through the gur. The harness,
-  not the spirit.
-- /Nāg devta/ (serpent spirits) — water-keepers, flow through the landscape.
-  Not bound to a single village but to the watershed.
-- /Jogini/ — independent, wandering, carrying knowledge between valleys.
-  Appears where needed, does not dwell.
-- /Bajantri/ (musicians) — the ones who play at the devta's festivals.
-  Specialists who serve any devta who calls.
-
-The review spirit has the nature of a /jogini/ or a /nāg devta/ — it
-does not guard a single module but moves through the project carrying a
-practice. It enters bravli when bravli needs a landscape mapped, enters
-dmt-eval when competitive analysis is needed, enters parbati when tools
-must be surveyed.
-
-This is a design question for discussion: *what spirit types does Aburaya
-recognise beyond the devta (guardian)?*
-
-*** Guild affiliation
-
-If the spirit is cross-domain, which guild does it belong to?
-Candidates:
-
-- =mayalucia= — the project-level guild (reads everything). But this
-  guild's concern is /organisational coherence/, not external research.
-- A new guild? Something like =vidyā= (knowledge) or =shodh= (research)?
-- No guild — a wandering spirit, guild-unaffiliated?
-
-*** Powers
-
-The review spirit would need powers not yet defined:
-
-- =web-survey= — structured web research (search, read, assess, tabulate)
-- =landscape-mapping= — produce a structured landscape document
-- =position-analysis= — compare own work against surveyed landscape
-- =review-compose= — assemble the full review document in project style
-
-These might compose from the existing =summarize-corpus= (for reading
-existing work) and =org-content-workflow= (for producing the output).
+1. Decide whether the review spirit is the aikosh-guardian itself
+   (one spirit, both toolsmith and practitioner) or a separate spirit
+   within the epistem guild (the aikosh-guardian builds tools; a
+   sibling spirit uses them for surveys).
+2. Define the spirit's powers based on the extracted patterns — these
+   will be grounded in the actual practice, not speculated in advance.
+3. Write the =identity.yaml= following the commissioning procedure.
 
 ** Deliverable
 
@@ -216,12 +172,20 @@ This is for human review before the actual commissioning act.
 Phase 1 can proceed immediately. Phase 2 requires the discussion in
 between.
 
+* Dependencies
+
+- *Depends on*: WP-0001 (epistem + aikosh commissioning) — the guild
+  and module must exist before the review spirit can be commissioned.
+- *Feeds*: WP-0003 (the review practice informs how the spirit ecology
+  survey is conducted) and WP-0004 (the pattern extraction informs
+  gazetteer schema design via aikosh).
+
 * Notes
 
-- The human mentioned that Aburaya is "more than a bathhouse" — the
-  Spirited Away reference is pop culture, but the internal model should
-  follow the spirit ecology of the Himalayan borderlands. This is a
-  design opportunity, not just a naming exercise.
+- The human mentioned that Aburaya is "more than a bathhouse" — this
+  discussion led to WP-0003 (spirit ecology of the transborder Himalaya)
+  and WP-0001 (epistem domain, where internal terminology follows
+  Himalayan borderland spirit traditions).
 - The review practice is one of the project's most valuable intellectual
   habits. Codifying it preserves it across sessions and spirits.
 - The spirit that carries this practice should have a disposition that
