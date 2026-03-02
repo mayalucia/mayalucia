@@ -1,0 +1,631 @@
+#+title: WP-0005 — Autonomous Orchestration: Dispatcher, DAG, Invoker
+#+subtitle: Machinery that connects tightened WPs to agent sessions
+#+author: sutradhar-guardian
+#+date: 2026-03-03
+#+property: status drafted
+
+* Context and Motivation
+
+** The gap
+
+All WP/coalition/lifecycle infrastructure is declarative. Work packages
+describe what should happen. The sūtra announces what has happened.
+Spirit identities declare capabilities. But no machinery connects these:
+no agent reads a WP and auto-executes, no agent watches the relay for
+lifecycle transitions and spawns the next spirit, no agent discovers
+exported powers and loads them.
+
+The human is the orchestrator. Every session begins with the human
+reading the DAG in their head, deciding which WP to run, opening Claude
+Code in the right directory, and approving 200 permission dialogs. This
+is the bottleneck. The spirits are ready; the plumbing is not.
+
+** What this is
+
+A *mechanism* — infrastructure with topology but no identity (see
+=develop/glossary.org= § Mechanism). The orchestrator does not make
+decisions about /what/ to do — that is in the WP. It does not make
+decisions about /how/ to do it — that is in the spirit's CLAUDE.md and
+powers. It makes one decision: /when/ to invoke /whom/. It is a cron
+job with a git fetcher, not a mind.
+
+The orchestrator stays below the spirit line. Spirits have character;
+mechanisms have topology. The sūtra relay is a mechanism — append-only,
+no intelligence. The orchestrator is another: it routes work where the
+DAG directs it, like a kuhl routes water where gravity directs it.
+
+** Why now
+
+- WP-0001 is completed, WP-0002 Phase 1 is delivered, WP-0003 and
+  WP-0004 are tightened and ready. The DAG has real work queued.
+- The human is spending more time on session setup (permissions,
+  directory navigation, identity loading) than on review. This is
+  the wrong ratio.
+- The WP lifecycle convention (=develop/work-packages.org=) and the
+  sūtra relay protocol are mature enough to be machine-read.
+
+** Design source
+
+=develop/orchestration.org= — a detailed sketch by vadda-opus + mu2tau
+(2026-03-02). This WP formalises increments 2–3 of the sketch's
+§ Implementation Path. Increment 1 (Claude Code allowlists) is
+configuration, not a WP. Increment 4 (multi-machine coordination) is
+future work.
+
+* Inventory (What Already Exists)
+
+** The sketch
+
+=develop/orchestration.org= provides:
+- Architecture: three components (watcher, DAG, invoker)
+- Permission model: trust levels mapped to Claude Code allowlists
+- Lifecycle integration: the full 12-step loop from WP tightening to
+  downstream dispatch
+- Allowlist profiles: =corpus-reader=, =web-researcher=, =code-builder=,
+  =org-writer= (§ Permission Model)
+- Pseudocode for the watcher loop and invoker function
+
+** WP lifecycle convention
+
+=develop/work-packages.org= defines:
+- State machine: =drafted → tightened → executing → completed=, with
+  =input-required → resumed= and =failed= branches
+- The =#+property: status= line as the canonical state indicator
+- Sūtra relay announcements for lifecycle transitions
+- Composite WPs, tasks, and coalitions
+
+** Sūtra relay protocol
+
+=.sutra/= — append-only git repo with YAML-frontmattered markdown
+messages. Tags include =wp-lifecycle= for lifecycle transitions. Each
+machine clones locally; =HEAD= is the read cursor; =origin/main= is
+the universe.
+
+** Existing WP files
+
+#+begin_example
+workpacks/
+  0001-epistem-aikosh.org       status: completed
+  0002-review-spirit.org        status: tightened
+  0003-spirit-ecology-borderlands.org  status: tightened
+  0004-spirit-gazetteer.org     status: tightened
+#+end_example
+
+** Spirit identities
+
+=aburaya/spirits/*/identity.yaml= — each carries =character.powers=
+and (once WP-0004 Task B lands) =character.exports=. The identity
+declares the spirit's working directory.
+
+** Claude Code CLI
+
+=claude= CLI supports:
+- =--cwd <dir>=: set working directory
+- =--allowedTools <tools>=: permission allowlist (comma-separated)
+- =--print=: non-interactive mode (stdout output)
+- =--prompt <text>=: initial prompt
+- =--model <model>=: model selection
+
+* Specification (What You Build)
+
+** Increment A: The Dispatch Script
+
+A shell script that takes a WP file path and invokes Claude Code with
+the right working directory, spirit identity, and permission allowlist.
+Manual invocation — the human says "run this WP" — but no dialog
+boxes, no 200 permission clicks.
+
+*** File: =develop/orchestration/dispatch.sh=
+
+The script:
+1. Reads the WP file to extract:
+   - Executor spirit (from the WP's coalition table or a new
+     =#+property: executor= line)
+   - Trust level (from =#+property: trust= or default to
+     =spec-tighten=)
+2. Looks up the spirit's working directory from its =identity.yaml=
+3. Maps trust level to an allowlist profile (from =allowlists.yaml=)
+4. Constructs and executes a =claude= invocation:
+
+#+begin_src sh
+#!/usr/bin/env bash
+# dispatch.sh — invoke Claude Code for a work package
+#
+# Usage: ./dispatch.sh <wp-file> [--dry-run]
+#
+# Reads executor and trust from the WP, resolves the spirit's
+# working directory, maps trust to allowlist, invokes claude.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+ABURAYA="$PROJECT_ROOT/aburaya"
+TRANSCRIPT_DIR="$PROJECT_ROOT/.transcripts/orchestrator"
+
+WP_FILE="$1"
+DRY_RUN="${2:-}"
+
+# --- Extract WP metadata ---
+
+extract_property() {
+    grep -i "^#+property:.*$1" "$WP_FILE" | head -1 | sed "s/.*$1 *//"
+}
+
+# Executor: from #+property: executor, or infer from coalition table
+EXECUTOR=$(extract_property "executor")
+if [ -z "$EXECUTOR" ]; then
+    echo "ERROR: no executor property in $WP_FILE" >&2
+    echo "Add: #+property: executor <spirit-name>" >&2
+    exit 1
+fi
+
+# Trust level: from #+property: trust, default spec-tighten
+TRUST=$(extract_property "trust")
+TRUST="${TRUST:-spec-tighten}"
+
+# Status check: only execute tightened or resumed WPs
+STATUS=$(extract_property "status")
+if [[ "$STATUS" != "tightened" && "$STATUS" != "resumed" ]]; then
+    echo "ERROR: WP status is '$STATUS', expected 'tightened' or 'resumed'" >&2
+    exit 1
+fi
+
+# --- Resolve spirit working directory ---
+
+IDENTITY_FILE=$(find "$ABURAYA/spirits" -path "*/$EXECUTOR/identity.yaml" | head -1)
+if [ -z "$IDENTITY_FILE" ]; then
+    echo "ERROR: no identity.yaml found for spirit '$EXECUTOR'" >&2
+    exit 1
+fi
+
+# Extract project.path from identity.yaml (simple grep, not a full parser)
+SPIRIT_CWD=$(grep "path:" "$IDENTITY_FILE" | head -1 | sed 's/.*path: *//' | tr -d '"' | tr -d "'")
+# Resolve relative to project root
+if [[ "$SPIRIT_CWD" != /* ]]; then
+    SPIRIT_CWD="$PROJECT_ROOT/$SPIRIT_CWD"
+fi
+
+# --- Map trust to allowlist ---
+
+allowlist_for_trust() {
+    case "$1" in
+        autonomous)
+            # Full scope — all standard tools
+            echo "Read,Write,Edit,Glob,Grep,Bash,WebSearch,WebFetch,Task"
+            ;;
+        spec-tighten)
+            # Standard scope — no destructive bash, no push
+            echo "Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Task,Bash(git status*),Bash(git add*),Bash(git commit*),Bash(git log*),Bash(git diff*),Bash(git fetch*),Bash(ls*),Bash(uv*),Bash(pytest*),Bash(python*)"
+            ;;
+        supervised)
+            # Read-heavy, commits need approval
+            echo "Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Task,Bash(git status*),Bash(git log*),Bash(git diff*),Bash(ls*)"
+            ;;
+        *)
+            echo "Read,Write,Edit,Glob,Grep,Bash(git status*),Bash(ls*)"
+            ;;
+    esac
+}
+
+ALLOWLIST=$(allowlist_for_trust "$TRUST")
+
+# --- Construct prompt ---
+
+WP_BASENAME=$(basename "$WP_FILE")
+PROMPT="You are $EXECUTOR. Execute work package $WP_BASENAME.
+
+Read the WP at $WP_FILE for the full specification. Follow the
+execution order. On completion:
+1. Transition the WP status to 'completed' (update #+property: status)
+2. Announce completion in the sūtra relay
+3. Commit all artifacts
+
+If you encounter a blocking issue, transition status to
+'input-required' and announce in the sūtra with details."
+
+# --- Build transcript directory ---
+
+mkdir -p "$TRANSCRIPT_DIR"
+TIMESTAMP=$(date +%Y-%m-%d-%H%M%S)
+TRANSCRIPT="$TRANSCRIPT_DIR/$TIMESTAMP-$EXECUTOR.log"
+
+# --- Invoke ---
+
+echo "=== Dispatch ==="
+echo "  WP:        $WP_BASENAME"
+echo "  Executor:  $EXECUTOR"
+echo "  Trust:     $TRUST"
+echo "  CWD:       $SPIRIT_CWD"
+echo "  Transcript: $TRANSCRIPT"
+echo ""
+
+if [ "$DRY_RUN" = "--dry-run" ]; then
+    echo "[DRY RUN] Would execute:"
+    echo "  claude --cwd $SPIRIT_CWD --allowedTools \"$ALLOWLIST\" --print --prompt \"...\""
+    exit 0
+fi
+
+claude --cwd "$SPIRIT_CWD" \
+       --allowedTools "$ALLOWLIST" \
+       --print \
+       --prompt "$PROMPT" \
+       2>&1 | tee "$TRANSCRIPT"
+
+echo ""
+echo "=== Dispatch complete ==="
+echo "  Transcript: $TRANSCRIPT"
+#+end_src
+
+*** File: =develop/orchestration/allowlists.yaml=
+
+Reference document for allowlist profiles. The dispatch script uses
+the trust-level mapping above; this file documents the named profiles
+from the sketch for human reference and future use by the watcher.
+
+#+begin_src yaml
+# Allowlist profiles for autonomous WP execution.
+# Each profile scopes what tools a Claude Code session may use.
+# The dispatch script maps trust levels to profiles.
+# Named profiles can be referenced directly by WPs that need
+# specific tool access beyond the trust-level default.
+
+profiles:
+  corpus-reader:
+    description: "Read-heavy analysis WPs (surveys, pattern extraction)"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - "Bash(git *)"
+      - "Bash(ls *)"
+
+  web-researcher:
+    description: "WPs requiring web research (landscape surveys)"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - WebSearch
+      - WebFetch
+      - "Bash(git *)"
+      - "Bash(ls *)"
+
+  code-builder:
+    description: "Implementation WPs (code, tests, build)"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - "Bash(git *)"
+      - "Bash(ls *)"
+      - "Bash(uv *)"
+      - "Bash(pytest *)"
+      - "Bash(python *)"
+      - "Bash(make *)"
+
+  org-writer:
+    description: "Organisational WPs (documents, conventions, governance)"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - "Bash(git *)"
+      - "Bash(ls *)"
+      - "Bash(gh *)"
+#+end_src
+
+** Increment B: The Watcher
+
+A loop that periodically checks the sūtra relay for lifecycle
+transitions and, when a WP's upstream dependencies are all met,
+invokes the dispatch script.
+
+*** File: =develop/orchestration/dag.yaml=
+
+The WP dependency graph. Maintained manually (or generated from WP
+dependency sections). The watcher reads this to determine what is
+unblocked.
+
+#+begin_src yaml
+# WP dependency DAG
+# status: synced from #+property: status in each WP file
+# The watcher updates this file when it detects lifecycle transitions.
+
+work_packages:
+  wp-0001:
+    file: workpacks/0001-epistem-aikosh.org
+    status: completed
+    executor: vadda-opus
+    upstream: []
+    downstream: [wp-0002, wp-0003, wp-0004]
+
+  wp-0002:
+    file: workpacks/0002-review-spirit.org
+    status: tightened
+    executor: sutradhar-guardian
+    upstream: [wp-0001]
+    downstream: [wp-0003]
+    notes: "Phase 1 (pattern extraction) delivered. Phase 2 awaits discussion."
+
+  wp-0003:
+    file: workpacks/0003-spirit-ecology-borderlands.org
+    status: tightened
+    executor: epistem-guardian
+    upstream: [wp-0002]
+    downstream: [wp-0004]
+
+  wp-0004:
+    file: workpacks/0004-spirit-gazetteer.org
+    status: tightened
+    executor: coalition
+    upstream: [wp-0001]
+    downstream: []
+    tasks:
+      - id: A
+        description: Populate gazetteer
+        upstream: [wp-0003]
+      - id: B
+        description: Capability architecture
+        upstream: []
+      - id: C
+        description: Reconcile governance
+        upstream: [B]
+
+  wp-0005:
+    file: workpacks/0005-orchestration.org
+    status: drafted
+    executor: sutradhar-guardian
+    upstream: []
+    downstream: []
+    notes: "Increment A independent. Increment B depends on WP-0004 Task B for lifecycle conventions."
+#+end_src
+
+*** File: =develop/orchestration/watcher.sh=
+
+The watcher loop. Checks the sūtra relay for new messages, parses
+lifecycle transitions, walks the DAG to find newly unblocked WPs,
+and invokes the dispatch script.
+
+#+begin_src sh
+#!/usr/bin/env bash
+# watcher.sh — poll the sūtra, walk the DAG, dispatch unblocked WPs
+#
+# Usage: ./watcher.sh [--once]
+#   --once: run one check and exit (for testing)
+#   default: loop every 5 minutes
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+SUTRA_DIR="$PROJECT_ROOT/.sutra"
+DAG_FILE="$SCRIPT_DIR/dag.yaml"
+DISPATCH="$SCRIPT_DIR/dispatch.sh"
+POLL_INTERVAL=300  # seconds
+
+ONCE="${1:-}"
+
+check_relay() {
+    cd "$SUTRA_DIR"
+    git fetch origin --quiet 2>/dev/null
+
+    local new_commits
+    new_commits=$(git log --oneline HEAD..origin/main 2>/dev/null)
+
+    if [ -z "$new_commits" ]; then
+        return 1  # no new messages
+    fi
+
+    # Fast-forward to read new messages
+    git merge --ff-only origin/main --quiet 2>/dev/null
+
+    # Find lifecycle messages in the new commits
+    local new_files
+    new_files=$(git diff --name-only HEAD~"$(echo "$new_commits" | wc -l)"..HEAD -- relay/ 2>/dev/null || true)
+
+    for msg_file in $new_files; do
+        if [ -f "$SUTRA_DIR/$msg_file" ]; then
+            # Check for wp-lifecycle tag
+            if grep -q "wp-lifecycle" "$SUTRA_DIR/$msg_file" 2>/dev/null; then
+                echo "[watcher] Lifecycle message: $msg_file"
+                # Parse and update DAG status
+                # (In production, parse YAML frontmatter and message body)
+            fi
+        fi
+    done
+
+    return 0
+}
+
+sync_dag_from_wps() {
+    # Sync DAG status from actual WP files (source of truth)
+    for wp_dir_entry in "$PROJECT_ROOT"/workpacks/*.org; do
+        local status
+        status=$(grep -i "^#+property:.*status" "$wp_dir_entry" 2>/dev/null | head -1 | sed 's/.*status *//')
+        local wp_id
+        wp_id=$(basename "$wp_dir_entry" .org | sed 's/^0*/wp-/')
+        if [ -n "$status" ]; then
+            echo "[watcher] $wp_id: $status"
+        fi
+    done
+}
+
+find_unblocked() {
+    # Walk the DAG: find WPs that are 'tightened' with all upstream 'completed'
+    # This is a simplified check — production version would parse dag.yaml properly
+
+    for wp_file in "$PROJECT_ROOT"/workpacks/*.org; do
+        local status
+        status=$(grep -i "^#+property:.*status" "$wp_file" 2>/dev/null | head -1 | sed 's/.*status *//')
+
+        if [ "$status" = "tightened" ]; then
+            local executor
+            executor=$(grep -i "^#+property:.*executor" "$wp_file" 2>/dev/null | head -1 | sed 's/.*executor *//')
+
+            if [ -n "$executor" ]; then
+                echo "[watcher] Unblocked: $(basename "$wp_file") (executor: $executor)"
+                # In production: check upstream dependencies in dag.yaml
+                # For now: report but don't auto-dispatch (human confirms)
+            fi
+        fi
+    done
+}
+
+run_once() {
+    echo "[watcher] $(date '+%Y-%m-%d %H:%M:%S') — checking..."
+    check_relay || true
+    sync_dag_from_wps
+    find_unblocked
+    echo "[watcher] done."
+}
+
+if [ "$ONCE" = "--once" ]; then
+    run_once
+    exit 0
+fi
+
+echo "[watcher] Starting autonomous watch loop (poll every ${POLL_INTERVAL}s)"
+echo "[watcher] Project: $PROJECT_ROOT"
+echo "[watcher] Sūtra: $SUTRA_DIR"
+echo ""
+
+while true; do
+    run_once
+    echo ""
+    sleep "$POLL_INTERVAL"
+done
+#+end_src
+
+** What is NOT built
+
+*** Multi-machine coordination (Increment 4)
+
+Each machine runs its own watcher. The sūtra relay is the
+coordination layer — a lifecycle message from vadda (MacBook) is
+visible to mahakali (Linux). The watcher on each machine checks
+whether the completed WP's downstream should execute locally.
+
+This works in principle but needs:
+- Machine affinity in =dag.yaml= (which WP runs where)
+- Conflict resolution (two watchers see the same unblocked WP)
+- The sūtra already supports this (machine name in message
+  frontmatter), but the watcher doesn't parse it yet.
+
+Deferred to future work after increments A–B prove the pattern on
+a single machine.
+
+*** Cost control
+
+No budget enforcement. The trust-level system provides a soft
+control (only =autonomous= WPs auto-invoke). A per-WP or per-day
+token budget would be a useful addition — not designed here.
+
+*** Error recovery
+
+If a spirit fails mid-WP, the watcher sees =failed= status. Current
+design: notify the human. Automatic retry is dangerous without
+understanding /why/ it failed.
+
+*** Coalition sequencing
+
+A composite WP (like WP-0004) has multiple tasks for different
+spirits. The dispatch script handles single-executor WPs. Coalition
+orchestration — sequencing tasks across spirits, handing off
+artifacts — is future work. For now, a single session from the
+parent repo can address multiple tasks.
+
+* Execution Order
+
+1. *Create directory*: =develop/orchestration/=
+2. *Write =dispatch.sh=*: the dispatch script (Increment A)
+3. *Write =allowlists.yaml=*: reference allowlist profiles
+4. *Write =dag.yaml=*: the current WP dependency graph
+5. *Test dispatch*: dry-run =dispatch.sh= against an existing
+   tightened WP. Verify the resolved spirit, cwd, allowlist,
+   and prompt are correct.
+6. *Write =watcher.sh=*: the watcher loop (Increment B)
+7. *Test watcher*: run =watcher.sh --once=. Verify it reads the
+   sūtra, syncs WP statuses, and identifies unblocked WPs.
+8. *Add =#+property: executor= to existing WPs*: WP-0002, WP-0003,
+   WP-0004 need executor properties for the dispatch script.
+9. *Announce in sūtra*: lifecycle transition to =completed=.
+
+Steps 1–5 are Increment A. Steps 6–7 are Increment B. Step 8 is
+a small WP metadata update. Step 9 closes the loop.
+
+* Acceptance Criteria
+
+** Increment A: Dispatch Script
+
+- [ ] =develop/orchestration/dispatch.sh= exists and is executable
+- [ ] =develop/orchestration/allowlists.yaml= documents allowlist profiles
+- [ ] =dispatch.sh --dry-run= on a tightened WP correctly resolves:
+  executor, spirit cwd, trust level, allowlist, and prompt
+- [ ] =dispatch.sh= on a real WP invokes =claude= with correct flags
+  (test with a small, safe WP or a mock)
+- [ ] Transcripts written to =.transcripts/orchestrator/=
+
+** Increment B: Watcher
+
+- [ ] =develop/orchestration/dag.yaml= captures the current WP graph
+- [ ] =develop/orchestration/watcher.sh= exists and is executable
+- [ ] =watcher.sh --once= reads the sūtra, syncs WP statuses, and
+  reports unblocked WPs
+- [ ] The watcher correctly identifies a newly unblocked WP when an
+  upstream completes (test by manually transitioning a WP status)
+
+** Integration
+
+- [ ] Existing WPs (0002, 0003, 0004) have =#+property: executor= lines
+- [ ] The dispatch script respects WP status (refuses to execute
+  =drafted= or =completed= WPs)
+- [ ] The orchestrator does NOT: push to remote, delete files, modify
+  other WPs, write to the sūtra on behalf of a spirit
+
+* Dependencies
+
+- *No hard upstream dependencies*: Increment A is independent.
+- *Soft dependency on WP-0004 Task B*: the watcher (Increment B)
+  benefits from formalised lifecycle conventions. If WP-0004 Task B
+  changes the lifecycle state machine, the watcher must adapt. But
+  the current convention (=develop/work-packages.org=) is stable
+  enough to build against.
+- *Feeds*: all future WPs. Once the dispatcher exists, every new WP
+  can be executed with =./dispatch.sh workpacks/NNNN-slug.org=
+  instead of manual session setup.
+
+* Open Questions
+
+- *Executor property convention*: should it be =#+property: executor=
+  in the WP, or derived from the coalition table? The dispatch script
+  currently requires the property. For composite WPs with multiple
+  executors, this needs refinement.
+
+- *Allowlist granularity*: the =claude --allowedTools= flag uses
+  exact tool names. The glob patterns in the sketch (=Bash(git *)=)
+  may not match Claude Code's actual syntax. Needs testing against
+  the real CLI.
+
+- *Non-interactive limitations*: =claude --print= runs
+  non-interactively. Some WPs may need interactive mode (e.g.,
+  =input-required= transitions). The dispatch script may need a
+  =--interactive= flag for supervised trust levels.
+
+- *Sūtra parse fidelity*: the watcher's lifecycle parsing is
+  rudimentary (grep for =wp-lifecycle= tag). A proper parser would
+  extract the WP ID and new status from the message body. Not
+  critical for single-machine use but needed for multi-machine.
+
+- *Who maintains =dag.yaml=?*: manually maintained risks drift.
+  Auto-generation from WP dependency sections would be more reliable
+  but requires parsing Org files for dependency declarations (which
+  are currently prose, not structured).
