@@ -59,6 +59,7 @@ modules/          # Computational engines (submodules)
   sutradhar/      #   Project self-awareness — relay reader, constellation (Clojure)
 project/          # Modular architecture design, user stories
 website/          # Hugo site (PaperMod theme submodule)
+workpacks/        # Project-level work packages (NNNN-slug.org)
 mayalucia.org     # Vision document — the philosophical foundation
 ```
 
@@ -104,6 +105,7 @@ per-machine. Quick reference:
 - **Literate programming**: Source of truth lives in `.org` files. Code is tangled from them. When working in any module that follows this pattern, never edit generated source files directly.
 - **Org-mode throughout**: Plans, specs, session logs, vision documents — all in Org. The human works in Emacs.
 - **Plan + Spec duality**: Collaboration tasks produce two artifacts — `plan.org` (human face: why before what) and `spec.org` (machine face: exact paths, signatures, done-when criteria). If they disagree, plan is authoritative.
+- **Work packages**: A WP is a self-contained briefing that an autonomous agent can execute to produce a tested result. WPs live in `workpacks/` (project-level), `modules/<module>/workpacks/` or `domains/<domain>/workpacks/`. Named `NNNN-<slug>.org`. Structure: Context → Inventory → Specification → Execution Order → Acceptance Criteria. Full convention in `develop/work-packages.org`.
 - **Glossary**: This project uses Sanskrit and project-specific vocabulary extensively. When you encounter an unfamiliar term, consult `develop/glossary.org` before guessing.
 
 ## Git Conventions

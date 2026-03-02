@@ -1,0 +1,208 @@
+#+title: Work Packages — Convention
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-02
+
+* What a Work Package Is
+
+A *work package* (WP) is a self-contained briefing that specifies a unit
+of work clearly enough for an autonomous agent to execute it — producing
+a tested, polished result — with no human intervention beyond an initial
+review of the spec and a final acceptance of the output.
+
+The work package is the project's unit of intentional work. It is not a
+ticket (too thin), not a design document (too reflective), not a user
+story (too consumer-facing). It is a /briefing/: here is the situation,
+here is what exists, here is what you build, here is how we know you
+succeeded.
+
+** Relationship to existing conventions
+
+| Convention           | Relationship                            |
+|----------------------+-----------------------------------------|
+| Plan + Spec duality  | A WP /fuses/ both: motivation (plan face) |
+|                      | and exact specification (spec face)     |
+|                      | in one document.                        |
+|                      | If a WP grows large enough              |
+|                      | to need separation,                     |
+|                      | split into =plan.org= + =spec.org=          |
+|                      | and reference the WP as the parent.     |
+| Commissioning        | Commissioning creates                   |
+|                      | a /place and a guardian/.                 |
+|                      | A WP creates a /task/. A commissioning    |
+|                      | act may begin with a WP that describes  |
+|                      | the work needed.                        |
+| Relay messages       | A WP can be announced in the sūtra.     |
+|                      | The relay message is the announcement;  |
+|                      | the WP is the full briefing.            |
+| Literate programming | WPs are Org files.                      |
+|                      | They may contain =:tangle= blocks that    |
+|                      | generate the code directly.             |
+|                      | The WP is then both spec and source.    |
+| =codev/= directories   | The existing =codev/NN-*.org= files       |
+|                      | in dmt-eval are proto-WPs.              |
+|                      | This convention generalises             |
+|                      | and names the pattern.                  |
+|                      |                                         |
+
+* Structure of a Work Package
+
+Every WP has these sections. Not all need to be long — a small WP may have a one-sentence context and no deployment section — but the skeleton is stable.
+
+** Required sections
+
+*** 1. Context and Motivation
+
+/Why does this work exist?/ The situation that makes it necessary or valuable. Include deadlines, dependencies, and who cares about the outcome. An agent reading this section should understand the stakes. This is the /plan face/ — the human-readable argument for the work.
+
+*** 2. Inventory (What Already Exists)
+
+/What do we have?/ Before specifying what to build, enumerate what is already built, what works, what is broken, and what is adjacent. The agent must not reinvent what exists. This section prevents waste and preserves the project's investment in prior work. Include file paths, function signatures, known limitations.
+
+*** 3. Specification (What You Build)
+
+/Exactly what to create./ The /spec face/. File paths, directory structure, code blocks (with =:tangle= headers when the WP is the literate source), API contracts, configuration. Be concrete — an agent should be able to execute this section mechanically.
+For large WPs, subdivide into numbered parts.
+
+*** 4. Execution Order
+
+/In what sequence?/ Dependencies between parts. What must happen first. What can be parallelised. What the agent does vs. what the human does.
+
+*** 5. Acceptance Criteria
+
+/How do we know it worked?/ A checklist. Test commands, expected outputs, visual checks, deployment verifications. The agent marks these as it goes; the human validates at acceptance.
+
+** Optional sections
+
+*** 6. What This Proves
+
+/What is the meaning of the work?/ Not every WP needs this, but for externally-facing deliverables (demos, papers, applications) it helps to articulate what the completed work demonstrates. This anchors the agent's judgment when making trade-offs.
+
+*** 7. Open Questions
+
+Things the WP author could not resolve. The agent executing the WP should flag these if they become blocking, not silently decide.
+
+*** 8. Tangles and Artifacts
+
+If the WP tangles code, list the target files. If it produces artifacts (reports, images, deployed services), name them.
+
+* Where Work Packages Live
+
+** Project-level WPs
+
+#+begin_example
+mayalucia/
+  workpacks/                    # project-level work packages
+    NNNN-<slug>.org             # numbered, zero-padded to 4 digits
+#+end_example
+
+The =workpacks/= directory at the project root holds WPs that span
+the organisation or don't belong to a single module. Numbering is
+sequential, four digits (=0001=, =0002=, ...) to allow growth.
+
+** Module and domain-level WPs
+
+Any project container — module or domain — may have its own work
+packages:
+
+#+begin_example
+modules/<module>/
+  workpacks/                    # module-level work packages
+    NNNN-<slug>.org
+
+domains/<domain>/
+  workpacks/                    # domain-level work packages
+    NNNN-<slug>.org
+#+end_example
+
+Module and domain WPs are scoped to that container's concerns. The
+guardian spirit (if one exists) is the natural executor. A domain like
+bravli might issue WPs for circuit reconstruction tasks; parbati for
+GIS data ingestion. These are first-class — they follow the same
+structure and conventions as project-level WPs.
+
+The existing =codev/= directories (e.g. =modules/dmt-eval/codev/=) are
+the precursor to this convention. Existing =codev/= files need not be
+moved — they are the historical record. New work packages should go
+to =workpacks/=.
+
+** Naming
+
+#+begin_example
+NNNN-<slug>.org
+#+end_example
+
+- =NNNN=: four-digit sequential number within the directory
+- =<slug>=: lowercase, hyphen-separated description
+- Examples: =0001-review-spirit.org=, =0002-bench-service.org=
+
+Numbering is per-directory (project and each module have independent
+sequences). The number provides ordering and a stable reference.
+
+* Work Packages and Autonomous Execution
+
+** The autonomy gradient
+
+A WP specifies a /trust level/ for its execution:
+
+| Level        | Human involvement                               | Example                                       |
+|--------------+-------------------------------------------------+-----------------------------------------------|
+| *Spec-tighten* | Human reviews WP, may edit, then hands off      | Most WPs                                      |
+| *Checkpoint*   | Agent pauses at marked points for human review  | WPs with irreversible steps (deploy, publish) |
+| *Supervised*   | Agent works, human monitors in real time        | First execution of a new pattern              |
+| *Pair*         | Human and agent co-author the WP and co-execute | Design-heavy work                             |
+
+The default is *spec-tighten*: the human reads the WP, adjusts if
+needed, and says "go." The agent executes to completion, producing
+a tested result. The human accepts or requests changes.
+
+** What an agent needs to execute a WP
+
+1. The WP itself (the Org file)
+2. The project's CLAUDE.md (conventions, constraints)
+3. Access to the inventory (the codebase the WP references)
+4. The spirit's powers (capabilities needed for execution)
+5. The testing environment (to verify acceptance criteria)
+
+A well-written WP contains everything else. The agent should not need to ask clarifying questions during execution — those should have been resolved during the spec-tighten phase.
+
+** Full-scope WPs
+
+A WP can describe an entire deliverable — a website, a service, an application — from zero to deployed prototype. In this case the WP is comprehensive:
+
+- Design decisions are made in the WP, not deferred to the agent
+- Technology choices are specified (not "choose a framework")
+- Content is provided or its source is named
+- Deployment target and method are specified
+- The customer-facing result is described concretely
+
+The agent's job is execution, not architecture. Architecture lives in the WP. The human's job is to write (or co-write) a WP tight enough that execution is mechanical — and then to accept or revise the result.
+
+This is the /Sculptor's Paradox/ applied to specification: a WP that offers no resistance to interpretation teaches no one what the product should be. Tighten until the spec has only one reasonable reading.
+
+* Relationship to Spirits and Powers
+
+** Who writes WPs?
+
+- The human (mu2tau) writes WPs for work they want done
+- A guardian spirit may write WPs for work within its scope — subject to human approval before execution
+- The sutradhar-guardian may write WPs for organisational work
+  (coherence, deployment, presentation)
+- Any spirit may /propose/ a WP via the sūtra relay; the human or the sutradhar decides whether to approve it
+
+** Who executes WPs?
+
+- A guardian spirit executes WPs within its module
+- The parent-level spirit (vadda-opus) executes organization-level WPs
+- A wandering spirit (if such are commissioned) executes WPs that
+  cross module boundaries
+- The human executes WPs that require embodied judgment (design review, user testing, deployment approval)
+
+** WPs as commissioning artifacts
+
+A commissioning act (=aburaya/commissioning.org=) may begin with a WP that describes the work that motivated the new project. The WP's context section becomes the spirit's =provenance= in its =identity.yaml=. The WP's specification becomes the initial scope.
+
+* Document Status
+
+| Version |       Date | Notes                                                         |
+|---------+------------+---------------------------------------------------------------|
+|     0.1 | 2026-03-02 | Initial convention, distilled from WP-13 pattern + discussion |

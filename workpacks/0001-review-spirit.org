@@ -1,0 +1,230 @@
+#+title: WP — Review Reports: Pattern Extraction and Spirit Commissioning
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-02
+
+* Motivation
+
+MāyāLucIA produces a distinctive kind of document we have been calling
+"review reports" but which is really a family of related activities:
+
+- /Landscape surveys/ — mapping what exists in a field (GIS MCP servers,
+  executable manuscript tools, connectomics papers, AI evaluation frameworks)
+- /Position papers/ — placing our own work against the surveyed landscape
+  (autonomy agreements vs. CIRL, DMT vs. EleutherAI harness)
+- /Strategic briefings/ — synthesising regulatory, market, and technical
+  context to argue for a direction (DMT for AI agents)
+- /Gap analyses/ — what is missing, what is our opening, what remains unknown
+  (bravli landscape "what could we understand next")
+
+These are not independent genres. A single document often passes through
+several: the DMT report opens with a gap analysis (the universal validation
+problem), surveys existing frameworks (EleutherAI, Inspect AI, Brain-Score),
+positions DMT against them, and closes with a strategic plan. The executable
+manuscripts survey traces a genealogy (Knuth → Jupyter → Quarto → Org-babel),
+assesses the commercial SOTA, and identifies where our practice sits.
+
+The pattern recurs across every domain — bravli, parbati, agency, dmt-eval —
+and appears to be a core intellectual practice of the project: /understand the
+field by building a map of it, then locate yourself on the map/.
+
+We want to distil this practice into a reproducible skill that an agent can
+perform, and commission a spirit to carry it.
+
+* The Corpus
+
+The following documents constitute the corpus of review work to date:
+
+| Document | Location | Type |
+|----------|----------|------|
+| DMT for AI Agents | =modules/dmt-eval/develop/dmt-for-ai-agents.org= | Strategic briefing + framework survey |
+| DMT Project Charter | =modules/dmt-eval/develop/project-charter.org= | Genesis narrative + positioning |
+| Autonomy Agreement position | =develop/autonomy-agreement/position.org= | Position paper + comparative analysis |
+| Autonomy Agreement survey | =develop/autonomy-agreement/survey.org= | Interdisciplinary literature survey |
+| Executable Manuscripts survey | =domains/bravli/manuscripts/executable-manuscripts-survey.org= | Technology genealogy + commercial SOTA |
+| GIS/Earth Science MCP review | =domains/parbati/gis-earth-science-mcp-review.org= | Tool landscape (40+ MCP servers) |
+| Bravli landscape | =domains/bravli/develop/landscape.org= | Open questions + capability gap analysis |
+| MB dynamics paper | =domains/bravli/manuscripts/mb-dynamics/paper.org= | Research paper (positions against Zhang 2024) |
+| Cortical predictive coding | =domains/bravli/manuscripts/cortical-predictive-coding.org= | Methodology paper + BBP positioning |
+| Mayajiva landscape | =website/content/modules/mayajiva/landscape.md= | Domain landscape |
+
+* Phase 1: Pattern Extraction
+
+** Objective
+
+Read the corpus above and produce an ORG document that captures the
+/practice/ — not the content of any single review, but the patterns that
+recur across all of them. This is a second-order analysis: the review
+of reviews.
+
+** What to extract
+
+*** 1. Document architecture patterns
+
+How are these documents structured? What sections recur? What is the
+typical arc? Identify the recurring skeleton:
+
+- How do they open? (Problem statement? Historical narrative? Gap?)
+- How do they survey? (Chronological genealogy? Category matrix? Concentric rings?)
+- How do they compare? (Feature tables? Prose contrasts? Quadrant analysis?)
+- How do they position? (Gap identification? Competitive advantage? Philosophical grounding?)
+- How do they close? (Action items? Open questions? Strategic plan?)
+
+*** 2. Web research patterns
+
+What kinds of external information go into these documents? Characterise
+the research practice:
+
+- /Regulatory and standards/: EU AI Act, NIST, ISO — how are these sourced
+  and integrated?
+- /Academic literature/: papers, citations, intellectual genealogy — how deep
+  does the review go? What counts as sufficient coverage?
+- /Tools and products/: GitHub repos, PyPI packages, commercial offerings —
+  what do we look for? (stars, version, API patterns, limitations)
+- /Market and timing/: why-now arguments — how do we construct urgency?
+
+*** 3. Comparison methodology
+
+How does the project compare its own work to what it finds?
+
+- What are the recurring comparison dimensions? (Report generation, adapter
+  patterns, extensibility, domain specificity)
+- When do we use tables? When prose? When quadrant diagrams?
+- How do we handle "closest existing work"? (The autonomy paper's §3 is a
+  model: each ancestor gets a paragraph, then a "but" clause.)
+- What is our relationship to the things we compare against — competitor?
+  successor? orthogonal? How is this framed?
+
+*** 4. Voice and epistemic stance
+
+What is the rhetorical stance of these documents?
+
+- How does uncertainty get expressed? ("immature state", "an open question",
+  "whether the market exists is an open question")
+- When do we use the first person? When impersonal?
+- What is the ratio of reporting to judgment?
+- How does domain expertise surface? (The physics training, the BBP years,
+  the Indian epistemological tradition)
+
+*** 5. Integration with the project cycle
+
+How do reviews connect to the Measure → Model → Manifest → Evaluate cycle?
+
+- Reviews appear to live in the /Measure/ phase (surveying what exists) and
+  the /Evaluate/ phase (positioning against it)
+- Do they always precede building? Or do some emerge after?
+- How do reviews feed into commissioning decisions? (The GIS review → parbati
+  tooling choices; the DMT survey → project charter)
+
+** Deliverable
+
+An ORG file: =develop/review-practice.org= — a pattern language for the
+project's review work. This document should be detailed enough that an agent
+could, given a domain and a question, produce a review document in the
+project's established style.
+
+* Phase 2: Spirit Commissioning
+
+Once the pattern extraction is complete, we commission a spirit to carry
+the review practice.
+
+** Open questions for discussion
+
+*** What kind of spirit is this?
+
+The current archetypes in =commissioning.org= are:
+
+| Archetype | Phase | Existing spirit |
+|-----------+-------+-----------------|
+| Critic | Evaluate | dmt-eval-guardian |
+| Builder | Model | (none yet) |
+| Sculptor | Manifest | (none yet) |
+| Observer | Measure | (none yet) |
+| Guide | Orchestration | sutradhar-guardian |
+
+The review practice does not fit cleanly into one archetype:
+
+- It /observes/ (the Measure phase — "what is out there?")
+- It /evaluates/ (the Evaluate phase — "how does our work compare?")
+- It /guides/ decision-making (the Orchestration phase — "what should we do?")
+
+This cross-phase nature is the first signal that we may need a new kind
+of spirit — not a guardian (bound to a module) but something that moves
+across the project, entering any domain where review work is needed.
+
+*** Spirit typology beyond guardians
+
+The current taxonomy has only /guardian spirits/ — each bound to a
+project/module. But the Himalayan borderlands have richer spirit ecology:
+
+- /Devtas/ (village gods) — rooted, territorial, bound to a place.
+  This is the guardian spirit.
+- /Gur/ (oracle-medium) — the devta speaks through the gur. The harness,
+  not the spirit.
+- /Nāg devta/ (serpent spirits) — water-keepers, flow through the landscape.
+  Not bound to a single village but to the watershed.
+- /Jogini/ — independent, wandering, carrying knowledge between valleys.
+  Appears where needed, does not dwell.
+- /Bajantri/ (musicians) — the ones who play at the devta's festivals.
+  Specialists who serve any devta who calls.
+
+The review spirit has the nature of a /jogini/ or a /nāg devta/ — it
+does not guard a single module but moves through the project carrying a
+practice. It enters bravli when bravli needs a landscape mapped, enters
+dmt-eval when competitive analysis is needed, enters parbati when tools
+must be surveyed.
+
+This is a design question for discussion: *what spirit types does Aburaya
+recognise beyond the devta (guardian)?*
+
+*** Guild affiliation
+
+If the spirit is cross-domain, which guild does it belong to?
+Candidates:
+
+- =mayalucia= — the project-level guild (reads everything). But this
+  guild's concern is /organisational coherence/, not external research.
+- A new guild? Something like =vidyā= (knowledge) or =shodh= (research)?
+- No guild — a wandering spirit, guild-unaffiliated?
+
+*** Powers
+
+The review spirit would need powers not yet defined:
+
+- =web-survey= — structured web research (search, read, assess, tabulate)
+- =landscape-mapping= — produce a structured landscape document
+- =position-analysis= — compare own work against surveyed landscape
+- =review-compose= — assemble the full review document in project style
+
+These might compose from the existing =summarize-corpus= (for reading
+existing work) and =org-content-workflow= (for producing the output).
+
+** Deliverable
+
+An addendum to =aburaya/commissioning.org= (or a new companion document)
+proposing the spirit identity, type, powers, and commissioning procedure.
+This is for human review before the actual commissioning act.
+
+* Sequence
+
+1. *Pattern extraction* (Phase 1) — agent reads the corpus, produces
+   =develop/review-practice.org=
+2. *Discussion* — human and agent discuss spirit typology, the jogini
+   concept, guild design
+3. *Commissioning proposal* (Phase 2) — agent writes the proposal
+4. *Commissioning act* — human approves, spirit is registered
+
+Phase 1 can proceed immediately. Phase 2 requires the discussion in
+between.
+
+* Notes
+
+- The human mentioned that Aburaya is "more than a bathhouse" — the
+  Spirited Away reference is pop culture, but the internal model should
+  follow the spirit ecology of the Himalayan borderlands. This is a
+  design opportunity, not just a naming exercise.
+- The review practice is one of the project's most valuable intellectual
+  habits. Codifying it preserves it across sessions and spirits.
+- The spirit that carries this practice should have a disposition that
+  captures the essence: something like =trace-the-watershed= (follow the
+  flow of ideas to their source) or =read-the-strata= (geological
+  metaphor — the layers of prior work that the present rests on).
