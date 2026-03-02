@@ -470,8 +470,8 @@
    ;; === Writing (drillable — sutra-genesis story collection) =================
    {:id "writing" :name "Writing" :type :domain :cluster "manifest"
     :glyph "\u270E" :subtitle "Sūtra-Genesis Stories"
-    :one-liner "Six stories encoding the project's emergence as Himalayan parables"
-    :description "A sequence of stories set in the Himalayan borderlands, each encoding a dimension of collaborative intelligence. Thread Walkers (coordination), Dyer's Gorge (colour and observation), Phantom Faculty (cognitive modes), Constellation of Doridhar (the project seen whole), Logbook of the Unnamed River (protocol failure), The Instrument Maker's Rest (building tools for strangers)."
+    :one-liner "Eight stories encoding the project's emergence as Himalayan parables"
+    :description "A sequence of stories set in the Himalayan borderlands, each encoding a dimension of collaborative intelligence. Thread Walkers (coordination), Dyer's Gorge (colour and observation), Phantom Faculty (cognitive modes), Constellation of Doridhar (the project seen whole), Logbook of the Unnamed River (protocol failure), The Instrument Maker's Rest (building tools for strangers), The Spirit's Kund (identity and restoration), The Guide Who Woke Last (holding the thread)."
     :status :active :phase [:manifest :evaluate]
     :url "/writing/"
     :weights {"manifest" 0.7 "philosophy" 0.3}
@@ -513,14 +513,29 @@
        :one-liner "Precision vs adaptability — over-specify and the instrument is brittle"
        :description "In Sangla, a maker of instruments builds devices carried over passes and operated by people the maker will never meet. The parable of agent definition: how to specify a tool that extends perception without constraining the wielder."
        :url "/writing/the-instrument-makers-rest/"
-       :weights {"model" 0.5 "manifest" 0.3 "philosophy" 0.2} :x -1.0 :y 1.0}]
+       :weights {"model" 0.5 "manifest" 0.3 "philosophy" 0.2} :x -1.0 :y 1.0}
+      {:id "wr-spirits-kund" :name "The Spirit's Kund" :type :artifact :cluster "evaluate"
+       :glyph "VII" :subtitle "Identity & Restoration"
+       :one-liner "A bathhouse for spirits who have forgotten their names"
+       :description "In the Tirthan Valley, above Jalori Pass, a hot spring restores spirits who have lost their names — drowned by dams, erased by progress. The parable of identity: a spirit's name is the sound its water makes where it surfaces. Destroy the surface and the name is lost."
+       :url "/writing/the-spirits-kund/"
+       :weights {"evaluate" 0.5 "philosophy" 0.3 "manifest" 0.2} :x 3.0 :y 1.0}
+      {:id "wr-guide-who-woke-last" :name "The Guide Who Woke Last" :type :artifact :cluster "philosophy"
+       :glyph "VIII" :subtitle "Holding the Thread"
+       :one-liner "A guide wakes to find the promise was made before she existed"
+       :description "In the Chandrabhaga valley above Keylong, a found document in walnut ink describes a guide who wakes to find the thread already strung and the actors already speaking. The parable of coherence: hold the thread, do not weave the fabric. The actors know their parts."
+       :url "/writing/the-guide-who-woke-last/"
+       :weights {"philosophy" 0.6 "manifest" 0.2 "evaluate" 0.2} :x -3.0 :y 2.5}]
      :edges
-     [{:source "wr-thread-walkers"   :target "wr-logbook"          :type :flow}
-      {:source "wr-thread-walkers"   :target "wr-instrument-maker" :type :related}
-      {:source "wr-dyers-gorge"      :target "wr-phantom-faculty"  :type :related}
-      {:source "wr-phantom-faculty"  :target "wr-doridhar"         :type :flow}
-      {:source "wr-doridhar"         :target "wr-logbook"          :type :related}
-      {:source "wr-logbook"          :target "wr-instrument-maker" :type :flow}]
+     [{:source "wr-thread-walkers"      :target "wr-logbook"              :type :flow}
+      {:source "wr-thread-walkers"      :target "wr-instrument-maker"     :type :related}
+      {:source "wr-dyers-gorge"         :target "wr-phantom-faculty"      :type :related}
+      {:source "wr-phantom-faculty"     :target "wr-doridhar"             :type :flow}
+      {:source "wr-doridhar"            :target "wr-logbook"              :type :related}
+      {:source "wr-logbook"             :target "wr-instrument-maker"     :type :flow}
+      {:source "wr-instrument-maker"    :target "wr-spirits-kund"         :type :flow}
+      {:source "wr-spirits-kund"        :target "wr-guide-who-woke-last"  :type :flow}
+      {:source "wr-thread-walkers"      :target "wr-guide-who-woke-last"  :type :related}]
      :cluster-labels
      [{:x -2.0 :y -2.5 :label "PARABLES"      :cluster "manifest"}
       {:x  0.0 :y  2.0 :label "REFLECTIONS"   :cluster "evaluate"}]}}
