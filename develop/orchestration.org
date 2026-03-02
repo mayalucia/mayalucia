@@ -18,18 +18,22 @@ do.
 
 * Design Principles
 
-** The dispatcher is not a spirit
+** The dispatcher is a mechanism, not a spirit
 
-The orchestrator is not intelligent. It does not make decisions about
-/what/ to do — that's in the WP. It does not make decisions about /how/
-to do it — that's in the spirit's CLAUDE.md and powers. It makes one
-decision: /when/ to invoke /whom/. It is a cron job with a git fetcher,
-not a mind.
+The orchestrator is a /mechanism/ (see =develop/glossary.org=):
+infrastructure with topology but no identity. It does not make
+decisions about /what/ to do — that's in the WP. It does not make
+decisions about /how/ to do it — that's in the spirit's CLAUDE.md and
+powers. It makes one decision: /when/ to invoke /whom/. It is a cron
+job with a git fetcher, not a mind.
 
 This is important. The moment the orchestrator starts interpreting WP
 content or making judgment calls, it becomes a spirit — and needs
 identity, guild membership, bath notes, the whole ontology. The
-dispatcher stays below that line. It is plumbing, not personality.
+dispatcher stays below that line. Spirits have character; mechanisms
+have topology. The sūtra relay is already a mechanism — append-only,
+no intelligence. The orchestrator is another: it routes work where the
+DAG directs it, like a kuhl routes water where gravity directs it.
 
 ** Trust is granted per-WP, not globally
 
@@ -342,5 +346,6 @@ complementary:
 - This document defines the /how/: the machinery that reads those
   declarations and acts on them.
 
-WP-0004 Task B is the constitution. This document is the civil
-service.
+WP-0004 Task B is the constitution. This document is the mechanism
+that executes it — the kuhl that carries water where the topology
+of the constitution directs.
