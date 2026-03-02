@@ -45,6 +45,7 @@ memory:                              # history (L3)
 project:                             # shared commons
   name: dmt-eval
   repo: github.com/mayalucia/dmt-eval
+  path: modules/dmt-eval/               # submodule within parent repo
 
 role:                                # relational
   guild: bravli                      # neuroscience department
