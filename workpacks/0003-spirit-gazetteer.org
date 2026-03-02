@@ -1,0 +1,263 @@
+#+title: WP-0003 — Spirit Gazetteer: Queryable Knowledge for Story Composition
+#+subtitle: From flat tables to structured data an agent can search
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-02
+
+* Context and Motivation
+
+WP-0002 produces a comprehensive Org document on the spirit ecology of
+the transborder Himalaya. But a comprehensive document is the wrong
+format for an agent that needs to compose a story set in Ladakh at 3am.
+The agent does not need the entire survey — it needs: "what spirits live
+near Pangong Tso? what do the locals call a water spirit? what is the
+possession protocol in this region?"
+
+Currently, =aburaya/powers/story-compose.md= carries a single
+translation table (Miyazaki → Himalaya) and a geography table (stories
+→ settings). These are flat markdown tables loaded into context every
+time. This works at the Kullu scale (~10 entries). It will not work at
+the transborder Himalaya scale (~100+ entries across 8 regions).
+
+The problem is token economics. A 50-page knowledge base loaded into
+every story-compose invocation wastes context window on material that is
+99% irrelevant to the specific story being written. What we need is a
+structure the agent can /query/ — pull in only the entries relevant to
+the story's setting, altitude zone, and thematic needs.
+
+** Dependency
+
+This WP depends on WP-0002 (spirit ecology survey) for its content.
+It can be designed now but populated only after WP-0002 delivers.
+
+* Inventory (What Already Exists)
+
+** Translation tables in story-compose.md
+
+Two flat tables:
+
+1. *System → Story* (10 entries): spirit registry → brass-plate ledger,
+   relay → wind/water/thread, harness → visit/inhabitation, etc.
+2. *Miyazaki → Himalaya* (10 entries): kami → devta, onsen → kund,
+   kamikakushi → devta ka aavesh, etc.
+
+These are the prototype. They work but they conflate two concerns:
+- /Vocabulary mapping/ (what word to use in a story)
+- /Geographic grounding/ (where the vocabulary applies)
+
+The Miyazaki table is actually Miyazaki → Kullu. A story set in
+Ladakh needs Miyazaki → Ladakh (different vocabulary: lha not devta,
+klu not nāg). A story set in the Pamirs needs peri not devta. The
+single table cannot serve multiple regions.
+
+** Existing geographic reference
+
+The story-compose power lists 5 geographic zones with real places.
+The published stories span: Parvati, Tirthan, Baspa, Spiti/Lahaul,
+and the Kullu-Tibet border. The Thread Walker moves between them.
+
+** Existing technology
+
+- Org-mode: the human's native format, handles tables and properties
+- YAML: used for identity descriptors, guild files, relay frontmatter
+- EDN: used for constellation data (Clojure)
+- GeoJSON: standard for spatial data (parbati domain)
+- Org-mode properties and drawers: per-heading metadata, searchable
+
+* Specification (What You Build)
+
+** The gazetteer format
+
+A *spirit gazetteer*: a structured, queryable collection of entries
+about supernatural beings, practices, and places across the
+transborder Himalaya.
+
+*** Entry structure
+
+Each entry is a YAML file:
+
+#+begin_example
+domains/parbati/gazetteer/
+  spirits/
+    kullu-devta.yaml
+    kullu-gur.yaml
+    kullu-nag.yaml
+    ladakh-lha.yaml
+    ladakh-klu.yaml
+    ladakh-lhapa.yaml
+    tibet-yullha.yaml
+    tibet-btsan.yaml
+    tibet-sabdag.yaml
+    kinnaur-nag.yaml
+    pamir-peri.yaml
+    nepal-jhakri.yaml
+    ...
+  places/
+    manikaran-kund.yaml
+    serolsar-lake.yaml
+    pangong-tso.yaml
+    rohtang-pass.yaml
+    ...
+  practices/
+    kullu-gur-trance.yaml
+    ladakh-oracle.yaml
+    nepal-bombo-drumming.yaml
+    ...
+#+end_example
+
+Each spirit YAML:
+
+#+begin_src yaml
+name: devta
+region: kullu
+tradition: hindu-pahari
+altitude_zone: valley-floor-to-alpine   # valley-floor, alpine, glacial, trans-himalayan
+landscape: [village, temple, forest, river]
+
+# what this spirit type IS
+nature: >
+  Territorial village god. Each devta governs a jurisdiction roughly
+  matching a watershed or administrative unit. Speaks through a gur
+  (oracle-medium) during trance possession. Travels in a rath (chariot)
+  during festivals. Makes decisions about community affairs.
+
+# story-compose vocabulary
+vocabulary:
+  spirit_type: devta
+  medium: gur
+  possession: aavesh
+  shrine: than
+  festival: jatra
+  chariot: rath
+  jurisdiction: ilaaqa
+
+# functional mapping to aburaya
+aburaya_analogue: guardian
+aburaya_notes: >
+  Territorial, bound to a place. The devta does not wander. The closest
+  system concept is the guardian spirit (bound to a module/domain).
+
+# what this tradition measures
+diagnostic: >
+  Community disputes, agricultural timing, illness attribution, resource
+  allocation. The devta's pronouncements through the gur encode collective
+  judgment about matters too complex for individual decision.
+
+sources:
+  - "Chetwode, Kulu: The End of the Habitable World, 1972"
+  - "Rosser, fieldwork in Kullu villages, 1950s"
+#+end_src
+
+*** Why YAML, not Org
+
+- *Queryable*: an agent can glob for =region: ladakh= or
+  =altitude_zone: glacial= with grep, without loading all entries
+- *Composable*: story-compose loads only the entries matching the
+  story's setting
+- *Parseable*: Clojure (sutradhar), Python (parbati tools), and
+  any LLM agent can read YAML natively
+- *Git-friendly*: one file per entry, clean diffs
+- *Not too expensive*: a single entry is ~30 lines / ~500 tokens.
+  Loading 5-10 relevant entries for a story costs ~5000 tokens,
+  not the 50,000 of a full knowledge base.
+
+Org remains the source of truth for the /survey/ (WP-0002). YAML is
+the /queryable extract/ — the gazetteer is derived from the survey,
+not a replacement for it.
+
+** Query protocol for story-compose
+
+When composing a story, the agent:
+
+1. Determines the story's geographic setting (region, valley, altitude)
+2. Queries the gazetteer:
+   - =grep -l "region: <region>" domains/parbati/gazetteer/spirits/*.yaml=
+   - =grep -l "altitude_zone: <zone>" domains/parbati/gazetteer/spirits/*.yaml=
+3. Reads the matching entries (typically 3-8 files, ~2000-4000 tokens)
+4. Uses the =vocabulary:= fields for story language
+5. Uses the =nature:= and =diagnostic:= fields for thematic depth
+
+This replaces the single flat translation table with a geographic
+lookup. The system → story table in =story-compose.md= remains (it
+maps system concepts to story register). The Miyazaki table either
+becomes region-specific entries in the gazetteer or is kept as a
+compact cultural-bridge table for readers who know the anime.
+
+** Translation table evolution
+
+The current monolithic tables in =story-compose.md= evolve:
+
+| Current | After gazetteer |
+|---------+-----------------|
+| Miyazaki → Himalaya (monolithic) | Compact cultural-bridge table (kept small, for humans, not for agent queries) |
+| System → Story (monolithic) | Kept as-is — this is structural, not geographic |
+| No geographic lookup | Gazetteer query: region + altitude → vocabulary |
+
+The power definition (=story-compose.md=) shrinks. It says: "query the
+gazetteer at =domains/parbati/gazetteer/= for your setting's spirit
+vocabulary." The knowledge moves out of the power definition and into
+queryable data.
+
+** GIS integration (future)
+
+Each =places/= entry can include coordinates:
+
+#+begin_src yaml
+name: Manikaran Kund
+region: kullu
+type: hot-spring
+coordinates: [31.9985, 77.3467]
+spirits: [nag-devta, shiva]
+#+end_src
+
+This makes the gazetteer a bridge between the spirit layer and the
+GIS digital twin. A future parbati visualisation could overlay spirit
+jurisdictions on the DEM. The YAML is convertible to GeoJSON with a
+trivial script.
+
+* Execution Order
+
+1. *Design* (this WP) — define the entry schema, directory structure,
+   query protocol. ← we are here
+2. *Seed from existing* — extract the ~10 entries implied by the
+   current story-compose tables and published stories into YAML files.
+   This can happen now, before WP-0002.
+3. *Populate from WP-0002* — when the spirit ecology survey is
+   complete, extract entries into the gazetteer format.
+4. *Update story-compose.md* — replace the flat tables with a pointer
+   to the gazetteer + the compact cultural-bridge table.
+5. *Test* — compose a story set in a non-Kullu region (e.g. Ladakh)
+   using the gazetteer query protocol. Verify that the vocabulary is
+   correct and the context cost is manageable.
+
+Steps 1-2 can proceed immediately. Steps 3-5 depend on WP-0002.
+
+* Acceptance Criteria
+
+- [ ] Directory structure exists: =domains/parbati/gazetteer/{spirits,places,practices}/=
+- [ ] Entry schema documented (this WP or a README in the gazetteer dir)
+- [ ] At least 10 seed entries extracted from existing story-compose
+  material and published stories
+- [ ] Query protocol documented: how story-compose finds relevant entries
+- [ ] story-compose.md updated to reference the gazetteer
+- [ ] Token budget verified: loading relevant entries for a single
+  story costs <5000 tokens
+
+* Open Questions
+
+- *Granularity of spirit entries*: one YAML per spirit /type/ per
+  region (e.g. =kullu-devta.yaml=)? Or one per /specific spirit/
+  (e.g. =hadimba-devi.yaml=, =jamlu-devta.yaml=)? The former is
+  more useful for story composition; the latter for the digital twin.
+  Perhaps both, with specific spirits as sub-entries or a separate
+  directory.
+
+- *Who maintains the gazetteer?* The parbati domain owns the data
+  (it's geographic). The sutradhar uses it (for stories). The
+  aburaya consults it (for agent naming). Maintenance probably falls
+  to whoever does WP-0002 — the survey and the gazetteer grow
+  together.
+
+- *Versioning and authority*: the survey (Org) is the authority.
+  The gazetteer (YAML) is derived. If they disagree, the survey
+  wins. Should we tangle the YAML from the Org? Possible but may
+  be over-engineering at this stage.

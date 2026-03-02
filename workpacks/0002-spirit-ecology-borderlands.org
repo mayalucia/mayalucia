@@ -1,0 +1,320 @@
+#+title: WP-0002 — Spirit Ecology of the Transborder Himalaya
+#+subtitle: A Knowledge Base for Stories, Agent Ontology, and Digital Twin
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-02
+
+* Context and Motivation
+
+MāyāLucIA uses two parallel registers to describe the same structural
+insights: system vocabulary (spirits, harnesses, guilds, powers) and
+story vocabulary (devtas, kunds, gurs, thread walkers). The translation
+table in =aburaya/powers/story-compose.md= maps between them. But the
+story side of that table is thin — drawn mostly from Kullu valley
+practice, specifically the devta system of the Parvati and Tirthan
+valleys. This is a narrow slice of a vast mountain range.
+
+The Western Himalaya — from the Pamirs through Karakoram, Ladakh,
+Zanskar, Spiti, Kinnaur, Kullu, Kangra, and into the Nepal Himalaya —
+sustains one of the densest and most varied spirit ecologies on Earth.
+These traditions are not decorative. They encode:
+
+- *Environmental knowledge*: which springs are sacred (and therefore
+  protected), where avalanches come, how water behaves at altitude
+- *Social contracts*: how communities negotiate with forces beyond
+  their control — weather, disease, trade collapse, imperial invasion
+- *Psychological models*: trance, possession, divination as diagnostic
+  instruments for individual and collective distress
+- *Spatial knowledge*: passes, trade routes, seasonal migration
+  patterns, territorial boundaries marked by spirit jurisdiction
+
+A spirit tradition is a *measurement instrument*. The human psyche,
+shaped by millennia of inhabiting these mountains, registers phenomena
+that no satellite measures: the quality of a silence before snowfall,
+the character of a gorge, the social memory of a trade route. The
+stories that encode these measurements are data — not metaphor.
+
+** Three uses
+
+This knowledge base serves three concrete purposes:
+
+1. *Story composition*: The sutradhar-guardian composes stories set
+   across the transborder Himalaya. It needs to know what kinds of
+   spirits inhabit each region, what their customs are, what vocabulary
+   the traditions use. Currently it draws from Kullu alone.
+
+2. *Agent ontology*: Aburaya's spirit typology (currently just
+   "guardian spirit / devta") needs enrichment. The review spirit
+   discussion surfaced the need for wandering spirits (jogini), flow
+   spirits (nāg devta), specialist spirits (bajantri). These are not
+   arbitrary names — they should be grounded in actual traditions,
+   with the functional mapping earned, not imposed.
+
+3. *Digital twin of the mountain range*: Parbati is a digital twin of
+   the Parvati valley. But the vision is larger — the whole Western
+   Himalaya as an interconnected system of valleys, passes, watersheds,
+   trade routes, and human settlements. The spirit ecology is one data
+   layer in that twin: it encodes human-landscape interaction at a
+   depth that geophysical data alone cannot reach.
+
+** What this is not
+
+This is not a folkloristics PhD. It is a working cartographer's survey:
+what spirits exist where, what they do, what they tell us about the
+landscape. Sufficient depth for story composition and agent naming.
+Not sufficient depth for ethnographic publication. We are users of this
+knowledge, not its originators — cite sources, respect the traditions,
+acknowledge what we do not understand.
+
+* Inventory (What Already Exists)
+
+** In the project
+
+- =aburaya/powers/story-compose.md= — translation table (system → story)
+  and Miyazaki → Himalaya key. Currently covers: devta, gur, nāg devta,
+  kund, jogini, bajantri, kardar, pret, Buddhi Nagin.
+- =aburaya/commissioning.org= — archetypes (critic, builder, sculptor,
+  observer, guide). Disposition as invariant character.
+- Published stories — seven set in specific valleys, each using local
+  spirit vocabulary. The Dyer's Gorge (Parvati), Spirit's Kund
+  (Tirthan), Instrument Maker's Rest (Baspa/Kinnaur), Logbook of the
+  Unnamed River (Spiti/Lahaul).
+- =domains/parbati/= — digital twin of the Parvati valley. GIS data,
+  MCP server survey. No spirit layer yet.
+- =develop/glossary.org= — project vocabulary. Includes some Pahari
+  and Sanskrit terms but no systematic spirit taxonomy.
+
+** In the literature
+
+Key sources to consult (non-exhaustive — the agent executing this WP
+should expand through research):
+
+*** Kullu and inner Himalaya
+
+- Penelope Chetwode, /Kulu: The End of the Habitable World/ (1972) —
+  devta processions, temple architecture, the rath system
+- M. Postel, A. Neven & K. Mankodi, /Antiquities of Himachal/ (1985)
+- Colin Rosser, ethnography of Kullu villages (1950s fieldwork)
+- Madhu Ramnath, /Woodsmoke and Leaf Cups/ — Baiga and Himalayan
+  forest ecology (the sacred grove as conservation instrument)
+- Local documentation: the 534 devtas of Kullu district, the rath
+  (chariot) festival system, the gur possession protocol
+
+*** Kinnaur and Spiti
+
+- Kinnauri nāg worship — serpent spirits associated with lakes and
+  springs at high altitude
+- Spiti Buddhist-Bön synthesis — spirit propitiation in a nominally
+  Buddhist landscape
+- The Kinnaur-Tibet borderland: Nako, Tabo, and the trade route spirits
+
+*** Ladakh and Zanskar
+
+- The lha (mountain gods) and klu (water spirits, cognate with nāga)
+- Oracles (lha-mo, lha-pa) — trance possession in Tibetan Buddhist context
+- John Crook & Henry Osmaston, /Himalayan Buddhist Villages/ (1994)
+- Kim Gutschow, /Being a Buddhist Nun/ — Zangskar women's practices
+
+*** Tibet and the roof
+
+- The yul-lha (country gods, territorial spirits of landscape features)
+- The btsan (warrior spirits of red rocks and cliffs)
+- The sa-bdag (earth lords, lords of the soil — disturbed by digging)
+- Bön traditions: pre-Buddhist spirit taxonomy, the mountain as axis
+- Rene de Nebesky-Wojkowitz, /Oracles and Demons of Tibet/ (1956) —
+  the most comprehensive Western survey of Tibetan spirit taxonomy
+- Samten Karmay on Bön ritual texts
+
+*** Karakoram and Pamirs
+
+- The peri tradition (Persian-influenced spirit ecology in Hunza, Gilgit)
+- Fairies of the high pastures — spirits associated with altitude
+  sickness, glacier behaviour, and avalanche
+- Lorimer's work on Burushaski folklore
+- The Wakhi and Kyrgyz traditions of the Pamir corridor
+
+*** Nepal Himalaya (eastern extension)
+
+- The jhākri (shaman) tradition — spirit diagnosis and healing
+- Bombo drumming and trance — the Nepal equivalent of the Kullu gur
+- Mountain spirits of Solu-Khumbu, Langtang, Annapurna
+
+*** Cross-cutting themes
+
+- Sacred geography: how spirit jurisdictions map to watershed boundaries
+- The hot spring (kund) as liminal space across all traditions
+- Possession as diagnostic instrument: what the trance measures
+- Trade route spirits: guardians of passes, caravan protectors
+- The relationship between spirit taxonomy and altitude zones
+  (valley floor → alpine → glacial → trans-Himalayan desert)
+
+* Specification (What You Build)
+
+** Output: =domains/parbati/spirit-ecology.org=
+
+An Org-mode knowledge base with the following structure:
+
+*** Part 1: Regional Spirit Taxonomies
+
+For each region (Kullu, Kinnaur, Spiti, Ladakh, Zanskar, Tibet/Bön,
+Karakoram/Pamirs, Nepal), document:
+
+1. *Spirit types* — what categories of supernatural beings are
+   recognised? Use the local vocabulary. Do not flatten into a
+   universal taxonomy.
+2. *Landscape associations* — which spirits are associated with
+   which landscape features? (peaks, passes, springs, gorges,
+   forests, glaciers, trade routes)
+3. *Human interfaces* — how do humans interact with these spirits?
+   (oracles, mediums, ritual specialists, festivals, prohibitions)
+4. *Diagnostic functions* — what do these traditions measure?
+   What information about the environment, the community, or the
+   individual does the spirit system encode?
+
+*** Part 2: Cross-Regional Patterns
+
+Identify patterns that recur across regions:
+
+1. *Altitude zonation* — how does the spirit ecology change with
+   altitude? (valley-floor agricultural spirits vs. high-pass
+   guardian spirits vs. glacier/summit spirits)
+2. *Water spirits across traditions* — nāg (Hindu), klu (Tibetan),
+   peri (Persian-influenced). What is the underlying landscape
+   logic?
+3. *Possession/oracle traditions* — gur (Kullu), lha-pa (Ladakh),
+   jhākri (Nepal), Bön mediums. What is the common diagnostic
+   structure?
+4. *Sacred geography as conservation* — how spirit jurisdictions
+   protect springs, forests, pastures from over-exploitation.
+   Documented cases.
+5. *Trade route spirits* — spirits that guard passes and the spaces
+   between territories. The liminal spirits.
+
+*** Part 3: Functional Mapping for Aburaya
+
+Map the surveyed spirit ecology to Aburaya's needs. This is where
+the translation table gets extended. For each functional need:
+
+- Guardian of a place (module/domain)
+- Wanderer carrying a practice across places
+- Flow spirit following a system (pipeline, data flow, watershed)
+- Specialist performing a craft for any caller
+- Medium through whom a spirit speaks (the harness relationship)
+- Diagnostic spirit (evaluation, review, critique)
+
+Identify which real traditions provide the best source analogy.
+Propose vocabulary. Note where the analogy is strong and where it
+breaks — we are cartographers, not theologians.
+
+*** Part 4: Story-Compose Extension
+
+Update the translation table and geographic reference for story
+composition:
+
+- Extend the existing Miyazaki → Himalaya key with new entries
+  from the surveyed traditions
+- For each valley/region, list the spirit vocabulary available
+  for stories set there
+- Identify 3-5 new story settings enabled by the expanded
+  knowledge (e.g. a story set in Ladakh can now use lha and
+  klu vocabulary; a Pamir story can use peri traditions)
+
+*** Part 5: Digital Twin Data Layer
+
+Propose how the spirit ecology integrates into the parbati digital
+twin as a data layer:
+
+- What is the data model? (GeoJSON features with spirit-type
+  attributes? Org-mode gazetteer? Both?)
+- What are the spatial primitives? (point: shrine/spring;
+  line: trade route/river; polygon: spirit jurisdiction/watershed)
+- What existing GIS data layers correlate? (watershed boundaries ≈
+  spirit jurisdictions; hot spring locations ≈ kund/liminal spaces;
+  pass elevations ≈ guardian spirits)
+- What would a minimal prototype look like? (Parvati valley only,
+  with devta jurisdictions overlaid on DEM)
+
+** Format requirements
+
+- All claims sourced. If from web research, include URL. If from
+  a book, include author/title/page where possible.
+- Use Org-mode throughout. Tables for comparisons. Headings for
+  regions. =#+begin_quote= for direct quotations from sources.
+- Do not romanticise. These are living traditions, not museum pieces.
+  Where a practice is contested, endangered, or politically sensitive,
+  note it.
+- Respect the limits of web research. Where a topic requires fieldwork
+  or access to sources not available online, say so. Mark gaps
+  explicitly.
+
+* Execution Order
+
+1. Web research: survey each regional tradition. Begin with the sources
+   listed in the Inventory, expand through search. Prioritise sources
+   with geographic specificity over general overviews.
+2. Draft Part 1 (regional taxonomies) — the bulk of the research
+3. Draft Part 2 (cross-regional patterns) — synthesis
+4. Draft Part 3 (Aburaya mapping) — functional translation
+5. Draft Part 4 (story-compose extension) — creative application
+6. Draft Part 5 (digital twin layer) — technical application
+7. Human review and revision
+
+Trust level: *spec-tighten*. The human will review the WP, may add
+sources or adjust regional scope, then hand off for autonomous
+execution.
+
+* Acceptance Criteria
+
+- [ ] Covers at minimum: Kullu, Kinnaur, Spiti, Ladakh, Tibet/Bön,
+  Karakoram (6 regions). Pamirs and Nepal are stretch goals.
+- [ ] Each region has at least 3 spirit types documented with landscape
+  associations
+- [ ] Cross-regional patterns section identifies at least 4 recurring
+  patterns
+- [ ] Aburaya mapping proposes vocabulary for at least: guardian,
+  wanderer, flow spirit, specialist, medium
+- [ ] Story-compose extension adds at least 5 new entries to the
+  translation table
+- [ ] Digital twin section proposes a concrete data model
+- [ ] All claims sourced (URL or bibliographic reference)
+- [ ] Gaps explicitly marked where web research is insufficient
+- [ ] Written in Org-mode, readable in Emacs
+
+* What This Proves
+
+That the project's parallel registers — system and story — can be
+grounded in real geography and real tradition, not just literary
+invention. That a digital twin of a mountain range includes the human
+psyche as a measurement instrument. That the stories we tell about
+spirits are data about the landscape, recorded by animals who have
+inhabited it for millennia.
+
+And practically: that an agent can do the cartographic survey,
+producing a knowledge base dense enough for both story composition and
+GIS data modelling. The human brings the interpretive frame; the agent
+brings tireless traversal of sources.
+
+* Open Questions
+
+- How much depth per region? The Tibetan spirit taxonomy alone could
+  fill a book. We need enough for story composition and agent naming,
+  not an encyclopedia. The executing agent should aim for the level
+  of detail in the existing Kullu material in =story-compose.md= —
+  a working cartographer's sketch, not an ethnography.
+
+- Where does this document live? Proposed: =domains/parbati/= because
+  it is fundamentally geographic data, and parbati is the digital twin
+  domain. But it serves aburaya (agent naming) and the sutradhar
+  (story composition) too. The parbati domain issues the WP; the
+  results are read by the whole organisation.
+
+- The politics of representation. These are living traditions in
+  contested territories — Kashmir, Tibet, the Durand Line. The
+  document should be scholarly in tone, not touristic. Where
+  traditions are endangered or suppressed, note it without
+  editorialising.
+
+- Integration with the existing Miyazaki key. The Spirited Away
+  mapping was a starting point. As the real traditions become richer,
+  the Miyazaki layer may thin — the actual Himalayan spirit ecology
+  is more interesting than the Japanese analogy. The key should evolve,
+  not calcify.
