@@ -36,6 +36,14 @@ services:
       - PASSCODES=${PASSCODES:-}
       - COACH_PASSCODE=${COACH_PASSCODE:-}
 
+  bench:
+    build:
+      context: ./bench
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    expose:
+      - "8501"
+
 volumes:
   caddy_data:
   caddy_config:

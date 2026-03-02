@@ -23,6 +23,10 @@ comptoir.mayalucia.dev {
     reverse_proxy comptoir:8501
 }
 
+bench.mayalucia.dev {
+    reverse_proxy bench:8501
+}
+
 devgeni.mayalucia.dev {
     root * /srv/mayadevgeni
     file_server

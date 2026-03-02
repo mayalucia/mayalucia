@@ -101,6 +101,30 @@ deploy_comptoir() {
     $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build comptoir"
 }
 
+deploy_bench() {
+    echo "=== Deploying bench.mayalucia.dev (Streamlit) ==="
+
+    # dmt-eval lives at modules/dmt-eval relative to the project root
+    DMT_EVAL="$DEPLOY_DIR/../modules/dmt-eval"
+
+    # Stage bench build context: needs bench/, src/, Dockerfile, requirements.txt
+    BENCH_STAGING="$STAGING/bench"
+    rm -rf "$BENCH_STAGING"
+    mkdir -p "$BENCH_STAGING/bench" "$BENCH_STAGING/src"
+
+    cp -r "$DMT_EVAL/bench/"* "$BENCH_STAGING/bench/"
+    cp -r "$DMT_EVAL/src/"* "$BENCH_STAGING/src/"
+    cp "$DMT_EVAL/bench/Dockerfile" "$BENCH_STAGING/Dockerfile"
+    cp "$DMT_EVAL/bench/requirements.txt" "$BENCH_STAGING/requirements.txt"
+
+    rsync -avz --delete -e "ssh -i $SSH_KEY" \
+        --exclude='__pycache__' --exclude='.git' \
+        "$BENCH_STAGING/" \
+        "$VPS_HOST:$VPS_DEPLOY_DIR/bench/"
+
+    $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build bench"
+}
+
 verify() {
     echo "=== Verifying ==="
     $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose ps"
@@ -110,7 +134,8 @@ verify() {
         https://vishalsood.dev \
         https://mayalucia.dev \
         https://devgeni.mayalucia.dev \
-        https://comptoir.mayalucia.dev; do
+        https://comptoir.mayalucia.dev \
+        https://bench.mayalucia.dev; do
         status=$(curl -sI "$url" | head -1)
         echo "  $url → $status"
     done
@@ -132,6 +157,9 @@ case "${1:-all}" in
     comptoir)
         deploy_comptoir
         ;;
+    bench)
+        deploy_bench
+        ;;
     config)
         deploy_config
         ;;
@@ -144,10 +172,11 @@ case "${1:-all}" in
         deploy_hugo
         deploy_web
         deploy_comptoir
+        deploy_bench
         verify
         ;;
     *)
-        echo "Usage: $0 {all|hugo|web|comptoir|config|verify}"
+        echo "Usage: $0 {all|hugo|web|comptoir|bench|config|verify}"
         exit 1
         ;;
 esac

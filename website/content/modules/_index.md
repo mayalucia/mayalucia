@@ -13,6 +13,7 @@ Computational modules form the engine layer of MayaLucIA --- each a self-contain
 | [MāyāPramāṇa](/modules/mayapramana/) | Quantum sensor digital twins (Bell-Bloom magnetometer) | Early development |
 | [MāyāJīva](/modules/mayajiva/) | Magnetic bug simulation (radical-pair magnetoreception) | Research complete |
 | [MāyāPortal](/portal/) | Visual synthesis kernel (C++23, WebGPU) | Lesson 00 complete |
+| [DMT-Eval](/modules/dmt-eval/) | Universal validation framework --- Data, Models, Tests | [Live demo](https://bench.mayalucia.dev) |
 | [Sūtradhār](/modules/sutradhar/) | Project self-awareness --- reads the relay, holds the thread (Clojure) | Foundation complete |
 
 All modules feed into the [domains](/domains/) --- brain circuits and mountain valleys --- where the science meets the world.

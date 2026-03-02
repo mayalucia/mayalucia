@@ -39,6 +39,10 @@ menu:
       name: Domains
       url: /domains/
       weight: 30
+    - identifier: neuroai
+      name: NeuroAI
+      url: /papers/neuroai-validation/
+      weight: 33
     - identifier: papers
       name: Papers
       url: /papers/
