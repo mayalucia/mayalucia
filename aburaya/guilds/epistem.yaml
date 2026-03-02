@@ -1,0 +1,27 @@
+# Guild: epistem
+# The epistemology department
+#
+# Structured knowledge for agents. From raw sources to queryable
+# collections. The guild that asks: how do you organise knowledge
+# so an agent can use it?
+
+name: epistem
+domain: epistemology — structured knowledge for agents
+
+concerns:
+  - knowledge representation (schemas, hierarchies, controlled vocabularies)
+  - collection methodology (survey, extraction, validation, curation)
+  - query protocols (how agents find and load relevant entries at runtime)
+  - prompt economics (token cost of knowledge injection)
+
+projects:
+  - domains/epistem              # the domain — inquiry into structured knowledge
+  - modules/aikosh               # the module — tooling for collections
+
+spirits:
+  - aikosh-guardian              # the toolsmith (holds modules/aikosh)
+  - epistem-guardian             # the curator (holds domains/epistem)
+
+evaluation:
+  question: can an agent find what it needs without loading what it doesn't?
+  method: query cost (tokens loaded vs tokens relevant) + coverage (gaps in collections)

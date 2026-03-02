@@ -24,3 +24,11 @@
 	path = modules/sutradhar
 	url = https://github.com/mayalucia/sutradhar.git
 	branch = main
+[submodule "domains/epistem"]
+	path = domains/epistem
+	url = https://github.com/mayalucia/epistem.git
+	branch = main
+[submodule "modules/aikosh"]
+	path = modules/aikosh
+	url = https://github.com/mayalucia/aikosh.git
+	branch = main
