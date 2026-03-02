@@ -1,0 +1,794 @@
+#+title: The Review Practice — A Pattern Language
+#+subtitle: Second-Order Analysis of MāyāLucIA's Review Work
+#+author: mu2tau + sutradhar-guardian
+#+date: 2026-03-02
+#+startup: overview
+#+options: toc:3 num:t
+
+* Purpose
+
+This document is a second-order analysis: the review of reviews. It distils
+the recurring patterns — structural, rhetorical, methodological — from the
+corpus of review documents produced by the MāyāLucIA project. The goal is
+not to summarise any single review, but to capture the /practice/ well
+enough that an agent, given a domain and a question, could produce a review
+in the project's established style.
+
+The corpus comprises ten documents spanning four domains (AI evaluation,
+neuroscience, geospatial/earth science, philosophy of human-machine
+collaboration) and several genres (strategic briefings, technology surveys,
+position papers, gap analyses, research papers, landscape surveys). The
+diversity is the point: the patterns that recur /across/ these genres are
+the ones that constitute the practice.
+
+** The Corpus
+
+| # | Document | Location | Type |
+|---+----------+----------+------|
+| 1 | DMT for AI Agents | =modules/dmt-eval/develop/dmt-for-ai-agents.org= | Strategic briefing + framework survey |
+| 2 | DMT Project Charter | =modules/dmt-eval/develop/project-charter.org= | Genesis narrative + positioning |
+| 3 | Autonomy Agreement position | =develop/autonomy-agreement/position.org= | Position paper + comparative analysis |
+| 4 | Autonomy Agreement survey | =develop/autonomy-agreement/survey.org= | Interdisciplinary literature survey |
+| 5 | Executable Manuscripts survey | =domains/bravli/manuscripts/executable-manuscripts-survey.org= | Technology genealogy + commercial SOTA |
+| 6 | GIS/Earth Science MCP review | =domains/parbati/gis-earth-science-mcp-review.org= | Tool landscape (40+ MCP servers) |
+| 7 | Bravli landscape | =domains/bravli/develop/landscape.org= | Open questions + capability gap analysis |
+| 8 | MB dynamics paper | =domains/bravli/manuscripts/mb-dynamics/paper.org= | Research paper (positions against Zhang 2024) |
+| 9 | Cortical predictive coding | =domains/bravli/manuscripts/cortical-predictive-coding.org= | Methodology paper + BBP positioning |
+| 10 | Mayajiva landscape | =website/content/modules/mayajiva/landscape.md= | Domain landscape (compact) |
+
+
+* 1. Document Architecture Patterns
+
+Five recurring architectural moves constitute the skeleton of a review
+document in this project. Not every document uses all five, but every
+document uses at least three. The moves appear in a characteristic order,
+though the order is sometimes rearranged for rhetorical effect.
+
+** 1.1 The Opening: Problem or Gap, Not Introduction
+
+The documents almost never open with a neutral introduction. Instead, they
+begin with a /problem statement/ or a /gap identification/ — something is
+wrong, missing, or newly urgent.
+
+*** Pattern: The Universal Problem
+
+State a structural problem that recurs across multiple domains, then assert
+that nobody has solved it properly.
+
+- DMT-for-AI-Agents opens: "Every domain where computational models compete
+  faces the same structural problem" — then enumerates five symptoms.
+- The Bravli landscape opens: "The question is not 'what can we build next?'
+  but 'what can we /understand/ next?'" — reframing capability as inquiry.
+- Cortical predictive coding opens with "The Accessibility Problem" — BBP's
+  enterprise scale as a barrier to science.
+
+*** Pattern: The Dead Predecessor
+
+Acknowledge the death or failure of a prior project, then claim its ideas
+survive.
+
+- DMT-for-AI-Agents: "BBP is dead. But the ideas that emerged from it are
+  precisely what the world needs now."
+- DMT Project Charter: "BBP concluded in December 2024. The project and its
+  institutional context are gone. But the architectural ideas..."
+- Cortical predictive coding: "No individual scientist can reproduce this."
+  (The BBP pipeline as a dead end for accessibility.)
+
+*** Pattern: Why Now?
+
+Three converging forces create urgency. The "why now" section typically
+identifies 2–4 forces that have recently aligned to make the problem both
+acute and solvable. These are not background — they are the timing argument
+for action.
+
+- DMT: EU AI Act (August 2026), NIST/ISO standardisation, AI weather model
+  explosion.
+- Autonomy position: Capability curve outpacing trust model, with the
+  instruction-execution loop still dominant.
+- Executable manuscripts: AI-native science (Sakana AI Scientist, ICLR 2025)
+  creating a new category that nobody has properly filled.
+
+** 1.2 The Survey: Landscape Mapping
+
+Every document maps a landscape — sometimes explicitly (a table of 15+
+tools), sometimes implicitly (a literature review that locates intellectual
+ancestors). The survey is never neutral cataloguing; it is always oriented
+toward revealing a gap.
+
+*** Pattern: The Exhaustive Catalog with Structured Fields
+
+For tool/framework surveys, enumerate every significant entry using a
+consistent template. Each entry gets the same fields, enabling comparison.
+
+- DMT-for-AI-Agents: 15 AI eval frameworks, each with: adapter pattern,
+  report generation, non-LLM support, regulatory docs.
+- GIS MCP review: 25+ MCP servers, each with: GitHub link, language,
+  domain, key capabilities, Parbati relevance rating.
+- Executable manuscripts: 10+ platforms, each with: plain text?, in-browser
+  execution?, reactive?, agent-native?, multi-user?
+
+The template varies by domain, but the principle is constant: /comparison
+requires common dimensions/.
+
+*** Pattern: Concentric Rings
+
+For broader intellectual surveys, organise by increasing distance from the
+project's core concern.
+
+- Bravli landscape: Ring 1 (the fly connectome), Ring 2 (computational
+  neuroscience methodology), Ring 3 (the reconstruction programme).
+- Autonomy survey: Cybernetics → Pedagogy → AI Alignment → Anthropology of
+  Knowledge → Gap Analysis.
+- DMT-for-AI-Agents: AI/LLM (closest) → Weather → Finance → Pharma
+  (furthest).
+
+The rings create a natural arc from "what is immediately relevant" to "what
+provides the deepest intellectual grounding." The reader can stop at any
+ring and still have a coherent picture.
+
+*** Pattern: The Genealogy
+
+For intellectual traditions, trace a lineage — who begat whom, what was
+preserved, what was lost.
+
+- Executable manuscripts: Knuth (1984) → Jupyter (2014) → R Markdown/Quarto
+  (2012–present) → Org-babel (2003–present), with explicit attention to
+  what each descendant preserved or abandoned from Knuth's original vision.
+- Autonomy position: Ashby (1956) → Pask (1975) → Beer (1972) → Bateson
+  (1972), traced not chronologically but by conceptual dependency.
+- Cortical predictive coding: Markram (2015) → MICrONS (2021) → Mathis Lab
+  (2023–present), with BBP's curated recipes as the surviving scientific
+  value.
+
+The genealogy always carries a judgment about what survived and what was
+lost. The Knuth → Jupyter lineage explicitly notes that Jupyter "abandoned"
+noweb macros. The BBP → lazy-neuroscientist lineage explicitly claims that
+the /recipes/ survive while the /pipeline/ is a dead end.
+
+** 1.3 The Comparison: Summary Table + Prose
+
+Every survey culminates in a comparison. The project has a strong preference
+for /tables followed by prose interpretation/, not tables alone.
+
+*** Pattern: The Gap Table
+
+A comparison table whose final row is the proposed project, with a column
+that shows what nobody else provides.
+
+- DMT-for-AI-Agents: 11 frameworks × 5 dimensions. The "DMT (proposed)"
+  row shows "Yes" in every column where competitors show "No."
+- DMT Project Charter: same table, condensed.
+- Executable manuscripts: 5 platforms × 7 capabilities, with Org-babel
+  showing "Yes" where all others show "No" (noweb refs, 80+ languages).
+
+The table is always followed by a single-sentence synthesis: "The gap is
+clear: /no existing framework combines X with Y and Z./" This is the
+document's thesis, compressed to one line.
+
+*** Pattern: Cross-Domain Summary Table
+
+When the survey spans multiple domains, a matrix showing the same
+structural problem recurring in each domain.
+
+- DMT-for-AI-Agents and Project Charter: Weather × Finance × Pharma ×
+  AI/LLM, rows for "Multiple competing models," "Compare against reference
+  data," "Regulatory documentation required," etc.
+- Autonomy survey: "What has deep prior art" vs "What is genuinely new" —
+  a different axis, but the same tabular structure.
+
+*** Pattern: The "But" Clause
+
+When discussing each predecessor or competitor in prose, the comparison
+follows a template: /describe what they do well → "But" → identify what
+they lack/. This is the paragraph-level unit of comparative analysis.
+
+- Autonomy position §3: Each ancestor (Knight/Columbia, Bradshaw, CIRL,
+  Constitutional AI, Lee & See) gets a paragraph describing its
+  contribution, then a table or sentence explaining where it falls short.
+- DMT-for-AI-Agents: Each framework gets bullet points for strengths,
+  then a "*Limitation*:" line.
+- Bravli landscape: Zhang et al. (2024) showed topology dominates. "This
+  is profound — and suspicious." Then: known counterexamples.
+
+** 1.4 The Positioning: Where We Stand
+
+After the survey and comparison, the document explicitly positions the
+project's own work. This is never buried — it gets its own section.
+
+*** Pattern: What We Bring / What Carries Over
+
+A section titled "What DMT Brings," "What We Bring," or "Where We Stand"
+that distils the project's unique contributions into a short list.
+
+- DMT: three capabilities (formal adapter pattern, structured reports,
+  parameterised measurement).
+- Autonomy position: five genuinely new contributions (bilateral
+  negotiation, per-aspect granularity, machine-initiated de-escalation,
+  audit trail as scientific record, non-propositional extension).
+- Cortical predictive coding: the boundary-condition principle, with an
+  explicit statement of what is gained and what is lost.
+
+*** Pattern: Modernisation Table (What Was / What Will Be)
+
+For projects that build on legacy work, a two-column table mapping old
+components to their modern replacements.
+
+- DMT: metaclasses → typing.Protocol, WithFields → dataclasses,
+  Cheetah3 → Jinja2, Python 3.6 → 3.11+.
+- Cortical predictive coding: BBP enterprise pipeline → lazy
+  reconstruction; touch detection → statistical connectivity model.
+
+*** Pattern: Independent Reinvention as Validation
+
+A recurring rhetorical move: when multiple communities independently
+arrive at the same architecture, that architecture has real structural
+demand. This is not mere argument from authority — it is an argument from
+convergent evolution.
+
+- DMT: ProQSAR (drug discovery) reinvented DMT's modular pipeline.
+  WP-MIP (weather) is building exactly what DMT provides. ValidMind
+  (finance) is the SaaS version.
+- Cortical predictive coding: Wilmes & Senn (2025) independently
+  provided the computational framework that the boundary-condition
+  approach needs.
+
+** 1.5 The Close: Action Plan or Open Questions
+
+Documents close either with a concrete action plan (for strategic
+briefings) or with structured open questions (for landscape surveys and
+position papers). Never a mere summary.
+
+*** Pattern: The Phased Roadmap
+
+For implementation-oriented documents, a time-phased plan with explicit
+deliverables per phase.
+
+- DMT-for-AI-Agents: Phase 1 (Core + AI, 6 weeks) → Phase 2 (Reports +
+  Weather) → Phase 3 (Finance + Pharma) → Phase 4 (Ecosystem).
+- DMT Project Charter: Phase 0 (Foundation) → Phase 1 → Phase 2 → Phase 3
+  → Phase 4, with success criteria for each.
+- Bravli landscape: Recommended Sequence, ordered by "scientific leverage
+  per unit of implementation effort."
+
+*** Pattern: The Big Questions
+
+For research-oriented documents, a small number (2–4) of deep questions
+that frame the entire programme.
+
+- Bravli landscape: Q1 (Is the connectome sufficient to predict dynamics?),
+  Q2 (What is the minimal model?), Q3 (What does a validated digital twin
+  look like?).
+- Autonomy position: Seven open questions (§10), each grounded in the
+  literature reviewed.
+
+*** Pattern: What Nobody Has Built Yet
+
+A section explicitly naming the gap that the project intends to fill, in
+concrete terms.
+
+- Executable manuscripts: "What Nobody Has Built Yet" — a document where
+  AI agents are native participants, not just producers or consumers.
+- DMT: "The pattern is universal. The solution does not exist."
+- Bravli: the five validation criteria that no neuroscience digital twin
+  has satisfied.
+
+
+* 2. Web Research Patterns
+
+The corpus reveals a consistent approach to sourcing and integrating
+external information. Four categories of external research recur.
+
+** 2.1 Regulatory and Standards
+
+Regulations are sourced for two purposes: to establish urgency ("why now")
+and to define requirements ("what the framework must produce").
+
+*** What gets cited
+
+- EU AI Act: specific articles, enforcement dates, penalty structure.
+- NIST TEVV: draft titles, release dates.
+- ISO/IEC 42001: adoption status (e.g., "Microsoft requires it for AI
+  vendors").
+- SR 11-7 (Federal Reserve): specific requirements (three pillars).
+- OECD QSAR guidelines: validation methodology requirements.
+- Basel IV / FRTB: effective dates, implementation status.
+
+*** How they're integrated
+
+Regulations appear as concrete data points with dates, not as vague
+context. The rhetorical move is: "Regulation X takes effect on [date]. It
+requires [specific documentation]. /No existing tool produces this./" The
+regulation is never presented as background — it is presented as a forcing
+function.
+
+*** Sourcing depth
+
+The project goes to primary sources (official act text, NIST draft PDFs,
+ISO standard descriptions) rather than secondary commentary. Regulatory
+timelines are presented as tables with specific dates.
+
+** 2.2 Academic Literature
+
+Academic papers serve three functions: intellectual ancestry (who did this
+before), validation data (what experimental results should we match), and
+counterexamples (what breaks our assumptions).
+
+*** Coverage standard
+
+The project distinguishes between:
+
+- *Foundational*: the seminal paper that introduced a concept. Always cited.
+  (Brunel 2000 for LIF phase diagrams, Pask 1976 for conversation theory,
+  Knuth 1984 for literate programming.)
+- *Recent and relevant*: papers from the last 2–3 years that either validate
+  or challenge the project's approach. Cited with explicit assessment.
+  (Zhang et al. 2024, Wilmes & Senn 2025, Sakana AI Scientist 2025.)
+- *Comprehensive in the target domain*: when surveying a field, the project
+  aims for near-exhaustive coverage of significant contributions. The Bravli
+  landscape cites 40+ papers; the autonomy survey cites 30+.
+
+*** Integration style
+
+Papers are never just listed — they always get a one-sentence assessment:
+what they showed, what they missed, and what they mean for the project.
+The pattern is: "Author (Year) showed X. /Implication/: Y." The
+implication is always project-specific.
+
+** 2.3 Tools and Products
+
+For technology surveys, the project evaluates tools along consistent
+dimensions.
+
+*** What gets captured
+
+- GitHub URL, stars, version, language
+- Key capabilities (bullet list)
+- Limitations (always explicit)
+- Relevance to the project (rated: LOW / MEDIUM / HIGH / VERY HIGH)
+- Pricing / licensing (when relevant)
+- Active maintenance status (last release date)
+
+*** Assessment criteria
+
+The implicit hierarchy of values:
+1. Does it have a formal adapter/interface pattern? (DMT surveys)
+2. Does it produce structured output / reports? (DMT surveys)
+3. Is it open-source? (Always preferred)
+4. Does it work with plain text / version control? (Manuscript surveys)
+5. Does it have an active community? (Stars, contributors, release cadence)
+
+The project is allergic to dashboards. "Dashboards are not documentation"
+is a thesis that appears in DMT-for-AI-Agents, the Project Charter, and
+implicitly in the executable manuscripts survey.
+
+** 2.4 Market and Timing
+
+"Why now" arguments are constructed from three ingredients:
+
+1. *Regulatory deadlines*: Hard dates that create compliance pressure.
+2. *Technology proliferation*: When a domain suddenly has 5+ competing
+   models (AI weather models, LLMs, QSAR platforms), the need for
+   standardised comparison becomes acute.
+3. *Funding signals*: VC rounds (Curvenote $1.4M), enterprise
+   partnerships (ValidMind/Experian), government initiatives (WP-MIP)
+   that prove market demand exists.
+
+The timing argument always has a "but" — the demand is real, but the
+solution is absent. "Whether the market exists is an open question"
+(Executable manuscripts survey, on Curvenote) — the project is honest
+about market uncertainty even when making a bullish case.
+
+
+* 3. Comparison Methodology
+
+** 3.1 Recurring Comparison Dimensions
+
+The dimensions vary by domain, but a meta-pattern is visible: every
+comparison asks the same four structural questions.
+
+| Question | In DMT reviews | In neuroscience reviews | In philosophy reviews |
+|----------+----------------+-------------------------+----------------------|
+| What does it do? | Capabilities list | What it showed | What it claims |
+| What can't it do? | Limitations | What it hides/misses | What it assumes |
+| How does it relate to us? | Gap vs our approach | Implication for bravli | Where we depart |
+| Is it actively maintained? | Stars, version, date | Citation count, recency | Living tradition? |
+
+The first two questions are descriptive. The third is always
+project-relative — the comparison is never neutral. The fourth is a
+pragmatic filter.
+
+** 3.2 When Tables, When Prose
+
+The project follows a clear (if implicit) rule:
+
+- *Tables* for feature comparison across 5+ items with discrete
+  (yes/no/partial) values. Tables are always followed by a prose
+  synthesis sentence.
+- *Prose with "but" clauses* for comparing 2–4 items along complex
+  dimensions. Each item gets a paragraph.
+- *Nested tables* for cross-domain comparison (rows = pattern, columns =
+  domain). These appear at the synthesis level, after the per-domain
+  surveys.
+
+Tables never stand alone. They are always interpreted.
+
+** 3.3 Handling "Closest Existing Work"
+
+The autonomy position paper §3 is the model: each ancestor gets a
+structured comparison.
+
+1. One paragraph describing the prior work's contribution.
+2. A table showing specific dimensions of comparison (6-column table:
+   Aspect | Prior Work | Our Approach).
+3. A synthesis sentence: "We adopt X and add Y."
+
+This structure recurs in:
+- DMT vs lm-eval-harness (adapter pattern comparison)
+- Cortical predictive coding vs BBP pipeline (accessibility comparison)
+- Org-babel vs Jupyter/Quarto (capability comparison table)
+
+** 3.4 Relationship Framing
+
+The project's relationship to compared work is framed in one of four ways:
+
+| Relationship | Framing | Example |
+|--------------+---------+---------|
+| Successor | "We modernise / rebuild" | DMT (2017) → DMT-eval (2026) |
+| Orthogonal | "We solve a different problem" | DMT vs dashboarding tools |
+| Complement | "We fill the gap they leave" | Lazy reconstruction + BBP recipes |
+| Independent convergence | "They reinvented our approach" | ProQSAR, WP-MIP, ValidMind |
+
+The project never frames its work as a /competitor/ to prior work. It is
+always positioned as solving a /different/ or /deeper/ problem.
+
+
+* 4. Voice and Epistemic Stance
+
+** 4.1 Uncertainty Expression
+
+The project uses calibrated language with a distinctive vocabulary:
+
+| Confidence level | Typical phrasing |
+|------------------+------------------|
+| Established | "X is the case," "the pattern is universal" |
+| Likely | "This is consistent with," "the evidence suggests" |
+| Uncertain | "an open question," "genuinely unknown," "whether X is Y remains unclear" |
+| Speculative | "this is a bet," "the key question is whether" |
+| Acknowledged ignorance | "we cannot test yet," "no one has achieved this" |
+
+The phrase "genuinely unknown" recurs (Bravli landscape, autonomy
+position). It signals that the uncertainty is not hedging but a real gap
+in knowledge. "An open question" is the most common uncertainty marker.
+
+The project explicitly separates known / inferred / speculated in the
+CLAUDE.md instructions ("Epistemic Hygiene"), and this discipline is
+visible in the reviews. Speculative claims are always flagged.
+
+** 4.2 Person and Register
+
+*** First person
+
+"We" appears in two modes:
+- *Project "we"*: "We propose," "We argue," "Our approach." Used in
+  position papers and the DMT documents. This is the project speaking
+  with a unified voice.
+- *Investigative "we"*: "We ask," "We test," "We can probe this."
+  Used in the Bravli landscape and MB dynamics paper. This is the
+  researchers planning their inquiry.
+
+"I" never appears. The project is always collaborative.
+
+*** Impersonal
+
+Used for describing external work: "The framework provides," "Brunel
+(2000) classifies," "Markram et al. (2015) demonstrated."
+
+*** The directive register
+
+A distinctive feature: instructions directed at the future self or at
+agents. "The project should keep the DMT identity." "We should design
+every simulation with explicit falsification conditions." "The machine
+should have a disposition that captures the essence." This is the project
+talking to itself across time.
+
+** 4.3 Ratio of Reporting to Judgment
+
+The ratio varies by document type:
+
+| Genre | Reporting : Judgment |
+|-------+----------------------|
+| Tool survey (GIS MCP) | 80:20 — mostly description, with relevance ratings |
+| Strategic briefing (DMT) | 50:50 — equal parts survey and argument |
+| Position paper (autonomy) | 30:70 — mostly argument grounded in prior work |
+| Landscape (bravli) | 40:60 — questions and implications dominate |
+| Research paper (MB dynamics) | 60:40 — methods and results, then interpretation |
+
+The project /always/ judges. Even the most descriptive survey (GIS MCP
+review) ends every entry with a relevance assessment. Pure description
+without evaluation does not appear anywhere in the corpus.
+
+** 4.4 Domain Expertise Surfacing
+
+The human's (mu2tau's) background surfaces through:
+
+- *Physics vocabulary*: "phase diagram," "boundary conditions," "stochastic
+  resonance," "Ornstein-Uhlenbeck process." Used naturally, never explained.
+- *BBP institutional knowledge*: "The BBP closed at EPFL in December 2024,"
+  "7 years building and using DMT," specific recipe file paths.
+- *Indian epistemological tradition*: pramāṇa theory (pratyakṣa, anumāna,
+  śabda, upamāna), guru-śiṣya paramparā, rāga/gamaka/meend. Integrated
+  as living intellectual resources, not exotic decoration.
+- *Statistical physics sensibility*: comfort with universality arguments
+  ("the same pattern recurs across every domain"), phase transitions,
+  scaling, ensemble thinking.
+
+The expertise is never displayed for its own sake. It appears precisely
+when it illuminates the argument — the physics training enables the
+boundary-condition approach to reconstruction, the BBP years ground the
+DMT architecture claims, the Indian tradition provides the epistemic
+framework that the autonomy agreement needs.
+
+** 4.5 Characteristic Rhetorical Moves
+
+*** The Profound-and-Suspicious
+
+Present a strong result, then immediately question it.
+
+- "This is profound — and suspicious." (Zhang et al. topology-dominates)
+- "This is technically impressive but niche." (Nextjournal)
+- "Whether the market exists is an open question." (Curvenote)
+
+This move maintains intellectual honesty while engaging with the material.
+It prevents sycophantic acceptance of claimed results.
+
+*** The One-Sentence Thesis
+
+After extended analysis, compress the finding to one line.
+
+- "The gap is clear: no existing framework combines a formal model-agnostic
+  adapter pattern with structured report generation and non-LLM support."
+- "The pattern is universal. The solution does not exist."
+- "Nobody else is building this stack."
+- "A connectome is not enough."
+
+*** The Structural Aphorism
+
+Short, quotable statements that encode a design principle.
+
+- "Dashboards are not documentation."
+- "BBP is dead. But the ideas that emerged from it are precisely what
+  the world needs now."
+- "There is no correct model. But some may be useful."
+- "The connectome defines the space of possible circuits; neuromodulation
+  selects from that space."
+
+These carry the project's philosophy in compressed form.
+
+
+* 5. Integration with the Project Cycle
+
+The project's core cycle is Measure → Model → Manifest → Evaluate → Refine.
+Reviews connect to this cycle in specific ways.
+
+** 5.1 Reviews as Measure
+
+The primary function of reviews is /measurement of the landscape/ — what
+exists, what is missing, where the project sits. This is the Measure phase
+applied not to natural phenomena but to the intellectual and technological
+environment.
+
+Every review begins by measuring: the GIS MCP review measures 25+ tools,
+the DMT survey measures 15+ frameworks, the Bravli landscape measures the
+space of open questions. The measurement is always structured — dimensions
+are defined before data is gathered.
+
+** 5.2 Reviews as Evaluate
+
+The secondary function is /evaluation of the project's own work/ against
+what exists. This is explicit in the positioning sections: "What DMT
+Brings," "Where We Stand," "What We Gain and Lose."
+
+The evaluation is always relative: not "is our work good?" but "how does
+our work compare to what exists, and where are we uniquely positioned?"
+
+** 5.3 Temporal Relationship to Building
+
+Reviews appear in three temporal positions relative to building:
+
+| Position | Example | Function |
+|----------+---------+----------|
+| Before building | GIS MCP review → Parbati tooling choices | Inform design decisions |
+| During building | Bravli landscape → research programme design | Guide priorities |
+| After building (partially) | DMT survey → reborn framework design | Position and justify |
+
+The DMT documents are particularly interesting: they review existing
+frameworks /after/ having built and used the original DMT for 7 years. The
+review is retrospective positioning — "we already solved this; now we show
+that the world needs it."
+
+** 5.4 Reviews Feed Commissioning
+
+Reviews are the evidential basis for commissioning decisions:
+
+- The GIS MCP review → Parbati tooling stack recommendation.
+- The DMT survey → project charter and phased roadmap.
+- The autonomy survey → spirit ecology questions (WP-0003).
+- The Bravli landscape → recommended research sequence.
+
+The review produces a map; the commissioning decision says "go here."
+
+
+* 6. The Practice, Distilled
+
+An agent producing a review document in this project's style should follow
+this procedure.
+
+** 6.1 Before Writing: Scope and Framing
+
+1. *Identify the genre*: strategic briefing, tool survey, literature
+   survey, position paper, gap analysis, or some combination. Most
+   documents in this project are /combinations/ — a tool survey that
+   becomes a position paper, a literature review that becomes a gap
+   analysis.
+
+2. *Define the question*: What is the review trying to answer? Not "what
+   is out there?" but "what is out there /that matters for us/, and what
+   is missing?"
+
+3. *Choose comparison dimensions*: Before surveying, decide the 4–6
+   dimensions along which items will be compared. These dimensions should
+   be project-relevant (not just technically descriptive).
+
+4. *Decide the ring structure*: What is closest to the project's core
+   concern? What provides broader context? Organise from inner ring
+   (most relevant) to outer ring (deepest grounding).
+
+** 6.2 The Survey Phase
+
+5. *Exhaustive within scope*: For the inner ring, aim for near-complete
+   coverage. For outer rings, be selective but cite the foundational work.
+
+6. *Consistent template per entry*: Every item in the survey gets the
+   same fields. For tools: name, URL, language, capabilities, limitations,
+   relevance rating. For papers: author, year, key finding, implication.
+
+7. *Primary sources*: Go to the original paper, the official regulation
+   text, the GitHub repo. Not secondary commentary.
+
+8. *Capture what's missing*: The gap is more important than the catalog.
+   Note absences explicitly.
+
+** 6.3 The Comparison Phase
+
+9. *Build the gap table*: A comparison matrix with the project's work as
+   the final row. The table should make the gap visually obvious.
+
+10. *Write the "but" clauses*: For each significant predecessor, describe
+    its contribution, then identify what it lacks. Be specific: "no
+    structured reports" not "insufficient reporting."
+
+11. *Name the relationship*: successor, orthogonal, complement, or
+    independent convergence. Never competitor.
+
+12. *Cross-domain matrix*: If the review spans domains, build a second
+    table showing the same structural pattern recurring in each domain.
+
+** 6.4 The Positioning Phase
+
+13. *Distil to 2–4 unique contributions*: What does the project bring
+    that nobody else has? Be concrete and specific.
+
+14. *The one-sentence thesis*: Compress the entire review's finding into
+    a single declarative sentence.
+
+15. *Acknowledge what is lost*: The modernisation table, the
+    gains-and-losses section. Never claim pure improvement — name the
+    tradeoffs.
+
+** 6.5 The Close
+
+16. *Action plan or open questions*: Never end with a summary. End with
+    what to do next (phased roadmap) or what remains unknown (structured
+    open questions).
+
+17. *Feed the next phase*: Explicitly connect the review's findings to
+    commissioning decisions, tool choices, or research priorities.
+
+** 6.6 Throughout
+
+18. *Calibrated uncertainty*: Separate known from inferred from
+    speculated. Use "genuinely unknown," "an open question," "this is a
+    bet." Never paper over uncertainty with fluent prose.
+
+19. *Always judge*: Never pure description. Every entry, every section,
+    every survey item gets an assessment — relevance, quality, gap.
+
+20. *Structural aphorisms*: When a finding is both important and
+    compressible, state it as a single memorable sentence.
+
+21. *Tables + interpretation*: Tables never stand alone. Always follow
+    with a prose synthesis.
+
+22. *The profound-and-suspicious*: When encountering a strong claim,
+    engage with it seriously and then question it. What are the
+    counterexamples? When does it break?
+
+23. *Org-mode format*: Source of truth in =.org=. Structured headings.
+    Tables in org table syntax. Code in source blocks. Citations inline.
+
+
+* 7. Anti-Patterns
+
+What the project's reviews do /not/ do, and should continue to avoid.
+
+1. *Neutral cataloguing*: Never list without judging. A catalog that does
+   not reveal a gap is not a review — it is a bibliography.
+
+2. *Uncalibrated enthusiasm*: Never claim something is "revolutionary" or
+   "game-changing." The project prefers: "this is the most comprehensive
+   available" or "this independently validates the architecture."
+
+3. *Dashboard worship*: The project is constitutionally skeptical of
+   dashboards, GUIs, and cloud platforms. The preference is for plain
+   text, version control, structured documents, and open-source tools.
+
+4. *Ungrounded speculation*: Speculation is allowed (see uncertainty
+   vocabulary) but must be flagged. A claim about "what the market needs"
+   must be grounded in regulatory deadlines, funding signals, or
+   independent reinvention — not wishful thinking.
+
+5. *Ignoring what is lost*: Every positioning move that claims an
+   advantage must also name the tradeoff. "What we gain and lose" is
+   not optional.
+
+6. *Summary conclusions*: "In conclusion, this survey has examined..."
+   is not a conclusion. The close must be forward-looking — what to
+   build, what to investigate, what remains unknown.
+
+
+* 8. Notes for Phase 2 (Spirit Commissioning)
+
+The patterns extracted here suggest the following for the review spirit's
+identity and powers:
+
+** Disposition
+
+The review practice is fundamentally about /locating yourself on a map
+you've built/. Two metaphors from the WP suggest themselves:
+
+- *trace-the-watershed*: follow the flow of ideas to their source.
+  Genealogical. Emphasises the lineage-tracing aspect of the practice.
+- *read-the-strata*: read the layers of prior work that the present
+  rests on. Geological. Emphasises the depth of survey.
+
+Both capture something essential. The practice combines horizontal sweep
+(comprehensive catalog) with vertical depth (intellectual genealogy).
+
+** Powers
+
+Based on the extracted patterns, the review spirit would need:
+
+1. *Landscape survey*: exhaustive tool/paper cataloguing with consistent
+   templates.
+2. *Gap identification*: the ability to find what is /absent/ in a
+   landscape, not just what is present.
+3. *Comparative analysis*: structured comparison along project-relevant
+   dimensions, producing gap tables.
+4. *Positioning*: locating the project's work relative to the surveyed
+   landscape.
+5. *Synthesis*: compressing extended analysis into structural aphorisms
+   and one-sentence theses.
+6. *Web research*: sourcing primary regulatory documents, academic
+   papers, GitHub repos, and market signals.
+
+** Guild
+
+The epistem guild (resolved by WP-0001). The review practice is
+structured knowledge work — the methodical acquisition, organisation,
+and evaluation of what is known.
+
+** Module
+
+The aikosh module (resolved by WP-0001). The review tooling becomes
+part of aikosh's collection machinery — schemas for review entries,
+query patterns for gap analysis, consistency checks across reviews.
