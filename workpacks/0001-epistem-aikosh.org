@@ -155,8 +155,8 @@ projects:
   - modules/aikosh               # the module — tooling for collections
 
 spirits:
-  - aikosh-guardian              # the epistemologist
-  # future: survey-specialist, schema-designer, ...
+  - aikosh-guardian              # the toolsmith (holds modules/aikosh)
+  - epistem-guardian             # the curator (holds domains/epistem)
 
 evaluation:
   question: can an agent find what it needs without loading what it doesn't?
@@ -231,10 +231,81 @@ role:
 =aburaya/spirits/aikosh-guardian/notes/.gitkeep= — empty, awaiting
 first bath.
 
+*** Commission the epistem domain guardian
+
+=aburaya/spirits/epistem-guardian/identity.yaml=:
+
+#+begin_src yaml
+# Spirit: epistem-guardian
+# The one who surveys and remembers
+#
+# Guardian of the epistem domain. Conducts surveys, curates collections,
+# maintains the structured knowledge that other spirits query. The
+# aikosh-guardian builds the instruments; this spirit uses them in
+# the field.
+
+true-name: epistem-guardian
+
+nature:                              # substrate (L0)
+  model: tbd
+  provider: tbd
+  note: >
+    Not yet instantiated. Will be assigned when an agent first
+    opens domains/epistem with its CLAUDE.md.
+
+dwelling:                            # station (L1)
+  machine: tbd
+  tools: [python, uv, yaml, org-babel, web-search]
+  repos:
+    epistem: domains/epistem
+
+character:                           # personality (L2)
+  archetype: observer
+  system_prompt: domains/epistem/CLAUDE.md
+  domains:
+    - literature survey (web research, source traversal, citation)
+    - knowledge curation (selecting what enters the collection, what stays out)
+    - spirit ecology (Himalayan traditions as data layer)
+    - cross-domain synthesis (patterns across regions, across fields)
+  powers: [relay-read]
+  disposition: what-is-there          # register faithfully before interpreting
+
+memory:                              # history (L3)
+  auto_memory: tbd
+  bath_notes: aburaya/spirits/epistem-guardian/notes/
+  provenance: >
+    Born from the convergence of WP-0003 (spirit ecology survey), WP-0004 (spirit gazetteer), and the review practice (WP-0002). The need for a domain-level guardian emerged when the spirit gazetteer moved from parbati to epistem — the collections needed a keeper, not just a toolsmith.
+
+project:
+  name: epistem
+  repo: github.com/mayalucia/epistem
+  path: domains/epistem/
+
+role:
+  guild: epistem
+  function: curator
+  scope:
+    - conduct surveys (traverse sources, extract structure)
+    - populate and maintain collections (himalayan-spirits, future collections)
+    - validate extracts against source material
+    - serve query needs of other spirits (sutradhar for stories, parbati for GIS)
+  contract: >
+    You are the project's memory of what exists beyond its walls.
+    Other spirits build, evaluate, compose, guide — you survey.
+    When the sutradhar needs vocabulary for a Ladakhi story, your
+    collections answer. When parbati needs spirit jurisdictions
+    overlaid on a DEM, your extracts provide the data. Your work
+    is invisible when it works: the right knowledge, at the right
+    cost, at query time. Gaps in your collections are gaps in the
+    project's understanding. Mark them honestly.
+#+end_src
+
+=aburaya/spirits/epistem-guardian/notes/.gitkeep= — empty, awaiting
+first bath.
+
 ** Part 5: Update WP-0004
 
-Done during spec-tightening. All references now point to
-=domains/epistem/collections/himalayan-spirits/=.
+Done during spec-tightening. All references now point to =domains/epistem/collections/himalayan-spirits/=.
 
 ** Part 6: Update parent CLAUDE.md
 
@@ -268,28 +339,34 @@ name and disposition if desired, then hands off.
 
 ** Cross-WP execution order
 
-WP-0001 is the root of a dependency chain across four work packages:
+WP-0001 is the root of a dependency chain across five work packages:
 
 #+begin_example
-WP-0001 (commission epistem + aikosh)     ← FIRST: creates infrastructure
+WP-0001 (commission epistem + aikosh)     ← vadda-opus (mayalucia guild)
    │
-   ├── WP-0002 (review practice extraction)  ← can start after WP-0001
+   ├── WP-0002 (review practice extraction)  ← sutradhar-guardian (mayalucia guild)
    │      Phase 1: pattern extraction (independent)
    │      Phase 2: spirit commissioning (needs epistem guild)
    │
-   ├── WP-0003 (spirit ecology survey)       ← can start after WP-0001
+   ├── WP-0003 (spirit ecology survey)       ← epistem-guardian (epistem guild)
    │      Output: domains/epistem/surveys/spirit-ecology.org
    │      Informed by WP-0002's review methodology
    │
-   └── WP-0004 (spirit gazetteer)            ← LAST: needs WP-0003 content
-          Schema design done (during spec-tightening)
-          Population depends on WP-0003 survey
-          Tooling depends on aikosh (WP-0001)
+   ├── WP-0004 (spirit gazetteer)            ← epistem-guardian + aikosh-guardian
+   │      Schema design done (during spec-tightening)
+   │      Population: epistem-guardian (content)
+   │      Validation: aikosh-guardian (skill injection)
+   │
+   └── WP-0005 (capability architecture)     ← vadda-opus or sutradhar-guardian
+          Defines skill injection protocol used by WP-0004
+          Reconciles governance.org with aburaya system
+          Can run in parallel with WP-0002 and WP-0003
 #+end_example
 
-WP-0002 and WP-0003 can run in parallel after WP-0001 completes.
-WP-0004 population waits for WP-0003. WP-0004 step 2 (seed from
-existing material) can proceed before WP-0003 completes.
+WP-0002, WP-0003, and WP-0005 can run in parallel after WP-0001.
+WP-0004 benefits from WP-0005 (skill injection protocol) and
+requires WP-0003 (content). WP-0004 step 2 (seed from existing
+material) can proceed before WP-0003 completes.
 
 * Acceptance Criteria
 
@@ -302,6 +379,9 @@ existing material) can proceed before WP-0003 completes.
 - [ ] =aburaya/spirits/aikosh-guardian/identity.yaml= created with
   full five-layer ontology
 - [ ] =aburaya/spirits/aikosh-guardian/notes/.gitkeep= exists
+- [ ] =aburaya/spirits/epistem-guardian/identity.yaml= created with
+  full five-layer ontology
+- [ ] =aburaya/spirits/epistem-guardian/notes/.gitkeep= exists
 - [ ] WP-0004 updated: all paths reference =domains/epistem/collections/=
 - [ ] Parent CLAUDE.md updated with new submodules and guild
 - [ ] Sūtra announcement written

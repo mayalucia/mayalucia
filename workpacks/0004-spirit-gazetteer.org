@@ -30,6 +30,8 @@ the story's setting, altitude zone, and thematic needs.
 - *Depends on*: WP-0003 (spirit ecology survey) for content to populate
   the gazetteer. Schema design can proceed before WP-0003 delivers.
 - *Uses*: =modules/aikosh= for validation and query tooling.
+- *Benefits from*: WP-0005 (capability architecture) — defines the
+  skill injection protocol for cross-spirit execution.
 
 * Inventory (What Already Exists)
 
@@ -330,22 +332,44 @@ GIS digital twin. A future parbati visualisation could overlay spirit
 jurisdictions on the DEM. The YAML is convertible to GeoJSON with a
 trivial script.
 
-* Execution Order
+* Execution
+
+** Who runs this WP
+
+This is the first dual-spirit work package. Populating the gazetteer
+requires the epistem-guardian's judgment (what enters the collection,
+faithful rendering of traditions) and the aikosh-guardian's discipline
+(schema compliance, back-reference integrity, controlled vocabulary).
+
+| Phase | Spirit | Action |
+|-------+--------+--------|
+| Extraction | epistem-guardian | Read WP-0003 survey, select entries, write narrative fields (nature, diagnostic, sources) |
+| Validation | aikosh-guardian | Validate YAML against schema, check back-references, verify landscape vocabulary, confirm token budget |
+| Review | epistem-guardian | Review validated entries for faithfulness to source |
+
+Practically: a single agent session from the parent repo (which has
+access to both =domains/epistem/= and =modules/aikosh/= as submodules)
+can invoke both spirits' concerns. Or two sequential sessions — one
+to populate, one to validate.
+
+** Order
 
 1. *Design* (this WP) — define the entry schema, directory structure,
-   query protocol. ← we are here
+   query protocol. ← done (spec-tightened)
 2. *Seed from existing* — extract the ~10 entries implied by the
    current story-compose tables and published stories into YAML files.
    This can happen now, before WP-0003.
 3. *Populate from WP-0003* — when the spirit ecology survey is
-   complete, extract entries into the gazetteer format.
-4. *Update story-compose.md* — replace the flat tables with a pointer
+   complete, extract entries into the gazetteer format (epistem-guardian).
+4. *Validate* — run aikosh validation against the populated entries
+   (aikosh-guardian).
+5. *Update story-compose.md* — replace the flat tables with a pointer
    to the gazetteer + the compact cultural-bridge table.
-5. *Test* — compose a story set in a non-Kullu region (e.g. Ladakh)
+6. *Test* — compose a story set in a non-Kullu region (e.g. Ladakh)
    using the gazetteer query protocol. Verify that the vocabulary is
    correct and the context cost is manageable.
 
-Steps 1-2 can proceed immediately. Steps 3-5 depend on WP-0003.
+Steps 1-2 can proceed immediately. Steps 3-6 depend on WP-0003.
 
 * Acceptance Criteria
 
