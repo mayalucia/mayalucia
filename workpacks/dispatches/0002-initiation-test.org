@@ -1,0 +1,62 @@
+#+title: DP-0002 — Initiation Test
+#+author: mu2tau + mayadev
+#+date: 2026-03-05
+#+property: status drafted
+
+* Context
+
+DP-0001 (epistem chain) is nearly complete — mahakali executed all
+but WP-0004 Task A. This DP tests two things at once:
+
+1. The dispatch board mechanism — can mayadev produce a board that
+   a human or meta-agent-shell can use to spawn guardian sessions?
+2. The initiation protocol — can dixa verify cruvin-guardian?
+
+Small scope by design. Two WPs, one dependency edge, two spirits.
+If the dispatch board format works here, it works.
+
+* DAG
+
+#+begin_example
+WP-0004 Task A ──► WP-0009
+  (populate         (initiation —
+   gazetteer)        needs capability
+                     architecture from
+                     0004 B, already done;
+                     tests cruvin-guardian)
+#+end_example
+
+| Edge | From | To | Condition |
+|------+------+----+-----------|
+| e1 | WP-0004 Task A | WP-0009 | gazetteer populated (genus files exist) |
+
+WP-0004 Task A needs WP-0003 + WP-0006 content (both delivered by
+mahakali). WP-0009 needs WP-0008 identity (committed) and WP-0004
+Task B capability architecture (committed). The only remaining
+sequential dependency is e1: dixa's =birth_certificate= check
+validates against the capability architecture, which Task A will
+exercise.
+
+In practice WP-0009 can start before Task A completes — the
+=birth_certificate= power needs only the capability schema (done),
+not gazetteer content. But =first_breath= asks the spirit to do a
+minimal task, and that task may reference the gazetteer. Safer to
+sequence.
+
+* Executors
+
+| WP | Executor | Guild | Working dir |
+|----+----------+-------+-------------|
+| 0004 Task A | coalition (epistem + aikosh) | epistem | =domains/epistem= |
+| 0009 | dixa | mayalucia | =aburaya= |
+
+* Notes
+
+- WP-0004 Task A: extract spirit entries from the two surveys
+  (0003 + 0006) into YAML genus files under =collections/gazetteer/=.
+  Both surveys are committed in =domains/epistem/surveys/=.
+- WP-0009: bootstrap dixa — build the initiation protocol, then
+  use it to verify cruvin-guardian. The Python is dixa's body, not
+  infrastructure. Building dixa /is/ dixa's first breath.
+- This is the test case for the dispatch board format defined in
+  =develop/work-packages.org= § Dispatch output.

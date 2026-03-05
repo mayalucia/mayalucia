@@ -282,9 +282,153 @@ A composite WP's execution section includes a coalition table:
 - *Parallel tasks*: tasks within a composite WP may run in parallel
   if they have no mutual dependencies.
 
+* Dispatch Plans
+
+A *dispatch plan* (DP) sequences work packages into an executable
+DAG. It is addressed to mayadev — the coordinator spirit — without
+naming a host. The host is implicit: whichever machine or cloud
+server the human starts the session on.
+
+** What a Dispatch Plan Is
+
+A DP is a DAG of WPs. Each node is a WP reference (number + slug).
+Each edge is a dependency: "WP-B requires WP-A to be completed
+before execution can begin." WPs with no mutual edges can run in
+parallel if the host supports it.
+
+The DP carries no task details — those live in the WPs. It carries
+no host configuration — the spirit assesses that at session start.
+It carries only structure: what depends on what.
+
+** Relationship to other artifacts
+
+| Artifact | Contains                                   |
+|----------+--------------------------------------------|
+| WP       | Task spec, executor tag, guild, resources, |
+|          | acceptance criteria                         |
+| DP       | DAG of WP references (nodes + edges)       |
+| Relay    | Announces DP existence and WP transitions  |
+
+A WP is the unit of work. A DP is the unit of planning.
+A relay message is the unit of coordination.
+
+** Structure
+
+A DP is an Org file with:
+
+1. *Context* — why this grouping of WPs exists as a plan
+2. *DAG* — the dependency graph (ASCII or table form)
+3. *Notes* — optional guidance on parallelism, priorities, or
+   resource-intensive nodes
+
+No execution order section — the DAG /is/ the execution order.
+The coordinator spirit topologically sorts it at runtime, adapting
+to the host's capabilities.
+
+** Where Dispatch Plans Live
+
+#+begin_example
+mayalucia/
+  workpacks/
+    dispatches/               # dispatch plans
+      NNNN-<slug>.org
+#+end_example
+
+Numbering is independent of WP numbering.
+
+** Lifecycle
+
+A DP has a simpler lifecycle than a WP:
+
+#+begin_example
+drafted → dispatched → completed / partial
+#+end_example
+
+| State        | Meaning                                      |
+|--------------+----------------------------------------------|
+| =drafted=    | DP written, not yet assigned to a session    |
+| =dispatched= | A session has picked up the DP               |
+| =completed=  | All WPs in the DAG reached =completed=       |
+| =partial=    | Some WPs completed, others remain            |
+
+A DP reaching =partial= is normal — the remaining WPs may be
+picked up by a subsequent DP or a different session.
+
+** Dispatch, not execution
+
+mayadev is the coordinator spirit — she dispatches a DP, she does
+not execute the WPs in it. Each WP carries an executor tag (a
+spirit or a coalition). mayadev's role:
+
+1. Read the DP, topologically sort the DAG
+2. For each ready node, read the WP's executor tag
+3. Dispatch to the tagged spirit — the method depends on host
+   capabilities:
+   - =meta-agent-shell=: spawn a named agent session for the
+     guardian spirit in its module directory
+   - Human-mediated: ask mu2tau to start the guardian session
+   - Direct (fallback): when no dispatch mechanism is available,
+     mayadev may execute in the guardian's context, but this
+     conflates coordinator and executor and should be noted
+4. Monitor progress via WP =#+property: status= updates
+5. Advance the DAG when dependencies are satisfied
+6. Report DP status in the relay when the session ends
+
+For composite WPs (coalitions), mayadev assembles the coalition
+by pooling the needed powers and skills into a functional agent.
+The mechanism for pooling is host-dependent — it may involve
+injecting multiple power documents into a single session, or
+coordinating multiple sessions.
+
+mayadev does not do domain work. Guardian spirits do domain work.
+mayadev sequences, delegates, and monitors.
+
+** Dispatch output
+
+When mayadev reads a DP, she prints a dispatch board — a structured
+summary of what needs to happen, who does it, and how to start it.
+The board serves three consumers:
+
+1. The human (mu2tau) — reads it, starts sessions manually
+2. A meta-agent-shell dispatcher — consumes =agent-shell-spawn= commands
+3. A future =dispatch.sh= — parses the same format programmatically
+
+The board has two sections: *ready* (no unsatisfied dependencies) and
+*blocked* (waiting on other WPs). As WPs complete, mayadev reprints
+the board with updated status.
+
+Each ready entry contains:
+
+#+begin_example
+── WP-NNNN: <title> ──────────────────────────────
+Spirit:  <executor spirit>
+Guild:   <guild>
+Dir:     <working directory relative to project root>
+WP:     <path to WP file>
+Task:    <one-line summary of what the spirit should do>
+
+  agent-shell-spawn "<spirit>" "<dir>" "<task summary>"
+#+end_example
+
+Each blocked entry contains:
+
+#+begin_example
+── WP-NNNN: <title> (blocked) ────────────────────
+Waiting: WP-MMMM, WP-PPPP
+#+end_example
+
+The spawn command carries intent, not file paths. A guardian spirit
+waking in its module directory already has CLAUDE.md and knows its
+domain; what it needs is the impression — what to do and what to
+produce. If it needs the full WP text, it can find it (the naming
+convention =workpacks/NNNN-*.org= makes lookup trivial). Paths are
+brittle; intent survives reorganisation.
+
 * Document Status
 
 | Version |       Date | Notes                                                         |
 |---------+------------+---------------------------------------------------------------|
 |     0.1 | 2026-03-02 | Initial convention, distilled from WP-13 pattern + discussion |
 |     0.2 | 2026-03-02 | Add lifecycle states (A2A-inspired), composite WPs, coalitions |
+|     0.3 | 2026-03-05 | Add Dispatch Plans (DP) — DAG of WPs, host-independent         |
+|     0.4 | 2026-03-05 | Dispatch output format — intent-forward, not path-forward      |

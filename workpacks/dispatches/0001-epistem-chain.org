@@ -1,0 +1,66 @@
+#+title: DP-0001 — Epistem Chain
+#+author: mu2tau + mayadev
+#+date: 2026-03-05
+#+property: status drafted
+
+* Context
+
+The epistem domain infrastructure (WP-0001) is complete. Six WPs
+depend on it — forming a chain that builds the knowledge layer:
+review methodology, spirit ecology surveys, gazetteer, and
+orchestration tooling.
+
+This DP groups the chain into a single executable plan.
+
+* DAG
+
+#+begin_example
+WP-0002 ──────────┐
+  (review practice) │
+                    ├──► WP-0004 Tasks B+C
+WP-0003 ──────────┤      (capability architecture —
+  (spirit ecology)  │       no 0003/0006 dependency)
+                    │
+                    ├──► WP-0004 Task A
+WP-0006 ──────────┤      (populate gazetteer —
+  (verified survey) │       needs 0003 + 0006 content)
+                    │
+                    └──► WP-0004 confidence field
+                           (needs 0006)
+                                │
+                                ▼
+                          WP-0005 Increment A
+                            (dispatch.sh skeleton)
+#+end_example
+
+| Edge | From | To | Condition |
+|------+------+----+-----------|
+| e1 | WP-0003 | WP-0004 Task A | 0003 content delivered |
+| e2 | WP-0006 | WP-0004 Task A | 0006 content delivered |
+| e3 | WP-0006 | WP-0004 confidence | 0006 verified ratings |
+| e4 | WP-0004 | WP-0005 | gazetteer + lifecycle conventions exist |
+
+WP-0002, WP-0003, WP-0006, and WP-0004 Tasks B+C have no mutual
+dependencies — they can run in parallel if the host supports it.
+
+* Executors
+
+| WP | Executor | Guild | Working dir |
+|----+----------+-------+-------------|
+| 0002 | sutradhar-guardian | mayalucia | =modules/sutradhar= |
+| 0003 | epistem-guardian | epistem | =domains/epistem= |
+| 0006 | epistem-guardian | epistem | =domains/epistem= |
+| 0004 | coalition (epistem + aikosh + mayadev) | epistem | =domains/epistem= |
+| 0005 | sutradhar-guardian | mayalucia | =modules/sutradhar= |
+
+mayadev dispatches to these spirits — she does not execute the
+domain work herself.
+
+* Notes
+
+- WP-0003 has a prior partial run. Assess before overwriting.
+- WP-0003 and WP-0006 both need web-search.
+- WP-0005 Increment A is a bonus — execute only if the chain
+  completes cleanly.
+- WP-0004 is composite (coalition). Assembly method is a
+  host-level decision at dispatch time.

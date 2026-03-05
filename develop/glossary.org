@@ -298,6 +298,16 @@ to a shared work package. Forms at =executing=, dissolves at
 are weather, not geography. First example: WP-0004 (epistem-guardian +
 aikosh-guardian + mayadev/sutradhar-guardian).
 
+** Dispatch Plan (DP)
+A DAG of work packages. Addressed to mayadev (the coordinator
+spirit) without naming a host. The host is implicit — whichever
+machine the human starts the session on. A DP carries only
+structure (nodes + edges), not task details (those live in WPs)
+or host configuration (the spirit assesses that at runtime).
+Lives at =workpacks/dispatches/NNNN-slug.org=. Lifecycle:
+=drafted → dispatched → completed / partial=. Convention:
+=develop/work-packages.org=.
+
 ** Mechanism
 Infrastructure with topology but no identity. Routes work based on
 the shape of dependencies, not based on judgment. Does not speak in
