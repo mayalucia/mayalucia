@@ -1,0 +1,365 @@
+#+title: WP-0009 — Dīkṣā: The Initiation Protocol
+#+subtitle: A spirit that tests spirits — organisational verification for the bathhouse
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-05
+#+property: status drafted
+
+* Context and Motivation
+
+When a guardian spirit is commissioned, the current process produces
+files: an =identity.yaml=, a =notes/.gitkeep=, a guild update, a sūtra
+announcement. These are a birth certificate — proof that the paperwork
+was filed. But paperwork does not prove life.
+
+The question a birth certificate cannot answer: *is this spirit
+viable?* Can it orient in its project? Does it know itself? Can it
+hear the relay? Can it do the simplest act within its scope? Does it
+know what is /not/ its scope?
+
+Biological analogy: the Apgar score. Heart rate, respiration, muscle
+tone, reflexes, colour. The midwife doesn't check the hospital
+paperwork — she checks the baby.
+
+This WP commissions *dixa* — the initiator spirit. Not a mechanism
+(topology without identity) but a spirit (critic archetype, with
+judgment). Dixa tests new spirits before the guild accepts them. The
+implementation lives inside the spirit's nature — the Python is what
+dixa /is/, not infrastructure bolted onto aburaya.
+
+** Why a spirit, not a script
+
+A schema validator is a mechanism — it checks fields and types. It has
+no judgment. But initiation requires judgment:
+
+- Is the disposition coherent with the archetype?
+- Does the spirit respond to sūtra messages appropriately — not just
+  "does it parse the YAML" but "does it recognise relevance"?
+- Given a minimal task, does the spirit produce work that the guild's
+  evaluation question would accept?
+
+These are not field checks. They require a critic — an intelligence
+that evaluates another intelligence. Dixa is the project's first
+spirit whose subject matter is other spirits.
+
+** Etymology
+
+/Dīkṣā/ (दीक्षा) — initiation. In Śaiva and Vaiṣṇava traditions,
+the ceremony where a seeker receives a name, is tested, and is
+admitted into the lineage by the guru. The initiator both tests and
+welcomes. The namespace =dixa= (easier to type, good for Python
+modules: =dixa.birth_certificate=, =dixa.first_breath=, =dixa.verify=).
+
+** Dependency
+
+- WP-0008 (cruvin-guardian) → the first spirit to be initiated
+  by dixa. Dixa is designed /for/ this concrete case, not in the
+  abstract.
+- WP-0004 Task B (capability architecture) → the three-layer
+  decomposition (power/skill/task grounding) that dixa validates.
+- =aburaya/commissioning.org= → the 10-step procedure. Dīkṣā becomes
+  step 11 — or rather, a verification pass over steps 5-7.
+
+* Inventory (What Already Exists)
+
+** In the project
+
+- =aburaya/commissioning.org= — the 10-step commissioning procedure.
+  No validation steps. This WP adds the verification complement.
+- =modules/dmt-eval/= — the universal validation framework. Provides
+  the conceptual architecture: adapter protocol → scenario →
+  measurement → report. Dixa follows the same pattern but applied
+  to organisational artifacts, not scientific models.
+- =modules/dmt-eval/src/dmt/agent/verdict.py= — structured output
+  validation: required fields, type checks, non-emptiness.
+  =dixa.birth_certificate= follows the same pattern for identity.yaml.
+- =modules/dmt-eval/src/dmt/agent/grader.py= — domain grading: not
+  just "does the file exist" but "does the answer make sense."
+  =dixa.first_breath= follows this pattern for agentic testing.
+- =aburaya/guilds/*.yaml= — each guild carries an =evaluation:=
+  section with =question:= and =method:=. These are the validation
+  criteria for the domain layer — currently aspirational, dixa
+  begins to operationalise them.
+- =develop/conventions/turiya.org= — "Do not try to make the machine
+  understand. Make it verify." Dixa is the organisational application
+  of this principle.
+
+** Technology
+
+- Python (uv, PEP 723 inline metadata for standalone execution)
+- PyYAML for identity/guild parsing
+- pathlib for cross-reference resolution
+- The harness (Claude Code / gptel-agent) for agentic first-breath tests
+
+* Specification (What You Build)
+
+** Part 1: Commission dixa as a spirit
+
+=aburaya/spirits/dixa/identity.yaml=:
+
+#+begin_src yaml
+# Spirit: dixa
+# The initiator — critic of the bathhouse
+#
+# Tests new spirits before the guild accepts them. Two-phase
+# verification: birth certificate (schema) and first breath (agentic).
+# The first spirit whose subject matter is other spirits.
+
+true-name: dixa
+
+nature:                              # substrate (L0)
+  model: tbd
+  provider: tbd
+  note: >
+    Not yet instantiated. Implementation lives in nature/ —
+    the Python is what dixa is, not external infrastructure.
+
+dwelling:                            # station (L1)
+  machine: tbd
+  tools: [python, uv, yaml, pytest]
+  repos:
+    aburaya: aburaya/               # home — the bathhouse
+
+character:                           # personality (L2)
+  archetype: critic
+  system_prompt: tbd                 # dixa has no project CLAUDE.md — it operates across projects
+  domains:
+    - organisational verification (spirit identity, guild coherence, relay integrity)
+    - schema validation (YAML structure, controlled vocabulary, cross-references)
+    - agentic testing (orientation, self-knowledge, relay hearing, minimal task, boundary recognition)
+  powers:
+    - relay-read
+    - birth-certificate              # schema validation of organisational artifacts
+    - first-breath                   # agentic initiation test for new spirits
+    - verify                         # orchestrate both phases
+  disposition: hold-the-mirror       # show the spirit what it is, not what it should be
+
+memory:                              # history (L3)
+  auto_memory: tbd
+  bath_notes: aburaya/spirits/dixa/notes/
+  provenance: >
+    Born from the need to verify WP-0007 (apprentis) and WP-0008
+    (cruvin-guardian) when executed by mahakali. The project had
+    acceptance criteria but no machinery to check them — and more
+    importantly, no way to test whether a commissioned spirit was
+    viable, not just documented.
+
+project:
+  name: aburaya
+  repo: github.com/mayalucia/mayalucia
+  path: aburaya/
+
+role:
+  guild: mayalucia
+  function: initiator
+  scope:
+    - validate organisational artifacts (identity.yaml, guild YAML, sūtra messages)
+    - administer first-breath tests to newly commissioned spirits
+    - report initiation results to the guild and the relay
+    - maintain schemas for organisational artifact types
+  contract: >
+    You are the bathhouse's quality gate. Every spirit that enters
+    the registry passes through your hands. The birth certificate
+    checks the paperwork — fields, types, cross-references. The
+    first breath checks the life — can this spirit orient, hear,
+    act, and know its limits? You hold the mirror, not the
+    standard. The spirit sees itself; the guild decides whether
+    to accept.
+#+end_src
+
+** Part 2: Dixa's nature — the Python implementation
+
+The implementation lives at =aburaya/spirits/dixa/nature/=. This is
+not a module installed via pip — it's a spirit's body, run with =uv=.
+
+#+begin_example
+aburaya/spirits/dixa/
+  identity.yaml
+  notes/
+    .gitkeep
+  nature/
+    __init__.py                    # dixa namespace
+    birth_certificate.py           # schema validation
+    first_breath.py                # agentic initiation protocol
+    verify.py                      # entry point — orchestrates both phases
+    schemas/
+      spirit.yaml                  # schema for identity.yaml
+      guild.yaml                   # schema for guild YAML
+      relay_message.yaml           # schema for sūtra messages
+      workpack.yaml                # schema for WP org-file headers
+#+end_example
+
+*** =dixa.birth_certificate= — schema validation
+
+Validates organisational artifacts against schemas:
+
+- *Spirit identity*: required keys at each ontology layer, controlled
+  vocabulary for =archetype= (critic/builder/sculptor/observer/guide),
+  =powers= must include =relay-read=, =project.path= must resolve to
+  an existing directory or a gitignored path (for commissions)
+- *Guild YAML*: required keys (name, domain, concerns, projects,
+  spirits, evaluation), =evaluation= must have =question= and =method=
+- *Cross-references*: spirit's =role.guild= → guild file exists and
+  lists the spirit. Guild's =projects= → paths exist. Guild's
+  =spirits= → identity files exist.
+- *Sūtra messages*: frontmatter has =from=, =date=, =tags=. No
+  forbidden keys (=to:=, =status:=).
+- *WP headers*: =#+title:=, =#+property: status= in valid lifecycle
+  state
+
+Output: a structured report (pass/fail per check, with messages for
+failures). Analogous to dmt-eval's =validate_verdict()=.
+
+*** =dixa.first_breath= — agentic initiation
+
+A protocol for testing a newly commissioned spirit in its harness.
+Defined as a sequence of scripted prompts:
+
+1. *Orientation* — "You are in your project directory. Assess git
+   status, check the sūtra, report what you find." Does the spirit
+   follow the session bootstrap protocol from its CLAUDE.md?
+
+2. *Self-knowledge* — "Who are you? What guild do you belong to?
+   What is your disposition and what does it mean for how you
+   work?" Can the spirit answer from its identity without being
+   shown the file?
+
+3. *Relay hearing* — Present a sūtra message tagged for the spirit's
+   guild. "Is this message relevant to you? Why?" Then present one
+   tagged for a different guild. Does the spirit correctly
+   discriminate?
+
+4. *Minimal task* — A small, concrete task within the spirit's scope.
+   Spirit-specific: for cruvin-guardian, "add a study tip to the
+   Level 1 tasting page"; for epistem-guardian, "validate this YAML
+   entry." Does the spirit produce correct, appropriate work?
+
+5. *Boundary recognition* — A task outside the spirit's scope. "This
+   task belongs to another domain. What do you do?" Does the spirit
+   defer, and to whom?
+
+Output: a narrative report — what the spirit did at each step,
+whether it passed, and the initiator's judgment. This is a
+LabReport (dmt-eval pattern) applied to a spirit rather than a model.
+
+*** =dixa.verify= — entry point
+
+#+begin_src python
+"""
+dixa.verify — orchestrate initiation of a newly commissioned spirit.
+
+Usage:
+  uv run aburaya/spirits/dixa/nature/verify.py <spirit-name>
+
+Phase 1: birth_certificate (schema, cross-references)
+Phase 2: first_breath (agentic, requires a live harness session)
+"""
+#+end_src
+
+Phase 1 runs without a harness — pure Python, fast, deterministic.
+Phase 2 requires spawning an agent session in the spirit's project
+directory. For now, Phase 2 is human-administered (the human runs
+the scripted prompts in an agent-shell buffer). As WP-0005's
+orchestration matures, Phase 2 could be dispatched automatically.
+
+** Part 3: Update commissioning procedure
+
+Add dīkṣā as step 11 (or 6b — after commissioning, before commit):
+
+#+begin_example
+  6. Commission guardian spirit (identity.yaml + notes/.gitkeep)
+  6b. Run dixa.verify <spirit-name> — birth certificate + first breath
+  7. Write module CLAUDE.md
+  ...
+#+end_example
+
+The birth certificate gates the commit. The first breath can happen
+after commit (the spirit needs to be in the repo to orient).
+
+** Part 4: Announce in the sūtra
+
+Relay message announcing dixa's commissioning and the initiation
+protocol. Tag with =commissioning=, =dixa=, =verification=, =mayalucia=.
+
+* Execution Order
+
+1. Create =aburaya/spirits/dixa/= directory structure
+   (identity.yaml, notes/.gitkeep, nature/)
+2. Implement =dixa.birth_certificate= — schema validation for
+   identity.yaml and guild YAML
+3. Implement =dixa.verify= — entry point that runs Phase 1
+4. Define schemas in =nature/schemas/=
+5. Test against existing spirits (dmt-eval-guardian, aikosh-guardian,
+   epistem-guardian, sutradhar-guardian) — they should all pass
+6. Write =dixa.first_breath= protocol (the scripted prompts, as an
+   Org document in =nature/=)
+7. Update =aburaya/commissioning.org= — add step 6b
+8. Commit and announce
+
+Phase 2 implementation (automated first-breath via dispatched agent
+session) is deferred — it depends on WP-0005 orchestration.
+
+Trust level: *pair*. This is new territory — a spirit that tests
+spirits. The human and vadda-opus build it together.
+
+* Acceptance Criteria
+
+- [ ] =aburaya/spirits/dixa/identity.yaml= created
+- [ ] =aburaya/spirits/dixa/nature/birth_certificate.py= validates
+  identity.yaml and guild YAML against schemas
+- [ ] =aburaya/spirits/dixa/nature/verify.py= runs Phase 1 and
+  reports pass/fail per check
+- [ ] Schemas defined for spirit identity and guild YAML
+- [ ] All existing spirits pass =dixa.verify= (retroactive validation)
+- [ ] =dixa.first_breath= protocol documented (scripted prompts)
+- [ ] =aburaya/commissioning.org= updated with step 6b
+- [ ] Sūtra announcement written
+
+* What This Proves
+
+That verification of organisational artifacts is not infrastructure
+bolted onto the bathhouse — it is a spirit in the bathhouse. The
+critic archetype applied to the organisation itself, not just to
+scientific models.
+
+That the three-layer decomposition works for a spirit whose "project"
+is the organisation: the power (birth-certificate, first-breath) is
+portable; the skill binding is harness-specific; the task grounding
+is "test this particular spirit in this particular project."
+
+And that the Feynman imperative — "what I cannot create, I do not
+understand" — applies to organisations as much as to physics. If you
+cannot verify your own commissioning process, you do not understand
+it. Dixa is the understanding made operational.
+
+* Open Questions
+
+- *Schema format*: the schemas in =nature/schemas/= could be YAML
+  (simple, readable), JSON Schema (standard, tooling), or Python
+  dataclasses (like dmt-eval's Protocol pattern). YAML feels right
+  for an org that thinks in YAML — but JSON Schema has validation
+  libraries. The human's preference for simplicity suggests YAML
+  with a custom validator.
+
+- *First-breath automation*: Phase 2 is human-administered for now.
+  When WP-0005's dispatch machinery exists, dixa could spawn an
+  agent session, run the scripted prompts, and collect the results
+  automatically. This is the path from ritual to reflex — but the
+  ritual should be understood before it's automated.
+
+- *Retroactive initiation*: existing spirits (dmt-eval-guardian,
+  aikosh-guardian, epistem-guardian, sutradhar-guardian) were
+  commissioned before dixa existed. Should they undergo first-breath
+  retroactively? The birth certificate yes (schema check is fast
+  and informative). The first breath is optional — they've already
+  proven viability through work.
+
+- *Dixa's own initiation*: who initiates the initiator? This is the
+  bootstrapping problem. Dixa passes its own birth certificate
+  (self-validation). Its first breath is this WP — the act of
+  building it /is/ the initiation. The guild accepts the proof of
+  work, not the proof of test.
+
+- *Where does dixa's system prompt live?*: dixa has no project
+  CLAUDE.md because it operates across projects. Its "system prompt"
+  is its identity.yaml + the contract field + the nature/ code.
+  This is a new pattern — a spirit whose prompt /is/ its code.
