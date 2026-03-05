@@ -34,5 +34,5 @@
 	branch = main
 [submodule "domains/apprentis"]
 	path = domains/apprentis
-	url = git@github.com:mayalucia/apprentis.git
+	url = https://github.com/mayalucia/apprentis.git
 	branch = main
