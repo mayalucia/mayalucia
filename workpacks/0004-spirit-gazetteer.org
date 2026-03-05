@@ -1,6 +1,6 @@
 #+title: WP-0004 — Spirit Gazetteer and Capability Architecture
 #+subtitle: Queryable knowledge for story composition; cross-spirit collaboration as proving ground
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-02
 #+property: status tightened
 
@@ -60,7 +60,7 @@ domain, dissolving when the WP completes.
          ┌─────────┐    ┌─────────┐     ┌──────────┐
          │epistem-  │    │aikosh-  │     │sutradhar-│
          │guardian  │    │guardian │     │guardian / │
-         │(observer)│    │(builder)│     │vadda-opus│
+         │(observer)│    │(builder)│     │mayadev│
          └─────────┘    └─────────┘     └──────────┘
                │              │              │
                └──────────────┼──────────────┘
@@ -645,8 +645,8 @@ This is the first composite work package. The coalition:
 |------+--------+---------------+-------------|
 | A: Populate gazetteer | epistem-guardian | relay-read, survey methodology | YAML entries in =domains/epistem/collections/= |
 | A: Validate gazetteer | aikosh-guardian | validate-collection, query-collection | Validation report, schema compliance |
-| B: Capability architecture | vadda-opus or sutradhar-guardian | relay-read, org-content-workflow | =aburaya/capabilities.org= |
-| C: Reconcile governance | vadda-opus or sutradhar-guardian | org-content-workflow | Updated =governance.org= |
+| B: Capability architecture | mayadev or sutradhar-guardian | relay-read, org-content-workflow | =aburaya/capabilities.org= |
+| C: Reconcile governance | mayadev or sutradhar-guardian | org-content-workflow | Updated =governance.org= |
 
 Practically: a single agent session from the parent repo (which has
 access to all submodules) can invoke multiple spirits' concerns. Or

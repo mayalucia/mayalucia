@@ -1,6 +1,6 @@
 #+title: WP-0010 — Sutradhar Companion: Embodied Thread-Holding
 #+subtitle: Evolve the sutradhar from a summoned task-spirit to a persistent companion with perception and structured deposit
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-05
 #+property: status drafted
 
@@ -378,7 +378,7 @@ mode of human-AI collaboration.
 11. Commit and announce in sūtra
 
 Trust level: *pair*. This is the first spirit body and the first
-structured deposit. The human and vadda-opus build it together.
+structured deposit. The human and mayadev build it together.
 
 * Acceptance Criteria
 

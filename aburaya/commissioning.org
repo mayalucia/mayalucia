@@ -214,7 +214,7 @@ first spirit in the =mayalucia= guild.
 
 | Step | What happened |
 |------+---------------|
-| 1 | mu2tau + vadda-opus identified need: the project needs a guide spirit that reads all relay messages, holds coherence, and presents the work |
+| 1 | mu2tau + mayadev identified need: the project needs a guide spirit that reads all relay messages, holds coherence, and presents the work |
 | 2 | =sutradhar/= already existed as inline Clojure module (relay reader + constellation proposer) |
 | 3 | Existing code in place — no migration during commissioning |
 | 4 | /Skipped/ — inline project, not a submodule |

@@ -1,5 +1,5 @@
 #+title: Work Packages — Convention
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-02
 
 * What a Work Package Is
@@ -192,7 +192,7 @@ This is the /Sculptor's Paradox/ applied to specification: a WP that offers no r
 ** Who executes WPs?
 
 - A guardian spirit executes WPs within its module
-- The parent-level spirit (vadda-opus) executes organization-level WPs
+- The parent-level spirit (mayadev) executes organization-level WPs
 - A wandering spirit (if such are commissioned) executes WPs that
   cross module boundaries
 - The human executes WPs that require embodied judgment (design review, user testing, deployment approval)

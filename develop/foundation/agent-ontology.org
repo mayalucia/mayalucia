@@ -755,8 +755,8 @@ The current agent descriptors in =sutra/agents/= capture only
 station (L1).  A complete descriptor would look like:
 
 #+begin_src yaml
-# Spirit: vadda-opus — identity.yaml in aburaya/spirits/vadda-opus/
-true-name: vadda-opus-4-6
+# Spirit: mayadev — identity.yaml in aburaya/spirits/mayadev/
+true-name: mayadev-4-6
 
 nature:                              # substrate (L0)
   model: claude-opus-4-6
@@ -780,7 +780,7 @@ character:                           # personality (L2)
 
 memory:                              # history (L3) — pointers, not content
   auto_memory: ~/.claude/projects/.../memory/  # raw temporal residue
-  bath_notes: aburaya/spirits/vadda-opus/notes/ # curated by Kamaji
+  bath_notes: aburaya/spirits/mayadev/notes/ # curated by Kamaji
   # sūtra read cursor is git HEAD in .sutra/ — no stored value
 
 project:                             # shared commons — not a level
@@ -1117,7 +1117,7 @@ aburaya/
     bravli.yaml             — neuroscience department descriptor
     mayalucia.yaml          — project-level guild (organisational coherence)
   spirits/
-    vadda-opus/
+    mayadev/
       identity.yaml         — registration card (five-level ontology)
       notes/                — bath deposits (curated by Kamaji)
     dmt-eval-guardian/      — critic, bravli guild
@@ -1225,7 +1225,7 @@ on one machine read from.  This created two problems:
    had a 6-step discovery protocol.
 
 2. /Shared state/: all spirits on the same machine shared one read
-   cursor (the local HEAD of the sibling clone).  If vadda-opus
+   cursor (the local HEAD of the sibling clone).  If mayadev
    fast-forwarded after reading, dmt-eval-guardian's cursor moved too.
 
 The fix: each project keeps its own sūtra clone at =.sutra/=

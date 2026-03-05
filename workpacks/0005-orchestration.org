@@ -46,7 +46,7 @@ DAG directs it, like a kuhl routes water where gravity directs it.
 
 ** Design source
 
-=develop/orchestration.org= — a detailed sketch by vadda-opus + mu2tau
+=develop/orchestration.org= — a detailed sketch by mayadev + mu2tau
 (2026-03-02). This WP formalises increments 2–3 of the sketch's
 § Implementation Path. Increment 1 (Claude Code allowlists) is
 configuration, not a WP. Increment 4 (multi-machine coordination) is
@@ -344,7 +344,7 @@ work_packages:
   wp-0001:
     file: workpacks/0001-epistem-aikosh.org
     status: completed
-    executor: vadda-opus
+    executor: mayadev
     upstream: []
     downstream: [wp-0002, wp-0003, wp-0004]
 

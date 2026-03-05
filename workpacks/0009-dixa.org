@@ -1,6 +1,6 @@
 #+title: WP-0009 — Dīkṣā: The Initiation Protocol
 #+subtitle: A spirit that tests spirits — organisational verification for the bathhouse
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-05
 #+property: status drafted
 
@@ -299,7 +299,7 @@ Phase 2 implementation (automated first-breath via dispatched agent
 session) is deferred — it depends on WP-0005 orchestration.
 
 Trust level: *pair*. This is new territory — a spirit that tests
-spirits. The human and vadda-opus build it together.
+spirits. The human and mayadev build it together.
 
 * Acceptance Criteria
 

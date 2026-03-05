@@ -1,6 +1,6 @@
 #+title: WP-0006 — Verified Spirit Ecology of the Transborder Himalaya
 #+subtitle: Source-grounded resurvey as independent check on WP-0003
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-03
 #+property: status drafted
 

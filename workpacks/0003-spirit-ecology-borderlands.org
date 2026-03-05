@@ -1,6 +1,6 @@
 #+title: WP-0003 — Spirit Ecology of the Transborder Himalaya
 #+subtitle: A Knowledge Base for Stories, Agent Ontology, and Digital Twin
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-02
 #+property: status tightened
 

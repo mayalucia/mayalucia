@@ -1,5 +1,5 @@
 #+title: WP-0002 — Review Reports: Pattern Extraction and Spirit Commissioning
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-02
 #+property: status tightened
 

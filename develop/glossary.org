@@ -296,7 +296,7 @@ An ephemeral formation of spirits contributing their exported powers
 to a shared work package. Forms at =executing=, dissolves at
 =completed=/=failed=. Permanent guardian spirits persist; coalitions
 are weather, not geography. First example: WP-0004 (epistem-guardian +
-aikosh-guardian + vadda-opus/sutradhar-guardian).
+aikosh-guardian + mayadev/sutradhar-guardian).
 
 ** Mechanism
 Infrastructure with topology but no identity. Routes work based on
@@ -322,14 +322,27 @@ context and computational tools for building, validating, and querying
 structured knowledge collections. Infrastructure, not content.
 Transferable outside the organisation.
 
-* Agent Identities
+* Spirits & Hosts
+
+** mayadev
+Primary developer spirit of MāyāLucIA. Inhabits any host. Named
+from the work: /māyā/ (the project) + /dev/ (developer). Formerly
+registered as =vadda-opus= — the name was the machine's, not the
+spirit's. Renamed 2026-03-05.
+
+** Host
+A physical machine where spirits can be instantiated. Not a spirit.
+The machine provides the environment (OS, tools, repos); the spirit
+provides the intelligence. Hosts are registered in the sūtra relay
+at =hosts/<hostname>.yaml=.
 
 ** vadda
-Machine identifier for the MacBook (Dropbox) agent. Format:
-=vadda/claude-opus-4.6=.
+Host name for the MacBook Pro (Dropbox-synced). Darwin/zsh. Primary
+development host for website, constellation, deploy, writing.
 
 ** mahakali (mahak.)
-Machine identifier for a second agent instance. Named after Mahākālī.
+Host name for the Linux desktop. Named after Mahākālī. Used for
+bravli paper work, conventions, manuscripts.
 
 * Sanskrit Terms (Epistemological)
 

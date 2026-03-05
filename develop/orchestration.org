@@ -1,5 +1,5 @@
 #+title: Autonomous Orchestration — From Declarative to Executable
-#+author: vadda-opus + mu2tau
+#+author: mayadev + mu2tau
 #+date: 2026-03-02
 #+property: status sketch
 

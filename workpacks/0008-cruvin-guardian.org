@@ -1,6 +1,6 @@
 #+title: WP-0008 — Commission CruVin Guardian Spirit
 #+subtitle: Guardian spirit for the atelier's first external commission — three-layer decomposition
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-05
 #+property: status drafted
 

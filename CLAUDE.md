@@ -43,7 +43,7 @@ Two concrete domains drive development:
 ```
 aburaya/          # Spirit registry — identity, guilds, commissioning
   guilds/         #   bravli, mayalucia, epistem, apprentis (collaborative cognition)
-  spirits/        #   vadda-opus, mu2tau, dmt-eval-guardian, sutradhar-guardian, aikosh-guardian, epistem-guardian, cruvin-guardian
+  spirits/        #   mayadev, mu2tau, dmt-eval-guardian, sutradhar-guardian, aikosh-guardian, epistem-guardian, cruvin-guardian
 agency/           # AI agent orchestration for the scientific workflow
 collab/           # Human-AI collaboration logs, context, session artifacts
 deployment/       # Deployment orchestration (deploy.sh, Caddyfile, docker-compose)

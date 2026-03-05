@@ -1,6 +1,6 @@
 #+title: WP-0001 — Epistem Domain and Aikosh Module: Structured Knowledge for Agents
 #+subtitle: Commissioning the epistemology guild, its module, and its guardian spirit
-#+author: mu2tau + vadda-opus
+#+author: mu2tau + mayadev
 #+date: 2026-03-02
 #+property: status tightened
 
@@ -343,7 +343,7 @@ name and disposition if desired, then hands off.
 WP-0001 is the root of a dependency chain across five work packages:
 
 #+begin_example
-WP-0001 (commission epistem + aikosh)     ← vadda-opus (mayalucia guild)
+WP-0001 (commission epistem + aikosh)     ← mayadev (mayalucia guild)
    │
    ├── WP-0002 (review practice extraction)  ← sutradhar-guardian (mayalucia guild)
    │      Phase 1: pattern extraction (independent)
@@ -356,7 +356,7 @@ WP-0001 (commission epistem + aikosh)     ← vadda-opus (mayalucia guild)
    └── WP-0004 (gazetteer + capability architecture)  ← coalition
           First composite WP. Three tasks:
           Task A: gazetteer population     ← epistem-guardian + aikosh-guardian
-          Task B: capability architecture  ← vadda-opus or sutradhar-guardian
+          Task B: capability architecture  ← mayadev or sutradhar-guardian
           Task C: governance reconciliation
           Requires WP-0003 (content). Early steps can proceed now.
 #+end_example
