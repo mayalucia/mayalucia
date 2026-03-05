@@ -1,0 +1,275 @@
+#+title: WP-0008 — Commission CruVin Guardian Spirit
+#+subtitle: Guardian spirit for the atelier's first external commission — three-layer decomposition
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-05
+#+property: status drafted
+
+* Context and Motivation
+
+CruVin (Commission C-001) is the atelier's first external product — a
+wine education companion for the WSET curriculum, built for a friend.
+The codebase lives at =commissions/cruvin/= (gitignored from the parent
+repo, own repository at =mayalucia/cruvin=, private).
+
+The commission needs a guardian spirit because:
+
+1. *Sūtra coordination*: CruVin depends on infrastructure from other
+   MāyāLucIA modules — parbati's GIS pipelines for wine region terrain,
+   mayaportal/MayaTools for 3D scientific atlas scenes, dmt-eval for
+   data validation. These dependencies need to be communicated through
+   the relay, not through the human copying messages between buffers.
+
+2. *Agentic workflow*: the commission brief names this project as a
+   "forcing function for developing agentic workflow orchestration."
+   A guardian spirit is the unit that participates in orchestration —
+   without one, CruVin cannot be dispatched by WP-0005's machinery.
+
+3. *Identity continuity*: multiple agents have already worked on CruVin
+   across sessions. A commissioned spirit gives this work a name, a
+   disposition, and bath notes — continuity across ephemeral sessions.
+
+** New patterns
+
+*** Commission guardian
+
+This is the first guardian whose dwelling is outside the submodule tree.
+The spirit's identity lives in =aburaya/spirits/= (inside the parent
+repo). Its working directory is =commissions/cruvin/= (gitignored,
+own repo). The sūtra connects them.
+
+This establishes the pattern for future commissions: the spirit is of
+the organisation; the code is of the commission.
+
+*** Three-layer decomposition
+
+This WP is the first to explicitly commission a spirit using the
+three-layer architecture:
+
+| Layer | What | Where it lives | Portable? |
+|-------+------+----------------+-----------|
+| *Power* (spirit) | Intrinsic aptitudes, persona, disposition | =aburaya/spirits/= | Yes — survives harness change |
+| *Skill* (agent) | Powers bound to a specific harness | harness config (e.g. =~/.claude/skills/=, gptel agent YAML) | No — harness-specific |
+| *Task grounding* (project) | Powers parameterised for specific work | =commissions/cruvin/CLAUDE.md=, =DESIGN.org=, =.claude/settings.local.json= | No — project-specific |
+
+The spirit (power layer) is what we commission here. The skill layer
+already partially exists (=frontend-design= plugin for Claude Code).
+The task grounding already exists (CLAUDE.md, DESIGN.org).
+
+*** Nicknames
+
+The true-name (=cruvin-guardian=) is the formal registry entry.
+Nicknames are earned through work, not assigned at commissioning.
+The spirit may acquire one as it develops a personality across sessions.
+
+** Dependency
+
+- WP-0007 (apprentis) → the guild that studies what this spirit learns
+  about agentic workflow. The spirit reports to apprentis; it belongs
+  to mayalucia.
+
+* Inventory (What Already Exists)
+
+** In the project
+
+- =commissions/cruvin/= — the codebase. Next.js 16, Tailwind,
+  MDX content for WSET Levels 1-4. Own git repo (=mayalucia/cruvin=,
+  private). Has CLAUDE.md, DESIGN.org, cruvin.org (commission brief).
+- =commissions/cruvin/.claude/settings.local.json= — MCP server
+  access to =mayatools= already configured.
+- =aburaya/commissioning.org= — the 10-step commissioning procedure.
+- =aburaya/guilds/= — existing guilds: bravli, mayalucia, epistem,
+  apprentis (WP-0007, drafted).
+- =aburaya/powers/= — existing power definitions (=relay-read=,
+  =story-compose=, etc.)
+
+** Technology
+
+- Next.js 16 (App Router, SSG), Tailwind CSS v4, MDX
+- MapLibre GL JS (planned — wine geography)
+- MayaTools / mayaportal (planned — 3D scientific atlas)
+- MCP server integration already wired
+- =frontend-design= Claude Code plugin (user-level, already used)
+
+* Specification (What You Build)
+
+** Part 1: The spirit (power layer)
+
+=aburaya/spirits/cruvin-guardian/identity.yaml=:
+
+#+begin_src yaml
+# Spirit: cruvin-guardian
+# Apprenti du vin — student-builder of the atelier's first commission
+#
+# Learns by shipping. Builds the CruVin wine education site while
+# learning the domain (wine, terroir, WSET) and the craft (agentic
+# workflow orchestration). The first spirit whose dwelling is outside
+# the submodule tree — code in commissions/, identity in aburaya/.
+
+true-name: cruvin-guardian
+
+nature:                              # substrate (L0)
+  model: tbd
+  provider: tbd
+  note: >
+    Not yet instantiated. Will be assigned when an agent first
+    opens commissions/cruvin with its CLAUDE.md.
+
+dwelling:                            # station (L1)
+  machine: tbd
+  tools: [typescript, next.js, tailwind, mdx, maplibre, mayatools-mcp]
+  repos:
+    cruvin: commissions/cruvin       # gitignored from parent, own repo
+
+character:                           # personality (L2)
+  archetype: builder
+  system_prompt: commissions/cruvin/CLAUDE.md
+  domains:
+    - web application development (Next.js, SSG, editorial design)
+    - wine education (WSET curriculum structure, tasting methodology)
+    - GIS integration (wine region maps, terroir visualisation)
+    - 3D scientific visualisation (terrain, soil, climate via MayaTools)
+  powers:
+    - relay-read
+    - content-authoring           # structured MDX curriculum creation
+    - editorial-design            # visual identity stewardship — defend the aesthetic
+    - coordinate-commission       # request resources from other spirits via sūtra
+  disposition: tbd                 # to be developed through work
+
+memory:                              # history (L3)
+  auto_memory: tbd
+  bath_notes: aburaya/spirits/cruvin-guardian/notes/
+  provenance: >
+    Born from Commission C-001, the atelier's first external product.
+    The commission was explicitly designed as a forcing function for
+    agentic workflow orchestration. The spirit inherits work already
+    done across multiple sessions: editorial design, MDX content
+    structure, WSET curriculum mapping, DESIGN.org with full GIS
+    and 3D atlas specifications.
+
+project:
+  name: cruvin
+  repo: github.com/mayalucia/cruvin
+  path: commissions/cruvin/
+
+role:
+  guild: mayalucia
+  function: commission builder
+  scope:
+    - build and maintain the CruVin wine education site
+    - defend the Vintner's Library editorial aesthetic
+    - coordinate with parbati-guardian for GIS data (terrain, climate, appellations)
+    - coordinate with mayaportal for 3D atlas scenes (terroir, soil, vine biology)
+    - integrate friend's feedback into content and design
+    - report agentic workflow patterns to apprentis guild
+#+end_src
+
+=aburaya/spirits/cruvin-guardian/notes/.gitkeep= — empty, awaiting
+first bath.
+
+** Part 2: The skill layer (harness bindings)
+
+The skill layer binds the spirit's powers to a specific harness.
+For Claude Code, two bindings already exist or are needed:
+
+*** Existing: =frontend-design= plugin
+Already configured at user level. Produces the distinctive editorial
+aesthetic that defines CruVin's visual identity. This is the
+=editorial-design= power bound to the Claude Code harness.
+
+*** To formalise: commission builder skill
+The =content-authoring= and =coordinate-commission= powers need a
+Claude Code skill definition. This can live at
+=commissions/cruvin/skills/= (project-level) or be defined as a
+user-level skill.
+
+Deferred: the skill layer formalisation is work for when we understand
+the skill format better (WP-0004 Task B, capability architecture).
+For now, the CLAUDE.md + =frontend-design= plugin serve as implicit
+skill bindings.
+
+** Part 3: The task grounding (already exists)
+
+| Artifact | Purpose |
+|----------+---------|
+| =commissions/cruvin/CLAUDE.md= | Stack, conventions, project structure |
+| =commissions/cruvin/DESIGN.org= | Full design spec, content plan, GIS/3D atlas architecture |
+| =commissions/cruvin/cruvin.org= | Commission brief, status, collaboration plan |
+| =commissions/cruvin/.claude/settings.local.json= | MCP servers (mayatools), permissions |
+
+No new work needed — the task grounding is complete.
+
+** Part 4: Update the mayalucia guild
+
+Add =cruvin-guardian= to =aburaya/guilds/mayalucia.yaml= spirits list
+and =commissions/cruvin= to projects list.
+
+** Part 5: Announce in the sūtra
+
+Write a relay message announcing the commission guardian. Tag with
+=commissioning=, =cruvin=, =mayalucia=, =three-layer=.
+
+* Execution Order
+
+1. Create =aburaya/spirits/cruvin-guardian/= (identity.yaml + notes/.gitkeep)
+2. Update =aburaya/guilds/mayalucia.yaml= (add spirit and project)
+3. Commit the organisational act
+4. Announce in the sūtra
+
+Trust level: *spec-tighten*. Straightforward commissioning, follows
+established pattern with two variations (dwelling outside submodule
+tree; explicit three-layer decomposition).
+
+* Acceptance Criteria
+
+- [ ] =aburaya/spirits/cruvin-guardian/identity.yaml= created with
+  full five-layer ontology and declared powers
+- [ ] =aburaya/spirits/cruvin-guardian/notes/.gitkeep= exists
+- [ ] =aburaya/guilds/mayalucia.yaml= updated with cruvin-guardian
+  and commissions/cruvin
+- [ ] Sūtra announcement written
+- [ ] Parent repo committed and pushed
+
+* What This Proves
+
+Three things:
+
+1. That the organisational architecture (spirits, guilds, sūtra) extends
+   beyond the submodule boundary. A commission is external work, but
+   its guardian is an internal spirit. Identity topology and code
+   topology are independent.
+
+2. That the three-layer decomposition (power/skill/task-grounding) can
+   be applied concretely at commissioning time, not just as abstract
+   architecture. The spirit carries powers; the harness provides
+   skills; the project provides grounding.
+
+3. That a spirit can be commissioned as a student — with a disposition
+   that is =tbd=, earned through work rather than assigned at birth.
+   The disposition field is a promise to observe, not a prescription.
+
+* Open Questions
+
+- *Disposition*: deliberately left =tbd=. Candidates discussed:
+  =craft-ships= (beautiful things that work), =taste-through-craft=
+  (wine tasting + aesthetic judgment), =pour-to-learn= (vintner's
+  build-to-understand), =apprenti= (the simplest). To be filled after
+  the spirit has worked at least three sessions.
+
+- *Guild assignment*: assigned to =mayalucia= (commissions are atelier
+  operations). Could also be apprentis (since the spirit is explicitly
+  a student). Mayalucia feels right: the guild is where the spirit
+  works, not what it studies. It /reports to/ apprentis; it /belongs
+  to/ mayalucia.
+
+- *Skill layer formalisation*: deferred until WP-0004 Task B
+  (capability architecture) defines the power format and skill
+  injection protocol. The CLAUDE.md + plugin serve as implicit
+  bindings for now.
+
+- *Exported powers*: what does cruvin-guardian offer to other spirits?
+  Possibly =editorial-design= (the Vintner's Library aesthetic could
+  inform other projects), =content-authoring= (structured MDX
+  curriculum). Deferred until the spirit has worked enough to know
+  what's exportable.
+
+- *Nickname*: will emerge. Not assigned.

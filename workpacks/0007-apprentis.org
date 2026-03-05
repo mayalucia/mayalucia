@@ -1,0 +1,319 @@
+#+title: WP-0007 — Apprentis: The Guild of Learning
+#+subtitle: Commission a domain for the science of collaborative cognition, seeded by empirical study of inter-agent communication
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-05
+#+property: status drafted
+
+* Context and Motivation
+
+In March 2026 we installed four agent-shell extensions into our Emacs
+environment: =agent-shell-manager= (dashboard), =agent-shell-attention=
+(mode-line alerts), =agent-shell-sidebar= (persistent panel), and
+=meta-agent-shell= (multi-agent coordination). The last of these
+ships CLI tools for inter-agent communication --- =agent-shell-send=,
+=agent-shell-ask=, =agent-shell-search= --- that fill a gap our sūtra
+protocol does not cover: real-time, in-session, point-to-point
+messaging between live spirits.
+
+This surfaced a question that had been latent since the orchestration
+gap was first named: *what is the science of how different kinds of
+minds develop shared understanding?*
+
+The phantom faculty (=modules/mayapramana=) answered this for teaching
+--- five epistemological modes mediating between a curriculum and a
+learner. But its v2 document dissolved the hierarchy: "everyone is a
+student again." The modes are not teacher→student; they are modes of
+/joint inquiry/ between collaborators with different partial
+expertise. The question is no longer /how do we teach/ but *how do
+collaborators with different partial expertise develop shared
+understanding and individual voice simultaneously*.
+
+This is an empirical question. It cannot be answered by design alone.
+It requires observation of actual collaboration --- between human and
+agent, between agent and agent, across session boundaries and within
+them. The meta-agent-shell CLI tools give us instrumentation we did
+not have before: logged, timestamped, searchable records of
+inter-agent communication.
+
+This motivates:
+- A *domain* for the inquiry into collaborative learning between
+  different kinds of intelligence
+- A *guild* for the spirits who study how understanding forms
+- An *empirical study* using meta-agent-shell and sūtra side by side
+
+The domain is not pedagogy. It is not EdTech. It is the post-2025
+science of how understanding forms when carbon and silicon collaborate
+--- and what that tells us about understanding itself.
+
+** Why "apprentis"
+
+/Apprentis/ --- the apprentice's guild. Where no one graduates because
+the substrate keeps shifting. Not /enseignants/ (teachers), not
+/étudiants/ (students). Apprentices: collaborators in the act of
+learning, permanently. The word carries the right asymmetry ---
+apprentices /have/ masters, but the mastery rotates. Today the
+physicist is the master and the agent is the apprentice in
+thermodynamics; tomorrow the agent is the master and the physicist is
+the apprentice in FPGA timing closure. The phantom faculty formalised
+this rotation as five modes. Apprentis is the guild that studies the
+rotation itself.
+
+** What distinguishes this from epistem
+
+Epistem asks: /how do you organise knowledge so an agent can use it?/
+Apprentis asks: /how does understanding form when two different kinds
+of intelligence collaborate?/
+
+Epistem is about structure (schemas, collections, query). Apprentis is
+about process (how comprehension emerges, what modes of engagement
+produce it, where communication breaks down, what the sūtra captures
+that in-session messaging misses and vice versa).
+
+Epistem's collections are /what/ is known. Apprentis studies /how/
+knowing happens.
+
+** Dependency
+
+- Phantom faculty (=modules/mayapramana/collab/=) → theoretical
+  foundation: the five modes, the v2 dissolution of hierarchy, the
+  lateral ZPD, the shu-ha-ri progression
+- meta-agent-shell CLI tools → instrumentation: logged inter-agent
+  communication for empirical observation
+- Sūtra protocol → the async channel to compare against
+- WP-0002 (review practice) → a case study: how does the review
+  practice spirit /learn/ the methodology?
+
+* Inventory (What Already Exists)
+
+** In the project
+
+- =modules/mayapramana/collab/phantom-faculty-everyone-a-student.org=
+  --- the v2 document. Theoretical foundation. Five modes as lateral
+  mediation, not hierarchical teaching.
+- =modules/mayapramana/agents/phantom-faculty/= --- five agent
+  definitions (feynman.md, landau.md, thorne.md, susskind.md,
+  construction.md). Working code for the five modes. These are the
+  prior art that apprentis draws from but does not subsume ---
+  mayapramana keeps its phantom faculty agents; apprentis studies
+  /what they teach us about learning/.
+- =.sutra/= --- the sūtra relay clone. Async, broadcast, durable
+  communication channel between spirits across sessions.
+- =~/.doom.d/config.org= --- newly installed agent-shell ecosystem:
+  manager, attention, sidebar, meta-agent-shell.
+- =develop/autonomy-agreement/position.org= --- 2×2 matrix of
+  (human/machine) × (teacher/student). Apprentis inherits this
+  framing.
+- =develop/glossary.org= --- defines /paramparā/ (lineage),
+  /guru-śiṣya/ (teacher-student relationship that changes both),
+  /disposition/, /coalition/.
+- =aburaya/guilds/= --- three existing guilds: bravli, mayalucia,
+  epistem. No guild currently claims learning, pedagogy, or cognitive
+  science.
+- =modules/mayapramana/= --- not assigned to any guild. The phantom
+  faculty lives here but has no guild home.
+
+** Technology
+
+- meta-agent-shell CLI: =agent-shell-send=, =agent-shell-ask=,
+  =agent-shell-search= — point-to-point, synchronous, logged as JSONL
+  in =~/.meta-agent-shell/logs/=
+- Sūtra relay: git-based, append-only, async, broadcast
+- =.tasks/= org files (meta-agent-shell): timestamped task notes,
+  integrated with Emacs agenda
+- Org-mode: source of truth for observations, theory, patterns
+
+* Specification (What You Build)
+
+** Part 1: Create =domains/apprentis= (GitHub submodule)
+
+A new domain repository: =mayalucia/apprentis=.
+
+The domain of inquiry: the science of collaborative cognition between
+different kinds of intelligence. How understanding forms in
+human-agent and agent-agent collaboration. What modes of engagement
+produce comprehension. How communication channels (synchronous vs
+async, point-to-point vs broadcast) shape what can be learned
+together.
+
+Directory structure:
+
+#+begin_example
+domains/apprentis/
+  CLAUDE.md                          # domain conventions
+  .gitignore                         # includes .sutra/
+  observations/                      # empirical: what we see when spirits collaborate
+    channel-study/                   # meta-agent-shell vs sūtra comparison
+  patterns/                          # extracted: recurring structures in collaborative learning
+  theory/                            # synthesised: what the observations mean
+#+end_example
+
+The three directories mirror the scientific cycle: observe → extract
+pattern → synthesise theory. This is MāyāLucIA's own Measure → Model
+→ Manifest applied to learning itself.
+
+** Part 2: Create the apprentis guild
+
+=aburaya/guilds/apprentis.yaml=:
+
+#+begin_src yaml
+# Guild: apprentis
+# The apprentice's guild — where no one graduates
+#
+# The science of collaborative cognition between different kinds
+# of intelligence. Not teaching, not pedagogy — the study of how
+# understanding forms when carbon and silicon learn together.
+
+name: apprentis
+domain: collaborative cognition — the science of learning between different kinds of intelligence
+
+concerns:
+  - modes of understanding (derivation, geometric intuition, encounter, compression, construction)
+  - collaborative epistemology (how partial expertise composes into shared understanding)
+  - communication channels (synchronous vs async, point-to-point vs broadcast, in-session vs cross-session)
+  - the lateral ZPD (what happens when everyone is a student and the zone of proximal development becomes horizontal)
+
+projects:
+  - domains/apprentis              # the domain — inquiry into collaborative learning
+  - modules/mayapramana            # the phantom faculty — five modes of understanding
+
+spirits:
+  # future: apprentis-guardian, phantom-faculty spirits drawn from mayapramana
+  # the guild's first spirit will emerge from use, not from design
+
+evaluation:
+  question: did the collaborators develop understanding they could not have reached alone?
+  method: observable traces — can each party explain what the other contributed, in their own words?
+#+end_src
+
+Note: =modules/mayapramana= is added as a guild project. This gives
+mayapramana a guild home it has lacked. The phantom faculty agents
+remain in mayapramana; the guild provides organisational context.
+
+** Part 3: Commission the domain guardian
+
+This WP does *not* commission a guardian spirit at this time.
+
+The conventional pattern (WP-0001) commissions a guardian at domain
+creation. But apprentis is different: its subject matter is the
+process of collaboration itself. The guardian's archetype, disposition,
+and powers should emerge from the empirical study — from watching
+how spirits actually collaborate — not be specified in advance. The
+guild starts with zero spirits and grows its first guardian from
+observation.
+
+This is deliberate. The guild that studies how understanding forms
+should not pretend to understand its own formation before it has
+observed anything.
+
+** Part 4: The channel study (first empirical work)
+
+The channel study is the guild's first act: use meta-agent-shell
+and sūtra side by side during actual project work, and observe what
+flows through each channel.
+
+*** Protocol
+
+During regular project sessions (WP-0002, WP-0003, WP-0004 execution):
+
+1. When two spirits are live in agent-shell buffers and need to
+   coordinate, use =agent-shell-send= or =agent-shell-ask= for
+   in-session communication
+2. For cross-session communication, continue using sūtra relay
+3. Record observations in =domains/apprentis/observations/channel-study/=
+   as Org files: what was communicated, which channel, why that
+   channel felt right, what would have been lost in the other channel
+
+*** Questions to answer
+
+- What kinds of messages naturally flow through the synchronous
+  channel? Through the async channel?
+- Does the synchronous channel enable coordination that sūtra cannot?
+  (e.g. real-time negotiation during coalition work)
+- Does the async channel preserve context that in-session messaging
+  loses? (e.g. decisions that matter next week, not next minute)
+- Should sūtra grow a "fast path" for live spirits, or should the
+  two channels remain separate?
+- What do the JSONL logs in =~/.meta-agent-shell/logs/= reveal about
+  patterns of inter-agent communication?
+
+*** Deliverable
+
+=domains/apprentis/observations/channel-study/report.org= — a
+structured observation report with evidence from actual use. Not
+theory, not design — empirical observation.
+
+** Part 5: Update parent CLAUDE.md
+
+- Add =domains/apprentis= to the submodule table
+- Add the apprentis guild to the aburaya description
+- Add =modules/mayapramana= under the apprentis guild in the directory structure
+
+** Part 6: Announce in the sūtra
+
+Write a relay message announcing the new domain and guild. Tag with
+=apprentis=, =phantom-faculty=, =channel-study=.
+
+* Execution Order
+
+1. Create =mayalucia/apprentis= repo on GitHub
+2. Place initial structure (CLAUDE.md, .gitignore, observations/, patterns/, theory/)
+3. Add as submodule: =git submodule add -b main https://github.com/mayalucia/apprentis.git domains/apprentis=
+4. Create =aburaya/guilds/apprentis.yaml=
+5. Update parent CLAUDE.md (submodule table, directory structure)
+6. Commit the organisational act (submodule + guild + CLAUDE.md update)
+7. Announce in the sūtra
+8. Begin channel study during regular WP execution — this is ongoing work, not a one-time deliverable
+
+Trust level: *pair*. The human is both the executor and the subject
+of study. This WP is written for the human. The agent assists with
+infrastructure (repo creation, submodule wiring, guild file) and
+participates as a co-observer in the channel study.
+
+* Acceptance Criteria
+
+- [ ] =domains/apprentis= repo exists on GitHub with CLAUDE.md
+- [ ] =domains/apprentis= added as submodule in parent
+- [ ] =aburaya/guilds/apprentis.yaml= created with concerns and projects
+- [ ] =modules/mayapramana= listed under apprentis guild
+- [ ] Parent CLAUDE.md updated with new domain and guild
+- [ ] Sūtra announcement written
+- [ ] First channel study observation recorded (at least one session
+  using =agent-shell-send= or =agent-shell-ask= alongside sūtra)
+
+* What This Proves
+
+That the project can study its own process of learning — not as
+navel-gazing but as science. That the phantom faculty's five modes are
+not just a curriculum design but an empirical hypothesis about how
+understanding forms. That the distinction between synchronous and
+asynchronous communication channels is not engineering preference but
+epistemological choice — different channels produce different kinds of
+shared understanding.
+
+And that a guild can begin with zero spirits, because the first act
+of understanding is observation, and the human is the first observer.
+
+* Open Questions
+
+- *Guild membership of mayapramana*: this WP assigns mayapramana to
+  the apprentis guild. But mayapramana is also a quantum sensing
+  project with engineering content that might belong to a future
+  instruments guild. For now, the phantom faculty is the dominant
+  identity — the five modes are mayapramana's most original
+  contribution. Revisit if an instruments guild forms.
+
+- *Relationship to mayadevgeni*: the collaborative-intelligence
+  framework predates apprentis. Apprentis is narrower (focused on
+  learning specifically) but deeper (empirical, not just philosophical).
+  Should mayadevgeni's position documents migrate to apprentis/theory/?
+
+- *The guardian question*: this WP deliberately does not commission a
+  guardian. When should one be commissioned? After the channel study
+  produces its first report? After a pattern emerges that needs a
+  spirit to hold it? The guild's formation is itself an experiment
+  in how organisational structure should emerge from observation.
+
+- *Shu-ha-ri in the guild*: the phantom faculty document describes
+  shu-ha-ri progression (learn forms → break forms → leave forms).
+  Does the guild itself go through shu-ha-ri? Is the channel study
+  the shu phase — learning the forms of inter-agent communication?

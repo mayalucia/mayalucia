@@ -61,6 +61,9 @@ website/.hugo_build.lock
 # Experiments — local scratch work
 experiments/
 
+# Commissions — external work, own repos, not submodules
+commissions/
+
 # Sūtra relay clone (per-project harness, local cursor)
 .sutra/
 
