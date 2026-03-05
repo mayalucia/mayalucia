@@ -241,6 +241,39 @@ A power a spirit makes available to other spirits. Declared in the
 =relay-read= is personal; =validate-collection= is a service. Inspired
 by A2A's Agent Card =skills= array.
 
+** Body
+The sensory/motor wiring that gives a spirit perception and action in a
+particular harness. Elisp hooks, CLI tools, event formatters, validation
+loops. Distinct from the harness itself: the harness is the runtime
+environment (Claude Code, gptel); the body is the wiring that connects
+the spirit's powers to that environment. The body is intelligible to
+the machine only — the spirit does not read its own body. First body:
+the sutradhar companion (WP-0010).
+
+** Companion
+A spirit's persistent presence across a human's working session. Not a
+new archetype but a mode of inhabitation — a guardian spirit that
+persists in a sidebar, receives an event stream, holds continuity, and
+deposits structured state. Distinguished from a summoned spirit (appears,
+does a task, disappears). A companion without perception is just a
+sticky window; perception without continuity is a sensor.
+
+** Warp (artifact)
+The structured s-expression deposited at =.sutradhar/warp.el= by the
+=lay-the-warp= power. Contains the spirit's understanding of
+organisational state: session (current focus, trajectory, thread),
+threads (with energy), waiting (obligations), dormant (held but
+inactive). Not a report — a model from which any rendering can be
+produced. Named from /tānā/ (warp threads) — the fixed structure
+that renderers weave through. Ephemeral: stales when the session ends.
+
+** Energy
+The spirit's judgment of a thread's aliveness: high, medium, low.
+Based on recency and intensity of activity, not on a metric. Two
+spirits observing the same thread might assign different energy.
+That is correct — energy reflects the observer's understanding, not
+an objective property.
+
 ** Work Package (WP)
 A self-contained briefing specifying a unit of work for autonomous
 agent execution. Org file in =workpacks/NNNN-slug.org=. Carries a
