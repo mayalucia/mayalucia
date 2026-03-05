@@ -1,0 +1,225 @@
+#+title: WP-0006 — Verified Spirit Ecology of the Transborder Himalaya
+#+subtitle: Source-grounded resurvey as independent check on WP-0003
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-03
+#+property: status drafted
+
+* Context and Motivation
+
+WP-0003 produced a ~1600-line spirit ecology survey covering 7 regions,
+42+ spirit types, a functional mapping for Aburaya, story-compose
+extensions, and a digital twin data model. The survey is well-structured
+and epistemically honest — it marks its own gaps and rates mapping
+confidence. But every claim originates from LLM training knowledge.
+Sources are named but not verified: no URLs, no confirmed page numbers,
+no cross-checked editions. The acceptance criterion "all claims sourced"
+is the one partial.
+
+This is a structural limitation, not a failure of execution. The
+executing spirit did the best work possible within its constraints.
+But unverified ethnography is not a source of truth — it is a
+hypothesis about what the sources say.
+
+** Why a second survey, not a verification pass
+
+A verification pass over WP-0003 would inherit its frame: the same
+regional boundaries, the same spirit categories, the same emphasis.
+Confirmation bias would make it a rubber stamp. What we want is an
+*independent derivation* — a second survey conducted from primary and
+secondary sources accessible via web research, producing its own
+structure, its own emphases, its own gaps. Where the two surveys agree,
+confidence is high. Where they diverge, we have a genuine question
+that the gazetteer (WP-0004) must flag for resolution.
+
+Two independent maps of the same territory, overlaid. The
+disagreements are more valuable than the agreements.
+
+** What this enables for WP-0004
+
+The gazetteer gains a =confidence= field per entry:
+
+| Situation | Confidence |
+|-----------+------------|
+| Both surveys agree, with verified source | =confirmed= |
+| Both surveys agree, source named but unverified | =convergent= |
+| Surveys disagree on detail | =disputed= — note both versions |
+| Only WP-0003 covers this (no verified source found) | =unverified= |
+| Only WP-0006 covers this (WP-0003 missed it) | =verified-only= |
+| Neither survey covers this but fieldwork reports exist | =field-report= |
+
+This confidence taxonomy is the real deliverable. It tells the
+story-compose agent: "you can use this vocabulary with confidence"
+vs. "this might be wrong — use with caution, flag for human review."
+
+* Specification
+
+** Output: =domains/epistem/surveys/spirit-ecology-verified.org=
+
+An Org-mode survey, same domain as WP-0003's output. The file name
+signals its relationship: it is not a replacement but a companion.
+
+** Method
+
+The executing spirit must:
+
+1. *Use web search* for every claim. No reliance on training knowledge
+   alone. If a fact cannot be found via web search, it is marked
+   =[unverifiable via web]= and excluded from the verified count.
+
+2. *Cite URLs* for every substantive claim. Bibliographic references
+   are acceptable only if the source text is available online (Google
+   Books preview, JSTOR abstract, university repository, etc.) and
+   the URL is provided.
+
+3. *Prefer primary and scholarly sources* over travel blogs, Wikipedia
+   summary paragraphs, and tourism websites. Acceptable sources
+   include:
+   - Published ethnographies (books and journal articles)
+   - Museum and university collections with documented provenance
+   - Government gazetteers and survey reports
+   - Documentary films with scholarly commentary
+   - Oral history projects with institutional backing
+   - Well-sourced Wikipedia articles (follow the footnotes, cite the
+     underlying source, not the Wikipedia page)
+
+4. *Build its own regional structure.* Do not copy WP-0003's outline.
+   Let the sources dictate which regions get depth and which remain
+   thin. If web-accessible sources cluster around Kullu and Tibet
+   (likely — these are the most documented), then Kullu and Tibet
+   get depth, and Karakoram stays thin. This is honest.
+
+5. *Note where WP-0003 and this survey diverge.* A final section
+   should compare the two: what WP-0003 got right, what it got
+   wrong, what it covered that this survey cannot verify, and what
+   this survey found that WP-0003 missed.
+
+** Structure
+
+*** Part 1: Regional Spirit Taxonomies (verified)
+
+Same scope as WP-0003 Part 1, but:
+- Every spirit type cited with at least one verified source
+- Landscape associations grounded in specific documented cases
+- Human interfaces described from ethnographic accounts, not inference
+- Depth varies by source availability — this is a feature, not a bug
+
+*** Part 2: Cross-Regional Patterns (verified)
+
+Same scope as WP-0003 Part 2, but each pattern supported by at least
+two independent sources from different regions. Patterns that cannot
+be verified are noted as "plausible but unverified."
+
+*** Part 3: Functional Mapping for Aburaya (verified)
+
+Same functional categories as WP-0003 Part 3. For each mapping:
+- The Himalayan source tradition is documented with verified sources
+- The "where it breaks" analysis is grounded in specific ethnographic
+  observations, not LLM inference
+- The vocabulary recommendations carry source provenance
+
+*** Part 4: Comparison with WP-0003
+
+A structured comparison:
+
+| Category | Count |
+|----------+-------|
+| Claims confirmed by both surveys with source | N |
+| Claims in WP-0003 that this survey cannot verify | N |
+| Claims in WP-0003 that this survey contradicts | N |
+| New material found by this survey, absent from WP-0003 | N |
+| Vocabulary recommendations that agree | N |
+| Vocabulary recommendations that differ | N |
+
+For each disagreement, a brief note explaining the divergence.
+
+*** Part 5: Source Bibliography (verified)
+
+Every source cited in the survey, with:
+- Full bibliographic reference
+- URL where the source (or a substantive excerpt) is accessible
+- Date accessed
+- Brief note on what this source contributes
+
+** What this survey does NOT include
+
+- *Story-compose extensions* — WP-0003's Part 4 is creative
+  application, not ethnographic claim. It does not need verification;
+  it needs taste. The verified survey does not duplicate it.
+- *Digital twin data model* — WP-0003's Part 5 is a technical
+  proposal, not an ethnographic claim. It stands on its own merits.
+  No duplication here.
+- *Completeness* — this survey will be smaller than WP-0003. That is
+  the point. Verified knowledge is sparser than inferred knowledge.
+  The gap between the two is the measure of our uncertainty.
+
+* Execution
+
+** Spirit
+
+The epistem-guardian, with web-search powers. This WP requires
+extensive web research — the spirit must search, read, extract, and
+cite. The harness must support web search and web fetch.
+
+** Order
+
+1. Begin with the best-documented regions: Kullu (Chetwode, Rosser,
+   Harcourt are likely findable) and Tibet/Bön (Nebesky-Wojkowitz,
+   Tucci, Samuel are standard references with online presence).
+2. Extend to Ladakh/Zanskar (Crook & Osmaston, Gutschow) and Nepal
+   (Maskarinec, Holmberg, Peters).
+3. Attempt Kinnaur, Spiti, Karakoram — these may be thin. Document
+   what is findable and what is not.
+4. Write cross-regional patterns from the verified material.
+5. Write functional mapping with source provenance.
+6. Compare with WP-0003.
+
+** Constraints
+
+- *Token budget*: this WP will require many web searches. The
+  executing agent should batch searches efficiently and not waste
+  context on tangential reading.
+- *Access limitations*: many ethnographic sources are behind paywalls
+  or in physical libraries. The survey should note when a source is
+  cited in secondary literature but not directly accessible. This is
+  not a failure — it is honest scholarship.
+- *Time*: this is a research-heavy WP. It will take longer than
+  WP-0003, which could draw freely on training knowledge. Budget
+  accordingly.
+
+* Acceptance Criteria
+
+- [ ] Covers at minimum 4 regions with verified sources (stretch: 6+)
+- [ ] Each documented spirit type has at least one verified source
+  with URL or accessible bibliographic reference
+- [ ] Cross-regional patterns section has at least 3 verified patterns,
+  each supported by sources from 2+ regions
+- [ ] Functional mapping for Aburaya grounded in verified ethnographic
+  observations
+- [ ] Comparison section with WP-0003: structured table of agreements,
+  disagreements, and gaps
+- [ ] Complete source bibliography with URLs and access dates
+- [ ] Gaps explicitly marked where web research is insufficient
+- [ ] Written in Org-mode, readable in Emacs
+- [ ] Smaller than WP-0003 (verified knowledge is sparser — if it is
+  the same size, something is wrong)
+
+* Dependencies
+
+- *Depends on*: WP-0001 (epistem domain exists)
+- *Informed by*: WP-0003 (but must not copy its structure — the
+  independence of the two surveys is the point)
+- *Feeds*: WP-0004 (provides the =confidence= field for gazetteer
+  entries, alongside WP-0003)
+
+* What This Proves
+
+That the project distinguishes between fluent knowledge and verified
+knowledge. That an LLM-generated survey, however well-structured, is
+a hypothesis until checked against sources. That two independent
+derivations of the same territory, compared honestly, produce
+something more trustworthy than either alone.
+
+And practically: that the gazetteer (WP-0004) can carry a =confidence=
+field that means something — not just "I think this is right" but
+"these two independent surveys agree (or disagree), and here are the
+sources."
