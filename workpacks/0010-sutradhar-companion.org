@@ -1,0 +1,516 @@
+#+title: WP-0010 — Sutradhar Companion: Embodied Thread-Holding
+#+subtitle: Evolve the sutradhar from a summoned task-spirit to a persistent companion with perception and structured deposit
+#+author: mu2tau + vadda-opus
+#+date: 2026-03-05
+#+property: status drafted
+
+* Context and Motivation
+
+The sutradhar-guardian is the thread-holder — the spirit that reads the
+relay, synthesises understanding, composes stories. Its disposition is
+/hold-the-tension/: coherence through friction, not consensus.
+
+But sutradhar has been bodiless. Summoned into a terminal, performs a
+task, disappears. No persistent perception of the human's work. No
+continuity within a session. The thread is picked up from cold artifacts
+(transcripts, relay messages) rather than held in real time.
+
+The agent-shell-sidebar provides a persistent panel in the editor. A
+Claude Code session that survives buffer switches, stays open all day.
+But a sidebar session with no event stream is just an agent-shell with
+sticky window properties — statefulness without perception.
+
+This WP gives the sutradhar a body: Emacs hooks that feed editor events
+to the sidebar session, enabling real-time awareness of what the human
+is working on. And it gives the sutradhar a voice beyond conversation:
+the ability to deposit its structured understanding of organisational
+state as an s-expression that any renderer — Emacs buffer, web
+interface, CLI — can consume.
+
+** The three-layer architecture
+
+This WP makes explicit a refinement of the aburaya model:
+
+| Layer | What it is            | Intelligible to | Lives in                |
+|-------+-----------------------+-----------------+-------------------------|
+| Power | Procedure in NL       | LLM             | =aburaya/powers/*.md=   |
+| Skill | Power bound to harness| LLM + harness   | =~/.claude/skills/=     |
+| Body  | Sensory/motor wiring  | Machine only    | elisp, CLI, hooks       |
+
+Powers are not code. They are descriptions of /what to attend to/ and
+/how to interpret/ — intelligible to the engine of the agent's mind
+(the LLM). The body is the physical apparatus that gives a spirit
+senses and limbs in a particular harness. This WP is the first to
+build a body.
+
+** The perception-cognition-expression loop
+
+Three new powers form a complete loop:
+
+| Power                    | Function   | Analogy        |
+|--------------------------+------------+----------------|
+| =attend-working-context= | Afferent   | Eyes           |
+| =hold-the-thread=        | Integration| Working memory |
+| =lay-the-warp=           | Efferent   | Hands          |
+
+Perception flows in from the editor. The spirit integrates it across
+time, tracking threads, transitions, and loose ends. Understanding
+flows out as a structured s-expression — the warp — that renderers
+weave through. The loop is the architecture of awareness. The
+sutradhar applies it to organisational state; the pattern is portable
+to any spirit that needs persistent perception.
+
+** Why the sutradhar, not a new spirit
+
+The sidebar companion /is/ thread-holding. That is what the sutradhar
+already does — across transcripts (summarize-corpus), across relay
+messages (relay-read), across the project (constellation). The new
+powers extend the same function into real time. This is an evolution,
+not a new commissioning.
+
+** Why s-expressions, not YAML
+
+The deposit format is an s-expression — the native form of Lisps and
+Schemes. S-expressions subsume YAML, JSON, and XML as restricted
+subsets. The arguments:
+
+- *Homoiconicity*: data and code share a form. The warp can hold not
+  just "what is" but "what follows from what is."
+- *Composability*: subtrees splice naturally. The spirit composes its
+  analysis from sub-analyses (relay state, WP state, domain state).
+- *Native consumption*: Emacs Lisp reads s-expressions with =read=.
+  Clojure with =read-string=. No parser library, no serialization
+  boundary, no impedance mismatch.
+- *The downstream is Lisp*: Emacs (elisp), sutradhar module
+  (Clojure/ClojureScript), future web interface (ClojureScript).
+  YAML would be a translation layer, and translation layers leak.
+
+* Inventory (What Already Exists)
+
+** Powers (created in this session, preceding this WP)
+
+- =aburaya/powers/attend-working-context.md= — perception power.
+  Defines the event stream vocabulary (buffer-switch, file-save, error,
+  region-sent, idle), what to attend to, what to ignore, three-level
+  context model (current focus, recent trajectory, session arc).
+
+- =aburaya/powers/hold-the-thread.md= — continuity power. Tracks the
+  working thread, notices transitions (completed/paused/interrupted),
+  recognises returns, holds loose ends. Defines when to speak (almost
+  never — the thread-holder who talks too much is pulling, not holding).
+
+- =aburaya/powers/lay-the-warp.md= — deposit power. Externalise the
+  spirit's understanding as an s-expression at =.sutradhar/warp.el=.
+  Defines the =org-state= structure: session (current focus, trajectory,
+  thread), threads (active work with energy), waiting (obligations),
+  dormant (held but inactive). Laid on significant perception, not
+  every event.
+
+** Sutradhar identity
+
+- =aburaya/spirits/sutradhar-guardian/identity.yaml= — current powers:
+  =relay-read=, =org-content-workflow=, =summarize-corpus=,
+  =story-compose=. Archetype: guide. Disposition: hold-the-tension.
+  Nature and dwelling: tbd (not yet instantiated).
+
+** Agent-shell infrastructure
+
+- =agent-shell-sidebar= — persistent side panel. Creates a normal
+  agent-shell buffer with dedicated window management. Buffer retrievable
+  via =agent-shell-sidebar--get-buffer=.
+
+- =meta-agent-shell-send-to-session= — programmatic send to any
+  agent-shell buffer by name. Handles busy-state via enqueue. Logs
+  to ICC JSONL.
+
+- =outgoing-request-decorator= — injection point on =session/new= ACP
+  call. Appends to system prompt. This is where spirit identity enters
+  the harness.
+
+- =shell-maker-submit= / =agent-shell--enqueue-request= — low-level
+  send with busy-state awareness. The canonical pattern:
+  =(if (shell-maker-busy) (agent-shell--enqueue-request :prompt msg) (shell-maker-submit :input msg))=
+
+** Emacs hooks available for perception
+
+| Hook                              | Fires when                        | Signal value |
+|-----------------------------------+-----------------------------------+--------------|
+| =window-buffer-change-functions=  | Buffer displayed in window changes| Good         |
+| =after-save-hook=                 | File saved                        | Good         |
+| =compilation-finish-functions=    | Compilation completes             | High value   |
+| =flymake-after-diagnostics-functions= | Linter produces diagnostics  | Medium       |
+
+** Doom Emacs config
+
+All agent-shell config lives in =~/.doom.d/config.org= (literate,
+tangled). New elisp goes there as a new source block.
+
+* Specification (What You Build)
+
+** Part 1: Update sutradhar-guardian identity
+
+Add the new powers to =aburaya/spirits/sutradhar-guardian/identity.yaml=:
+
+#+begin_example
+  powers: [relay-read, org-content-workflow, summarize-corpus, story-compose,
+           attend-working-context, hold-the-thread, lay-the-warp]
+#+end_example
+
+Add an =exports:= section declaring which powers are available to the
+organisation:
+
+#+begin_example
+  exports:
+    - lay-the-warp    # other spirits and renderers consume the warp
+    - relay-read      # already exported implicitly; make explicit
+#+end_example
+
+Note: =attend-working-context= and =hold-the-thread= are /not/
+exported. They are the spirit's internal perceptual process — how it
+sees and integrates. Other spirits and renderers consume the /product/
+of that process (the warp), not the process itself. Exporting
+perception would be like exporting someone's eyes rather than what
+they wrote down.
+
+** Part 2: The =.sutradhar/= workspace
+
+Create the local workspace directory (gitignored):
+
+#+begin_example
+.sutradhar/
+  warp.el            # current organisational state (s-expression)
+#+end_example
+
+Add =.sutradhar/= to =.gitignore=. This is harness equipment —
+per-project, per-machine, like =.sutra/=.
+
+The =warp.el= file holds the spirit's latest deposit: a single
+s-expression readable by =(read (find-file-noselect ".sutradhar/warp.el"))=.
+
+** Part 3: Elisp body — event hooks
+
+A new Org source block in =~/.doom.d/config.org= under the agent-shell
+section. Tangled to the Doom config. The body has three components:
+
+*** 3a. Event formatting
+
+A function that formats editor events as structured messages for the
+LLM. Events are plain text — the LLM reads them, not a parser:
+
+#+begin_example
+[event: buffer-switch]
+file: modules/dmt-eval/src/dmt/evaluate.py
+mode: python-mode
+project: dmt-eval
+time: 14:32
+#+end_example
+
+#+begin_example
+[event: file-save]
+file: aburaya/powers/hold-the-thread.md
+mode: org-mode
+project: mayalucia
+time: 14:35
+#+end_example
+
+#+begin_example
+[event: region-sent]
+file: modules/sutradhar/src/reader.clj
+mode: clojure-mode
+lines: 42-58
+---
+(defn parse-relay-message [path]
+  ...)
+---
+#+end_example
+
+*** 3b. Hook registration
+
+Emacs hooks that fire the event formatter and send to the sidebar:
+
+- =window-buffer-change-functions= → buffer-switch events. Debounced
+  (ignore rapid switches, e.g. helm/vertico cycling). Only fire for
+  file-visiting buffers. Suppress events from the sidebar buffer itself.
+
+- =after-save-hook= → file-save events.
+
+- =compilation-finish-functions= → error/success events with exit status
+  and last N lines of output.
+
+- A command (keybinding: =SPC o s r=) → region-sent events. Human
+  selects a region, hits the key, the region content is sent as an
+  event.
+
+*** 3c. Delivery
+
+Use =meta-agent-shell-send-to-session= to deliver formatted events.
+The sidebar buffer name follows agent-shell-sidebar's naming convention.
+
+Guard: do not send if the sidebar buffer does not exist or if the
+session is not alive. Fail silently — missing a perception event is
+not an error.
+
+Throttle: batch rapid events (multiple buffer switches within 2
+seconds) into a single message.
+
+** Part 4: Sidebar session identity injection
+
+The sidebar session needs the sutradhar's companion powers in its
+system prompt. Three approaches considered:
+
+- *Option A*: Use =outgoing-request-decorator= to inject a companion
+  preamble at session creation. This requires creating the sidebar
+  session programmatically rather than via the default sidebar command.
+
+- *Option B*: Place the companion powers in a =.claude/skills/= file
+  that the sidebar session loads. Simpler, but conflates layers (the
+  skill file is project-specific, the power is spirit-specific).
+
+- *Option C*: Append the power documents to the project's CLAUDE.md
+  as a sidebar-specific section, gated by an environment variable or
+  marker that only the sidebar session sets.
+
+Recommend Option A — it keeps the spirit's identity in the harness
+layer where it belongs. The decorator appends the content of
+=attend-working-context.md=, =hold-the-thread.md=, and
+=lay-the-warp.md= as additional system prompt instructions. The
+spirit then knows what it perceives, how to hold continuity, and
+how to deposit its understanding.
+
+** Part 5: Warp deposit mechanism
+
+The spirit produces the s-expression directly — no intermediate YAML
+or JSON. This is a deliberate choice: the spirit writes the form that
+the downstream consumes. The structure is constrained (fixed schema
+from the power document, variable content from perception), so the
+generation task is bounded.
+
+The body provides a validation layer:
+
+1. Spirit writes =.sutradhar/warp.el= via harness tools (Write tool)
+2. Body attempts =(read (find-file-noselect ".sutradhar/warp.el"))=
+3. If =read= succeeds → deposit accepted
+4. If =read= fails → body reports the error back to the spirit,
+   which repairs and re-deposits
+
+This validation-and-repair loop is part of the body (elisp), not the
+spirit (power). The spirit's job is understanding; the body's job is
+ensuring that understanding arrives well-formed.
+
+*Failures are data*: if the spirit consistently produces malformed
+s-expressions for certain structures, record those failures in the
+spirit's bath notes. This is empirical evidence about what
+representations an LLM can natively produce — a concrete contribution
+to the apprentis domain's study of collaborative cognition.
+
+Deposit is triggered by:
+
+1. Session start — after bootstrap, the spirit lays an initial warp
+   from cold sources (WP files, git log, relay state)
+2. Significant perception — a meaningful transition triggers an update
+3. Human request — "lay the warp" / "update state" in conversation
+4. Relay change — new sūtra messages alter the waiting section
+
+The spirit uses the =lay-the-warp= power document to determine the
+structure and content. The deposit is a single =(org-state ...)=
+s-expression.
+
+** Part 6: Session lifecycle
+
+The companion session will die — context exhaustion, crash, manual
+kill, or Emacs restart. The body must handle this gracefully:
+
+- *Detection*: =sutradhar-companion-mode= checks whether the sidebar
+  session buffer is alive before sending events. If the buffer is
+  dead, events are silently dropped. No error, no accumulation.
+
+- *Last warp survives*: =.sutradhar/warp.el= persists on disk after
+  the session ends. It becomes stale (the timestamp tells a renderer
+  how stale), but it is the last valid snapshot of the spirit's
+  understanding. A new session can read it on startup as orientation
+  — not as ground truth, but as a starting point to verify and update.
+
+- *Cold start*: when a new sidebar session begins with companion
+  powers injected, it should: (1) check if =.sutradhar/warp.el=
+  exists, (2) if so, read it and treat it as a prior session's
+  understanding — verify against current git/relay state, update,
+  and re-deposit, (3) if not, lay a fresh warp from cold sources.
+
+- *The minor mode is independent of the session*: enabling
+  =sutradhar-companion-mode= does not start a sidebar session.
+  Starting a sidebar session does not enable the minor mode. They
+  are wired together by convention (the mode sends to the sidebar),
+  but either can exist without the other. The mode with no session
+  simply drops events. The session with no mode receives no events
+  but can still be conversed with and asked to lay the warp manually.
+
+** Part 7: Announce in the sūtra
+
+Relay message announcing the sutradhar's evolution. Tag with
+=sutradhar=, =companion=, =aburaya=, =apprentis=, =mayalucia=.
+
+The =apprentis= tag is deliberate — this is empirical data for the
+science of collaborative cognition. The sidebar companion is a new
+mode of human-AI collaboration.
+
+* Execution Order
+
+1. Create =.sutradhar/= directory, add to =.gitignore=
+2. Update =sutradhar-guardian/identity.yaml= — add new powers,
+   =exports:= section
+3. Write elisp event formatter (=sutradhar-companion-format-event=)
+4. Write elisp hook registration (=sutradhar-companion-mode=,
+   a minor mode that can be toggled)
+5. Write region-send command and bind to =SPC o s r=
+6. Write elisp warp validator (=sutradhar-companion-validate-warp=) —
+   reads =.sutradhar/warp.el= with =read=, reports success or error
+   back to the sidebar session for repair
+7. Test: enable the minor mode, switch buffers, save files, verify
+   events arrive in sidebar
+8. Implement identity injection (Option A: decorator, or as decided
+   during tightening)
+9. Test: start sidebar session with injected powers, verify the
+   spirit interprets events using the power protocol
+10. Test: ask the spirit to lay the warp, verify =.sutradhar/warp.el=
+    contains a valid s-expression. If validation fails, verify the
+    repair loop produces a corrected deposit. Record any failures
+    in bath notes.
+11. Commit and announce in sūtra
+
+Trust level: *pair*. This is the first spirit body and the first
+structured deposit. The human and vadda-opus build it together.
+
+* Acceptance Criteria
+
+- [ ] =sutradhar-guardian/identity.yaml= updated with
+  =attend-working-context=, =hold-the-thread=, and =lay-the-warp=
+- [ ] =.sutradhar/= directory exists, gitignored
+- [ ] Elisp minor mode =sutradhar-companion-mode= exists in
+  =~/.doom.d/config.org=
+- [ ] Buffer-switch events arrive in sidebar when switching
+  file-visiting buffers
+- [ ] File-save events arrive in sidebar
+- [ ] Region-send (=SPC o s r=) delivers selected text to sidebar
+- [ ] Events are debounced (rapid buffer cycling does not flood)
+- [ ] Sidebar session receives companion powers in system prompt
+- [ ] The spirit correctly interprets events (responds to "what am I
+  working on?" with accurate context from recent events)
+- [ ] The spirit can lay the warp: =.sutradhar/warp.el= contains a
+  valid =(org-state ...)= s-expression readable by Emacs Lisp
+- [ ] Sūtra announcement written
+
+* What This Proves
+
+That the power/skill/body decomposition works in practice — that a
+spirit's nature can be defined in natural language, bound to a harness
+through skills, and given perception through a body, with each layer
+independent and replaceable.
+
+That the sutradhar's existing disposition (hold-the-tension) and
+existing powers (summarize-corpus, relay-read) are not task-specific
+tools but aspects of a coherent identity that extends naturally into
+real-time companionship.
+
+That a persistent companion agent is not a different kind of agent —
+it is an ordinary agent with a body. The window management is trivial;
+the perception is the architecture.
+
+That s-expressions are the right medium for a spirit's structured
+deposit — native to every consumer in the stack (elisp, Clojure,
+ClojureScript), requiring no parser boundary, and general enough to
+subsume any structured format.
+
+That asking an LLM to produce s-expressions directly — rather than
+routing through YAML/JSON — is a productive experiment. The
+validation-and-repair loop means failures are safe (the warp file is
+never invalid). The failure patterns themselves are data about what
+formal structures LLMs can natively think in. The project gains both
+a working system and empirical understanding of its own cognitive
+substrate.
+
+* Downstream: The Renderer (separate WP)
+
+This WP builds the companion: perception, continuity, and deposit.
+The /rendering/ of the warp — a dedicated Emacs buffer with folding,
+click-through, and multiple templates — is a separate WP that depends
+on this one.
+
+The renderer reads =.sutradhar/warp.el= and presents it. The same
+warp could be rendered as:
+
+- A compact Emacs status buffer (live view, foldable sections,
+  click-through to WP files and sidebar conversation)
+- A web dashboard (ClojureScript, reading the same s-expression)
+- A CLI briefing (plain text, for scripts and cron)
+
+The renderer WP will define the Emacs buffer, the templates, and the
+interaction model. This WP provides the data it consumes.
+
+* Open Questions
+
+- *Throttling strategy*: The WP specifies 2-second batching for rapid
+  events. Is this right? Too aggressive and the spirit misses
+  meaningful rapid switches (e.g., jumping between test and source).
+  Too lax and the LLM is flooded. May need tuning in practice.
+
+- *Identity injection mechanism*: Option A (decorator) is cleanest
+  but requires understanding the =outgoing-request-decorator= lifecycle
+  across context compaction. Option B (skill file) is simpler but
+  conflates layers. Decision deferred to tightening / execution.
+
+- *Proactive speech*: The power documents currently say "speak when
+  spoken to, with rare exceptions." Should the companion ever initiate?
+  E.g., "you have unread sūtra messages" on session start. Or should
+  proactive behaviour be a separate power, added later? Start silent,
+  earn the right to speak.
+
+- *Multi-harness future*: The powers are harness-independent. Could
+  a gptel session also be a sutradhar companion, receiving events from
+  the same hooks via a different delivery path? The architecture
+  supports this, but this WP targets only the Claude Code sidebar.
+
+- *S-expression production as experiment*: RESOLVED — the spirit
+  produces s-expressions directly, with a validation-and-repair loop
+  in the body. This is deliberately experimental. The spirit's
+  success and failure patterns when producing s-expressions are
+  empirical data about what formal representations an LLM can
+  natively work in. Failures are recorded in bath notes. If direct
+  production proves systematically unreliable, the fallback is an
+  intermediate format (YAML/JSON) with mechanical conversion — but
+  we start by trusting the LLM to generalise and learn from what
+  happens.
+
+- *Warp freshness*: The warp is a snapshot. How stale can it be before
+  renderers should warn? Should the timestamp in the s-expression be
+  enough, or does the renderer need a freshness heuristic? Defer —
+  understand usage patterns first.
+
+- *Apprentis data*: This is the first persistent human-AI companion
+  in the project. The interaction patterns — what events the human
+  sends, what questions they ask the companion, when they ignore it —
+  are empirical data for the apprentis domain. The s-expression
+  production experiment is also apprentis data — a concrete study of
+  LLM capacity for formal structure. Should the companion log events
+  and failures to a structured file for later analysis? Deferred —
+  do not instrument before understanding.
+
+- *Dīkṣā (WP-0009)*: the sutradhar is evolving — gaining three new
+  powers and a body. Should the evolved spirit pass a modified
+  first-breath test? The birth certificate (schema validation) will
+  need to accommodate the new =exports:= field and the expanded
+  =powers:= list. The first-breath protocol may need a companion-
+  specific probe: "what events are you receiving?" or "lay the warp
+  and show me." Not blocking for this WP, but a connection that
+  WP-0009 should acknowledge when tightened.
+
+- *Context budget*: the three power documents total ~3000 words. If
+  injected via the outgoing-request-decorator (Option A), they consume
+  significant context before the spirit receives a single event.
+  Events then accumulate on top of the preamble, and conversation
+  on top of events. Context pressure will be real — the companion
+  session may exhaust context faster than a normal sidebar. The body
+  design should consider: (a) compressing the power documents into
+  a more concise injection, (b) whether the warp deposit triggers
+  should be tuned to reduce the volume of conversation turns, (c)
+  whether context compaction preserves the power preamble correctly.
+  This is a practical constraint, not a theoretical concern.
