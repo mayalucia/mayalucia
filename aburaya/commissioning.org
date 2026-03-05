@@ -3,6 +3,10 @@
 
 * Overview
 
+See also [[file:capabilities.org][capabilities.org]] for the three-layer decomposition
+(power/skill/body) that governs how spirits act in the world, and
+the coalition model for composite work packages.
+
 When the organisation starts a new project, two things happen:
 
 1. A /module/ is created — a repo with code, conventions, and a worksite

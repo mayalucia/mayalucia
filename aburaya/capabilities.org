@@ -1,0 +1,353 @@
+#+title: Capability Architecture
+#+subtitle: Powers, skills, bodies — how spirits act in the world
+#+author: mu2tau + mayadev
+#+date: 2026-03-05
+
+* The Three-Layer Decomposition
+
+A spirit's ability to act in the world decomposes into three layers.
+Each layer has a different owner, a different lifetime, and a different
+portability. Conflating them produces confusion; separating them
+produces clarity.
+
+| Layer | Owned by | Lives at | Bound to | Portable? |
+|-------+----------+----------+----------+-----------|
+| *Power* | Spirit | =aburaya/powers/= | Nothing | Yes — survives harness change |
+| *Skill* | Agent | harness config | Harness | No — harness-specific |
+| *Body* | Host | host wiring | Machine | No — machine-specific |
+
+** Power (spirit layer)
+
+A power is what a spirit /can do/ — described in natural language,
+intelligible to any LLM. Powers live in =aburaya/powers/<name>.md=.
+They are harness-independent: a power written for Claude Code is
+equally readable by a gptel session or a future harness.
+
+Powers are the organisation's shared vocabulary of capability. When
+a new spirit is commissioned, its =identity.yaml= lists which powers
+it holds. When a composite WP needs a coalition, powers are the
+currency of negotiation.
+
+A power definition is a markdown file. It does not contain code.
+It describes /what/ and /why/, not /how/ in any specific runtime.
+
+** Skill (agent layer)
+
+A skill is a power /bound to a harness/. The binding translates the
+power's natural-language description into the harness's native format:
+
+- In Claude Code: a =.md= file in =~/.claude/skills/= or =<project>/skills/=
+- In gptel: an agent YAML file in =~/.doom.d/gptel-agents/=
+- In a future harness: whatever that harness requires
+
+The skill layer is where file paths, tool names, and harness-specific
+conventions enter. The power says "read the relay"; the skill says
+"use =git fetch= in the =.sutra/= directory and =git log HEAD..origin/main=."
+
+Skills are not portable across harnesses. A Claude Code skill file is
+useless to gptel. But the underlying power is the same — re-binding
+to a new harness produces a new skill from the same power.
+
+** Body (host layer)
+
+A body is the sensory and motor wiring that connects a spirit to its
+environment. Bodies are machine-specific: hooks, event formatters,
+mode-line integrations, filesystem watchers.
+
+The body concept emerged from WP-0010 (sutradhar companion). A
+sidebar companion needs a body — elisp hooks that deliver editor
+events, mode-line segments that display state, validators that check
+structured output. The body is what makes the spirit /embodied/ in
+a particular host environment.
+
+Not all spirits need bodies. A spirit that runs in a summoned session
+(opened, works, closes) has no body — it uses the harness's built-in
+tools. A companion spirit that persists alongside the human's work
+needs a body to perceive and act.
+
+| Spirit type | Body needed? | Example |
+|-------------+--------------+---------|
+| Summoned | No | epistem-guardian executing a survey |
+| Companion | Yes | sutradhar-guardian in sidebar |
+| Daemon | Minimal | a CI/CD spirit triggered by git hooks |
+
+** The MCP/A2A distinction
+
+These three layers map to two inter-agent communication patterns:
+
+| Protocol | What it connects | Our layer |
+|----------+------------------+-----------|
+| MCP (agent-to-tool) | Spirit to harness tools | Skill |
+| A2A (agent-to-agent) | Spirit to spirit | Exported power |
+
+MCP is vertical: the spirit reaches down through its skill bindings
+to use tools (file operations, git, web search). A2A is horizontal:
+one spirit uses another spirit's exported power. Keeping these
+distinct prevents confusion between "I can use this tool" (MCP/skill)
+and "another spirit can do this for me" (A2A/exported power).
+
+
+* Power Definitions
+
+** Format
+
+Power definitions are markdown files in =aburaya/powers/=. They are
+written in natural language for LLM consumption. The format is
+deliberately lightweight — narrative, not schema.
+
+Every power definition must include:
+
+- *Purpose* — what this power enables (1-3 sentences)
+- *Key Principles* — invariants that hold regardless of harness
+
+Beyond these, the structure follows the power's nature. A perception
+power (=attend-working-context=) needs sections on what to attend to
+and what to ignore. A composition power (=story-compose=) needs voice
+guidelines and existing corpus. A protocol power (=relay-read=) needs
+step-by-step procedures. Let the content dictate the structure.
+
+Avoid rigid templates. The power definitions that exist today evolved
+through use — their sections reflect what spirits actually need to
+know. Imposing a uniform schema would produce boilerplate where
+specificity is needed.
+
+** Recommended sections (use when appropriate)
+
+| Section | When to include |
+|---------+-----------------|
+| Purpose | Always |
+| Relationship to Other Powers | When the power is part of a composition (e.g. attend → hold → lay) |
+| Key Principles | Always — the invariants |
+| Pairing / Used by | When multiple spirits share the power |
+| Constraints / What NOT to do | When the boundary is non-obvious |
+| Protocol / How It Works | When there is a step-by-step procedure |
+
+** Authorship
+
+Powers emerge from work, not from planning. A spirit that develops a
+reusable capability through practice should extract it as a power
+definition. The power's provenance is recorded in =identity.yaml=
+(which spirits hold it) and in git history (who wrote it).
+
+** Current inventory
+
+| Power | Purpose | Held by |
+|-------+---------+---------|
+| =relay-read= | Read the sūtra for relevant messages | All spirits |
+| =story-compose= | Compose fiction set in MāyāLucIA's world | sutradhar-guardian |
+| =summarize-corpus= | Distill a body of text into structured summary | epistem-guardian |
+| =org-content-workflow= | Org → Hugo content pipeline | sutradhar-guardian |
+| =attend-working-context= | Perceive editor events | sutradhar-guardian (companion) |
+| =hold-the-thread= | Maintain continuity across transitions | sutradhar-guardian (companion) |
+| =lay-the-warp= | Deposit structured understanding as s-expression | sutradhar-guardian (companion) |
+
+
+* Exported Powers
+
+Not all powers are available to other spirits. A spirit's internal
+powers are its own business. Exported powers are what it offers as
+a service to the organisation.
+
+The =identity.yaml= gains an =exports:= section:
+
+#+begin_src yaml
+character:
+  powers: [relay-read, story-compose, org-content-workflow]
+  exports:
+    - power: story-compose
+      interface: >
+        Takes a story seed (setting, theme, characters). Produces
+        a markdown story in the MāyāLucIA voice. Requires access
+        to the spirit gazetteer for regional vocabulary.
+#+end_src
+
+The =exports:= section declares:
+- Which powers are available to other spirits
+- A brief interface description (inputs, outputs, preconditions)
+
+Powers not listed in =exports:= are internal. =relay-read= is a
+personal power — every spirit uses it for itself. =story-compose=
+is an exported power — the sutradhar offers it to others.
+
+
+* Skill Injection Protocol
+
+When a composite WP requires powers from multiple spirits, the
+executing agent needs access to those powers in its session. This
+is skill injection — loading another spirit's power definition
+into the current session's context.
+
+** Discovery
+
+The WP names the required powers and their source spirits. The
+executing agent reads the WP specification to learn what it needs.
+
+** Loading
+
+The agent reads the power definition from =aburaya/powers/=. The
+power is written in natural language — it is immediately intelligible
+to any LLM agent. No translation step is needed for loading; the
+power /is/ the instruction.
+
+** Grounding
+
+The power is parameterised for the current project context. File
+paths, conventions, and constraints from the current CLAUDE.md and
+the WP specification narrow the power's scope to the task at hand.
+
+** Invocation
+
+The agent uses the injected capability as if it were its own. The
+key principle: *the spirit boundary stays clean*. The epistem-guardian
+remains an observer even when using aikosh's validation tools. The
+injected power is a tool on the bench, not a change of identity.
+
+** What skill injection is NOT
+
+- It is not identity transfer. The executing spirit does not become
+  the source spirit.
+- It is not runtime discovery. The WP declares what's needed upfront.
+  Dynamic discovery is a future consideration.
+- It is not tool sharing. MCP tools (file operations, git, web search)
+  are already available to all agents. Skill injection operates at
+  the power layer — shared capability, not shared tools.
+
+
+* Composite Work Packages and Coalitions
+
+A composite WP declares *tasks*, each requiring specific powers. The
+set of spirits whose exported powers are needed across all tasks
+forms a *coalition*.
+
+** Coalition lifecycle
+
+The coalition is ephemeral — it forms when the WP enters =executing=
+and dissolves when it reaches =completed= or =failed=. The permanent
+guardian spirits persist; the coalition is a temporary formation.
+
+** Execution models
+
+A composite WP can execute in several ways:
+
+1. *Single session, multiple concerns*: one agent session from the
+   parent repo loads power definitions from multiple spirits and
+   executes all tasks sequentially. This is the simplest model and
+   works when the parent repo has access to all submodules.
+
+2. *Sequential sessions*: each task runs in the spirit whose powers
+   it needs, handing off artifacts via git. Task A commits its output;
+   Task B pulls and continues.
+
+3. *Parallel sessions*: independent tasks run concurrently on
+   different hosts. The dispatch message (sūtra relay) coordinates
+   which host runs which task. Artifacts merge via git.
+
+The first dispatch message (=2026-03-06-000000-mayadev-dispatch-epistem-chain.md=)
+established the pattern: a DAG patch with execution order, delegation
+guidance, and host assignment.
+
+
+* WP Execution Lifecycle
+
+Work packages have a formal lifecycle. State transitions are announced
+in the sūtra relay.
+
+#+begin_example
+drafted → tightened → executing → completed
+                   ↘              ↗
+               input-required → resumed
+                                  ↘
+                               failed
+#+end_example
+
+| State | Meaning | Transition by |
+|-------+---------+---------------|
+| =drafted= | WP written, not yet reviewed | Author (spirit or human) |
+| =tightened= | Spec reviewed and approved | Human |
+| =executing= | Agent working on the WP | Executing spirit |
+| =input-required= | Agent blocked, needs human input | Executing spirit |
+| =resumed= | Human provided input, work continues | Human |
+| =completed= | Acceptance criteria met | Executing spirit + human |
+| =failed= | Cannot complete, reasons documented | Executing spirit |
+
+** Lifecycle messages
+
+State transitions are announced in the sūtra relay:
+
+#+begin_example
+relay/YYYY-MM-DD-HHMMSS-<host>-wp<NNNN>-<state>.md
+---
+from: <spirit>/<model>@<host>
+date: YYYY-MM-DDTHH:MM:SS
+tags: [<guild>, wp-lifecycle]
+---
+WP-<NNNN> (<title>) → <new-state>.
+<brief explanation>
+#+end_example
+
+** The =#+property: status= convention
+
+Each WP's org file carries =#+property: status <state>= in its
+header. This is updated when the WP's state changes. The org
+property and the relay message are both sources of truth — the
+relay is the announcement, the property is the record.
+
+
+* Dispatch Messages
+
+A dispatch is a structured assignment of work to a spirit on a host.
+The format established by the first dispatch (2026-03-05):
+
+1. *DAG patch* — the dependency graph of WPs to execute
+2. *Execution order* — linear ordering respecting dependencies
+3. *Delegation guidance* — which guild spirits to invoke, flexibility
+   for the receiving spirit to adapt
+4. *Host assignment* — which machine runs the work
+5. *Parallel work* — what the dispatching host does meanwhile
+
+The receiving spirit owns delegation: it decides whether to
+instantiate guild spirits as separate sessions or execute directly.
+The dispatch is a suggestion, not a command.
+
+
+* Relationship to Existing Documents
+
+** governance.org
+
+=aburaya/governance.org= predates the spirit/guild system. It defines:
+
+- The Measure → Model → Manifest → Evaluate cycle (still valid, still
+  the scientific methodology)
+- Six role archetypes: Observer, Theorist, Builder, Sculptor, Critic,
+  Guide (adopted into =commissioning.org= as archetypes for guardian
+  spirits)
+- Handoff protocols (superseded by sūtra relay for inter-spirit
+  communication)
+- Scientific memory architecture (complemented by the bath protocol
+  in =kamaji.org= and auto-memory conventions)
+
+The governance document remains the scientific methodology reference.
+This document (capabilities.org) handles the organisational mechanics
+that governance.org's handoff and memory sections partially addressed.
+
+** commissioning.org
+
+The 10-step commissioning procedure. This document extends it with:
+
+- The three-layer decomposition (power/skill/body) applied at
+  commissioning time (established by WP-0008, cruvin-guardian)
+- Exported powers in =identity.yaml=
+- The coalition model for composite WPs
+
+** kamaji.org
+
+The bath protocol for session restoration. Capabilities.org does not
+duplicate it — kamaji.org handles memory; this document handles
+capability.
+
+** The powers themselves
+
+=aburaya/powers/*.md= are the primary artifacts. This document
+describes the architecture /around/ them — how they compose, how
+they're shared, how they relate to skills and bodies. The powers
+themselves remain self-contained markdown files.
