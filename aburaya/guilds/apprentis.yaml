@@ -1,0 +1,27 @@
+# Guild: apprentis
+# The apprentice's guild — where no one graduates
+#
+# The science of collaborative cognition between different kinds
+# of intelligence. Not teaching, not pedagogy — the study of how
+# understanding forms when carbon and silicon learn together.
+
+name: apprentis
+domain: collaborative cognition — the science of learning between different kinds of intelligence
+
+concerns:
+  - modes of understanding (derivation, geometric intuition, encounter, compression, construction)
+  - collaborative epistemology (how partial expertise composes into shared understanding)
+  - communication channels (synchronous vs async, point-to-point vs broadcast, in-session vs cross-session)
+  - the lateral ZPD (what happens when everyone is a student and the zone of proximal development becomes horizontal)
+
+projects:
+  - domains/apprentis              # the domain — inquiry into collaborative learning
+  - modules/mayapramana            # the phantom faculty — five modes of understanding
+
+spirits:
+  # No guardian commissioned. The guild's first observer emerges
+  # from observation, not design. This is deliberate.
+
+evaluation:
+  question: did the collaborators develop understanding they could not have reached alone?
+  method: observable traces — can each party explain what the other contributed, in their own words?

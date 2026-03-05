@@ -42,14 +42,15 @@ Two concrete domains drive development:
 
 ```
 aburaya/          # Spirit registry — identity, guilds, commissioning
-  guilds/         #   bravli (neuroscience), mayalucia (organisational coherence), epistem (structured knowledge)
-  spirits/        #   vadda-opus, mu2tau, dmt-eval-guardian, sutradhar-guardian, aikosh-guardian, epistem-guardian
+  guilds/         #   bravli, mayalucia, epistem, apprentis (collaborative cognition)
+  spirits/        #   vadda-opus, mu2tau, dmt-eval-guardian, sutradhar-guardian, aikosh-guardian, epistem-guardian, cruvin-guardian
 agency/           # AI agent orchestration for the scientific workflow
 collab/           # Human-AI collaboration logs, context, session artifacts
 deployment/       # Deployment orchestration (deploy.sh, Caddyfile, docker-compose)
 develop/          # Development methodology, philosophy, devlog
 domains/          # Domain-specific submodules
   bravli/         #   Neuroscience — brain building methodology (submodule)
+  apprentis/      #   Collaborative cognition — science of learning between intelligences (submodule)
   epistem/        #   Structured knowledge for agents — schemas, collections, query (submodule)
   parbati/        #   Himalaya — Parvati Valley digital twin (submodule)
 modules/          # Computational engines (submodules)
@@ -75,6 +76,7 @@ All modules and domains are git submodules. All use HTTPS URLs.
 | `modules/mayaportal` | `v2` | `mayalucia/mayaportal` |
 | `modules/mayapramana` | `main` | `mayalucia/mayapramana` |
 | `modules/mayajiva` | `main` | `mayalucia/mayajiva` |
+| `domains/apprentis` | `main` | `mayalucia/apprentis` |
 | `domains/bravli` | `main` | `mayalucia/bravli` |
 | `domains/epistem` | `main` | `mayalucia/epistem` |
 | `domains/parbati` | `main` | `mayalucia/parbati` |

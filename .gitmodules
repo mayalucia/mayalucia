@@ -32,3 +32,7 @@
 	path = modules/aikosh
 	url = https://github.com/mayalucia/aikosh.git
 	branch = main
+[submodule "domains/apprentis"]
+	path = domains/apprentis
+	url = git@github.com:mayalucia/apprentis.git
+	branch = main
