@@ -18,13 +18,14 @@ concerns:
   - commissioning (new projects, new spirits, guild creation)
 
 projects:
-  - sutradhar/                  # relay reader + constellation proposer (inline, not yet submodule)
+  - modules/sutradhar           # relay reader + constellation proposer
   - website/                    # Hugo site, PaperMod theme, CLJS interactives
   - deployment/                 # deploy.sh, Caddyfile, docker-compose
+  - commissions/cruvin          # C-001: wine education site (own repo, gitignored)
 
 spirits:
   - sutradhar-guardian          # the one who holds the thread
-  # future: website-builder, deploy-operator, ...
+  - cruvin-guardian             # commission builder (C-001, wine education)
 
 evaluation:
   question: does the project present itself coherently, and do spirits have what they need?
