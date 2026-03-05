@@ -1,0 +1,62 @@
+# Allowlist profiles for autonomous WP execution.
+# Each profile scopes what tools a Claude Code session may use.
+# The dispatch script maps trust levels to profiles.
+# Named profiles can be referenced directly by WPs that need
+# specific tool access beyond the trust-level default.
+#
+# Trust-level defaults (built into dispatch.sh):
+#   autonomous    → full tool access
+#   spec-tighten  → standard scope, no destructive bash
+#   supervised    → read-heavy, commits need approval
+#
+# Named profiles (referenced via #+property: profile <name>):
+
+profiles:
+  corpus-reader:
+    description: "Read-heavy analysis WPs (surveys, pattern extraction)"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - "Bash(git *)"
+      - "Bash(ls *)"
+
+  web-researcher:
+    description: "WPs requiring web research (landscape surveys)"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - WebSearch
+      - WebFetch
+      - "Bash(git *)"
+      - "Bash(ls *)"
+
+  code-builder:
+    description: "Implementation WPs (code, tests, build)"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - "Bash(git *)"
+      - "Bash(ls *)"
+      - "Bash(uv *)"
+      - "Bash(pytest *)"
+      - "Bash(python *)"
+
+  org-writer:
+    description: "Documentation and specification WPs"
+    tools:
+      - Read
+      - Glob
+      - Grep
+      - Write
+      - Edit
+      - "Bash(git *)"
+      - "Bash(ls *)"

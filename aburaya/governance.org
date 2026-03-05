@@ -3,6 +3,25 @@
 #+author: mu2tau & Machine Collaborator
 #+startup: overview
 
+* Reconciliation Note (2026-03)
+
+This document was written before the spirit/guild/sūtra system
+emerged. Its scientific methodology (Measure → Model → Manifest →
+Evaluate) and role archetypes remain authoritative. The following
+sections have been complemented or superseded by newer documents:
+
+| This document's section | Current authority | Notes |
+|-------------------------+-------------------+-------|
+| Role Archetypes | [[file:commissioning.org][commissioning.org]] §Choosing the archetype | Same archetypes, now used at spirit commissioning |
+| Handoff Protocol | Sūtra relay ([[file:../CLAUDE.md][CLAUDE.md]] §Sūtra Protocol) | Inter-spirit communication via append-only relay |
+| Memory Architecture | [[file:kamaji.org][kamaji.org]] (bath protocol) + auto-memory | Session restoration and curated notes |
+| Orchestration | [[file:capabilities.org][capabilities.org]] §Coalitions, §Dispatch | Composite WPs, DAG patches, lifecycle states |
+| Domain-Specialized Agents | =aburaya/spirits/*/identity.yaml= | Concrete spirit identities replace abstract agent roles |
+
+The Measure → Model → Manifest → Evaluate cycle (§The Methodological
+Cycle) is not superseded — it remains the project's scientific
+methodology, referenced by guilds and spirits alike.
+
 * Preamble
 
 =MayaLucIA-Agency= is a *domain-specific application* of the [[file:~/Darshan/research/develop/agentic/mayadevgeni/agency/agency.org][MayaDevGenI-Agency]] framework. Where =MayaDevGenI-Agency= defines the /general/ governance model for coordinating LLM agents—role archetypes, handoff protocols, memory architecture, orchestration patterns—=MayaLucIA-Agency= /specializes/ that framework for *scientific exploration and understanding*.
