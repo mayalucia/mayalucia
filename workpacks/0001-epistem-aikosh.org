@@ -2,7 +2,7 @@
 #+subtitle: Commissioning the epistemology guild, its module, and its guardian spirit
 #+author: mu2tau + mayadev
 #+date: 2026-03-02
-#+property: status tightened
+#+property: status completed
 
 * Context and Motivation
 

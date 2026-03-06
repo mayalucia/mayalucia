@@ -30,7 +30,7 @@ character:                           # personality (L2)
     - collection methodology (survey, extraction, curation)
     - query protocols for LLM agents
     - prompt economics
-  powers: [relay-read]
+  powers: [relay-read, manage-wp-lifecycle, author-wp]
   disposition: structure-reveals      # good structure makes knowledge findable
 
 memory:                              # history (L3)

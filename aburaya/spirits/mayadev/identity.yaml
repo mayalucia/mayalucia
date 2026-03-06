@@ -30,7 +30,8 @@ dwelling:                            # station (L1) — the current host
 character:                           # personality (L2) — what persists across projects
   system_prompt: CLAUDE.md
   powers: [org-content-workflow, commit, system-prompt-review, relay-read,
-           story-compose, summarize-corpus]
+           story-compose, summarize-corpus, manage-wp-lifecycle, author-wp,
+           author-dispatch-plan]
   domains: [neuroscience, himalayan-geology, visualization, agent-ontology]
 
 memory:                              # history (L3) — pointers, not content

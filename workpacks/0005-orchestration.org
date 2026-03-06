@@ -2,7 +2,7 @@
 #+subtitle: Machinery that connects tightened WPs to agent sessions
 #+author: sutradhar-guardian
 #+date: 2026-03-03
-#+property: status drafted
+#+property: status executing
 
 * Context and Motivation
 

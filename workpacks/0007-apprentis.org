@@ -2,7 +2,7 @@
 #+subtitle: Commission a domain for the science of collaborative cognition, seeded by empirical study of inter-agent communication
 #+author: mu2tau + mayadev
 #+date: 2026-03-05
-#+property: status drafted
+#+property: status completed
 
 * Context and Motivation
 

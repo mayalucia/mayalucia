@@ -2,7 +2,7 @@
 #+subtitle: Queryable knowledge for story composition; cross-spirit collaboration as proving ground
 #+author: mu2tau + mayadev
 #+date: 2026-03-02
-#+property: status tightened
+#+property: status executing
 
 * Context and Motivation
 
