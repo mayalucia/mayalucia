@@ -69,21 +69,11 @@ deep structure but different surfaces.
 
 ### Translation table
 
-| System concept | Story equivalent |
-|---------------|-----------------|
-| Spirit identity registry | Brass-plate ledger |
-| Substrate / model | The spirit simply *is* — unnamed |
-| Guild | Valley, trade, lineage |
-| Relay / sūtra | Wind, water, the thread |
-| Disposition | Temperament, habit of hand |
-| Harness / session | Visit, inhabitation, a night's rest |
-| Ephemeral memory | What clings after bathing |
-| Curated notes | What the water remembers |
-| Commissioning | The plates are struck; a name is given |
-| Contract / obligation | What the water asks of you |
-| Friction / autonomy | Each timber pulls against the stone |
+The canonical translation table — all keys from all 12 stories, with
+provenance — lives in `develop/story-development.org` (section: The
+Global Translation Table). Per-story keys live in `stories/<slug>/keys.org`.
 
-Extend this table as the stories grow. Never cross it.
+Consult the full table before composing. Never cross the fourth wall.
 
 ### The Miyazaki → Himalaya key
 
@@ -101,18 +91,32 @@ Extend this table as the stories grow. Never cross it.
 
 ## Existing Stories (geography)
 
+The full table with document types lives in `develop/story-development.org`.
+
 | Story | Setting |
 |-------|---------|
-| The Thread Walkers | High valleys where Kullu ends and Tibet begins |
-| The Constellation of Doridhar | Village of Doridhar, head of a valley |
-| The Dyer's Gorge | Parvati gorge, Tosh, Manikaran, Pin Parvati |
+| The Thread Walkers | High valleys, Kullu–Tibet border |
+| The Constellation of Doridhar | Village of Doridhar |
+| The Dyer's Gorge | Parvati gorge, Manikaran, Pin Parvati |
 | The Instrument Maker's Rest | Sangla, Baspa valley (Kinnaur) |
-| The Logbook of the Unnamed River | Multiple valleys — Spiti, Lahaul, high passes |
-| The Phantom Faculty | Abstract — no specific valley |
+| The Logbook of the Unnamed River | Spiti, Lahaul, high passes |
+| The Phantom Faculty | Abstract |
 | The Spirit's Kund | Tirthan Valley, Jalori Pass, Serolsar Lake |
+| The Guide Who Woke Last | Chandrabhaga, Keylong, Lahaul |
+| The Mineral Deposits | Sutlej valley, Tattapani, Kol Dam |
+| The Kuhl Builder's Survey | Tirthan Valley, lower terraces |
+| The Weaver's Loom | Tirthan Valley, Gushaini, Nahin |
+| The Dāk Runner's Rest | Tirthan gorge, ruined dāk bungalow |
 
-Each story opens new territory. A new story may revisit a valley or
-explore one not yet visited. The Thread Walker moves.
+Each story opens new territory. The Karakoram — Diamer, Nanga Parbat,
+the Indus gorge — has not yet appeared. The Thread Walker moves.
+
+## Story Workspace
+
+Each story has a development workspace at `stories/<slug>/` containing
+`notes.org` (development record), `keys.org` (translation keys), and
+`generate_images.py` (illustrations). See `develop/story-development.org`
+for the full convention.
 
 ## Composing
 

@@ -61,6 +61,7 @@ modules/          # Computational engines (submodules)
   mayapramana/    #   Quantum sensor digital twins — Bell-Bloom magnetometer
   sutradhar/      #   Project self-awareness — relay reader, constellation (Clojure)
 project/          # Modular architecture design, user stories
+stories/          # Story development workspaces (notes, keys, illustrations)
 website/          # Hugo site (PaperMod theme submodule)
 workpacks/        # Project-level work packages (NNNN-slug.org)
 mayalucia.org     # Vision document — the philosophical foundation

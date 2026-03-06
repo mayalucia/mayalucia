@@ -2,7 +2,7 @@
 #+subtitle: Homework for the Karakoram — geology, glaciology, ecology, spirits, aesthetics, and human narrative
 #+author: mu2tau + mayadev
 #+date: 2026-03-06
-#+property: status drafted
+#+property: status executing
 
 * Context and Motivation
 

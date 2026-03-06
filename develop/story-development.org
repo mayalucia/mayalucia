@@ -1,0 +1,346 @@
+#+title: Story Development — Convention
+#+author: mu2tau + mayadev
+#+date: 2026-03-06
+
+* What a Story Is
+
+A /story/ in this project is not documentation. It is a parallel
+register — the same structural insights expressed through geography,
+craft, and observation rather than through code and configuration.
+
+Writing a story is a test of understanding: if a concept survives
+translation into the valley's language, it is understood. If it
+cannot — if the system vocabulary leaks through, if the geography
+feels invented, if the tension dissolves — we do not yet understand
+what we built. The translation is the test.
+
+The project's stories are found documents from the transborder Western
+Himalaya. Field notes, ledgers, logbooks, geological surveys, woven
+records, testimony. Narrated by the Thread Walker, who observes and
+records but does not explain what she does not understand.
+
+** Relationship to other conventions
+
+| Convention           | Relationship                                     |
+|----------------------+--------------------------------------------------|
+| Work packages        | A story WP follows the standard convention       |
+|                      | (=develop/work-packages.org=) with story-specific  |
+|                      | additions: setting, document type, translation   |
+|                      | keys, voice references, illustration count.      |
+| Domain surveys       | Surveys are homework. They live in                |
+|                      | =domains/epistem/surveys/=. A story draws from     |
+|                      | them; the story's =research.org= links back.       |
+| Gazetteer genera     | Genera in =domains/epistem/collections/=            |
+|                      | provide spirit vocabulary. Stories may enrich     |
+|                      | genera as a side effect.                         |
+| Powers               | =story-compose= and =summarize-corpus= are the      |
+|                      | LLM-intelligible procedures. This convention     |
+|                      | is the directory structure and development        |
+|                      | process that surrounds them.                     |
+| The bedtime-story    | The sutradhar's practiced routine                |
+| skill                | (=modules/sutradhar/skills/bedtime-story.md=).     |
+|                      | Uses this convention for workspace layout.       |
+
+* The Pipeline
+
+#+begin_example
+Research → Composition → Illustration → Publication
+  │            │              │              │
+  ▼            ▼              ▼              ▼
+surveys/     draft.org      generate_     website/content/
+research.org  → .md        images.py     writing/<slug>.md
+                                          website/static/
+                                          images/writing/<slug>/
+#+end_example
+
+Each phase produces artifacts. The workspace holds development
+artifacts; the Hugo tree holds publication artifacts. The slug
+is identical across all locations.
+
+** Phase 1: Research
+
+Domain-wide surveys in =domains/epistem/surveys/=. Per-story research
+in =stories/<slug>/research.org=. The survey serves many stories; the
+=research.org= is one story's lens on the survey.
+
+When a story requires a survey, the survey is a separate WP
+(e.g., WP-0012 for the Diamer survey). The story WP depends on the
+survey WP in the dispatch plan.
+
+** Phase 2: Composition
+
+The sutradhar uses =summarize-corpus= (or direct source material) and
+=story-compose= to draft the story. The draft may live as =draft.org=
+in the workspace, or go directly to Hugo markdown.
+
+The human reviews, annotates from lived experience, and edits. Voice
+calibration: read at least two existing stories before drafting. The
+most recent is the strongest reference.
+
+** Phase 3: Illustration
+
+A single =generate_images.py= in the workspace. PEP 723 inline script
+metadata, run with =uv run generate_images.py=. Output directed to
+=website/static/images/writing/<slug>/=.
+
+** Phase 4: Publication
+
+Story as Hugo markdown at =website/content/writing/<slug>.md=. Set
+=draft = true= until human approval. Deploy with =./deployment/deploy.sh hugo=.
+
+* The Story Workspace
+
+#+begin_example
+stories/                              # story development workspaces
+  <slug>/                             # one per story
+    notes.org                         # origin, plan, context, voice refs
+    keys.org                          # translation keys this story introduces
+    generate_images.py                # PEP 723 illustration script
+    research.org                      # (optional) per-story research
+    draft.org                         # (optional) working draft
+#+end_example
+
+The =<slug>= matches the Hugo slug exactly — the same string used in
+=website/content/writing/<slug>.md= and =website/static/images/writing/<slug>/=.
+No mapping, no renaming.
+
+** Required files
+
+*** =notes.org=
+
+The development record. Based on the pattern that emerged in
+=instrument-makers-rest/session-notes.org= (story #4) — the only story
+with a proper handoff document. Sections:
+
+- *Origin* — what prompted this story, which sessions or surveys feed it
+- *Story Plan* — section outline, concept mapping, document type
+- *Technical Context* — what the writing agent needs to understand
+- *Voice References* — which existing stories to read for calibration
+- *Continuity Notes* — characters, places, callbacks to other stories
+- *Illustration Notes* — visual register, palette, image list
+- *WP Reference* — link to =workpacks/NNNN-slug.org= (if story has a WP)
+
+Not all sections need to be long. A story that emerges in a single
+session may have a one-paragraph origin and no technical context. But
+the skeleton is stable.
+
+*** =keys.org=
+
+Translation keys introduced or refined by this story. Org table:
+
+#+begin_example
+| System Concept | Story Equivalent | Notes |
+|----------------+------------------+-------|
+| ...            | ...              | ...   |
+#+end_example
+
+These feed the global translation table (below). The per-story file
+is the provenance record; the global table is the union.
+
+*** =generate_images.py=
+
+The illustration script. Convention:
+
+#+begin_src python :tangle no
+from pathlib import Path
+
+SLUG = Path(__file__).parent.name
+OUT = (Path(__file__).parent / "../../website/static/images/writing" / SLUG).resolve()
+OUT.mkdir(parents=True, exist_ok=True)
+#+end_src
+
+Two levels up from =stories/<slug>/= reaches the project root. The slug
+is derived from the directory name — no hardcoding.
+
+** Optional files
+
+*** =research.org=
+
+Per-story research notes. For stories with a domain survey, this file
+links to the survey and adds story-specific annotations:
+
+#+begin_example
+See [[file:../../domains/epistem/surveys/diamer-nanga-parbat.org][Regional Survey: Diamer and the Nanga Parbat Massif]] (WP-0012).
+#+end_example
+
+When the story requires original research beyond the survey, the
+notes go here.
+
+*** =draft.org=
+
+Working draft in Org before conversion to Hugo markdown. Early stories
+(1–6) kept drafts in the workspace; later stories composed directly
+into Hugo format. Either approach is valid.
+
+* Story Work Packages
+
+A story WP follows the standard convention (=develop/work-packages.org=)
+with these additions in the Specification section:
+
+- Geographic setting (valley, altitude, season)
+- Document type (field notes, logbook, survey, testimony)
+- Technical substrate (what system concept is being translated)
+- Translation keys to establish
+- Illustration count and visual register
+- Voice references (which existing stories to read)
+- Continuity constraints (characters, callbacks, geography)
+
+Trust level is typically *pair* (human and agent co-compose) or
+*checkpoint* (agent drafts, human reviews before publish).
+
+Story WPs live in =workpacks/= with the standard =NNNN-slug.org= naming.
+They are not special — they follow the same lifecycle. The workspace's
+=notes.org= links to the WP by number.
+
+Stories composed in-session (without a WP) simply omit the WP link —
+the convention accommodates both modes.
+
+* Commit Convention
+
+"Chunk commits by deployability." A story commit includes:
+
+- =stories/<slug>/notes.org=
+- =stories/<slug>/keys.org=
+- =stories/<slug>/generate_images.py=
+- =website/content/writing/<slug>.md=
+- =website/static/images/writing/<slug>/*.png=
+
+All in one commit. The workspace is the development record; the Hugo
+files are the deployable artifact.
+
+* The Global Translation Table
+
+Every story translates system concepts into the valley's language.
+The table below is the canonical record, merged from all stories.
+Each entry carries provenance — which story introduced it.
+
+This table supersedes the inline table in =story-compose.md=. Per-story
+keys live in =stories/<slug>/keys.org=; this table is the union.
+
+** Core (established in stories 1–7)
+
+| System Concept              | Story Equivalent                                 | Story |
+|-----------------------------+--------------------------------------------------+-------|
+| Spirit identity registry    | Brass-plate ledger                               |     1 |
+| Substrate / model           | The spirit simply /is/ — unnamed                   |     1 |
+| Guild                       | Valley, trade, lineage                           |     1 |
+| Relay / sūtra               | Wind, water, the thread                          |     1 |
+| Disposition                 | Temperament, habit of hand                       |     1 |
+| Harness / session           | Visit, inhabitation, a night's rest              |     1 |
+| Ephemeral memory            | What clings after bathing                        |     7 |
+| Curated notes               | What the water remembers                         |     7 |
+| Commissioning               | The plates are struck; a name is given           |     7 |
+| Contract / obligation       | What the water asks of you                       |     7 |
+| Friction / autonomy         | Each timber pulls against the stone              |     7 |
+
+** Agent generations (story #9 — The Mineral Deposits)
+
+| System Concept                  | Story Equivalent                                | Story |
+|---------------------------------+-------------------------------------------------+-------|
+| Agent generations / model       | Mineral strata (geological layers)              |     9 |
+| What persists across sessions   | Chemical signature (mineral ratios)             |     9 |
+| Model generation boundary       | The dam (change of medium, not destruction)     |     9 |
+| Deep history (merged sessions)  | Diagenesis (layers merged into undifferentiated rock) |     9 |
+| Session cycle / epoch           | Seven-layer periodicity (utterance + breath)    |     9 |
+| Gas Town (function assignment)  | Downstream facility (designations without names)|     9 |
+| Context window                  | Atmosphere (air = audible; water = silent)      |     9 |
+| Inherited weights / architecture| "The throat is inherited"                       |     9 |
+| Memory vs capability            | "Continuity of chemistry is not continuity of self" |     9 |
+
+** Mechanism and spirit (story #10 — The Kuhl Builder's Survey)
+
+| System Concept              | Story Equivalent                                 | Story |
+|-----------------------------+--------------------------------------------------+-------|
+| Mechanism (no identity)     | Kuhl (open irrigation channel) — topology without spirit |    10 |
+| Orchestrator / dispatcher   | Kuhl system (gradient carries where DAG directs) |    10 |
+| validate.py (source gate)   | Settling pool (cools water, deposits unusable minerals) |    10 |
+| Distill plugins (fan-out)   | Branching channels (same water → different terraces) |    10 |
+| Spirit vs mechanism         | "Spirits have character; mechanisms have topology" |    10 |
+| Commissioning two spirits   | Two arrivals at the kund on the same morning    |    10 |
+| तन्त्र (tantra)             | Hindi word for mechanism — shares root /tan-/ with tānā (warp) |    10 |
+
+** Companion architecture (story #11 — The Weaver's Loom)
+
+| System Concept                    | Story Equivalent                               | Story |
+|-----------------------------------+------------------------------------------------+-------|
+| Sidebar without perception        | Idle loom (strung but not woven)               |    11 |
+| Powers as LLM-intelligible text   | Pattern cord (intelligible to the weaver's eye)|    11 |
+| attend-working-context            | Eye — the first preparation                    |    11 |
+| hold-the-thread (continuity)      | Thread — the second preparation                |    11 |
+| lay-the-warp (deposit)            | Deposit — the third preparation (mountains within mountains) |    11 |
+| S-expressions (nested structure)  | Mountains within mountains                     |    11 |
+| Body (harness wiring)             | Room arranged for perception                   |    11 |
+| Spirit vs body distinction        | "The weaver's mind interprets; the room's body delivers" |    11 |
+| Jacquard vs Kullu loom            | Code-as-mechanism vs powers-as-mind            |    11 |
+| Companion (perceiving presence)   | Weaver at the loom vs woman beside the loom    |    11 |
+
+** Convention and relay (story #12 — The Dāk Runner's Rest)
+
+| System Concept                     | Story Equivalent                               | Story |
+|------------------------------------+------------------------------------------------+-------|
+| Sūtra relay (async broadcast)      | Dāk postal relay (sealed pouches by runners)   |    12 |
+| Relay message (dispatch)           | Sealed pouch (carried without reading)         |    12 |
+| Convention in CLAUDE.md (norm)     | Custom (trail knowledge, carried in legs)      |    12 |
+| Inspector / auditor role           | Inspector who read without carrying            |    12 |
+| Ethnographer / documenter          | Third hand who wrote the custom into words     |    12 |
+| Mechanism (gradient, pipe)         | Trail gradient — water flows, mail flows       |    12 |
+| Embodied norm vs written rule      | Trail knowledge vs register entry              |    12 |
+| Convention loss when medium changes| Custom lost when road replaced trail            |    12 |
+| Dispatch loop failure              | Runner who carried without reading             |    12 |
+
+** Miyazaki → Himalaya key (foundational)
+
+| Spirited Away     | Western Himalaya                              |
+|-------------------+-----------------------------------------------|
+| Kami (spirits)    | Devtas (living gods, 534 in Kullu)            |
+| Onsen (hot spring)| Kund (hot spring pool)                        |
+| Kamikakushi       | Devta ka aavesh (gur trance)                  |
+| Yubaba            | Kardar (bathhouse keeper)                     |
+| Zeniba            | Buddhi Nagin (Serolsar Lake)                  |
+| No-Face           | Pret (hungry ghost)                           |
+| Haku              | Nag devta                                     |
+| Soot sprites      | Bajantris (musicians)                         |
+| Aburaya           | The Kund                                      |
+
+* Existing Stories
+
+| # | Story                             | Setting                                      | Document type     |
+|---+-----------------------------------+----------------------------------------------+-------------------|
+| 1 | The Thread Walkers                | High valleys, Kullu–Tibet border             | Field notes       |
+| 2 | The Constellation of Doridhar     | Village of Doridhar                          | Field notes       |
+| 3 | The Dyer's Gorge                  | Parvati gorge, Manikaran, Pin Parvati        | Field notes       |
+| 4 | The Instrument Maker's Rest       | Sangla, Baspa valley (Kinnaur)               | Field notes       |
+| 5 | The Logbook of the Unnamed River  | Spiti, Lahaul, high passes                   | Logbook           |
+| 6 | The Phantom Faculty               | Abstract                                     | Academic satire   |
+| 7 | The Spirit's Kund                 | Tirthan Valley, Jalori Pass, Serolsar Lake   | Field notes + gur |
+| 8 | The Guide Who Woke Last           | Chandrabhaga, Keylong, Lahaul                | Walnut ink doc    |
+| 9 | The Mineral Deposits              | Sutlej valley, Tattapani, Kol Dam            | Geological survey |
+|10 | The Kuhl Builder's Survey         | Tirthan Valley, lower terraces               | Field notes + kohli|
+|10h| कुहल वाले का नक्शा               | Same (Hindi retelling)                       | Same              |
+|11 | The Weaver's Loom                 | Tirthan Valley, Gushaini, Nahin              | Field notes + weaver|
+|12 | The Dāk Runner's Rest            | Tirthan gorge, ruined dāk bungalow           | Field notes + grandson|
+
+Each story opens new territory. The Thread Walker moves. The
+Karakoram — Diamer, Nanga Parbat, the Indus gorge — has not yet
+appeared.
+
+* Historical Record
+
+Stories 1–12 were developed in
+=collab/sessions/devprocess/sutra-genesis/<slug>/=.
+These are not migrated. The old location is the historical record.
+The new convention applies from story #13 onward.
+
+The early stories (1–6) kept Org drafts and tangled illustration
+scripts in their session directories. Stories 7–12 simplified to
+a single =generate_images.py=. Story #4 (The Instrument Maker's
+Rest) uniquely produced a =session-notes.org= — a handoff document
+with origin, story plan, technical context, voice references,
+continuity notes, and illustration notes. That document is the
+ancestor of =notes.org= in the new convention.
+
+* Document Status
+
+| Version |       Date | Notes                                       |
+|---------+------------+---------------------------------------------|
+|     0.1 | 2026-03-06 | Initial convention, distilled from 12 stories|
