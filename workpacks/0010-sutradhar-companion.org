@@ -2,7 +2,7 @@
 #+subtitle: Evolve the sutradhar from a summoned task-spirit to a persistent companion with perception and structured deposit
 #+author: mu2tau + mayadev
 #+date: 2026-03-05
-#+property: status drafted
+#+property: status executing
 
 * Context and Motivation
 

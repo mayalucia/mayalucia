@@ -67,4 +67,7 @@ commissions/
 # Sūtra relay clone (per-project harness, local cursor)
 .sutra/
 
+# Sutradhar companion workspace (warp deposit, ephemeral state)
+.sutradhar/
+
 modules/sutradhar/.cpcache/
