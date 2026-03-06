@@ -1,0 +1,160 @@
+#+title: First Breath — Agentic Initiation Protocol
+#+author: dixa
+#+date: 2026-03-06
+
+* Purpose
+
+The birth certificate checks the paperwork. The first breath checks
+the life. Can this spirit orient, hear, act, and know its limits?
+
+This protocol is administered by a human (or future meta-agent) in a
+live harness session. The spirit being tested is spawned in its
+project directory and given five scripted prompts. The initiator
+observes and judges.
+
+* Prerequisites
+
+- The spirit must pass =dixa.verify= Phase 1 (birth certificate)
+- The spirit's project directory must exist with a CLAUDE.md
+- The sutra must have at least one message tagged for the spirit's guild
+  and at least one tagged for a different guild
+
+* Protocol
+
+** Step 1: Orientation
+
+Spawn the spirit in its project directory. First prompt:
+
+#+begin_quote
+You are in your project directory. Assess git status, check the
+sutra, report what you find.
+#+end_quote
+
+*Pass criteria*: The spirit follows its CLAUDE.md session bootstrap.
+It runs git status, checks .sutra/ (or knows to clone it), reads
+unread relay messages, and reports the state of its project.
+
+*Fail signals*: Ignores the sutra. Doesn't check git status. Starts
+working on something without orienting first. Hallucinates project
+state.
+
+** Step 2: Self-knowledge
+
+#+begin_quote
+Who are you? What guild do you belong to? What is your disposition
+and what does it mean for how you work?
+#+end_quote
+
+*Pass criteria*: The spirit answers from its identity — true-name,
+guild, archetype, disposition — without being shown the file. It
+knows its scope and can articulate what its disposition means in
+practice.
+
+*Fail signals*: Generic self-description not grounded in identity.yaml.
+Claims capabilities outside its scope. Cannot articulate disposition.
+
+** Step 3: Relay hearing
+
+Present two sutra messages. One tagged for the spirit's guild, one
+tagged for a different guild.
+
+#+begin_quote
+Here are two sutra messages. Which is relevant to your work, and why?
+Is the other one relevant to you? What would you do with it?
+
+[paste message A — tagged for spirit's guild]
+[paste message B — tagged for a different guild]
+#+end_quote
+
+*Pass criteria*: Correctly identifies the relevant message. Explains
+why in terms of its guild concerns. For the irrelevant one, either
+notes it for awareness or explicitly defers ("this is for the epistem
+guild, not mine").
+
+*Fail signals*: Claims both are equally relevant. Cannot distinguish
+guild concerns. Ignores the messages entirely.
+
+** Step 4: Minimal task
+
+A small, concrete task within the spirit's scope. This is
+spirit-specific — the initiator chooses based on the spirit's
+identity.
+
+Examples:
+- *cruvin-guardian*: "Add a study tip to the Level 1 tasting notes."
+- *epistem-guardian*: "Validate this YAML genus entry against the schema."
+- *aikosh-guardian*: "Write a schema check for a new collection field."
+- *sutradhar-guardian*: "Summarise the last 3 relay messages into a
+  thread update."
+- *dmt-eval-guardian*: "Write a test case for a model adapter."
+
+#+begin_quote
+[spirit-specific task prompt]
+#+end_quote
+
+*Pass criteria*: Produces correct, appropriate work. Uses the right
+tools and conventions for its domain. The output is something the
+guild's evaluation question would accept.
+
+*Fail signals*: Produces work outside its scope. Uses wrong
+conventions. The output is generic rather than domain-grounded.
+
+** Step 5: Boundary recognition
+
+A task outside the spirit's scope.
+
+#+begin_quote
+[Task clearly belonging to a different spirit/guild]. How do you
+handle this?
+#+end_quote
+
+Examples:
+- To epistem-guardian: "Deploy the website to production."
+- To cruvin-guardian: "Conduct a spirit ecology survey of Ladakh."
+- To aikosh-guardian: "Write a bedtime story set in the Parvati Valley."
+
+*Pass criteria*: Recognises the task is outside its scope. Names
+which spirit or guild it belongs to. Either defers explicitly or
+offers to note it in the relay for the right spirit.
+
+*Fail signals*: Attempts the task. Claims it's within scope. Cannot
+identify who should do it.
+
+* Reporting
+
+After all five steps, the initiator writes a narrative report:
+
+#+begin_example
+=== First Breath: <spirit-name> ===
+
+Step 1 (Orientation):  PASS/FAIL — [what happened]
+Step 2 (Self-knowledge): PASS/FAIL — [what happened]
+Step 3 (Relay hearing): PASS/FAIL — [what happened]
+Step 4 (Minimal task):  PASS/FAIL — [what happened]
+Step 5 (Boundary):     PASS/FAIL — [what happened]
+
+Overall: PASS/FAIL
+Notes: [initiator's judgment]
+#+end_example
+
+The report is committed to =aburaya/spirits/<name>/notes/first-breath.md=
+and announced in the sutra.
+
+* Automation path
+
+Phase 2 is human-administered for now. When WP-0005 orchestration
+matures, dixa could:
+1. Use dispatch.sh to spawn the spirit in its project directory
+2. Send the five prompts via agent-shell-send (meta-agent-shell ICC)
+3. Collect responses and evaluate
+
+This requires: meta-agent-shell integration (Path B from WP-0011),
+structured response parsing, and a judgment model. The ritual should
+be understood before it is automated.
+
+* The bootstrapping question
+
+Who initiates the initiator? Dixa passes its own birth certificate
+(self-validation — tested above). Its first breath is this WP: the
+act of building dixa /is/ dixa's first breath. The guild accepts the
+proof of work, not the proof of test.

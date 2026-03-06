@@ -1,0 +1,41 @@
+# Schema for guild YAML files (aburaya/guilds/<name>.yaml)
+# Used by dixa.birth_certificate to validate guild structure.
+
+top_level:
+  name:
+    required: true
+    type: string
+    note: Guild name. Must match the filename (without .yaml).
+
+  domain:
+    required: true
+    type: string
+    note: One-line description of what this guild concerns itself with.
+
+  concerns:
+    required: true
+    type: list
+    note: What the guild pays attention to.
+
+  projects:
+    required: true
+    type: list
+    note: Paths to projects/modules this guild oversees.
+
+  spirits:
+    required: true
+    type: list
+    note: Spirit names belonging to this guild. Each must have an identity.yaml.
+
+  evaluation:
+    required: true
+    type: mapping
+    children:
+      question:
+        required: true
+        type: string
+        note: The question this guild asks to evaluate its work.
+      method:
+        required: true
+        type: string
+        note: How the guild answers that question.

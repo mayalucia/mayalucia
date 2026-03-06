@@ -128,6 +128,26 @@ The spirit may later be migrated to a submodule as the project grows.
 When that happens, update =project.repo= and =project.path=, write a
 module-level =CLAUDE.md=, and add the submodule to the parent.
 
+** 6b. Run dīkṣā (initiation verification)
+
+Run dixa's birth certificate against the new spirit:
+
+#+begin_src sh
+python3 aburaya/spirits/dixa/nature/verify.py <spirit-name>
+#+end_src
+
+Phase 1 (birth certificate) validates:
+- Schema compliance of identity.yaml against =nature/schemas/spirit.yaml=
+- Guild YAML structure against =nature/schemas/guild.yaml=
+- Cross-references: spirit ↔ guild, paths exist, bath_notes dir exists
+
+The birth certificate gates the commit — fix failures before step 8.
+
+Phase 2 (first breath) happens after steps 7-10, when the spirit can
+be instantiated in its project directory. See
+=aburaya/spirits/dixa/nature/first_breath.org= for the five-step
+agentic initiation protocol.
+
 ** 7. Write the module's CLAUDE.md
 
 This is the spirit's worksite equipment — not stored in the
