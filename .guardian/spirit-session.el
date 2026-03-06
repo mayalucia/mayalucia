@@ -11,6 +11,45 @@
 ;; plain text). This file is the filesystem-level identity marker — no
 ;; YAML parsing, no central registry lookup.
 
+;; Spirit color palette — mahābhūta (five elements)
+;; Each guild maps to an element; spirits within a guild differentiate
+;; by luminance (sattva=bright/primary, rajas=medium, tamas=dim).
+;;
+;; mayalucia (ākāśa/space)  — violet/indigo
+;; bravli    (agni/fire)    — saffron/amber
+;; epistem   (pṛthvī/earth) — ochre/warm-brown
+;; apprentis (vāyu/wind)    — teal/cyan
+(defvar agent-shell--spirit-colors
+  '(;; guild          spirit               fg-dark       fg-light
+    ;;
+    ;; ākāśa (space) — luminous violet/lavender
+    ("mayalucia"      "mayadev"            "#dda0ff"     "#7b2fa0")
+    ("mayalucia"      "sutradhar-guardian"  "#b8e986"     "#3d7a1c")
+    ("mayalucia"      "cruvin-guardian"     "#d4b8f0"     "#7b4f8a")
+    ("mayalucia"      "dixa"               "#b8a0e8"     "#5b4a8a")
+    ;;
+    ;; agni (fire) — bright saffron/flame
+    ("bravli"         "dmt-eval-guardian"   "#ffa060"     "#b85520")
+    ;;
+    ;; pṛthvī (earth) — warm gold/amber
+    ("epistem"        "epistem-guardian"    "#ffd866"     "#8a6d20")
+    ("epistem"        "aikosh-guardian"     "#f0c040"     "#7a5c10")
+    ;;
+    ;; vāyu (wind) — bright cyan/sky
+    ("apprentis"      nil                  "#80e8f0"     "#1a7a88"))
+  "Spirit color alist: (guild spirit fg-dark fg-light).
+nil spirit matches any unregistered spirit in that guild.")
+
+(defun agent-shell--spirit-color (name)
+  "Return foreground color for spirit NAME based on guild and theme."
+  (let* ((is-dark (eq (frame-parameter nil 'background-mode) 'dark))
+         (entry (or (seq-find (lambda (e) (equal (nth 1 e) name))
+                              agent-shell--spirit-colors)
+                    ;; fallback: first guild-nil entry, or generic
+                    (car (last agent-shell--spirit-colors))))
+         (color (if is-dark (nth 2 entry) (nth 3 entry))))
+    (or color (if is-dark "#b48ead" "#68217a"))))
+
 (defun agent-shell--guardian-root ()
   "Find project root containing .guardian/identity, walking up from `default-directory'."
   (locate-dominating-file default-directory ".guardian/identity"))
@@ -33,36 +72,61 @@
       (insert-file-contents id-path)
       (buffer-string))))
 
+(defun agent-shell--darken-color (hex factor)
+  "Darken HEX color by FACTOR (0.0=black, 1.0=unchanged)."
+  (let ((r (string-to-number (substring hex 1 3) 16))
+        (g (string-to-number (substring hex 3 5) 16))
+        (b (string-to-number (substring hex 5 7) 16)))
+    (format "#%02x%02x%02x"
+            (round (* r factor))
+            (round (* g factor))
+            (round (* b factor)))))
+
 (defun agent-shell--format-spirit-banner (name identity-text)
-  "Format a welcome banner for spirit NAME with IDENTITY-TEXT."
-  (concat "\n"
-          (if identity-text
-              (concat "  ┌─ " name " ─────────────────────────\n"
-                      (mapconcat (lambda (line) (concat "  │ " line))
-                                 (split-string identity-text "\n")
-                                 "\n")
-                      "\n  └──────────────────────────────────\n")
-            (format "  Spirit: %s (no identity.yaml found)\n" name))))
+  "Format a welcome banner for spirit NAME with IDENTITY-TEXT.
+Uses `font-lock-face' (not `face') so properties survive comint output filter."
+  (let* ((color (agent-shell--spirit-color name))
+         (bg (agent-shell--darken-color color 0.2))
+         (header-face `(:foreground ,color :background ,bg :weight bold))
+         (box-face `(:foreground ,color))
+         (dim-face `(:foreground ,color :weight light)))
+    (concat "\n"
+            (if identity-text
+                (concat (propertize (concat "  ┌─ " name " ─────────────────────────  ")
+                                    'font-lock-face header-face)
+                        "\n"
+                        (mapconcat (lambda (line)
+                                    (concat (propertize "  │ " 'font-lock-face box-face)
+                                            (propertize line 'font-lock-face dim-face)))
+                                  (split-string identity-text "\n")
+                                  "\n")
+                        "\n"
+                        (propertize "  └──────────────────────────────────" 'font-lock-face box-face)
+                        "\n")
+              (propertize (format "  Spirit: %s (no identity.yaml found)\n" name)
+                          'font-lock-face dim-face)))))
 
 (defun agent-shell--spirit-welcome (name)
   "Return a welcome function for spirit NAME.
-Captures identity text eagerly (at config-build time) so it survives
-agent-shell rebinding `default-directory' to the project cwd."
-  (let ((banner (agent-shell--format-spirit-banner
-                 name (agent-shell--spirit-identity-text))))
-    `(lambda (_config) ,banner)))
+Captures plain data eagerly; builds propertized banner at display time
+so text properties survive (backquote splicing strips them)."
+  (let ((id-text (agent-shell--spirit-identity-text)))
+    `(lambda (_config)
+       (agent-shell--format-spirit-banner ,name ,id-text))))
 
 (defun agent-shell--make-spirit-config (name)
   "Build agent-config for spirit NAME."
-  (agent-shell-make-agent-config
-   :identifier (intern name)
-   :buffer-name name
-   :mode-line-name name
-   :shell-prompt (concat name "> ")
-   :shell-prompt-regexp (concat (regexp-quote name) "> ")
-   :welcome-function (agent-shell--spirit-welcome name)
-   :client-maker (lambda (buffer)
-                   (agent-shell-anthropic-make-claude-client :buffer buffer))))
+  (let* ((color (agent-shell--spirit-color name))
+         (prompt (propertize (concat name "> ") 'face `(:foreground ,color :weight bold))))
+    (agent-shell-make-agent-config
+     :identifier (intern name)
+     :buffer-name name
+     :mode-line-name name
+     :shell-prompt prompt
+     :shell-prompt-regexp (concat (regexp-quote name) "> ")
+     :welcome-function (agent-shell--spirit-welcome name)
+     :client-maker (lambda (buffer)
+                     (agent-shell-anthropic-make-claude-client :buffer buffer)))))
 
 (defun agent-shell-start-spirit (&optional name)
   "Start agent-shell with spirit identity.
