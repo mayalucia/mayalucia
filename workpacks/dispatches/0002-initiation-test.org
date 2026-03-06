@@ -1,7 +1,15 @@
 #+title: DP-0002 — Initiation Test
 #+author: mu2tau + mayadev
 #+date: 2026-03-05
-#+property: status drafted
+#+property: status active
+#+property: wps 0004A,0009
+#+property: edges 0004A>0009
+#+property: 0004A.executor epistem-guardian
+#+property: 0004A.trust spec-tighten
+#+property: 0004A.dir domains/epistem
+#+property: 0009.executor dixa
+#+property: 0009.trust pair
+#+property: 0009.dir aburaya
 
 * Context
 

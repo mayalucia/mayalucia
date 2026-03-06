@@ -1,0 +1,209 @@
+#+title: WP-0011 — DP-Level Dispatch
+#+subtitle: From dispatch plans to dispatch boards to spawn commands
+#+author: mu2tau + mayadev
+#+date: 2026-03-05
+#+property: status drafted
+#+property: executor mayadev
+#+property: trust autonomous
+
+* Context and Motivation
+
+WP-0005 Increment A delivered =dispatch.sh= — a script that takes a
+single WP file, resolves the executor spirit, maps trust to an
+allowlist, and invokes =claude=. This works for individual WPs but
+not for Dispatch Plans (DPs), which declare DAGs of WPs with
+dependency edges.
+
+The gap became visible during DP-0002 (initiation test). Mayadev
+read the DP, mentally walked the DAG, and printed a dispatch board
+as text in the conversation. The human then manually spawned
+epistem-guardian in =domains/epistem=. Three manual steps for two
+WPs. This will not scale.
+
+What's needed: a =dispatch-dp.sh= script that reads a DP file,
+evaluates the DAG, prints a dispatch board (ready vs blocked), and
+on command dispatches the next ready WP via =dispatch.sh=.
+
+** Two paths
+
+This WP covers Path A (bash). Path B (emacs/agent-shell integration)
+is the ergonomic ceiling — where the dispatch board becomes clickable
+in an agent-shell-manager view, and =agent-shell-spawn= replaces the
+=claude= CLI invocation. Path B depends on:
+
+- =agent-shell= (xenodium) — native Emacs ACP buffer
+- =agent-shell-manager= (jethrokuan) — tabulated view of sessions
+- =meta-agent-shell= (ElleNajt) — multi-agent coordination, ICC,
+  =agent-shell-spawn "Name" "task"=
+
+Path B is a separate WP. This WP provides the portable floor that
+Path B will call from elisp.
+
+* Inventory
+
+** Exists
+
+- =develop/orchestration/dispatch.sh= — WP-level dispatch (WP-0005 A)
+- =develop/orchestration/allowlists.yaml= — trust profiles
+- =develop/work-packages.org= § Dispatch output — board format spec
+- =workpacks/dispatches/0002-initiation-test.org= — a real DP to test
+- Epistem-guardian's output: 24 genus files in the gazetteer (WP-0004
+  Task A done, meaning WP-0009 is now unblocked in DP-0002)
+
+** Does not exist
+
+- A script that reads a DP file and produces the dispatch board
+- A script that evaluates dependency edges against WP statuses
+- Machine-readable DP format (currently prose + ASCII DAG + Org table)
+
+* Specification
+
+** Part 1: DP metadata convention
+
+DP files gain structured properties that =dispatch-dp.sh= can parse.
+Added to the existing DP format (prose stays for humans; properties
+added for machines).
+
+#+begin_example
+#+title: DP-NNNN — <title>
+#+property: status drafted|active|completed
+#+property: wps 0004A,0009          # comma-separated WP refs
+#+property: edges 0004A>0009        # comma-separated edges (from>to)
+#+end_example
+
+Task-level references use the form =NNNNT= (e.g. =0004A= for WP-0004
+Task A). Whole-WP references use =NNNN= (e.g. =0009=).
+
+The edges property encodes the DAG. Each edge is =from>to=. Multiple
+edges: =0004A>0009,0003>0004A,0006>0004A=.
+
+The script also falls back to parsing the =| Edge |= Org table if the
+=#+property: edges= line is absent — but the property is preferred.
+
+** Part 2: dispatch-dp.sh
+
+*** File: =develop/orchestration/dispatch-dp.sh=
+
+#+begin_example
+Usage:
+  dispatch-dp.sh <dp-file>                  # print dispatch board
+  dispatch-dp.sh <dp-file> --dispatch NNNN  # dispatch a ready WP
+  dispatch-dp.sh <dp-file> --dispatch next  # dispatch the first ready WP
+  dispatch-dp.sh <dp-file> --dry-run NNNN   # dry-run a specific WP
+#+end_example
+
+**** Board mode (default)
+
+1. Read the DP file, extract =#+property: wps= and =#+property: edges=
+2. For each WP ref, resolve the actual WP file:
+   - =NNNN= → =workpacks/NNNN-*.org=
+   - =NNNNT= → =workpacks/NNNN-*.org= (with task annotation)
+3. Read each WP's =#+property: status=
+4. Walk the DAG: a WP is *ready* if status is =tightened= or =resumed=
+   and all upstream WPs are =completed=
+5. Print the dispatch board per the convention in
+   =develop/work-packages.org= § Dispatch output
+
+**** Dispatch mode (--dispatch)
+
+1. Print the board (as above)
+2. Identify the target WP (by number or =next=)
+3. Verify it is ready (not blocked)
+4. Invoke =dispatch.sh= with the resolved WP file
+5. After dispatch completes, reprint the board (statuses may have changed)
+
+**** Resolving task-level WPs
+
+WP-0004 Task A is not a separate file — it's a task within WP-0004.
+The dispatch script needs to know which task to execute. Convention:
+
+- The DP's task reference (=0004A=) maps to a task impression in the
+  DP file itself (the =* Notes= section or a new =* Tasks= section)
+- =dispatch-dp.sh= passes the task letter to =dispatch.sh= as an
+  additional flag: =dispatch.sh workpacks/0004-*.org --task A=
+- =dispatch.sh= appends "Execute Task A only" to the prompt
+
+This keeps task-level dispatch lightweight — no new WP files, just
+a prompt modifier.
+
+** Part 3: Update dispatch.sh
+
+Extend =dispatch.sh= to accept a =--task= flag:
+
+#+begin_example
+dispatch.sh <wp-file> [--task <letter>] [--dry-run]
+#+end_example
+
+When =--task= is present, the prompt becomes:
+"Execute Task <letter> of work package <name>. Read the WP for the
+full specification of this task."
+
+** Part 4: DP-0002 annotation
+
+Add machine-readable properties to DP-0002:
+
+#+begin_example
+#+property: wps 0004A,0009
+#+property: edges 0004A>0009
+#+end_example
+
+** Part 5: Status tracking
+
+When =dispatch-dp.sh= dispatches a WP and it completes:
+- The WP's =#+property: status= should transition to =completed=
+  (done by the executing spirit)
+- The DP's status transitions to =completed= when all WPs are done
+- =dispatch-dp.sh= checks this and announces completion
+
+* Execution Order
+
+1. Add =#+property: wps= and =#+property: edges= to DP-0002
+2. Extend =dispatch.sh= with =--task= flag
+3. Write =dispatch-dp.sh= (board mode)
+4. Test: =dispatch-dp.sh workpacks/dispatches/0002-initiation-test.org=
+   — should show WP-0004A as completed (epistem delivered) and
+   WP-0009 as ready
+5. Write =dispatch-dp.sh= (dispatch mode)
+6. Test: =dispatch-dp.sh ... --dry-run 0009= — verify resolved
+   spirit, dir, allowlist, prompt
+7. Live test: dispatch WP-0009 via the script (pair trust — human
+   present)
+
+* Acceptance Criteria
+
+- [ ] DP-0002 has =#+property: wps= and =#+property: edges=
+- [ ] =dispatch.sh --task A= modifies the prompt correctly
+- [ ] =dispatch-dp.sh <dp>= prints a correct dispatch board
+- [ ] Board correctly identifies ready vs blocked WPs by walking the DAG
+- [ ] =dispatch-dp.sh <dp> --dispatch 0009= invokes =dispatch.sh= with
+  correct arguments
+- [ ] =dispatch-dp.sh <dp> --dry-run 0009= shows what would happen
+  without executing
+- [ ] DP-0002 serves as the end-to-end test case
+
+* Dependencies
+
+- WP-0005 Increment A (=dispatch.sh=) — exists, extended here
+- DP-0002 — the test case
+- WP-0004 Task A — completed by epistem-guardian (24 genus files)
+
+* Open Questions
+
+- *Task-level status*: how does =dispatch-dp.sh= know WP-0004 Task A
+  is done if the WP file's status is still =tightened= (because Tasks
+  B and C were done earlier, and Task A just finished)? Options:
+  (a) the DP maintains its own status per WP ref; (b) we add
+  per-task status properties to WP files; (c) the human tells the
+  script. Start with (c) — the human confirms task completion — and
+  evolve to (a) or (b) as the pattern matures.
+
+- *Interactive vs non-interactive*: =dispatch.sh= uses =--print=
+  (non-interactive). WP-0009 has =trust: pair=, which implies the
+  human is present. Should =dispatch-dp.sh= detect =pair= trust and
+  drop the =--print= flag? Yes — pair means interactive.
+
+- *Path B integration point*: when the emacs integration arrives,
+  =dispatch-dp.sh= should be callable from elisp. The board output
+  should be parseable (structured enough for elisp to extract WP
+  refs and spawn commands). Consider a =--json= flag for machine
+  consumption alongside the human-readable board.
