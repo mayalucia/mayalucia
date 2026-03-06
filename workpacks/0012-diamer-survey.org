@@ -1,0 +1,199 @@
+#+title: WP-0012 — Regional Survey: Diamer and the Nanga Parbat Massif
+#+subtitle: Homework for the Karakoram — geology, glaciology, ecology, spirits, aesthetics, and human narrative
+#+author: mu2tau + mayadev
+#+date: 2026-03-06
+#+property: status drafted
+
+* Context and Motivation
+
+The MāyāLucIA story series surveys the Western Himalaya through
+found-document narratives. Twelve stories have covered the monsoon
+valleys — Kullu, Parvati, Tirthan, Baspa, Spiti, Lahaul, Chandrabhaga,
+Sutlej — their hydrology, geology, architecture, textiles, ecology,
+and spirit traditions. All of these lie south and east of the main
+Himalayan crest, within the monsoon's reach.
+
+The Karakoram is different. North and west of the main range, beyond the
+monsoon shadow, the landscape changes fundamentally: no deodar, no
+terraced agriculture, no monsoon cycle. Glaciers dominate. The spirit
+traditions shift from Hindu-Pahari devtas to Persian-Islamic peri and
+Tibetan-influenced klu. The languages shift from Pahari to Shina and
+Burushaski. The altitude is higher, the air drier, the rock different.
+
+The Diamer region — named for the Nanga Parbat massif itself (*dia* =
+spirit, *mer/mir* = mountain in Shina: "abode of spirits") — is where
+the Himalaya, Karakoram, and Hindu Kush ranges converge. It is the
+western anchor of the story world.
+
+This WP is homework. Not a story, not a gazetteer entry — raw material.
+Survey the region for what is interesting, what is surprising, what
+creates tension. The story will find itself after the research is done.
+
+** Why now
+
+The gazetteer (WP-0004) populated two Karakoram genera —
+=karakoram-peri= and =karakoram-bitan= — from the spirit ecology surveys.
+These are thin entries compared to the Kullu devta or the Tibetan btsan.
+The region deserves the same depth of attention the Tirthan Valley has
+received across stories #7–#12. And there are tensions here that the
+monsoon valleys don't carry:
+
+- The mountain as "killer" vs the mountain as "abode of spirits" —
+  the conquest narrative laid over the indigenous landscape
+- Glacial agency — surging glaciers that advance kilometres in months,
+  dam rivers, flood valleys. Not metaphorical agency; the glacier acts.
+- The peri at altitude — spirit traditions that encode knowledge of
+  altitude sickness, disorientation, and the behaviour of ice
+- The colonial/modern overlay — German expeditions, speed records,
+  tourism — a peculiar time for a timeless mountain
+
+* Inventory (What Already Exists)
+
+** Gazetteer genera
+
+- =karakoram-peri.yaml= — peri traditions, Fairy Meadows, altitude/glacier
+  landscape, Burushaski =pari= species
+- =karakoram-bitan.yaml= — shamanic practitioners who negotiate with peri
+
+** Spirit ecology surveys
+
+- =domains/epistem/surveys/spirit-ecology.org= (WP-0003)
+- =domains/epistem/surveys/spirit-ecology-verified.org= (WP-0006, 788 lines)
+- Karakoram section is present but brief in both surveys
+
+** Story world geography (storytelling.md)
+
+Western Himalaya coverage so far: Kullu, Parvati, Tirthan, Baspa,
+Spiti, Lahaul, Chandrabhaga, Sutlej. No Karakoram, no Diamer,
+no Gilgit-Baltistan.
+
+* Specification
+
+** Part A: Physical geography
+
+Survey and document:
+
+1. *Geology* — the triple junction of Himalaya, Karakoram, Hindu Kush.
+   Rock types, fault lines, the Nanga Parbat-Haramosh massif as a
+   tectonic anomaly (fastest-rising mountain on Earth). Contrast with
+   the gneiss and magnetite of the Kullu valleys.
+
+2. *Glaciology* — Rakhiot, Rupal, Diamir glaciers. Surging behaviour.
+   The Indus gorge at Nanga Parbat (deepest gorge on Earth). Glacial
+   lake outburst floods (GLOFs). The glacier as agent.
+
+3. *Ecology* — altitude zonation without monsoon. Juniper and birch
+   instead of deodar. Alpine meadows (the =jūt= where peri dwell).
+   Wildlife: ibex, markhor, snow leopard. The ecological contrast
+   with the monsoon valleys.
+
+4. *Hydrology* — the Indus as it passes Nanga Parbat. Tributaries.
+   The river's character here vs the Sutlej or Tirthan. Irrigation
+   in an arid landscape — contrast with kuhls.
+
+** Part B: Spirit traditions and human culture
+
+Survey and document:
+
+1. *The peri tradition* — depth beyond the gazetteer entry. Named
+   locations associated with peri. The relationship between peri and
+   jinn in Shina/Burushaski cosmology. The bitan's trance practice.
+   How peri-knowledge encodes altitude and glacier hazards.
+
+2. *Languages* — Shina, Burushaski, Balti. Spirit vocabulary in each.
+   The word =diamer= itself. Place-names that carry spirit-knowledge
+   (Fairy Meadows = Jūt, etc.).
+
+3. *Human settlement patterns* — Chilas, Rakhiot, the villages of the
+   Indus gorge. Architecture in an arid high-altitude landscape.
+   Agriculture without monsoon. Ismaili vs Sunni communities and
+   their different relationships to pre-Islamic practice.
+
+4. *The conquest narrative* — Mummery (1895), the German expeditions
+   (1930s), Buhl (1953), Messner (1970), modern speed records. Not
+   as story material per se, but as a layer the survey must
+   acknowledge. The mountain's name in Western literature ("Killer
+   Mountain") vs its Shina name ("abode of spirits"). The tension
+   between these two stories *about the same place* is itself
+   interesting.
+
+5. *Contemporary life* — the KKH (Karakoram Highway), tourism,
+   Fairy Meadows as destination, the Diamer-Basha Dam project.
+   What is happening to the region now.
+
+** Part C: Aesthetic register
+
+What does this landscape look, sound, feel like?
+
+- Light quality at altitude without monsoon haze
+- Rock colours (contrast with Tirthan slate and Sutlej gneiss)
+- Sound: wind, ice, absence of forest
+- The visual drama of the Rupal Face (4,600m vertical)
+- The aesthetic of aridity vs the lush monsoon valleys
+
+This section is for the writer's eye — sensory vocabulary for future
+stories.
+
+** Part D: Narrative tensions (raw notes)
+
+Collect tensions that could drive stories. Not story outlines —
+tensions. Examples already identified:
+
+- The spirit is not its entry (cataloguing vs knowing)
+- The conquest narrative vs the inhabited mountain
+- Glacial agency — the glacier as actor, not scenery
+- Altitude sickness as spirit encounter
+- The bitan who goes up to negotiate vs the mountaineer who goes up
+  to conquer
+- Arid landscape as absence (no monsoon, no deodar, no terraces) —
+  what is present instead?
+
+The human will add tensions from lived experience.
+
+* Output
+
+Survey notes deposited as an Org file at:
+=domains/epistem/surveys/diamer-nanga-parbat.org=
+
+Structure: sections matching Parts A–D. Sources cited with URLs where
+available. The same standard as the verified spirit ecology survey
+(WP-0006): web-accessible sources, named publications, honest about
+gaps.
+
+This is reference material, not a story. The story WP follows.
+
+* Execution Order
+
+1. [A] Physical geography survey (web search + synthesis)
+2. [B] Spirit traditions and human culture (web search + synthesis)
+3. [C] Aesthetic register (synthesis from A+B + image references)
+4. [D] Narrative tensions (synthesis from all above + human input)
+5. Human review and annotation from lived experience
+6. Commit to epistem
+
+Parts A–C can be parallelised across agents. Part D requires A–C.
+Step 5 is human work — the survey is incomplete without it.
+
+* Acceptance Criteria
+
+- [ ] Geology section covers the tectonic anomaly, rock types, and Indus gorge
+- [ ] Glaciology section covers at least 3 named glaciers and surging behaviour
+- [ ] Spirit traditions section goes beyond the existing gazetteer entries
+- [ ] At least 15 web-accessible sources cited with URLs
+- [ ] Aesthetic register section provides sensory vocabulary usable in stories
+- [ ] Narrative tensions section identifies at least 5 distinct tensions
+- [ ] Output deposited at =domains/epistem/surveys/diamer-nanga-parbat.org=
+- [ ] Human has annotated with lived experience (if any)
+
+* Open Questions
+
+- Has the human been to the Nanga Parbat region? If so, which parts?
+  The survey can be done without lived experience, but the annotations
+  from step 5 are what transform reference material into story material.
+- Should the survey extend to Hunza/Gilgit (broader Karakoram) or stay
+  focused on Diamer district? Broader gives more material but risks
+  thinning the depth.
+- Where do regional surveys live? =domains/epistem/surveys/= is where
+  the spirit ecology lives, but this is broader than spirit ecology.
+  Could also be =domains/parbati/surveys/= (the Himalaya domain) or
+  a new location. For now: epistem, alongside the spirit ecology surveys.
