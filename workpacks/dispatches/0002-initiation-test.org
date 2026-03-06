@@ -1,7 +1,7 @@
 #+title: DP-0002 — Initiation Test
 #+author: mu2tau + mayadev
 #+date: 2026-03-05
-#+property: status active
+#+property: status completed
 #+property: wps 0004A,0009
 #+property: edges 0004A>0009
 #+property: 0004A.executor epistem-guardian

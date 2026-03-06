@@ -2,7 +2,7 @@
 #+subtitle: A spirit that tests spirits — organisational verification for the bathhouse
 #+author: mu2tau + mayadev
 #+date: 2026-03-05
-#+property: status drafted
+#+property: status completed
 
 * Context and Motivation
 
