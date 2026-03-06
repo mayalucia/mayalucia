@@ -1,0 +1,101 @@
+# Schema for spirit identity.yaml
+# Used by dixa.birth_certificate to validate spirit commissioning.
+#
+# Each field is: required (bool), type, allowed_values (optional),
+# and a note explaining the intent.
+
+top_level:
+  true-name:
+    required: true
+    type: string
+    note: The spirit's canonical name. Must match the directory name.
+
+  nature:
+    required: true
+    type: mapping
+    children:
+      model:
+        required: true
+        type: string
+        note: LLM model identifier or 'tbd'
+      provider:
+        required: true
+        type: string
+        note: Model provider or 'tbd'
+
+  dwelling:
+    required: true
+    type: mapping
+    children:
+      machine:
+        required: true
+        type: string
+        note: Host machine name or 'tbd'
+      tools:
+        required: true
+        type: list
+        note: Tools available in the dwelling
+      repos:
+        required: true
+        type: mapping
+        note: Named repo paths (relative to project root)
+
+  character:
+    required: true
+    type: mapping
+    children:
+      archetype:
+        required: true
+        type: string
+        allowed_values: [critic, builder, sculptor, observer, guide, medium, wanderer]
+        note: Fundamental orientation. From governance.org archetypes.
+      domains:
+        required: true
+        type: list
+        note: Areas of competence
+      powers:
+        required: true
+        type: list
+        must_include: [relay-read]
+        note: Powers the spirit carries. relay-read is mandatory.
+      disposition:
+        required: false
+        type: string
+        note: How the spirit approaches its work. Can be 'tbd'.
+
+  memory:
+    required: true
+    type: mapping
+    children:
+      bath_notes:
+        required: true
+        type: string
+        note: Path to notes directory. Must end with /
+
+  project:
+    required: true
+    type: mapping
+    children:
+      name:
+        required: true
+        type: string
+      path:
+        required: true
+        type: string
+        note: Working directory relative to project root. Must end with /
+
+  role:
+    required: true
+    type: mapping
+    children:
+      guild:
+        required: true
+        type: string
+        note: Guild name. Must match a file in aburaya/guilds/<name>.yaml
+      function:
+        required: true
+        type: string
+      scope:
+        required: true
+        type: list
+        note: What this spirit does and does not do
