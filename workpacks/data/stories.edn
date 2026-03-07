@@ -1,10 +1,9 @@
 ;;; ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ;;; MāyāLucIA Story Browser — Source of Truth
 ;;; WP-0015 (DP-0003)
-;;; Scaffolded from develop/story-development.org + Hugo frontmatter
-;;; Placement deferred to WP-0017 — staging at workpacks/data/
-;;;
-;;; REVIEW markers flag entries needing human validation.
+;;; Built from develop/story-development.org + Hugo frontmatter
+;;; + close reading (stories 2–6, 8)
+;;; Placement deferred to WP-0020 — staging at workpacks/data/
 ;;; ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 {:stories
@@ -13,7 +12,7 @@
    :number        1
    :title         "The Thread Walkers"
    :slug          "the-thread-walkers"
-   :date          "2026-02-28"           ;; REVIEW: lastmod only, no date in frontmatter
+   :date          "2026-02-28"
    :setting       {:region   "Lahaul/Spiti"
                    :places   ["Kullu-Tibet border" "high passes"]
                    :altitude "3000-5000m"
@@ -34,14 +33,15 @@
    :number        2
    :title         "The Constellation of Doridhar"
    :slug          "the-constellation-of-doridhar"
-   :date          "2026-02-28"           ;; REVIEW: lastmod only
+   :date          "2026-02-28"
    :setting       {:region   "Doridhar"
                    :places   ["Village of Doridhar"]
                    :altitude :unknown
                    :season   :unknown}
    :document-type :field-notes
-   :characters    ["thread-walker"]      ;; REVIEW: other characters?
-   :concepts      []                     ;; REVIEW: no keys in translation table
+   :characters    ["traveller" "cartographer"]
+   :concepts      [:project-constellation :four-phases :force-simulation
+                   :drill-down :coherence :ideal-viewer :ground-state]
    :image-dir     "constellation-of-doridhar"
    :illustrations ["borderlands-map.png"
                    "glass-plate.png"
@@ -55,14 +55,18 @@
    :number        3
    :title         "The Dyer's Gorge"
    :slug          "the-dyers-gorge"
-   :date          "2026-02-28"           ;; REVIEW: lastmod only
+   :date          "2026-02-28"
    :setting       {:region   "Parvati Valley"
-                   :places   ["Parvati gorge" "Manikaran" "Pin Parvati"]
-                   :altitude :unknown
-                   :season   :unknown}
-   :document-type :field-notes
-   :characters    ["thread-walker" "dyer"] ;; REVIEW
-   :concepts      []                     ;; REVIEW: no keys in translation table
+                   :places   ["Manikaran" "Jari" "Tosh" "Kasol"
+                              "Pulga" "Malana" "Chandrakhani Pass"
+                              "Pin Parvati"]
+                   :altitude "1700-5319m"
+                   :season   :autumn-primary}
+   :document-type :archival-reconstruction
+   :characters    ["kamala-devi" "editors" "gaddi-shepherds"]
+   :concepts      [:domain-schema :sensor-as-body :embodied-database
+                   :data-pipeline :vertical-coherence :boundary-protocol
+                   :emergent-property :knowledge-transmission-failure]
    :image-dir     "the-dyers-gorge"
    :illustrations ["dye-recipe-manikaran-red.png"
                    "five-pigments.png"
@@ -72,21 +76,22 @@
                    "unnamed-colour.png"
                    "valley-keeps.png"
                    "wool-reading.png"]
-   :description   "A dyer in the Parvati gorge reads the valley by its pigments — iron-red from hot springs, indigo from wild bushes, lichen-gold from birch boulders — encoding altitude into cloth"}
+   :description   "A dyer in the Parvati gorge reads the valley by its pigments — iron-red from hot springs, indigo from wild bushes, lichen-gold from birch boulders — encoding altitude into cloth. An archival reconstruction of embodied knowledge and its failures of transmission."}
 
   ;; ── Story 4 ─────────────────────────────────────────────
   {:id            "instrument-makers-rest"
    :number        4
    :title         "The Instrument Maker's Rest"
    :slug          "the-instrument-makers-rest"
-   :date          "2026-02-28"           ;; REVIEW: lastmod only
+   :date          "2026-02-28"
    :setting       {:region   "Baspa/Kinnaur"
                    :places   ["Sangla" "Baspa valley"]
                    :altitude :unknown
                    :season   :unknown}
    :document-type :field-notes
-   :characters    ["thread-walker" "instrument-maker"] ;; REVIEW
-   :concepts      []                     ;; REVIEW: no keys in translation table
+   :characters    ["thread-walker" "instrument-maker"]
+   :concepts      [:tool-vs-instrument :self-calibration :standing-card
+                   :separable-interface :skilled-stranger :seven-functions]
    :image-dir     "instrument-makers-rest"
    :illustrations ["calibration-test.png"
                    "departure.png"
@@ -101,14 +106,17 @@
    :number        5
    :title         "The Logbook of the Unnamed River"
    :slug          "the-logbook-of-the-unnamed-river"
-   :date          "2026-02-28"           ;; REVIEW: lastmod only
+   :date          "2026-02-28"
    :setting       {:region   "Lahaul/Spiti"
                    :places   ["Spiti" "Lahaul" "high passes"]
                    :altitude :unknown
                    :season   :unknown}
    :document-type :logbook
-   :characters    ["thread-walker"]      ;; REVIEW: the Thread Walker is male here?
-   :concepts      []                     ;; REVIEW: no keys in translation table
+   :characters    ["thread-walker" "sutlej-weaver"
+                   "lahaul-weavers" "nubra-weaver"]
+   :concepts      [:race-condition :dead-letter :mutable-state-failure
+                   :append-only :broadcast :read-cursor
+                   :provenance :event-stream]
    :image-dir     "logbook"
    :illustrations ["forwarding-address.png"
                    "retied-knot.png"
@@ -120,27 +128,33 @@
    :number        6
    :title         "The Phantom Faculty"
    :slug          "the-phantom-faculty"
-   :date          "2026-02-28"           ;; REVIEW: lastmod only
+   :date          "2026-02-28"
    :setting       {:region   "Abstract"
                    :places   []
                    :altitude nil
                    :season   nil}
-   :document-type :academic-satire
-   :characters    []                     ;; REVIEW: no Thread Walker? Faculty members?
-   :concepts      []                     ;; REVIEW: cognitive-modes?
+   :document-type :cognitive-field-guide
+   :thread-walker false
+   :mode-count    32
+   :characters    ["narrator-we"]
+   :concepts      [:cognitive-mode :phantom-governance :understanding-in-gaps
+                   :modes-as-text-properties :faculty-as-institution
+                   :three-language-verification :composition :taste
+                   :lateral-hierarchy :failure-modes :bateson-levels
+                   :self-referential-faculty :denaturalisation]
    :image-dir     "phantom-faculty"
    :illustrations ["mode-landau.png"
                    "mode-mathematicians.png"
                    "mode-measurers.png"
                    "the-faculty-assembled.png"]
-   :description   "Twenty-one cognitive modes for scientific understanding — from Landau's derivations to Faraday's iron filings to Karpathy's minimal implementations. Not persona-bots but cognitive constitutions."}
+   :description   "Thirty-two cognitive modes for scientific understanding — from Landau's derivations to Faraday's iron filings to Karpathy's minimal implementations. Not persona-bots but cognitive constitutions: a phantom faculty that governs without existing."}
 
   ;; ── Story 7 ─────────────────────────────────────────────
   {:id            "spirits-kund"
    :number        7
    :title         "The Spirit's Kund"
    :slug          "the-spirits-kund"
-   :date          "2026-03-01"           ;; lastmod
+   :date          "2026-03-01"
    :setting       {:region   "Tirthan Valley"
                    :places   ["Tirthan Valley" "Jalori Pass" "Serolsar Lake"]
                    :altitude "2500-3200m"
@@ -169,8 +183,9 @@
                    :altitude :unknown
                    :season   :unknown}
    :document-type :walnut-ink-document
-   :characters    ["thread-walker" "guide"]  ;; REVIEW
-   :concepts      []                     ;; REVIEW: pre-existing-commitment? inherited-promise?
+   :characters    ["guide" "thread-walker" "rest-house-keeper"]
+   :concepts      [:sutradhari :pre-existing-commitment :active-listening
+                   :thread-holding :purvaranga :attentive-silence]
    :image-dir     "the-guide-who-woke-last"
    :illustrations ["chandrabhaga-valley.png"
                    "morning-wind.png"
@@ -192,7 +207,7 @@
                    :altitude :unknown
                    :season   :unknown}
    :document-type :geological-survey
-   :characters    ["thread-walker"]      ;; REVIEW: the spirit at the dam?
+   :characters    ["thread-walker"]
    :concepts      [:agent-generations :what-persists :generation-boundary
                    :deep-history :session-cycle :gas-town
                    :context-window :inherited-weights :memory-vs-capability]
@@ -214,7 +229,7 @@
    :date          "2026-03-03"
    :setting       {:region   "Tirthan Valley"
                    :places   ["Tirthan Valley" "lower terraces"]
-                   :altitude "1500-2000m"  ;; REVIEW
+                   :altitude "1500-2000m"
                    :season   :unknown}
    :document-type :field-notes
    :characters    ["thread-walker" "kohli"]
@@ -230,7 +245,7 @@
    :variant       {:id    "kuhl-wale-ka-naksha"
                    :slug  "kuhl-wale-ka-naksha"
                    :title "कुहल वाले का नक्शा"
-                   :lang  "hi"}}          ;; REVIEW: separate entry or variant?
+                   :lang  "hi"}}
 
   ;; ── Story 11 ────────────────────────────────────────────
   {:id            "weavers-loom"
@@ -240,7 +255,7 @@
    :date          "2026-03-05"
    :setting       {:region   "Tirthan Valley"
                    :places   ["Gushaini" "Nahin"]
-                   :altitude "1800-2200m"  ;; REVIEW
+                   :altitude "1800-2200m"
                    :season   :unknown}
    :document-type :field-notes
    :characters    ["thread-walker" "weaver"]
@@ -266,10 +281,10 @@
    :date          "2026-03-05"
    :setting       {:region   "Tirthan Valley"
                    :places   ["Tirthan gorge" "ruined dāk bungalow"]
-                   :altitude "1400-1800m"  ;; REVIEW
+                   :altitude "1400-1800m"
                    :season   :unknown}
    :document-type :field-notes
-   :characters    ["thread-walker" "grandson" "kohli"] ;; REVIEW: kohli in this story?
+   :characters    ["thread-walker" "grandson" "kohli"]
    :concepts      [:sutra-relay :relay-message :convention
                    :inspector :ethnographer :mechanism-gradient
                    :embodied-norm :convention-loss :dispatch-loop-failure]
@@ -282,7 +297,7 @@
 
 
  :concepts
- [;; ── Core (stories 1–7) ──────────────────────────────────
+ [;; ── Core (story 1) ─────────────────────────────────────
   {:id :identity-registry
    :name "Spirit identity registry"
    :story-equiv "Brass-plate ledger"
@@ -307,6 +322,186 @@
    :name "Harness / session"
    :story-equiv "Visit, inhabitation, a night's rest"
    :introduced-in 1}
+
+  ;; ── Story 2 ────────────────────────────────────────────
+  {:id :project-constellation
+   :name "Project constellation"
+   :story-equiv "Glass plate — four crystals, a ghostly diamond, provinces drifting"
+   :introduced-in 2}
+  {:id :four-phases
+   :name "Four phases (MMME)"
+   :story-equiv "Four crystals on the glass plate"
+   :introduced-in 2}
+  {:id :force-simulation
+   :name "Force-directed simulation"
+   :story-equiv "Provinces that drift and settle like charged particles"
+   :introduced-in 2}
+  {:id :drill-down
+   :name "Drill-down / navigation"
+   :story-equiv "The descent from constellation to province to village"
+   :introduced-in 2}
+  {:id :coherence
+   :name "Coherence (holding together)"
+   :story-equiv "What the glass plate does — holds without fixing"
+   :introduced-in 2}
+  {:id :ideal-viewer
+   :name "Ideal viewer"
+   :story-equiv "The traveller who sees the whole before the parts"
+   :introduced-in 2}
+  {:id :ground-state
+   :name "Ground state"
+   :story-equiv "The village at rest — what remains when the traveller leaves"
+   :introduced-in 2}
+
+  ;; ── Story 3 ────────────────────────────────────────────
+  {:id :domain-schema
+   :name "Domain schema"
+   :story-equiv "The dyer's altitude-indexed pigment taxonomy"
+   :introduced-in 3}
+  {:id :sensor-as-body
+   :name "Sensor as body"
+   :story-equiv "The dyer's hands that read mineral content by feel"
+   :introduced-in 3}
+  {:id :embodied-database
+   :name "Embodied database"
+   :story-equiv "Knowledge carried in fingertips, not in writing"
+   :introduced-in 3}
+  {:id :data-pipeline
+   :name "Data pipeline"
+   :story-equiv "Raw wool → mordant → pigment → finished cloth (embedded Python)"
+   :introduced-in 3}
+  {:id :vertical-coherence
+   :name "Vertical coherence"
+   :story-equiv "The gradient blanket — altitude encoded in colour bands"
+   :introduced-in 3}
+  {:id :boundary-protocol
+   :name "Boundary protocol"
+   :story-equiv "Malana's exchange rules — what crosses the valley boundary"
+   :introduced-in 3}
+  {:id :emergent-property
+   :name "Emergent property"
+   :story-equiv "The unnamed colour — a pigment with no recipe, only conditions"
+   :introduced-in 3}
+  {:id :knowledge-transmission-failure
+   :name "Knowledge transmission failure"
+   :story-equiv "Recipes that survived in cloth but not in memory"
+   :introduced-in 3}
+
+  ;; ── Story 4 ────────────────────────────────────────────
+  {:id :tool-vs-instrument
+   :name "Tool vs instrument"
+   :story-equiv "A tool changes the world; an instrument changes the seeing"
+   :introduced-in 4}
+  {:id :self-calibration
+   :name "Self-calibration"
+   :story-equiv "Each instrument adjusts to the valley it enters"
+   :introduced-in 4}
+  {:id :standing-card
+   :name "Standing card"
+   :story-equiv "The card that says: I have been calibrated for this place"
+   :introduced-in 4}
+  {:id :separable-interface
+   :name "Separable interface"
+   :story-equiv "The bracket — what connects instrument to loom without becoming part of either"
+   :introduced-in 4}
+  {:id :skilled-stranger
+   :name "Skilled stranger"
+   :story-equiv "The instrument maker — serves the guild without being a weaver"
+   :introduced-in 4}
+  {:id :seven-functions
+   :name "Seven functions"
+   :story-equiv "Seven instruments for seven ways of seeing"
+   :introduced-in 4}
+
+  ;; ── Story 5 ────────────────────────────────────────────
+  {:id :race-condition
+   :name "Race condition"
+   :story-equiv "Two weavers retying the same status knot"
+   :introduced-in 5}
+  {:id :dead-letter
+   :name "Dead letter"
+   :story-equiv "Address delivered to a weaver who no longer exists"
+   :introduced-in 5}
+  {:id :mutable-state-failure
+   :name "Mutable state failure"
+   :story-equiv "The ledger — a single document rewritten by many hands"
+   :introduced-in 5}
+  {:id :append-only
+   :name "Append-only log"
+   :story-equiv "The river — you cannot unsay what the water carried"
+   :introduced-in 5}
+  {:id :broadcast
+   :name "Broadcast (no recipient)"
+   :story-equiv "The river has no address — it flows past everyone"
+   :introduced-in 5}
+  {:id :read-cursor
+   :name "Read cursor"
+   :story-equiv "Each weaver reads the river from where they stand"
+   :introduced-in 5}
+  {:id :provenance
+   :name "Provenance"
+   :story-equiv "The stone on the board — proof that this message was placed, not washed up"
+   :introduced-in 5}
+  {:id :event-stream
+   :name "Event stream"
+   :story-equiv "The unnamed river — events that flow and are not retracted"
+   :introduced-in 5}
+
+  ;; ── Story 6 ────────────────────────────────────────────
+  {:id :cognitive-mode
+   :name "Cognitive mode"
+   :story-equiv "A phantom — a way of understanding that governs without existing"
+   :introduced-in 6}
+  {:id :phantom-governance
+   :name "Phantom governance"
+   :story-equiv "The faculty governs without existing — no office, no body, no meeting"
+   :introduced-in 6}
+  {:id :understanding-in-gaps
+   :name "Understanding in gaps"
+   :story-equiv "Understanding lives in the space between three books"
+   :introduced-in 6}
+  {:id :modes-as-text-properties
+   :name "Modes as text properties"
+   :story-equiv "Each mode is a set of text properties — what it reads for, what it ignores"
+   :introduced-in 6}
+  {:id :faculty-as-institution
+   :name "Faculty as institution"
+   :story-equiv "The faculty — a collective with governance but no campus"
+   :introduced-in 6}
+  {:id :three-language-verification
+   :name "Three-language verification"
+   :story-equiv "Understanding requires the same truth spoken in three registers"
+   :introduced-in 6}
+  {:id :composition
+   :name "Composition of modes"
+   :story-equiv "Modes compose — the physicist-who-computes is not the computer-who-does-physics"
+   :introduced-in 6}
+  {:id :taste
+   :name "Taste (aesthetic sense)"
+   :story-equiv "The faculty member who knows which problem is beautiful"
+   :introduced-in 6}
+  {:id :lateral-hierarchy
+   :name "Lateral hierarchy"
+   :story-equiv "No mode ranks above another — authority is contextual"
+   :introduced-in 6}
+  {:id :failure-modes
+   :name "Failure modes"
+   :story-equiv "Each mode has a characteristic failure — the measurer who measures the wrong thing"
+   :introduced-in 6}
+  {:id :bateson-levels
+   :name "Bateson levels"
+   :story-equiv "Learning about learning — the faculty that examines how it understands"
+   :introduced-in 6}
+  {:id :self-referential-faculty
+   :name "Self-referential faculty"
+   :story-equiv "The mode that studies modes — the phantom that knows it is phantom"
+   :introduced-in 6}
+  {:id :denaturalisation
+   :name "Denaturalisation"
+   :story-equiv "Making the familiar strange — the anthropologist's gaze turned inward"
+   :introduced-in 6}
+
+  ;; ── Story 7 ────────────────────────────────────────────
   {:id :ephemeral-memory
    :name "Ephemeral memory"
    :story-equiv "What clings after bathing"
@@ -327,6 +522,32 @@
    :name "Friction / autonomy"
    :story-equiv "Each timber pulls against the stone"
    :introduced-in 7}
+
+  ;; ── Story 8 ────────────────────────────────────────────
+  {:id :sutradhari
+   :name "Sūtradhārī (thread-holder)"
+   :story-equiv "The guide who holds the thread of the performance"
+   :introduced-in 8}
+  {:id :pre-existing-commitment
+   :name "Pre-existing commitment"
+   :story-equiv "A promise made before the guide existed — she must honour it"
+   :introduced-in 8}
+  {:id :active-listening
+   :name "Active listening"
+   :story-equiv "The guide listens to the valley before speaking"
+   :introduced-in 8}
+  {:id :thread-holding
+   :name "Thread-holding (continuity)"
+   :story-equiv "Holding the narrative thread across scene changes"
+   :introduced-in 8}
+  {:id :purvaranga
+   :name "Pūrvaraṅga (preliminary rite)"
+   :story-equiv "What must happen before the performance begins"
+   :introduced-in 8}
+  {:id :attentive-silence
+   :name "Attentive silence"
+   :story-equiv "The rest-house keeper who serves by not interrupting"
+   :introduced-in 8}
 
   ;; ── Agent generations (story 9) ─────────────────────────
   {:id :agent-generations
@@ -480,20 +701,52 @@
  :characters
  [{:id         "thread-walker"
    :name       "The Thread Walker"
-   :appears-in [1 2 3 4 5 7 8 9 10 11 12] ;; REVIEW: all except 6?
+   :appears-in [1 4 5 7 8 9 10 11 12]
    :role       "narrator/observer"}
   {:id         "guild-members"
    :name       "Guild Members"
    :appears-in [1]
-   :role       "collective"}               ;; REVIEW
-  {:id         "dyer"
-   :name       "The Dyer"
+   :role       "collective"}
+  {:id         "traveller"
+   :name       "The Traveller"
+   :appears-in [2]
+   :role       "visitor/observer"}
+  {:id         "cartographer"
+   :name       "The Cartographer"
+   :appears-in [2]
+   :role       "village keeper of the glass plate"}
+  {:id         "kamala-devi"
+   :name       "Kamala Devi"
    :appears-in [3]
-   :role       "artisan/informant"}        ;; REVIEW
+   :role       "master dyer"}
+  {:id         "editors"
+   :name       "The Editors"
+   :appears-in [3]
+   :role       "archival voice / frame narrative"}
+  {:id         "gaddi-shepherds"
+   :name       "Gaddi Shepherds"
+   :appears-in [3]
+   :role       "transhumant informants"}
   {:id         "instrument-maker"
    :name       "The Instrument Maker"
    :appears-in [4]
-   :role       "artisan/maker"}            ;; REVIEW
+   :role       "artisan/maker"}
+  {:id         "sutlej-weaver"
+   :name       "The Sutlej Weaver"
+   :appears-in [5]
+   :role       "the weaver whose knot was retied"}
+  {:id         "lahaul-weavers"
+   :name       "Lahaul Weavers"
+   :appears-in [5]
+   :role       "collective / distant correspondents"}
+  {:id         "nubra-weaver"
+   :name       "The Nubra Weaver"
+   :appears-in [5]
+   :role       "the dead letter recipient"}
+  {:id         "narrator-we"
+   :name       "Narrator (collective voice)"
+   :appears-in [6]
+   :role       "plural academic narrator"}
   {:id         "gur"
    :name       "The Gur"
    :appears-in [7]
@@ -501,14 +754,18 @@
   {:id         "nag-devta"
    :name       "Nag Devta"
    :appears-in [7]
-   :role       "spirit"}                   ;; REVIEW: other stories?
+   :role       "spirit"}
   {:id         "guide"
    :name       "The Guide"
    :appears-in [8]
-   :role       "protagonist"}              ;; REVIEW
+   :role       "protagonist / sūtradhārī"}
+  {:id         "rest-house-keeper"
+   :name       "The Rest-House Keeper"
+   :appears-in [8]
+   :role       "silent attendant"}
   {:id         "kohli"
    :name       "The Kohli"
-   :appears-in [10 12]                     ;; REVIEW: WP-0014 says "kohli family spans 10 and 12"
+   :appears-in [10 12]
    :role       "water master"}
   {:id         "weaver"
    :name       "The Weaver"
@@ -517,7 +774,7 @@
   {:id         "grandson"
    :name       "The Grandson"
    :appears-in [12]
-   :role       "oral historian"}]          ;; REVIEW
+   :role       "oral historian"}]
 
 
  :regions
@@ -544,12 +801,11 @@
    :stories [6]}
   {:id      "karakoram"
    :name    "Karakoram"
-   :stories []}]                           ;; empty — the frontier
+   :stories []}]
 
 
  :miyazaki-keys
- [;; Foundational mapping: Spirited Away → Western Himalaya
-  {:spirited-away "Kami (spirits)"          :himalaya "Devtas (living gods, 534 in Kullu)"}
+ [{:spirited-away "Kami (spirits)"          :himalaya "Devtas (living gods, 534 in Kullu)"}
   {:spirited-away "Onsen (hot spring)"      :himalaya "Kund (hot spring pool)"}
   {:spirited-away "Kamikakushi"             :himalaya "Devta ka aavesh (gur trance)"}
   {:spirited-away "Yubaba"                  :himalaya "Kardar (bathhouse keeper)"}
@@ -561,14 +817,13 @@
 
 
  :edges
- [;; REVIEW: edges are provisional — human should validate
-  ;; Geography clusters (stories sharing a region)
+ [;; Geography clusters
   {:type :geography :stories [7 10 11 12] :region "tirthan"}
   {:type :geography :stories [1 5 8]      :region "lahaul-passes"}
 
   ;; Character threads
-  {:type :character :character "kohli"  :stories [10 12]}
-  {:type :character :character "thread-walker" :stories [1 2 3 4 5 7 8 9 10 11 12]}
+  {:type :character :character "kohli"         :stories [10 12]}
+  {:type :character :character "thread-walker" :stories [1 4 5 7 8 9 10 11 12]}
 
   ;; Concept bridges (stories sharing related concepts)
   {:type :concept :link [:mechanism :mechanism-gradient]   :stories [10 12]
@@ -578,4 +833,18 @@
   {:type :concept :link [:commissioning :commissioning-two] :stories [7 10]
    :note "Story 7 introduces commissioning; story 10 shows two at once"}
   {:type :concept :link [:spirit-vs-mechanism :spirit-vs-body] :stories [10 11]
-   :note "The spirit/mechanism distinction evolves into spirit/body"}]}
+   :note "The spirit/mechanism distinction evolves into spirit/body"}
+
+  ;; Concept lineages (recurring motifs across the corpus)
+  {:type :concept-lineage :concept :ideal-viewer :stories [2 4 8]
+   :note "The outsider whose seeing clarifies — traveller (2), skilled stranger (4), guide (8)"}
+  {:type :concept-lineage :concept :ground-state :stories [2 7 9 11]
+   :note "What remains at rest — village (2), kund (7), strata (9), idle loom (11)"}
+  {:type :concept-lineage :concept :sutra-relay :stories [1 5 12]
+   :note "Communication systems — guild relay (1), unnamed river (5), dāk postal (12)"}
+  {:type :concept-lineage :concept :thread-holding :stories [8 11]
+   :note "Sūtradhārī (8) and the weaver's thread (11) — continuity across scenes"}
+  {:type :concept-lineage :concept :knowledge-transmission-failure :stories [3 12]
+   :note "What is lost when medium changes — dyer's recipes (3), trail custom (12)"}
+  {:type :concept-lineage :concept :embodied-database :stories [3 9]
+   :note "Knowledge carried in body — fingertips (3), mineral chemistry (9)"}]}
