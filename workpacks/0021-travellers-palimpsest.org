@@ -1,0 +1,326 @@
+#+title: WP-0021 — The Travellers to Diamer: A Palimpsest of Journeys
+#+subtitle: Literature survey of human journeys to the Nanga Parbat massif — from Faxian's peg-path to Kolouchov\aacute{}'s last descent
+#+author: mu2tau + mayadev
+#+date: 2026-03-08
+#+property: status drafted
+#+property: executor epistem-guardian
+
+* Context and Motivation
+
+The Diamer surveys (WP-0012, WP-0013) built the physical and spiritual
+landscape of the Nanga Parbat massif — geology, glaciology, ecology,
+petroglyphs, spirit traditions. But the mountain has also been a
+*destination* across millennia. People have walked, ridden, climbed,
+and died here — each seeing a different mountain through their own
+frame.
+
+This WP surveys the *human journeys* to Diamer: who came, when, why,
+what they wrote, and what happened to them. The output is raw material
+for a story — tentatively titled "The Travellers to Diamer" — that
+takes the form of a guest register spanning 10,000 years. Each entry
+is a different voice, a different century, a different reason for
+being at the foot of the mountain that builds itself.
+
+** Why this matters
+
+The stories translate system concepts into valley language. The concept
+this story translates: *the same infrastructure seen by different
+agents, each reading it through their own model*. The mountain is
+the infrastructure. The travellers are the agents. The frame they
+bring — Buddhist, Mughal, colonial, mountaineering, touristic,
+scientific — is the model. The mountain doesn't change. The visitor's
+reading does.
+
+This is also the first story set in territory the human cannot
+physically visit. The border makes Diamer inaccessible. But the
+*voices* of people who went there are accessible — in Chinese pilgrim
+accounts, Mughal court records, British expedition memoirs, Czech
+Alpine Club reports. The story is built from other people's journeys,
+not our own. That constraint is itself part of the narrative.
+
+** What makes this survey different
+
+WP-0012 and WP-0013 were *regional* surveys — what exists in this
+place. This WP is a *diachronic* survey — who came here across time.
+The organising axis is not geography but chronology. Each era
+contributes a layer to the palimpsest.
+
+* Inventory (What Already Exists)
+
+** Diamer surveys
+
+- =domains/epistem/surveys/diamer-nanga-parbat.org= (WP-0012, ~2,585 lines)
+  Sections on conquest narrative, expedition history, bitan tradition,
+  petroglyphs. Some traveller accounts already present.
+- =domains/epistem/surveys/diamer-deep-time.org= (WP-0013, ~962 lines)
+  Tethys to Holocene. Petroglyph chronology (Jettmar periods I–V).
+  Trade route context. Okunev–Siberia connection.
+
+** Known travellers already documented
+
+- Faxian (~400 CE) — the suspended crossing (brief mention)
+- Xuanzang (~630 CE) — manuscript boat capsize (brief)
+- Mummery (1895) — first 8,000m attempt, disappeared (several paragraphs)
+- German expeditions 1934, 1937 — porter deaths, avalanche (detailed)
+- Buhl (1953) — solo first summit (brief)
+- Messner brothers (1970) — Rupal Face, G\uuml{}nther's death (brief)
+
+** Known gaps
+
+- Mughal accounts — Dara Shikoh fort at Chilas mentioned but unsourced
+- Persian/Afghan accounts — no coverage
+- Sikh/Dogra campaigns — Zorawar Singh, Nathu Shah (not in surveys)
+- Chinese Buddhist pilgrim detail — the /s\'sa\d{n}kupatha/ paper exists but not read
+- Ibn Battuta, Marco Polo — proximity but no Diamer-specific accounts
+- Local oral tradition — identified as the biggest gap (WP-0012 section H.3)
+- Love stories, folk tales, romances from the region
+- Contemporary incidents — 2013 massacre, Kl\'ara Kolouchov\'a (2025)
+- Dam workers — the people building Diamer-Basha Dam now
+
+* Specification
+
+** Part A: Ancient travellers (~8000 BCE – 700 CE)
+
+For each known journey or presence, document: who, when, why they came,
+what they wrote or left behind, primary sources with URLs.
+
+*** A.1 The petroglyph makers
+
+- Who were the earliest carvers? Hunter-gatherers from where?
+- Evidence of long-distance movement: Okunev culture connection
+  (Siberia to Indus, Bronze Age)
+- What the carving styles tell us about origin communities
+
+*** A.2 Chinese Buddhist pilgrims
+
+- *Faxian* (~399 CE): the /s\'sa\d{n}kupatha/ (suspended crossing) in
+  the Indus gorge. His own account from /A Record of the Buddhist
+  Kingdoms/. The peg-path technique. What he saw, what terrified him.
+- *Dharmodgata*: contemporary of Faxian, different account of the
+  same crossing
+- *Xuanzang* (~630 CE): his account of the Indus. The capsized
+  manuscript boat. What Buddhist sites he visited en route.
+- Any other named Chinese pilgrim who passed through
+- Source: Harry Falk's paper on the /s\'sa\d{n}kupatha/ (Academia.edu)
+
+*** A.3 Sogdian, Persian, and other Silk Road travellers
+
+- The Sogdian inscriptions at Thalpan — who were these merchants?
+  What were they trading? Where were they going?
+- Aramaic/Hebrew inscriptions (disputed) — if verified, who left them?
+- Any Persian accounts from the Sassanid or earlier period?
+
+*** A.4 The Buddhist period summit (~100 BCE – 700 CE)
+
+- Who built the monasteries and carved the Jataka scenes at Thalpan?
+- The density of Buddhist inscriptions — was this a major pilgrim route?
+- When and why did Buddhist presence end in Diamer?
+
+** Part B: Medieval travellers (700–1800 CE)
+
+*** B.1 Arab geographers and travellers
+
+- Any references to Diamer/Nanga Parbat in Arab geographical works?
+  Al-Biruni (11th c.) surveyed the subcontinent — did he mention
+  the northern mountains?
+- Ibn Battuta (1333): his Indus crossing. How close did he come to
+  Diamer? What did he see?
+
+*** B.2 Central Asian and Afghan rulers
+
+- Diamer under Tibetan influence, then local Shina-speaking kingdoms
+- Any account from the rulers of Gilgit? The Trakh\aacute{}n dynasty?
+- The spread of Islam in Diamer — when, how, by whom?
+
+*** B.3 Mughal connections
+
+- Dara Shikoh: is the fort at Chilas real? Primary sources?
+  Dara Shikoh the Upanishad translator — what was a Mughal prince
+  doing at the edge of the empire?
+- Mughal administrative records mentioning Gilgit, Chilas, or
+  the northern frontier
+- Abu'l Fazl's /A\'in-i-Akbar\'i/ — any reference to these regions?
+
+*** B.4 Sikh and Dogra campaigns
+
+- Zorawar Singh's invasion of Baltistan (1839–40). His route. What
+  the Dogra army encountered.
+- Nathu Shah in Gilgit — installed a ruler, killed by Mir of Hunza.
+  The story of his death.
+- The region's transition from Sikh empire to British influence via
+  the Treaty of Amritsar (1846).
+
+** Part C: Colonial and mountaineering era (1800–1947)
+
+*** C.1 Early European arrivals
+
+- Who were the first Europeans to see Nanga Parbat? The Great
+  Trigonometrical Survey?
+- G.T. Vigne (1835–38) — first European in Baltistan/Gilgit area?
+- Godwin-Austen and the survey expeditions
+
+*** C.2 Mummery (1895)
+
+- The full account: who was Mummery? Who were Ragobir Thapa and
+  Goman Singh? What did J. Norman Collie write about the loss?
+- The porters' perspective — any recorded account from the Gurkha
+  side?
+- How Mummery's death shaped mountaineering history
+
+*** C.3 The German obsession (1930s–1950s)
+
+- 1932 Merkl reconnaissance
+- 1934 disaster: 10 dead. Nazi funding. 600 local porters. The
+  porter experience — what did local Chilas men think of the Germans?
+- 1937 catastrophe: 16 dead in one avalanche. No survivors in camp.
+  The decision to return after 1934 — politics of "the mountain of
+  German destiny"
+- 1938: "enlisting porters caused anxiety due to talk of evil spirits
+  and devils" — who recorded this? Full context.
+- Buhl (1953): the solo summit. His own account. The 17-hour ascent.
+  What he saw from the top.
+- The /Schicksalsberg/ narrative — Nanga Parbat as national project.
+  How the Nazi regime instrumentalised the mountain.
+
+*** C.4 British colonial administration
+
+- The Gilgit Agency: British political agents in the region. Any
+  memoirs? D.L.R. Lorimer collected Burushaski while serving as
+  Political Agent (1920–24).
+- The Gilgit Scouts. The 1947 uprising.
+
+** Part D: Modern era (1947–present)
+
+*** D.1 Messner and the post-war mountaineers
+
+- Reinhold Messner, Nanga Parbat (1970): the Rupal Face first ascent.
+  G\uuml{}nther's death. The 35-year controversy. The boot emerging from
+  the glacier. DNA confirmation. Messner's memoir /The Naked Mountain/.
+- Later notable ascents and tragedies
+
+*** D.2 The 2013 massacre
+
+- 10 climbers + 1 guide killed at base camp by militants. The first
+  attack on climbers in Gilgit-Baltistan. Original target was
+  kidnapping, not murder. The aftermath — foreign climbers vanished
+  from Pakistan's mountains for years.
+
+*** D.3 Kl\'ara Kolouchov\'a (2025)
+
+- First Czech woman to summit Everest, K2, Kangchenjunga. Fell
+  between Camp 1 and Camp 2 on Nanga Parbat, July 3, 2025. Age 46.
+  The Sherpa Taraman Tamang was with her. What happened.
+
+*** D.4 The KKH and tourism
+
+- The Karakoram Highway (1959–1979): how it changed access to Diamer.
+  Ranked second deadliest highway. The jeep road to Fairy Meadows —
+  15 km, width of one jeep, 1,000m drop.
+- Tourism: who visits now? Pakistani domestic tourists? Trekkers?
+  The Fairy Meadows tourism boom. Social media and the mountain.
+
+*** D.5 The dam workers
+
+- Diamer-Basha Dam: the people building it now. Where do they come
+  from? What do they think about the petroglyphs they're drowning?
+  Any published accounts, journalism, or documentary coverage?
+
+** Part E: The voices never heard
+
+*** E.1 Women of Diamer
+
+- The old women of Rupal who know the peri stories. The /pari khan/
+  tradition (Chitral) — women as spirit mediums. Any documented
+  women's accounts from the region?
+
+*** E.2 Porters and guides
+
+- The local Chilas men who carried loads for German expeditions.
+  The Sherpas who died on the mountain. Any porter memoirs or
+  oral histories?
+- Contemporary porter/guide accounts from tourism
+
+*** E.3 Love stories and folk romance
+
+- Heer Ranjha is Punjabi, not Shina. Does the Shina oral tradition
+  have its own love stories? Lorimer's Burushaski folktales — any
+  romances?
+- Any equivalent of /laila majnun/ or /sohni mahiwal/ from the
+  northern mountains?
+
+*** E.4 Local oral tradition
+
+- The /gap/ identified in WP-0012 section H.3: no comprehensive
+  collection of oral histories from Diamer district exists in
+  published form. What fragments exist? Lok Virsa collections?
+  ROSHAN publications? PhD theses?
+
+* Output
+
+Survey deposited at:
+=domains/epistem/surveys/travellers-to-diamer.org=
+
+Structure: sections matching Parts A–E. Each traveller entry includes:
+name, date, origin, purpose, what they wrote, what happened to them,
+primary source with URL.
+
+* Execution Order
+
+1. [A] Ancient travellers — Chinese pilgrims, Silk Road merchants
+2. [B] Medieval travellers — Arab, Mughal, Sikh, Afghan
+3. [C] Colonial and mountaineering — Mummery to Buhl
+4. [D] Modern era — Messner, 2013, Kolouchov\aacute{}, KKH, dam
+5. [E] Voices never heard — women, porters, love stories, oral tradition
+6. Synthesis: cross-reference with WP-0012 and WP-0013
+7. Human review and annotation
+
+Parts A–E can be parallelised. Part E will likely yield the thinnest
+results — the absence is itself data.
+
+* Acceptance Criteria
+
+- [ ] At least 3 ancient travellers documented with primary sources
+- [ ] Chinese pilgrim section includes direct quotation from Faxian
+      or Xuanzang's own account (translated)
+- [ ] Mughal section resolves the Dara Shikoh fort question
+      (confirmed or debunked)
+- [ ] Sikh/Dogra section documents Zorawar Singh's route and
+      Nathu Shah's death
+- [ ] At least 5 mountaineering accounts with porter/local perspective
+- [ ] 2013 massacre and Kolouchov\aacute{} 2025 documented with multiple sources
+- [ ] At least one Shina or Burushaski love story or folk romance found
+      (or the absence documented with evidence of search)
+- [ ] At least 40 web-accessible sources cited with URLs
+- [ ] Each traveller entry has: name, date, origin, purpose, source
+- [ ] Survey deposited at correct path
+- [ ] Part E honestly reports what could not be found
+
+* What This Proves
+
+That a mountain can be surveyed not just as a place but as a
+*destination* — a palimpsest of arrivals, each reading the same
+landscape through a different frame. The Feynman imperative applied
+to human geography: understand the mountain by reconstructing who
+came to it and what they saw.
+
+Also: that a story can be set in a place the authors cannot visit.
+The constraint is real (the border exists). But the voices of those
+who went there are preserved in text — Chinese, Persian, Urdu,
+German, English, Czech. The story is built from those voices, not
+from our own footsteps. The limitation becomes the form.
+
+* Open Questions
+
+- How deep is the Arab geographical tradition on the northern
+  mountains? Al-Biruni is the obvious starting point, but there
+  may be others.
+- Did Marco Polo actually pass through or near Diamer? Or only
+  through the broader Karakoram? His route is debated.
+- Are there any Persian-language accounts (not just references)
+  of the Diamer region? Babur's /Baburnama/ describes his campaigns
+  in detail — does it reach this far north?
+- The Diamer-Basha Dam: is there any published journalism from
+  the workers' perspective? This is the most contemporary voice
+  and perhaps the hardest to find.
+- Shina love stories: Lorimer's Burushaski collections (1935) are
+  the obvious source. Are they available online?
