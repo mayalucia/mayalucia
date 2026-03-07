@@ -2,7 +2,7 @@
 #+subtitle: From Tethys to the Anthropocene — what walked, what grew, what was carved, what was named, and what might become a story
 #+author: mu2tau + mayadev
 #+date: 2026-03-06
-#+property: status drafted
+#+property: status completed
 
 * Context and Motivation
 
