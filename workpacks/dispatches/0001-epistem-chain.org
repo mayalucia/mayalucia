@@ -1,7 +1,7 @@
 #+title: DP-0001 — Epistem Chain
 #+author: mu2tau + mayadev
 #+date: 2026-03-05
-#+property: status drafted
+#+property: status completed
 
 * Context
 
