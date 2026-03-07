@@ -1,0 +1,180 @@
+#+title: WP-0019 — LLM Adapter and Evaluation Scenario
+#+subtitle: String-resolved models, LLM-specific metrics, and a real benchmark
+#+author: mu2tau + mayadev
+#+date: 2026-03-08
+#+property: status drafted
+#+property: assigned-to mayadev
+#+property: trust autonomous
+
+* Context and Motivation
+
+DMT's charter positions AI/LLM evaluation as the primary market. The
+framework already has agent evaluation infrastructure (=src/dmt/agent/=:
+briefs, verdicts, grading, tournament) but lacks the fundamental
+capability the charter promises at Level 0:
+
+#+begin_src python
+result = dmt.evaluate(
+    model="anthropic/claude-sonnet-4-5-20250929",
+    dataset=[{"input": "What is 2+2?", "expected": "4"}],
+    metrics=["accuracy", "latency"],
+)
+#+end_src
+
+Three things are missing:
+
+1. *String-based model resolution* — ="openai/gpt-4o"= maps to an API
+   call without the user writing an adapter class.
+2. *LLM-specific metrics* — accuracy (exact/fuzzy match), latency, cost,
+   coherence, hallucination detection.
+3. *A real benchmark scenario* — like =WEATHER= and =DRUG_EFFICACY= but
+   for LLMs: a curated dataset, ground truth, and built-in models to
+   compare.
+
+The EU AI Act enforcement date is August 2026. The window for being the
+first open-source framework that evaluates LLMs *and* produces
+structured regulatory documentation is closing.
+
+* Inventory (What Already Exists)
+
+- =src/dmt/agent/= — brief, verdict, grader, runner, llm_runner,
+  tournament (6 modules, ~1,200 lines)
+- =src/dmt/agent/llm_runner.py= — already calls Claude via API
+- =pyproject.toml= — =[llm]= optional group lists =openai=, =anthropic=
+- =codev/02-agent-evaluation.org= through =codev/07-schema-validation.org=
+  — literate development of the agent eval pipeline
+- =src/dmt/evaluate.py= — the Level 0 entry point (currently takes model
+  objects, not strings)
+- =Scenario= dataclass — describes column names and grouping
+
+* Specification
+
+** Part 1: Model Resolution (=src/dmt/models/resolver.py=)
+
+A string =→= callable mapping:
+
+#+begin_src python
+from dmt.models import resolve
+
+model = resolve("anthropic/claude-sonnet-4-5-20250929")
+# Returns a callable: model(prompt: str) -> str
+
+model = resolve("openai/gpt-4o")
+model = resolve("local/path/to/script.py")  # custom adapter
+#+end_src
+
+The resolver handles:
+
+- =anthropic/<model-id>= — calls Anthropic Messages API
+- =openai/<model-id>= — calls OpenAI Chat Completions API
+- =local/<path>= — imports a Python module with a =predict()= function
+- =echo= — returns input (testing baseline)
+- =random= — random choice from candidates (baseline)
+
+Each resolved model is a dataclass with =.name=, =.predict()=,
+=.cost_per_token=, =.provider=.
+
+** Part 2: LLM Scenario (=src/dmt/scenario/llm_qa.py=)
+
+A built-in QA benchmark following the weather/drug pattern:
+
+#+begin_src python
+LLM_QA = Scenario(
+    observed_col="expected",
+    predicted_col="response",
+    entity_col="category",
+    merge_on=["question_id"],
+    group_by=["category", "difficulty"],
+    domain_name="question answering",
+    observation_description="curated QA pairs with ground truth",
+    entity_description="knowledge categories",
+)
+#+end_src
+
+Built-in dataset: ~50 QA pairs across categories (factual, reasoning,
+coding, creative), three difficulty levels. Small enough to run
+cheaply, large enough to show stratification.
+
+Built-in models:
+- =EchoModel= — returns the question (worst baseline)
+- =RandomModel= — random answer from candidate set
+- =TemplateModel= — rule-based pattern matching (mid baseline)
+
+These run without API keys. Real LLM models (Claude, GPT) require keys
+and are opt-in.
+
+** Part 3: LLM Metrics (=src/dmt/metrics/llm.py=)
+
+| Metric | What it measures | Implementation |
+|--------+------------------+----------------|
+| =exact_match= | Exact string equality | String comparison |
+| =fuzzy_match= | Approximate match | Levenshtein / contains |
+| =latency= | Response time | Timer wrapper |
+| =cost= | API cost | Token count × rate |
+| =token_count= | Tokens used | Provider tokenizer |
+
+More sophisticated metrics (coherence, hallucination) are Phase 2 —
+they require an LLM-as-judge pattern which adds complexity.
+
+** Part 4: Integration with =dmt.evaluate()=
+
+Extend =evaluate()= to accept string model specifications:
+
+#+begin_src python
+import dmt
+
+result = dmt.evaluate(
+    models=["echo", "template", "anthropic/claude-haiku-4-5-20251001"],
+    observations=dmt.scenario.llm_qa.generate_dataset(),
+    scenario=dmt.scenario.LLM_QA,
+    metrics=["exact_match", "fuzzy_match", "latency"],
+)
+#+end_src
+
+When =models= contains strings, the resolver is called automatically.
+When =models= contains objects with =.name= and =.predict()=, they
+are used directly (backward compatible).
+
+** Part 5: CLI Integration
+
+Depends on WP-0018 (CLI). Adds:
+
+#+begin_src shell
+dmt eval --scenario llm_qa
+dmt eval --scenario llm_qa --model "anthropic/claude-sonnet-4-5-20250929"
+dmt compare --scenario llm_qa \
+            --models "echo,template,anthropic/claude-haiku-4-5-20251001" \
+            --metrics exact_match,latency
+#+end_src
+
+* Execution Order
+
+1. [ ] Model resolver (=src/dmt/models/resolver.py=)
+2. [ ] Anthropic adapter (=src/dmt/models/anthropic.py=)
+3. [ ] OpenAI adapter (=src/dmt/models/openai.py=)
+4. [ ] Baseline models (echo, random, template)
+5. [ ] LLM QA scenario with built-in dataset
+6. [ ] LLM metrics module
+7. [ ] Extend =evaluate()= to accept string model specs
+8. [ ] Tests (offline with baselines, marked =@pytest.mark.llm= for API)
+9. [ ] CLI integration (after WP-0018)
+
+* Acceptance Criteria
+
+- [ ] =dmt.evaluate(models=["echo", "template"], ...)= produces LabReport
+      without API keys
+- [ ] =dmt.evaluate(models=["anthropic/claude-haiku-4-5-20251001"], ...)= calls
+      Claude API and produces LabReport (requires =ANTHROPIC_API_KEY=)
+- [ ] =resolve("anthropic/claude-sonnet-4-5-20250929")= returns a callable model
+- [ ] =resolve("openai/gpt-4o")= returns a callable model
+- [ ] LLM QA scenario generates dataset with categories and difficulties
+- [ ] Metrics: exact_match, fuzzy_match, latency all compute correctly
+- [ ] LabReport includes stratification by category and difficulty
+- [ ] All tests pass offline (=pytest test/ -k "not llm"=)
+- [ ] LLM-marked tests pass with API key (=pytest test/ -m llm=)
+
+* Downstream
+
+- WP-0018 (CLI) provides =dmt eval= command that this scenario plugs into
+- WP-0020 (MCP server) exposes model resolution as a tool
+- EU AI Act template (Phase 2) consumes LLM evaluation LabReports

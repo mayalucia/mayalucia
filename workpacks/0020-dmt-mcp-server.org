@@ -1,0 +1,161 @@
+#+title: WP-0020 — DMT MCP Server
+#+subtitle: Agents evaluating models — DMT as a tool in the agent's hands
+#+author: mu2tau + mayadev
+#+date: 2026-03-08
+#+property: status drafted
+#+property: assigned-to mayadev
+#+property: trust autonomous
+
+* Context and Motivation
+
+The Model Context Protocol (MCP) lets AI agents call external tools.
+DMT's charter lists "MCP server: analyses callable by AI agents" as a
+Phase 4 deliverable, but the philosophical case for building it earlier
+is strong: if validation is structured argumentation, then an agent
+that can invoke validation *during its own reasoning* — not just as a
+post-hoc step — closes the loop between generation and evaluation.
+
+An agent writing code can call =dmt.evaluate()= to test its output.
+An agent reviewing a model can call =dmt.compare()= to produce a
+structured comparison. An agent preparing regulatory documentation
+can call =dmt.report()= to generate the document. The MCP server
+makes DMT a cognitive tool, not just a library.
+
+Practically: Claude Code, Cursor, Windsurf, and other agent harnesses
+already support MCP. An MCP server makes DMT immediately usable in
+every agent IDE without integration work.
+
+* Inventory (What Already Exists)
+
+- =src/dmt/evaluate.py= — =evaluate()= function
+- =src/dmt/scenario/= — built-in scenarios (weather, drug_efficacy)
+- =src/dmt/document/renderer.py= — Markdown rendering
+- =bench/app.py= — Streamlit service (demonstrates the "DMT as service"
+  pattern)
+- No MCP server exists yet
+
+** MCP SDK
+
+- =mcp= Python package (Anthropic's official SDK)
+- Provides =Server=, =@server.tool()= decorator, stdio/SSE transports
+- Minimal boilerplate: ~30 lines for a working server
+
+* Specification
+
+** Part 1: MCP Server (=src/dmt/mcp_server.py=)
+
+A standalone MCP server exposing DMT capabilities as tools:
+
+*** Tool: =dmt_evaluate=
+
+#+begin_src json
+{
+  "name": "dmt_evaluate",
+  "description": "Evaluate models against observations. Returns a structured LabReport.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "scenario": {"type": "string", "enum": ["weather", "drug_efficacy", "llm_qa"]},
+      "models": {"type": "array", "items": {"type": "string"}},
+      "output_dir": {"type": "string", "default": "./dmt_report"},
+      "title": {"type": "string"}
+    },
+    "required": ["scenario"]
+  }
+}
+#+end_src
+
+When called with just =scenario=, uses built-in synthetic data and
+default models. Returns the Markdown report as text content.
+
+*** Tool: =dmt_compare=
+
+Compare multiple models, return a summary table and narrative.
+
+*** Tool: =dmt_list=
+
+List available scenarios, metrics, and built-in models.
+
+*** Tool: =dmt_report=
+
+Re-read an existing report directory and return its content.
+
+** Part 2: Transport
+
+Two modes:
+
+- =stdio= — for Claude Code and other local agent harnesses
+- =SSE= — for remote/web agent harnesses
+
+Default is stdio. Server launched via:
+
+#+begin_src shell
+dmt mcp serve              # stdio (for Claude Code)
+dmt mcp serve --sse 8080   # SSE on port 8080
+#+end_src
+
+** Part 3: Claude Code Integration
+
+Provide a =claude_desktop_config.json= snippet and a =.mcp.json=
+for easy integration:
+
+#+begin_src json
+{
+  "mcpServers": {
+    "dmt-eval": {
+      "command": "uv",
+      "args": ["--directory", "/path/to/dmt-eval", "run", "dmt", "mcp", "serve"]
+    }
+  }
+}
+#+end_src
+
+** Part 4: Entry Point
+
+Add =mcp= subcommand to the CLI (depends on WP-0018):
+
+#+begin_src shell
+dmt mcp serve           # start MCP server
+dmt mcp serve --sse     # SSE transport
+dmt mcp tools           # list available tools (debugging)
+#+end_src
+
+Add =mcp= optional dependency group in =pyproject.toml=:
+
+#+begin_src toml
+[project.optional-dependencies]
+mcp = ["mcp>=1.0"]
+#+end_src
+
+* Execution Order
+
+1. [ ] Add =mcp= optional dependency to =pyproject.toml=
+2. [ ] Write =src/dmt/mcp_server.py= with tool definitions
+3. [ ] Implement =dmt_evaluate= tool (wraps =evaluate()=)
+4. [ ] Implement =dmt_compare= tool
+5. [ ] Implement =dmt_list= tool
+6. [ ] Add =mcp= subcommand to CLI (after WP-0018)
+7. [ ] Write =.mcp.json= config template
+8. [ ] Test with Claude Code locally
+9. [ ] Document MCP setup in README
+
+* Acceptance Criteria
+
+- [ ] =dmt mcp serve= starts a stdio MCP server
+- [ ] =dmt_evaluate= tool callable from Claude Code, returns LabReport
+- [ ] =dmt_list= tool returns available scenarios and metrics
+- [ ] =dmt_compare= tool compares built-in models and returns results
+- [ ] Server works with =mcp= Python SDK (=mcp>=1.0=)
+- [ ] =.mcp.json= template provided for easy setup
+- [ ] Tests exercise tool functions directly (without MCP transport)
+
+* Dependencies
+
+- WP-0018 (CLI) — for the =dmt mcp serve= subcommand
+- WP-0019 (LLM adapter) — for =llm_qa= scenario availability
+
+* Downstream
+
+- Agents can self-evaluate during code generation
+- Regulatory documentation agents can produce LabReports on demand
+- MCP server is a building block for the =dmt-eval= ecosystem play

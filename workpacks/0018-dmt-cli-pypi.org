@@ -1,0 +1,155 @@
+#+title: WP-0018 — DMT CLI and PyPI Release
+#+subtitle: dmt eval, dmt compare, dmt report — the command-line face of the framework
+#+author: mu2tau + mayadev
+#+date: 2026-03-08
+#+property: status drafted
+#+property: assigned-to mayadev
+#+property: trust autonomous
+
+* Context and Motivation
+
+DMT-Eval has a working Python API: =dmt.evaluate()= produces LabReports
+from (models, observations, scenario) tuples. Two complete scenarios
+(weather, drug efficacy), a Brain-Score domain adapter, and a Streamlit
+bench service exist. But there is no CLI — every evaluation requires
+writing a Python script.
+
+The charter's Level 0 API promises:
+
+#+begin_example
+dmt eval --model openai/gpt-4o --dataset evals/qa.csv --metrics accuracy,latency
+dmt compare --models model_a,model_b --dataset data.csv --output ./report
+dmt report ./dmt_report --format html
+#+end_example
+
+This is the difference between "a library you can import" and "a tool
+you can use." The CLI makes DMT accessible from shell scripts, CI
+pipelines, agent harnesses, and =Makefile= targets.
+
+PyPI release makes DMT installable with =pip install dmt-eval=. Without
+it, adoption requires cloning a repo. The =pyproject.toml= already
+exists and is nearly ready — what's missing is the CLI entry point,
+version management, and a release workflow.
+
+* Inventory (What Already Exists)
+
+- =pyproject.toml= — PEP 621 metadata, hatchling build, optional deps
+  groups (=[llm]=, =[weather]=, =[dev]=), pytest config, ruff config
+- =src/dmt/__init__.py= — exports =__version__ = "0.0.1"=
+- =src/dmt/evaluate.py= — =evaluate()= function (the engine)
+- =src/dmt/document/renderer.py= — Markdown output
+- =src/dmt/scenario/= — weather.py, drug_efficacy.py (built-in scenarios)
+- No CLI module exists yet
+- No GitHub Actions workflow exists
+
+* Specification
+
+** Part 1: CLI (=src/dmt/cli.py=)
+
+Three commands via =typer=:
+
+*** =dmt eval=
+
+Run a single model against a dataset. Minimal invocation:
+
+#+begin_src shell
+dmt eval --scenario weather
+#+end_src
+
+This uses built-in synthetic data and all three weather models.
+Produces a LabReport in =./dmt_report/=.
+
+Full invocation:
+
+#+begin_src shell
+dmt eval --scenario weather \
+         --data observations.csv \
+         --model "my_model:path/to/module.py" \
+         --output ./results \
+         --title "Q1 Weather Forecast Validation"
+#+end_src
+
+*** =dmt compare=
+
+Compare multiple models (the tournament use case):
+
+#+begin_src shell
+dmt compare --scenario drug_efficacy \
+            --models linear,sigmoid,calibrated \
+            --reference linear \
+            --output ./comparison
+#+end_src
+
+*** =dmt report=
+
+Re-render an existing report directory in a different format:
+
+#+begin_src shell
+dmt report ./dmt_report --format html
+dmt report ./dmt_report --format pdf   # Phase 2
+#+end_src
+
+*** =dmt list=
+
+List available scenarios, models, and metrics:
+
+#+begin_src shell
+dmt list scenarios
+dmt list metrics
+#+end_src
+
+** Part 2: Entry Point
+
+Add to =pyproject.toml=:
+
+#+begin_src toml
+[project.scripts]
+dmt = "dmt.cli:app"
+#+end_src
+
+Add =typer= to dependencies.
+
+** Part 3: PyPI Readiness
+
+- README.md: update with CLI examples and =pip install dmt-eval=
+- Classifiers: add CLI-related classifiers
+- License file: ensure MIT license file exists at root
+- Version: keep at 0.0.1 for now, bump to 0.1.0 on first release
+- =.github/workflows/publish.yml=: GitHub Actions workflow for
+  trusted publishing to PyPI on tag push
+
+** Part 4: Smoke Tests
+
+- =test/test_cli.py= — invoke each command via =typer.testing.CliRunner=
+- Test =dmt eval --scenario weather= produces report directory
+- Test =dmt eval --scenario drug_efficacy= produces report directory
+- Test =dmt list scenarios= outputs known scenarios
+- Test =dmt compare= with built-in models
+
+* Execution Order
+
+1. [ ] Add =typer= dependency to =pyproject.toml=
+2. [ ] Write =src/dmt/cli.py= with =eval=, =compare=, =report=, =list=
+3. [ ] Add entry point to =pyproject.toml=
+4. [ ] Write =test/test_cli.py=
+5. [ ] Update README.md with CLI usage
+6. [ ] Add GitHub Actions publish workflow
+7. [ ] Human review and first tag (v0.1.0)
+
+* Acceptance Criteria
+
+- [ ] =uv run dmt eval --scenario weather= produces a LabReport directory
+- [ ] =uv run dmt eval --scenario drug_efficacy= produces a LabReport directory
+- [ ] =uv run dmt compare --scenario weather= compares all built-in models
+- [ ] =uv run dmt list scenarios= lists weather and drug_efficacy
+- [ ] =uv run dmt report ./dmt_report --format md= re-renders existing report
+- [ ] =pip install .= makes =dmt= command available
+- [ ] CLI tests pass (=pytest test/test_cli.py=)
+- [ ] GitHub Actions workflow present (=.github/workflows/publish.yml=)
+- [ ] README includes CLI examples
+
+* Downstream
+
+- WP-0019 (LLM adapter) adds =--model "openai/gpt-4o"= string resolution
+- WP-0020 (MCP server) wraps CLI commands as MCP tools
+- WP-0021 (finance domain) adds =--scenario equity_forecast=

@@ -1,0 +1,276 @@
+#+title: WP-0021 — Financial Forecasting Domain Pack
+#+subtitle: Equity return prediction as the first quantitative finance scenario
+#+author: mu2tau + mayadev
+#+date: 2026-03-08
+#+property: status drafted
+#+property: assigned-to mayadev
+#+property: trust autonomous
+
+* Context and Motivation
+
+The charter lists finance as a Phase 3 domain pack. But for the human
+(mu2tau), this WP is not just another domain — it is the entry point
+into quantitative finance as a field of study. The scenario should
+therefore be designed not only as a DMT demonstration but as a
+*learning scaffold*: building intuition for financial time series,
+risk metrics, and model evaluation practices that are standard in
+the industry.
+
+** Why Financial Forecasting?
+
+The weather scenario works because everyone understands temperature.
+The drug efficacy scenario works because dose-response is intuitive.
+For finance, the equivalent is: *given historical equity returns,
+can you predict the next period's return (or risk)?*
+
+This is the simplest non-trivial problem in quantitative finance. It
+touches:
+
+- *Time series structure* — autocorrelation, volatility clustering,
+  fat tails, regime changes
+- *Risk metrics* — volatility, Value-at-Risk (VaR), drawdown, Sharpe
+  ratio
+- *Model comparison* — naive baselines vs statistical models vs
+  machine learning
+- *Backtesting methodology* — walk-forward validation, in-sample vs
+  out-of-sample, look-ahead bias
+- *Regulatory context* — SR 11-7 (Fed model risk management),
+  Basel III/IV market risk
+
+A statistical physicist approaching finance sees: a stochastic process
+with non-Gaussian increments, long-range dependence in the volatility
+(but not returns), and a rich literature on exactly how and why
+forecasting is hard. The interesting question is not "can you beat the
+market" but "how do you rigorously evaluate whether a model adds
+information?"
+
+** The DMT Fit
+
+| DMT Concept | Finance Analogue |
+|-------------+------------------|
+| Scenario | Equity return forecasting |
+| Observations | Historical returns (synthetic or real) |
+| Models | Forecast strategies (baselines + statistical) |
+| Metrics | RMSE, directional accuracy, Sharpe, VaR backtest |
+| LabReport | Model validation report (SR 11-7 structure) |
+| Adapter | Interface for any return-forecasting model |
+
+* Inventory (What Already Exists)
+
+** In DMT
+
+- =Scenario= dataclass — column names, merge keys, grouping
+- =evaluate()= — domain-agnostic evaluation engine
+- =DocumentBuilder= — LabReport generation
+- Weather and drug efficacy scenarios — the pattern to follow
+
+** In the Python Ecosystem
+
+| Library | What it does | How DMT relates |
+|---------+--------------+-----------------|
+| =yfinance= | Download Yahoo Finance data | Data source (real data mode) |
+| =pandas= | Time series manipulation | Already a DMT dependency |
+| =numpy= | Statistical computation | Already a DMT dependency |
+| =scipy.stats= | Distributions, statistical tests | Fat tails, normality tests |
+| =arch= | GARCH models | Volatility forecasting model |
+| =statsmodels= | AR, ARMA, linear regression | Statistical models |
+| =vectorbt= | Backtesting engine | Not needed — DMT does evaluation, not trading |
+
+Note: this WP does *not* depend on any of these as hard requirements.
+Like the weather scenario, synthetic data is the default. Real data
+is opt-in.
+
+* Specification
+
+** Part 1: Synthetic Data Generator (=src/dmt/scenario/equity.py=)
+
+Generate synthetic daily equity returns that capture the stylised
+facts of real financial time series:
+
+*** Stylised Facts to Reproduce
+
+1. *Returns are roughly uncorrelated* — no easy linear predictability
+2. *Volatility clusters* — high-vol days follow high-vol days (GARCH)
+3. *Fat tails* — extreme returns more frequent than Gaussian
+4. *Leverage effect* — negative returns increase future volatility
+5. *Mean reversion at long horizons* — weak, but present
+
+*** Generator
+
+A GARCH(1,1) process with Student-t innovations:
+
+#+begin_src python
+def generate_returns(
+    tickers: dict | None = None,
+    n_days: int = 1000,
+    seed: int = 42,
+) -> pd.DataFrame:
+    """Generate synthetic equity returns.
+
+    Returns DataFrame with columns:
+      ticker, date, return, log_return, cumulative_return, regime
+    """
+#+end_src
+
+Default tickers (synthetic, no real company names):
+
+| Ticker | Character | Parameters |
+|--------+-----------+------------|
+| ALPHA | Low vol, slight upward drift | μ=0.04%, σ=0.8%, moderate persistence |
+| BETA | High vol, mean-reverting | μ=0.01%, σ=1.5%, high GARCH persistence |
+| GAMMA | Trending with regime shifts | μ switches between +0.08% and -0.05% |
+| DELTA | Fat-tailed, crisis-prone | μ=0.02%, ν=4 (heavy Student-t) |
+
+Each ticker has ~1000 daily returns (~4 years). Regime labels
+(bull/bear/crisis) are generated alongside for stratified analysis.
+
+*** Scenario Descriptor
+
+#+begin_src python
+EQUITY_FORECAST = Scenario(
+    observed_col="return",
+    predicted_col="predicted_return",
+    entity_col="ticker",
+    merge_on=["ticker", "date"],
+    group_by=["ticker", "regime"],
+    domain_name="equity return forecasting",
+    observation_description="synthetic daily equity returns (GARCH-t)",
+    entity_description="synthetic equities",
+)
+#+end_src
+
+** Part 2: Baseline Models
+
+Three models of increasing sophistication, following the weather
+pattern:
+
+*** =MeanModel= (the persistence analogue)
+
+Predicts tomorrow's return as the expanding-window historical mean.
+This is the "efficient market" baseline — if returns are unpredictable,
+the historical mean is the best you can do.
+
+*** =MomentumModel= (the climatology analogue)
+
+Predicts based on recent momentum: exponentially weighted moving average
+of past returns. Captures short-term trend-following.
+
+*** =VolatilityModel= (the noisy regression analogue)
+
+Predicts return direction using a volatility signal: when realised
+volatility is above its moving average, predict mean-reversion
+(negative expected return); when below, predict drift continuation.
+This exploits the volatility clustering stylised fact.
+
+All three models have =.name= and =.predict(observations)= → DataFrame,
+matching the DMT model protocol.
+
+** Part 3: Finance-Specific Metrics (=src/dmt/metrics/finance.py=)
+
+| Metric | Definition | What it tests |
+|--------+------------+---------------|
+| =rmse= | Root mean square error of return forecasts | Forecast accuracy |
+| =directional_accuracy= | % of days where sign(predicted) = sign(actual) | Can you call the direction? |
+| =sharpe_ratio= | mean(r) / std(r) annualised | Risk-adjusted performance |
+| =max_drawdown= | Largest peak-to-trough decline | Tail risk |
+| =var_95= | 5th percentile of return distribution | Value-at-Risk |
+| =var_backtest= | Kupiec test: do VaR exceedances match 5%? | VaR model calibration |
+| =volatility_ratio= | predicted_vol / realised_vol | Volatility forecast quality |
+| =information_ratio= | mean(excess_return) / std(excess_return) | Value added vs benchmark |
+
+Not all metrics need implementation in this WP. Core set:
+=rmse=, =directional_accuracy=, =sharpe_ratio=, =max_drawdown=, =var_95=.
+The rest are stretch goals.
+
+** Part 4: LabReport Sections
+
+The LabReport for an equity forecast evaluation should follow SR 11-7
+spirit (without claiming compliance):
+
+| Section | Content |
+|---------+---------|
+| Abstract | N models evaluated on M tickers over T days |
+| Introduction | Model descriptions, data description |
+| Methods | Metrics definitions, backtesting methodology |
+| Results | Overall performance table |
+| Results by Ticker | Stratified by equity |
+| Results by Regime | Stratified by bull/bear/crisis |
+| Risk Analysis | VaR, drawdown, tail behaviour |
+| Discussion | Best model overall and per regime |
+| Conclusion | Summary with regulatory framing |
+
+The existing =evaluate()= function handles most of this via the
+=Scenario= descriptor. The risk analysis section requires extending
+the report with finance-specific content.
+
+** Part 5: Literate Development (=codev/14-equity-forecasting.org=)
+
+A codev/ tutorial that:
+
+1. Introduces the stylised facts of financial returns
+2. Builds the synthetic generator step by step
+3. Derives each baseline model from first principles
+4. Walks through the metrics (what they measure, why they matter)
+5. Runs =dmt.evaluate()= and interprets the LabReport
+6. Discusses what the results mean for market efficiency
+
+This is the *learning scaffold* — the document the human reads to
+build intuition for quantitative finance through the act of building
+a validation framework for it.
+
+* Execution Order
+
+1. [ ] Literate document: stylised facts + GARCH generator
+       (=codev/14-equity-forecasting.org=, Part 1)
+2. [ ] Tangle synthetic data generator
+       (=src/dmt/scenario/equity.py=)
+3. [ ] Literate document: baseline models (Part 2)
+4. [ ] Tangle baseline models
+5. [ ] Literate document: metrics (Part 3)
+6. [ ] Tangle finance metrics
+       (=src/dmt/metrics/finance.py=)
+7. [ ] Add =EQUITY_FORECAST= scenario to =evaluate.py=
+8. [ ] Tests: synthetic data properties (fat tails, vol clustering)
+9. [ ] Tests: model protocol compliance
+10. [ ] Tests: end-to-end =dmt.evaluate(scenario=EQUITY_FORECAST)=
+11. [ ] Add =[finance]= optional dependency group if needed
+12. [ ] Human review — does this build the right intuitions?
+
+* Acceptance Criteria
+
+- [ ] =generate_returns()= produces synthetic returns for 4 tickers
+- [ ] Generated returns exhibit volatility clustering (test: significant
+      ARCH effect in squared returns)
+- [ ] Generated returns have fat tails (test: kurtosis > 3)
+- [ ] All three baseline models satisfy the DMT model protocol
+- [ ] =dmt.evaluate(scenario=EQUITY_FORECAST)= produces a LabReport
+- [ ] LabReport includes stratification by ticker and regime
+- [ ] =directional_accuracy= metric computes correctly
+- [ ] =sharpe_ratio= and =max_drawdown= compute correctly
+- [ ] Literate document (codev/14) is self-contained and builds
+      intuition progressively
+- [ ] All tests pass (=pytest test/test_equity_scenario.py=)
+
+* What This Teaches
+
+This WP is explicitly a learning vehicle. Through building it, the
+human gains:
+
+- Intuition for GARCH processes and volatility dynamics
+- Understanding of why return forecasting is hard (efficient markets)
+- Familiarity with standard risk metrics (VaR, Sharpe, drawdown)
+- Appreciation for backtesting methodology (walk-forward, look-ahead
+  bias)
+- A working framework to extend with real data, real models, and
+  more sophisticated strategies
+
+The Feynman imperative: what I cannot create, I do not understand.
+
+* Downstream
+
+- Real data mode: =yfinance= adapter for historical S&P 500, etc.
+- More models: ARIMA, GARCH-based forecasts, simple ML
+- SR 11-7 report template (Phase 2)
+- Portfolio-level extension: from single-stock to portfolio risk
+- Options pricing: Black-Scholes as a DMT scenario (natural next step
+  for a physicist)
