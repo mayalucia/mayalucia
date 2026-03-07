@@ -23,20 +23,24 @@
   '(;; guild          spirit               fg-dark       fg-light
     ;;
     ;; ākāśa (space) — luminous violet/lavender
-    ("mayalucia"      "mayadev"            "#dda0ff"     "#7b2fa0")
-    ("mayalucia"      "sutradhar-guardian"  "#b8e986"     "#3d7a1c")
-    ("mayalucia"      "cruvin-guardian"     "#d4b8f0"     "#7b4f8a")
-    ("mayalucia"      "dixa"               "#b8a0e8"     "#5b4a8a")
+    ;; Hue family: modus #caa6df (tags), #f78fe7 (type), #ff9bff (code)
+    ("mayalucia"      "mayadev"            "#efbfff"     "#7b2fa0")
+    ("mayalucia"      "sutradhar-guardian"  "#82e0aa"     "#2d6a1c")
+    ("mayalucia"      "cruvin-guardian"     "#dcb5ff"     "#7b4f8a")
+    ("mayalucia"      "dixa"               "#c4b0f0"     "#5b4a8a")
     ;;
     ;; agni (fire) — bright saffron/flame
-    ("bravli"         "dmt-eval-guardian"   "#ffa060"     "#b85520")
+    ;; Hue family: modus #ff925a (link), #ff5f59 (keyword)
+    ("bravli"         "dmt-eval-guardian"   "#ffb070"     "#b85520")
     ;;
     ;; pṛthvī (earth) — warm gold/amber
-    ("epistem"        "epistem-guardian"    "#ffd866"     "#8a6d20")
-    ("epistem"        "aikosh-guardian"     "#f0c040"     "#7a5c10")
+    ;; Hue family: modus #ffdd00 (warning), #efcab2 (heading-2)
+    ("epistem"        "epistem-guardian"    "#ffe080"     "#8a6d20")
+    ("epistem"        "aikosh-guardian"     "#f5d060"     "#7a5c10")
     ;;
     ;; vāyu (wind) — bright cyan/sky
-    ("apprentis"      nil                  "#80e8f0"     "#1a7a88"))
+    ;; Hue family: modus #00d3d0 (builtin), #00bcff (variable)
+    ("apprentis"      nil                  "#60f0f0"     "#1a7a88"))
   "Spirit color alist: (guild spirit fg-dark fg-light).
 nil spirit matches any unregistered spirit in that guild.")
 
@@ -82,11 +86,26 @@ nil spirit matches any unregistered spirit in that guild.")
             (round (* g factor))
             (round (* b factor)))))
 
+(defun agent-shell--blend-toward-bg (hex amount)
+  "Blend HEX toward the frame background by AMOUNT (0.0=unchanged, 1.0=bg).
+Produces a tinted background that is visible against the frame background."
+  (let* ((bg (color-name-to-rgb (face-background 'default)))
+         (r (string-to-number (substring hex 1 3) 16))
+         (g (string-to-number (substring hex 3 5) 16))
+         (b (string-to-number (substring hex 5 7) 16))
+         (bg-r (round (* (nth 0 bg) 255)))
+         (bg-g (round (* (nth 1 bg) 255)))
+         (bg-b (round (* (nth 2 bg) 255))))
+    (format "#%02x%02x%02x"
+            (round (+ (* r (- 1 amount)) (* bg-r amount)))
+            (round (+ (* g (- 1 amount)) (* bg-g amount)))
+            (round (+ (* b (- 1 amount)) (* bg-b amount))))))
+
 (defun agent-shell--format-spirit-banner (name identity-text)
   "Format a welcome banner for spirit NAME with IDENTITY-TEXT.
 Uses `font-lock-face' (not `face') so properties survive comint output filter."
   (let* ((color (agent-shell--spirit-color name))
-         (bg (agent-shell--darken-color color 0.2))
+         (bg (agent-shell--blend-toward-bg color 0.75))
          (header-face `(:foreground ,color :background ,bg :weight bold))
          (box-face `(:foreground ,color))
          (dim-face `(:foreground ,color :weight light)))

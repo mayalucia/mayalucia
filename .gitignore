@@ -70,4 +70,7 @@ commissions/
 # Sutradhar companion workspace (warp deposit, ephemeral state)
 .sutradhar/
 
+# First-boot sentinel (bootstrap.sh drops this; agent deletes after setup)
+.first-boot
+
 modules/sutradhar/.cpcache/

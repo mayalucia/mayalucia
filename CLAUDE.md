@@ -4,6 +4,11 @@
 
 On session start, orient before acting:
 
+0. **First boot** — if `.first-boot` exists, this host has never been
+   registered. Read that file and follow its instructions *before*
+   doing anything else. It will ask you to prompt the human for the
+   host's name and role, create a host descriptor, push it to sūtra,
+   purge any stale agent memory, and delete the sentinel.
 1. **Assess** — `git status` in the parent repo and each submodule.
    Report any uncommitted work, detached HEADs, or conflicts.
 2. **Sync** — only sync if the working tree is clean. If dirty, tell the human what you found and ask how to proceed.
