@@ -30,11 +30,35 @@ Before writing, gather:
 - Who cares about the outcome and why
 - Dependencies on other WPs or external inputs
 
-### 2. Claim a number
+### 2. Claim and reserve numbers
 
-- Check the target `workpacks/` directory for the highest existing number
-- Fetch the sūtra relay to avoid number collisions (async latency!)
-- Increment by one. Four-digit, zero-padded.
+- Fetch the sūtra relay (`git fetch` in `.sutra/`, read new messages)
+- Check both `workpacks/` on disk and recent relay messages for the
+  highest existing or reserved number
+- Increment from the highest. Four-digit, zero-padded.
+- **Reserve before drafting.** Push a relay message with tag
+  `wp-reserve` listing the numbers you intend to use. This is
+  especially important when drafting multiple WPs in a burst.
+  A reservation message is lightweight — just numbers and one-line
+  titles:
+
+```
+tags: [wp-reserve]
+---
+Reserving WP-0022 through 0025 for DMT-Eval Phase 1.
+
+| WP | Working title |
+|----|---------------|
+| 0022 | CLI + PyPI |
+| 0023 | LLM adapter |
+| 0024 | MCP server |
+| 0025 | Finance domain |
+```
+
+- Only then begin drafting. The reservation narrows the collision
+  window from drafting time (minutes–hours) to push latency (seconds).
+- If your push is rejected (another agent reserved simultaneously),
+  fetch, renumber, and re-reserve. No drama.
 
 ### 3. Write the WP
 
@@ -100,5 +124,7 @@ Announce in the sūtra relay with tags `[wp, drafted]`.
   execute. The human may revise heavily before tightening.
 - For composite WPs, include a coalition table in the Execution Order
   section mapping tasks to spirits and their required powers.
-- Numbering collisions happen in async systems. Always fetch the
-  relay before claiming a number.
+- Numbering collisions happen in async systems. Fetch the relay,
+  reserve your numbers, then draft. If a collision still occurs
+  (simultaneous reservations), the later arrival renumbers. The
+  human's morning sync reconciles any remaining drift.

@@ -1,0 +1,259 @@
+#+title: WP-0026 — Wine Education Survey: Grape to Glass
+#+subtitle: Comprehensive reference material for the CruVin WSET curriculum — from vine biology to tasting vocabulary
+#+author: mu2tau + mayadev
+#+date: 2026-03-08
+#+property: status drafted
+#+property: executor cruvin-guardian
+#+property: trust autonomous
+
+* Context and Motivation
+
+CruVin (Commission C-001) is a wine education companion structured
+around the WSET qualification levels 1–4. The site's MDX content
+skeleton exists — 23 topic files across 4 levels — but the pages are
+either empty or thinly populated. The guardian spirit needs raw
+material: factual, sourced, structured knowledge about wine that it
+can draw on when filling those pages.
+
+This WP produces that raw material. It is the wine equivalent of the
+Diamer surveys (WP-0012, WP-0013) — deep web research deposited as
+a structured org file that the downstream builder consumes.
+
+** Why this matters
+
+The human is learning wine alongside the friend for whom CruVin is
+being built. The survey is therefore also a learning scaffold: it
+should explain /why/, not just /what/. Why does Pinot Noir express
+differently in Burgundy and Oregon? Why does limestone matter? Why
+does the timing of fortification determine sweetness? The facts must
+carry their reasoning.
+
+** What exists
+
+- =commissions/cruvin/DESIGN.org= (887 lines) — full curriculum
+  outline with topic tags, visual plans, and WSET level structure.
+  This is the syllabus; the survey provides the substance.
+- =commissions/cruvin/content/= — 23 MDX files, mostly skeleton.
+  Level 1 has partial content. Levels 2–4 are frontmatter only.
+- WSET's own published materials (not freely available online, but
+  the topic structure is public knowledge)
+
+* Specification
+
+** Part A: Grape Varieties and Vine Biology
+
+*** A.1 Major grape varieties
+
+For each of the following varieties, document: origin region, climate
+preferences, flavour profile (primary/secondary/tertiary aromas),
+key growing regions worldwide, classic food pairings, notable wines.
+
+White: Chardonnay, Sauvignon Blanc, Riesling, Pinot Grigio/Gris,
+Gewürztraminer, Viognier, Sémillon, Chenin Blanc, Albariño, Grüner
+Veltliner, Muscat/Moscato.
+
+Red: Cabernet Sauvignon, Merlot, Pinot Noir, Syrah/Shiraz, Grenache,
+Tempranillo, Sangiovese, Nebbiolo, Gamay, Zinfandel/Primitivo,
+Malbec, Mourvèdre, Touriga Nacional, Carménère.
+
+*** A.2 Vine biology and growing cycle
+
+- The annual cycle: dormancy → budburst → flowering → fruit set →
+  véraison → harvest. What happens physiologically at each stage.
+- Photosynthesis, sugar accumulation, acid decline — the race to
+  harvest.
+- Vine age, yield, and quality relationship.
+- Rootstocks and phylloxera: why nearly every vine in the world is
+  grafted.
+
+*** A.3 Climate, soil, and terroir
+
+- Macro/meso/microclimate: definitions and examples.
+- Growing degree days, diurnal temperature range, frost risk.
+- Continental vs maritime vs Mediterranean climates.
+- Key soil types and their effects: limestone (drainage + minerality),
+  clay (water retention), gravel (heat + drainage), slate (heat
+  retention), volcanic (mineral richness).
+- The terroir concept: is it real? The scientific evidence for soil
+  influence on flavour.
+
+** Part B: Winemaking — Process and Science
+
+*** B.1 White winemaking
+
+Pressing → clarification → fermentation → aging → bottling.
+Stainless steel vs oak. Malolactic conversion: chemistry and style
+impact. Lees aging and bâtonnage.
+
+*** B.2 Red winemaking
+
+Destemming → crushing → fermentation with skins → pressing → aging.
+Maceration time and tannin extraction. Whole-bunch fermentation.
+Punch-down vs pump-over. Oak aging: French vs American, new vs old,
+toast levels.
+
+*** B.3 Sparkling wine methods
+
+Traditional method (Champagne): second fermentation in bottle,
+riddling, disgorgement. Tank/Charmat method (Prosecco). Transfer
+method. Carbonation.
+
+*** B.4 Fortified wine methods
+
+Port: fermentation arrested by spirit addition (sweet). Sherry:
+fermentation completed, then fortified (dry base); biological aging
+(flor), oxidative aging, solera system. Madeira: estufagem.
+
+*** B.5 Finishing
+
+Fining (bentonite, egg white, vegan alternatives), filtration,
+SO₂ management, closures (cork vs screw cap debate, evidence).
+
+** Part C: Wine Regions of the World
+
+For each major region, document: geography and climate, key
+appellations/subregions, principal grape varieties, classification
+system, notable producers, signature styles.
+
+*** C.1 France
+
+Bordeaux (Left Bank/Right Bank, 1855 classification, en primeur).
+Burgundy (climat, cru system, négociants). Rhône (northern Syrah,
+southern blends). Loire (Sancerre, Vouvray, Chinon). Alsace (Grand
+Cru, vendange tardive). Champagne. Languedoc-Roussillon. Jura/Savoie.
+
+*** C.2 Italy
+
+Piedmont (Barolo, Barbaresco, Nebbiolo). Tuscany (Chianti Classico,
+Brunello, Super Tuscans). Veneto (Amarone, Prosecco, Soave). Sicily.
+Alto Adige/Trentino. Southern Italy.
+
+*** C.3 Spain and Portugal
+
+Rioja (crianza/reserva/gran reserva). Ribera del Duero. Priorat
+(llicorella slate). Sherry (Jerez). Douro/Port. Vinho Verde. Madeira.
+Alentejo.
+
+*** C.4 Germany and Austria
+
+Mosel, Rheingau, Pfalz (Prädikat system, VDP classification, the dry
+Riesling revolution). Wachau (Grüner Veltliner, Smaragd). Burgenland.
+
+*** C.5 New World
+
+USA: Napa Valley, Sonoma, Oregon (Willamette Valley Pinot), Washington
+State. Australia: Barossa Valley, Margaret River, Yarra Valley, Hunter
+Valley, McLaren Vale. New Zealand: Marlborough (Sauvignon Blanc),
+Central Otago (Pinot Noir), Hawke's Bay. Chile: Maipo, Casablanca,
+Colchagua. Argentina: Mendoza (Malbec at altitude). South Africa:
+Stellenbosch, Swartland, Constantia.
+
+** Part D: Tasting, Evaluation, and Service
+
+*** D.1 Systematic Approach to Tasting (SAT)
+
+The WSET SAT methodology: appearance (clarity, intensity, colour),
+nose (condition, intensity, aroma characteristics), palate (sweetness,
+acidity, tannin, body, flavour intensity, finish). Quality assessment
+framework.
+
+*** D.2 Tasting vocabulary
+
+Primary aromas (grape-derived), secondary (fermentation-derived),
+tertiary (aging-derived). Building a useful vocabulary without jargon.
+Common flavour families: citrus, stone fruit, tropical, red berry,
+black fruit, floral, herbaceous, spice, earth, oak.
+
+*** D.3 Food and wine pairing principles
+
+Weight matching. Acidity and fat. Tannin and protein. Sweetness
+matching. Regional pairing traditions. The science behind why certain
+pairings work.
+
+*** D.4 Wine faults
+
+Cork taint (TCA). Oxidation. Reduction. Volatile acidity. Brettanomyces.
+Heat damage. How to recognise each. When a "fault" is a stylistic choice.
+
+** Part E: The Business and Culture of Wine
+
+*** E.1 Classification and labelling
+
+EU system (PDO/PGI). French AOC. Italian DOCG/DOC/IGT. Spanish DO.
+German Prädikat. New World varietal labelling. Reading a wine label.
+
+*** E.2 Wine economics
+
+Supply chain: vineyard → winery → négociant → distributor → retailer.
+En primeur. Auction market. Fine wine as investment. Bulk wine vs
+estate bottled. Cooperative vs independent.
+
+*** E.3 Contemporary issues
+
+Climate change: shifting growing zones, earlier harvests, rising
+alcohol, new varieties. Sustainability: organic, biodynamic, natural
+wine (definitions, evidence, debates). Water use. Carbon footprint
+(shipping vs local). Diversity and inclusion in the wine industry.
+
+*** E.4 Wine history (brief)
+
+The Caucasus origins (~6000 BCE). Greek and Roman viticulture.
+Monastic winemaking in medieval Europe. Phylloxera crisis (1860s–).
+New World expansion. The 1976 Judgment of Paris. Natural wine movement.
+
+* Output
+
+Survey deposited at:
+=domains/epistem/surveys/wine-education-wset.org=
+
+Structure: sections matching Parts A–E. Each entry includes factual
+content with reasoning, sourced with URLs. Cross-references to WSET
+level where each topic is taught (L1/L2/L3/L4).
+
+* Execution Order
+
+1. [A] Grape varieties and vine biology — parallel per variety group
+2. [B] Winemaking processes — parallel per method
+3. [C] Wine regions — parallel per country/continent
+4. [D] Tasting and service
+5. [E] Business and culture
+6. Cross-reference each section with WSET level tags
+7. Human review and annotation from tasting experience
+
+Parts A–E are independent and can be parallelised.
+
+* Acceptance Criteria
+
+- [ ] At least 20 grape varieties documented with full profiles
+- [ ] Vine biology section covers the full annual cycle with sources
+- [ ] Terroir section includes scientific evidence (not just tradition)
+- [ ] All four winemaking categories covered (still, sparkling, fortified, red/white)
+- [ ] At least 8 countries documented with subregions and classification systems
+- [ ] SAT methodology documented with quality assessment framework
+- [ ] Food pairing section includes the science, not just rules of thumb
+- [ ] Wine faults section covers at least 5 faults with recognition cues
+- [ ] Contemporary issues section covers climate change with data
+- [ ] At least 50 web-accessible sources cited with URLs
+- [ ] Each section tagged with relevant WSET level (L1/L2/L3/L4)
+- [ ] Survey deposited at correct path
+
+* What This Proves
+
+That the survey → content pipeline works for a commission project.
+The guardian spirit consumes structured survey material and transforms
+it into editorial-quality MDX pages. The separation of research
+(this WP) from presentation (cruvin-guardian's build work) mirrors
+the Diamer pattern: one spirit surveys, another (or the same) builds.
+
+* Open Questions
+
+- How much Level 4 (Diploma) material should this survey cover?
+  L4 topics (fortified, sparkling, world wines in exhaustive detail)
+  are substantially deeper. The survey might flag L4 as "structure
+  only, detail deferred" rather than attempting comprehensive coverage.
+- WSET's own textbooks are not freely available. The survey draws on
+  publicly available wine education resources (Wine Folly, Guild of
+  Sommeliers, Jancis Robinson, academic viticulture sources). Flag
+  any topic where public sources are thin.
+- The friend's tasting experience: which wines have they tried?
+  This affects which examples resonate. Deferred to human annotation.
