@@ -3,7 +3,8 @@
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
 #+property: status drafted
-#+property: assigned-to mayadev
+#+property: assigned-to dmt-eval-guardian
+#+property: executor dmt-eval-guardian
 #+property: trust autonomous
 
 * Context and Motivation

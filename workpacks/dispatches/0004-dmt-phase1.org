@@ -11,7 +11,8 @@ forward from Phase 3 because it serves a dual purpose: DMT domain
 demonstration *and* the human's entry into quantitative finance.
 
 All four WPs execute inside =modules/dmt-eval/=. The executor for all
-is =mayadev= (the human + agent pair working in the dmt-eval module).
+is =dmt-eval-guardian= — the validation framework's guardian spirit,
+working in its home module.
 
 * WPs in this chain
 
