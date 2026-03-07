@@ -2,7 +2,7 @@
 #+subtitle: The chain from tectonic thrust to lammergeier's circle — research for the story browser's deepest dimension
 #+author: mu2tau + mayadev
 #+date: 2026-03-07
-#+property: status drafted
+#+property: status completed
 
 * Context and Motivation
 
