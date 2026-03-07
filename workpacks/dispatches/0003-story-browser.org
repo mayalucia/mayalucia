@@ -20,7 +20,7 @@ are met when all four WPs in this chain complete.
 |------+-------+----------+------|
 | 0015 | Story data in EDN | mu2tau + mayadev | simple |
 | 0016 | Ecological web survey | epistem-guardian | simple |
-| 0017 | Browser shell (Phase 1) | sutradhar-guardian | simple |
+| 0020 | Browser shell (Phase 1) | sutradhar-guardian | simple |
 | 0014 | Emergent dimension annotations | mu2tau (human) | simple |
 
 WP-0014 is reused for its final phase — the human annotation of
@@ -33,7 +33,7 @@ survey feeds it, the human annotates each story along each dimension.
 #+begin_example
 WP-0015 ─────────────────┐
   (EDN data curation)     │
-                          ├──► WP-0017
+                          ├──► WP-0020
 WP-0016 ─────────────────┤     (browser shell — Phase 1)
   (ecological web survey) │         │
                           │         ▼
@@ -45,9 +45,9 @@ WP-0016 ─────────────────┤     (browser shel
 
 | Edge | From | To | Condition |
 |------+------+----+-----------|
-| e1 | WP-0015 | WP-0017 | EDN data file committed |
-| e2 | WP-0016 | WP-0017 | ecological web data available for display |
-| e3 | WP-0017 | WP-0014 | browser deployed, views navigable |
+| e1 | WP-0015 | WP-0020 | EDN data file committed |
+| e2 | WP-0016 | WP-0020 | ecological web data available for display |
+| e3 | WP-0020 | WP-0014 | browser deployed, views navigable |
 
 WP-0015 and WP-0016 have no mutual dependencies — they can run
 in parallel.
@@ -58,7 +58,7 @@ in parallel.
 |------+-----------------+---------+----------------------------|
 | 0015 | mu2tau + mayadev | mayalucia | parent repo |
 | 0016 | epistem-guardian | epistem | =domains/epistem= |
-| 0017 | sutradhar-guardian | mayalucia | =modules/sutradhar= |
+| 0020 | sutradhar-guardian | mayalucia | =modules/sutradhar= |
 | 0014 | mu2tau (human) | — | parent repo |
 
 mayadev dispatches. Guardian spirits execute their domain work.
@@ -75,7 +75,7 @@ moments matter or which silences are deliberate.
 - WP-0016 parallels WP-0012/0013 (Diamer surveys) but focuses on
   ecological chains rather than regional geography. May reuse survey
   material from those WPs.
-- WP-0017 is the build. It forks from the constellation viewer
+- WP-0020 is the build. It forks from the constellation viewer
   (=modules/sutradhar/website/project-constellation/=) and adapts the
   rendering for story data.
 - WP-0014's final phase depends on seeing the browser — the emergent

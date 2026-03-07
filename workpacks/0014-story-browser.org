@@ -13,7 +13,7 @@ decomposes it into:
 
 - *WP-0015* — Story metadata in EDN (data curation)
 - *WP-0016* — Ecological web survey (epistem-guardian research)
-- *WP-0017* — Browser shell, Phase 1 (sutradhar-guardian build)
+- *WP-0020* — Browser shell, Phase 1 (sutradhar-guardian build)
 - *WP-0014* final phase — Emergent dimension annotations (human work)
 
 WP-0014's acceptance criteria are met when all four complete.

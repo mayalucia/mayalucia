@@ -1,0 +1,84 @@
+#+title: WP-0018 — Story Extraction: The Dyer's Gorge
+#+subtitle: Read story #3 in full and extract translation keys, characters, and metadata for the story browser EDN
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+#+property: status drafted
+#+property: serves WP-0015
+#+property: executor mayadev
+#+property: trust autonomous
+
+* Context and Motivation
+
+WP-0015 (story metadata in EDN) requires structured concept and
+character data for all 12 stories. Story #3 (The Dyer's Gorge) is
+~72KB and could not be read in full during the scaffolding session.
+The opening reveals a dyer in Tosh village encoding altitude into
+cloth via pigments, with embedded Python code generating a chromatic
+palette — but the concept mappings remain incomplete.
+
+This WP is a focused extraction task: read the full text, produce
+the structured data that WP-0015 needs.
+
+* Inventory
+
+- Full story text: =website/content/writing/the-dyers-gorge.md= (~72KB)
+- Existing scaffold: =workpacks/data/stories.edn= (story #3 entry has empty concepts)
+- Translation table structure: =develop/story-development.org= § Global Translation Table
+- Illustration directory: =website/static/images/writing/the-dyers-gorge/= (8 files)
+
+* Specification
+
+Produce the following outputs:
+
+** 1. Concept table
+
+Org table with columns: System Concept | Story Equivalent | Notes
+
+Identify what system-level concepts story #3 translates into the
+valley's language. Not what it mentions — what it /translates/.
+The test: does the story give the concept a new name, a new body,
+a new behaviour in the valley's register?
+
+Pay attention to:
+- The relationship between pigment and measurement
+- Whether the embedded Python code translates a system concept
+  (e.g., data pipeline, validation, domain schema) or is purely
+  illustrative
+- The altitude-gradient structure — does it translate something
+  about the project's architecture?
+- Any concepts shared with other stories (especially story #4's
+  instruments and story #10's mechanisms)
+
+** 2. Character list
+
+Who appears? What role do they play? Does the Thread Walker appear,
+and if so, in what capacity?
+
+** 3. Setting details
+
+Confirm or correct the scaffold entry:
+- Region: Parvati Valley
+- Places: Parvati gorge, Manikaran, Pin Parvati
+- Altitude range
+- Season
+
+** 4. Notes
+
+Anything unusual that the browser should surface — especially the
+code-as-story pattern (Python embedded in narrative).
+
+* Execution Order
+
+1. Read =website/content/writing/the-dyers-gorge.md= in full
+2. Cross-reference with =develop/story-development.org= translation table
+3. Produce concept table, character list, setting, notes
+4. Update story #3 entry in =workpacks/data/stories.edn=
+
+* Acceptance Criteria
+
+- [ ] Concept table has at least 3 entries (or a justified "this story
+      does not translate system concepts" with explanation)
+- [ ] Character list is complete
+- [ ] Setting details confirmed or corrected
+- [ ] Story #3 entry in =stories.edn= updated with non-empty =:concepts=
+- [ ] All entries reflect close reading, not inference from the title

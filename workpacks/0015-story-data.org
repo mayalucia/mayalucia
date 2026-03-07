@@ -39,7 +39,7 @@ with title, date, tags, description.
 * Specification
 
 Produce an EDN file at =modules/sutradhar/website/story-browser/src/story_browser/data.cljs=
-(or =data.edn= if loaded at runtime — defer this decision to WP-0017).
+(or =data.edn= if loaded at runtime — defer this decision to WP-0020).
 
 ** Schema
 
@@ -102,7 +102,7 @@ validates every entry.
 2. Human reviews and corrects each story entry
 3. Add character data (requires reading the stories)
 4. Add region data (cluster assignments)
-5. Commit to =modules/sutradhar= or parent repo (placement per WP-0017)
+5. Commit to =modules/sutradhar= or parent repo (placement per WP-0020)
 
 * Acceptance Criteria
 
@@ -118,7 +118,7 @@ validates every entry.
 * Open Questions
 
 - Does this file live in =modules/sutradhar= (the browser's codebase)
-  or in the parent repo (where the stories live)? Defer to WP-0017.
+  or in the parent repo (where the stories live)? Defer to WP-0020.
 - Should the EDN include excerpt text for each story (first paragraph)?
   Useful for the info panel but increases file size.
 - Story #6 (Phantom Faculty) has no geography. How is it represented

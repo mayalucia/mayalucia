@@ -1,0 +1,97 @@
+#+title: WP-0019 — Story Extraction: The Phantom Faculty
+#+subtitle: Read story #6 in full and extract translation keys, characters, and metadata for the story browser EDN
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+#+property: status drafted
+#+property: serves WP-0015
+#+property: executor mayadev
+#+property: trust autonomous
+
+* Context and Motivation
+
+WP-0015 (story metadata in EDN) requires structured concept and
+character data for all 12 stories. Story #6 (The Phantom Faculty) is
+~81KB — the longest story — and could not be read in full during the
+scaffolding session. It describes 21 cognitive modes for scientific
+understanding and is the corpus outlier: no geography, no Thread
+Walker, academic satire as form.
+
+This WP is a focused extraction task: read the full text, produce
+the structured data that WP-0015 needs.
+
+* Inventory
+
+- Full story text: =website/content/writing/the-phantom-faculty.md= (~81KB)
+- Existing scaffold: =workpacks/data/stories.edn= (story #6 entry has empty concepts and characters)
+- Translation table structure: =develop/story-development.org= § Global Translation Table
+- Illustration directory: =website/static/images/writing/phantom-faculty/= (4 files)
+
+* Specification
+
+Produce the following outputs:
+
+** 1. The 21 modes
+
+Enumerate all 21 cognitive modes. For each: name, description (one
+sentence), and whether it maps to a system-level concept in the
+MāyāLucIA architecture.
+
+The key question: does the Phantom Faculty translate the agent
+architecture (dispositions, powers, cognitive styles of different
+spirits) or is it purely epistemological (ways a human physicist
+understands)? Or both?
+
+** 2. Concept table
+
+Org table with columns: System Concept | Story Equivalent | Notes
+
+Candidates from the opening:
+- Cognitive modes / dispositions
+- Phantom governance (governing without existing)
+- The space between three books (understanding lives in the gaps)
+
+But the full text may reveal more. Look especially for:
+- Whether any mode maps to a specific spirit's disposition
+- Whether the faculty-as-institution translates something about
+  the guild/bathhouse architecture
+- Whether "phantom" (governing without existing) translates
+  something about convention or implicit structure
+
+** 3. Character list
+
+The Phantom Faculty is unusual — the "characters" may be the modes
+themselves. Determine:
+- Is there a narrator? (The grad student from the opening?)
+- Does the Thread Walker appear?
+- Are the 21 modes characters or concepts?
+- Any other figures?
+
+** 4. Setting and document type
+
+Confirm the outlier status:
+- Region: Abstract (no geography)
+- Document type: Academic satire
+- Is there /any/ geographic anchor, however slight?
+
+** 5. Notes
+
+How does this story fit in the browser? It has no map pin. It has
+no altitude. It may have no Thread Walker. What dimension does it
+inhabit? The browser needs to know how to display the outlier.
+
+* Execution Order
+
+1. Read =website/content/writing/the-phantom-faculty.md= in full
+2. Enumerate all 21 cognitive modes
+3. Cross-reference with =develop/story-development.org= translation table
+4. Produce concept table, character list, setting, notes
+5. Update story #6 entry in =workpacks/data/stories.edn=
+
+* Acceptance Criteria
+
+- [ ] All 21 modes enumerated with names and one-sentence descriptions
+- [ ] Concept table has entries (or justified explanation of absence)
+- [ ] Character list resolves the narrator question
+- [ ] Setting confirmed as Abstract or corrected
+- [ ] Story #6 entry in =stories.edn= updated
+- [ ] Notes address how the browser should handle the outlier
