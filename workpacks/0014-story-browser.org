@@ -1,0 +1,455 @@
+#+title: WP-0014 — The Story Browser: Navigating the Thread Walker's World
+#+subtitle: An illustrated multi-dimensional browser for the MāyāLucIA stories
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+#+property: status drafted
+#+property: dispatch DP-0003
+
+* Decomposition
+
+This WP is the vision document for the story browser. It is not
+executed directly. DP-0003 (=workpacks/dispatches/0003-story-browser.org=)
+decomposes it into:
+
+- *WP-0015* — Story metadata in EDN (data curation)
+- *WP-0016* — Ecological web survey (epistem-guardian research)
+- *WP-0017* — Browser shell, Phase 1 (sutradhar-guardian build)
+- *WP-0014* final phase — Emergent dimension annotations (human work)
+
+WP-0014's acceptance criteria are met when all four complete.
+
+* Context and Motivation
+
+Twelve stories now inhabit the Western Himalaya — field notes, logbooks,
+geological surveys, testimony, academic satire. Each translates a system
+concept into the valley's language. Each is pinned to a geography, a
+document type, a set of characters, a season.
+
+A linear table of contents — story 1, story 2, story 3 — collapses this
+richness into a single dimension. The stories exist in a manifold:
+
+- *Geography*: the Thread Walker moves. Tirthan has five stories; Parvati,
+  Baspa, Sutlej have one each. The Karakoram is empty, waiting.
+- *Translation*: what system concept each story carries. Identity, mechanism,
+  perception, convention, memory — a conceptual graph.
+- *Time*: not composition order but story-internal time. Geological strata
+  (story #9) reach back millions of years; the dāk runners (#12) are
+  colonial. The seasonal cycle clusters monsoon stories together.
+- *Document type*: field notes, logbook, geological survey, testimony,
+  academic satire. The texture of the form.
+- *Voice*: the Thread Walker is continuous. The kohli, the gur, the weaver,
+  the grandson — they form their own constellation.
+
+The browser lets the reader choose which projection to walk through.
+Click a valley on the map, get stories clustered there. Follow a concept,
+see which stories translate it. Follow a character, trace their appearances.
+
+** Why now
+
+The project has a working constellation viewer for its own architecture
+(=modules/sutradhar/website/project-constellation/=). Same stack — ClojureScript,
+Reagent, D3-force, SVG — can render a story browser. The data exists
+(12 stories with structured metadata in =develop/story-development.org=).
+The convention exists. What's missing is the navigation experience.
+
+Also: a book is coming. The browser is the book's digital companion —
+not a replacement for reading, but an orientation device. The reader who
+has finished one story can discover which story to read next by geography,
+by concept, by character — not by page number.
+
+* Inventory (What Already Exists)
+
+** Constellation viewer (=modules/sutradhar=)
+
+ClojureScript + Reagent + D3-force. Two-column layout: SVG canvas (left),
+info panel (right). Force-directed graph of project entities. Data in EDN
+(=data.cljs=). Drill-down hierarchy. Zoom/pan. ~1,400 lines of ClojureScript.
+
+Key components reusable for the story browser:
+- Force simulation (=force.cljs=) — link distances, charge, collision
+- State management (=state.cljs=) — Reagent ratoms for hover, selection, zoom
+- Edge rendering (=edge.cljs=) — typed edges with Bézier curves
+- Info panel (=tooltip.cljs=) — detail view on selection
+- Background dust (=background.cljs=) — atmospheric texture
+
+What needs to change:
+- Data structure: entities become stories, edges become relationships
+- Node rendering: phase crystals → story glyphs (document type icons?)
+- Cluster logic: Measure/Model/Manifest/Evaluate → geography or concept
+- Info panel: story metadata (setting, characters, translation keys, excerpt)
+
+** Story metadata
+
+12 published stories. Each has:
+- Title, slug, date, geographic setting
+- Document type (field notes, logbook, survey, testimony, satire)
+- System concepts translated (from the global translation table)
+- Key characters (Thread Walker continuous; others per-story)
+- 3–5 illustrations (=website/static/images/writing/<slug>/=)
+
+The translation table in =develop/story-development.org= is the canonical
+source. Per-story keys live in =stories/<slug>/keys.org= (from story #13
+onward; stories 1–12 have keys only in the global table).
+
+** Geographic data
+
+- DEM processing pipeline exists in =domains/parbati/=
+- Kullu Valley 3D terrain exists as Blender asset
+- No Karakoram terrain yet (but survey material from WP-0012/0013)
+
+** Story geographic clusters
+
+| Region          |            Stories | Density |
+|-----------------+--------------------+---------|
+| Tirthan Valley  | 7, 10, 10h, 11, 12 | dense   |
+| Lahaul / passes |            1, 5, 8 | medium  |
+| Parvati Valley  |                  3 | single  |
+| Baspa / Kinnaur |                  4 | single  |
+| Sutlej Valley   |                  9 | single  |
+| Doridhar        |                  2 | single  |
+| Abstract        |                  6 | —       |
+| Karakoram       |         (none yet) | empty   |
+
+* Specification
+
+** Dimensions (the browser's axes)
+
+The browser renders stories as nodes in a space. The reader selects
+which dimensions define the space. Each dimension is a /projection/:
+
+*** Geography
+
+A map of the Western Himalaya. Stories pinned to their locations. The
+Thread Walker's route as a path connecting them. Zoom into Tirthan to
+see five stories separated by altitude and gorge. Pan north — the
+Karakoram is empty, a frontier.
+
+First mockup: 2D SVG topographic map with elevation contours derived
+from DEM data. Later: 3D terrain (WebGPU via mayaportal, or Three.js).
+
+*** Translation (concept graph)
+
+Nodes are system concepts (identity, mechanism, perception, convention,
+memory, generation, orchestration). Edges connect concepts that appear
+in the same story. Stories are the edges — click an edge to read the
+story that bridges two concepts. Or: stories are nodes, concept-similarity
+is the edge.
+
+First mockup: force-directed graph, reusing the constellation viewer's
+D3 simulation.
+
+*** Time
+
+A timeline — but not linear calendar time. Three temporal registers:
+
+- *Deep time*: geological (story #9 reaches Tethys)
+- *Historical*: colonial dāk runners (#12), pre-colonial kuhls (#10)
+- *Seasonal*: monsoon / post-monsoon / winter
+
+Stories placed on a spiral or layered timeline.
+
+*** Document type
+
+A gallery of textures. Field notes look like field notes. The geological
+survey looks like a survey. The academic satire looks like a journal paper.
+Each story represented by its document form, not just its title.
+
+*** Voice (character constellation)
+
+Characters as nodes. Edges connect characters who appear in the same story.
+The Thread Walker is central (appears in all). The kohli family spans
+stories #10 and #12. The gur appears only in #7.
+
+** Emergent dimensions
+
+The dimensions above are /inputs/ — what we gave the story-teller.
+They describe the brief, not the work. The browser must also surface
+what /emerged/ from the translation — patterns the LLM engine found
+when it moved system concepts into the valley's language. These are
+the story-teller's cognitive signature, and they evaluate its capabilities
+as surely as any benchmark.
+
+*** Human-landscape entanglement
+
+How does the landscape act /through/ the human? The kohli knows gradient
+because his hands have placed stones in water for generations. The dāk
+runner knows the trail because his legs have carried the custom. The gur
+speaks in the nag devta's voice because the mountain speaks /through/
+bodies, not /to/ them.
+
+This dimension tracks: for each story, what is the mode of entanglement
+between the human characters and the natural phenomena around them?
+Rivers, mountains, rain, snow, glaciers, gorges, hot springs — not
+as scenery but as actors that shape the humans who inhabit them.
+
+*** Knowledge modality
+
+Where does knowing live? Each story implicitly asks this question and
+arrives at a different answer:
+
+- In the register (written) — story #12
+- In the legs (embodied) — story #12
+- In the water (material) — stories #7, #10
+- In the thread (structural) — stories #1, #11
+- In the stone (geological) — story #9
+- In the loom (mechanical) — story #11
+- In the breath (temporal) — story #7
+
+A dimension that tracks not /what/ is known but /what medium carries
+the knowing/. Two stories may translate the same concept but locate
+knowledge in different substrates. The browser should make this visible.
+
+*** Loss and persistence
+
+What survives when the practice ends? The deepest recurring tension
+across the stories — not put there by the brief, but emerging from the
+translation work:
+
+- The gradient persists (physics). The custom does not (enactment).
+- The mineral signature persists (chemistry). The spirit's name does not
+  (relation).
+- The register survives. The trail knowledge does not.
+- The channel carries water after the kuhl is abandoned. The runner
+  stops when the road arrives.
+
+This is the weft of the weave — the thread that runs /across/ the
+stories without being asked for. A dimension that tracks: for each
+story, what persists and what is lost when the medium changes?
+
+*** Objects as actors
+
+The loom teaches the weaver's body the pattern. The kuhl's gradient
+carries decisions the kohli made. The register preserves what the
+custom could not. The settling pool filters what the channel carries.
+
+Objects in these stories have structural agency — not metaphorical,
+but functional. The loom is not a prop; it is a character. The
+register is not a record; it is the third hand's attempt to make
+custom survive.
+
+This dimension asks: /what does the object do that the human cannot?/
+It reveals the relationship between instruments, mechanisms, and spirits
+— the warp and weft of the weave of existence, as the project's
+guiding philosophy would have it.
+
+*** Threshold moments
+
+Where does understanding shift? Almost every story has a liminal
+passage — geographical (a pass, a gorge, a descent) and cognitive
+(the moment the grandson says "trail knowledge lives in legs, not
+in registers"). These thresholds are the story's structural joints.
+
+The browser could mark these moments as inflection points — the place
+where the reader's understanding pivots, not just the Thread Walker's
+route.
+
+*** Silence and absence
+
+What the story refuses to say. The Thread Walker does not explain what
+she does not understand. The Phantom Faculty governs without existing.
+The Karakoram is empty on the map. The Hindi retelling translates the
+same structure into a different register without explaining why.
+
+Absence is information. A dimension that tracks: what is /not/ in
+each story, and what does that omission reveal about the story-teller's
+limits — or its discipline?
+
+*** Ecological web — the spirits that never see light
+
+The dimensions above track human-landscape relationships. This dimension
+tracks the relationships /between non-human actors/ — the full ecological
+web that the stories have only touched in fragments.
+
+The lammergeier (/hadda-tod/, bone-breaker; Jatayu's kin in the Rāmāyaṇa)
+circles at 7,500m above the Parvati pyramid, dropping bones onto
+ossuaries to shatter them. The Himalayan griffon vulture (/giddh/)
+shadows the sheep herds moving to fresh pastures above the tree line.
+The ibex walks ridges where juniper grows. The juniper grows where the
+monsoon reaches. The monsoon reaches where the orography permits. And
+below all of it, tectonic forces — spirits that have never seen the
+light of day — push Nanga Parbat 1cm higher each year while the Indus
+grinds it down. The mountain grows because it erodes. The erosion drives
+the uplift. The tectonic aneurysm is a feedback loop 50 million years
+old.
+
+Change the tree line, change the juniper, change where the ibex walks,
+change where the lammergeier hunts. The Himalayan brown bear's range
+contracts as glaciers retreat. The snow leopard follows the ibex follows
+the grass follows the snowmelt follows the glacier follows the climate
+follows the monsoon follows the orography follows the tectonic thrust.
+Every link is a story. Every broken link is a loss.
+
+The stories have touched this web in fragments:
+- The kuhl carries water shaped by gradient shaped by geology (#10)
+- The gur speaks for a nag devta who /is/ the river's character (#7)
+- The mineral signature persists through geological time (#9)
+- The glacier acts — surging, advancing, retreating (#12 survey material)
+
+But no story has yet followed the chain all the way — from tectonic
+thrust through altitude zonation through species behaviour through
+spirit tradition through human practice and back. The ecological web
+is the dimension that connects the mountain's blind upward push to
+the lammergeier's circling to the shepherd's seasonal migration to the
+bitan's juniper smoke. It is the warp and weft at the largest scale —
+the weave of existence itself.
+
+This dimension is not yet fully present in the stories. It is the
+frontier the browser should make visible as /absence/ — the connections
+the stories haven't made yet, the relationships waiting to be followed.
+The Karakoram surveys (WP-0012, WP-0013) have gathered the raw material:
+peri at altitude, glacier marriage, the ibex cult across 5,000 years,
+the lammergeier's sky burial. The stories that follow will enter
+this web.
+
+** Data format
+
+Story metadata in EDN, following the constellation viewer's pattern.
+One =data.cljs= (or =data.edn= loaded at runtime) with:
+
+#+begin_example
+{:stories [{:id "thread-walkers"
+            :number 1
+            :title "The Thread Walkers"
+            :slug "the-thread-walkers"
+            :setting {:region "Lahaul/Spiti" :places ["Kullu-Tibet border"]}
+            :document-type :field-notes
+            :date "2026-02-23"
+            :characters ["thread-walker" "guild-members"]
+            :concepts [:identity-registry :guild :relay :disposition :harness]
+            :illustrations 4
+            :excerpt "..."}
+           ...]
+ :concepts [{:id :identity-registry
+             :name "Spirit identity registry"
+             :story-equivalent "Brass-plate ledger"
+             :introduced-in 1}
+            ...]
+ :characters [{:id "thread-walker"
+               :name "The Thread Walker"
+               :appears-in [1 2 3 4 5 7 8 9 10 11 12]
+               :role "narrator/observer"}
+              ...]
+ :edges [...]}
+#+end_example
+
+** First mockup (Phase 1)
+
+Two dimensions rendered side by side or as switchable views:
+
+1. *Geography view*: 2D SVG map with story pins. Click a pin → info panel
+   shows story metadata, illustration thumbnails, translation keys.
+   The Tirthan cluster is zoomable.
+
+2. *Concept view*: Force-directed graph of translation keys. Stories as
+   edges connecting the concepts they translate. Hover a concept → highlight
+   all stories that translate it.
+
+Both views share the same info panel component. Switching dimensions
+re-layouts the same story data.
+
+** Where it lives
+
+=website/story-browser/= — sibling to =website/project-constellation/=.
+Same shadow-cljs build pattern. Output JS to =website/static/js/story-browser.js=.
+Hugo page at =website/content/writing/browser.md= (or similar) mounts the
+component.
+
+Shares =deps.edn= dependencies with the constellation viewer. May share
+source files (state management, edge rendering) via a shared CLJS namespace
+or simple copy-and-adapt.
+
+* Execution Order
+
+1. *Data compilation* — extract story metadata from =develop/story-development.org=
+   into EDN. Manual curation, not automated parsing (the data is small and
+   benefits from human judgment about what to include).
+
+2. *Geography mockup* — 2D SVG map with story pins. Reuse DEM contour
+   data from =domains/parbati/= for the Kullu/Tirthan area. Schematic
+   outlines for other regions.
+
+3. *Concept mockup* — force-directed graph of translation keys. Fork from
+   constellation viewer, replace entity data with concept data.
+
+4. *Info panel* — story detail view: title, setting, excerpt, illustration
+   thumbnails, character list, translation keys, link to full story.
+
+5. *View switching* — toggle between geography and concept projections.
+   Same data, different spatial layout.
+
+6. *Integration* — Hugo page, build pipeline, deploy.
+
+7. *Human review* — does the navigation feel right? Does the reader
+   discover stories they want to read?
+
+Phases 2–3 can be parallelised. Phase 4 serves both views.
+
+* Acceptance Criteria
+
+- [ ] EDN data file contains metadata for all 12 stories
+- [ ] Geography view renders a map with story pins at correct relative positions
+- [ ] Concept view renders a force-directed graph of translation keys
+- [ ] Clicking a story in either view shows an info panel with metadata
+- [ ] View switching works (geography ↔ concept)
+- [ ] At least one illustration thumbnail visible per story in the info panel
+- [ ] The browser is deployed as a Hugo page on mayalucia.dev
+- [ ] The Tirthan cluster (5 stories) is visually distinguishable from single-story regions
+- [ ] The Karakoram appears as an empty region (future territory)
+
+* What This Proves
+
+Three things, at increasing depth:
+
+1. *The constellation viewer generalises.* The same ClojureScript +
+   D3-force + Reagent stack that renders the project's own structure can
+   render the project's creative output. The viewer is a genus, not a
+   species.
+
+2. *The stories carry more structure than we gave them.* The input
+   dimensions (geography, concepts, document type) are the brief. The
+   emergent dimensions (entanglement, knowledge modality, loss, object
+   agency, thresholds, silence) are what the story-teller /found/. The
+   browser makes both visible — and the gap between them is the
+   story-teller's cognitive contribution.
+
+3. *The browser is a visual evaluation of the story-teller spirit.*
+   Each emergent dimension is a capability the LLM engine demonstrated
+   through creative work, not through a benchmark. Human-landscape
+   entanglement is not a prompt instruction — it is a pattern the engine
+   discovered when translating system concepts into valley language. The
+   browser lets us see /what the engine sees/ when it does this work.
+   This is the Feynman imperative applied to creative AI: we understand
+   the story-teller's cognition by building the instrument that renders
+   its emergent structure.
+
+* Open Questions
+
+- *3D terrain*: the first mockup uses 2D SVG. When does 3D terrain
+  arrive? mayaportal has WebGPU rendering; parbati has DEM data. But
+  wiring them into a browser component is a separate WP. The 2D map
+  should be designed so 3D is an upgrade, not a rewrite.
+
+- *Executor*: who builds this? It is ClojureScript — the sutradhar's
+  language. But it is reader-facing, not project-facing. A new spirit?
+  Or sutradhar-guardian extending its scope? Or mayadev as coordinator
+  with sutradhar-guardian executing?
+
+- *The Hindi story* (10h): does it appear as a separate pin in the
+  geography view (same location, different document) or as a variant
+  within story #10's info panel?
+
+- *Story #6 (Phantom Faculty)*: no geography. Does it float in the map
+  view? Appear only in concept view? Get a special "abstract" region?
+
+- *Interactive reading*: does clicking "read" in the info panel navigate
+  to the Hugo story page, or does the browser itself become a reading
+  surface?
+
+- *Sound*: should the geography view have ambient sound? Wind at altitude,
+  water in the gorge, loom shuttle in Gushaini? This is an experience
+  design question, not a code question.
+
+- *The book*: if this browser is the book's digital companion, what is
+  the book's physical form? Print? PDF? Illustrated hardcover? The
+  browser and the book are two projections of the same manifold — they
+  should be designed together.

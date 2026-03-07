@@ -1,0 +1,140 @@
+#+title: WP-0016 — Ecological Web Survey: Altitude, Species, and the Spirits Between
+#+subtitle: The chain from tectonic thrust to lammergeier's circle — research for the story browser's deepest dimension
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+#+property: status drafted
+
+* Context and Motivation
+
+The story browser (WP-0014, DP-0003) includes an emergent dimension
+called "ecological web" — the relationships between non-human actors
+across the Western Himalaya. This dimension connects tectonic forces
+to altitude zonation to species behaviour to spirit traditions to
+human practice.
+
+The Diamer surveys (WP-0012, WP-0013) gathered some of this material
+for the Karakoram. This WP extends the ecological web to the full
+story geography: Tirthan, Parvati, Baspa, Spiti, Lahaul, Sutlej —
+the monsoon valleys where the stories live.
+
+This is homework — not a story, not a browser component. Raw material
+for the browser's ecological web dimension and for future stories.
+
+** Why this matters
+
+The stories touch the ecological web in fragments: the kuhl carries
+water shaped by geology (#10), the gur speaks for a nag devta who /is/
+the river (#7), the mineral signature persists through geological
+time (#9). But no story — and no survey — has mapped the full chain
+for the monsoon valleys. The Diamer surveys did this for the Karakoram
+(tectonic aneurysm → glacier → species → spirit). The monsoon valleys
+deserve the same depth.
+
+* Inventory (What Already Exists)
+
+** Diamer surveys
+
+- =domains/epistem/surveys/diamer-nanga-parbat.org= (v1, ~2,585 lines)
+- =domains/epistem/surveys/diamer-deep-time.org= (~962 lines)
+- Covers: ibex, markhor, snow leopard, lammergeier, Himalayan griffon,
+  juniper ecology, glacial dynamics, tectonic aneurysm
+
+** Spirit ecology surveys
+
+- =domains/epistem/surveys/spirit-ecology.org= (WP-0003)
+- =domains/epistem/surveys/spirit-ecology-verified.org= (WP-0006)
+- Covers: devta traditions, nag devtas, peri, bitan — but not the
+  ecological chains connecting spirits to species to altitude
+
+** Great Himalayan National Park
+
+The GHNP covers the upper catchments of the Tirthan, Sainj, Parvati,
+and Jiwa rivers. It is a UNESCO World Heritage Site. Biodiversity
+data exists but has not been surveyed for this project.
+
+* Specification
+
+** Part A: Altitude zonation chains — monsoon valleys
+
+For each story region (Tirthan, Parvati, Baspa, Spiti/Lahaul, Sutlej),
+document the ecological chain:
+
+1. *Geology*: dominant rock type, tectonic context, erosion rate
+2. *Altitude zones*: subtropical → temperate → subalpine → alpine → nival.
+   What grows and lives at each zone? How do zones shift with aspect
+   (south-facing vs north-facing)?
+3. *Keystone species*: which species define each zone? Deodar below,
+   birch/juniper above, alpine meadow, rock/ice.
+4. *Raptors*: lammergeier, Himalayan griffon, golden eagle. Local names
+   (Pahari, Shina, Hindi). Hunting ranges. Relationship to herding
+   (griffon follows sheep to alpine pastures). Mythology (Jatayu,
+   Dakini sky burial, local legends).
+5. *The monsoon boundary*: where does monsoon influence end? How does
+   this shift the zones compared to the Karakoram?
+
+** Part B: Species–spirit connections
+
+For each story region, document connections between:
+
+- *Nag devtas and rivers*: which rivers have nag devta associations?
+  What does the devta "know" about the river's character?
+- *Ibex/markhor and petroglyphs*: the ibex cult extends from Diamer
+  into the monsoon valleys? Or is it Karakoram-specific?
+- *Bears, leopards, and altitude*: Himalayan brown bear range changes.
+  Snow leopard range in GHNP area. Local names and legends.
+- *Trees as spirits*: deodar as sacred (devdār = "timber of the gods").
+  Juniper as sacred across Dardic world. Any sacred trees in the
+  Tirthan/Parvati stories?
+
+** Part C: Shifting baselines
+
+What has changed in living memory?
+
+- Tree line shifts (climate change, logging, grazing pressure)
+- Species range changes (brown bear sightings, snow leopard camera traps)
+- River character changes (damming, hydropower, glacial retreat)
+- Pastoral migration patterns (sheep to alpine meadows — still happening?
+  Changing routes? Changing seasons?)
+
+This section provides the "loss" data for the browser's ecological
+web dimension — broken links in the chain.
+
+* Output
+
+Survey deposited at:
+=domains/epistem/surveys/ecological-web-western-himalaya.org=
+
+Structure: sections matching Parts A–C. Sources cited with URLs.
+Cross-references to Diamer surveys where chains overlap.
+
+* Execution Order
+
+1. [A] Altitude zonation chains — one section per story region
+2. [B] Species–spirit connections — cross-referencing spirit ecology
+3. [C] Shifting baselines — contemporary change data
+4. Synthesis: cross-reference with Diamer surveys
+5. Human review and annotation from lived experience
+
+Parts A and B can be parallelised.
+
+* Acceptance Criteria
+
+- [ ] At least 4 story regions covered with altitude zonation chains
+- [ ] Raptor section includes local names in at least 2 languages
+- [ ] At least 3 species–spirit connections documented with sources
+- [ ] Shifting baselines section covers at least tree line and pastoral changes
+- [ ] At least 15 web-accessible sources cited with URLs
+- [ ] Survey deposited at correct path
+- [ ] Human has reviewed (if lived experience exists for these regions)
+
+* Open Questions
+
+- How much overlap with the GHNP biodiversity data? The park covers
+  exactly the story regions. If GHNP management plans are available
+  online, they are primary sources.
+- Should this survey cover the Karakoram ecological chains too, or
+  rely on WP-0012/0013 for those? Keeping it to monsoon valleys
+  preserves focus, but the contrast (monsoon vs rain shadow) is
+  itself an ecological relationship.
+- The human has lived experience of the Tirthan and Parvati valleys.
+  Step 5 is not optional here — the annotations will be rich.

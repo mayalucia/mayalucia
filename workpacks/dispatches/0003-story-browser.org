@@ -1,0 +1,83 @@
+#+title: DP-0003 — Story Browser Chain
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+#+property: status drafted
+
+* Context
+
+WP-0014 (story browser) is too broad for a single executor — it spans
+data curation, ClojureScript app development, ecological survey research,
+and emergent dimension annotation. This DP decomposes WP-0014 into four
+WPs and sequences them as a DAG.
+
+WP-0014 remains as the vision document. It is not executed directly —
+the DP's WPs are the executable units. WP-0014's acceptance criteria
+are met when all four WPs in this chain complete.
+
+* WPs in this chain
+
+| WP | Title | Executor | Type |
+|------+-------+----------+------|
+| 0015 | Story data in EDN | mu2tau + mayadev | simple |
+| 0016 | Ecological web survey | epistem-guardian | simple |
+| 0017 | Browser shell (Phase 1) | sutradhar-guardian | simple |
+| 0014 | Emergent dimension annotations | mu2tau (human) | simple |
+
+WP-0014 is reused for its final phase — the human annotation of
+emergent dimensions. Its specification section already describes
+the seven dimensions. When the browser shell exists and the ecological
+survey feeds it, the human annotates each story along each dimension.
+
+* DAG
+
+#+begin_example
+WP-0015 ─────────────────┐
+  (EDN data curation)     │
+                          ├──► WP-0017
+WP-0016 ─────────────────┤     (browser shell — Phase 1)
+  (ecological web survey) │         │
+                          │         ▼
+                          │    WP-0014 final phase
+                          │     (emergent annotations)
+                          │         │
+                          └─────────┘
+#+end_example
+
+| Edge | From | To | Condition |
+|------+------+----+-----------|
+| e1 | WP-0015 | WP-0017 | EDN data file committed |
+| e2 | WP-0016 | WP-0017 | ecological web data available for display |
+| e3 | WP-0017 | WP-0014 | browser deployed, views navigable |
+
+WP-0015 and WP-0016 have no mutual dependencies — they can run
+in parallel.
+
+* Executors
+
+| WP | Executor | Guild | Working dir |
+|------+-----------------+---------+----------------------------|
+| 0015 | mu2tau + mayadev | mayalucia | parent repo |
+| 0016 | epistem-guardian | epistem | =domains/epistem= |
+| 0017 | sutradhar-guardian | mayalucia | =modules/sutradhar= |
+| 0014 | mu2tau (human) | — | parent repo |
+
+mayadev dispatches. Guardian spirits execute their domain work.
+The human does the annotation — no spirit can judge which threshold
+moments matter or which silences are deliberate.
+
+* Notes
+
+- WP-0014 (the vision document) remains at =workpacks/0014-story-browser.org=.
+  Its specification and emergent dimensions sections are the reference
+  for all four WPs.
+- WP-0015 is small — 12 stories, hand-curated EDN. Could be done in
+  a single session.
+- WP-0016 parallels WP-0012/0013 (Diamer surveys) but focuses on
+  ecological chains rather than regional geography. May reuse survey
+  material from those WPs.
+- WP-0017 is the build. It forks from the constellation viewer
+  (=modules/sutradhar/website/project-constellation/=) and adapts the
+  rendering for story data.
+- WP-0014's final phase depends on seeing the browser — the emergent
+  dimensions cannot be annotated in the abstract. The human needs to
+  see stories projected into the space before judging what emerged.

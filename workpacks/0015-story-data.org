@@ -1,0 +1,125 @@
+#+title: WP-0015 — Story Metadata in EDN
+#+subtitle: Curate structured data for all published stories — the browser's source of truth
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+#+property: status drafted
+
+* Context and Motivation
+
+The story browser (WP-0014, DP-0003) needs structured data for all
+12 published stories. The data exists across =develop/story-development.org=
+(translation table, existing stories table) and the individual story
+Hugo pages, but not in a machine-readable format suitable for the
+ClojureScript browser.
+
+This WP produces a single EDN file — the browser's source of truth.
+
+* Inventory (What Already Exists)
+
+** Translation table
+
+=develop/story-development.org= carries the global translation table:
+~70 translation keys across 12 stories, with provenance (which story
+introduced each key).
+
+** Story metadata
+
+The "Existing Stories" table in the same file:
+number, title, setting, document type for each story.
+
+** Hugo frontmatter
+
+Each story at =website/content/writing/<slug>.md= has YAML frontmatter
+with title, date, tags, description.
+
+** Illustration files
+
+=website/static/images/writing/<slug>/= — 3–5 PNG files per story.
+
+* Specification
+
+Produce an EDN file at =modules/sutradhar/website/story-browser/src/story_browser/data.cljs=
+(or =data.edn= if loaded at runtime — defer this decision to WP-0017).
+
+** Schema
+
+#+begin_src clojure :tangle no
+{:stories [{:id         "thread-walkers"        ; slug
+            :number     1
+            :title      "The Thread Walkers"
+            :slug       "the-thread-walkers"    ; matches Hugo slug
+            :date       "2026-02-23"
+            :setting    {:region "Lahaul/Spiti"
+                         :places ["Kullu-Tibet border" "high passes"]
+                         :altitude "3000-5000m"
+                         :season :unknown}
+            :document-type :field-notes
+            :characters ["thread-walker" "guild-members"]
+            :concepts   [:identity-registry :guild :relay :disposition :harness]
+            :illustrations ["thread-walkers-1.png" ...]}
+           ...]
+
+ :concepts [{:id            :identity-registry
+             :name          "Spirit identity registry"
+             :story-equiv   "Brass-plate ledger"
+             :introduced-in 1}
+            ...]
+
+ :characters [{:id         "thread-walker"
+               :name       "The Thread Walker"
+               :appears-in [1 2 3 4 5 7 8 9 10 11 12]
+               :role       "narrator/observer"}
+              ...]
+
+ :regions [{:id    "tirthan"
+            :name  "Tirthan Valley"
+            :stories [7 10 11 12]}
+           ...]
+
+ :edges [;; story-to-story relationships (if any)
+         ;; character-to-character (shared stories)
+         ;; concept-to-concept (co-occurrence in a story)
+         ]}
+#+end_src
+
+** Process
+
+This is hand-curation, not automated parsing. The data is small
+(12 stories) and benefits from human judgment:
+
+- Which characters matter enough to list?
+- Which concepts does each story /actually/ translate (not just mention)?
+- What is each story's geographic region (not always obvious)?
+- Which illustration best represents the story (for thumbnails)?
+
+The human reads each story and fills in the fields. The spirit
+can scaffold the file from the existing tables, but the human
+validates every entry.
+
+* Execution Order
+
+1. Scaffold the EDN file from =develop/story-development.org= tables
+2. Human reviews and corrects each story entry
+3. Add character data (requires reading the stories)
+4. Add region data (cluster assignments)
+5. Commit to =modules/sutradhar= or parent repo (placement per WP-0017)
+
+* Acceptance Criteria
+
+- [ ] EDN file contains entries for all 12 stories
+- [ ] Each story has: id, number, title, slug, date, setting, document-type,
+      characters, concepts, illustrations
+- [ ] Concepts table contains all keys from the global translation table
+- [ ] Characters table contains at least: thread-walker, kohli, gur, weaver, grandson
+- [ ] Regions table matches the clusters in WP-0014
+- [ ] File is valid EDN (parseable by =clojure.edn/read=)
+- [ ] Human has validated every entry (not just machine-extracted)
+
+* Open Questions
+
+- Does this file live in =modules/sutradhar= (the browser's codebase)
+  or in the parent repo (where the stories live)? Defer to WP-0017.
+- Should the EDN include excerpt text for each story (first paragraph)?
+  Useful for the info panel but increases file size.
+- Story #6 (Phantom Faculty) has no geography. How is it represented
+  in the regions table?
