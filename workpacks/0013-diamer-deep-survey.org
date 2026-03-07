@@ -1,38 +1,48 @@
 #+title: WP-0013 — Deep Survey: Diamer Across Time
-#+subtitle: From Tethys to the Anthropocene — what walked, what grew, what was carved, what was named, and what might become a story
+#+subtitle: From Tethys to the Anthropocene — what walked, what grew, what was carved, what was named
 #+author: mu2tau + mayadev
 #+date: 2026-03-06
-#+property: status completed
+#+property: status executed
+#+property: tightened-by sutradhar-guardian
+#+property: tightened-date 2026-03-06
+#+property: assigned-to epistem-guardian
+#+property: executed-by epistem-guardian
+#+property: executed-date 2026-03-07
 
 * Context and Motivation
 
-WP-0012 produced a first-version regional survey of Diamer and the
-Nanga Parbat massif — geology, glaciology, spirit traditions,
-aesthetics. That survey covers the present and recent past (human
-settlement, colonial expeditions, contemporary life). It is homework
-for story composition.
+WP-0012 produced a survey v0 of Diamer and the Nanga Parbat massif
+(=domains/epistem/surveys/diamer-nanga-parbat.org=, 620 lines, 20+
+sources). That survey covers the present and recent past well:
+geology, glaciology, spirit traditions, aesthetics, contemporary life.
 
-This WP goes deeper and wider. The goal is to collect content from the
-web that can:
-- develop into a *story* (found-document narrative in the MāyāLucIA voice)
-- inspire an *illustration* (graphical, animated, or interactive)
-- appear as an *entity* in the story world (a spirit, a beast, a
-  geological formation, a sound)
-- become a *concept* for artistic development (a portal, an experience,
-  a guided journey)
+This WP goes deeper in time and wider in natural history. The v0 is
+the baseline — *read it first, build on it, do not repeat it*.
 
-The method must be *observable and reproducible* — a WP that any spirit
-can execute, not an informal sprint with subagents. The survey v0
-showed what a quick pass finds; this WP asks for the depth and breadth
-that careful, delegated research provides.
+The goal is to collect web-accessible content that can develop into
+stories, illustrations, or entities in the story world. The method
+must be observable and reproducible.
 
-** The vision
+** What v0 already covers (do not re-research)
 
-An agentic portal for Diamer — a storytelling guide that leads the
-explorer through landscape, time, and spirit traditions. Not a
-tourist app but a Thread Walker's companion: /"This is Tato — warm,
-because the mountain breathes here."/ The portal requires rich,
-verified content across deep time.
+- Tectonic aneurysm, Indus gorge, Rupal Face, hot springs (A.1–A.5)
+- Peri tradition, bitan selection and trance, glacier marriage,
+  azhdaar, languages, settlement, conquest narrative (B.1–B.7)
+- Aesthetic register — light, sound, architecture, contrast table (C)
+- 9 narrative tensions (D)
+- 20+ cited sources (E)
+
+** What this WP adds
+
+- *Deep time* (A): geological and evolutionary history from Tethys
+  to Holocene — entirely new
+- *Deep human history* (B): petroglyphs as primary source (going
+  beyond v0's dam-threat framing), Jettmar's /Religions of the
+  Hindukush/, oral tradition and song — deepening v0's coverage
+- *Flora, fauna, landscape entities* (C): species with cultural
+  significance — v0's ecology section is thin
+- *Visual and sound references* (D): concrete source material for
+  future illustration — new
 
 * Inventory (What Already Exists)
 
@@ -106,20 +116,29 @@ what academic sources document it.
 
 ** Part B: Deep Human History — The First Stories
 
+The v0 covers the petroglyphs in the context of the Diamer-Basha Dam
+threat and gives a factual overview of the bitan tradition. This part
+goes deeper: the petroglyphs as a *primary source* for understanding
+who lived here across millennia, and the pre-Islamic religion as a
+*coherent system* rather than scattered ethnographic details.
+
 *** B.1 Petroglyphs as Primary Source
 
-- Jettmar and Hauptmann's Pak-German Archaeological Mission:
-  30,000 petroglyphs, 5,000 inscriptions on the Indus. Detailed
-  catalogue of motifs: hunting scenes, animals (ibex, markhor, snow
-  leopard), ritual figures, Buddhist imagery.
-- The 10 writing systems: Brahmi, Sogdian, Middle Persian, Chinese,
-  Tibetan, Hebrew, Kharoshthi, and others. What do each tell us
-  about who passed through?
+v0 baseline: Jettmar's mission, 30,000 carvings, 10 writing systems,
+the Altar Rock. *Go deeper on*:
+
+- Detailed catalogue of *motifs*: hunting scenes, animals (ibex,
+  markhor, snow leopard), ritual figures, Buddhist imagery. What is
+  the relative chronology? Which motifs are oldest?
+- What each *writing system* tells us about who passed through and
+  when — Brahmi, Sogdian, Middle Persian, Chinese, Tibetan, Hebrew,
+  Kharoshthi. Trade routes implied by linguistic diversity.
 - *Pre-Buddhist motifs*: Jettmar linked maskoid motifs near Chilas to
   the Early Bronze Age Okunev Culture in Siberia. What does this
-  Siberian connection imply?
+  Siberian connection imply? Sources on the Okunev link specifically.
 - The Altar Rock (Thalpan): Jataka scenes, Buddha's temptation,
-  the sermon at Benares. Detailed descriptions and photographs.
+  the sermon at Benares. Seek *image sources* (archaeological
+  publications, museum archives).
 
 *** B.2 Pre-Islamic Religion of the Dards
 
@@ -143,95 +162,111 @@ what academic sources document it.
 
 ** Part C: Flora, Fauna, and Landscape Entities
 
-Search for what lives in and around the Nanga Parbat massif — not
-just species lists but the relationship between organisms and the
-landscape. For stories and illustrations.
+v0 has a thin ecology paragraph (A.6). This part gives each organism
+its due — not as a species list but as entities with cultural
+resonance and story potential. For each species: range/behaviour near
+Nanga Parbat, cultural significance (petroglyphs, spirit traditions,
+local names), and what makes it visually or narratively interesting.
 
-*** C.1 Mammals
+*** C.1 Mammals — the ones carved on the rocks
 
-- Snow leopard: range, behaviour in the Nanga Parbat area. Sightings,
-  camera trap studies. Cultural significance.
-- Markhor (screw-horned goat): the national animal of Pakistan.
-  Distribution around Nanga Parbat. The name means "snake-eater" —
-  is there a connection to the nāg/klu tradition?
-- Himalayan ibex: the ibex cult in petroglyphs. Current population.
-- Himalayan brown bear: any presence in Diamer?
-- Marmot, pika: high-altitude ecology.
+- *Himalayan ibex*: the ibex cult — horns on graves, ibex petroglyphs
+  (the most frequent animal motif at Thalpan). Current population
+  and range. Why this animal, above all others, was sacred.
+- *Markhor* (screw-horned goat): Pakistan's national animal. The name
+  means "snake-eater" — is there a connection to the nāg/klu
+  tradition? Distribution around Nanga Parbat. The spiral horns as
+  visual motif.
+- *Snow leopard*: range, behaviour, camera trap studies in the
+  Diamer/Nanga Parbat area. Cultural significance — ghost of the
+  mountain. Any petroglyphic representation?
+- *Himalayan brown bear*: any presence in Diamer? The Deosai
+  population is nearby.
+- *Marmot*: high-altitude ecology, behaviour, sound (the alarm
+  whistle that carries across the jūt).
 
-*** C.2 Birds
+*** C.2 Birds — the ones that fly above the face
 
-- Bearded vulture (lammergeier): bone-eater, one of the most
-  dramatic raptors. Range around Nanga Parbat.
-- Golden eagle, Himalayan griffon.
-- Any endemic or notable species?
+- *Bearded vulture* (lammergeier): bone-eater, 3m wingspan, drops
+  bones from height to crack them. Range around Nanga Parbat. Any
+  local names or spirit associations?
+- *Golden eagle, Himalayan griffon*: presence, behaviour.
+- *Chukar partridge*: the common bird of the arid valleys. Sound.
+- Any species endemic to or notably concentrated in the Diamer area?
 
-*** C.3 Flora
+*** C.3 Flora — what grows without monsoon
 
-- Juniper: species, distribution, ecology. Sacred use.
-- Birch forests at altitude.
-- Alpine meadow composition (the /jūt/).
-- Apricot and cherry orchards in the valleys — the blossoming
-  season when peri descend.
+- *Juniper*: species present (Juniperus excelsa, J. macropoda?),
+  distribution, ecology. Sacred use — the bitan's smoke. The oldest
+  living junipers in the region?
+- *Birch* forests at altitude: species, treeline elevation.
+- *Alpine meadow* composition (the /jūt/) — what flowers grow there?
+  The meadow is the peri's domain; what does it actually look like
+  in bloom?
+- *Apricot and cherry* orchards in the valleys — the blossoming
+  season when peri descend to choose shamans. Varieties, cultivation
+  history.
+- Any notable medicinal plants used by the bitan?
 
 *** C.4 Rivers and Water
 
-- The Indus as it passes Nanga Parbat: character, colour, sound.
-- Tributaries and meltwater streams.
-- The hot springs as ecological niche — thermophilic organisms?
-- Glacial meltwater chemistry.
+v0 covers the Indus gorge geology and hot springs well. Here, focus on:
 
-** Part D: Artistic Source Material
+- Tributaries and meltwater streams: names, character.
+- The hot springs as *ecological niche* — thermophilic organisms?
+  Any studies of the microbial ecology at Tato or Tattapani?
+- Glacial meltwater chemistry — how does it differ from monsoon-fed
+  rivers? What does the water carry down from the mountain?
 
-Search specifically for material that could become illustrations,
-animations, or interactive experiences.
+** Part D: Visual and Sound References
+
+Concrete source material that future stories, illustrations, and
+interactive work can draw on. This is research (find existing
+material, document URLs), not creative direction.
 
 *** D.1 Visual References
 
-- Photographs of Thalpan petroglyphs (high-quality, from
-  archaeological publications).
-- Historical expedition photographs (1930s German expeditions,
-  Buhl's photos).
-- Geological cross-sections and diagrams of the syntaxis.
-- Satellite imagery of the Indus gorge and glacier systems.
-- Salman Rashid's photographs (if published).
+- Photographs of Thalpan petroglyphs — high-quality, from
+  archaeological publications (Jettmar's volumes, ISIAO archives,
+  Pak-German mission reports). Document URLs or publication references.
+- Historical expedition photographs: 1930s German expeditions,
+  Buhl's 1953 photos. Where are these archived?
+- Geological cross-sections and diagrams of the syntaxis —
+  academic papers with reusable figures.
+- Satellite imagery of the Indus gorge and glacier systems —
+  Landsat, Sentinel, or similar. Accessible sources.
+- Salman Rashid's photographs (if published online).
 
 *** D.2 Sound
 
 - Recordings of the twelve Shina musical tunes (Dadang, Daamal,
-  Surnai). Any available online?
-- The sound of the Indus in its gorge.
-- Glacier sounds: cracking, calving, meltwater.
-- Wind at altitude.
-
-*** D.3 Animation Concepts
-
-- The tectonic aneurysm as animated process — erosion drives uplift
-  drives erosion, a visual feedback loop.
-- Glacier marriage: the twelve-year sequence from willow basket to
-  newborn glacier.
-- The Indus cutting through the rising mountain — an antecedent
-  river in time-lapse across millions of years.
-- Petroglyph layers: the same rock face accumulating carvings across
-  10,000 years, writing system upon writing system.
-
-*** D.4 Portal Concepts
-
-- The Thread Walker's route through Diamer: an interactive journey
-  that moves through both space and time.
-- Landscape-as-information: red rock = btsan/danger, hot spring =
-  tectonic aneurysm, glacier colour = gender.
-- The dual naming overlay: every place shown with both its Shina
-  name and its Urdu/English name, the two readings of the same
-  landscape.
+  Surnai). Any available online? YouTube, SoundCloud, academic
+  ethnomusicology archives?
+- Any field recordings from the Diamer/Gilgit region — river,
+  glacier, wind at altitude?
+- Ethnomusicological publications on Shina or Burushaski music
+  that include transcriptions or audio references.
 
 * Execution Order
 
+0. Read =domains/epistem/surveys/diamer-nanga-parbat.org= (v0).
+   Identify gaps relative to this WP's specification. Do not
+   re-research what v0 already covers well.
 1. [A] Deep time research — parallel queries across epochs
-2. [B] Deep human history — petroglyphs, pre-Islamic religion, oral tradition
-3. [C] Flora, fauna, landscape entities
-4. [D] Artistic source material — visual, sound, animation concepts
-5. Synthesis: merge with survey v0 into a comprehensive v1
-6. Update gazetteer genera (enrich =karakoram-peri= and =karakoram-bitan=)
+2. [B] Deep human history — petroglyphs, pre-Islamic religion,
+   oral tradition (deepen v0, do not duplicate)
+3. [C] Flora, fauna, landscape entities (with cultural significance)
+4. [D] Visual and sound references
+5. Synthesis: merge new material into v0 to produce v1. Preserve
+   v0's structure (sections A–E). Add new sections for deep time.
+   Enrich existing sections where this WP adds depth.
+6. Update gazetteer genera:
+   - =karakoram-peri.yaml=: add makhakhar/rathas distinction, named
+     abodes table, Pari Khan tradition, the language question (Shina
+     as fairy language)
+   - =karakoram-bitan.yaml=: add five specialist categories, music
+     as political control, the iron bangle paradox, selection by
+     smelling newborns
 7. Human review and annotation
 
 Parts A–D are independent and can be parallelised. Each part should
@@ -243,52 +278,59 @@ documented sources, documented gaps.
 Survey v1 deposited at:
 =domains/epistem/surveys/diamer-nanga-parbat.org=
 
-Replacing v0 with a comprehensive document. The v0 material is
-preserved in git history.
+This *extends* v0 — adds new sections, enriches existing ones. The
+v0 material is preserved in git history. Do not delete v0 content
+that is already good; integrate new material around it.
 
 Enriched gazetteer genera committed to:
 =domains/epistem/collections/himalayan-spirits/spirits/genera/=
 
 * Acceptance Criteria
 
-- [ ] At least 5 sources on pre-human geological history
-- [ ] At least 3 sources on Pleistocene megafauna or palaeolithic presence
-- [ ] Petroglyph section includes specific motif descriptions + image sources
-- [ ] Pre-Islamic religion section draws on Jettmar (primary source)
-- [ ] Flora and fauna sections include at least 5 species with cultural significance
-- [ ] At least 3 animation/illustration concepts described with enough detail
-      to brief a visual artist or an image-generation script
-- [ ] At least 30 web-accessible sources cited with URLs
-- [ ] Gazetteer genera enriched with material from the survey
-- [ ] All sources honest about gaps — if no evidence exists, say so
-- [ ] Human has reviewed and annotated
+- [X] v0 read first; no redundant re-research of material already well-covered
+- [X] At least 5 sources on pre-human geological history (Part A)
+- [X] At least 3 sources on Pleistocene megafauna or palaeolithic presence
+- [X] Petroglyph section deepens v0 with motif chronology + image sources
+- [X] Pre-Islamic religion section draws on Jettmar (primary source)
+- [X] At least 5 species documented with cultural significance (Part C)
+- [X] At least 3 visual or sound reference sources with URLs (Part D)
+- [X] At least 30 web-accessible sources cited across the full v1
+      (including v0's existing 20+)
+- [X] Gazetteer genera enriched with specific fields listed in step 6
+- [X] All sources honest about gaps — if no evidence exists, say so
+- [-] Human has reviewed and annotated
 
 * What This Proves
 
-That the =survey → story → portal= pipeline works as a WP-specified
-procedure. The survey is research; the stories are translations; the
-portal is the experience layer. Each feeds the next. And the process
-is observable — the sutradhar companion can watch the research happen,
-hold the thread across sessions, deposit a warp of what was found.
-
-Also: that we can look at a landscape across deep time — not just
-the human timescale of stories and spirits, but the geological
-timescale of collisions and glaciations and the evolutionary timescale
-of the creatures that walked before any human carved the first ibex
-on the first rock above the Indus.
+That the =survey → story= pipeline works as a WP-specified procedure
+executable by a domain guardian. That we can look at a landscape
+across deep time — not just the human timescale of stories and
+spirits, but the geological timescale of collisions and glaciations
+and the evolutionary timescale of the creatures that walked before
+any human carved the first ibex on the first rock above the Indus.
 
 * Open Questions
 
 - What megafauna evidence exists for the western Himalaya specifically?
   The Siwalik Hills (south of here) have rich fossil beds, but
   Diamer/Nanga Parbat? The rapid uplift and erosion may have destroyed
-  fossil-bearing strata.
+  fossil-bearing strata. Be honest if the evidence is thin.
 - Are there any sound recordings of Shina shamanic music available
   online? The twelve named tunes are documented; are they listenable?
 - How deep is the archaeological record in Diamer before the
   petroglyphs? Stone tools? Rock shelters? The first carvings at
   Thalpan (8,000 BCE) imply human presence earlier — but how much
   earlier?
-- The portal concept: is this a website (like CruVin), a mobile
-  experience, a VR walk, or something else? The medium shapes the
-  content requirements.
+
+* Downstream (not in scope)
+
+The following are downstream from this survey and belong in separate WPs:
+
+- *Animation concepts*: tectonic aneurysm as animated process, glacier
+  marriage sequence, Indus cutting through the rising mountain,
+  petroglyph layers accumulating across 10,000 years
+- *Portal concepts*: the Thread Walker's route through Diamer,
+  landscape-as-information, the dual naming overlay
+- *Stories*: found-document narratives set in the Karakoram
+
+This survey provides the raw material. The creative work follows.
