@@ -1,0 +1,194 @@
+#+title: WP-0017 — Illustrated Surveys: Convention and Diamer Pilot
+#+subtitle: Four output modes from one survey — inline, atlas, interactive, story kit
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+#+property: status executed
+#+property: executed-by mayadev
+#+property: executed-date 2026-03-07
+#+property: assigned-to mayadev
+
+* Context and Motivation
+
+WP-0012 and WP-0013 produced ~3,550 lines of Diamer/Nanga Parbat
+survey with 206+ URLs across two files. The homework is done. This
+WP turns that research into illustrated artifacts across four output
+modes:
+
+1. *Inline illustrations* — diagrams alongside survey org text
+2. *Visual atlas* — standalone HTML with spatial navigation
+3. *Interactive walkthrough* — scroll-driven deep-time narrative
+4. *Story illustration kit* — accurate visual elements for future
+   Karakoram stories
+
+All four share the same source material and visual language
+(matplotlib, parchment/walnut ink aesthetic). The difference is
+output format and interactivity.
+
+** Design decisions
+
+- *Matplotlib only* — no AI image generation. The diagrammatic
+  register (petroglyph-style line art, geological cross-sections,
+  schematic maps) is the project's visual identity.
+- *Illustration manifest* as shared layer — a YAML storyboard listing
+  every illustration point, consumed by all four output modes.
+- *Interactive walkthrough* as self-contained HTML — following the
+  Bloch sphere demo pattern (no framework, no build step).
+- *Shared helpers module* (=survey_helpers.py=) — reusable matplotlib
+  primitives extending the patterns from story illustrations.
+
+* Inventory (What Already Exists)
+
+** Survey files
+
+- =domains/epistem/surveys/diamer-nanga-parbat.org= (2,585 lines, v1)
+- =domains/epistem/surveys/diamer-deep-time.org= (962 lines)
+
+** Story illustration precedent
+
+- =collab/sessions/devprocess/sutra-genesis/the-mineral-deposits/generate_images.py=
+  — 7 geological illustrations, mineral palette, strata helpers.
+  The direct ancestor of the survey illustration toolkit.
+
+** Convention
+
+- =develop/story-development.org= — story pipeline (template for this
+  convention)
+- =develop/work-packages.org= — WP format
+
+** Interactive demo precedent
+
+- =modules/mayapramana/site/index.html= — Bloch sphere demo.
+  Self-contained HTML, scroll-driven, no framework.
+
+** Proof of concept (already produced)
+
+- =develop/illustrated-surveys.org= — convention document (v0.1)
+- =domains/epistem/surveys/illustrated/survey_helpers.py= — shared
+  matplotlib primitives (canvas, geological, landscape, timeline,
+  species plate, petroglyph helpers)
+- =domains/epistem/surveys/illustrated/diamer/manifest.yaml= —
+  illustration storyboard (16 illustration points)
+- =domains/epistem/surveys/illustrated/diamer/generate_illustrations.py=
+  — PEP 723 script producing 16 PNGs
+- =domains/epistem/surveys/illustrated/diamer/atlas.html=
+  — standalone visual atlas (5 sections, card grid, lightbox)
+- =domains/epistem/surveys/illustrated/diamer/deep-time/index.html=
+  — scroll-driven walkthrough (10 stops, Tethys to present)
+- 16 PNGs generated (~2.7 MB total) across 9 visual types
+
+* Specification
+
+** Part 1: Complete the illustration set
+
+Extend =generate_illustrations.py= to produce all 18 illustrations
+listed in =manifest.yaml=. Each illustration covers one of 9 visual
+types: cross-section, timeline, species-plate, motif-catalogue,
+map-schematic, elevation-profile, contrast-table, process-diagram,
+writing-specimens.
+
+** Part 2: Visual atlas (=atlas.html=)
+
+Standalone HTML page at
+=domains/epistem/surveys/illustrated/diamer/atlas.html=:
+
+- Grid layout of all illustration cards
+- Navigation by visual type and survey section
+- Click to enlarge any illustration
+- Serif typography, parchment palette, no UI chrome
+- Self-contained (inline CSS, images as data URIs or relative paths)
+- Responsive but desktop-first
+
+** Part 3: Interactive deep-time walkthrough
+
+Self-contained HTML at
+=domains/epistem/surveys/illustrated/diamer/deep-time/index.html=:
+
+- Scroll-driven narrative from Tethys (250 Ma) to present
+- At least 5 illustrated stops (Tethys, collision, orogeny,
+  Pleistocene, petroglyphs)
+- Pre-rendered matplotlib PNGs for detailed diagrams
+- Optional JS canvas for animated transitions
+- Intersection Observer for scroll-triggered reveals
+- Survey text excerpts as narrative between illustrations
+- No framework, no build step
+
+** Part 4: Story illustration kit
+
+The species plates, landscape elements, and petroglyph motifs
+produced for the atlas are also the story kit. No separate
+deliverable — the same PNGs at
+=domains/epistem/surveys/illustrated/diamer/images/= are available
+for future story =generate_images.py= scripts to reference or import.
+
+Document the kit in the manifest: which illustrations are suitable
+for story use, what palette to match, what scale conventions to follow.
+
+* Execution Order
+
+0. [done] Convention, manifest, helpers, 3 proof-of-concept PNGs
+1. [done] Complete illustration set (16 total)
+2. [done] Build =atlas.html=
+3. [done] Build =deep-time/index.html=
+4. [done] Human review — illustrations and pages approved
+5. [ ] Update convention document with lessons learned
+
+Steps 1-3 can be partially parallelised (the atlas and walkthrough
+consume the PNGs, so step 1 must be substantially complete first).
+
+* Output
+
+All artifacts deposited at:
+=domains/epistem/surveys/illustrated/diamer/=
+
+#+begin_example
+diamer/
+  manifest.yaml
+  generate_illustrations.py
+  images/
+    deep-time-timeline.png
+    tectonic-aneurysm.png
+    ibex-species-plate.png
+    ... (15 more)
+  atlas.html
+  deep-time/
+    index.html
+#+end_example
+
+Convention document at:
+=develop/illustrated-surveys.org=
+
+Shared helpers at:
+=domains/epistem/surveys/illustrated/survey_helpers.py=
+
+* Acceptance Criteria
+
+- [X] Convention document covers all four modes, workspace layout,
+      manifest spec, visual type taxonomy
+- [X] Illustration manifest lists all planned illustrations with
+      section references, visual types, and mode assignments
+- [X] Shared helpers module provides reusable matplotlib primitives
+- [X] 3 proof-of-concept PNGs span 3 different visual types
+- [X] At least 15 illustrations produced from the manifest
+      (16 produced across 9 visual types)
+- [X] Atlas navigable as standalone HTML, images load, no broken links
+- [X] Interactive walkthrough scrolls from Tethys to present with
+      at least 5 illustrated stops (10 stops delivered)
+- [X] Species plates drawn in petroglyph style (line art, not
+      photorealistic)
+- [X] =python3 generate_illustrations.py= produces all static assets
+- [-] Convention document updated with lessons learned from pilot
+
+* What This Proves
+
+That the =survey \to illustration= pipeline works as a convention-specified
+procedure. That a dense research survey can be made visual without
+AI image generation — matplotlib and the petroglyph aesthetic are
+sufficient. That the same illustrations serve inline documentation,
+spatial navigation, temporal narrative, and story composition.
+
+* Downstream (not in scope)
+
+- WP-0015: Full illustrated survey for other regions (spirit ecology,
+  Parvati valley)
+- Story WPs drawing on the Diamer illustration kit
+- Hugo integration (publishing atlas/walkthrough on mayalucia.dev)

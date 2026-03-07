@@ -1,0 +1,189 @@
+#+title: Illustrated Surveys — Convention
+#+author: mu2tau + mayadev
+#+date: 2026-03-07
+
+* What an Illustrated Survey Is
+
+A survey in this project is homework — dense, cited, epistemically
+honest research that stories, illustrations, and interactive
+experiences draw from. An /illustrated survey/ takes that research
+and makes it visual: diagrams, timelines, species plates, maps,
+motif catalogues. The illustrations are not decoration — they are
+a second register of understanding.
+
+Four output modes, one source:
+
+| Mode                  | Format          | Purpose                                   |
+|-----------------------+-----------------+-------------------------------------------|
+| Inline illustrations  | PNG in org      | Diagrams alongside survey text            |
+| Visual atlas          | Standalone HTML | Spatial navigation — maps, timelines, plates |
+| Interactive walkthrough | Self-contained HTML | Scroll-driven narrative through time/space |
+| Story illustration kit | PNG library    | Accurate visual elements for future stories |
+
+** Relationship to other conventions
+
+| Convention             | Relationship                                     |
+|------------------------+--------------------------------------------------|
+| Story development      | Stories draw from illustrated surveys.            |
+|                        | The story's =generate_images.py= may import       |
+|                        | from =survey_helpers.py=.                          |
+| Domain surveys         | Surveys are the source. Illustrated surveys       |
+|                        | never modify the survey text — they sit            |
+|                        | alongside it in =illustrated/<slug>/=.             |
+| Work packages          | An illustrated survey WP follows the standard     |
+|                        | convention (=develop/work-packages.org=).          |
+
+* The Pipeline
+
+#+begin_example
+Survey text  →  Manifest  →  Generate  →  Output modes
+  │                │            │            │
+  ▼                ▼            ▼            ▼
+surveys/       manifest.yaml  generate_   images/ (inline)
+*.org          (storyboard)   illustra-   atlas.html
+                              tions.py    deep-time/index.html
+                                          (story kit)
+#+end_example
+
+** Phase 1: Manifest
+
+The illustration manifest is the hardest design work — deciding what
+deserves illustration, what visual type, what palette. The manifest
+is a YAML file listing every illustration point.
+
+Each entry specifies:
+
+#+begin_src yaml :tangle no
+- id: tectonic-aneurysm
+  section: A.1          # survey section reference
+  type: cross-section   # visual type (see taxonomy below)
+  title: "The Tectonic Aneurysm"
+  subtitle: "Erosion drives uplift drives erosion"
+  elements:             # what to draw
+    - Indian plate gneiss rising through Kohistan arc
+    - Feedback arrows: erosion → steeper geotherms → weaker crust → more uplift
+    - Depth scale (10 km exhumation in 10 Ma)
+  modes: [inline, atlas, interactive]
+  story_keys: {}        # optional: translation keys for stories
+#+end_src
+
+** Phase 2: Generate
+
+A single =generate_illustrations.py= (PEP 723, =uv run=) reads the
+manifest and produces all PNGs. It imports from =survey_helpers.py=
+for shared primitives.
+
+** Phase 3: Output assembly
+
+- *Inline*: PNGs referenced from the survey org with =[[file:...]]=
+- *Atlas*: Static HTML with grid layout, image cards, navigation
+- *Interactive*: Self-contained HTML (Bloch demo pattern), scroll-driven
+- *Story kit*: The same PNGs available for story =generate_images.py= to import
+
+* Visual Type Taxonomy
+
+| Type             | Description                                      | Matplotlib approach             |
+|------------------+--------------------------------------------------+---------------------------------|
+| cross-section    | Geological or topographic vertical slice         | fill_between, strata layers     |
+| timeline         | Deep-time or historical timeline (log-scale)     | horizontal bars, epoch markers  |
+| species-plate    | Organism with annotations (petroglyph style)     | line art, silhouettes           |
+| motif-catalogue  | Petroglyph motifs arranged typologically         | line art reproductions          |
+| map-schematic    | Simplified map showing key locations             | patches, annotations, no GIS   |
+| elevation-profile| Ridge/valley cross-section with labels           | mountain ridge helpers          |
+| contrast-table   | Visual comparison (before/after, left/right)     | split panels                    |
+| process-diagram  | Feedback loops, cycles, flows                    | arrows, boxes, annotations     |
+| writing-specimens| Script/inscription samples with labels           | text rendering, custom fonts    |
+
+* The Illustrated Survey Workspace
+
+#+begin_example
+domains/epistem/surveys/
+  illustrated/
+    survey_helpers.py            # shared matplotlib primitives
+    <survey-slug>/               # one per survey
+      manifest.yaml              # illustration storyboard
+      generate_illustrations.py  # PEP 723, produces all PNGs
+      images/                    # generated PNGs
+      atlas.html                 # visual atlas (standalone)
+      deep-time/                 # (optional) interactive walkthrough
+        index.html               # self-contained, scroll-driven
+#+end_example
+
+The =<survey-slug>= matches the survey filename stem. For example,
+=diamer-nanga-parbat.org= becomes =illustrated/diamer/=.
+
+* Palette
+
+The Diamer palette extends the project's parchment/walnut ink base
+with geological and ecological colours drawn from the landscape:
+
+- *Base*: parchment, walnut ink (shared with stories)
+- *Geological*: gneiss grey, leucogranite pink, Kohistan dark green,
+  Indus blue-grey, hot spring thermal orange
+- *Ecological*: juniper dark green, birch pale gold, ibex horn amber,
+  snow leopard grey, apricot blossom pink
+- *Petroglyph*: rock face ochre, carved line dark brown, patina green
+
+Each survey defines its own palette in the manifest. The helpers
+provide the base palette; the survey script extends it.
+
+* Shared Helpers (=survey_helpers.py=)
+
+Reusable matplotlib primitives for survey illustration. Extends the
+patterns from story illustration scripts (=the-mineral-deposits/
+generate_images.py= is the ancestor).
+
+Categories:
+
+- *Canvas*: =make_fig()=, =add_parchment_texture()=, =title_block()=, =attribution()=
+- *Geological*: =draw_strata()=, =draw_cross_section()=, =draw_fault_line()=
+- *Timeline*: =draw_deep_time_axis()=, =epoch_band()=, =event_marker()=
+- *Landscape*: =draw_mountain_ridge()=, =draw_river()=, =draw_glacier()=
+- *Species*: =draw_silhouette()=, =annotation_plate()=
+- *Petroglyph*: =draw_petroglyph_motif()=, =rock_face_background()=
+
+* Interactive Walkthrough
+
+Follows the Bloch sphere demo pattern:
+
+- Self-contained =index.html=, no framework, no build step
+- Serif typography, muted palette, no UI chrome
+- Scroll-driven: Intersection Observer triggers illustration transitions
+- Pre-rendered matplotlib PNGs for detailed diagrams
+- Optional JS canvas for animated transitions (tectonic drift, glacier)
+- Responsive but desktop-first (the content demands width)
+
+* What Matplotlib Can and Cannot Do
+
+*Excellent for*: geological cross-sections, strata diagrams, deep-time
+timelines (log-scale), elevation profiles, schematic maps, river course
+diagrams, species silhouettes (petroglyph style), motif catalogues
+(line art), mineral palettes, contrast tables, writing system specimens.
+
+*Adequate for*: simple terrain profiles, glacier extent diagrams, trade
+route schematics, section-labelled photographs (annotations over
+imported images).
+
+*Cannot do*: photorealistic landscapes, detailed animal portraits, 3D
+terrain flyovers. But the project's visual identity is diagrammatic —
+an ibex as a Thalpan-style petroglyph carving is more appropriate than
+a photograph.
+
+* Commit Convention
+
+An illustrated survey commit includes:
+
+- =manifest.yaml=
+- =generate_illustrations.py=
+- =images/*.png=
+- =atlas.html= (when ready)
+- =deep-time/index.html= (when ready)
+
+All in one commit per milestone. The survey text itself is never
+modified — illustrated artifacts sit alongside.
+
+* Document Status
+
+| Version |       Date | Notes                                       |
+|---------+------------+---------------------------------------------|
+|     0.1 | 2026-03-07 | Initial convention, designed for Diamer pilot|
