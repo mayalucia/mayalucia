@@ -3,7 +3,7 @@
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
 #+property: status drafted
-#+property: executor cruvin-guardian
+#+property: executor epistem-guardian
 #+property: trust autonomous
 
 * Context and Motivation
