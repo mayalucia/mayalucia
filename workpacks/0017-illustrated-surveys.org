@@ -2,7 +2,7 @@
 #+subtitle: Four output modes from one survey — inline, atlas, interactive, story kit
 #+author: mu2tau + mayadev
 #+date: 2026-03-07
-#+property: status executed
+#+property: status completed
 #+property: executed-by mayadev
 #+property: executed-date 2026-03-07
 #+property: assigned-to mayadev
@@ -176,7 +176,7 @@ Shared helpers at:
 - [X] Species plates drawn in petroglyph style (line art, not
       photorealistic)
 - [X] =python3 generate_illustrations.py= produces all static assets
-- [-] Convention document updated with lessons learned from pilot
+- [X] Convention document updated with lessons learned from pilot
 
 * What This Proves
 

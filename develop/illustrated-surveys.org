@@ -182,8 +182,70 @@ An illustrated survey commit includes:
 All in one commit per milestone. The survey text itself is never
 modified — illustrated artifacts sit alongside.
 
+* Lessons Learned (Diamer Pilot)
+
+These lessons emerged from the first illustrated survey cycle
+(WP-0017, Diamer/Nanga Parbat, 16 illustrations across 9 visual
+types).
+
+** What worked
+
+- *Manifest-first design* is the right sequencing. The hardest
+  thinking happens in the manifest — which moments deserve
+  illustration, what visual type, what elements. Once the manifest
+  is solid, generation is mechanical.
+- *Petroglyph aesthetic* — line art silhouettes for species plates
+  turned out more expressive than expected. An ibex drawn as a
+  Thalpan carving belongs to the landscape in a way a photograph
+  never could. This is the project's visual register; keep it.
+- *One script, one manifest, all PNGs* — having a single
+  =generate_illustrations.py= that reads the manifest and produces
+  everything makes the pipeline reproducible. =uv run= with PEP 723
+  metadata means zero setup.
+- *Atlas + walkthrough from the same PNGs* — no duplication. The
+  atlas is spatial (browse by category), the walkthrough is temporal
+  (scroll through deep time). Same images, different frames.
+- *16 illustrations at ~2.7 MB total* — lightweight. No heavyweight
+  assets, no build step, no framework dependency.
+
+** What to adjust
+
+- *Helpers need more silhouette primitives*. The four species plates
+  (ibex, markhor, snow leopard, lammergeier) each required bespoke
+  drawing code. A small library of composable body-part primitives
+  (horn curves, wing arcs, tail drapes) would cut per-plate effort
+  by half.
+- *Palette per survey, not per project*. The Diamer palette has 25+
+  colours keyed to its specific geology and ecology. Other surveys
+  (Western Himalaya, Parvati) will need their own palettes. The
+  convention should make this explicit: palette lives in the manifest,
+  helpers provide only the base parchment/ink colours.
+- *Contrast tables were unused*. The type taxonomy lists
+  "contrast-table" but the Diamer manifest never needed one. Keep
+  the type (it will matter for comparative surveys) but don't force
+  it into every manifest.
+- *Interactive walkthrough is high-effort*. The deep-time walkthrough
+  (10 scroll stops, custom JS) took disproportionate time relative
+  to the atlas. For surveys without a strong temporal axis, skip the
+  walkthrough and invest that effort in a richer atlas instead.
+- *Story kit is implicit, not explicit*. The WP defined mode 4
+  (story kit) as "same PNGs, no separate deliverable." This works
+  but the manifest should tag which illustrations are story-reusable
+  and at what resolution. Add a =story_reuse= field.
+
+** Pipeline refinements for next survey
+
+1. Add =story_reuse: true/false= field to manifest entries
+2. Move species silhouette primitives into =survey_helpers.py=
+   (horn_curve, wing_arc, tail_drape, body_mass)
+3. Palette section in manifest is already correct — document that
+   helpers only provide =parchment=, =ink=, =walnut= base colours
+4. Default to atlas-only for surveys without temporal narrative;
+   walkthrough is opt-in when the survey has a strong time axis
+
 * Document Status
 
-| Version |       Date | Notes                                       |
-|---------+------------+---------------------------------------------|
-|     0.1 | 2026-03-07 | Initial convention, designed for Diamer pilot|
+| Version |       Date | Notes                                        |
+|---------+------------+----------------------------------------------|
+|     0.1 | 2026-03-07 | Initial convention, designed for Diamer pilot |
+|     0.2 | 2026-03-07 | Lessons learned from Diamer pilot (WP-0017)   |
