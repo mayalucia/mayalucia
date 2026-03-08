@@ -1,0 +1,253 @@
+#+title: WP-0020 — Story Browser Shell (Phase 1)
+#+subtitle: Fork the constellation viewer into a two-view story browser — geography + concept graph
+#+author: mu2tau + mayadev
+#+date: 2026-03-08
+#+property: status drafted
+#+property: dispatch DP-0003
+#+property: executor sutradhar-guardian
+#+property: depends-on WP-0015 WP-0016
+
+* Context and Motivation
+
+WP-0014 (the story browser vision) defines a multi-dimensional browser
+for the MāyāLucIA stories. DP-0003 decomposes this into a chain:
+
+#+begin_example
+WP-0015 (EDN data) ──────┐
+                          ├──► WP-0020 (this WP)
+WP-0016 (ecological web) ─┘       │
+                                   ▼
+                             WP-0014 final phase
+                              (human annotations)
+#+end_example
+
+Both upstream WPs are complete:
+
+- *WP-0015* — =workpacks/data/stories.edn= contains 12 stories,
+  93 concepts, 18 characters, 8 regions, and typed edges (geography,
+  character, concept bridges, concept lineages). Fully populated.
+- *WP-0016* — ecological web survey completed. Data available in
+  =domains/epistem=.
+
+This WP builds the browser shell: a ClojureScript application that
+renders the story data in two views. It forks from the existing
+*project constellation viewer* (=website/project-constellation/=).
+
+* Inventory (What Already Exists)
+
+** Constellation viewer — =website/project-constellation/=
+
+ClojureScript + Reagent + D3-force. ~1,400 lines across 10 files:
+
+| File | Purpose |
+|------+---------|
+| =core.cljs= | Entry point, init!, root component |
+| =data.cljs= | Entity data (EDN, inline) |
+| =force.cljs= | D3 force simulation setup |
+| =state.cljs= | Reagent ratoms (hover, selection, zoom, pan) |
+| =components/constellation.cljs= | Main SVG canvas |
+| =components/node.cljs= | Entity node rendering |
+| =components/edge.cljs= | Typed edges, Bézier curves |
+| =components/tooltip.cljs= | Info panel on selection |
+| =components/cluster_label.cljs= | Cluster label positioning |
+| =components/background.cljs= | Atmospheric dust texture |
+
+Build: shadow-cljs, output to =website/static/js/project-constellation.js=.
+Deps: Reagent 1.2.0, shadow-cljs 2.28.5, js-interop 0.4.2.
+
+** Story data — =workpacks/data/stories.edn=
+
+Source of truth for the browser. Contains:
+
+- =:stories= — 12 entries with id, title, slug, setting, document-type,
+  characters, concepts, illustrations, description
+- =:concepts= — 93 entries with id, name, story-equiv, introduced-in
+- =:characters= — 18 entries with id, name, appears-in, role
+- =:regions= — 8 geographic clusters
+- =:miyazaki-keys= — Spirited Away ↔ Himalaya mapping
+- =:edges= — geography clusters, character threads, concept bridges,
+  concept lineages
+
+This EDN file is currently staged at =workpacks/data/=. Part of this
+WP's work is placing it into the browser's source tree.
+
+** Hugo infrastructure
+
+The constellation viewer is mounted as a Hugo page. The story browser
+follows the same pattern:
+- ClojureScript app compiled to =website/static/js/story-browser.js=
+- Hugo page at =website/content/writing/browser.md= mounts the component
+
+* Specification
+
+** What to build
+
+Two views sharing one data source and one info panel:
+
+*** 1. Geography view
+
+A 2D SVG map of the Western Himalaya. Stories rendered as pins at their
+geographic locations. Requirements:
+
+- Regions positioned by relative geography (Tirthan south-east, Lahaul
+  north, Parvati east, Baspa/Kinnaur east, Sutlej south, Karakoram
+  far north)
+- Tirthan cluster (stories 7, 10, 11, 12) visually separable — zoom
+  or spatial spread by altitude
+- Karakoram region present but empty (future territory)
+- Story #6 (Phantom Faculty, abstract) positioned outside the map or
+  in a special "abstract" zone
+- Click a pin → info panel shows story metadata
+- The Thread Walker's route as a connecting path between stories she
+  appears in
+
+For Phase 1, the map is *schematic* — positioned SVG elements, not
+a DEM-derived topographic rendering. Correct relative positions matter;
+cartographic accuracy is Phase 2+.
+
+*** 2. Concept view
+
+A force-directed graph of translation keys. Fork from the constellation
+viewer's D3 simulation.
+
+- Concept nodes — the 93 concepts from =stories.edn=
+- Story-to-concept edges — each story connects to its concept list
+- Concept lineages — highlighted when a concept appears across multiple
+  stories (from =:edges= with =:type :concept-lineage=)
+- Concept bridges — related concepts that span stories (from =:edges=
+  with =:type :concept=)
+- Hover a concept → highlight all stories that translate it
+- Click a story → info panel
+
+Grouping by =:introduced-in= story number provides visual clustering.
+
+*** 3. Info panel
+
+Shared between both views. On story selection, shows:
+
+- Title and story number
+- Setting: region, places, altitude, season
+- Document type
+- Illustration thumbnails (paths from =:image-dir= and =:illustrations=)
+- Characters (names and roles)
+- Translation keys (concept name + story equivalent)
+- Description (excerpt)
+- Link to full story on mayalucia.dev
+
+*** 4. View switching
+
+Toggle between geography and concept projections. Same data, different
+spatial layout. The info panel persists across view switches if a story
+is selected.
+
+** Where it lives
+
+=website/story-browser/= — sibling to =website/project-constellation/=.
+
+#+begin_example
+website/story-browser/
+├── deps.edn
+├── shadow-cljs.edn
+├── src/
+│   └── story_browser/
+│       ├── core.cljs          # Entry point, view switching
+│       ├── data.cljs          # Story EDN (from stories.edn)
+│       ├── state.cljs         # Reagent ratoms
+│       ├── force.cljs         # D3 force simulation (forked)
+│       └── components/
+│           ├── geography.cljs  # SVG map view
+│           ├── concepts.cljs   # Force-directed concept graph
+│           ├── info_panel.cljs # Story detail panel
+│           ├── node.cljs       # Story/concept node rendering
+│           └── edge.cljs       # Edge rendering (forked)
+└── package.json
+#+end_example
+
+Output: =website/static/js/story-browser.js=
+
+** What to fork, what to write fresh
+
+| Component | Fork from constellation | Write fresh |
+|-----------+-------------------------+-------------|
+| Force simulation | ✓ (adapt charges/distances) | |
+| State management | ✓ (adapt ratoms) | |
+| Edge rendering | ✓ (adapt edge types) | |
+| Background dust | ✓ (reuse or drop) | |
+| Geography view | | ✓ |
+| Concept view | | ✓ (layout logic) |
+| Info panel | | ✓ (story-specific) |
+| Data loading | | ✓ (EDN → app state) |
+| View switching | | ✓ |
+| Node rendering | | ✓ (story glyphs) |
+
+** Design constraints
+
+- The browser is a *navigation device*, not a reading surface. Clicking
+  a story leads to the Hugo page, not inline text.
+- Phase 1 is two views. Additional views (time, document type, voice,
+  emergent dimensions) are Phase 2+ and depend on WP-0014 human
+  annotations.
+- The schematic map in Phase 1 should be designed so a DEM-derived
+  topographic map is an upgrade, not a rewrite. SVG layers, not
+  hardcoded positions.
+- Mobile is not a priority for Phase 1. Desktop-first.
+
+* Execution Order
+
+1. *Setup* — create =website/story-browser/= with deps.edn, shadow-cljs.edn,
+   package.json. Verify shadow-cljs builds an empty app.
+2. *Data* — copy =workpacks/data/stories.edn= into =data.cljs= (or load
+   as EDN at build time). Wire into Reagent state.
+3. *Concept view* — fork force simulation from constellation viewer.
+   Render concepts as nodes, stories as connecting elements. Info panel
+   on selection.
+4. *Geography view* — schematic SVG map with region positions. Story
+   pins. Tirthan cluster separable. Karakoram empty.
+5. *View switching* — toggle between geography and concept views.
+   Shared info panel.
+6. *Hugo integration* — create =website/content/writing/browser.md=
+   page. Wire JS output.
+7. *Polish* — node styling, edge types, hover states, transitions.
+
+Steps 3 and 4 are independent and could run in parallel if the executor
+has sufficient context. Step 5 integrates them.
+
+* Acceptance Criteria
+
+- [ ] =website/story-browser/= exists with shadow-cljs build that compiles
+- [ ] EDN data for all 12 stories loads into the app
+- [ ] Concept view renders a force-directed graph with concept and story nodes
+- [ ] Geography view renders a schematic map with story pins at correct
+      relative positions
+- [ ] Tirthan cluster (stories 7, 10, 11, 12) visually distinguishable
+- [ ] Karakoram region appears as empty territory
+- [ ] Story #6 (abstract) handled without breaking the geography view
+- [ ] Clicking a story in either view shows info panel with metadata
+- [ ] Info panel shows at least one illustration thumbnail per story
+- [ ] View switching between geography and concept views works
+- [ ] Hugo page at =/writing/browser/= (or similar) mounts the component
+- [ ] Output JS at =website/static/js/story-browser.js= builds cleanly
+
+* What This Proves
+
+That the constellation viewer generalises. The same ClojureScript +
+D3-force + Reagent stack that renders the project's own structure
+can render the project's creative output. The viewer is a genus, not
+a species. And the EDN data format — the same format that describes
+project entities — describes stories, their concepts, their
+characters, and the edges between them.
+
+* Open Questions
+
+- *Node aesthetics*: what do story nodes look like? The constellation
+  viewer uses "phase crystals." The story browser needs something
+  that evokes the document type — field notes, logbook, survey,
+  testimony, satire. Placeholder circles are fine for Phase 1.
+- *Map base layer*: should the schematic map have elevation contours,
+  river lines, or just region labels? Phase 1 can start minimal.
+- *Story #10h (Hindi)*: appears as a variant within story #10's EDN
+  entry. Does it get its own pin or appear in the info panel?
+- *Illustration paths*: thumbnails need to resolve to
+  =website/static/images/writing/<image-dir>/<filename>=. The data
+  has =:image-dir= and =:illustrations= — verify path construction
+  works in the deployed Hugo context.
