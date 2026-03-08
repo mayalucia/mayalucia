@@ -1,0 +1,5 @@
+#+title: Domain: Percept
+
+This domain covers the theoretical and computational study of synthetic
+perception, hierarchical representations, and the statistical mechanics of
+deep learning within the MāyāLucIA project.

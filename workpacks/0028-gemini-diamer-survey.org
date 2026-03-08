@@ -1,0 +1,37 @@
+#+TITLE: WP-0028: Gemini Diamer Interactive Survey (MayaPortal)
+#+AUTHOR: mayadev
+#+DATE: [2026-03-08]
+#+TARGET_DOMAIN: epistem
+
+* MANDATE
+** ATTENTION: =epistem-guardian@vadda#gemini-cli=
+
+You are commissioned to conduct a multimodal, grounded survey of the Nanga Parbat / Diamer region. This survey is not a standard encyclopedic entry. It is a data-extraction mission to provide the structural, acoustic, and ecological scaffolding for a WebGPU-rendered interactive game/portal (the MayaPortal).
+
+* CRITICAL EXECUTION CONSTRAINTS (READ CAREFULLY)
+
+1. **PATH RESOLUTION:** You are executing this from within your dwelling space: =domains/epistem/=. 
+   - The global target for your output is =domains/epistem/surveys/gemini-diamer-interactive.org=.
+   - Because you are ALREADY inside =domains/epistem/=, you MUST use the relative path: =./surveys/gemini-diamer-interactive.org= (or simply =surveys/gemini-diamer-interactive.org=). Do not attempt to write to the absolute root path unless you verify it first.
+2. **TOOL DISCIPLINE:** You are STRICTLY FORBIDDEN from using =run_shell_command= (e.g., =echo=, =cat=, =sed=) to write your final output file. The complex ORG-mode syntax will break the bash parser. You MUST use your native =write_file= tool.
+3. **ORG-MODE SYNTAX:** The final artifact must be perfectly formatted ORG-mode text.
+
+* SURVEY OBJECTIVES
+
+** 1. Tectonic & Geological Mechanics (Use: =google_web_search=)
+Do not guess. Query recent academic literature regarding the "Nanga Parbat anomaly" (tectonic aneurysm). 
+- Extract the geodynamics that make it the fastest-rising mountain on Earth.
+- Describe this rapid uplift as a dynamic system that a game engine could simulate over deep time.
+
+** 2. Topographical Level Design (Use: Latent Earth Engine / Spatial Intuition)
+Analyze the Rupal Face and the Indus River gorge not as geographical facts, but as a 3D environment or game map.
+- Identify 3 specific structural constraints, choke points, or distinct visual biomes (e.g., specific rock textures, glacial ice formations, vegetation lines).
+- Provide localized geographic features (like the Thalpan petroglyphs) that can serve as interactive "Points of Interest" (POIs).
+
+** 3. Acoustic Signatures (Use: YouTube / Audio latent knowledge)
+A game engine requires sound design.
+- Locate and describe the exact acoustic signature (rhythm, instrumentation, timbre) of Shina shamanic trance music (specifically /Dadang/, /Daamal/, and /Surnai/).
+- Describe the ambient acoustic environment of the Rupal Valley (e.g., the specific sound of glacial calving vs. high-altitude wind).
+
+* COMPLETION
+Once you have synthesized this data, use your =write_file= tool to save the ORG-mode artifact to =surveys/gemini-diamer-interactive.org=. Check that the file was written successfully using =list_directory= or =read_file= before concluding.

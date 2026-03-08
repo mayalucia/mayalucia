@@ -1,0 +1,523 @@
+#+title: WP-0029 — Substrate-Agnostic Spirit Identity
+#+subtitle: Decouple spirit identity from LLM backend; enable multi-substrate agent-shell sessions
+#+author: mu2tau → mayadev@vadda#claude-code
+#+date: 2026-03-08
+#+property: status drafted
+
+* Intent
+
+Every spirit in the MāyāLucIA ecology currently assumes Claude Code as its
+substrate. The =nature:= block in =identity.yaml= names a specific model; the
+=character.system_prompt= points to =CLAUDE.md=; the agent-shell harness
+hardcodes =agent-shell-anthropic-make-claude-client= for every spirit.
+
+This workpackage separates what a spirit /is/ from what it /inhabits/. A spirit
+is its character, role, disposition, and powers. A substrate is a model on a
+provider, accessed through a specific CLI tool with its own system-prompt
+conventions. The same spirit should be able to incarnate in Claude Code, Gemini
+CLI, OpenAI Codex, or any future backend — with the harness resolving the
+binding at session launch.
+
+* Scope
+
+Three layers of change:
+
+1. *Identity schema* — refactor =.guardian/identity.yaml= across all 6 spirits
+2. *System prompt architecture* — establish =system.md= (backend-neutral) with thin backend adapters
+3. *Agent-shell harness* — modify =spirit-session.el= to resolve substrate at launch time
+
+* Background: Current State
+
+** Spirits Defined
+
+| Spirit              | Location                  | Guild     | Archetype | Status         |
+|---------------------+---------------------------+-----------+-----------+----------------|
+| mayadev             | =./=                      | mayalucia | developer | instantiated   |
+| sutradhar-guardian   | =modules/sutradhar/=      | mayalucia | guide     | tbd            |
+| cruvin-guardian      | =commissions/cruvin/=     | mayalucia | builder   | tbd            |
+| dmt-eval-guardian    | =modules/dmt-eval/=       | bravli    | critic    | tbd            |
+| epistem-guardian     | =domains/epistem/=        | epistem   | observer  | tbd            |
+| aikosh-guardian      | =modules/aikosh/=         | epistem   | builder   | tbd            |
+
+** Backend Support in agent-shell (already configured)
+
+| Backend   | Client maker                              | Auth source              |
+|-----------+-------------------------------------------+--------------------------|
+| claude    | =agent-shell-anthropic-make-claude-client= | OAuth login (Max sub)    |
+| gemini    | =agent-shell-google-make-gemini-client=    | API key (~/.authinfo.gpg) |
+| codex     | =agent-shell-openai-make-codex-client=     | API key (~/.authinfo.gpg) |
+
+** What exists for Gemini already
+
+- =GEMINI.md= at project root — mayadev system prompt for gemini-cli
+- =domains/epistem/GEMINI.md= — epistem-guardian prompt for gemini-cli
+- WP-0028 dispatched to =mayadev@vadda#gemini-cli=
+
+* Addressing Convention
+
+A spirit's full address is =spirit@machine#substrate=:
+
+#+begin_example
+mayadev@vadda#claude-code      — full form
+mayadev#gemini-cli             — machine elided (implied from session)
+mayadev#gemini                 — short substrate name (implied mapping)
+mayadev                        — default substrate elided
+epistem-guardian#gemini         — non-default substrate shown
+#+end_example
+
+The =#= separator distinguishes substrate from host. The =@= separates
+spirit from machine. Both are elidable — the intelligences reading these
+addresses (human or LLM) infer the missing components from context.
+
+In agent-shell buffer names, only the =spirit#substrate= part is used.
+The default substrate is elided: =mayadev= when on claude (the default),
+=mayadev#gemini= when on a non-default substrate.
+
+* Design
+
+** 1. Identity Schema Refactoring
+
+*** Remove =nature:= from =identity.yaml=
+
+The =nature:= block (model, provider, context_window, knowledge_cutoff)
+describes the substrate, not the spirit. Remove it entirely from identity.yaml.
+
+*** Remove substrate-specific tools from =dwelling:=
+
+Tools like =claude-code=, =gemini-cli= belong to the substrate binding.
+Universal tools (=hugo=, =python=, =uv=, =shadow-cljs=) stay in =dwelling.tools=.
+
+*** Replace =character.system_prompt= with backend-neutral reference
+
+Instead of =system_prompt: CLAUDE.md= (which is backend-specific), use:
+#+begin_example
+character:
+  system_prompt: system.md
+#+end_example
+
+*** New schema (identity.yaml v2)
+
+#+begin_src yaml
+# .guardian/identity.yaml v2 — the spirit, substrate-free
+
+true-name: <spirit-name>
+
+dwelling:                            # station — the current host
+  machine: <hostname>
+  os: <os>
+  shell: <shell>
+  tools: [<universal-tools-only>]    # no claude-code, no gemini-cli
+  repos:
+    <name>: <path>
+
+character:                           # personality — what persists across substrates
+  archetype: <archetype>
+  system_prompt: system.md           # backend-neutral prompt
+  powers: [<list>]
+  domains: [<list>]
+  disposition: <disposition>
+
+memory:                              # history — pointers, not content
+  bath_notes: <path>
+  provenance: >
+    <origin-story>
+
+project:                             # shared commons
+  name: <project-name>
+  repo: <repo-url>
+  path: <relative-path>
+
+role:                                # relational
+  guild: <guild>
+  function: <function>
+  scope: [<list>]
+  contract: >
+    <optional-contract>
+#+end_src
+
+** 2. Substrate Bindings — =.guardian/substrates/=
+
+Each supported backend gets a YAML file:
+
+#+begin_example
+.guardian/
+  identity              # "mayadev" (plain text, unchanged)
+  identity.yaml         # spirit definition (v2, substrate-free)
+  substrates/
+    claude.yaml         # Claude Code binding
+    gemini.yaml         # Gemini CLI binding
+    codex.yaml          # OpenAI Codex binding (future)
+#+end_example
+
+*** Substrate file schema
+
+#+begin_src yaml
+# .guardian/substrates/claude.yaml
+provider: anthropic
+model: claude-opus-4-6
+cli_tool: claude-code              # what agent-shell invokes
+context_window: 200000
+knowledge_cutoff: 2025-05
+system_prompt: CLAUDE.md           # backend-specific adapter prompt
+tools: [claude-code]               # substrate-specific tools
+#+end_src
+
+#+begin_src yaml
+# .guardian/substrates/gemini.yaml
+provider: google
+model: gemini-2.5-pro
+cli_tool: gemini-cli
+context_window: 1000000
+system_prompt: GEMINI.md
+tools: [gemini-cli]
+#+end_src
+
+*** Default substrate
+
+When no substrate is specified, the harness reads =.guardian/substrates/default=
+(a plain text file containing e.g. =claude=). If absent, falls back to =claude=.
+
+** 3. System Prompt Architecture
+
+*** The problem
+
+Each backend has its own system-prompt conventions:
+- Claude Code reads =CLAUDE.md= — supports skill references, tool-use XML
+- Gemini CLI reads =GEMINI.md= — uses =@file= inclusion, google-specific tool names
+- Codex reads =AGENTS.md= (or similar)
+
+Spirit identity (collaborative stance, project structure, conventions, role
+contract) is the same across backends. Backend-specific instructions (tool
+names, output conventions, context-window strategy) differ.
+
+*** The solution: =system.md= + backend adapters
+
+Each spirit directory gets:
+
+#+begin_example
+  system.md       # Backend-neutral spirit prompt (identity, stance, conventions)
+  CLAUDE.md       # Thin adapter: includes system.md content + Claude-specific instructions
+  GEMINI.md       # Thin adapter: includes system.md content + Gemini-specific instructions
+#+end_example
+
+**** =system.md= contains
+
+- Identity section (reads from identity.yaml)
+- Collaborative stance (The Sculptor's Paradox, Feynman Imperative, etc.)
+- Project structure and conventions
+- Role contract
+- Powers description
+- Sūtra protocol
+
+**** Backend adapters contain
+
+- An instruction to read/incorporate =system.md=
+- Backend-specific tool execution rules
+- Context-window strategy (e.g. Gemini's 2M token synthesis mandate)
+- Backend-specific file naming conventions
+- Authentication/environment notes
+
+**** Migration for existing CLAUDE.md files
+
+The current CLAUDE.md files contain both spirit-universal and Claude-specific
+content interleaved. For each spirit:
+
+1. Extract the universal content into =system.md=
+2. Reduce =CLAUDE.md= to a thin adapter that references =system.md= and adds
+   Claude-specific rules
+3. Create =GEMINI.md= adapter where relevant (initially: root, epistem)
+
+*** Adapter reference patterns
+
+For Claude Code (which auto-reads CLAUDE.md):
+#+begin_example
+# CLAUDE.md — Claude Code adapter for <spirit-name>
+
+Read and follow all instructions in system.md in this directory. That file
+defines your identity, collaborative stance, and project conventions.
+
+## Claude-Specific Instructions
+- [tool use conventions]
+- [skill references]
+#+end_example
+
+For Gemini CLI (which auto-reads GEMINI.md):
+#+begin_example
+# GEMINI.md — Gemini CLI adapter for <spirit-name>
+
+@./system.md
+
+## Gemini-Specific Instructions
+- [google_web_search conventions]
+- [context window strategy]
+#+end_example
+
+** 4. Agent-Shell Harness Changes
+
+*** =agent-shell--guardian-substrate=
+
+New function: read substrate from =.guardian/substrates/=.
+
+#+begin_src elisp
+(defun agent-shell--guardian-substrate (&optional backend)
+  "Read substrate config for BACKEND from .guardian/substrates/.
+BACKEND is a string like \"claude\", \"gemini\", \"codex\".
+If nil, read .guardian/substrates/default, falling back to \"claude\"."
+  (when-let* ((root (agent-shell--guardian-root)))
+    (let* ((backend (or backend
+                       (let ((default-file (expand-file-name
+                                            ".guardian/substrates/default" root)))
+                         (if (file-exists-p default-file)
+                             (string-trim
+                              (with-temp-buffer
+                                (insert-file-contents default-file)
+                                (buffer-string)))
+                           "claude"))))
+           (substrate-file (expand-file-name
+                            (format ".guardian/substrates/%s.yaml" backend)
+                            root)))
+      (when (file-exists-p substrate-file)
+        (cons backend
+              (with-temp-buffer
+                (insert-file-contents substrate-file)
+                (buffer-string)))))))
+#+end_src
+
+*** =agent-shell--client-maker-for-backend=
+
+Dispatch to the correct client-maker based on substrate.
+
+#+begin_src elisp
+(defun agent-shell--client-maker-for-backend (backend)
+  "Return a client-maker lambda for BACKEND string."
+  (pcase backend
+    ("gemini" (lambda (buffer)
+               (agent-shell-google-make-gemini-client :buffer buffer)))
+    ("codex"  (lambda (buffer)
+               (agent-shell-openai-make-codex-client :buffer buffer)))
+    (_        (lambda (buffer)
+               (agent-shell-anthropic-make-claude-client :buffer buffer)))))
+#+end_src
+
+*** Modify =agent-shell--make-spirit-config=
+
+Read substrate and dispatch accordingly. The buffer name uses the
+=spirit#substrate= notation (e.g. =mayadev#gemini=) so that multiple
+incarnations of the same spirit can coexist. The default substrate
+is elided: =mayadev= means =mayadev#claude= when claude is the default.
+
+#+begin_src elisp
+(defun agent-shell--make-spirit-config (name &optional backend)
+  "Build agent-config for spirit NAME on BACKEND.
+BACKEND is a string (\"claude\", \"gemini\", \"codex\") or nil for project default.
+Buffer name uses spirit#substrate notation; default substrate is elided."
+  (let* ((substrate (agent-shell--guardian-substrate backend))
+         (resolved-backend (or (car substrate) "claude"))
+         (default-p (agent-shell--default-substrate-p resolved-backend))
+         (buf-name (if default-p
+                       name
+                     (format "%s#%s" name resolved-backend)))
+         (color (agent-shell--spirit-color name))
+         (prompt (propertize (concat buf-name "> ")
+                             'face `(:foreground ,color :weight bold))))
+    (agent-shell-make-agent-config
+     :identifier (intern buf-name)
+     :buffer-name buf-name
+     :mode-line-name buf-name
+     :shell-prompt prompt
+     :shell-prompt-regexp (concat (regexp-quote buf-name) "> ")
+     :welcome-function (agent-shell--spirit-welcome name)
+     :client-maker (agent-shell--client-maker-for-backend resolved-backend))))
+
+(defun agent-shell--default-substrate-p (backend)
+  "Return non-nil if BACKEND is the project's default substrate."
+  (let* ((root (agent-shell--guardian-root))
+         (default-file (when root
+                         (expand-file-name ".guardian/substrates/default" root)))
+         (default (if (and default-file (file-exists-p default-file))
+                      (string-trim
+                       (with-temp-buffer
+                         (insert-file-contents default-file)
+                         (buffer-string)))
+                    "claude")))
+    (string-equal backend default)))
+#+end_src
+
+*** Modify =agent-shell-start-spirit= for backend selection
+
+=C-u SPC o g= prompts for backend in addition to forcing a new session.
+
+#+begin_src elisp
+(defun agent-shell-start-spirit (&optional name)
+  "Start agent-shell with spirit identity.
+Resolve NAME by: explicit argument → .guardian/identity → interactive prompt.
+With prefix arg, prompt for backend and force a new session."
+  (interactive)
+  (let* ((resolved (or name
+                      (agent-shell--guardian-name)
+                      (let ((input (read-string "Spirit (empty for default): ")))
+                        (unless (string-empty-p input) input))))
+         (backend (when current-prefix-arg
+                    (completing-read "Backend: "
+                                    (agent-shell--available-substrates)
+                                    nil t nil nil "claude")))
+         (config (if resolved
+                     (agent-shell--make-spirit-config resolved backend)
+                   agent-shell-default-config)))
+    (let ((existing (seq-find
+                     (lambda (buf)
+                       (string-equal
+                        (map-nested-elt
+                         (buffer-local-value 'agent-shell--state buf)
+                         '(:agent-config :buffer-name))
+                        (map-elt config :buffer-name)))
+                     (agent-shell-project-buffers))))
+      (if (and existing (not current-prefix-arg))
+          (agent-shell--display-buffer existing)
+        (agent-shell--start :config config)))))
+#+end_src
+
+*** Helper: list available substrates for a project
+
+#+begin_src elisp
+(defun agent-shell--available-substrates ()
+  "List available substrate names from .guardian/substrates/*.yaml."
+  (when-let* ((root (agent-shell--guardian-root))
+              (dir (expand-file-name ".guardian/substrates/" root))
+              ((file-directory-p dir)))
+    (mapcar #'file-name-sans-extension
+            (directory-files dir nil "\\.yaml\\'"))))
+#+end_src
+
+*** Sidebar (sūtradhar) — also substrate-aware
+
+The sidebar config also hardcodes Claude. Update it to respect the
+sutradhar project's default substrate, or add a separate config variable.
+
+*** Banner: show substrate in welcome
+
+Modify =agent-shell--format-spirit-banner= to include a substrate line:
+
+#+begin_example
+  ┌─ mayadev#gemini ──────────────────
+  │ ...identity text...
+  │ substrate: gemini-2.5-pro
+  └──────────────────────────────────
+#+end_example
+
+When running on the default substrate, the =#substrate= suffix is elided:
+
+#+begin_example
+  ┌─ mayadev ─────────────────────────
+  │ ...identity text...
+  │ substrate: claude-opus-4-6
+  └──────────────────────────────────
+#+end_example
+
+* Execution Plan
+
+** Phase 1: Identity schema migration [6 spirits]
+
+For each of the 6 spirits:
+
+1. Refactor =identity.yaml= to v2 schema (remove =nature:=, clean =dwelling.tools=,
+   change =system_prompt= to =system.md=)
+2. Create =.guardian/substrates/= directory
+3. Create =.guardian/substrates/claude.yaml= (extract current =nature:= values,
+   or =tbd= for uninstantiated spirits)
+4. Create =.guardian/substrates/default= containing =claude=
+5. For spirits that already have GEMINI.md: create =.guardian/substrates/gemini.yaml=
+
+Files touched per spirit:
+- =.guardian/identity.yaml= — edit
+- =.guardian/substrates/claude.yaml= — new
+- =.guardian/substrates/gemini.yaml= — new (where applicable)
+- =.guardian/substrates/default= — new
+
+** Phase 2: System prompt architecture [root + 6 spirits]
+
+For each directory with a CLAUDE.md:
+
+1. Extract backend-neutral content into =system.md=
+2. Reduce =CLAUDE.md= to a thin adapter referencing =system.md=
+3. Where =GEMINI.md= exists, update it to reference =system.md=
+4. Where =GEMINI.md= does not exist but might be needed, leave for future
+
+Priority order:
+1. Root (=./=) — mayadev, most complex
+2. =modules/sutradhar/= — guide, needs careful extraction
+3. =modules/dmt-eval/= — has =cardinal rule= that is universal
+4. =domains/epistem/= — already has GEMINI.md
+5. =modules/aikosh/= — straightforward
+6. =commissions/cruvin/= — straightforward
+
+** Phase 3: Agent-shell harness [=spirit-session.el= + =config.org=]
+
+1. Add =agent-shell--guardian-substrate= function
+2. Add =agent-shell--client-maker-for-backend= dispatch
+3. Add =agent-shell--available-substrates= helper
+4. Modify =agent-shell--make-spirit-config= to accept =backend= parameter
+5. Modify =agent-shell-start-spirit= to prompt for backend on =C-u=
+6. Update sidebar config for substrate-awareness
+7. Update =agent-shell-default-config= to use substrate dispatch
+
+All changes go into both =.guardian/spirit-session.el= (canonical) and
+=~/.doom.d/config.org= (tangled config). Keep them in sync.
+
+** Phase 4: Validation
+
+1. =SPC o g= in mayalucia root → launches =mayadev= on Claude (default substrate, =#= elided)
+2. =C-u SPC o g= in mayalucia root → prompts substrate, offers [claude, gemini]
+3. =SPC o g= in =domains/epistem/= → launches =epistem-guardian= on Claude
+4. =C-u SPC o g= in =domains/epistem/= → offers [claude, gemini], launches =epistem-guardian#gemini=
+5. Two sessions coexist: =mayadev= and =mayadev#gemini= — same spirit, different substrates
+6. Banner shows =spirit#substrate= and substrate model info
+7. Sidebar sūtradhar launches on its project's default substrate
+
+* Risks and Open Questions
+
+** Prompt inclusion mechanism differs per backend
+
+Claude Code auto-reads =CLAUDE.md= from the working directory. Gemini CLI
+auto-reads =GEMINI.md=. Codex reads =AGENTS.md=. The =system.md= file is
+/not/ auto-read by any backend — it must be referenced from the adapter file.
+
+This means =system.md= is a /source/ file, not a /runtime/ file. Each backend
+adapter must explicitly include or reference it. Verify that each backend's
+inclusion mechanism (Gemini's =@./system.md=, Claude's manual read instruction)
+actually works in practice.
+
+** Codex and future backends
+
+OpenAI Codex CLI, MiniMax, DeepSeek, Kimi — we don't have substrate files or
+adapters for these yet. The schema supports them (add a =.yaml= to substrates,
+add a case to the =pcase= dispatch). But we should not create speculative
+substrate files — only create them when we actually configure the backend.
+
+** The =.guardian/spirit-session.el= dual-source problem
+
+Currently =spirit-session.el= lives both in =.guardian/= (canonical) and
+inline in =~/.doom.d/config.org= (tangled). Phase 3 must update both.
+Consider whether config.org should simply =(load ...)= the canonical file
+instead of duplicating it.
+
+** Sidebar substrate
+
+The sūtradhar sidebar currently hardcodes Claude. Should it follow the
+sutradhar module's default substrate, or should the sidebar always be
+Claude (the Max subscription)? The sidebar is the human's persistent
+companion — the substrate choice may be a UX preference, not a project
+concern. Leave as Claude for now, note as future decision.
+
+* Done-When
+
+- [ ] All 6 =identity.yaml= files follow v2 schema (no =nature:= block)
+- [ ] All 6 spirits have =.guardian/substrates/claude.yaml=
+- [ ] Root and epistem have =.guardian/substrates/gemini.yaml=
+- [ ] Root and all spirit directories have =system.md=
+- [ ] All existing =CLAUDE.md= files are thin adapters referencing =system.md=
+- [ ] Existing =GEMINI.md= files reference =system.md=
+- [ ] =spirit-session.el= supports backend dispatch
+- [ ] =SPC o g= launches default substrate; =C-u SPC o g= prompts for backend
+- [ ] Two sessions on different substrates can coexist (=name= vs =name#substrate=)
+- [ ] Banner shows =spirit#substrate= notation and model info
