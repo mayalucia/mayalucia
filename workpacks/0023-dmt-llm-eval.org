@@ -1,4 +1,4 @@
-#+title: WP-0019 — LLM Adapter and Evaluation Scenario
+#+title: WP-0023 — LLM Adapter and Evaluation Scenario
 #+subtitle: String-resolved models, LLM-specific metrics, and a real benchmark
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
@@ -138,7 +138,7 @@ are used directly (backward compatible).
 
 ** Part 5: CLI Integration
 
-Depends on WP-0018 (CLI). Adds:
+Depends on WP-0022 (CLI). Adds:
 
 #+begin_src shell
 dmt eval --scenario llm_qa
@@ -158,7 +158,7 @@ dmt compare --scenario llm_qa \
 6. [ ] LLM metrics module
 7. [ ] Extend =evaluate()= to accept string model specs
 8. [ ] Tests (offline with baselines, marked =@pytest.mark.llm= for API)
-9. [ ] CLI integration (after WP-0018)
+9. [ ] CLI integration (after WP-0022)
 
 * Acceptance Criteria
 
@@ -176,6 +176,6 @@ dmt compare --scenario llm_qa \
 
 * Downstream
 
-- WP-0018 (CLI) provides =dmt eval= command that this scenario plugs into
-- WP-0020 (MCP server) exposes model resolution as a tool
+- WP-0022 (CLI) provides =dmt eval= command that this scenario plugs into
+- WP-0024 (MCP server) exposes model resolution as a tool
 - EU AI Act template (Phase 2) consumes LLM evaluation LabReports

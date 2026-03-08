@@ -6,7 +6,7 @@
 * Context
 
 The charter's Phase 1 (AI/LLM evaluation) and Phase 3 (finance domain)
-are decomposed into four executable WPs. WP-0021 (finance) is pulled
+are decomposed into four executable WPs. WP-0025 (finance) is pulled
 forward from Phase 3 because it serves a dual purpose: DMT domain
 demonstration *and* the human's entry into quantitative finance.
 
@@ -18,45 +18,45 @@ working in its home module.
 
 | WP | Title | Dependency | Type |
 |------+-------+------------+------|
-| 0018 | CLI + PyPI scaffolding | none | infrastructure |
-| 0019 | LLM adapter + evaluation | none (CLI integration after 0018) | domain |
-| 0020 | MCP server | 0018 + 0019 | infrastructure |
-| 0021 | Financial forecasting domain | none (CLI integration after 0018) | domain + learning |
+| 0022 | CLI + PyPI scaffolding | none | infrastructure |
+| 0023 | LLM adapter + evaluation | none (CLI integration after 0022) | domain |
+| 0024 | MCP server | 0022 + 0023 | infrastructure |
+| 0025 | Financial forecasting domain | none (CLI integration after 0022) | domain + learning |
 
 * DAG
 
 #+begin_example
-WP-0018 ──────────────────┐
+WP-0022 ──────────────────┐
   (CLI + PyPI)            │
-                          ├──► WP-0020
-WP-0019 ──────────────────┤     (MCP server)
+                          ├──► WP-0024
+WP-0023 ──────────────────┤     (MCP server)
   (LLM adapter)           │
                           │
-WP-0021 ──────────────────┘
-  (finance domain)         (independent, but CLI integration after 0018)
+WP-0025 ──────────────────┘
+  (finance domain)         (independent, but CLI integration after 0022)
 #+end_example
 
 | Edge | From | To | Condition |
 |------+------+----+-----------|
-| e1 | WP-0018 | WP-0020 | =dmt= CLI command available |
-| e2 | WP-0019 | WP-0020 | LLM scenario available for MCP tools |
-| e3 | WP-0018 | WP-0019 | CLI integration step (partial: core LLM work is independent) |
-| e4 | WP-0018 | WP-0021 | CLI integration step (partial: core finance work is independent) |
+| e1 | WP-0022 | WP-0024 | =dmt= CLI command available |
+| e2 | WP-0023 | WP-0024 | LLM scenario available for MCP tools |
+| e3 | WP-0022 | WP-0023 | CLI integration step (partial: core LLM work is independent) |
+| e4 | WP-0022 | WP-0025 | CLI integration step (partial: core finance work is independent) |
 
 * Parallelism
 
-WP-0018, WP-0019, and WP-0021 can begin in parallel — each has
-substantial independent work before needing CLI integration. WP-0020
-blocks on both 0018 and 0019.
+WP-0022, WP-0023, and WP-0025 can begin in parallel — each has
+substantial independent work before needing CLI integration. WP-0024
+blocks on both 0022 and 0023.
 
 Recommended execution order for a single executor:
 
-1. *WP-0018* first — provides the CLI scaffold that 0019 and 0021
+1. *WP-0022* first — provides the CLI scaffold that 0023 and 0025
    plug into
-2. *WP-0021* second — the learning priority; builds intuition for
+2. *WP-0025* second — the learning priority; builds intuition for
    quantitative finance through construction
-3. *WP-0019* third — LLM evaluation, builds on CLI
-4. *WP-0020* last — MCP server, wraps everything
+3. *WP-0023* third — LLM evaluation, builds on CLI
+4. *WP-0024* last — MCP server, wraps everything
 
 * Success Criteria (DP-level)
 

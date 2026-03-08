@@ -1,4 +1,4 @@
-#+title: WP-0021 — Financial Forecasting Domain Pack
+#+title: WP-0025 — Financial Forecasting Domain Pack
 #+subtitle: Equity return prediction as the first quantitative finance scenario
 #+author: mu2tau + mayadev
 #+date: 2026-03-08

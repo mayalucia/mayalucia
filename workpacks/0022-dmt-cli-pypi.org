@@ -1,4 +1,4 @@
-#+title: WP-0018 — DMT CLI and PyPI Release
+#+title: WP-0022 — DMT CLI and PyPI Release
 #+subtitle: dmt eval, dmt compare, dmt report — the command-line face of the framework
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
@@ -151,6 +151,6 @@ Add =typer= to dependencies.
 
 * Downstream
 
-- WP-0019 (LLM adapter) adds =--model "openai/gpt-4o"= string resolution
-- WP-0020 (MCP server) wraps CLI commands as MCP tools
-- WP-0021 (finance domain) adds =--scenario equity_forecast=
+- WP-0023 (LLM adapter) adds =--model "openai/gpt-4o"= string resolution
+- WP-0024 (MCP server) wraps CLI commands as MCP tools
+- WP-0025 (finance domain) adds =--scenario equity_forecast=

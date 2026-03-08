@@ -1,4 +1,4 @@
-#+title: WP-0020 — DMT MCP Server
+#+title: WP-0024 — DMT MCP Server
 #+subtitle: Agents evaluating models — DMT as a tool in the agent's hands
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
@@ -113,7 +113,7 @@ for easy integration:
 
 ** Part 4: Entry Point
 
-Add =mcp= subcommand to the CLI (depends on WP-0018):
+Add =mcp= subcommand to the CLI (depends on WP-0022):
 
 #+begin_src shell
 dmt mcp serve           # start MCP server
@@ -135,7 +135,7 @@ mcp = ["mcp>=1.0"]
 3. [ ] Implement =dmt_evaluate= tool (wraps =evaluate()=)
 4. [ ] Implement =dmt_compare= tool
 5. [ ] Implement =dmt_list= tool
-6. [ ] Add =mcp= subcommand to CLI (after WP-0018)
+6. [ ] Add =mcp= subcommand to CLI (after WP-0022)
 7. [ ] Write =.mcp.json= config template
 8. [ ] Test with Claude Code locally
 9. [ ] Document MCP setup in README
@@ -152,8 +152,8 @@ mcp = ["mcp>=1.0"]
 
 * Dependencies
 
-- WP-0018 (CLI) — for the =dmt mcp serve= subcommand
-- WP-0019 (LLM adapter) — for =llm_qa= scenario availability
+- WP-0022 (CLI) — for the =dmt mcp serve= subcommand
+- WP-0023 (LLM adapter) — for =llm_qa= scenario availability
 
 * Downstream
 
