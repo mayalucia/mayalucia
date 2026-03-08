@@ -257,12 +257,25 @@ what they wrote or left behind, primary sources with URLs.
 
 * Output
 
-Survey deposited at:
-=domains/epistem/surveys/travellers-to-diamer.org=
+Survey deposited in subdirectory:
+=domains/epistem/surveys/travellers-to-diamer/=
 
-Structure: sections matching Parts A–E. Each traveller entry includes:
-name, date, origin, purpose, what they wrote, what happened to them,
-primary source with URL.
+One file per part:
+- =part-a-ancient.org= — petroglyph makers, Chinese pilgrims, Silk Road, Buddhist period
+- =part-b-medieval.org= — Arab geographers, Central Asian rulers, Mughals, Sikh/Dogra
+- =part-c-colonial.org= — early Europeans, Mummery, German expeditions, British administration
+- =part-d-modern.org= — Messner, 2013 massacre, Kolouchová, KKH, dam workers
+- =part-e-unheard-voices.org= — women of Diamer, porters, love stories, oral tradition
+
+Master file:
+- =travellers-to-diamer.org= — title, introduction, and =#+include= links to each part file
+
+Each part file is self-contained: own title, own sources section.
+Each traveller entry includes: name, date, origin, purpose, what they
+wrote, what happened to them, primary source with URL.
+
+Assembly via the master file's =#+include= directives — one org file
+that reads as a complete survey when exported.
 
 * Execution Order
 
@@ -292,7 +305,8 @@ results — the absence is itself data.
       (or the absence documented with evidence of search)
 - [ ] At least 40 web-accessible sources cited with URLs
 - [ ] Each traveller entry has: name, date, origin, purpose, source
-- [ ] Survey deposited at correct path
+- [ ] Survey deposited as per-part files in =domains/epistem/surveys/travellers-to-diamer/=
+- [ ] Master =travellers-to-diamer.org= includes all parts via =#+include=
 - [ ] Part E honestly reports what could not be found
 
 * What This Proves

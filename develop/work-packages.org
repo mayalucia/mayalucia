@@ -282,6 +282,100 @@ A composite WP's execution section includes a coalition table:
 - *Parallel tasks*: tasks within a composite WP may run in parallel
   if they have no mutual dependencies.
 
+* Parallel Output Convention
+
+When a WP's execution is parallelised — either across subagents within
+a single session or across separate spirit sessions — each parallel
+unit of work deposits into its own file. No two subagents write to the
+same file.
+
+** The rule
+
+#+begin_example
+One subagent → one file.  One directory → one WP.
+#+end_example
+
+If a WP has N independent parts, the output is a subdirectory with N
+files, not a single file with N sections.
+
+** Why
+
+A single shared output file serialises what should be concurrent:
+subagents must coordinate writes, risk clobbering each other's work,
+and cannot be restarted independently. Per-file output means each
+subagent is idempotent — it can fail and retry without affecting
+siblings.
+
+** How to specify
+
+The WP's *Output* section names the subdirectory, lists every
+expected part file, and specifies the master file:
+
+#+begin_example
+* Output
+
+Survey deposited in subdirectory:
+=domains/epistem/surveys/<slug>/=
+
+One file per part:
+- =part-a-foo.org= — description
+- =part-b-bar.org= — description
+- =part-c-baz.org= — description
+
+Master file:
+- =<slug>.org= — title, introduction, and =#+include= links to each part
+
+Each part file is self-contained: own title, own sources section.
+The master file assembles them into a single exportable document
+via Org's =#+include= directives.
+#+end_example
+
+The naming convention =part-<letter>-<slug>.org= preserves alphabetical
+ordering.  Parts are named after their content, not their executor.
+
+** The master file
+
+The master file lives in the same subdirectory as the parts. It
+contains:
+
+1. Title, author, date metadata
+2. An introduction or overview (written by the executor, not generated)
+3. One =#+include= directive per part file, in order
+
+#+begin_example
+#+title: <Survey Title>
+#+author: <executor>
+#+date: <date>
+
+* Introduction
+
+<brief overview of the survey>
+
+#+include: "part-a-foo.org" :minlevel 1
+#+include: "part-b-bar.org" :minlevel 1
+#+include: "part-c-baz.org" :minlevel 1
+#+end_example
+
+The master file is the last artifact produced — written after all
+parts are complete. It does not duplicate content; it composes it.
+When exported (HTML, PDF, or read in Emacs), it reads as one document.
+
+** Recovery
+
+If a subagent is overwhelmed or fails mid-execution, completed part
+files remain untouched. A new session resumes from the first missing
+or incomplete part file. The subdirectory /is/ the progress record.
+The master file is written only after all parts exist.
+
+** Applies to
+
+- Surveys with independent sections (epistem pattern)
+- Composite WP tasks assigned to different spirits
+- Any WP whose execution order declares parts as parallelisable
+
+Does /not/ apply to WPs with a single linear output — those deposit
+a single file as before.
+
 * Dispatch Plans
 
 A *dispatch plan* (DP) sequences work packages into an executable
@@ -432,3 +526,4 @@ brittle; intent survives reorganisation.
 |     0.2 | 2026-03-02 | Add lifecycle states (A2A-inspired), composite WPs, coalitions |
 |     0.3 | 2026-03-05 | Add Dispatch Plans (DP) — DAG of WPs, host-independent         |
 |     0.4 | 2026-03-05 | Dispatch output format — intent-forward, not path-forward      |
+|     0.5 | 2026-03-08 | Parallel output convention — one subagent, one file             |

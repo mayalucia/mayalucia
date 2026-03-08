@@ -203,12 +203,26 @@ New World expansion. The 1976 Judgment of Paris. Natural wine movement.
 
 * Output
 
-Survey deposited at:
-=domains/epistem/surveys/wine-education-wset.org=
+Survey deposited in subdirectory:
+=domains/epistem/surveys/wine-wset/=
 
-Structure: sections matching Parts A–E. Each entry includes factual
-content with reasoning, sourced with URLs. Cross-references to WSET
-level where each topic is taught (L1/L2/L3/L4).
+One file per part:
+- =part-a-grape-varieties.org= — varieties, vine biology, terroir
+- =part-b-winemaking.org= — process and science (still, sparkling, fortified)
+- =part-c-wine-regions.org= — regions of the world by country
+- =part-d-tasting.org= — SAT methodology, vocabulary, pairing, faults
+- =part-e-business-culture.org= — classification, economics, contemporary issues, history
+
+Master file:
+- =wine-wset.org= — title, introduction, and =#+include= links to each part file
+
+Each part file is self-contained: own title, own sources section.
+Cross-references to WSET level where each topic is taught (L1/L2/L3/L4).
+Each entry includes factual content with reasoning, sourced with URLs.
+
+The master file assembles all parts via =#+include= directives — one
+org file that reads as a complete survey when exported. Written after
+all parts are complete.
 
 * Execution Order
 
@@ -235,7 +249,8 @@ Parts A–E are independent and can be parallelised.
 - [ ] Contemporary issues section covers climate change with data
 - [ ] At least 50 web-accessible sources cited with URLs
 - [ ] Each section tagged with relevant WSET level (L1/L2/L3/L4)
-- [ ] Survey deposited at correct path
+- [ ] Survey deposited as per-part files in =domains/epistem/surveys/wine-wset/=
+- [ ] Master =wine-wset.org= includes all parts via =#+include=
 
 * What This Proves
 
