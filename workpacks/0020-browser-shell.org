@@ -77,8 +77,8 @@ Source of truth for the browser. Contains:
 
 - =:stories= — 12 entries with id, title, slug, setting, document-type,
   characters, concepts, illustrations, description
-- =:concepts= — 93 entries with id, name, story-equiv, introduced-in
-- =:characters= — 18 entries with id, name, appears-in, role
+- =:concepts= — 94 entries with id, name, story-equiv, introduced-in
+- =:characters= — 19 entries with id, name, appears-in, role
 - =:regions= — 8 geographic clusters
 - =:miyazaki-keys= — Spirited Away ↔ Himalaya mapping
 - =:edges= — geography clusters, character threads, concept bridges,
