@@ -2,7 +2,7 @@
 #+subtitle: Read story #6 in full and extract translation keys, characters, and metadata for the story browser EDN
 #+author: mu2tau + mayadev
 #+date: 2026-03-07
-#+property: status drafted
+#+property: status completed
 #+property: serves WP-0015
 #+property: executor mayadev
 #+property: trust autonomous

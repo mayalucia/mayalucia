@@ -2,7 +2,7 @@
 #+subtitle: Literature survey of human journeys to the Nanga Parbat massif — from Faxian's peg-path to Kolouchov\aacute{}'s last descent
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
-#+property: status drafted
+#+property: status completed
 #+property: executor epistem-guardian
 #+property: execution sequential
 
