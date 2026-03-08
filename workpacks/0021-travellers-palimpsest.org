@@ -4,6 +4,7 @@
 #+date: 2026-03-08
 #+property: status drafted
 #+property: executor epistem-guardian
+#+property: execution sequential
 
 * Context and Motivation
 
@@ -287,8 +288,11 @@ that reads as a complete survey when exported.
 6. Synthesis: cross-reference with WP-0012 and WP-0013
 7. Human review and annotation
 
-Parts A–E can be parallelised. Part E will likely yield the thinnest
-results — the absence is itself data.
+Parts are executed *sequentially* — complete part A and commit before
+starting part B. Each session should check the subdirectory for
+existing parts and resume from the first missing file. Do not use
+parallel subagents. Part E will likely yield the thinnest results —
+the absence is itself data.
 
 * Acceptance Criteria
 

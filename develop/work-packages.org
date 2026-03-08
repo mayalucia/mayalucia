@@ -282,29 +282,57 @@ A composite WP's execution section includes a coalition table:
 - *Parallel tasks*: tasks within a composite WP may run in parallel
   if they have no mutual dependencies.
 
-* Parallel Output Convention
+* Multi-Part Output Convention
 
-When a WP's execution is parallelised — either across subagents within
-a single session or across separate spirit sessions — each parallel
-unit of work deposits into its own file. No two subagents write to the
-same file.
+When a WP produces multiple independent sections — surveys, composite
+tasks, any work with named parts — each part deposits into its own
+file in a subdirectory. No two parts share a file.
 
 ** The rule
 
 #+begin_example
-One subagent → one file.  One directory → one WP.
+One part → one file.  One directory → one WP.
 #+end_example
 
 If a WP has N independent parts, the output is a subdirectory with N
 files, not a single file with N sections.
 
-** Why
+** Sequential by default
 
-A single shared output file serialises what should be concurrent:
-subagents must coordinate writes, risk clobbering each other's work,
-and cannot be restarted independently. Per-file output means each
-subagent is idempotent — it can fail and retry without affecting
-siblings.
+Parts are executed *sequentially* — one at a time, in the order
+specified by the WP's Execution Order section. The executing spirit
+completes part A and commits it before starting part B. This is the
+default for all multi-part WPs.
+
+Parallel execution (multiple subagents working on different parts
+simultaneously) is *not* the default. It requires explicit approval
+during the planning/tightening phase, after estimating context cost:
+
+- *Size estimate*: during tightening, the WP author and executor
+  estimate the expected output size per part (in KB or org sections)
+  and the number of web searches required. Each web search consumes
+  ~2–4K tokens of context.
+- *Context budget*: if the total estimated token cost across all
+  parallel subagents exceeds ~60% of the context window, the WP
+  must execute sequentially.
+- *Approval*: parallel execution is recorded in the WP as a property:
+  =#+property: execution parallel= (default is =sequential=).
+  The decision is made during tightening, not by the executor at
+  runtime.
+
+*** Why sequential is safer
+
+Parallel subagents each perform web searches. The combined search
+results fill the context window before any part can be written and
+committed. The session dies, nothing is saved. Sequential execution
+commits each part before the next begins — the subdirectory
+accumulates completed work, and context resets between parts.
+
+*** When parallel is appropriate
+
+- Parts are small (< 10 KB each) with few web searches
+- The executor has been tested on similar workloads without overwhelm
+- The human explicitly approves after reviewing the size estimate
 
 ** How to specify
 
@@ -362,16 +390,17 @@ When exported (HTML, PDF, or read in Emacs), it reads as one document.
 
 ** Recovery
 
-If a subagent is overwhelmed or fails mid-execution, completed part
-files remain untouched. A new session resumes from the first missing
-or incomplete part file. The subdirectory /is/ the progress record.
-The master file is written only after all parts exist.
+Whether sequential or parallel, completed part files remain untouched
+if a session fails. A new session checks the subdirectory for existing
+parts and resumes from the first missing or incomplete file. The
+subdirectory /is/ the progress record. The master file is written
+only after all parts exist.
 
 ** Applies to
 
 - Surveys with independent sections (epistem pattern)
 - Composite WP tasks assigned to different spirits
-- Any WP whose execution order declares parts as parallelisable
+- Any WP with multiple named output parts
 
 Does /not/ apply to WPs with a single linear output — those deposit
 a single file as before.
@@ -526,4 +555,4 @@ brittle; intent survives reorganisation.
 |     0.2 | 2026-03-02 | Add lifecycle states (A2A-inspired), composite WPs, coalitions |
 |     0.3 | 2026-03-05 | Add Dispatch Plans (DP) — DAG of WPs, host-independent         |
 |     0.4 | 2026-03-05 | Dispatch output format — intent-forward, not path-forward      |
-|     0.5 | 2026-03-08 | Parallel output convention — one subagent, one file             |
+|     0.5 | 2026-03-08 | Multi-part output convention — sequential default, parallel needs approval |
