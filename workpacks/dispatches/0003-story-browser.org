@@ -58,7 +58,7 @@ in parallel.
 |------+-----------------+---------+----------------------------|
 | 0015 | mu2tau + mayadev | mayalucia | parent repo |
 | 0016 | epistem-guardian | epistem | =domains/epistem= |
-| 0020 | sutradhar-guardian | mayalucia | =modules/sutradhar= |
+| 0020 | sutradhar-guardian | mayalucia | parent repo (output: =website/story-browser/=) |
 | 0014 | mu2tau (human) | — | parent repo |
 
 mayadev dispatches. Guardian spirits execute their domain work.
@@ -76,7 +76,7 @@ moments matter or which silences are deliberate.
   ecological chains rather than regional geography. May reuse survey
   material from those WPs.
 - WP-0020 is the build. It forks from the constellation viewer
-  (=modules/sutradhar/website/project-constellation/=) and adapts the
+  (=website/project-constellation/=) and adapts the
   rendering for story data.
 - WP-0014's final phase depends on seeing the browser — the emergent
   dimensions cannot be annotated in the abstract. The human needs to

@@ -6,6 +6,22 @@
 #+property: dispatch DP-0003
 #+property: executor sutradhar-guardian
 #+property: depends-on WP-0015 WP-0016
+#+property: trust autonomous
+#+property: working-dir parent repo (not modules/sutradhar/)
+
+* Working Directory
+
+*This WP runs from the parent repo root*, not from =modules/sutradhar/=.
+
+The constellation viewer lives at =website/project-constellation/=. The
+story browser output goes to =website/story-browser/=. The EDN data is at
+=workpacks/data/stories.edn=. All paths in this WP are relative to the
+parent repo.
+
+Sutradhar's backend Clojure code (=modules/sutradhar/src/=) is not
+touched by this WP. The browser shell is a standalone ClojureScript
+app — a sibling of the constellation viewer, not a child of the
+sutradhar module.
 
 * Context and Motivation
 
@@ -24,7 +40,7 @@ WP-0016 (ecological web) ─┘       │
 Both upstream WPs are complete:
 
 - *WP-0015* — =workpacks/data/stories.edn= contains 12 stories,
-  93 concepts, 18 characters, 8 regions, and typed edges (geography,
+  94 concepts, 19 characters, 8 regions, and typed edges (geography,
   character, concept bridges, concept lineages). Fully populated.
 - *WP-0016* — ecological web survey completed. Data available in
   =domains/epistem=.
@@ -110,7 +126,7 @@ cartographic accuracy is Phase 2+.
 A force-directed graph of translation keys. Fork from the constellation
 viewer's D3 simulation.
 
-- Concept nodes — the 93 concepts from =stories.edn=
+- Concept nodes — the 94 concepts from =stories.edn=
 - Story-to-concept edges — each story connects to its concept list
 - Concept lineages — highlighted when a concept appears across multiple
   stories (from =:edges= with =:type :concept-lineage=)
@@ -138,7 +154,8 @@ Shared between both views. On story selection, shows:
 
 Toggle between geography and concept projections. Same data, different
 spatial layout. The info panel persists across view switches if a story
-is selected.
+is selected. URL fragments for deep-linking: =#geography=, =#concept=,
+=#story/thread-walkers=.
 
 ** Where it lives
 
@@ -191,6 +208,34 @@ Output: =website/static/js/story-browser.js=
   topographic map is an upgrade, not a rewrite. SVG layers, not
   hardcoded positions.
 - Mobile is not a priority for Phase 1. Desktop-first.
+- Dev server port: 3335 (constellation viewer uses 3334).
+
+** Colour scheme
+
+Regions as colour clusters, blended for concepts spanning multiple regions:
+
+| Cluster | Colour | Stories |
+|---------+--------+---------|
+| tirthan | warm amber | 7, 10, 11, 12 |
+| lahaul | ice blue | 1, 5, 8 |
+| parvati | forest green | 3 |
+| kinnaur | terracotta | 4 |
+| sutlej | grey-blue | 9 |
+| doridhar | gold | 2 |
+| abstract | silver | 6 |
+| karakoram | (empty) | — |
+
+Concepts inherit blended colour from the stories that translate them.
+
+** What this WP does not include
+
+- Timeline view (future Phase 2)
+- Character constellation view (future Phase 2)
+- Topographic basemap / DEM contours (future — requires parbati data)
+- Emergent dimension annotations (WP-0014 final phase, human work)
+- Mobile-optimised layout (nice to have, not required)
+- Ecological web integration (WP-0016 data deferred to Phase 2 unless
+  trivially consumable)
 
 * Execution Order
 
