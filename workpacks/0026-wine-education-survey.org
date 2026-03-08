@@ -2,7 +2,7 @@
 #+subtitle: Comprehensive reference material for the CruVin WSET curriculum — from vine biology to tasting vocabulary
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
-#+property: status drafted
+#+property: status completed
 #+property: executor epistem-guardian
 #+property: trust autonomous
 

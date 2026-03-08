@@ -2,7 +2,7 @@
 #+subtitle: From Tethys to the Anthropocene — what walked, what grew, what was carved, what was named
 #+author: mu2tau + mayadev
 #+date: 2026-03-06
-#+property: status executed
+#+property: status completed
 #+property: tightened-by sutradhar-guardian
 #+property: tightened-date 2026-03-06
 #+property: assigned-to epistem-guardian

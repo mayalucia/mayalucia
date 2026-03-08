@@ -1,7 +1,7 @@
 #+title: DP-0004 — DMT-Eval Phase 1: CLI, LLM, MCP, Finance
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
-#+property: status drafted
+#+property: status completed
 
 * Context
 

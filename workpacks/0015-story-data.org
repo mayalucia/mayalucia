@@ -2,7 +2,7 @@
 #+subtitle: Curate structured data for all published stories — the browser's source of truth
 #+author: mu2tau + mayadev
 #+date: 2026-03-07
-#+property: status drafted
+#+property: status completed
 
 * Context and Motivation
 

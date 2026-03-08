@@ -2,7 +2,7 @@
 #+subtitle: String-resolved models, LLM-specific metrics, and a real benchmark
 #+author: mu2tau + mayadev
 #+date: 2026-03-08
-#+property: status drafted
+#+property: status completed
 #+property: assigned-to dmt-eval-guardian
 #+property: executor dmt-eval-guardian
 #+property: trust autonomous
