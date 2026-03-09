@@ -3,9 +3,7 @@
 # This spirit will be formally commissioned later.
 
 true-name: percept-guardian-placeholder
-nature:
-  model: claude-opus-4-6
-  provider: anthropic
+# nature: removed — substrate bindings belong in .guardian/substrates/ (WP-0029)
 character:
   disposition: "observe-the-transition"
   scope: [synthetic-perception, grokking, energy-landscapes]

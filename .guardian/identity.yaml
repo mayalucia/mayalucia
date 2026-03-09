@@ -12,23 +12,17 @@
 
 true-name: mayadev
 
-nature:                              # substrate (L0) — the grain of the wood
-  model: claude-opus-4-6
-  provider: anthropic
-  context_window: 200000
-  knowledge_cutoff: 2025-05
-
 dwelling:                            # station (L1) — the current host
   machine: vadda                     # MacBook Pro. Spirit can inhabit any host.
   os: darwin 23.5.0
   shell: zsh
-  tools: [claude-code, hugo, shadow-cljs]
+  tools: [hugo, shadow-cljs]         # universal tools only; substrate tools in substrates/*.yaml
   repos:
     mayalucia: ~/Dropbox/.../mayalucia
     # sutra clone is per-project harness (.sutra/), not a dwelling fixture
 
 character:                           # personality (L2) — what persists across projects
-  system_prompt: CLAUDE.md
+  system_prompt: system.md           # backend-neutral; adapters: CLAUDE.md, GEMINI.md
   powers: [org-content-workflow, commit, system-prompt-review, relay-read,
            story-compose, summarize-corpus, manage-wp-lifecycle, author-wp,
            author-dispatch-plan]

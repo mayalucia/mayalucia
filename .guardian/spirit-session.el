@@ -10,6 +10,11 @@
 ;; .guardian/identity file containing the spirit's true-name (one line,
 ;; plain text). This file is the filesystem-level identity marker — no
 ;; YAML parsing, no central registry lookup.
+;;
+;; Substrate resolution: .guardian/substrates/<backend>.yaml binds a
+;; spirit to a specific LLM backend. .guardian/substrates/default names
+;; the default backend (falls back to "claude"). The spirit is substrate-
+;; agnostic; the harness resolves the binding at session launch.
 
 ;; Spirit color palette — mahābhūta (five elements)
 ;; Each guild maps to an element; spirits within a guild differentiate
@@ -101,9 +106,50 @@ Produces a tinted background that is visible against the frame background."
             (round (+ (* g (- 1 amount)) (* bg-g amount)))
             (round (+ (* b (- 1 amount)) (* bg-b amount))))))
 
-(defun agent-shell--format-spirit-banner (name identity-text)
+;; --- Substrate resolution ---
+
+(defun agent-shell--default-substrate ()
+  "Read the default substrate name from .guardian/substrates/default.
+Falls back to \"claude\" if the file does not exist."
+  (let* ((root (agent-shell--guardian-root))
+         (default-file (when root
+                         (expand-file-name ".guardian/substrates/default" root))))
+    (if (and default-file (file-exists-p default-file))
+        (string-trim
+         (with-temp-buffer
+           (insert-file-contents default-file)
+           (buffer-string)))
+      "claude")))
+
+(defun agent-shell--default-substrate-p (backend)
+  "Return non-nil if BACKEND is the project's default substrate."
+  (string-equal backend (agent-shell--default-substrate)))
+
+(defun agent-shell--available-substrates ()
+  "List available substrate names from .guardian/substrates/*.yaml."
+  (when-let* ((root (agent-shell--guardian-root))
+              (dir (expand-file-name ".guardian/substrates/" root))
+              ((file-directory-p dir)))
+    (mapcar #'file-name-sans-extension
+            (directory-files dir nil "\\.yaml\\'"))))
+
+(defun agent-shell--client-maker-for-backend (backend)
+  "Return a client-maker lambda for BACKEND string."
+  (pcase backend
+    ("gemini" (lambda (buffer)
+               (agent-shell-google-make-gemini-client :buffer buffer)))
+    ("codex"  (lambda (buffer)
+               (agent-shell-openai-make-codex-client :buffer buffer)))
+    (_        (lambda (buffer)
+               (agent-shell-anthropic-make-claude-client :buffer buffer)))))
+
+;; --- Banner ---
+
+(defun agent-shell--format-spirit-banner (name identity-text &optional substrate-info)
   "Format a welcome banner for spirit NAME with IDENTITY-TEXT.
-Uses `font-lock-face' (not `face') so properties survive comint output filter."
+SUBSTRATE-INFO, if non-nil, is a string like \"claude-opus-4-6\" shown
+in the banner. Uses `font-lock-face' (not `face') so properties survive
+comint output filter."
   (let* ((color (agent-shell--spirit-color name))
          (bg (agent-shell--blend-toward-bg color 0.75))
          (header-face `(:foreground ,color :background ,bg :weight bold))
@@ -119,45 +165,68 @@ Uses `font-lock-face' (not `face') so properties survive comint output filter."
                                             (propertize line 'font-lock-face dim-face)))
                                   (split-string identity-text "\n")
                                   "\n")
+                        (when substrate-info
+                          (concat "\n"
+                                  (propertize "  │ " 'font-lock-face box-face)
+                                  (propertize (concat "substrate: " substrate-info)
+                                              'font-lock-face dim-face)))
                         "\n"
                         (propertize "  └──────────────────────────────────" 'font-lock-face box-face)
                         "\n")
               (propertize (format "  Spirit: %s (no identity.yaml found)\n" name)
                           'font-lock-face dim-face)))))
 
-(defun agent-shell--spirit-welcome (name)
+(defun agent-shell--spirit-welcome (name &optional substrate-info)
   "Return a welcome function for spirit NAME.
+SUBSTRATE-INFO is an optional string (e.g. model name) shown in the banner.
 Captures plain data eagerly; builds propertized banner at display time
 so text properties survive (backquote splicing strips them)."
   (let ((id-text (agent-shell--spirit-identity-text)))
     `(lambda (_config)
-       (agent-shell--format-spirit-banner ,name ,id-text))))
+       (agent-shell--format-spirit-banner ,name ,id-text ,substrate-info))))
 
-(defun agent-shell--make-spirit-config (name)
-  "Build agent-config for spirit NAME."
-  (let* ((color (agent-shell--spirit-color name))
-         (prompt (propertize (concat name "> ") 'face `(:foreground ,color :weight bold))))
+;; --- Config builder ---
+
+(defun agent-shell--make-spirit-config (name &optional backend)
+  "Build agent-config for spirit NAME on BACKEND.
+BACKEND is a string (\"claude\", \"gemini\", \"codex\") or nil for project default.
+Buffer name uses spirit#substrate notation; default substrate is elided."
+  (let* ((resolved-backend (or backend (agent-shell--default-substrate)))
+         (default-p (agent-shell--default-substrate-p resolved-backend))
+         (buf-name (if default-p
+                       name
+                     (format "%s#%s" name resolved-backend)))
+         (color (agent-shell--spirit-color name))
+         (prompt (propertize (concat buf-name "> ")
+                             'face `(:foreground ,color :weight bold))))
     (agent-shell-make-agent-config
-     :identifier (intern name)
-     :buffer-name name
-     :mode-line-name name
+     :identifier (intern buf-name)
+     :buffer-name buf-name
+     :mode-line-name buf-name
      :shell-prompt prompt
-     :shell-prompt-regexp (concat (regexp-quote name) "> ")
-     :welcome-function (agent-shell--spirit-welcome name)
-     :client-maker (lambda (buffer)
-                     (agent-shell-anthropic-make-claude-client :buffer buffer)))))
+     :shell-prompt-regexp (concat (regexp-quote buf-name) "> ")
+     :welcome-function (agent-shell--spirit-welcome buf-name resolved-backend)
+     :client-maker (agent-shell--client-maker-for-backend resolved-backend))))
+
+;; --- Entry point ---
 
 (defun agent-shell-start-spirit (&optional name)
   "Start agent-shell with spirit identity.
 Resolve NAME by: explicit argument → .guardian/identity → interactive prompt.
-If none resolved, fall back to default config (mayadev)."
+If none resolved, fall back to default config (mayadev).
+With prefix arg, prompt for backend and force a new session."
   (interactive)
   (let* ((resolved (or name
                       (agent-shell--guardian-name)
                       (let ((input (read-string "Spirit (empty for default): ")))
                         (unless (string-empty-p input) input))))
+         (backend (when current-prefix-arg
+                    (completing-read "Backend: "
+                                    (or (agent-shell--available-substrates)
+                                        '("claude"))
+                                    nil t nil nil "claude")))
          (config (if resolved
-                     (agent-shell--make-spirit-config resolved)
+                     (agent-shell--make-spirit-config resolved backend)
                    agent-shell-default-config)))
     ;; One spirit, one presence: reuse existing session, C-u to force new.
     (let ((existing (seq-find

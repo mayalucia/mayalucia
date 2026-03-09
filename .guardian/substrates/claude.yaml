@@ -1,0 +1,8 @@
+# Claude Code substrate binding for mayadev
+provider: anthropic
+model: claude-opus-4-6
+cli_tool: claude-code
+context_window: 200000
+knowledge_cutoff: 2025-05
+system_prompt: CLAUDE.md
+tools: [claude-code]
