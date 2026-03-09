@@ -12,6 +12,13 @@
 <script defer src="/js/project-constellation.js?v={{ $ts }}"></script>
 {{- end }}
 
+{{- /* Story Browser: load on /writing/browser/ */ -}}
+{{- if eq .RelPermalink "/writing/browser/" }}
+{{- $ts := now.Unix }}
+<link rel="preload" href="/js/story-browser.js?v={{ $ts }}" as="script">
+<script defer src="/js/story-browser.js?v={{ $ts }}"></script>
+{{- end }}
+
 {{- /* KaTeX: load on pages with math: true */ -}}
 {{ if or .Params.math .Site.Params.math }}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">

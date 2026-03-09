@@ -1,0 +1,20 @@
+{:deps   true
+ :nrepl  {:port 7004}
+
+ :builds
+ {:app
+  {:target    :browser
+   :output-dir "../static/js"
+   :asset-path "/js"
+
+   :modules
+   {:story-browser
+    {:init-fn story-browser.core/init!
+     :output-name "story-browser.js"}}
+
+   :devtools
+   {:http-root ".."
+    :http-port 3335}
+
+   :compiler-options
+   {:infer-externs :auto}}}}

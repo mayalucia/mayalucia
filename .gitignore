@@ -75,3 +75,13 @@ commissions/
 .first-boot
 
 modules/sutradhar/.cpcache/
+
+# Story browser dev artifacts (shadow-cljs dev server symlinks)
+website/images
+website/writing
+website/index.html
+website/static/js/cljs-runtime/
+website/static/js/manifest.edn
+website/story-browser/.shadow-cljs/
+website/story-browser/.cpcache/
+website/story-browser/node_modules/
