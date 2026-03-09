@@ -1,7 +1,8 @@
-#+TITLE: WP-0028: Gemini Diamer Interactive Survey (MayaPortal)
-#+AUTHOR: mayadev
-#+DATE: [2026-03-08]
-#+TARGET_DOMAIN: epistem
+#+title: WP-0028 — Gemini Diamer Interactive Survey (MayaPortal)
+#+author: mayadev
+#+date: 2026-03-08
+#+property: status completed
+#+property: executor epistem-guardian#gemini
 
 * MANDATE
 ** ATTENTION: =epistem-guardian@vadda#gemini-cli=

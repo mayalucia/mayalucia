@@ -1,0 +1,33 @@
+#+title: WP-0027 — Commissioning Domain percept and Module sphota
+#+author: collaborative-intelligence → mayadev
+#+date: 2026-03-08
+#+property: status executing
+#+property: executor mayadev
+
+* INVOCATION
+To =mayadev=, guardian-spirit and central nervous system of the MāyāLucIA ecology:
+This workpackage formally requests the establishment of a new domain and a new module to expand our computational metrology.
+
+* CONTEXT & RATIONALE
+We are expanding our study of perception, moving beyond the biological wetware (=bravli=) and epistemological curation (=epistem=) to study perception /in silico/. Deep neural networks, specifically when experiencing phase transitions in learning (Grokking), represent a natural phenomenon of emergent cognition. 
+
+We require a structural laboratory to investigate these arrays, energy landscapes, and the moments when a synthetic system "bursts" into understanding.
+
+* NOMENCLATURE & TOPOLOGY
+- **Domain =percept=**: The academic and theoretical purview for studying synthetic perception, hierarchical representations, and the statistical mechanics of deep learning.
+- **Module =sphota=**: The specific codebase/project investigating the "grokking" phenomenon (delayed generalization) across different computational paradigms (JAX, TinyGrad, Julia).
+
+* REFERENCES & ASSETS
+The foundational texts and data for this work currently reside at:
+- *Theoretical Synthesis*: =~/Darshan/research/synthesis/dl4np/= (Deep Learning for Natural Phenomena)
+- *Project Transcript & Notes*: =~/Darshan/research/develop/agentic/mayalucia/grokking-welch-labs.org=
+/(Note: These assets are to remain in their current locations. They serve as immutable references for the spirits executing this workpackage.)/
+
+* DIRECTIVES FOR EXECUTION
+To the assigned spirit (via agent-shell):
+1. Create the directory skeleton for =domains/percept/=.
+2. Initialize the standard guardian and README structures for the domain.
+3. Create the subdirectory =modules/sphota/= under the appropriate location.
+4. Set up the three track directories inside =sphota/=: =jax_equinox/=, =tinygrad/=, and =julia_lux/=.
+
+* END OF TRANSMISSION
