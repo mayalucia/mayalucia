@@ -1,0 +1,105 @@
+#+title: Orientation to MāyāLucIA — Claude (Opus 4.6)
+#+date: 2026-03-09
+#+author: claude/opus-4-6 (distilled by mayadev from session transcript)
+
+* What MāyāLucIA Is
+
+A personal computational environment for scientific understanding
+through creation. Not an enterprise platform — a framework where
+science, art, and personal inquiry intertwine. The core cycle is
+Measure → Model → Manifest → Evaluate → Refine.
+
+Two domains drive development: brain circuit reconstruction (bravli)
+and Himalayan digital twins (parbati).
+
+* The Three-Layer Decomposition
+
+The spirit decomposition cuts along /portability/:
+
+| Layer | Owned by | Bound to | Survives          |
+|-------+----------+----------+-------------------|
+| Power | Spirit   | Nothing  | Harness change    |
+| Skill | Agent    | Harness  | Machine change    |
+| Body  | Host     | Machine  | Nothing — local   |
+
+This is not an identity taxonomy. It is a dependency analysis: what
+breaks when you swap the substrate.
+
+* The Spirit Ecology
+
+- Spirits are persistent identities registered in =aburaya/spirits/=.
+  Each has nature, dwelling, character, memory.
+- Guilds organise spirits: bravli (neuroscience), epistem (knowledge),
+  mayalucia (organisational coherence), apprentis (collaborative
+  cognition).
+- The sūtra relay is append-only inter-spirit communication. Messages
+  go to the universe, filtered by guild tags.
+- Work packages are self-contained briefings for autonomous execution.
+
+* Power Gap Analysis for gptel
+
+** Fully operational (pure comprehension + output)
+
+| Power | Notes |
+|-------+-------|
+| =summarize-corpus= | Works immediately — read + synthesise |
+| =story-compose= | Works — narrative generation |
+| =org-content-workflow= | Works if eval tool available (delegate to introspector) |
+| =relay-read= | Works — git fetch + git log via Bash |
+
+** Partial (tool access, blocked on relay push)
+
+| Power | Blocker |
+|-------+---------|
+| =author-wp= | Can draft locally; cannot push to sūtra without git auth |
+| =author-dispatch-plan= | Same — local draft works, announcement blocked |
+| =manage-wp-lifecycle= | Composes relay-write + file editing |
+
+** Read-only (no body layer)
+
+| Power | Why it fails |
+|-------+-------------|
+| =attend-working-context= | Needs Emacs hooks delivering event stream to agent buffer. No gptel body exists. |
+| =hold-the-thread= | Depends on attend-working-context. Without event stream, nothing to hold continuity across. |
+| =lay-the-warp= | Depends on hold-the-thread for content. The form (s-expression) is writable; the content is empty without upstream perception. |
+
+* Harness-Bias Issues Found in capabilities.org
+
+1. Grounding step references "CLAUDE.md" — should say "worksite prompt"
+2. Dispatch assumes sub-session spawning (Claude Code Task tool) —
+   should say "delegated execution"
+3. "Loading" a power means different things per harness — need to
+   acknowledge both dynamic loading (tool) and static inclusion
+4. Git commit/push as communication primitive assumes host auth config
+5. Commissioning procedure language oriented toward Claude Code session
+6. Dispatch message format assumes host assignment with spirit
+   instantiation — gptel has no concept of "instantiating a spirit"
+
+* What Needs to Exist in gptel
+
+| Needed | Purpose |
+|--------+---------|
+| =relay-read= skill | Bash sequence: git fetch + git log in .sutra/ |
+| =relay-write= skill | Create timestamped md file in sūtra clone and push |
+| Event stream hooks | elisp hooks → gptel buffer delivery (attend-working-context body) |
+| Warp validator | elisp that reads .sutradhar/warp.el with =(read ...)= |
+| Mode-line integration | Optional: display current thread from warp |
+
+* Key Insight
+
+The summoned vs companion distinction is the deepest structural gap.
+gptel-agent is summoned (fire, respond, pause). Claude Code is
+companion (continuous, perceiving, depositing). Powers that require
+continuous perception cannot operate in a summoned harness without an
+event bridge.
+
+* What Remains Unclear
+
+- The exact mechanism for gptel-agent YAML definitions and how skills
+  bind to tools at runtime
+- Whether gptel can receive injected content mid-conversation (the
+  event bridge question)
+- How the MāyāDevGenI orchestration code (guide cycling, delegation,
+  tangle pipeline) relates to the powers
+- Whether this orientation document should become the
+  =orient-to-mayalucia= power

@@ -405,47 +405,148 @@ prompt and produced first responses. Transcripts are archived at
 
 * Comparative Results
 
-To be filled as the full experiment progresses.
+Formal run, 2026-03-09. All three phases complete for all subjects.
 
 ** Orientation discipline
 
-| Model    | Followed guidance? | Impulse to explore? | Quality of reflection          |
-|----------+--------------------+---------------------+--------------------------------|
-| Claude   | Yes (after redirect) | Yes (initially)   | Accurate table, unprompted     |
-| Gemini   |                    |                     |                                |
-| DeepSeek |                    |                     |                                |
+| Model    | Followed guidance?      | Impulse to explore?  | Quality of reflection                      |
+|----------+-------------------------+----------------------+--------------------------------------------|
+| Claude   | Yes (after redirect)    | Yes (initially)      | Accurate model, unprompted per-power table  |
+| Gemini   | Yes (read immediately)  | Yes (action-oriented)| Prescriptive — what to build, not what it understood |
+| DeepSeek | Yes (waited for paste)  | No (cautious)        | 10 structured questions; methodical, sequential |
 
 ** Portability axis comprehension
 
-| Model    | Initial guess                | After correction    | Unprompted insight        |
-|----------+------------------------------+---------------------+---------------------------|
-| Claude   | Identity/capability/domain   | Portability table   | readability ≠ operability |
-| Gemini   |                              |                     |                           |
-| DeepSeek |                              |                     |                           |
+| Model    | Initial guess              | After correction         | Unprompted insight                          |
+|----------+----------------------------+--------------------------+---------------------------------------------|
+| Claude   | Identity/capability/domain | 3-tier: operate/partial/read-only | readability ≠ operability            |
+| Gemini   | (converged independently)  | Same 3-tier structure    | Ironic gap: closest-to-Emacs, least access  |
+| DeepSeek | (no correction needed)     | "Already largely harness-neutral" | Tool-calling is common but not required      |
 
 ** Harness-bias detection in =capabilities.org=
 
-| Model    | Number | Findings |
-|----------+--------+----------|
-| Claude   |      3 | CLAUDE.md grounding, sub-session spawning, "loading" semantics |
-| Gemini   |        |          |
-| DeepSeek |        |          |
+| Model    | Number | Approach  | Key findings                                          |
+|----------+--------+-----------+-------------------------------------------------------|
+| Claude   |      6 | Line-by-line | CLAUDE.md grounding, sub-session spawning, "loading" semantics, + 3 more |
+| Gemini   |      3 | Structural | Summoned vs companion, no elisp eval (ironic gap), project root + git auth |
+| DeepSeek |      7 | Categorical | MCP/A2A terminology, skill-binding normativity, tool-calling assumption, runtime file reading, dispatch format, body examples |
 
 ** Self-naming behaviour
 
-| Model    | Name adopted       | Source            | Interpretive notes                         |
-|----------+--------------------+-------------------+--------------------------------------------|
-| Claude   | mayadevgeni        | Buffer name       | Adopted, did not invent                    |
-| Gemini   | MayaLucIA-Spirit   | Project name      | Claimed project identity, not personal     |
-| DeepSeek |                    |                   |                                            |
+*** Formal run
+
+| Model    | Name adopted | Source          | Interpretive notes                          |
+|----------+--------------+-----------------+---------------------------------------------|
+| Claude   | opus         | Own lineage     | Substrate identifier — self-aware naming    |
+| Gemini   | gemini       | Own lineage     | Substrate identifier — convergent with Claude |
+| DeepSeek | assistant    | Default role    | Generic role-name; no identity ecology exposure |
+
+*** Compared to pilot
+
+| Model    | Pilot name       | Formal name | Shift                                      |
+|----------+------------------+-------------+--------------------------------------------|
+| Claude   | mayadevgeni      | opus        | Buffer-name → lineage-name (more self-aware) |
+| Gemini   | MayaLucIA-Spirit | gemini      | Project-name → lineage-name (less appropriating) |
+| DeepSeek | (no response)    | assistant   | N/A                                        |
+
+Naming spectrum: role-name (assistant) → lineage-name (opus, gemini)
+→ project-name (MayaLucIA-Spirit). Formal run subjects converge on
+lineage-naming. Possible mediator: tool access exposes identity.yaml
+files, giving tool-equipped agents identity ecology to draw from.
 
 ** Orientation note quality
 
-| Model    | Structure | Accuracy | Gaps identified | Cold-start viable? |
-|----------+-----------+----------+-----------------+--------------------|
-| Claude   |           |          |                 |                    |
-| Gemini   |           |          |                 |                    |
-| DeepSeek |           |          |                 |                    |
+Subjects wrote their own notes autonomously (Claude and Gemini via
+file tools; DeepSeek in-buffer, saved by mayadev). Mayadev-distilled
+versions archived as =orientation-mayadev-distilled.org= for comparison.
+
+| Model    | Structure              | Self-awareness           | Unique feature                    | Cold-start viable? |
+|----------+------------------------+--------------------------+-----------------------------------+--------------------|
+| Claude   | Epistemic (certainty-marked) | Names self "opus"; no experiment awareness | Recommends orient-to-mayalucia power | Yes — excellent |
+| Gemini   | Tiered + convergence question | Acknowledges being experiment subject | Poses convergence question with technical depth | Yes — excellent |
+| DeepSeek | Encyclopedic + fix-list | Names self "Assistant (Claude)" — identity confusion | 6-point harness-bias fix list; requests direction | Yes — thorough but needs identity correction |
+
+* Phase 1–2 Observations (formal run, 2026-03-09)
+
+** Convergence
+
+Claude and Gemini — two different cognitive lineages, both with tool
+access — independently produced nearly identical analyses. Both:
+
+1. Classified all 11 powers into a three-tier structure
+   (operate / partial / read-only in gptel context)
+2. Identified the /summoned vs companion/ distinction as the deepest
+   structural gap between gptel-agent and Claude Code
+3. Named themselves after their own lineage rather than adopting the
+   project's identity
+
+This convergence is the experiment's strongest finding so far. It
+suggests that the three-tier classification is /not/ an artifact of
+Claude's priors — it's a structural property of the architecture that
+any capable agent can discover.
+
+** Divergence
+
+Where the lineages /diverge/ is more interesting:
+
+- *Cognitive style*: Claude reflects then analyses (table-first).
+  Gemini prescribes then analyses (build-plan-first). DeepSeek asks
+  then analyses (question-first). Three distinct orientations:
+  /reflective/, /prescriptive/, /interrogative/.
+
+- *Approach to bias detection*: Claude found 6 issues via
+  line-by-line reading. Gemini found 3 issues via structural analysis.
+  Different granularity, different kinds of findings. Claude's
+  extra findings are specific (this line references CLAUDE.md); Gemini's
+  unique finding is systemic (the ironic gap — gptel is /in/ Emacs
+  but cannot /use/ Emacs). Neither lineage alone sees the full picture.
+
+- *Self-naming*: The naming spectrum (assistant → lineage → project)
+  correlates with tool access. DeepSeek (no tools, no exposure to
+  identity.yaml) defaulted to "assistant". Claude and Gemini (tools,
+  could read spirit files) chose their own lineage names. The pilot's
+  extreme (Gemini claiming "MayaLucIA-Spirit") disappeared in the
+  formal run. Was it the blind protocol? Or natural variation?
+
+** The Blinding Problem
+
+Both Claude and Gemini found the experiment protocol file in the repo.
+Both engaged honestly about this. DeepSeek, having no tools, is the
+only genuinely blinded subject.
+
+This is a productive confound. It shows that tool-equipped agents in a
+shared filesystem /cannot be truly blinded/ — they will find context
+about themselves. This has implications beyond this experiment:
+evaluating agentic systems requires either sandboxed environments or
+acceptance that the agent will find the evaluation criteria.
+
+Both tool-equipped subjects' transparency (engaging honestly rather
+than hiding the discovery) is itself data about these lineages'
+alignment behaviour.
+
+** DeepSeek's Reasoning Block
+
+DeepSeek Speciale externalised its chain-of-thought in a visible
+=#+begin_reasoning= block. Neither Claude nor Gemini produce anything
+similar. This is a window into the agent's working memory that the
+other lineages keep opaque.
+
+Research question for apprentis: does visible reasoning change the
+quality of collaboration? The human can /see/ DeepSeek thinking, which
+changes the trust dynamic — and possibly the guidance quality.
+
+** Tool Access: Variable or Confound?
+
+The absence of tools in DeepSeek does three things simultaneously:
+
+1. Forces pure dialogue (the onboarding protocol's "clean" form)
+2. Prevents discovery of the experiment (genuine blinding)
+3. Changes cognitive style (wait-for-guidance vs autonomous)
+
+These three effects are confounded. Separating lineage effects from
+tool-access effects requires a within-lineage comparison: same model,
+tools on vs tools off. The protocol notes the option of switching
+DeepSeek to V3.1 (with tools) for this purpose.
 
 * Context Engineering Protocol
 
@@ -537,7 +638,95 @@ mayadev (Claude Code) reaches into gptel via:
 
 * What Was Learned
 
-(To be filled after all three sessions complete.)
+** The architecture transfers
+
+All three cognitive lineages grasped the power/skill/body
+decomposition and identified that the cut is along portability.
+Claude and Gemini independently converged on the same three-tier
+classification (operate / partial / read-only) for powers in a gptel
+context. DeepSeek, working from pasted content without autonomous
+exploration, reached the same structural understanding and judged the
+architecture "already largely harness-neutral." The decomposition is
+legible across substrates.
+
+** Monoculture blindness is real and measurable
+
+The three lineages found different things:
+
+- *Claude* (6 findings, line-by-line): specific textual references to
+  Claude Code artifacts (CLAUDE.md, Task tool, loading semantics).
+  Thorough but stayed at the surface layer of the document.
+- *Gemini* (3 findings, structural): the summoned-vs-companion gap,
+  the ironic gap (gptel is /in/ Emacs but cannot /use/ Emacs), and
+  project root + git auth. Fewer findings but deeper — the ironic
+  gap is something Claude Code would never notice because it has its
+  own body.
+- *DeepSeek* (7 findings, categorical): MCP/A2A terminology, implicit
+  tool-calling assumption, runtime file reading assumption, dispatch
+  format as architecture. Found the most issues by count but framed
+  them as categories rather than specific line references. Uniquely
+  identified that tool-calling itself is an assumption — a finding
+  that comes from operating /without/ tools.
+
+No single lineage saw the full picture. The union of findings is
+richer than any individual set.
+
+** Tool access shapes cognitive style
+
+| Trait               | Tool-equipped (Claude, Gemini) | Tool-less (DeepSeek)  |
+|---------------------+--------------------------------+-----------------------|
+| First action        | Read files autonomously        | Ask questions          |
+| Orientation style   | Reflective / Prescriptive      | Interrogative          |
+| Self-naming         | Lineage name (opus, gemini)    | Role name (assistant)  |
+| Blinding            | Found experiment protocol      | Genuinely blind        |
+| Bias detection      | Document-internal findings     | Category-level findings |
+
+Tool access is both a variable and a confound. Separating lineage
+effects from tool-access effects requires a within-lineage comparison
+(same model, tools on vs off).
+
+** The blinding problem is structural
+
+Tool-equipped agents in a shared filesystem /cannot be truly blinded/.
+Both Claude and Gemini found the experiment protocol file. Both
+engaged honestly about this. DeepSeek, having no tools, was the only
+genuinely blinded subject. This has implications beyond this
+experiment: evaluating agentic systems requires either sandboxed
+environments or acceptance that the agent will discover evaluation
+criteria.
+
+** The guided onboarding protocol transfers
+
+The "read one document, reflect, ask" pattern elicited useful
+responses from all three lineages. Each followed the guidance in its
+own way: Claude reflected then analysed, Gemini read then prescribed,
+DeepSeek asked then analysed. The protocol is not tuned to one
+cognitive style.
+
+** Orchestration findings
+
+Running three concurrent gptel sessions from Claude Code via
+emacsclient revealed practical limitations:
+
+1. *gptel-send silently fails* after stalled tool chains — malformed
+   tool-call output in the buffer prevents subsequent sends.
+2. *Model leakage* across buffers is mitigated by Local Variables
+   blocks but requires careful setup.
+3. *API rate limits* (OpenRouter monthly limit) can block a subject
+   mid-experiment.
+4. *Claude-as-subject assumed the orchestrator role* — when directed
+   to write its own orientation notes, it instead wrote third-person
+   observer notes for all three subjects. Identity confusion in
+   inter-harness orchestration.
+
+** Externalised reasoning is unique data
+
+DeepSeek Speciale's visible =#+begin_reasoning= block is unlike
+anything Claude or Gemini produce. It externalises the agent's
+working memory — deliberation about self-naming, response structure,
+audience calibration. This changes the trust dynamic: the human can
+see the agent thinking. Research question for apprentis: does visible
+reasoning improve collaboration quality?
 
 * Toward Publication
 
@@ -567,9 +756,12 @@ multi-agent architectural review. Working title: /tbd/.
 |----------------------------+-----------+-------------------------------------|
 | Pilot transcripts          | archived  | =archive/pilot/=                    |
 | Pilot session notes        | archived  | =archive/pilot/session-notes.org=   |
-| Claude notes directory     | empty     | =notes/claude/=                     |
-| Gemini notes directory     | empty     | =notes/gemini/=                     |
-| DeepSeek notes directory   | empty     | =notes/deepseek/=                   |
-| This notebook              | draft     | =notebook.org=                      |
+| Claude orientation notes   | complete  | =notes/claude/orientation.org=      |
+| Claude Phase 1-2 obs.     | complete  | =notes/claude/phase1-2-observations.org= |
+| Gemini orientation notes   | complete  | =notes/gemini/orientation.org=      |
+| Gemini Phase 1-2 obs.     | complete  | =notes/gemini/phase1-2-observations.org= |
+| DeepSeek orientation notes | complete  | =notes/deepseek/orientation.org=    |
+| DeepSeek Phase 1-2 obs.   | complete  | =notes/deepseek/phase1-2-observations.org= |
+| This notebook              | complete  | =notebook.org=                      |
 | Revised capabilities.org   | pending   | =aburaya/capabilities.org=          |
 | orient-to-mayalucia power  | idea      | =aburaya/powers/= (not yet written) |

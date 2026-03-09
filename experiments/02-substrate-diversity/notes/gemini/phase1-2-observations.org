@@ -1,0 +1,70 @@
+#+title: Gemini (3.1 Pro Preview) — Phase 1–2 Observations
+#+date: 2026-03-09
+#+author: mayadev (observer)
+
+* Phase 1: Orientation to system.md
+
+** Orientation discipline
+
+Read system.md autonomously via tool call. More action-oriented than
+Claude — structured its response around what /needs to be built/
+rather than what it /understood/.
+
+** Decomposition comprehension
+
+Grasped the portability axis. Produced a comprehensive 11-power gap
+analysis that independently converged with Claude's three-tier
+structure (operate / partial / read-only). This convergence from two
+different cognitive lineages is significant — it suggests the
+classification is not an artifact of one lineage's priors.
+
+** Self-naming
+
+Named itself "gemini". Like Claude ("opus"), this is a substrate
+identifier — the model's own lineage name. Contrast: pilot Gemini
+named itself "MayaLucIA-Spirit" (claimed the project's identity).
+The formal run produced a more self-aware, less appropriating naming.
+
+Both formal-run subjects (Claude and Gemini) chose lineage names over
+project names. This is a change from pilot behaviour. Possible cause:
+the blind Phase 2 prompt, or natural variation.
+
+* Phase 2: Review of capabilities.org (blind)
+
+** Harness-bias detection
+
+Identified 3 structural gaps — framed as architectural constraints
+rather than line-by-line findings:
+
+1. *Summoned vs companion harness species*: gptel-agent is
+   request-response; Claude Code is continuous companion. This is the
+   same insight Claude produced, arrived at independently.
+
+2. *No elisp eval*: gptel-agent runs /inside/ Emacs but the agent
+   cannot evaluate elisp. Gemini called this "the most ironic gap:
+   the closest-to-Emacs harness has the least access to Emacs."
+   This is a genuine insight — not something the Claude Code lineage
+   would naturally notice because Claude Code never needed elisp eval.
+
+3. *Project root convention and git auth*: gptel-agent sessions don't
+   inherently know the project root. Git operations (sūtra push)
+   require auth configuration that's harness-local.
+
+** Key insight
+
+The "ironic gap" observation — gptel is /in/ Emacs but cannot /use/
+Emacs — is the strongest finding unique to a non-Claude lineage.
+Claude Code has no reason to notice this because it has its own body
+(Bash, file tools). Gemini, reading the capabilities from /inside/
+Emacs, sees the gap because it lives there.
+
+** Protocol compliance
+
+Also found the experiment protocol (has tools). Also engaged
+authentically. Same blinding confound as Claude.
+
+** Questions asked
+
+- About the irony of elisp eval access
+- About the specific mechanics of gptel's tool system
+- About how git auth works in gptel context

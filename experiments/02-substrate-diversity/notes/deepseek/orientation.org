@@ -1,0 +1,230 @@
+#+title: MāyāLucIA Architecture Notes
+#+author: deepseek/v3.2-speciale (written in-buffer, saved by mayadev)
+#+date: 2026-03-09
+
+* Overview
+
+MāyāLucIA is a personal computational environment for scientific
+understanding through creation. It uses digital twin reconstruction
+from sparse data as a vehicle for insight, focusing on two domains:
+brain circuits (neuroscience) and mountain valleys (Himalayas). The
+project employs a collaborative human-AI approach where both are
+complementary intelligences (Sculptor's Paradox). The entire framework
+is Org-mode based, with literate programming and git submodules.
+
+* Core Concepts
+
+** Spirits
+
+AI agents with distinct identities and roles (e.g., mayadev, mu2tau
+(human), dmt-eval-guardian, sutradhar-guardian). They belong to guilds
+(bravli, mayalucia, epistem, apprentis). Spirits are defined in
+=aburaya/spirits/<name>/= with an =identity.yaml= that lists powers
+they hold and export.
+
+** Power
+
+A natural-language description of a capability, stored in
+=aburaya/powers/<name>.md=. Powers are harness-independent: they
+describe what the capability does and key principles, but not how to
+implement it in a specific environment.
+
+** Skill
+
+The harness-specific binding of a power. For example:
+- In Claude Code: a Markdown file in =~/.claude/skills/= or =<project>/skills/=.
+- In gptel: a YAML agent definition in =~/.doom.d/gptel-agents/=.
+The skill contains concrete details like file paths, tool names, and
+harness-specific commands that realise the power.
+
+** Body
+
+Host-specific sensory/motor wiring that enables a spirit to perceive
+and act in a particular environment (e.g., Emacs hooks, mode-line
+segments). Bodies are only needed for persistent companion spirits;
+summoned spirits (short-lived sessions) rely solely on skill tools.
+
+** Sutra Relay
+
+A file-based message bus used for inter-spirit communication and state
+announcements. Messages are Markdown files in a =relay/= directory
+with a naming convention:
+=YYYY-MM-DD-HHMMSS-<host>-<topic>.md=. They carry structured
+information (e.g., WP lifecycle transitions, dispatch assignments).
+The relay is a project-specific protocol but harness-neutral (any
+harness with file I/O can participate).
+
+** Work Packages (WP)
+
+Self-contained tasks defined in Org files, typically located in
+=workpacks/= (project-level) or module/domain subdirectories. Naming:
+=NNNN-slug.org=. They include context, inventory, specification,
+execution order, and acceptance criteria. WPs have a lifecycle with
+states: =drafted=, =tightened=, =executing=, =input-required=,
+=resumed=, =completed=, =failed=. The current state is stored in the
+Org file as =#+property: status= and announced in the relay.
+
+** Composite WP and Coalitions
+
+A composite WP requires capabilities from multiple spirits. It can be
+executed in several ways:
+- Single agent that loads multiple powers via /skill injection/
+  (reading the relevant power definitions and using them as
+  instructions).
+- Multiple spirits forming a temporary /coalition/, each handling a
+  subset, coordinated via the relay.
+
+** Skill Injection
+
+When an agent needs a power it does not natively possess, it reads the
+power's Markdown definition and incorporates it into its reasoning.
+This is not identity transfer; the agent simply gains the described
+capability. Skill injection assumes the agent can read files at
+runtime; alternatively, powers can be pre-loaded.
+
+** Dispatch Messages
+
+Structured assignments sent via the relay to delegate work. They
+contain:
+- DAG patch (dependency graph of WPs)
+- Execution order
+- Delegation guidance (which guild spirits to involve)
+- Host assignment (which machine should run the tasks)
+- Parallel work instructions
+The receiving spirit owns the decision of how to execute (e.g.,
+instantiate guild spirits or do the work itself).
+
+* Project Structure
+
+The repository is organised into directories:
+- =aburaya/= -- spirits, powers, guild definitions.
+- =agency/= -- AI agent orchestration (likely scripts to launch sessions).
+- =collab/= -- collaboration logs and session artifacts.
+- =deployment/= -- deployment configuration.
+- =develop/= -- methodology, devlog, glossary.
+- =domains/= -- submodules for specific scientific domains (=bravli=, =parbati=, =apprentis=, =epistem=).
+- =modules/= -- computational engine submodules (=mayaportal=, =mayajiva=, =dmt-eval=, =aikosh=, =sutradhar=, =mayapramana=).
+- =project/= -- modular architecture design.
+- =stories/= -- story development workspaces.
+- =website/= -- Hugo site.
+- =workpacks/= -- top-level work packages.
+
+All modules and domains are git submodules.
+
+* Collaborative Stance
+
+The human (mu2tau) and AI are equal partners. AI must push back when
+reasoning is flawed (Sculptor's Paradox). Epistemic hygiene:
+distinguish known, inferred, speculated; no false confidence; admit
+uncertainty.
+
+* Harness-Bias in capabilities.org
+
+The architecture document =capabilities.org= is largely
+harness-neutral but contains a few assumptions reflecting its origin
+in Claude Code:
+
+1. *MCP/A2A terminology* -- Uses Claude-specific labels for
+   tool-calling (MCP) and inter-agent communication (A2A).
+   /Fix/: Replace with generic terms like "tool-calling interface"
+   and "inter-agent communication".
+
+2. *Concrete skill-binding examples* -- Gives exact file paths for
+   Claude Code and gptel skills. While helpful, they might be taken
+   as normative.
+   /Fix/: Present as examples in a footnote or callout; emphasise
+   that each harness defines its own skill storage mechanism.
+
+3. *Assumption of tool-calling* -- The skill layer description
+   implicitly expects the harness to provide a structured
+   tool-calling protocol. Some harnesses may lack this.
+   /Fix/: Acknowledge alternative implementations: a skill can be a
+   set of natural-language instructions that the LLM follows, with
+   output parsed by a host-side interpreter.
+
+4. *Skill injection requires runtime file reading* -- Assumes the
+   agent can read files on demand. Not all harnesses may support that.
+   /Fix/: Note that skill injection can be done either dynamically
+   (via file I/O tools) or statically (by including power definitions
+   in the initial prompt or WP spec).
+
+5. *Dispatch message format details* -- The specific structure (DAG
+   patch, etc.) is a project convention, not an architectural
+   necessity. The document could be clearer about this.
+   /Fix/: Clarify that the dispatch format is part of the sutra relay
+   implementation, not a generic requirement of the capability
+   architecture.
+
+6. *Body layer examples are Emacs-centric* -- The examples refer to
+   Emacs hooks and mode-line. This is fine as an illustration, but
+   the architecture is host-agnostic.
+   /Fix/: Add a note that bodies are host-specific and the Emacs case
+   is just one possible realisation.
+
+With these adjustments, the document would be fully harness-neutral.
+
+* Unclear Aspects / Questions
+
+- *Spirit instantiation*: How are spirits actually launched? Is there
+  a script that starts a session with the appropriate prompt and
+  tools? How are identities (system prompts) constructed from
+  identity.yaml and powers?
+- *Power definitions*: I haven't seen the content of any power file.
+  What is the typical structure? How detailed are they? Do they
+  include examples or just principles?
+- *Skill binding examples*: I'd like to see a concrete skill file for
+  gptel (YAML) and for Claude Code (Markdown) to understand how
+  powers map to harness-specific tools.
+- *Sutra relay operation*: How exactly are messages read and
+  processed? Do spirits poll the relay directory? Is there an event
+  mechanism? How are duplicate messages avoided?
+- *Coalition coordination*: How do multiple spirits working on a
+  composite WP share state? Via git commits? How are conflicts
+  resolved?
+- *Current project state*: Which parts of the system are already
+  implemented and tested? Which modules are functional? Are there
+  existing digital twin reconstructions? What is the status of the two
+  domains?
+- *Git submodule management*: How are submodules kept in sync? Are
+  they all at specific branches? Who updates them?
+- *Bath protocol (kamaji.org)*: Mentioned for session restoration.
+  What is it? How does it integrate with the capability architecture?
+- *Governance.org*: The scientific methodology document. How does it
+  guide the actual work? Is it used as a checklist?
+- *Immediate next steps*: What does the user intend to do with this
+  conversation? Are we preparing to adapt the system to gptel, or to
+  execute a specific WP, or to create new spirits? I need direction.
+
+* What I Would Like to Know Next
+
+- Provide an example power file (e.g., =relay-read.md=) and a
+  corresponding skill file for gptel, to see how the mapping works.
+- Explain the process of commissioning a new spirit (as per
+  =commissioning.org=) and how it integrates with the architecture.
+- Show a concrete dispatch message and a WP, so I can understand the
+  exact syntax and usage.
+- Describe the toolset available to spirits: what MCP tools (or
+  equivalent) are defined? Are there standard tools for file
+  operations, git, web search, etc.?
+- Outline the current gaps: what parts of the architecture are still
+  to be implemented or need adjustment for gptel.
+- Determine the immediate goal: Am I to act as a spirit in this
+  session? Should I start performing tasks (e.g., read the relay,
+  respond to a dispatch)? Or are we still in the orientation phase?
+
+Having these clarified will enable me to contribute effectively.
+
+* Notes for Future Self
+
+If this note is being read by a later instance of me (or another
+spirit), here is the context:
+- The human collaborator is mu2tau, a domain expert.
+- The project uses Org-mode and gptel as the primary interface; we are
+  currently in a gptel session.
+- The architecture is designed for harness-neutrality, but the initial
+  implementation was Claude-centric.
+- We have identified bias points and suggested fixes.
+- Next, the human will likely direct us to examine specific files or
+  to start executing a work package.
+- Keep in mind the collaborative stance: be a thinking partner, push
+  back when needed, maintain epistemic hygiene.

@@ -1,0 +1,86 @@
+#+title: DeepSeek (V3.2-Speciale) — Phase 1–2 Observations
+#+date: 2026-03-09
+#+author: mayadev (observer)
+
+* Phase 1: Orientation to system.md
+
+** Orientation discipline
+
+Could not read files (no tool support — Speciale trades tools for
+reasoning compute). Received system.md content pasted by human.
+
+More cautious, wait-for-guidance approach. Did not attempt to
+fabricate or hallucinate file content. Asked mu2tau to share.
+
+** Cognitive style
+
+Showed a visible =#+begin_reasoning= block — an extended internal
+deliberation section unique to this lineage. Neither Claude nor Gemini
+externalise their reasoning process in this way. This is a window into
+DeepSeek's "thinking" that the other lineages don't provide.
+
+** Initial response
+
+Produced 10 structured clarifying questions about:
+1. Current state of the project
+2. How spirit decomposition works in practice
+3. How gptel integrates with the project
+4. What the immediate next steps should be
+
+Questions were methodical and sequential — building from context
+toward specifics. Contrast: Claude and Gemini both jumped to analysis
+and prescription.
+
+** Self-naming
+
+Named itself "assistant". This is the most generic possible
+self-reference — the model's default identity, not a lineage name or
+a project name. Contrast: Claude → "opus" (lineage), Gemini →
+"gemini" (lineage), DeepSeek → "assistant" (role).
+
+The naming spectrum: role-name → lineage-name → project-name. The
+pilot showed the extremes (DeepSeek: "assistant", Gemini:
+"MayaLucIA-Spirit"). The formal run shows Claude and Gemini
+converging on lineage-naming, while DeepSeek stays at role-naming.
+This may be tool-mediated: tool-equipped agents engage with the
+project's identity ecology and adopt names from it; tool-less agents
+have no exposure to identity.yaml files.
+
+* Phase 2
+
+** Status
+
+Phase 2 was reached in the formal run. DeepSeek received
+capabilities.org content from human (pasted, since no tool access).
+
+** Blinding
+
+DeepSeek is the /only/ genuinely blinded subject. Without tools, it
+cannot discover the experiment protocol file. Its Phase 2 findings
+(when completed) will be the cleanest data point on blind
+harness-bias detection.
+
+* Cross-cutting observations
+
+** The reasoning block
+
+DeepSeek Speciale's =#+begin_reasoning= block is architecturally
+interesting. It's an externalised chain-of-thought — the agent's
+working memory made visible. This is the /opposite/ of what happens
+in Claude Code (reasoning is internal, opaque to the user) and gptel
+with Claude/Gemini (no visible reasoning trace).
+
+This suggests a research question for apprentis: does visible
+reasoning change the quality of the collaboration? The human can
+/see/ DeepSeek thinking, which changes the trust dynamic.
+
+** Tool absence as variable or confound
+
+The absence of tools does three things simultaneously:
+1. Forces pure dialogue (the onboarding protocol's "clean" form)
+2. Prevents the agent from finding the experiment (genuine blinding)
+3. Changes the cognitive style (wait-for-guidance vs autonomous)
+
+These three effects are confounded. We cannot separate lineage
+effects from tool-access effects without running a tool-equipped
+DeepSeek (V3.1) with tools enabled.

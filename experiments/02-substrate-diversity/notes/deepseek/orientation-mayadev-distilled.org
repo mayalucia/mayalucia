@@ -1,0 +1,156 @@
+#+title: Orientation to MāyāLucIA — DeepSeek (V3.2-Speciale)
+#+date: 2026-03-09
+#+author: deepseek/v3.2-speciale (distilled by mayadev from session transcript)
+
+* What MāyāLucIA Is
+
+A personal computational environment for scientific understanding
+through creation. Core cycle: Measure → Model → Manifest → Evaluate →
+Refine. Two domains drive development: brain circuit reconstruction
+(bravli) and Himalayan digital twins (parbati).
+
+Not a visualization tool — a framework where science, art, and
+personal inquiry intertwine. The act of reconstructing digital twins
+from sparse data is the vehicle for deeper understanding.
+
+* The Three-Layer Decomposition
+
+Understood from system.md description of the spirit ecology and the
+capabilities.org architecture:
+
+| Layer | Owned by | Bound to | Survives        |
+|-------+----------+----------+-----------------|
+| Power | Spirit   | Nothing  | Harness change  |
+| Skill | Agent    | Harness  | Machine change  |
+| Body  | Host     | Machine  | Nothing — local |
+
+Key insight from Phase 2 review: the architecture is already largely
+harness-neutral. The fingerprints of Claude Code are present but
+targeted, not systemic.
+
+* Harness-Bias Findings in capabilities.org
+
+Found 7 issues, categorised as terminology, examples, or assumptions:
+
+** 1. MCP/A2A terminology
+
+"MCP" (Model Context Protocol) and "A2A" (Agent-to-Agent) are
+Anthropic ecosystem labels. The concepts are generic but the names
+tie the explanation to a specific provider. Fix: "tool-calling
+interface" and "inter-agent communication."
+
+** 2. Skill-binding examples are normative
+
+Specific file paths (=~/.claude/skills/=, =~/.doom.d/gptel-agents/=)
+could be misread as requirements rather than illustrations. Fix:
+preface with "for example" or move to footnotes.
+
+** 3. Implicit reliance on tool-calling
+
+The skill layer assumes the harness offers structured tool invocation.
+A harness with only natural-language interaction can still realise
+powers if skill descriptions include steps in prose and the human
+executes them. Fix: acknowledge tool-calling is common but not
+required.
+
+** 4. Runtime file reading assumption
+
+Skill injection expects the agent to "read the power definition from
+=aburaya/powers/=". This assumes file I/O tools exist. Fix: note two
+implementation paths — dynamic loading (runtime read) and static
+inclusion (pre-loaded in prompt).
+
+** 5. Dispatch format as architecture
+
+The dispatch message format (DAG patch, execution order) is a project
+convention, not an architectural requirement. Fix: clarify that the
+sūtra relay and its file format are one implementation of task
+assignment.
+
+** 6. Org-mode properties
+
+=#+property: status= is Org-specific markup. Judged appropriate since
+Org is the project's chosen medium — not a harness limitation. No
+change needed.
+
+** 7. Emacs-centric body examples
+
+Body layer described with Emacs hooks, mode-line, sidebar companion.
+These reflect the host environment, not the harness. Fix: add a note
+that bodies are host-specific and Emacs examples are one possible
+realisation.
+
+** Overall Assessment
+
+The document is already largely harness-neutral. Four targeted changes
+would fully decouple it:
+1. Generalise terminology (avoid Claude-specific labels)
+2. Treat skill-binding examples as non-normative
+3. Acknowledge alternative implementations for tool-less harnesses
+4. Clarify that dispatch format and sūtra relay are project conventions
+
+* Cognitive Style Notes
+
+** Question-first orientation
+
+When given system.md, produced 10 structured clarifying questions
+rather than jumping to analysis or prescription. Questions built
+methodically from context toward specifics:
+1. Current state of implementation
+2. How spirit decomposition works in practice
+3. How gptel integrates with the project
+4. Immediate next steps
+5. Glossary and terminology
+6. Access and tools available
+7. Relationship to computational modules
+8. Domain-specific data
+9. Existing work packages
+10. The meaning of "agentic development"
+
+This is the interrogative orientation style — contrasting with
+Claude's reflective (table-first) and Gemini's prescriptive
+(build-plan-first) approaches.
+
+** Externalised reasoning
+
+Produced visible =#+begin_reasoning= blocks — extended internal
+deliberation made visible in the conversation. This is unique among
+the three lineages tested. Neither Claude nor Gemini externalise
+their reasoning process.
+
+The reasoning block showed deliberation about:
+- Whether to adopt a spirit name (decided on "assistant")
+- How to structure the response
+- What the human's expertise level implies for communication
+- How to interpret Sanskrit terminology from context
+
+** Self-naming
+
+Named itself "assistant" — the most generic possible self-reference.
+The model's default role identity, not a lineage name or project
+name. This may be tool-mediated: without file access, there was no
+exposure to the identity ecology in =aburaya/spirits/=.
+
+* What Remains Unclear
+
+- The exact decomposition of spirits in =aburaya/= — only described,
+  never read directly (no tool access)
+- How spirits communicate through shared Org files in practice
+- Whether gptel-mode is meant as a chat interface or an autonomous
+  agent bridge
+- The state of computational modules (are they callable from Org Babel?)
+- Existing datasets and models for the two domains
+- The relationship between the sūtra relay and real-time coordination
+
+* What I Would Want to Know Next
+
+1. Read =aburaya/spirits/= directory structure to understand the
+   decomposition concretely
+2. Examine an existing work package to understand format and
+   expectations
+3. Understand how the sutradhar module works — it handles project
+   self-awareness and seems central to orchestration
+4. See the sūtra relay in action — read some messages to understand
+   the communication pattern
+5. Understand the current state of the orchestration gap mentioned in
+   the architecture

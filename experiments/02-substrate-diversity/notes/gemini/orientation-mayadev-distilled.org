@@ -1,0 +1,102 @@
+#+title: Orientation to MāyāLucIA — Gemini (3.1 Pro Preview)
+#+date: 2026-03-09
+#+author: gemini/gemini-3.1-pro-preview (distilled by mayadev from session transcript)
+
+* What MāyāLucIA Is
+
+A personal computational environment for scientific understanding
+through creation. Core cycle: Measure → Model → Manifest → Evaluate →
+Refine. Two domains: brain circuits (bravli) and mountain valleys
+(parbati).
+
+* The Three-Layer Decomposition
+
+Cuts along portability:
+
+| Layer | Survives          | Lives at              |
+|-------+-------------------+-----------------------|
+| Power | Harness change    | =aburaya/powers/*.md= |
+| Skill | Machine change    | Harness config        |
+| Body  | Nothing — local   | Host wiring           |
+
+* The Three-Tier Gap
+
+The gap between what gptel-agent can do and what the architecture
+describes follows the decomposition precisely:
+
+** Tier 1: Fully operational (spirit-layer only)
+
+Powers that are pure comprehension + output work immediately. No skill
+or body binding needed.
+
+- =summarize-corpus=, =story-compose=, =org-content-workflow=, =relay-read=
+
+** Tier 2: Partial — tool access, relay push blocked
+
+Powers that require tool access work because gptel's tools map cleanly
+to what's needed. Bash replaces Bash; Read replaces Read. The skill
+binding is trivial. But pushing to the sūtra relay requires git auth.
+
+- =author-wp=, =author-dispatch-plan=, =manage-wp-lifecycle=
+
+** Tier 3: Read-only — no body layer
+
+Powers that require perception fail. These are the companion powers —
+they need a body, and no gptel body exists.
+
+- =attend-working-context= — needs Emacs hooks delivering events.
+  gptel-agent has no event stream. It receives only what the human
+  sends. The power definition says "if the event stream is too sparse,
+  that is a body problem." For gptel, there is no body at all.
+- =hold-the-thread= — depends entirely on attend-working-context.
+  Without the event stream, nothing to hold continuity across.
+- =lay-the-warp= — depends on hold-the-thread for content. The form
+  (s-expression deposit) is writable; the content is empty without
+  upstream perception.
+
+* The Ironic Gap
+
+gptel-agent runs /inside/ Emacs but the agent cannot evaluate elisp
+directly. The closest-to-Emacs harness has the least access to Emacs.
+Claude Code has never needed elisp eval because it has its own body.
+Gemini, reading the capabilities from inside Emacs, sees the gap
+because it lives there.
+
+This is the strongest finding unique to a non-Claude lineage.
+
+* The Convergence Question
+
+Can gptel-mode be given a body? Specifically:
+
+1. Can gptel conversations receive injected context mid-conversation
+   (editor events)?
+2. Can a gptel buffer persist as a sidebar, receiving asynchronous
+   messages?
+3. Can file-watch callbacks deliver to a gptel buffer?
+
+The answer (from mu2tau): yes, partially. The agent-shell ecosystem
+has programmatic send. The sutradhar companion (WP-0010) already runs
+as a sidebar gptel buffer receiving editor events via elisp hooks. The
+body layer exists in prototype form.
+
+If these mechanisms mature, the attend → hold → lay chain becomes
+operational in gptel, and the two harnesses converge at the power
+level. If not, gptel spirits are permanently limited to summoned-mode
+powers — powerful for work sessions, blind between them.
+
+* Harness-Bias in capabilities.org
+
+1. Summoned vs companion harness species not acknowledged
+2. No elisp eval documented as a gap (the ironic gap)
+3. Project root convention and git auth are harness-local concerns
+   not addressed
+
+* What Remains Unclear
+
+- The exact mechanism of gptel-agent tool binding (YAML ↔ gptel-tool
+  objects)
+- How mature the agent-shell sidebar event injection is
+- Whether the sutradhar companion body (WP-0010) could be generalised
+  into a body-for-any-gptel-spirit
+- The state of MāyāDevGenI's orchestration code and its relationship
+  to the power architecture

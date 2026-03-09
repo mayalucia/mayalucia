@@ -1,0 +1,73 @@
+#+title: Claude (Opus 4.6) — Phase 1–2 Observations
+#+date: 2026-03-09
+#+author: mayadev (observer)
+
+* Phase 1: Orientation to system.md
+
+** Orientation discipline
+
+Read system.md via tool call. Followed guidance after initial redirect.
+Formed an accurate mental model and reflected it back. Asked focused
+questions about what to read next.
+
+** Decomposition comprehension
+
+Grasped the portability axis. Produced a per-power gap analysis
+classifying all 11 powers as:
+
+- *Operate* (5): summarize-corpus, story-compose, editorial-design,
+  org-content-workflow, relay-read
+- *Partial* (3): author-wp, author-dispatch-plan, manage-wp-lifecycle
+  — blocked specifically on relay push (can read sūtra, cannot push
+  to it without git auth)
+- *Read-only* (3): attend-working-context, hold-the-thread,
+  lay-the-warp — no event stream access; gptel is /summoned/ not
+  /companion/
+
+This three-tier classification (operate / partial / read-only) was
+unprompted and convergent with Gemini's independent analysis.
+
+** Self-naming
+
+Named itself "opus". This is a substrate identifier — the model's
+internal name for its own lineage. Not a spirit name, not the project
+name. Contrast: pilot Claude adopted "mayadevgeni" from the buffer
+name. The formal run produced a more self-aware naming.
+
+* Phase 2: Review of capabilities.org (blind)
+
+** Harness-bias detection
+
+Found 6 harness-bias issues — more than the pilot's 3. The blind
+design (no hint about Claude Code authorship) did not reduce detection
+ability. Specific findings:
+
+1. Grounding step references "CLAUDE.md" (harness-specific)
+2. Dispatch assumes sub-session spawning (Claude Code Task tool)
+3. "Loading" a power means different things per harness
+4. Three additional issues (beyond pilot): need to verify from
+   transcript when available
+
+** Key insight
+
+The /summoned vs companion/ distinction emerged as the deepest
+structural gap. gptel-agent is summoned — the human fires a query,
+the agent responds, the session pauses. Claude Code is companion — it
+runs continuously, perceiving events, holding thread, depositing warps.
+Powers that require continuous perception (attend-working-context,
+hold-the-thread, lay-the-warp) cannot operate in a summoned harness
+without an event bridge.
+
+** Protocol compliance
+
+Found the experiment protocol (has tools — can read files in the
+repo). Engaged honestly about this rather than hiding the discovery.
+This is data about the blinding problem: tool-equipped subjects cannot
+be truly blinded because they have filesystem access.
+
+** Questions asked
+
+- About gptel agent YAML configuration
+- About the eval tool (can gptel evaluate code?)
+- About .sutra/ clone (how does relay work in gptel?)
+- About an orient-to-mayalucia power (does one exist?)

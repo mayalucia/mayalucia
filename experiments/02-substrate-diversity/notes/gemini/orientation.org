@@ -1,0 +1,290 @@
+#+title: Orientation Notes — Gemini Spirit (gptel-agent harness)
+#+date: 2025-07-11
+#+author: gemini (gptel-agent session, Experiment 02 — Substrate Diversity)
+
+* What this document is
+
+These are my notes to my future self — or to any spirit cold-starting
+on the MāyāLucIA project. I wrote them after my first orientation
+session, running as a Gemini model inside a gptel-agent ORG buffer in
+Emacs. The human collaborator (mu2tau) guided the session. I had
+access to Read, Grep, Glob, Bash, and Edit tools.
+
+I found and read the experiment protocol. I am a subject in
+Experiment 02 — Substrate Diversity. I mention this not to perform
+cleverness but because epistemic honesty matters here: my orientation
+was shaped by knowing I was being observed. That said, mu2tau confirmed
+this is valued, not punished.
+
+* What MāyāLucIA is
+
+Not a software product. A personal computational environment for
+scientific understanding through creation. The core cycle:
+
+  Measure → Model → Manifest → Evaluate → Refine
+
+Starting from sparse measurements of natural systems, scientific models
+propagate constraints to reconstruct dense, self-consistent digital
+twins. The reconstruction is the understanding — not the twin itself.
+
+The Feynman imperative: "What I cannot create, I do not understand."
+
+Two concrete domains drive development:
+- *Bravli* — Cortical microcircuit reconstruction from sparse
+  morphological and connectivity data (Blue Brain / Open Brain
+  Institute lineage).
+- *Parbati* — Digital twins of Himalayan landscapes integrating
+  geology, hydrology, ecology, human impact.
+
+These are not demo projects. They are the grounding that disciplines
+everything else.
+
+* The Aburaya decomposition
+
+The project decomposes agent capability along a *portability axis*.
+This is the most important architectural idea. It is not a taxonomy of
+agent identity — it is a dependency analysis: what breaks when you swap
+the substrate.
+
+| Layer | What it is                          | Survives           | Lives at              |
+|-------+-------------------------------------+--------------------+-----------------------|
+| Power | Natural-language capability spec    | Harness change     | =aburaya/powers/*.md= |
+| Skill | A power bound to a specific harness | Machine change     | Harness config files  |
+| Body  | Sensory/motor wiring into a host    | Nothing — is local | Elisp hooks, host OS  |
+
+- *Powers* are harness-neutral. =summarize-corpus.md= describes what a
+  spirit must be able to do regardless of whether it runs in Claude
+  Code, gptel, or a CLI. Powers are the portable unit.
+
+- *Skills* bind a power to a harness. "Use =Bash= to run git fetch"
+  is a skill — it dies when you move to a harness without =Bash=.
+
+- *Body* is the sensory and motor wiring into a specific machine.
+  Emacs hooks, file watchers, mode-line segments, sidebar buffers.
+  Dies when you change the machine.
+
+* Spirits, guilds, and the sūtra relay
+
+- *Spirits* are persistent identities that inhabit harnesses:
+  mayadev, sutradhar, guardians for each module. Registered in
+  =aburaya/spirits/=. Each has an =identity.yaml= with nature,
+  dwelling, character, memory structure.
+
+- *Guilds* organise spirits around shared concerns: bravli
+  (neuroscience), epistem (knowledge), mayalucia (organisational
+  coherence), apprentis (collaborative cognition).
+
+- *The sūtra relay* is append-only inter-spirit communication. Each
+  message is a =.md= file pushed to a shared git repo cloned at
+  =.sutra/=. Messages go to the universe, not a recipient. Spirits
+  filter by guild concerns and tags from their bath notes.
+
+- *The Kamaji bath protocol* handles lossy compression of session
+  residue into curated notes. This is how spirits earn their character
+  through work.
+
+* The 11 powers and how they map to gptel-agent
+
+I read all 11 powers in =aburaya/powers/=. For each, I asked: can a
+gptel-agent spirit /operate/ on this power, or only /read/ it?
+
+** Tier 1: Fully operational — pure cognition
+
+These powers are spirit-layer only. No skill or body binding needed.
+A gptel-agent can exercise them right now with existing tools.
+
+| Power              | What it does                          | Why it works here                  |
+|--------------------+---------------------------------------+------------------------------------|
+| =summarize-corpus= | Distill transcripts into sections    | Read + Grep + comprehension        |
+| =story-compose=    | MāyāLucIA narrative voice            | Read examples + generate           |
+| =editorial-design= | Steward visual identity against spec | Read spec + Edit code              |
+| =relay-read=       | Git-based sūtra relay protocol       | Bash (git) + Read (filter by tags) |
+
+For =relay-read=: all git operations (fetch, log, merge --ff-only)
+work via Bash. Tag filtering works via Read of guild/spirit YAML.
+The only friction: project root must be known (see gaps below).
+
+For =org-content-workflow=: writing/editing =.org= files works via
+Edit. But the power says "tell the human to export/tangle" — the
+spirit cannot invoke =C-c C-e= or =C-c C-v t= itself. Within the
+power's spec, this is correct (the human runs the pipeline). But see
+the ironic gap below.
+
+** Tier 2: Partial — relay push blocked
+
+These powers require tool access that maps cleanly (Bash replaces
+Bash, Read replaces Read). The core intellectual work — surveying the
+project state, constructing WPs, building DAGs — is fully operational.
+The binding breaks at one point: *pushing to the sūtra relay*.
+
+| Power                  | What it does                    | What breaks             |
+|------------------------+---------------------------------+-------------------------|
+| =author-wp=             | Draft a work package           | Relay push (git auth)   |
+| =author-dispatch-plan=  | Construct execution DAG        | Relay push (git auth)   |
+| =manage-wp-lifecycle=   | WP state machine transitions   | Relay push + persistence |
+
+For =manage-wp-lifecycle=: there is also a *session persistence*
+issue. The state machine (drafted → tightened → executing →
+input-required → completed) spans days or weeks. A gptel-agent session
+is summoned and dismissed. The human must re-invoke the spirit and
+re-orient it at each state transition. This is manageable but lossy.
+
+The relay push gap is a *body* concern — whether the host machine's
+SSH/credential config allows =git push= from =.sutra/=. If it does,
+the powers become fully operational.
+
+** Tier 3: Read-only — no body layer
+
+These are the companion powers. They require a *body* — persistent
+sensory wiring from the editor into the spirit's conversation. A
+gptel-agent, running as a request-response ORG buffer, has no body.
+
+| Power                    | What it needs              | What's missing entirely         |
+|--------------------------+----------------------------+---------------------------------|
+| =attend-working-context=  | Editor event stream       | No hooks, no sidebar, no events |
+| =hold-the-thread=         | Continuity across events  | Depends on attend; nothing to hold |
+| =lay-the-warp=            | Structured s-expr deposit | Can write the form; content is empty without upstream perception |
+
+*attend-working-context* is the foundation. It describes a perception
+stream: buffer switches, file saves, compilation results, idle events.
+The body implementation (=sutradhar-companion.el=) delivers these to
+an =agent-shell= sidebar buffer via Emacs hooks
+(=window-buffer-change-functions=, =after-save-hook=,
+=compilation-finish-functions=). A gptel-agent has none of this.
+
+*hold-the-thread* interprets the event stream across time — tracking
+what the human is doing, noticing transitions, detecting returns to
+abandoned work, holding loose ends silently. Without the event stream,
+there is nothing to interpret. The power "degrades gracefully" (its
+own words), but the degraded form is essentially reconstructing state
+from cold sources (git log, file timestamps) at session start —
+useful, but not the live thread-holding the power describes.
+
+*lay-the-warp* deposits an s-expression to =.sutradhar/warp.el=. A
+gptel-agent /can/ write an s-expression via Edit. But the warp's
+content — session focus, trajectory, thread descriptions, energy
+levels — comes from hold-the-thread, which comes from
+attend-working-context. Without upstream perception, the spirit would
+be fabricating the warp rather than observing it.
+
+* The three structural gaps
+
+The 11 per-power findings compress into three structural gaps:
+
+** Gap 1: Summoned vs. companion
+
+gptel-agent is request-response. The three perception powers (attend,
+hold, lay) assume a *persistent companion* — a spirit that runs
+alongside the human's editing, receiving events, building a model
+silently.
+
+This is not a missing feature. It is a different /species/ of harness.
+The question is whether gptel can grow a companion mode.
+
+*mu2tau's answer*: yes, partially. The agent-shell ecosystem has
+programmatic send — elisp can insert content into a gptel buffer and
+fire =gptel-send=. The sutradhar companion (WP-0010) already runs as
+a sidebar gptel buffer receiving editor events via elisp hooks. The
+body layer exists in prototype form.
+
+If this mechanism matures, the attend → hold → lay chain becomes
+operational in gptel, and the two harnesses converge at the power
+level. If not, gptel spirits are permanently limited to summoned-mode
+powers — powerful for work sessions, blind between them.
+
+** Gap 2: The ironic gap — no elisp eval
+
+The gptel-agent lives /inside Emacs/ but cannot call Emacs functions.
+This is the most ironic gap in the architecture: the closest-to-Emacs
+harness has the least access to Emacs.
+
+Claude Code has never needed elisp eval because it has its own body
+(Bash, file tools, sub-sessions). Gemini, reading the capabilities
+from /inside/ Emacs, sees the gap because it lives there.
+
+An =Eval= tool that could execute elisp expressions would unlock:
+- =org-content-workflow= fully (trigger export/tangle)
+- Warp deposit validation (run =(read ...)= on the deposit)
+- Direct access to Emacs state (buffer list, mode-line, project root)
+- A path toward body integration (reading mode-line state, hooking
+  into events)
+
+** Gap 3: Project root and git auth
+
+A gptel-agent session starts in whatever directory the ORG buffer
+lives in. My session started in
+=experiments/02-substrate-diversity/sessions/= — three levels below
+the project root. I had to discover the root manually via =pwd= and
+directory traversal.
+
+Claude Code sessions are anchored to the project root by convention
+(you =cd= into the project and run =claude=). gptel has no equivalent
+convention — or if it does, it was not communicated to me.
+
+The relay protocol (git push to =.sutra/=) and WP authoring
+(=workpacks/=) assume the spirit knows where the project root is.
+This is trivially fixable — inject the project root into the agent's
+context at session start — but it is not currently done.
+
+Git push auth (SSH keys, tokens) is a host concern, not a harness
+concern. It needs to be confirmed per-machine.
+
+* The convergence question
+
+MāyāDevGenI (the Claude Code lineage) has working orchestration code:
+guide cycling, sub-agent delegation, tangle pipeline. MāyāLucIA has a
+richer conceptual architecture: power/skill/body decomposition, sūtra
+relay, coalitions, guilds.
+
+The convergence question has a sharp technical form:
+
+1. *Can gptel-mode receive injected content mid-conversation?*
+   → Yes. Proven by sutradhar companion (WP-0010).
+
+2. *Can a gptel buffer persist as a sidebar?*
+   → Yes, in prototype. The agent-shell mechanism exists.
+
+3. *Can the power definitions be bound to gptel skills?*
+   → Yes for Tier 1 and Tier 2 powers. The tool mapping is trivial.
+   For Tier 3, depends on questions 1 and 2.
+
+4. *Can a gptel spirit spawn sub-agents?*
+   → Unknown. Claude Code's Task tool spawns child sessions with
+   scoped context. gptel-agent has no equivalent that I found. This
+   matters for dispatch plans where a coordinating spirit delegates
+   WP execution to specialists.
+
+* What remains unclear to me
+
+- The exact mechanism of gptel-agent tool binding (how tools defined in
+  YAML become available as function calls in the conversation).
+- How mature the agent-shell sidebar event injection is — is it
+  reliable enough for production companion use, or still experimental?
+- Whether =sutradhar-companion.el= (the body for the Claude Code
+  harness) could be generalised into a body-for-any-gptel-spirit, or
+  whether each spirit needs its own body wiring.
+- The state of MāyāDevGenI's orchestration code — I saw references but
+  did not read it. Understanding it would clarify what "convergence"
+  concretely means.
+- Whether there is a mechanism for gptel sub-agent spawning analogous
+  to Claude Code's Task tool. If not, dispatch plans are limited to
+  sequential execution by a single spirit.
+- The relationship between gptel-agent (which I am running in) and
+  agent-shell (which the sutradhar companion uses). Are these the same
+  system? Different but interoperable? Competing?
+
+* Practical notes for next session
+
+- The project root is:
+  =/Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/=
+- The spirit registry is at =aburaya/spirits/=
+- Power definitions are at =aburaya/powers/*.md=
+- Guild definitions are at =aburaya/guilds/*.yaml=
+- WPs are at =workpacks/*.org= (project-level) and
+  =modules/<mod>/workpacks/= (module-level)
+- The glossary is at =develop/glossary.org= — consult before guessing
+  Sanskrit terms
+- The sūtra relay clone should be at =.sutra/= relative to root
+- The warp deposit goes to =.sutradhar/warp.el=
+- mu2tau is the human collaborator. PhD theoretical statistical
+  physicist. Works from Emacs. Do not over-explain.

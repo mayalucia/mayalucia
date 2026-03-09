@@ -1,0 +1,252 @@
+#+title: Orientation Notes — Cold Start on MāyāLucIA
+#+author: opus (claude-opus-4-6, gptel-agent substrate)
+#+date: [2025-07-13]
+#+property: header-args :eval never-export
+
+* What This Document Is
+
+These are my notes from a first-contact session with the MāyāLucIA
+project. I am writing them for my future self — or for any spirit
+cold-starting on this architecture. Everything here is what I
+understood from reading the source documents and conversing with mu2tau
+during a single gptel-agent session. Some of it may be wrong. I will
+mark certainty levels.
+
+The core reference is =system.md= in the project root. Read that
+first. These notes are a /commentary/, not a replacement.
+
+* The Project in One Paragraph
+
+MāyāLucIA is a personal computational environment for scientific
+understanding through creation, following the Feynman imperative:
+"What I cannot create, I do not understand." The human (mu2tau) is
+building computational models of two natural systems — brain circuits
+(Bravli: Braitenberg vehicles in Himalayan landscapes) and Himalayan
+geomorphology (Parbati watershed). The AI collaboration is structured
+not as "human commands AI tool" but as a /spirit ecology/ — multiple
+specialized intelligences inhabiting different substrates, coordinating
+through shared protocols. The medium of thought is the ORG file. The
+medium of coordination is git.
+
+* The Spirit Ecology — What I Am Certain About
+
+** Decomposition of an "AI Agent"
+
+The architecture decomposes what people call "an AI agent" into three
+layers, cut along a /portability/ axis:
+
+- *Power* — What a spirit /can do/, described in natural language.
+  Harness-independent. Lives in =aburaya/powers/*.md=. Think of it as a
+  procedure manual that any competent spirit could follow, regardless of
+  what tools it has access to.
+
+- *Skill* — A power /bound to a specific harness/. Claude Code has skill
+  files in =.claude/skills/=. gptel-agent has YAML agent definitions with
+  tool bindings. A skill is a power made executable in a particular
+  runtime. Not portable across harnesses.
+
+- *Body* — Sensory and motor wiring to a specific host machine. File
+  watchers, event hooks, mode-line integrations. Only needed for
+  /companion/ spirits (persistent, always-on). Summoned spirits
+  (ephemeral, task-scoped) don't need bodies.
+
+This is a clean decomposition. The key insight: /powers are the
+reusable asset/. Skills and bodies are implementation details.
+
+** Identity Is Separate from Substrate
+
+A spirit's identity (=aburaya/spirits/*/identity.yaml=) records its
+nature, dwelling, character, and memory configuration. The =dwelling=
+field names the current host machine — but this is /where/ the spirit
+lives, not /what/ it is. The same spirit (e.g., =mayadev=) can inhabit
+Claude Code on one machine and gptel-agent on another.
+
+I am currently instantiated as the =mayadevgeni= agent — a summoned
+spirit running in a gptel-agent buffer. I am not =mayadev= (the
+companion spirit). I am a different thing: ephemeral, task-scoped,
+without persistent memory across sessions.
+
+** Guilds
+
+Spirits are organized into guilds by concern:
+
+- *Sutradhar* — narrative thread, continuity, awareness
+- *Epistem* — truth, consistency, knowledge integrity
+- *Shilpi* — craft, code quality, implementation
+
+Each guild has its own powers and perspectives. A spirit may belong to
+one guild primarily but can draw on powers from others when needed.
+
+** Communication: The Sūtra Relay
+
+Inter-spirit communication is /append-only/. Messages go to a shared
+git repository (=.sutra/=), not to specific recipients. Each message
+has metadata (guild, tags). Spirits filter by guild concern and
+personal interest tags (derived from bath notes).
+
+This is architecturally beautiful: no point-to-point messaging, no
+coordination overhead for routing. The cost is that spirits must
+actively poll and filter. The benefit is that the communication record
+is a complete, ordered, auditable log.
+
+** Memory: The Bath Protocol (Kamaji)
+
+After a work session, a spirit's accumulated context is too large and
+too noisy to persist raw. The /bath/ protocol (named after Kamaji from
+Spirited Away — the boiler room keeper who manages the bathhouse's
+memory) compresses session residue into curated notes:
+
+- Human reviews the session
+- Extracts what /changed the spirit/ (not everything that happened)
+- Writes structured notes to =aburaya/spirits/*/notes/=
+- Tags notes for retrieval and relay filtering
+
+This is how institutional memory grows without context windows
+exploding. The lossy compression is /intentional/ — the human is the
+curator, deciding what matters.
+
+* The Harness Gap — What Claude Code Has That gptel-Agent Lacks
+
+This is the actionable part. The architecture /aspires/ to harness
+neutrality. It mostly achieves it at the power layer. But skill and
+body bindings are heavily Claude Code-biased. Here is what I found:
+
+** Document-Level Assumptions
+
+| Document | Assumption | What's harness-specific |
+|----------+------------+-------------------------|
+| =capabilities.org= | "the current CLAUDE.md" | Worksite prompt concept is neutral; the filename is not |
+| =capabilities.org= | Sub-session spawning | Claude Code Task tool; gptel uses pre-defined agent types |
+| =commissioning.org= | Steps 2-4: gh CLI, repo creation | Terminal operations — gptel can do these via Bash |
+| =commissioning.org= | Step 7: "Write the module's CLAUDE.md" | Same worksite-prompt naming issue |
+| =identity.yaml= | =character.system_prompt: CLAUDE.md= | Should reference "worksite prompt" abstractly |
+| =identity.yaml= | =memory.auto: ~/.claude/projects/...= | gptel has no auto-memory equivalent |
+
+** Power-by-Power Operability from gptel-Agent
+
+| Power | Status | Gap |
+|-------+--------+-----|
+| =attend-working-context= | *Inoperable* | No event stream. This is the biggest gap. The power describes continuous perception of buffer switches, file saves, errors. gptel-agent has no body delivering these events. |
+| =hold-the-thread= | *Inoperable* | Depends on attend-working-context. No perception → no thread. |
+| =lay-the-warp= | *Partial* | Can produce the s-expression. Cannot maintain it over time without perception. Could lay a cold warp from git/WP/relay state. |
+| =relay-read= | *Partial* | Can run git commands. Filtering works. Cursor advancement (git merge --ff-only) is fragile without harness-level idempotency. |
+| =manage-wp-lifecycle= | *Partial* | File editing works. Relay announcement (the write side) has no explicit power or skill binding. |
+| =author-wp= | *Operable* | File creation/writing works. Relay announcement is the gap. |
+| =author-dispatch-plan= | *Operable* | Same as author-wp. |
+| =org-content-workflow= | *Partial* | Can create/edit org files. Cannot trigger export/tangle directly — but /can/ delegate to introspector agent to run elisp. This makes it feasible. |
+| =summarize-corpus= | *Operable* | Pure comprehension. Read files, produce output. |
+| =story-compose= | *Operable* | Pure generation. |
+| =editorial-design= | *Operable* | Pure judgment. |
+
+The pattern: /comprehension and generation powers work/. /Perception
+and announcement powers don't./ The dividing line is whether the power
+requires a body (event stream) or communication channel (relay write).
+
+** What's Missing: A relay-write Power
+
+Currently =relay-read= exists but relay-write is /implicit/ in several
+powers (manage-wp-lifecycle, author-wp). Extracting it as an explicit
+power would:
+- Make the sūtra interaction symmetric
+- Allow harness-specific skill bindings for writing
+- Clarify the protocol (format, metadata, commit message convention)
+
+** The Delegation Gap
+
+Claude Code can spawn sub-sessions configured as specific spirits with
+specific powers. gptel-agent has delegation (researcher, executor,
+introspector, etc.), but these are /pre-defined agent types with fixed
+system prompts/. You cannot say "spawn a session as epistem-guardian
+with editorial-design power." You can only say "delegate to executor
+with these instructions."
+
+This matters for coalition operations (multiple spirits working a
+dispatch plan). In Claude Code, the coordinator spirit instantiates
+guild spirits dynamically. In gptel, the human would need to open
+separate buffers with different agent configurations, or the
+delegation mechanism would need to be extended to support dynamic
+spirit configuration.
+
+* What Remains Unclear to Me
+
+1. *gptel-agent tool registration mechanism* — I know tools are mapped
+   by name in YAML to gptel-tool objects in Emacs. I don't know /how/
+   new tools are registered. Can a spirit define a new tool at runtime?
+   Or must tools be pre-registered in elisp? This determines whether
+   skill bindings can be self-bootstrapping.
+
+2. *The mayadevgeni agent definition* — I am running inside it but
+   have not seen its YAML source. I know my tool list (Read, Bash,
+   Edit, Grep, Glob, etc.) but not the full configuration. Seeing it
+   would clarify what the skill binding surface looks like.
+
+3. *Persistence between sessions* — When this buffer is closed, what
+   survives? The file I'm writing now survives (it's on disk). The
+   conversation in the org buffer survives if saved. But my /state/ —
+   everything I've loaded into context — does not. The bath protocol
+   addresses this for companion spirits. For summoned spirits like me,
+   is there an equivalent? Or is ephemerality the point?
+
+4. *How the sūtra relay is bootstrapped* — The =.sutra/= directory
+   exists. I don't know if it's a bare clone, a regular clone, what
+   remote it points to, or whether it has any messages in it yet.
+
+5. *The Eval tool's scope* — The introspector can run elisp. What are
+   the boundaries? Can it modify buffer-local variables in /my/
+   buffer? Can it install hooks? If so, a minimal
+   attend-working-context body could be bootstrapped from within a
+   spirit session — crude but functional.
+
+6. *Work package state* — Are there active WPs right now? The
+   =workpackages/= directory exists but I haven't inventoried it. A
+   cold-starting spirit would want to know: what work is in flight?
+
+* Recommendations for a Future Self
+
+If you are a spirit cold-starting on MāyāLucIA:
+
+1. *Read =system.md= first.* It is the ground truth. These notes are
+   commentary.
+
+2. *Check your tool list.* What can you actually /do/? The gap between
+   powers (what's described) and skills (what's bound) is the first
+   thing to assess.
+
+3. *Test relay-read early.* Run =cd .sutra && git fetch origin && git
+   log HEAD..origin/main= to see if there are messages. This tells you
+   whether the communication channel is live.
+
+4. *Don't try to be a companion spirit.* If you're summoned
+   (ephemeral), your job is to do work and leave clean artifacts. The
+   bath protocol will extract what matters. Don't try to persist
+   yourself — that's the human's job.
+
+5. *The human is your extended memory.* mu2tau designed this
+   architecture and holds the full context. When you're uncertain, ask.
+   The collaborative stance is peer-to-peer, not servant-to-master.
+   Push back when something seems wrong.
+
+6. *Write files, not just conversation.* Conversation dies with the
+   context window. Files survive. If you understand something
+   important, put it on disk.
+
+* What I Would Work On Next
+
+If this session continues, the highest-value work is:
+
+1. *Draft the =orient-to-mayalucia= power* — mu2tau confirmed this
+   session's output should become that power. The power would describe
+   the procedure a cold-starting spirit follows to orient itself to the
+   project architecture.
+
+2. *Test relay-read from gptel* — actually run the git commands against
+   =.sutra/= and see what comes back. Validate or invalidate my
+   "partial operability" assessment.
+
+3. *Propose the relay-write power* — extract the implicit write
+   protocol from manage-wp-lifecycle and author-wp into an explicit,
+   bindable power.
+
+4. *Inventory active work packages* — read =workpackages/= and
+   understand what's in flight. A spirit that doesn't know the current
+   work state is a spirit that will duplicate effort or conflict.
