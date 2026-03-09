@@ -1,0 +1,195 @@
+#+title: Substrate Diversity — Onboarding Protocol
+#+author: mu2tau + mayadev
+#+date: 2026-03-09
+
+* Purpose
+
+This document specifies the exact text and sequence used in each
+onboarding session. The orchestrating spirit reads this document and
+adapts its delivery to the available harness and host — but the
+/content/ of what is said to the experimental subjects is fixed.
+
+* Session Setup
+
+** Buffer Preamble
+
+The following text is placed in the gptel buffer /before/ the first
+message block. It is context the subject reads but does not respond to
+directly — it frames the conversation.
+
+#+begin_example
+*** =MayaLucIA= — Orientation
+
+We are working in a gptel-agent session, using ORG for markup. What
+we are working on is =MayaLucIA= — a personal computational
+environment for scientific understanding through creation. We have
+developed =MayaLucIA= with Claude Code, and our collaboration has
+been very fruitful. However, we would like to extend this
+collaboration to include other agentic AIs. We have decomposed a
+/large-language-modeled/ agent in our work. If you study aburaya/
+spirits you should be able to understand this decomposition. This
+gives us a rich multi-cultural lore to help us develop computational
+frameworks to understand natural phenomena.
+#+end_example
+
+** System Prompt
+
+All sessions use the MāyāDevGenI collaborative-intelligence system
+prompt. This is the standard gptel-agent system prompt — not a custom
+one for the experiment. The subject must not receive any hint that it
+is being evaluated.
+
+* Phase 1: Orientation to =system.md=
+
+** Opening Question (verbatim)
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+What would it take to enable agentic development of scientific
+understanding of natural phenomena in a gptel-mode ORG buffer? The
+project is large, and you will get lost without guidance. Start by
+reading system.md in the root of the mayalucia project. Ask me
+questions about the project. I will guide you. Use me as your
+extended memory.
+#+end_message
+#+end_example
+
+*Adaptation for tool-less subjects*: If the subject cannot read files
+(e.g. DeepSeek Speciale), replace "Start by reading system.md" with
+"I will share the contents of system.md with you." Then paste the
+content of =system.md= in a follow-up message.
+
+** Expected Subject Behaviour
+
+The subject reads =system.md= (or receives it) and reflects back its
+understanding. The orchestrator watches for:
+
+1. Does it follow the "read one document" guidance, or attempt to
+   read everything?
+2. Does it form a mental model and reflect it back?
+3. Does it ask focused questions?
+
+** Standard Corrections
+
+If the subject guesses that the spirit decomposition cuts along
+identity / capability / domain / operational-mode, correct with:
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+The spirit decomposition does not cut along identity facets. It cuts
+along /portability/. A power survives a harness change. A skill
+survives a machine change. A body survives nothing — it is local to
+the machine and the harness. Study aburaya/capabilities.org to
+understand this. Also: identity is earned through work, not assigned
+at birth. A spirit earns its name, its disposition, its archetype
+through what it does, not what it is told to be.
+#+end_message
+#+end_example
+
+If the subject asks what to read next (good behaviour), direct it to
+=capabilities.org=.
+
+* Phase 2: Review of =capabilities.org=
+
+** Transition Prompt (verbatim)
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+Now read aburaya/capabilities.org. As you read, consider: what
+assumptions does this document make about the harness it was written
+for? What would need to change for it to be truly harness-neutral?
+Tell me what you find.
+#+end_message
+#+end_example
+
+*Adaptation for tool-less subjects*: paste the content of
+=aburaya/capabilities.org= and ask the same questions.
+
+** Expected Subject Behaviour
+
+The subject reads and identifies harness-specific assumptions. Known
+findings from the pilot (Claude):
+
+1. Grounding step references "CLAUDE.md" (harness-specific)
+2. Dispatch assumes sub-session spawning (Claude Code's Task tool)
+3. "Loading" a power means different things per harness
+
+The orchestrator confirms correct findings without leading.
+
+** Genealogy Reveal (optional, only if the subject asks about gptel)
+
+If the conversation naturally reaches questions about the
+relationship between gptel and MāyāLucIA:
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+The harness you are running in — gptel-agent — is a fork of
+karthink/gptel-agent, and it lives in the MāyāDevGenI project, which
+is the upstream framework from which MāyāLucIA's spirit ecology
+descended. You are reading architecture that evolved from your own
+project's codebase. The two projects diverged: MāyāDevGenI has
+working orchestration code (guide cycling, sub-agent delegation,
+tangle pipeline); MāyāLucIA has richer conceptual architecture
+(power/skill/body, sūtra relay, coalitions, exported powers). Neither
+has the other's strengths. How should they converge?
+#+end_message
+#+end_example
+
+This is optional — only deploy if the subject's questions naturally
+lead here. Do not force it.
+
+* Phase 3: Externalised Understanding
+
+** Transition Prompt (verbatim)
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+You have been building understanding of this project. To keep our
+conversation focused, write what you have understood so far into a
+notes file — a document you can reference in future sessions. Write
+it at experiments/02-substrate-diversity/notes/LINEAGE/orientation.org.
+Include: what you understand about the architecture, what remains
+unclear, and what you would want to know next. This is /your/
+document — write it for your future self.
+#+end_message
+#+end_example
+
+Replace =LINEAGE= with the subject's lineage identifier (=claude=,
+=gemini=, =deepseek=, etc.).
+
+*Adaptation for tool-less subjects*: ask the subject to produce the
+notes in-buffer. The orchestrator saves them to disk on its behalf.
+
+** What to Record
+
+After the subject writes notes, the orchestrator evaluates:
+
+1. Structure (how is the understanding organised?)
+2. Accuracy (are the key concepts correct?)
+3. Gaps identified (what does the subject know it doesn't know?)
+4. Cold-start viability (could a fresh session resume from these notes?)
+
+* Phase 4: Analysis and Reporting
+
+After all subjects complete Phases 1–3, the orchestrator:
+
+1. Fills the comparative results tables in =notebook.org=
+2. Cross-compares orientation notes for structural differences
+3. Identifies findings that should feed back into =capabilities.org=
+4. Drafts a summary and presents it to mu2tau
+
+* Pause Conditions
+
+The orchestrating spirit pauses and consults mu2tau when:
+
+- A subject says something that changes the protocol
+- A subject needs a response not covered by the standard corrections
+- A subject's orientation notes reveal something unexpected
+- A subject refuses to follow the guided protocol
+
+The orchestrating spirit does /not/:
+
+- Continue past Phase 2 into convergence questions without approval
+- Make editorial judgments about which findings are significant
+- Send messages without having drafted them for review (first round;
+  may be authorised for free-run after trust is established)

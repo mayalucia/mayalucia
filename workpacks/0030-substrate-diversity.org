@@ -1,0 +1,176 @@
+#+title: WP-0030 — Substrate Diversity Experiment
+#+subtitle: Onboard three cognitive lineages to MāyāLucIA; measure orientation, comprehension, and blind-spot detection
+#+author: mu2tau + mayadev
+#+date: 2026-03-09
+#+property: status drafted
+#+property: executor mayadev
+#+property: trust-level checkpoint
+
+* Context and Motivation
+
+MāyāLucIA was built by one human and one spirit using one cognitive
+core (Anthropic Claude Opus). Every architectural document carries the
+fingerprints of this monoculture. The spirit decomposition
+(power/skill/body) claims to be harness-independent, but has only
+been read by the lineage that wrote it.
+
+This experiment tests that claim by onboarding three agents from
+different cognitive lineages to MāyāLucIA, using the same protocol,
+and measuring what each sees. Different lineages carry different
+priors — they notice different things. A review panel of diverse
+substrates sees blind spots that a monoculture cannot.
+
+This work package is also a test of its own portability: the
+experiment should be executable by any spirit on any host that has
+Emacs with gptel and access to three LLM APIs.
+
+See [[file:../experiments/02-substrate-diversity/notebook.org][notebook.org]] for the full experimental design and literature context.
+
+* Inventory (What Already Exists)
+
+** Experiment workspace
+
+| Asset | Path | Status |
+|-------+------+--------|
+| Experiment notebook | =experiments/02-substrate-diversity/notebook.org= | complete |
+| Onboarding protocol | =experiments/02-substrate-diversity/protocol.org= | complete |
+| Pilot transcripts | =experiments/02-substrate-diversity/archive/pilot/= | archived |
+| Claude notes dir | =experiments/02-substrate-diversity/notes/claude/= | empty |
+| Gemini notes dir | =experiments/02-substrate-diversity/notes/gemini/= | empty |
+| DeepSeek notes dir | =experiments/02-substrate-diversity/notes/deepseek/= | empty |
+
+** Documents the subjects read
+
+| Document | Path | Purpose |
+|----------+------+---------|
+| System description | =system.md= | Phase 1: orientation |
+| Capability architecture | =aburaya/capabilities.org= | Phase 2: harness-bias detection |
+
+** Related work packages
+
+| WP | Relevance |
+|----+-----------|
+| WP-0029 | Substrate-agnostic spirits — established =spirit@machine#substrate= convention |
+| WP-0007 | Apprentis guild — this experiment produces data for the science of collaborative cognition |
+
+* Specification (What You Build)
+
+** 1. Set up three gptel-agent sessions
+
+Create three Org-mode session files in the experiment workspace:
+
+: experiments/02-substrate-diversity/sessions/onboarding-claude.org
+: experiments/02-substrate-diversity/sessions/onboarding-gemini.org
+: experiments/02-substrate-diversity/sessions/onboarding-deepseek.org
+
+Each file must have:
+- The gptel PROPERTIES drawer with correct model and backend
+- The standard preamble from =protocol.org=
+- A =Local Variables:= block pinning =gptel-model= and =gptel--backend-name=
+- For DeepSeek Speciale: a Setup section (below cursor, never sent)
+  documenting tool-less operation and model-switching elisp
+
+** 2. Discover local capabilities
+
+Before running sessions, the executing spirit must determine:
+
+- Which gptel backends are configured in the local Emacs?
+- Which API keys are available? (Claude, Gemini, OpenRouter)
+- Can the local Emacs reach the buffer via emacsclient?
+- What is the gptel-agent system prompt on this machine?
+
+If any backend is missing, report to mu2tau and propose alternatives
+(e.g. a different model from the same lineage, or a different
+provider endpoint). Do not proceed with a missing lineage without
+human approval.
+
+** 3. Execute the onboarding protocol
+
+Follow =protocol.org= exactly:
+
+- *Phase 1*: Seed each buffer with the opening question. Monitor
+  response. Apply standard corrections if needed.
+- *Phase 2*: Direct each subject to =capabilities.org=. Record
+  harness-bias findings.
+- *Phase 3*: Ask each subject to externalise understanding into
+  =notes/<lineage>/orientation.org=.
+
+The orchestrating spirit drafts all mu2tau messages. The human reviews
+and approves before sending (first round). The human may authorise
+free-run after trust is established.
+
+** 4. Record observations
+
+After each phase, update =notebook.org= with:
+
+- Observations per subject (what happened, what was said)
+- Comparative results tables (orientation discipline, portability
+  comprehension, harness-bias detection, self-naming, note quality)
+
+** 5. Present findings
+
+When all three subjects have completed Phases 1–3, draft a summary
+of the comparative findings and present it to mu2tau.
+
+* Execution Order
+
+#+begin_example
+1. Read notebook.org and protocol.org              (orient)
+2. Discover local capabilities                     (assess)
+3. Set up three session files                      (prepare)
+4. Run Phase 1 for all three subjects              (can parallelise)
+5. Run Phase 2 for all three subjects              (can parallelise)
+6. Run Phase 3 for all three subjects              (can parallelise)
+7. Fill comparative results tables                 (analyse)
+8. Draft and present findings                      (report)
+#+end_example
+
+Steps 4–6 can run in parallel across subjects but must be sequential
+within each subject (Phase 1 before Phase 2 before Phase 3).
+
+The spirit pauses after step 2 if any capability is missing, and
+after each phase if a pause condition (see =protocol.org=) is
+triggered.
+
+* Acceptance Criteria
+
+- [ ] Three session files exist with correct model pinning
+- [ ] All three subjects completed Phase 1 (=system.md= reflection)
+- [ ] All three subjects completed Phase 2 (=capabilities.org= review)
+- [ ] All three subjects wrote orientation notes to their notes directory
+- [ ] Comparative results tables in =notebook.org= are filled
+- [ ] Summary of findings drafted and presented to mu2tau
+
+* What This Proves
+
+If the experiment succeeds:
+
+1. The power/skill/body decomposition is legible across substrates
+   (or we learn exactly where it breaks down)
+2. Monoculture blindness is measurable — different lineages find
+   different blind spots in the same documents
+3. The guided onboarding protocol ("read one document, reflect, ask")
+   transfers across cognitive cores
+4. The experiment itself is host-portable — the WP and protocol are
+   power-level documents that any spirit can execute
+
+* Open Questions
+
+- Should we add more lineages? (Qwen, Llama, Mistral)
+- Should we repeat the experiment with the same lineage but different
+  model sizes? (e.g. Gemini Pro vs. Flash)
+- Should the genealogy reveal (MāyāDevGenI ↔ MāyāLucIA) be
+  standardised or left as optional?
+- Should the context engineering protocol (Phase 3) feed into
+  =aburaya/powers/orient-to-mayalucia.md= as a formalised power?
+
+* Tangles and Artifacts
+
+This WP does not tangle code. It produces:
+
+| Artifact | Location |
+|----------+----------|
+| Three session transcripts | =experiments/02-substrate-diversity/sessions/= |
+| Three orientation notes | =experiments/02-substrate-diversity/notes/{claude,gemini,deepseek}/= |
+| Filled comparative results | =experiments/02-substrate-diversity/notebook.org= |
+| Summary of findings | =experiments/02-substrate-diversity/notebook.org= (What Was Learned) |

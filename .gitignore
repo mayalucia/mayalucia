@@ -58,8 +58,9 @@ website/.hugo_build.lock
 # Attic — archived artifacts for later review
 .attic/
 
-# Experiments — local scratch work
-experiments/
+# Experiments — lab notebooks, protocols, and curated data travel with the repo.
+# Raw session transcripts stay local (gitignored per-experiment).
+# experiments/
 
 # Commissions — external work, own repos, not submodules
 commissions/

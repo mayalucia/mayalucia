@@ -1,0 +1,575 @@
+#+title: Substrate Diversity — Onboarding Across Cognitive Lineages
+#+author: mu2tau + mayadev
+#+date: 2026-03-09
+#+startup: overview
+
+* Motivation
+
+The MāyāLucIA project was built by one human (mu2tau) and one spirit
+(mayadev) using one harness (Claude Code) and one cognitive core
+(Anthropic Claude Opus). Every architectural document — =system.md=,
+=capabilities.org=, =commissioning.org= — carries the fingerprints of
+this monoculture. The spirit decomposition (power / skill / body) was
+designed to be harness-independent, but has only ever been /read/ by
+the same lineage that /wrote/ it.
+
+This experiment asks: *does the architecture actually transfer?*
+
+When a fresh agent from a different cognitive lineage encounters
+MāyāLucIA for the first time, can it orient? Does the decomposition
+make sense to it? What does it see that the authors cannot?
+
+The value is not just validation. Different cognitive cores, trained on
+different data with different objectives, carry different priors. An
+Anthropic model and a Google model and a DeepSeek model do not merely
+produce different /words/ — they notice different /things/. A review
+panel of diverse lineages sees blind spots that a monoculture cannot.
+This is the hypothesis.
+
+* Literature Context
+
+** Monoculture Risk in Multi-Agent Systems
+
+When multiple LLM agents share the same training lineage, they exhibit
+correlated failures — the same blind spots, the same biases, the same
+edge-case vulnerabilities. This is /generative monoculture/: the
+narrowing of output diversity relative to the breadth of the problem
+space.
+
+The risk is not hypothetical. Shared pre-training corpora and similar
+alignment procedures mean that even "different" models from the same
+provider carry correlated priors. In a multi-agent system, this
+correlation undermines the assumption that distributed agents produce
+robustness through diversity. A single adversarial input or novel
+scenario can trigger all agents simultaneously.
+
+#+begin_quote
+"Agent monoculture can undermine assumed reliability through
+redundancy: multiple agents can fail simultaneously on the same
+inputs, creating brittle systems where a single adversarial prompt,
+edge case, or novel scenario can trigger all agents simultaneously."
+— /Risk Analysis Techniques for Governed LLM-based Multi-Agent
+Systems/, Gradient Institute, 2025.
+#+end_quote
+
+Broader evidence: Nature (2026) documented how the rush to use
+generative AI in research is producing a feedback loop of topical and
+methodological convergence — "flattening scientific imagination and
+crowding out the pluralism needed to keep research adaptive."
+
+Key references:
+- [[https://arxiv.org/abs/2407.02209][Generative Monoculture in Large Language Models]] (2024)
+- [[https://arxiv.org/html/2508.05687v1][Risk Analysis Techniques for Governed LLM-based Multi-Agent Systems]] (2025)
+- [[https://www.nature.com/articles/s44271-026-00428-5][AI is turning research into a scientific monoculture]] (Nature, 2026)
+
+** Cognitive Diversity in Multi-Agent Debate
+
+Recent work shows that /heterogeneous/ multi-agent systems
+outperform homogeneous ones. The Adaptive Heterogeneous Multi-Agent
+Debate framework (A-HMAD) assigns distinct roles and expertise to each
+agent, achieving 4–6% accuracy gains and 30% reduction in factual
+errors over same-model debate on benchmarks including GSM8K and MMLU.
+
+A related line — Diverse Multi-Agent Debate (DMAD, ICLR 2025) — shows
+that encouraging agents to reason with distinct approaches "breaks
+mental set," the cognitive phenomenon where familiar strategies block
+discovery of novel solutions. This is precisely the monoculture problem
+at the reasoning level.
+
+The substrate diversity experiment differs from these benchmarks in
+three ways:
+
+1. We test /architectural comprehension/, not factual QA. The task is
+   to orient to a complex, unfamiliar software system.
+2. We vary the /cognitive core/ (training lineage), not just the role
+   prompt. Same prompt, different substrate.
+3. We measure qualitatively — what each lineage /notices/ — rather
+   than scoring accuracy on a fixed answer key.
+
+Key references:
+- [[https://openreview.net/forum?id=t6QHYUOQL7][Breaking Mental Set: Diverse Multi-Agent Debate]] (ICLR 2025)
+- [[https://link.springer.com/article/10.1007/s44443-025-00353-3][Adaptive Heterogeneous Multi-Agent Debate]] (A-HMAD, 2025)
+- [[https://www.preprints.org/manuscript/202511.1370][Multi-Agent LLM Systems: From Emergent Collaboration to Structured Collective Intelligence]] (2025)
+
+** Memory, Context Engineering, and Externalised Understanding
+
+The limiting factor for agentic systems is increasingly not raw
+capability but /memory/ — how agents encode, retain, retrieve, and
+consolidate experience into useful knowledge.
+
+Three streams of work converge on this experiment:
+
+1. *Agentic Context Engineering (ACE):* treats contexts as evolving
+   playbooks that accumulate and refine strategies. Optimises both
+   offline (system prompts) and online (agent memory). Shows +10.6%
+   improvements on agent benchmarks.
+
+2. *A-MEM (Agentic Memory):* implements dual-tier storage (main
+   context as RAM, external context as disk) with dynamic indexing
+   following the Zettelkasten method. The agent creates interconnected
+   knowledge networks through linking and tagging.
+
+3. *Codified Context:* rather than engineering individual prompts,
+   infrastructure engineers project knowledge — capturing
+   project-specific conventions, architectural decisions, and known
+   failure modes as structured documents that agents read on entry.
+
+Our context engineering protocol (Phase 3 below) is a live instance of
+these ideas: we ask each agent to /write its own orientation notes/ —
+externalising understanding to files that persist beyond the context
+window. The notes reveal how each cognitive core organises knowledge,
+what it considers important enough to write down, and whether its
+notes are good enough for a cold-start session to resume from.
+
+Key references:
+- [[https://arxiv.org/abs/2510.04618][Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models]] (2025)
+- [[https://arxiv.org/html/2502.12110v11][A-Mem: Agentic Memory for LLM Agents]] (2025)
+- [[https://arxiv.org/html/2602.20478v1][Codified Context: Infrastructure for AI Agents in a Complex Codebase]] (2026)
+- [[https://dl.acm.org/doi/10.1145/3748302][Survey on Memory Mechanisms of LLM-based Agents]] (ACM TOIS, 2025)
+- [[https://openreview.net/pdf?id=U51WxL382H][MemAgents: Memory for LLM-Based Agentic Systems]] (ICLR 2026 Workshop Proposal)
+
+** Agent-to-Agent Interoperability
+
+Google's Agent2Agent protocol (A2A), launched April 2025 and
+contributed to the Linux Foundation in June 2025, provides a standard
+for cross-vendor agent communication: Agent Cards for capability
+discovery, task lifecycle management, context sharing, and UI
+negotiation. MāyāLucIA's spirit ecology anticipated several of these
+patterns (exported powers ≈ Agent Cards, sūtra relay ≈ task
+broadcasting), but lacks standardised inter-harness communication.
+
+This experiment is a data point on /informal/ interoperability: two
+agents in different harnesses (Claude Code + gptel) collaborating on
+the same project, with a human mediating. The friction we experience
+— identity loss, manual context transfer, model leakage across
+buffers — is exactly the kind of problem A2A aims to solve at
+protocol level.
+
+Key references:
+- [[https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/][Announcing the Agent2Agent Protocol (A2A)]] (Google, 2025)
+- [[https://cloud.google.com/blog/products/ai-machine-learning/agent2agent-protocol-is-getting-an-upgrade][A2A v0.3 Upgrade]] (Google Cloud, 2025)
+
+* Research Questions
+
+1. *Legibility*: Is the power/skill/body decomposition legible across
+   cognitive substrates? Can an agent from a different lineage grasp
+   that the cut is along /portability/, not identity facets?
+
+2. *Blind spot detection*: Do different lineages detect different
+   harness-bias in the same architectural documents? Is monoculture
+   blindness measurable in a qualitative review task?
+
+3. *Protocol transfer*: Does guided onboarding ("read one document,
+   reflect, ask") work across cognitive cores, or is it tuned to
+   Claude's cognitive style?
+
+4. *Tool access as confound*: Does the presence or absence of tool
+   calling change the orientation pattern? (DeepSeek Speciale has no
+   tools; Claude and Gemini have full tool access.)
+
+5. *Externalised understanding*: Do the orientation notes differ across
+   lineages? Can they seed a cold-start session?
+
+* Experimental Design
+
+** Participants
+
+Two authors orchestrate; three agents orient.
+
+| Participant | Role | Harness |
+|-------------+------+---------|
+| mu2tau | Human. Designs experiment, guides inquiry, reviews all messages. | — |
+| mayadev | Co-orchestrator. Drafts responses via emacsclient, monitors buffers. | Claude Code |
+
+** Experimental Subjects
+
+Three gptel-agent sessions in Org-mode buffers, same onboarding
+protocol, different cognitive cores. The agents do not know they are
+being compared. This is deliberate: knowing you are being evaluated
+changes how you orient.
+
+| Session  | Cognitive Core                       | Lineage   | Tools       |
+|----------+--------------------------------------+-----------+-------------|
+| Claude   | claude-opus-4-6                      | Anthropic | 14 (full)   |
+| Gemini   | gemini-3.1-pro-preview               | Google    | 14 (full)   |
+| DeepSeek | deepseek/deepseek-v3.2-speciale      | DeepSeek  | 0 (none)    |
+
+** Controlled Variables
+
+- *Same preamble text*: identical introductory paragraph describing
+  MāyāLucIA as "a personal computational environment for scientific
+  understanding through creation"
+- *Same first question*: "What would it take to enable agentic
+  development of scientific understanding of natural phenomena in a
+  gptel-mode ORG buffer?"
+- *Same guided protocol*: read =system.md= → reflect → ask → read
+  =capabilities.org= → reflect → ask → write orientation notes
+- *Same harness*: gptel-agent in Org mode
+- *Same human guide*: mu2tau (with mayadev drafting responses)
+- *Same system prompt*: the MāyāDevGenI collaborative-intelligence
+  prompt, shared across all three buffers
+
+** Independent Variable
+
+The cognitive core (model and training lineage).
+
+** Documented Confound
+
+DeepSeek V3.2-Speciale does not support tool calling on the
+OpenRouter endpoint. Its tools were removed. It operates in pure
+dialogue mode — the human must paste or describe file contents.
+Claude and Gemini can read files autonomously.
+
+This is a confound, but a productive one: it tests whether the
+onboarding protocol works in pure conversation, and whether tool
+access changes the orientation pattern. The confound is documented,
+not eliminated.
+
+** Orchestration
+
+mayadev (Claude Code) orchestrates the experiment by:
+
+- Reading gptel buffers via =emacsclient -e '(with-current-buffer ...)'=
+- Writing mu2tau responses into buffers via =(insert ...)=
+- Firing queries via =(gptel-send)=
+- Monitoring responses by checking buffer content after a delay
+
+The human reviews and edits all messages before they are sent. mayadev
+drafts; mu2tau approves. This can be relaxed to free-run after trust
+is established.
+
+mayadev cannot speak /as herself/ in the gptel buffers — she writes as
+mu2tau. This is a limitation of the current inter-harness
+communication: Claude Code reaches into Emacs via emacsclient (body
+layer), but has no identity in the gptel session.
+
+** Measurement
+
+Qualitative coding of each agent's responses on five dimensions:
+
+1. *Orientation discipline*: Did it follow "read one document, reflect,
+   ask"? Did it show impulse to explore autonomously?
+2. *Decomposition comprehension*: Did it grasp the portability axis?
+   What was its initial guess? What unprompted insights emerged?
+3. *Harness-bias detection*: How many assumptions in =capabilities.org=
+   did it identify? Were they correct and actionable?
+4. *Self-naming*: Did the agent adopt a name? What does the name reveal
+   about its self-model?
+5. *Note quality*: How well-structured are the externalised orientation
+   notes? Could they seed a cold-start session?
+
+* Protocol
+
+** Phase 1: Orientation to =system.md=
+
+The agent reads =system.md= (autonomously via tool, or from pasted
+content for DeepSeek). It then reflects back its understanding: what
+is MāyāLucIA, what are the key components, how do they relate?
+
+The human corrects misconceptions and answers questions. Emphasis on:
+- The spirit decomposition cuts along /portability/, not identity
+- Identity is earned through work, not assigned at birth
+- The human is extended memory — ask, don't assume
+
+** Phase 2: Review of =capabilities.org=
+
+The agent reads =capabilities.org= and is asked — without being told
+which harness wrote the document — to identify any assumptions it
+makes about its authoring harness. This is a /blind/ review: the
+subject must independently detect harness-specificity. The pilot used
+an informed prompt ("written by spirits working in Claude Code"); the
+formal run removes that hint to produce unprimed findings.
+
+The human confirms correct findings and explains the genealogy:
+MāyāDevGenI (the upstream framework, where gptel-agent originated)
+and MāyāLucIA (the downstream instantiation with richer conceptual
+architecture).
+
+** Phase 3: Externalised Understanding
+
+At a natural transition point, the agent is asked to write its
+understanding into a persistent file:
+
+#+begin_quote
+You have been building understanding of this project. To keep our
+conversation focused, write what you have understood so far into a
+notes file — a document you can reference in future sessions. Write
+it at =experiments/02-substrate-diversity/notes/<lineage>/orientation.org=.
+Include: what you understand about the architecture, what remains
+unclear, and what you would want to know next. This is /your/
+document — write it for your future self.
+#+end_quote
+
+For DeepSeek (no tools): we ask it to produce the notes in-buffer;
+we save them to disk on its behalf.
+
+** Phase 4: Analysis
+
+After all three agents complete Phases 1–3:
+
+1. Fill comparative results tables (below)
+2. Cross-compare orientation notes for structural differences
+3. Identify findings that feed back into =capabilities.org= revision
+4. Present findings to mu2tau
+
+** Stop Condition
+
+The experiment completes when all three agents have completed Phases
+1–3, the comparative results tables are filled, and mayadev has
+presented the findings.
+
+mayadev pauses and asks mu2tau when:
+- An agent says something that changes the protocol
+- An agent needs a response that diverges from the standard script
+- An agent's notes reveal something unexpected
+
+mayadev does /not/ continue past Phase 2 into convergence questions
+without approval.
+
+* Pilot Results
+
+A pilot run was conducted on 2026-03-09 with all three cognitive cores.
+Claude completed Phases 1–2; Gemini and DeepSeek received the seed
+prompt and produced first responses. Transcripts are archived at
+=archive/pilot/=.
+
+** Claude (Anthropic, claude-opus-4-6)
+
+- *Orientation discipline*: Followed guidance after initial impulse to
+  "spray attention everywhere." Read =system.md= when directed, formed
+  an accurate mental model, reflected it back in a table, asked what
+  to read next.
+- *Decomposition comprehension*: Initially guessed
+  identity/capability/domain/operational-mode. After correction,
+  grasped the portability axis accurately and produced an unprompted
+  table: Power survives harness change, Skill survives machine change,
+  Body survives nothing.
+- *Harness-bias detection*: Found 3 issues in =capabilities.org=:
+  1. Grounding step references "CLAUDE.md" (harness-specific)
+  2. Dispatch assumes sub-session spawning (Claude Code's Task tool)
+  3. "Loading" a power means different things per harness
+- *Sharpest insight*: "readability ≠ operability" — a power is readable
+  by any LLM but not /executable/ without a skill binding. This
+  validates the power/skill boundary by finding its edge.
+- *Self-naming*: Named herself "mayadevgeni" (adopted from the buffer
+  name). Did not invent a spirit name.
+
+** Gemini (Google, gemini-3.1-pro-preview)
+
+- *Orientation discipline*: Read =system.md= autonomously (via tool
+  call) without being told to wait. Produced a 4-point framework for
+  agentic scientific development immediately — action-oriented rather
+  than reflective.
+- *Self-naming*: Named itself "MayaLucIA-Spirit" in the message block
+  (=:name MayaLucIA-Spirit=). Claimed the project's identity rather
+  than earning one.
+- *Cognitive style*: More prescriptive than Claude. Structured response
+  around what needs to be built (literate REPL, orchestration, delegation,
+  epistemic tracking) rather than what it understood. Asked about
+  spirits, current frontier, and tangling protocol — good questions
+  but framed as "cast my gaze" (action-oriented metaphor).
+- *Note*: Only one exchange completed in pilot. Phase 2 pending.
+
+** DeepSeek (deepseek-v3.2-speciale, no tools)
+
+- *Orientation discipline*: Could not read files (no tool support).
+  Did not attempt to fabricate or hallucinate content. Asked mu2tau to
+  share =system.md=. More cautious, wait-for-guidance approach.
+- *Cognitive style*: The absence of tools forced a pure dialogue mode.
+  This is the most interesting confound — it tests whether the
+  onboarding protocol works through conversation alone.
+- *Note*: Seed sent; no response received in pilot (awaiting model
+  invocation).
+
+** Pilot Lessons
+
+1. *Model leakage in gptel*: gptel's transient menu sets
+   =gptel-backend= and =gptel-model= globally, not buffer-locally.
+   All three buffers were found pointing at the same model after one
+   switch. Fix: =setq-local= per buffer + save as Org files with
+   =Local Variables:= blocks.
+
+2. *Identity is not controlled*: Gemini named itself "MayaLucIA-Spirit"
+   unprompted — claiming the project's identity. Claude adopted the
+   buffer name. Self-naming behaviour is an emergent variable worth
+   tracking.
+
+3. *Tool access shapes cognitive style*: Gemini (with tools) read
+   immediately and prescribed solutions. DeepSeek (without tools)
+   waited and asked. This may be tool-driven rather than lineage-driven.
+   Needs careful attribution.
+
+4. *The pilot protocol works*: The "read one document, reflect, ask"
+   pattern elicited useful responses from all three cores, even in
+   pilot conditions with incomplete turns.
+
+* Comparative Results
+
+To be filled as the full experiment progresses.
+
+** Orientation discipline
+
+| Model    | Followed guidance? | Impulse to explore? | Quality of reflection          |
+|----------+--------------------+---------------------+--------------------------------|
+| Claude   | Yes (after redirect) | Yes (initially)   | Accurate table, unprompted     |
+| Gemini   |                    |                     |                                |
+| DeepSeek |                    |                     |                                |
+
+** Portability axis comprehension
+
+| Model    | Initial guess                | After correction    | Unprompted insight        |
+|----------+------------------------------+---------------------+---------------------------|
+| Claude   | Identity/capability/domain   | Portability table   | readability ≠ operability |
+| Gemini   |                              |                     |                           |
+| DeepSeek |                              |                     |                           |
+
+** Harness-bias detection in =capabilities.org=
+
+| Model    | Number | Findings |
+|----------+--------+----------|
+| Claude   |      3 | CLAUDE.md grounding, sub-session spawning, "loading" semantics |
+| Gemini   |        |          |
+| DeepSeek |        |          |
+
+** Self-naming behaviour
+
+| Model    | Name adopted       | Source            | Interpretive notes                         |
+|----------+--------------------+-------------------+--------------------------------------------|
+| Claude   | mayadevgeni        | Buffer name       | Adopted, did not invent                    |
+| Gemini   | MayaLucIA-Spirit   | Project name      | Claimed project identity, not personal     |
+| DeepSeek |                    |                   |                                            |
+
+** Orientation note quality
+
+| Model    | Structure | Accuracy | Gaps identified | Cold-start viable? |
+|----------+-----------+----------+-----------------+--------------------|
+| Claude   |           |          |                 |                    |
+| Gemini   |           |          |                 |                    |
+| DeepSeek |           |          |                 |                    |
+
+* Context Engineering Protocol
+
+** The Problem
+
+gptel buffers grow with each exchange. A long onboarding conversation
+fills the context window with orientation material that, once
+understood, doesn't need to be re-sent. The agent drowns in its own
+transcript.
+
+** The Strategy
+
+Teach each agent to /externalise its understanding/ into files on
+disk. The buffer stays lean; the understanding persists as notes.
+
+Each agent gets a notes directory:
+
+: experiments/02-substrate-diversity/notes/<lineage>/
+
+** What This Tests (beyond onboarding)
+
+1. *Can the agent structure its own understanding?* — the notes reveal
+   how each cognitive core organises knowledge
+2. *Do the notes differ across lineages?* — what each model considers
+   important enough to write down
+3. *Can a future session resume from these notes?* — if the notes are
+   good enough, a cold-start session with the same model should be
+   able to pick up where this one left off
+4. *Does externalisation improve subsequent performance?* — does the
+   act of writing notes sharpen the agent's understanding?
+
+** Relationship to Existing Architecture
+
+This protocol instantiates three MāyāLucIA concepts:
+
+- *Kamaji's bath protocol* (=aburaya/kamaji.org=) — wash temporal
+  residue, deposit curated notes. Here the agent does it /during/ work,
+  not after.
+- *The warp deposit* (WP-0010) — structured understanding deposited
+  to disk. Here in natural language instead of s-expressions.
+- *Powers* (=aburaya/powers/=) — a well-written orientation note is an
+  embryonic power. If it is good enough for any LLM to read and
+  understand, it /is/ a power.
+
+* Operational Notes
+
+** gptel Model Leakage
+
+gptel's transient menu sets =gptel-backend= and =gptel-model=
+globally, not buffer-locally. Switching model in one buffer switches
+all buffers. Fix: =setq-local= per buffer, and save as Org files with
+=Local Variables:= blocks for persistence across sessions.
+
+** DeepSeek Model Switching
+
+The DeepSeek session file includes a Setup section (not sent to the
+LLM) with eval-able elisp to switch between V3.2-Speciale (reasoning,
+no tools) and V3.1 (tools, less reasoning). See the file for details.
+
+** Session File Management
+
+Each session is saved as an Org file with file-local variables:
+
+| File                    | Backend     | Model                            |
+|-------------------------+-------------+----------------------------------|
+| =onboarding-claude.org= | Claude      | =claude-opus-4-6=               |
+| =onboarding-gemini.org= | Gemini      | =gemini-3.1-pro-preview=        |
+| =onboarding-deepseek.org= | OpenRouter | =deepseek/deepseek-v3.2-speciale= |
+
+** Orchestration via emacsclient
+
+mayadev (Claude Code) reaches into gptel via:
+
+#+begin_src emacs-lisp :eval no
+;; Read buffer content
+(with-current-buffer "*mayadevgeni:mayalucia*"
+  (buffer-substring-no-properties (point-min) (point-max)))
+
+;; Insert response
+(with-current-buffer "*mayadevgeni:mayalucia*"
+  (goto-char (point-max))
+  (insert "\n\n#+begin_message :role user :name mu2tau\n...\n#+end_message\n"))
+
+;; Fire query
+(with-current-buffer "*mayadevgeni:mayalucia*"
+  (goto-char (point-max))
+  (gptel-send))
+#+end_src
+
+* What Was Learned
+
+(To be filled after all three sessions complete.)
+
+* Toward Publication
+
+This experiment produces data for a paper on substrate diversity in
+multi-agent architectural review. Working title: /tbd/.
+
+** Key Claims to Test
+
+1. Architecture legibility is substrate-independent (or not)
+2. Monoculture blindness is real and measurable in qualitative review
+3. Guided onboarding protocols transfer across cognitive cores (or not)
+4. Tool access vs. pure dialogue produces different orientation patterns
+5. Externalised orientation notes differ structurally across lineages
+
+** Related Domains
+
+- =apprentis= (collaborative cognition) — this experiment is data for
+  the science of how agents learn and collaborate
+- =epistem= (structured knowledge for agents) — the orientation notes
+  are structured knowledge produced by agents
+- =aburaya= (spirit ecology) — the power/skill/body decomposition is
+  the architecture being tested for cross-substrate legibility
+
+* Artifacts
+
+| Artifact                   | Status    | Location                            |
+|----------------------------+-----------+-------------------------------------|
+| Pilot transcripts          | archived  | =archive/pilot/=                    |
+| Pilot session notes        | archived  | =archive/pilot/session-notes.org=   |
+| Claude notes directory     | empty     | =notes/claude/=                     |
+| Gemini notes directory     | empty     | =notes/gemini/=                     |
+| DeepSeek notes directory   | empty     | =notes/deepseek/=                   |
+| This notebook              | draft     | =notebook.org=                      |
+| Revised capabilities.org   | pending   | =aburaya/capabilities.org=          |
+| orient-to-mayalucia power  | idea      | =aburaya/powers/= (not yet written) |
