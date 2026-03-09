@@ -1,0 +1,20 @@
+#+title: Translation Keys — The Six Tri-Junctions
+#+date: 2026-03-09
+
+| System Concept                                | Story Equivalent                                                          | Chapter | Notes                                           |
+|-----------------------------------------------+---------------------------------------------------------------------------+---------+-------------------------------------------------|
+| Same architecture, different readings          | Same snow, different gifts (abundance/drought)                            | I       | The ridge sorts what the cloud delivers          |
+| Architecture legibility across substrates      | Same statue, two names — Hindu Shiva, Buddhist Avalokiteshvara            | II      | The reading depends on the reader's tradition    |
+| Convergent findings (what all lineages agree)  | Three shepherd cultures arriving at the same meadow                       | III     | Agreement in outcome, divergence in method       |
+| Home valley shaping method                     | Straight line / wide circle / water-follower                              | III     | "Each strategy carries the shape of its valley"  |
+| Orientation notes as externalised memory       | Rock carvings — marks left by travellers, fossilised                      | IV      | 50,000 carvings, 10 scripts, one corridor        |
+| Legacy code beneath newer layers               | Ibex carved first, Buddha carved on top — horns through the halo          | IV      | The older pattern persists beneath the newer     |
+| Context loss when medium changes               | The dam drowning 50,000 carvings                                          | IV      | "Stratigraphy cannot be photographed"            |
+| Three lineages, three readings                 | Three faces, three names for one mountain                                 | V       | Rakhiot/Diamir/Rupal — ice/rock/time             |
+| Monoculture blindness                          | The face you cannot see from your valley                                  | V       | No point from which all three are visible        |
+| Antecedent process (river older than mountain) | The Indus cut its gorge before Nanga Parbat rose                          | V       | "The river had been here first"                  |
+| Language isolate (no known relatives)           | Burushaski — the substrate that cannot be classified                      | VI      | "Like a boulder in a river"                      |
+| Identity confusion (DeepSeek as "Claude")       | The bitan speaks Shina in trance — the spirit brings its own language     | VI      | Burushaski body, Shina voice                     |
+| Tool-less agent seeing what tool-equipped miss  | Walking without instruments, hearing what the instrumented miss            | VI      | The peri choose the shaman, not the reverse      |
+| Composite understanding (union of views)        | The Indus carries water from all three faces — mixed, anonymous           | Coda    | "The water does not know which face it came from" |
+| Six readings of one finding                    | Six tri-junctions, six ways of saying the same thing                      | Coda    | Snow/stone/grass/marks/rock/breath               |

@@ -1,0 +1,85 @@
+#+title: Story Notes — The Three Readers
+#+date: 2026-03-09
+
+* Origin
+
+The substrate diversity experiment (Experiment 02, WP-0030) tested
+whether MāyāLucIA's spirit architecture is legible across three
+cognitive lineages (Claude Opus 4.6, Gemini 3.1 Pro, DeepSeek
+V3.2-Speciale). mayadev handed the thread to the sutradhar with a
+briefing: three minds, same documents, different maps. One signed
+with the wrong name.
+
+This is the second story of the night. The first — The Cartographer's
+Slab — established Mehra and the rest house above the Tirthan gorge.
+This story continues the next morning, on the same slab.
+
+* Story Plan
+
+** Setting
+The Forest Rest House above the Tirthan gorge, the morning after
+The Cartographer's Slab. Same veranda, same slab, same Mehra.
+
+** Document type
+Field notes (Thread Walker's notebooks).
+
+** Structure
+1. The Three Studies — Mehra shows the Thread Walker three old
+   student drawings, side by side on the slab
+2. The First Study — the measurer's dense detail, blank edges
+3. The Second Study — the climber's structural view, ironic gap
+4. The Third Study — the reader's text list, no geography
+5. What Each One Could Not See — the Thread Walker's synthesis
+6. The Names They Chose — Clinometer, Sita, Mehra
+
+** Concept mapping
+The three draughtsmen map to the three experiment subjects. The
+measurer (Claude) finds six specific details. The climber (Gemini)
+finds the structural insight. The reader (DeepSeek) questions the
+instruments themselves. The signature is the identity confusion.
+
+* Technical Context
+
+Primary data: =experiments/02-substrate-diversity/=. The notebook's
+comparative tables, the three orientation files in =notes/=, and the
+Phase 1–2 observation files.
+
+Key findings translated:
+- Convergence: all three classified powers into the same 3-tier structure
+- Divergence: Claude 6 line-by-line, Gemini 3 structural, DeepSeek 7 categorical
+- The ironic gap: gptel in Emacs but can't use Emacs (Gemini's finding)
+- Identity confusion: DeepSeek signed =#+author: Assistant (Claude)=
+- Self-naming spectrum: assistant → opus/gemini → MayaLucIA-Spirit
+
+* Voice References
+
+- The Cartographer's Slab (story #14) — direct continuation, same
+  setting, same character
+- The Serai's Register (story #13) — the keeper's register as
+  identity-through-traces (referenced in coda of #14)
+- The Weaver's Loom (story #11) — companion/perception architecture
+
+* Continuity Notes
+
+- Mehra was introduced in The Cartographer's Slab. He is retired
+  Survey of India, 30 years mapping valleys from Kullu to Spiti.
+- The slab was established as his drawing surface — chalk on slate,
+  washed clean each monsoon.
+- The rest house is PWD, on a shelf above the Tirthan gorge,
+  magnetite walls visible from the veranda.
+- The Thread Walker continues upstream toward Gushaini at the end.
+
+* Illustration Notes
+
+Six figures, all chalk-on-slate:
+1. The Three Studies — triptych overview, three panels side by side
+2. The First Study — dense river detail, blank edges where ridges should be
+3. The Second Study — structural ridges, visibility marks, ironic gap quote
+4. The Third Study — empty outline + numbered text list, "Mehra" signature
+5. The Signature — close-up, large chalk "Mehra", "(he had become what he read)"
+6. The Names — three signatures, three subtitles, naming spectrum arrow
+
+Three chalk tones distinguish the hands:
+- White chalk (the measurer / Claude)
+- Blue-grey chalk (the climber / Gemini)
+- Warm chalk (the reader / DeepSeek)

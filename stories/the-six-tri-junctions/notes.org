@@ -1,0 +1,109 @@
+#+title: Notes — The Six Tri-Junctions
+#+date: 2026-03-09
+
+* Origin
+
+Experiment 02 (Substrate Diversity, WP-0030) tested three AI
+lineages — Claude Opus 4.6, Gemini 3.1 Pro, DeepSeek V3.2-Speciale
+— on the same architecture documents. The finding: no single lineage
+sees the full picture. Each sees what the others cannot. The union of
+perspectives is richer than any individual view.
+
+"The Three Readers" (story #15) translated this finding into the
+Tirthan rest house setting — Mehra's three student drawings. mu2tau
+proposed expanding the geographic range: "we can come up with a few
+more metaphors... we will change the geography, staying within western
+himalaya." He identified tri-junctions as the structural metaphor —
+places where three valleys, traditions, or languages converge.
+
+Three parallel research agents surveyed the Parvati headwall, the
+trans-border Karakoram, and the Nanga Parbat massif. Six geographic
+options emerged. mu2tau's response: "why not write all of these, as
+six different chapters of a long story."
+
+* Story Plan
+
+** Structure
+
+Six self-contained chapters, each at a different tri-junction. The
+Thread Walker moves from familiar territory (upper Parvati) north
+and west into progressively less-visited country, ending in the
+Karakoram. Prefatory note + six chapters + coda.
+
+** Chapter outline
+
+| Ch | Setting                  | Tri-junction                          | Core metaphor                    | Document type           |
+|----+--------------------------+---------------------------------------+----------------------------------+-------------------------|
+| I  | Mantalai Lake            | Three passes → Kullu/Spiti/Lahaul     | Same snow, three climates        | Field notes             |
+| II | Trilokinath, Lahaul      | Hindu-Buddhist shared temple          | Same statue, two names           | Temple + field notes    |
+| III| Bara Bhangal             | Kullu/Kangra/Chamba shepherds         | Three grazing strategies         | Shepherd testimony      |
+| IV | Chilas, Indus gorge      | 50,000 rock carvings, 10 scripts      | The palimpsest                   | Rock inscription survey |
+| V  | Nanga Parbat, three faces| Rakhiot/Diamir/Rupal                  | Mountain that cannot be seen whole| Mountaineer's notebook  |
+| VI | Hunza Valley             | Burushaski/Shina/Wakhi                | The spirit brings its own language| Ethnographic field notes|
+
+** The itinerary
+
+This is the first story structured as an itinerary — movement across
+geography rather than encounter at a single place. The movement itself
+carries meaning: each step north takes the Thread Walker further from
+known country, and the metaphors shift accordingly (from weather → to
+tradition → to language → to spirit).
+
+* Technical Context
+
+The substrate diversity experiment revealed three classes of finding:
+
+- Line-by-line bias detection (Claude → the measurer, six tributaries)
+- Structural bias detection (Gemini → the climber, ironic gap)
+- Categorical bias detection (DeepSeek → the reader, seven assumptions)
+
+"The Three Readers" translates these at close range (one slab, three
+drawings). "The Six Tri-Junctions" translates the *principle* at large
+range — the same insight refracted through six geographies.
+
+* Voice References
+
+- The Cartographer's Slab (story #14) — same rest house setting
+- The Serai's Register (story #13) — found-document register
+- The Three Readers (story #15) — the companion piece
+
+* Continuity Notes
+
+- The Thread Walker leaves the Tirthan rest house (established in
+  stories #13-15) and moves north
+- Mehra is not present in this story — the Thread Walker carries his
+  lesson with her
+- The coda returns her south, toward "the valleys she knew" — closing
+  the arc
+- The petroglyphs at Chilas connect to the dam story that the survey
+  documents (WP-0012, WP-0013)
+- The bitan tradition connects to the Diamer spirit traditions survey
+
+* Illustration Notes
+
+Ten figures across six chapters. Visual register shifts:
+
+- Chapters I-III: warm parchment background, monsoon-country tones
+  (deodar green, mud brown, saffron, maroon)
+- Chapter IV: dark slate background, rock-face palette (ibex in faded
+  chalk, stupa in brighter chalk, scripts in white)
+- Chapter V: grey-blue high-altitude palette, mineral tones
+- Chapter VI: parchment for the languages, slate for the bitan
+
+| Figure | File                  | Chapter | Subject                               |
+|--------+-----------------------+---------+---------------------------------------|
+|      1 | the-rain-wall.png     | I       | Headwall — three passes from one lake |
+|      2 | three-climates.png    | I       | Triptych — deodar/juniper/mud-brick   |
+|      3 | two-processions.png   | II      | Trilokinath — two processions, one gate|
+|      4 | three-flocks.png      | III     | Bara Bhangal — three trails converge  |
+|      5 | the-petroglyphs.png   | IV      | Rock terraces — boulders with marks   |
+|      6 | the-palimpsest.png    | IV      | Close-up — ibex beneath stupa         |
+|      7 | three-faces.png       | V       | Nanga Parbat — three sightlines       |
+|      8 | the-gorge.png         | V       | Indus gorge — 7,000m relief           |
+|      9 | three-languages.png   | VI      | Market wall — three scripts           |
+|     10 | the-bitan.png         | VI      | Bitan in trance — two tongues         |
+
+* WP Reference
+
+No formal WP for this story — composed in a single session as an
+extension of the substrate diversity experiment work.

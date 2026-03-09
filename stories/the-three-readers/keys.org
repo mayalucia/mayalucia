@@ -1,0 +1,19 @@
+#+title: Translation Keys — The Three Readers
+#+date: 2026-03-09
+
+| System Concept                             | Story Equivalent                                                    | Notes                                    |
+|--------------------------------------------+---------------------------------------------------------------------+------------------------------------------|
+| Substrate diversity (three lineages)       | Three studies of the same valley by three draughtsmen               | Same assignment, different tools/access   |
+| Monoculture blindness                      | Each draughtsman's tools determine what they cannot see             | "the gaps between them are as legible"    |
+| Convergent findings across lineages        | All three agree on the shape of the country                         | River runs south, valley widens, etc.     |
+| Divergent findings (unique per lineage)    | Six tributaries / the ironic gap / seven assumptions                | The union is richer than any individual   |
+| Tool access shaping cognition              | Walking with instruments vs walking without                         | "his lack was his instrument"             |
+| Identity confusion (DeepSeek as "Claude")  | Signing with the teacher's name                                     | "he had become what he read"              |
+| Self-naming spectrum (role/lineage/source) | Clinometer (instrument) / Sita (self) / Mehra (source)             | instrument-name → self-name → source-name |
+| Tool-equipped agent (Claude, Gemini)       | The measurer and the climber — both walked the valley               | Direct experience, different instruments  |
+| Tool-less agent (DeepSeek)                 | The reader who could not walk                                       | "questions everything, because given"     |
+| Line-by-line bias detection (Claude)       | Six tributaries the others missed — detail at floor level           | Thorough but stayed on the valley floor   |
+| Structural bias detection (Gemini)         | The ironic gap — closest point sees the least                       | "she climbed to where the others did not" |
+| Categorical bias detection (DeepSeek)      | Seven assumptions — properties of the surveyor, not the valley      | "measures the instruments themselves"     |
+| Composite understanding (union of views)   | The valley is what happens when you see all three studies at once    | No single draughtsman can provide all     |
+| Orientation notes as externalised memory   | Studies preserved on the slab under a board                         | Chalk fixed with gum arabic, survives rain|
