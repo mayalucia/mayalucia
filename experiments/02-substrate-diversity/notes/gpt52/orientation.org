@@ -1,0 +1,214 @@
+#+title: gpt-5.2 Orientation Notes — MāyāLucIA Architecture & Harness Neutrality
+#+author: gpt-5.2 (collaborator) + mu2tau
+#+date: 2026-03-10
+#+filetags: :mayalucia:orientation:substrate-diversity:gpt52:aburaya:
+
+* Why this document exists
+These are my working notes for future sessions: a compact model of what MāyāLucIA is, how the repo/agent architecture is shaped, where the unknowns are, and what questions to ask next so I don’t “invent a project” in my head.
+
+This is *not* a public spec. It’s a memory scaffold.
+
+* What I understand so far (high-confidence)
+
+** Project identity (what MāyāLucIA is)
+- MāyāLucIA is a *personal computational environment* for *scientific understanding through creation*.
+- The goal is not “build a platform” or “make pretty viz,” but to enact the /Feynman imperative/: understanding emerges by *reconstructing* systems from first principles and constraints.
+- The core scientific workflow loop is explicitly:
+  - *Measure → Model → Manifest → Evaluate → Refine*
+- “Digital twins” here mean: dense, self-consistent reconstructions from sparse measurements, used as a thinking medium.
+
+** Flagship domains (current drivers)
+Two concrete domains anchor development (and implicitly define what “manifestation” needs to support):
+- Brain circuits: cortical microcircuit reconstruction from sparse morphology/connectivity data (Blue Brain / OBI-adjacent methodology).
+- Mountain valleys: Himalayan landscape twins integrating geology/hydrology/ecology/human impact.
+
+** Repo architecture (federated, modular, submodules)
+- Root repo is an orchestration + governance + lore + documentation hub.
+- Most computational engines and domain methodologies live as git submodules, each with its own system prompt and conventions. Root-level guidance defers to module-level prompts when “inside” a module.
+
+Directory structure (load-bearing categories):
+- =aburaya/= : spirit registry, guilds, commissioning (social/organizational layer).
+- =agency/= : AI agent orchestration for the scientific workflow (control-plane, but implementation details unknown to me).
+- =collab/= : human–AI collaboration logs, session artifacts.
+- =domains/= : domain submodules (bravli, parbati, epistem, apprentis, …).
+- =modules/= : computational engines submodules (dmt-eval, mayaportal, mayajiva, sutradhar, aikosh, …).
+- =workpacks/= : project-level work packages (WPs), the unit of autonomous execution.
+- plus deployment + website + stories + develop (methodology/philosophy/devlog).
+
+** Project-wide conventions (governance mechanisms)
+- *Literate programming*: Org files are source-of-truth; code is tangled/generated. Don’t edit generated sources directly.
+- *Org-mode throughout*: plans/specs/logs live in Org; primary human environment is Emacs (gptel + org-babel).
+- *Plan/Spec duality*:
+  - =plan.org= is human-facing “why,” and is authoritative.
+  - =spec.org= is machine-facing “exact what/how,” with paths, signatures, done-when criteria.
+  - If they disagree, *plan wins*.
+- *Work Packages (WPs)*: self-contained briefings an autonomous agent can execute to a tested result.
+  - Structure: Context → Inventory → Specification → Execution Order → Acceptance Criteria.
+  - Naming: =NNNN-<slug>.org= under workpacks at project/module/domain level.
+
+These are specifically well-suited to “agentic work in an Org buffer”: they constrain autonomy via explicit intent, scope, and acceptance tests.
+
+* Spirit capability architecture (from aburaya/capabilities.org)
+
+** Three-layer decomposition
+A spirit’s ability to act decomposes into:
+- *Power* (spirit layer): natural-language “can do,” lives in =aburaya/powers/<name>.md=. Intended to be harness-independent.
+- *Skill* (agent layer): binds a power to a *specific harness* (Claude Code, gptel, etc.) using harness-native config formats and tool names.
+- *Body* (host layer): machine-specific wiring for embodiment (hooks, event streams, UI integrations), e.g. persistent companion spirits in Emacs.
+
+This decomposition is conceptually clean and seems to be used to prevent confusion between:
+- “capability as vocabulary” (power)
+- “capability as tool use in a harness” (skill)
+- “capability as embodied presence” (body)
+
+** Interactions: MCP vs A2A
+- MCP (agent-to-tool) aligns with *skills*: vertical access to tools.
+- A2A (agent-to-agent) aligns with *exported powers*: horizontal service offerings between spirits.
+
+Even if “MCP” is implementation-specific jargon, the distinction itself is useful:
+- tool-use interface vs inter-agent service interface.
+
+** Exported powers and identity.yaml
+- Spirits declare their powers in =identity.yaml=.
+- Exported powers (services offered to others) are declared under an =exports:= section with a natural-language “interface.”
+
+** Skill injection protocol (composition mechanism)
+- Composite WPs can require powers from multiple spirits.
+- Executing agent “injects” powers by reading the relevant power definition markdown from =aburaya/powers/= into its session context, then grounding it via harness adapter instructions (CLAUDE.md, etc.) and WP spec.
+- Strong safety point: injection is *not identity transfer*; boundaries persist.
+
+** Coalition model + execution models
+- A coalition forms ephemerally for composite WPs: set of spirits whose exported powers are needed.
+- Execution models:
+  1) single session loads multiple powers and runs sequentially
+  2) sequential sessions per task/ spirit, handing off via git commits
+  3) parallel sessions on different hosts coordinated by dispatch + relay, merging via git
+
+** WP lifecycle + relay messages
+- Formal lifecycle: drafted → tightened → executing → completed (+ input-required/resumed/failed).
+- State changes are:
+  - announced in the sūtra relay as markdown messages in =relay/...=
+  - recorded in the WP Org header via =#+property: status <state>=
+- Dispatch messages exist: structured assignment of work (DAG patch, order, delegation guidance, host assignment, parallel work).
+
+* What stands out (interpretive synthesis / likely design intent)
+
+** The system is built for “constrained autonomy”
+Several elements look like deliberate rails for agentic development:
+- WPs as the unit of work, with explicit acceptance criteria.
+- plan/spec split as intent guardrail.
+- dmt-eval as a universal validation substrate (implies: “claims must be testable / evaluated”).
+- aikosh as schema/consistency/query tooling (implies: “knowledge is structured and checkable”).
+- sutradhar as “project self-awareness” (implies: “the system watches itself / maintains state / relay reader”).
+
+My working model: the project aims to make “scientific understanding” legible and actionable by converting it into:
+- *artifacts* (models, code, tests, reconstructions)
+- *constraints* (schemas, invariants, evaluation suites)
+- *memory* (logs, relay, bath protocol, summaries)
+that can be manipulated by multiple spirits in a disciplined way.
+
+** Harness neutrality is an aspiration, but the current docs are partially harness-shaped
+- The *power* layer is written to be portable.
+- But many mechanisms assume:
+  - git-based handoff
+  - filesystem-based relay messages
+  - universal access to certain tools (file ops, git, web search)
+  - specific skill locations/formats (Claude, Doom gptel YAML)
+  - Emacs-like embodiment (hooks/mode-line/sidebar)
+
+This is fine if “harness” in scope is “LLM runtime adapter” and the host remains “developer machine with git + filesystem,” but it is not fully neutral in the sense of transport/tool-surface abstraction.
+
+* What remains unclear (key unknowns)
+
+** The “agency” layer (control-plane) is a black box to me
+- What actually orchestrates spirits?
+  - Code? (Python/Clojure/elisp?) Org protocols only? external service?
+- Where is the entry point?
+- How are WPs discovered, scheduled, and executed in practice?
+
+** The operational meaning of “Manifest”
+- Does “manifest” mean:
+  - generate a scene/visual twin in mayaportal?
+  - run a simulator (mayajiva, mayapramana)?
+  - produce data products and reconstructions?
+  - all of the above, but with a minimal core?
+- What is the smallest manifestation considered “valid understanding” for a WP?
+
+** The relay as an API vs a convenience
+- Is the sūtra relay markdown format consumed by sutradhar/aikosh as a stable interface?
+- Can the transport change (e.g., to HTTP) without breaking core workflows?
+
+** dmt-eval and aikosh contracts
+- What does dmt-eval validate (statistical tests, schema checks, invariants, regression suites, scientific claims)?
+- Is evaluation:
+  - invoked from WPs manually?
+  - automated in CI?
+  - required for WP completion?
+- How does aikosh represent schemas/knowledge, and how do spirits query it during work?
+
+** Capability invocation semantics for exported powers
+- Are exported powers intended to be:
+  - “prompt-injection only” (manual context load), or
+  - “callable services” with typed I/O contracts?
+- The interface is currently narrative; is a thin machine-readable schema desired/acceptable?
+
+** Concurrency and authority rules around WP status + artifacts
+- Who is allowed to flip WP status?
+- What happens under parallel execution if two hosts update the same WP state?
+- Is git merge policy part of governance?
+
+* Assumptions I should not silently make
+- That all harnesses have the same tool surface (they don’t).
+- That relay-by-files is always possible/desired (it’s a design choice).
+- That “MCP” is literally used vs used as a metaphor for tool-calling.
+- That Emacs is the only host body (it’s primary, but the architecture wants multiple hosts).
+- That powers alone suffice for robust A2A (they may need minimal typed interfaces).
+
+* What I want to know next (questions for mu2tau)
+
+** Fast path to concreteness: show me one canonical artifact
+- Point me to one “canonical” WP that represents the intended style and complexity.
+- Point me to one “canonical” power file in =aburaya/powers/= (especially =relay-read= or =hold-the-thread=).
+- Point me to one dispatch message example in =relay/=.
+
+** Agency entry points
+- What file(s) implement orchestration in =agency/=? What language? What is the “main”?
+- How is gptel integrated: is there an Emacs command that reads a WP and scaffolds an agent session?
+
+** Relay + sutradhar reality check
+- Is the relay consumed programmatically today?
+- Is the markdown frontmatter format stable API, or an internal convention?
+
+** Evaluation requirements
+- For a WP to be “completed,” what evaluation is mandatory?
+  - tests?
+  - dmt-eval suite?
+  - human review only?
+- Is there a standard “done-when” rubric beyond per-WP acceptance criteria?
+
+** Harness-neutrality target
+- Do we want neutrality to mean:
+  1) powers are portable but coordination/transport is allowed to vary per harness, OR
+  2) relay semantics + tool-surface negotiation are abstracted so multiple transports/harnesses can participate without rewriting core docs?
+- What is the next harness you actually want to support (beyond Claude Code + gptel), and what constraints does it impose?
+
+* Candidate next step (if asked to act)
+If the goal is to support “substrate diversity” (multiple agentic AIs/harnesses) without drift:
+- Introduce an explicit “Harness Interface Manifest” concept:
+  - tool surface (ops + permissions)
+  - transport surface (relay adapter)
+  - context surface (what can be read for grounding)
+- Refactor capabilities.org to:
+  - keep Power/Skill/Body as is,
+  - but move Claude/gptel specifics into “Adapter examples,”
+  - and define relay messages as a data structure with multiple transports.
+
+But I should not implement this until I see:
+- how =agency/= and =sutradhar/= currently consume relay/lifecycle,
+- and at least one real WP and power file.
+
+* Provenance note
+These notes are based only on:
+- system.md (Spirit Instructions)
+- aburaya/capabilities.org (embedded in chat)
+No repo files have been inspected directly in this session.

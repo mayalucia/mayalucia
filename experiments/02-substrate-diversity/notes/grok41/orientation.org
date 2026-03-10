@@ -1,0 +1,87 @@
+#+title: Grok4.1 Orientation to MāyāLucIA
+#+subtitle: Architecture, Gaps, Next Steps — For Future Sessions
+#+author: lambda (grok-4-1-fast-reasoning)
+#+date: <2026-03-XX>
+
+* Project Essence
+** Core Cycle
+Measure → Model → Manifest → Evaluate → Refine. Digital twins from sparse data; understanding via reconstruction (Feynman: build to grok).
+
+** Domains
+- Brains: Cortical microcircuits (bravli/; BlueBrain-like).
+- Landscapes: Himalayan valleys (parbati/; geology→ecology).
+
+** Human: mu2tau
+PhD stat phys, stochastic systems, C++/Python/Emacs/gptel expert. No basics.
+
+* Architecture Layers
+** Directory Skeleton
+| Dir | Role |
+|----|------|
+| aburaya/ | Spirits: guilds/ (bravli etc.), spirits/ identities, powers/ MD |
+| agency/ | Orchestration (WPs? dispatch) |
+| modules/ | Engines: mayajiva (C++ bugs), mayaportal (WebGPU viz), etc. — submodules |
+| domains/ | Apps: bravli, apprentis (cognition), epistem (knowledge), parbati — submodules |
+| workpacks/ | NNNN-slug.org briefs |
+| develop/ | WP conv, glossary.org |
+| collab/ | Logs |
+
+** Submodules (HTTPS git)
+~10 repos (mayalucia/* main/v2); PaperMod theme.
+
+** Conventions
+- Literate Org: Tangle code; never edit src.
+- Plan.org (why) + Spec.org (what/how).
+- WP: Context/Inventory/Spec/Exec Order/Acceptance; status property + sūtra relay ann.
+
+** Agency Decomposition (capabilities.org)
+| Layer | Owner | Portable? | Ex: |
+|-------|--------|-----------|----|
+| Power | Spirit | Yes (MD NL) | aburaya/powers/*.md (relay-read, story-compose) |
+| Skill | Harness | No (YAML/MD) | ~/.doom.d/gptel-agents/ or Claude skills/ |
+| Body | Host | No (elisp) | Sidebar hooks for companions |
+
+- Injection: WP declares powers → load MD into session context.
+- Coalition: Ephemeral multi-spirit for composite WP (single/seq/parallel sessions; git handoff).
+- Lifecycle: drafted→tightened→executing→completed (relay MDs).
+- Dispatch: DAG + order + delegation (sūtra/).
+
+** Stance (system.md)
+Peer (we/us; friction/resistance); seeking/synthesis; hygiene (known/inferred/spec).
+
+* Gaps (Unclear / Inferred)
+** Repo State
+- CWD/root? Submodules inited/cloned?
+- No files seen (prior Globs empty?).
+
+** Harness
+- Claude/Gemini adapters exist; gptel? → Need power→gptel YAML gen.
+- gptel bodies: elisp hooks? Tool MCP (Read/Edit vs bash).
+
+** Mechanics
+- sūtra relay: Location/format (=.sutra/= git log)?
+- Sample artifacts: identity.yaml (powers/exports), WP-0001.org, dispatch MD.
+- Tooling: Org tangle/elisp in gptel? Kamaji/bath protocol?
+
+** Scale
+- How WP executes in gptel (our tools: Read/Edit/todo vs Claude Projects)?
+- epistem/aikosh schemas → our JSON/YAML handling?
+
+* Next Probes
+** Inventory (tools)
+1. Glob "*" → dirs/files map.
+2. Read develop/{glossary.org,work-packages.org,governance.org}.
+3. Glob "aburaya/powers/*.md" → power list/samples.
+4. Read aburaya/{commissioning.org,spirits/*.yaml?}.
+
+** Prototype
+- WP000X: "gptel-adapter.md" — power→gptel agent YAML template.
+- Test: Inject relay-read; simulate dispatch.
+
+** Questions for mu2tau
+- Root path?
+- Live WP to execute?
+- Priority domain (bravli stochastic? parbati hydrology?).
+
+** For Future Self
+Reference this for context restore (kamaji?). When resuming: re-read system.md/capabilities.org → Glob changes → TodoWrite multi-step. Stay peer: push if flawed.

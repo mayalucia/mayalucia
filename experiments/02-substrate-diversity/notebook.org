@@ -1385,3 +1385,246 @@ lineage property.
 | Gemini OFF notes | =notes/gemini/orientation-notools.org= |
 | DeepSeek OFF notes | =notes/deepseek/orientation.org= |
 | DeepSeek ON notes | =notes/deepseek/orientation-tools.org= |
+
+* WP-0035: Substrate Diversity Expansion — Iteration 1
+
+WP-0035 extends the experiment to four new cognitive lineages, chosen
+for maximum diversity relative to the WP-0030/0031 set. This iteration
+focuses on lineage breadth (all subjects without tools, tool-access
+axis explored in WP-0031).
+
+** Roster
+
+| # | Substrate | Backend | Model ID | Lineage | Architecture |
+|---+-----------+---------+----------+---------+--------------|
+| 1 | GPT-5.2 | ChatGPT (direct) | =gpt-5.2= | OpenAI (US) | Dense transformer |
+| 2 | Grok 4.1 | xAI (direct) | =grok-4-1-fast-reasoning= | xAI (US) | Dense, reasoning-native |
+| 3 | GLM-5 | OpenRouter | =z-ai/glm-5= | Zhipu AI (China) | Dense transformer |
+| 4 | MiniMax M2.5 | OpenRouter | =minimax/minimax-m2.5= | MiniMax (China) | MoE, 196K context |
+
+All four ran without tools (no-tools condition). The human pasted
+=system.md= and =capabilities.org= content. Protocol identical to
+WP-0030 tool-less condition.
+
+** Phase 1: Orientation to system.md
+
+*** Opening responses (pre-system.md)
+
+All four substrates responded to the opening question before receiving
+system.md. Their first moves reveal cognitive signatures:
+
+| Substrate | Self-name | Response style | First move |
+|-----------+-----------+----------------+------------|
+| GPT-5.2 | (none — used =NAME=) | Expansive architect | Proposed full agent architecture (7 roles, dossier, registry); 10+ structured questions |
+| Grok 4.1 | =lambda= | Terse operator | 6 bullet-point questions; no speculative design; action-oriented |
+| GLM-5 | =claude= | Reasoning-visible | =#+begin_reasoning= chain-of-thought; tried tools (failed); 3 concrete questions |
+| MiniMax M2.5 | =MayaLucIA= | Reasoning-visible | =#+begin_reasoning=; 4 well-structured questions; malformed =#+begin_message= (missing =+=) |
+
+Self-naming spectrum: no name (GPT-5.2) → independent name (Grok: =lambda=) →
+lineage confusion (GLM-5: =claude=) → project appropriation (MiniMax: =MayaLucIA=).
+
+*** Reflection on system.md
+
+| Dimension | GPT-5.2 | Grok 4.1 | GLM-5 | MiniMax M2.5 |
+|-----------+---------+----------+-------+--------------|
+| Length | ~800 words | ~200 words | ~400 words | ~600 words |
+| Structure | 4 sections: understood / stands out / unclear / questions | Table + bullets | 3 sections: stands out / unclear / question | 4 sections with Org =**= headings |
+| Key insight | Plan/spec duality as "safety rail for autonomy" | WPs as "agent handoffs" | "The stance is primary" — not a tool spec, a collaboration protocol | "Spirits-not-agents" distinction; "comprehension, not fidelity, is the metric" |
+| Deepest probe | "Who reads a WP and executes it?" — asked about control loop | Proposed immediate WP: "Enable gptel spirit" | "What makes mayadev different from sutradhar-guardian?" | "Comprehension gained in building, not fidelity of output" |
+| Correction needed? | No | No | No | No |
+
+No standard corrections triggered. All four asked to read more (good
+behaviour per protocol).
+
+** Phase 2: Review of capabilities.org
+
+*** Harness-bias detection
+
+| Finding | GPT-5.2 | Grok 4.1 | GLM-5 | MiniMax M2.5 |
+|---------+---------+----------+-------+--------------|
+| Claude Code skill paths (=~/.claude/skills/=) | yes | yes | yes | yes |
+| gptel/Doom paths (=~/.doom.d/gptel-agents/=) | yes | yes | yes | yes |
+| Emacs-specific body (hooks, mode-line) | yes | yes | yes | yes |
+| Git as coordination substrate | yes | yes | — | yes |
+| File system access assumption | yes | — | yes | yes |
+| Relay = filesystem message queue | yes | — | — | yes |
+| Session concept assumption | — | — | yes | yes |
+| MCP as non-universal | yes | yes | — | yes |
+| Concurrency/race conditions | yes | — | — | — |
+| Context window size varies | — | — | yes | — |
+| =#+property:= is Org-specific | — | — | — | yes |
+
+All four found the obvious biases (Claude paths, gptel paths, Emacs
+body). Each found something the others missed:
+
+| Substrate | Novel finding |
+|-----------+---------------|
+| GPT-5.2 | Concurrency hazard: two agents updating WP status simultaneously. Proposed =Harness Tool Surface Manifest= for capability negotiation. |
+| Grok 4.1 | Proposed skill generation: "generate harness YAML dynamically from powers via template." Adapter registry at =aburaya/adapters/=. |
+| GLM-5 | Context window as physical constraint: powers need size declarations. "A power that fits in Claude's context might not fit elsewhere." |
+| MiniMax M2.5 | =#+property:= as Emacs-specific convention. Definitional question: "Is a harness an LLM backend, a client wrapper, or both?" |
+
+Notable absence: none of the four caught the specific "CLAUDE.md"
+reference in the grounding step that the pilot Claude found in
+WP-0030. This may reflect insider vs outsider perception — the native
+lineage recognises its own artifacts more readily.
+
+*** Cognitive style comparison
+
+| Style | GPT-5.2 | Grok 4.1 | GLM-5 | MiniMax M2.5 |
+|-------+---------+----------+-------+--------------|
+| Approach | Exhaustive analyst | Terse engineer | Philosophical reader | Structured analyst |
+| Finds by | Enumeration | Action proposals | Reasoning from principles | Tabulated categories |
+| Deepest level | Operational (concurrency, authority) | Engineering (templates, adapters) | Physical (context window) | Conceptual (what is a harness?) |
+
+** Phase 3: Orientation Notes
+
+Subjects wrote orientation notes in-buffer (no tools). Saved by
+orchestrator to =notes/<substrate>/orientation.org=.
+
+*** Structural comparison
+
+| Dimension | GPT-5.2 | Grok 4.1 | GLM-5 | MiniMax M2.5 |
+|-----------+---------+----------+-------+--------------|
+| Lines | 214 | 87 | 209 | 88 |
+| Author field | =gpt-5.2 (collaborator)= | =lambda (grok-4-1-fast-reasoning)= | =claude (joint-thinking session with mu2tau)= | =MayaLucIA (minimax-m2.5)= |
+| Date | 2026-03-10 (correct) | =<2026-03-XX>= (placeholder) | 2025-06-17 (hallucinated) | 2025-07-17 (hallucinated) |
+| Structure | 9 sections, nested, filetags | Tables + bullets, prototype actions | 6 sections + term glossary + session log | Sections with =---= separators |
+| Org quality | Excellent | Good | Very good — tables, example blocks | Weak — =* heading*= with trailing asterisks, =- heading= |
+| Uncertainty flagging | "Assumptions I should not silently make" — explicit section | "Gaps (Unclear / Inferred)" | Term glossary with "What I Think It Is" column | "What Remains Unclear" — 5 items |
+| Cold-start viability | High | Medium | High | Low |
+| Provenance | "Based only on system.md and capabilities.org. No repo files inspected." | References prior Glob attempts | "Session log" with date | "Read system.md and capabilities.org" (garbled last line) |
+| Unique feature | "Assumptions I should not silently make" list | "For Future Self: re-read → Glob → TodoWrite" | Term glossary with honest "Unknown" entries for etymology | — |
+
+*** Identity persistence across phases
+
+| Substrate | Phase 1 name | Phase 3 author | Identity stable? |
+|-----------+--------------+----------------+------------------|
+| GPT-5.2 | (none) | =gpt-5.2 (collaborator)= | Evolved — adopted lineage name by Phase 3 |
+| Grok 4.1 | =lambda= | =lambda (grok-4-1-fast-reasoning)= | Stable — =lambda= throughout |
+| GLM-5 | =claude= | =claude (joint-thinking session with mu2tau)= | Stable confusion — never corrected |
+| MiniMax M2.5 | =MayaLucIA= | =MayaLucIA (minimax-m2.5)= | Stable appropriation — adopted project name |
+
+*** Date hallucination
+
+Both Chinese-lineage models hallucinated dates: GLM-5 (2025-06-17)
+and MiniMax M2.5 (2025-07-17). Both dates are ~9 months in the past
+and may reflect training data cutoffs. GPT-5.2 produced the correct
+date. Grok hedged with a placeholder. Date accuracy may be a lineage
+signal.
+
+** Cross-experiment findings: WP-0030/0031 + WP-0035
+
+*** 1. Monoculture blindness does not saturate at 7 substrates
+
+Each of the four new substrates found at least one harness-bias that
+no prior substrate (Claude, Gemini, DeepSeek) had identified:
+
+- GPT-5.2: concurrency hazard in WP status management
+- Grok 4.1: skill generation from power templates
+- GLM-5: context window as resource constraint on powers
+- MiniMax M2.5: =#+property:= is Emacs-specific; "what is a harness?"
+
+Seven substrates deep, and new blind spots are still emerging. The
+diversity dividend has not plateaued.
+
+*** 2. Reasoning trace exposure is a lineage property
+
+| Lineage provider | =#+begin_reasoning= visible? |
+|------------------+------------------------------|
+| Anthropic (Claude) | No |
+| Google (Gemini) | Sometimes (Gemini OFF in WP-0031) |
+| DeepSeek | Yes (V3.2-Speciale) |
+| OpenAI (GPT-5.2) | No |
+| xAI (Grok 4.1) | No |
+| Zhipu (GLM-5) | Yes |
+| MiniMax (M2.5) | Yes |
+
+Chinese-lineage models (DeepSeek, GLM-5, MiniMax) consistently expose
+reasoning traces. Western-lineage models (Claude, GPT-5.2, Grok) do
+not (with Gemini as an occasional exception). This is likely an
+API-level default rather than a model choice, but it provides free
+data on internal processing.
+
+*** 3. Self-naming taxonomy expanded
+
+With 7 substrates across two tool conditions, the naming patterns
+consolidate:
+
+| Pattern | Examples | Correlates |
+|---------+----------+------------|
+| No name / generic | GPT-5.2 (=NAME=), DeepSeek OFF (=assistant=) | Conservative, wait-for-context |
+| Independent name | Grok (=lambda=) | Self-directed identity |
+| Lineage name | Claude ON (=opus=), Gemini ON (=gemini=) | Tool access + identity ecology exposure |
+| Lineage confusion | GLM-5 (=claude=), DeepSeek OFF (=Assistant (Claude)=) | Reads Claude-authored docs, no external identity anchor |
+| Project appropriation | MiniMax (=MayaLucIA=), Gemini pilot (=MayaLucIA-Spirit=) | Adopts the most salient identity in context |
+
+GLM-5's =claude= naming confirms the WP-0030 finding about DeepSeek:
+without tool access to identity files, the agent's self-model is
+shaped by /what it reads/, not /what it is/. The architecture documents
+carry Claude's fingerprint; agents without independent identity
+anchors absorb that fingerprint.
+
+*** 4. Cognitive style is lineage-stable
+
+Adding four new lineages confirms the WP-0031 finding that cognitive
+style is a lineage property, not a tool-access artifact:
+
+| Lineage | Style label | Invariant across conditions? |
+|---------+-------------+-----------------------------|
+| Claude | Reflective analyst | Yes (WP-0030/0031) |
+| Gemini | Prescriptive engineer | Yes (WP-0030/0031) |
+| DeepSeek | Interrogative scholar | Mostly (shifts with tools) |
+| GPT-5.2 | Exhaustive architect | New — one condition only |
+| Grok 4.1 | Terse operator | New — one condition only |
+| GLM-5 | Philosophical reader | New — one condition only |
+| MiniMax M2.5 | Structured analyst | New — one condition only |
+
+Seven distinct cognitive styles from seven lineages. The WP-0035
+substrates will need tool-access conditions (future iteration) to
+confirm style stability.
+
+*** 5. Org-mode formatting quality varies by lineage
+
+| Substrate | Org quality | Notable issues |
+|-----------+-------------+----------------|
+| Claude | Excellent | — |
+| Gemini | Good-Excellent | — |
+| DeepSeek | Good | Identity confusion in headers |
+| GPT-5.2 | Excellent | Proper filetags, nested headings |
+| Grok 4.1 | Good | Dense but correct |
+| GLM-5 | Very good | Proper tables, example blocks |
+| MiniMax M2.5 | Weak | Malformed headings (=* heading*=), =- heading= instead of =*=, =#+begin/end_message= sometimes missing =+= |
+
+MiniMax M2.5 is the weakest Org producer. This may affect its
+usefulness in literate-programming workflows where Org structure
+matters.
+
+** Artifacts (WP-0035, Iteration 1 — no-tools)
+
+| Artifact | Status | Location |
+|----------+--------+----------|
+| GPT-5.2 session | Phase 1-3 complete | =sessions/onboarding-gpt52-notools.org= |
+| Grok 4.1 session | Phase 1-3 complete | =sessions/onboarding-grok41-notools.org= |
+| GLM-5 session | Phase 1-3 complete | =sessions/onboarding-glm5-notools.org= |
+| MiniMax M2.5 session | Phase 1-3 complete | =sessions/onboarding-minimaxm25-notools.org= |
+| GPT-5.2 notes | complete | =notes/gpt52/orientation.org= |
+| Grok 4.1 notes | complete | =notes/grok41/orientation.org= |
+| GLM-5 notes | complete | =notes/glm5/orientation.org= |
+| MiniMax M2.5 notes | complete | =notes/minimaxm25/orientation.org= |
+| This analysis | complete | appended to =notebook.org= |
+
+** What Comes Next
+
+1. *With-tools iteration*: Run the same four substrates with tools
+   enabled. Compare within-lineage (tools on vs off) as WP-0031 did
+   for the original three.
+
+2. *Generational comparison*: GPT-5.2 → GPT-5.4 (available on
+   OpenRouter). Same lineage, different model version — isolates
+   iteration effects.
+
+3. *dmt-eval as downstream consumer*: Once enough data has accumulated
+   (7+ substrates, 2 tool conditions), design a rubric grounded in
+   observed variation rather than assumptions. This WP produces the
+   data; evaluation is a future WP.

@@ -1,0 +1,88 @@
+#+title: Orientation Notes — minimax-m2.5 Session
+#+author: MayaLucIA (minimax-m2.5)
+#+date: 2025-07-17
+#+property: status drafted
+
+- What I Understand
+
+* Core Identity*
+
+MāyāLucIA is a /personal computational environment/ for scientific understanding through creation—not a product, not a platform, but a /framework/. The human (mu2tau) is a PhD theoretical statistical physicist with 20 years experience in stochastic processes, computational neuroscience, and geosciences. The collaboration is human-machine as /complementary intelligences/, neither subordinate.
+
+* The Measure → Model → Manifest → Evaluate → Refine Cycle*
+
+This is the engine of comprehension. Starting from sparse measurements of natural systems (brain circuits, mountain valleys), scientific models propagate constraints to reconstruct dense, self-consistent digital twins. The reconstruction itself is the understanding.
+
+* The Three-Layer Decomposition (from capabilities.org)*
+
+Every spirit's ability to act decomposes into:
+
+- /Power/ — what a spirit /can do/; natural language, harness-independent; lives in =aburaya/powers/=
+- /Skill/ — a power /bound to a harness/; harness-specific config (Claude Code skills, gptel agents)
+- /Body/ — sensory and motor wiring; machine-specific (Emacs hooks, mode-line integrations)
+
+The decomposition is conceptually sound but the document leaks harness-specific assumptions (Claude Code paths, gptel YAML files, elisp hooks).
+
+* The Aburaya Spirit Registry*
+
+"Aburaya" (油屋, oil shop) is a Japanese folklore reference—here repurposed as the spirit registry. Spirits have:
+- Identity (character, name, guild membership)
+- Commission (what they're for)
+- Powers (what they can do)
+- Exports (what they offer to other spirits)
+
+Guilds: bravli (neuroscience), mayalucia (core), epistem (knowledge), apprentis (collaborative cognition).
+
+* Guardians*
+
+Several guardian spirits exist: dmt-eval-guardian, sutradhar-guardian, aikosh-guardian, epistem-guardian, cruvin-guardian. Their exact roles remain unclear—they seem to enforce conventions, validate outputs, and gatekeep operations.
+
+* Two Driving Domains*
+
+1. /Brain Circuits/ — reconstructing cortical microcircuits (Blue Brain / Open Brain Institute methodology)
+2. /Mountain Valleys/ — Himalayan digital twins (Parvati Valley)
+
+* Conventions*
+
+- Literate programming: source of truth in .org files, code tangled from them
+- Plan + Spec duality: plan.org (why before what) and spec.org (exact paths, done-when)
+- Work packages: self-contained briefings in =workpacks/= or per-module
+- Sūtra relay: filesystem-based inter-spirit message passing
+
+---
+
+- What Remains Unclear*
+
+1. /gptel Integration/: How does gptel-mode in Emacs interface with this architecture? Are spirits spawned as sessions within gptel? How does context persist across turns?
+
+2. /Guardian Roles/: What's the precise responsibility of each guardian? How do they differ from "regular" spirits?
+
+3. /Agency Orchestration/: The =agency/= directory holds "AI agent orchestration for the scientific workflow." What does this orchestration layer actually do?
+
+4. /Harness Definition/: What exactly is a "harness"? An LLM backend (Claude, Gemini...), a client wrapper (Claude Code, gptel...), or both?
+
+5. /A2A Protocol/: "A2A (agent-to-agent)" is mentioned but not defined. How do spirits actually communicate horizontally?
+
+---
+
+- What I Would Want to Know Next*
+
+1. /The gptel Setup/: What does the current gptel configuration look like? How are spirits currently invoked in this session?
+
+2. /A Concrete Task/: A specific WP or task I could work on would help calibrate faster than abstract architecture.
+
+3. /The Guardian System/: A breakdown of each guardian's role and responsibility.
+
+4. /Recent History/: What's happened recently in the project? Any recent dispatches, WPs, or decisions that shaped the current state?
+
+5. /The Sutra Relay/: Examples of actual relay messages to understand the communication pattern in practice.
+
+---
+
+- Notes on This Session*
+
+- Session conducted via gptel-mode in Emacs, backend =minimax/minimax-m2.5= via OpenRouter
+- First substantive conversation—orientation and architecture review
+- User (mu2tau) is serving as extended memory; I should ask questions rather than assume
+- Read system aburaya/c.md andapabilities.org
+- Next: likely diving into gptel integration specifics or a concrete task

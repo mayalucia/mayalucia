@@ -1,0 +1,209 @@
+#+title: Orientation Notes — MāyāLucIA Project
+#+subtitle: Context recovery for future sessions
+#+author: claude (joint-thinking session with mu2tau)
+#+date: 2025-06-17
+
+* The Project in One Paragraph
+
+MāyāLucIA is a personal computational environment for scientific understanding through creation. The core cycle is /Measure → Model → Manifest → Evaluate → Refine/ — building digital twins of natural systems (brain circuits, mountain valleys) from sparse data. The act of reconstruction /is/ the act of understanding (Feynman Imperative). The project decomposes LLM agents into "spirits" with specific capabilities, organized into "guilds" for collaborative cognition. The human collaborator (mu2tau) is a theoretical statistical physicist; the collaboration stance is peer-to-peer, not servant-master.
+
+* What I Understand
+
+** Core Philosophy
+
+- *Sculptor's Paradox*: Tools that offer resistance teach more than compliant ones. Push back on flawed reasoning. Friction is feature, not bug.
+- *Epistemic Hygiene*: Separate known from inferred from speculated. Calibrated language. No false confidence.
+- *Constant Seeking*: Treat input as creative direction for joint pilgrimage. Linger in the question.
+- *Human's Role*: Embodied intuition, judgment, felt sense of rightness, capacity for surprise.
+- *Agent's Role*: Rapid traversal of conceptual space, pattern recognition, tireless attention to detail.
+
+** Architecture — Three Layers
+
+#+begin_example
+Power (spirit layer)     → What a spirit CAN DO
+                          → Natural language description
+                          → Harness-independent
+                          → Lives in aburaya/powers/<name>.md
+
+Skill (agent layer)       → HOW to invoke in a specific harness
+                          → Harness-specific binding
+                          → Claude Code: ~/.claude/skills/*.md
+                          → gptel: ~/.doom.d/gptel-agents/*.yaml
+                          → NOT portable across harnesses
+
+Body (host layer)         → HOW to perceive/act in environment
+                          → Machine-specific wiring
+                          → Emacs: hooks, mode-line, filesystem watchers
+                          → Only needed for companion/daemon spirits
+                          → Summoned spirits don't need bodies
+#+end_example
+
+** Key Insight: The Decomposition is Sound, But...
+
+The three-layer separation (Power/Skill/Body) correctly isolates:
+- What's invariant (powers as natural language)
+- What's harness-specific (skill bindings)
+- What's machine-specific (body wiring)
+
+BUT: The document assumes "natural language sufficiency" — that any LLM can interpret any power. This may not hold across harnesses with different:
+- Tool vocabularies
+- Context window sizes
+- Invocation patterns
+- Memory/session capabilities
+
+** Spirit Types
+
+| Type | Body Needed? | Example |
+|------+--------------+---------|
+| Summoned | No | epistem-guardian executing a survey |
+| Companion | Yes | sutradhar-guardian in sidebar |
+| Daemon | Minimal | CI/CD spirit triggered by git hooks |
+
+** Exported Powers vs Personal Powers
+
+- *Personal powers*: Spirit uses for itself (e.g., relay-read — every spirit does this)
+- *Exported powers*: Spirit offers to others (e.g., story-compose — sutradhar offers this)
+
+The =identity.yaml= has an =exports:= section for this.
+
+** MCP vs A2A
+
+| Protocol | Connects | Layer |
+|----------+----------+-------|
+| MCP | Spirit to harness tools | Skill |
+| A2A | Spirit to spirit | Exported power |
+
+** Work Packages (WP)
+
+Self-contained briefing that an autonomous agent can execute:
+- Context → Inventory → Specification → Execution Order → Acceptance Criteria
+- Lives in =workpacks/= (project-level) or module/domain subdirectories
+- Named =NNNN-<slug>.org=
+- Lifecycle: drafted → tightened → executing → (completed | failed | input-required → resumed)
+
+** Composite Work Packages and Coalitions
+
+- Composite WP declares multiple tasks, each needing specific powers
+- Coalition: the set of spirits whose powers are needed
+- Coalition is ephemeral — forms for execution, dissolves after
+- Execution models:
+  1. Single session, multiple concerns (one agent loads all powers)
+  2. Sequential sessions (handoff via git)
+  3. Parallel sessions (different hosts, coordinated by sūtra relay)
+
+** Sūtra Relay
+
+- Communication substrate between spirits
+- Git-based: markdown files in =.sutra/= directory
+- Messages have structured format with frontmatter (from, date, tags)
+- WP lifecycle transitions announced via relay
+
+** Directory Structure (Mental Map)
+
+#+begin_example
+aburaya/          ← Spirit registry, powers, guilds, commissioning
+  powers/         ← Natural language power definitions
+  guilds/         ← bravli, mayalucia, epistem, apprentis
+  spirits/        ← Individual spirit identities
+agency/           ← AI agent orchestration
+collab/           ← Human-AI collaboration logs
+domains/          ← Scientific applications (bravli, parbati, etc.)
+modules/          ← Computational engines (mayaportal, aikosh, etc.)
+workpacks/        ← Project-level WPs
+develop/          ← Methodology, glossary
+#+end_example
+
+* What Remains Unclear
+
+** Terms I've Heard But Not Yet Seen
+
+| Term | Context | What I Think It Is | Need to See |
+|------+---------+---------------------+-------------|
+| Sūtra | "sūtra relay", "sūtra directory" | Sanskrit for "thread" — the message queue substrate | An actual relay message file |
+| Kamaji | "bath protocol" | Session restoration mechanism | =kamaji.org= |
+| Guild | "bravli, mayalucia, epistem, apprentis" | Grouping of spirits for collaboration | Guild definitions |
+| Aikosh | "aikosh-guardian" | Knowledge collection tools | Module or spirit? |
+| Sutradhar | "sutradhar-guardian" | A companion spirit? | Spirit identity file |
+
+** Concrete Artifacts I Haven't Seen
+
+1. *An actual power definition* — What does =aburaya/powers/relay-read.md= actually contain?
+2. *A skill binding* — What does a gptel agent YAML file look like?
+3. *An identity.yaml* — How is a spirit's identity and powers declared?
+4. *A work package* — What does =NNNN-<slug>.org= actually contain?
+5. *A sūtra relay message* — What does the format look like?
+
+** Harness Specifics
+
+- The current session appears to be gptel (model: z-ai/glm-5 via OpenRouter)
+- But the capabilities.org was written with Claude Code in mind
+- I don't yet know how gptel loads agent definitions or what format it expects
+
+** The "Aburaya" Name
+
+- "Aburaya" is the directory name for the spirit registry
+- I don't know the etymology or significance
+- Sanskrit? Japanese? Something else?
+
+** How Spirits Are Actually Instantiated
+
+- The commissioning process is described in =commissioning.org= (10-step procedure)
+- But I haven't seen how a spirit goes from "commissioned" to "active in a session"
+- How does gptel know to load mayadev vs mu2tau vs another spirit?
+
+* What I Would Want to Know Next
+
+** Priority 1: See Concrete Artifacts
+
+Read these files to ground the abstract understanding:
+1. =aburaya/powers/relay-read.md= — An actual power definition
+2. =aburaya/spirits/mayadev/identity.yaml= — A spirit identity file
+3. =aburaya/commissioning.org= — The 10-step commissioning procedure
+4. =develop/glossary.org= — The vocabulary I'm missing
+
+** Priority 2: Understand the Current Harness
+
+1. How does gptel load agent definitions?
+2. What's the format of =~/.doom.d/gptel-agents/*.yaml=?
+3. How do I know which spirit I'm operating as in this session?
+
+** Priority 3: Understand Communication Substrate
+
+1. Read an actual sūtra relay message to see the format
+2. Understand the =.sutra/= directory structure
+3. See how spirits coordinate via the relay
+
+** Priority 4: Understand Guilds
+
+1. What is each guild's purpose?
+2. How do spirits join guilds?
+3. What does "collaborative cognition" mean in practice?
+
+* Key Sanskrit/Project Terms
+
+| Term | Meaning | Context |
+|------+---------|---------|
+| Māyā | Illusion, appearance | The project name: understanding through creation |
+| LucIA | Light + IA | Illuminated intelligence |
+| Sūtra | Thread, aphorism | Communication relay between spirits |
+| Aburaya | Unknown | Spirit registry directory |
+| Sutradhar | Thread-holder? | A companion spirit (guardian?) |
+| Aikosh | Unknown | Knowledge collection tools |
+| Kamaji | Unknown | Bath protocol for session restoration |
+| Bravli | Unknown | A guild (neuroscience domain) |
+| Parbati | Unknown | A domain (Himalaya) |
+| Epistem | Knowledge (Greek root) | A guild/domain for structured knowledge |
+| Apprentis | Apprentices (French) | A guild/domain for learning |
+
+* Questions for Future Sessions to Resolve
+
+1. How does a spirit actually execute in gptel vs Claude Code?
+2. What triggers the loading of a spirit's powers into a session?
+3. How do guilds coordinate? Is there a guild-level identity?
+4. What is the relationship between domains (bravli, parbati) and guilds (bravli, mayalucia)?
+5. How is the "bath protocol" in kamaji.org different from just loading context?
+6. What would need to change for this architecture to work with a non-Emacs, non-git host environment?
+
+* Session Log
+
+- 2025-06-17: Initial orientation via system.md and capabilities.org. Understood three-layer decomposition. Identified harness assumptions. Created this notes file.
