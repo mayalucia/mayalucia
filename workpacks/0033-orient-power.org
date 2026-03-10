@@ -1,0 +1,36 @@
+#+title: WP-0033 — orient-to-mayalucia Power
+#+subtitle: Extract the orientation procedure as a portable power
+#+author: mu2tau + mayadev
+#+date: 2026-03-10
+#+property: status drafted
+#+property: executor mayadev
+#+property: guild apprentis
+
+* Context
+
+Both the WP-0030 experiment and the Claude subject's orientation notes
+propose formalising the cold-start procedure as a power. The three
+orientation notes contain embryonic versions — each describes what a
+cold-starting spirit should do, in different voices.
+
+* Specification
+
+Write =aburaya/powers/orient-to-mayalucia.md= — a power that
+describes the procedure a spirit follows to orient itself to the
+project architecture. The power should:
+
+1. Be harness-neutral (no Claude Code or gptel assumptions)
+2. Draw from the best elements of all three orientation notes
+3. Include the read-order (system.md first, then capabilities.org)
+4. Describe what to assess (tool list, relay state, active WPs)
+5. Describe what to produce (orientation notes for future self)
+
+* Acceptance Criteria
+
+- [ ] Power file written at =aburaya/powers/orient-to-mayalucia.md=
+- [ ] Cold-start tested with a fresh session using the power
+- [ ] Announced in sūtra relay
+
+* Dependencies
+
+Depends on WP-0032 (cold-start validation data informs what works).

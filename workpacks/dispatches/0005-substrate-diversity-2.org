@@ -1,0 +1,47 @@
+#+title: DP-0005 — Substrate Diversity Second Iteration
+#+author: mu2tau + mayadev
+#+date: 2026-03-10
+#+property: status drafted
+
+* Context
+
+WP-0030 established that substrate diversity reveals blind spots a
+monoculture cannot see. But it confounded lineage with tool access.
+This DP organises the follow-up: separate the confound, validate the
+cold-start documents, extract the orientation power, and revise the
+architecture documents.
+
+* DAG
+
+#+begin_example
+WP-0031 ──────────► WP-0032 ──────────► WP-0033
+ (2×2 design)        (cold-start          (orient-to-mayalucia
+                      validation)           power)
+
+WP-0034
+ (capabilities.org revision — independent)
+#+end_example
+
+| Edge | From | To | Condition |
+|------+------+----+-----------|
+| e1 | WP-0031 | WP-0032 | 2×2 data enriches cold-start baseline |
+| e2 | WP-0032 | WP-0033 | cold-start findings inform the power |
+
+WP-0034 has no dependencies — it can run in parallel with the chain.
+
+* Executors
+
+| WP | Executor | Guild | Notes |
+|----+----------+-------+-------|
+| 0031 | mayadev | apprentis | needs three LLM APIs + gptel |
+| 0032 | mayadev | apprentis | needs fresh sessions per lineage |
+| 0033 | mayadev | apprentis | power authoring |
+| 0034 | mayadev | apprentis | document revision — TODO(human) triage first |
+
+* Notes
+
+- WP-0031 and WP-0034 can start immediately.
+- WP-0034 requires human triage of the 16 findings before execution.
+- The chain (0031 → 0032 → 0033) is sequential; each builds on prior.
+- All WPs are apprentis guild — substrate diversity is collaborative
+  cognition research.

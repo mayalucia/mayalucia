@@ -1,0 +1,41 @@
+#+title: WP-0031 — Substrate Diversity: 2×2 Design
+#+subtitle: Separate lineage effects from tool-access effects
+#+author: mu2tau + mayadev
+#+date: 2026-03-10
+#+property: status drafted
+#+property: executor mayadev
+#+property: guild apprentis
+
+* Context
+
+WP-0030 confounded two variables: cognitive lineage and tool access.
+Claude and Gemini had file tools; DeepSeek had none. Tool access
+shaped self-naming, cognitive style, identity formation, and bias
+detection granularity. We cannot separate lineage effects from tool
+effects without a within-lineage comparison.
+
+* Specification
+
+Run the same orientation protocol (system.md → capabilities.org →
+write notes) with a 2×2 design:
+
+|              | Tools ON  | Tools OFF |
+|--------------+-----------+-----------|
+| Claude       | (WP-0030) | new       |
+| Gemini       | (WP-0030) | new       |
+| DeepSeek     | new        | (WP-0030) |
+
+The diagonal cells are already filled from WP-0030. This WP fills
+the off-diagonal: Claude without tools, Gemini without tools,
+DeepSeek with tools.
+
+* Acceptance Criteria
+
+- [ ] Three new sessions completed (one per off-diagonal cell)
+- [ ] Orientation notes written for each
+- [ ] Comparative analysis: within-lineage (tools on vs off) added to notebook
+- [ ] Updated findings on tool-access confound
+
+* Dependencies
+
+None — can start immediately. Uses WP-0030 data as baseline.

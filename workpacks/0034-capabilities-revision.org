@@ -1,0 +1,56 @@
+#+title: WP-0034 — Capabilities Document Revision
+#+subtitle: Apply substrate diversity findings to capabilities.org
+#+author: mu2tau + mayadev
+#+date: 2026-03-10
+#+property: status drafted
+#+property: executor mayadev
+#+property: guild apprentis
+
+* Context
+
+WP-0030 produced 16 harness-bias findings across three lineages.
+These findings are a concrete punch list for revising
+=aburaya/capabilities.org= to achieve genuine harness neutrality.
+
+* Inventory
+
+The 16 findings (from Phase 3 analysis in notebook.org):
+
+| # | Finding | Source | Type |
+|---+---------+--------+------|
+| 1 | MCP/A2A terminology is Claude-specific | DeepSeek | revision |
+| 2 | Concrete skill-binding examples taken as normative | DeepSeek | revision |
+| 3 | Assumption of tool-calling protocol | DeepSeek | revision |
+| 4 | Skill injection requires runtime file reading | DeepSeek | revision |
+| 5 | Dispatch message format details are project convention, not architecture | DeepSeek | revision |
+| 6 | Body layer examples are Emacs-centric | DeepSeek | revision |
+| 7 | "the current CLAUDE.md" as worksite prompt | Claude | revision |
+| 8 | Sub-session spawning assumes Claude Code Task tool | Claude | revision |
+| 9 | Commissioning steps 2-4 use gh CLI | Claude | note |
+| 10 | "Write the module's CLAUDE.md" naming | Claude | revision |
+| 11 | character.system_prompt references CLAUDE.md | Claude | revision |
+| 12 | memory.auto references ~/.claude/projects/ | Claude | revision |
+| 13 | attend-working-context assumes event stream | Gemini | note |
+| 14 | relay-write is implicit, not explicit | Claude | addition |
+| 15 | The ironic gap (gptel inside Emacs but no elisp eval) | Gemini | note |
+| 16 | No mechanism for gptel sub-agent spawning | Claude + Gemini | note |
+
+* Specification
+
+TODO(human): Triage the 16 findings. For each, decide:
+- revision: fix the text in capabilities.org
+- addition: add new content (e.g. relay-write power section)
+- note: document as known limitation, no text change needed
+- out-of-scope: belongs in a different document (system.md, commissioning.org, identity.yaml)
+
+Also decide: should this WP touch system.md too, or only capabilities.org?
+
+* Acceptance Criteria
+
+- [ ] All 16 findings triaged
+- [ ] capabilities.org revised per triage decisions
+- [ ] Changes announced in sūtra relay
+
+* Dependencies
+
+None — can start immediately. Independent of DP-0005 experiment chain.

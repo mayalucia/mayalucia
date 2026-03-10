@@ -1,0 +1,37 @@
+#+title: WP-0032 — Cold-Start Validation
+#+subtitle: Test orientation notes as cold-start documents
+#+author: mu2tau + mayadev
+#+date: 2026-03-10
+#+property: status drafted
+#+property: executor mayadev
+#+property: guild apprentis
+
+* Context
+
+WP-0030 produced orientation notes from three lineages. Each claims
+to be useful for a cold-starting spirit. This WP tests that claim.
+
+* Specification
+
+** Same-lineage cold-start
+
+Give each lineage's orientation notes to a fresh instance of the
+same lineage. Measure: how quickly does the fresh instance orient?
+Does it reach a productive state faster than WP-0030 Phase 1?
+
+** Cross-lineage cold-start
+
+Give Claude's notes to fresh Gemini. Give Gemini's notes to fresh
+DeepSeek. Give DeepSeek's notes to fresh Claude. Measure: does a
+different lineage's map help or hinder orientation?
+
+* Acceptance Criteria
+
+- [ ] Three same-lineage cold-start sessions completed
+- [ ] Three cross-lineage cold-start sessions completed
+- [ ] Comparative analysis of cold-start effectiveness
+- [ ] Recommendation for which notes (or combination) to use
+
+* Dependencies
+
+Depends on WP-0031 (the 2×2 data enriches the baseline for comparison).
