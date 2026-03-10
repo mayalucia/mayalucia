@@ -103,6 +103,23 @@ deploy_comptoir() {
     $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build comptoir"
 }
 
+build_cruvin() {
+    echo "=== Building CruVin (Next.js static export) ==="
+    mkdir -p "$STAGING/cruvin"
+    (cd "$CRUVIN" && npm run build)
+    rsync -a --delete "$CRUVIN/out/" "$STAGING/cruvin/"
+}
+
+deploy_cruvin() {
+    echo "=== Deploying cruvin.mayalucia.dev ==="
+    rsync -avz --delete -e "ssh -i $SSH_KEY" \
+        "$STAGING/cruvin/" \
+        "$VPS_HOST:$VPS_DEPLOY_DIR/cruvin/"
+
+    # Restart Caddy to pick up the new volume mount
+    $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d caddy"
+}
+
 deploy_bench() {
     echo "=== Deploying bench.mayalucia.dev (Streamlit) ==="
 
@@ -125,21 +142,6 @@ deploy_bench() {
         "$VPS_HOST:$VPS_DEPLOY_DIR/bench/"
 
     $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build bench"
-}
-
-build_cruvin() {
-    echo "=== Building CruVin (Next.js static export) ==="
-    (cd "$CRUVIN" && npm run build)
-}
-
-deploy_cruvin() {
-    echo "=== Deploying cruvin.mayalucia.dev ==="
-    rsync -avz --delete -e "ssh -i $SSH_KEY" \
-        "$CRUVIN/out/" \
-        "$VPS_HOST:$VPS_DEPLOY_DIR/cruvin-public/"
-
-    # Ensure Caddy can see it
-    $SSH "$VPS_HOST" "ln -sfn $VPS_DEPLOY_DIR/cruvin-public /srv/cruvin"
 }
 
 verify() {
@@ -190,12 +192,12 @@ case "${1:-all}" in
         ;;
     all)
         build_hugo
+        build_cruvin
         deploy_config
         deploy_hugo
         deploy_web
         deploy_comptoir
         deploy_bench
-        build_cruvin
         deploy_cruvin
         verify
         ;;

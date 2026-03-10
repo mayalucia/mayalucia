@@ -1,6 +1,6 @@
 # Deployment Guide
 
-Centralized deployment for all MayaLucIA infrastructure: vishalsood.dev, mayalucia.dev, devgeni.mayalucia.dev, comptoir.mayalucia.dev, and portal.mayalucia.dev.
+Centralized deployment for all MayaLucIA infrastructure: vishalsood.dev, mayalucia.dev, devgeni.mayalucia.dev, comptoir.mayalucia.dev, cruvin.mayalucia.dev, and portal.mayalucia.dev.
 
 ## Prerequisites
 
@@ -17,6 +17,7 @@ Local machine                          VPS (46.225.191.36)
 vishal-website/    ──rsync──►  /opt/vishalsood-dev/vishalsood-web/
 mayacarya/         ──rsync──►  /opt/vishalsood-dev/comptoir/
 Hugo sites         ──build+rsync──►  /opt/vishalsood-dev/{mayalucia,mayadevgeni}-public/
+commissions/cruvin ──build+rsync──►  /opt/vishalsood-dev/cruvin/
 deployment/        ──rsync──►  /opt/vishalsood-dev/{Caddyfile,docker-compose.yml}
 ```
 
@@ -30,7 +31,7 @@ Docker images are built **on the VPS** after rsyncing source.
 | mayalucia.dev | `~/Darshan/.../mayalucia/modules/mayaportal/web/sites/` | Hugo + PaperMod |
 | devgeni.mayalucia.dev | `~/Darshan/.../mayadevgeni/website/` | Hugo + PaperMod |
 | comptoir.mayalucia.dev | `~/Darshan/.../mayacarya/` | Streamlit + Anthropic API |
-| cruvin.mayalucia.dev | `commissions/cruvin/` | Next.js 16 (static export) |
+| cruvin.mayalucia.dev | `commissions/cruvin/` | Next.js (static export) |
 | portal.mayalucia.dev | Caddyfile (301 redirect) | — |
 
 ## First-Time VPS Setup
@@ -67,6 +68,7 @@ From this directory (`deployment/`):
 ./deploy.sh hugo       # Rebuild and deploy Hugo sites
 ./deploy.sh web        # Deploy FastAPI app
 ./deploy.sh comptoir   # Deploy Streamlit app
+./deploy.sh cruvin     # Build and deploy CruVin
 ./deploy.sh config     # Deploy Caddyfile + docker-compose.yml
 ./deploy.sh verify     # Check all endpoints
 ```
