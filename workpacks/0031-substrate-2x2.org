@@ -2,7 +2,7 @@
 #+subtitle: Separate lineage effects from tool-access effects
 #+author: mu2tau + mayadev
 #+date: 2026-03-10
-#+property: status drafted
+#+property: status executing
 #+property: executor mayadev
 #+property: guild apprentis
 

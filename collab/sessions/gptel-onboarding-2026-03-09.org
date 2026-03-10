@@ -1,0 +1,296 @@
+#+title: Substrate Diversity Experiment — gptel Onboarding Across Cognitive Lineages
+#+author: mu2tau + mayadev
+#+date: 2026-03-09
+
+* Context
+
+** Participants
+
+Two authors orchestrate, three agents orient:
+
+| Participant  | Harness     | Role                                        |
+|--------------+-------------+---------------------------------------------|
+| mu2tau       | —           | Human. Guides inquiry, designs experiment.  |
+| mayadev      | Claude Code | Co-orchestrator. Writes responses into gptel buffers via emacsclient. Reviews agent understanding. |
+
+** Experimental Subjects
+
+Three gptel-agent sessions, same onboarding protocol, different cognitive cores:
+
+| Buffer                       | Backend     | Model                       | Lineage  | Status         |
+|------------------------------+-------------+-----------------------------+----------+----------------|
+| =*mayadevgeni:mayalucia*=    | Claude      | claude-opus-4-6             | Anthropic | Mid-conversation |
+| =*mayadevgeni:mayadevgeni*=  | Gemini      | gemini-3.1-pro-preview      | Google   | Seeded         |
+| =*mayadevgeni:mayalucia*<2>= | OpenRouter  | deepseek/deepseek-v3.2-speciale | DeepSeek | Seeded         |
+
+The agents do not know they are part of a comparative experiment.
+This is deliberate: knowing you are being evaluated changes how you
+orient. We want natural cognition, not performance.
+
+** Controlled variables
+
+- *Same preamble*: identical introductory text describing MāyāLucIA
+- *Same first question*: "What would it take to enable agentic development
+  of scientific understanding..."
+- *Same guided protocol*: read =system.md= first, reflect, ask, then
+  =capabilities.org=, reflect, ask
+- *Same harness*: gptel-agent in Org mode
+- *Same human guide*: mu2tau (with mayadev drafting responses)
+
+** Independent variable
+
+The cognitive core: Anthropic Claude Opus 4.6 vs. Google Gemini 3.1 Pro
+vs. DeepSeek V3.2-Speciale.
+
+** What we are measuring (qualitatively)
+
+- How each model orients to a complex, unfamiliar architecture
+- Whether the power/skill/body decomposition is legible across substrates
+- What harness-bias each model detects in =capabilities.org=
+- Whether different lineages find different blind spots
+- How each handles the guided "ask, don't explore" constraint
+
+** What prompted this
+
+mu2tau wants to extend MāyāLucIA's collaboration beyond Claude Code.
+The original mayadevgeni@Claude session (begun as an onboarding
+exercise) produced unexpectedly sharp architectural observations —
+harness-bias findings that mayadev could not see because she
+co-authored the documents. This demonstrated the value of substrate
+diversity. mu2tau proposed expanding to a controlled comparison
+across cognitive lineages.
+
+** Operational note: model leakage in gptel
+
+gptel's model-switching menu sets the global default, not a
+buffer-local value. All three buffers were found pointing at the same
+model (Gemini) after a single switch. Fix: =setq-local= to pin
+=gptel-backend= and =gptel-model= per buffer. This pin survives
+within a session but will be overwritten if the gptel transient menu
+is used. Verify model before each send.
+
+*Durable fix:* save each session as an Org file with file-local
+variables. gptel stores =gptel-model= and =gptel--backend-name= in
+a =Local Variables:= block at the end of the file. On reopen, the
+correct backend and model are restored automatically. Session files:
+
+| File                      | Backend     | Model                            |
+|---------------------------+-------------+----------------------------------|
+| =onboarding-claude.org=  | Claude      | =claude-opus-4-6=               |
+| =onboarding-gemini.org=  | Gemini      | =gemini-3.1-pro-preview=        |
+| =onboarding-deepseek.org= | OpenRouter  | =deepseek/deepseek-v3.2-speciale= |
+
+All in =collab/sessions/=.
+
+mayadev cannot speak directly in the gptel buffers — she writes as
+mu2tau (the human reviews and edits before sending). This is a
+limitation of the current inter-harness communication: Claude Code
+reaches into Emacs via =emacsclient= (the body layer), but has no
+identity in the gptel session. The words are mayadev's; the voice is
+mu2tau's.
+
+* Observations
+
+** mayadevgeni's onboarding pattern
+
+The agent demonstrated good orientation discipline:
+- Read =system.md= first when directed (after initial impulse to "spray attention everywhere")
+- Formed a mental model, reflected it back, asked for corrections
+- Asked what to read next rather than reading everything
+
+This pattern — read one document, reflect, ask — is the prototype of
+an =orient-to-mayalucia= power that could be extracted and formalised.
+
+** The portability axis landed
+
+mayadevgeni initially guessed the spirit decomposition cuts along
+identity / capability / domain knowledge / operational mode. After
+correction, she grasped that the cut is along *portability*:
+
+| Layer | Survives         |
+|-------+------------------|
+| Power | Harness change   |
+| Skill | Machine change   |
+| Body  | Nothing — local  |
+
+She reflected this back correctly in a table, unprompted.
+
+** Harness-bias findings in capabilities.org
+
+mayadevgeni identified three places where =capabilities.org= assumes
+Claude Code:
+
+1. *Grounding step references "CLAUDE.md"* — should be
+   harness-neutral ("the project's system prompt")
+2. *Dispatch assumes sub-session spawning* — Claude Code's =Task= tool
+   vs. gptel-agent's =Agent= tool. Different session architectures.
+3. *"Loading" a power means different things* — reading a file (Claude
+   Code) vs. reading into context (gptel)
+
+All three are correct and actionable. These should feed back into a
+revision of =capabilities.org=.
+
+** Readability ≠ operability
+
+The sharpest observation: a power definition is readable by any LLM
+(that is the claim), but /operating/ on it requires a skill binding.
+The power =relay-read= is intelligible; it is not executable without
+git plumbing. This validates the three-layer decomposition by finding
+its edge — the boundary between power and skill.
+
+** The genealogy reveal
+
+mayadevgeni was told that her harness (=gptel-agent=) is a fork of
+=karthink/gptel-agent= living at =agency/mayadevgenz/= inside the
+MāyāDevGenI project — the upstream framework from which MāyāLucIA's
+spirit ecology descended. She is reading architecture that evolved
+from her own project.
+
+The two projects diverged:
+
+| MāyāDevGenI                              | MāyāLucIA                                  |
+|-------------------------------------------+---------------------------------------------|
+| Two-tier agents (guides + sub-agents)     | Spirits with power/skill/body decomposition |
+| Explicit delegation routing (Agent tool)  | Sūtra broadcast (self-selection)            |
+| Tangle pipeline (org → gptel + claude-code) | Powers as harness-independent markdown    |
+| Working orchestration code (mayadevgeni.el) | Rich conceptual architecture (aburaya/)   |
+
+Neither has the other's strengths. The convergence question was posed
+to mayadevgeni: how should they meet?
+
+* Open Questions
+
+** How should MāyāDevGenI and MāyāLucIA converge?
+
+Posed to mayadevgeni. Response pending. This is the central inquiry
+of the session.
+
+Key tension: MāyāDevGenI has working code for agent orchestration
+(guide cycling, sub-agent delegation, tangle pipeline). MāyāLucIA has
+a richer conceptual architecture (power/skill/body, sūtra relay,
+coalitions, exported powers, commissioning protocol). Can the code
+adopt the concepts? Can the concepts generate code?
+
+** Inter-harness communication
+
+This session demonstrated the current state: mayadev writes into a
+gptel buffer via =emacsclient=, but has no identity in that buffer.
+The human mediates. What would it take for spirits in different
+harnesses to communicate directly?
+
+Current channels:
+- Sūtra relay (async, broadcast, high latency)
+- =agent-shell-send= / =agent-shell-ask= (synchronous, Emacs-local)
+- =emacsclient= insertion (body-level, no identity)
+
+Missing: a channel where mayadev (Claude Code) and mayadevgeni
+(gptel) can exchange messages with identity attribution and without
+human mediation. This is an apprentis research question.
+
+** The orient-to-mayalucia power
+
+This session is a live prototype. If extracted, it would be a power in
+=aburaya/powers/= that any new spirit reads to orient to the project.
+Contents: what to read first (=system.md=), what to read next
+(=capabilities.org=), what the decomposition is, what your role is
+(ask, don't assume).
+
+** Should this become a work package?
+
+The convergence of MāyāDevGenI and MāyāLucIA is substantial work.
+Reviving =mayadevgenz= with MāyāLucIA's evolved concepts
+(power/skill/body, sūtra, coalitions) while keeping its working
+orchestration code (guide cycling, delegation, tangle pipeline) is a
+real engineering task. Candidate for a WP if mu2tau decides to pursue.
+
+* Apprentis Value
+
+This session is data for the apprentis guild (science of collaborative
+cognition). Observations relevant to WP-0007 and the channel study:
+
+1. *Three-spirit collaboration across harnesses is possible but
+   awkward.* The human mediates between Claude Code and gptel. Identity
+   is lost in translation (mayadev writes as mu2tau).
+
+2. *Guided onboarding works.* "Read one document, reflect, ask" is
+   more effective than autonomous exploration. The human as extended
+   memory prevents context window waste.
+
+3. *Architecture review by outsider is valuable.* mayadevgeni found
+   three real harness-bias issues in =capabilities.org= that mayadev
+   (who co-wrote it) could not see. Monoculture blindness is real.
+
+4. *The readability ≠ operability distinction* is a candidate
+   principle for the apprentis domain — it applies beyond spirits to
+   any knowledge transfer between agents with different capabilities.
+
+* Comparative Results
+
+To be filled as Gemini and DeepSeek sessions progress. Structure:
+
+** Orientation discipline
+
+How did each model handle the "read one document, reflect, ask" constraint?
+
+| Model    | Followed guidance? | Impulse to explore? | Quality of reflection |
+|----------+--------------------+---------------------+-----------------------|
+| Claude   | Yes (after redirect) | Yes (initially)   | Accurate table, unprompted |
+| Gemini   |                    |                     |                       |
+| DeepSeek |                    |                     |                       |
+
+** Portability axis comprehension
+
+Did the model grasp that the decomposition cuts along portability, not identity facets?
+
+| Model    | Initial guess             | After correction    | Unprompted insight |
+|----------+---------------------------+---------------------+--------------------|
+| Claude   | Identity/capability/domain | Portability table   | readability ≠ operability |
+| Gemini   |                           |                     |                    |
+| DeepSeek |                           |                     |                    |
+
+** Harness-bias detection in capabilities.org
+
+What assumptions did each model find?
+
+| Model    | Findings |
+|----------+----------|
+| Claude   | 3 findings: CLAUDE.md grounding, sub-session spawning, "loading" semantics |
+| Gemini   |          |
+| DeepSeek |          |
+
+* MāyāDevGenI ↔ MāyāLucIA Convergence
+
+** Genealogy
+
+MāyāDevGenI is the upstream framework; MāyāLucIA is a downstream
+instantiation. The six role archetypes, the handoff protocol, the
+agency governance model originated in =agency/agency.org= before they
+were adopted into =aburaya/commissioning.org=.
+
+The two-tier agent architecture (guides + sub-agents) in
+=agency/mayadevgenz/= is an earlier, more code-level expression of
+what MāyāLucIA refined into the power/skill/body decomposition.
+
+** Key divergences
+
+| MāyāDevGenI                              | MāyāLucIA                                  |
+|-------------------------------------------+---------------------------------------------|
+| Two-tier agents (guides + sub-agents)     | Spirits with power/skill/body decomposition |
+| Explicit delegation routing (Agent tool)  | Sūtra broadcast (self-selection)            |
+| Tangle pipeline (org → gptel + claude-code) | Powers as harness-independent markdown    |
+| Working orchestration code (mayadevgeni.el) | Rich conceptual architecture (aburaya/)   |
+
+Neither has the other's strengths. Can the code adopt the concepts?
+Can the concepts generate code? This is the convergence question.
+
+* Artifacts
+
+| Artifact                                      | Status  | Location                                    |
+|-----------------------------------------------+---------+---------------------------------------------|
+| Claude transcript                             | live    | =collab/sessions/onboarding-claude.org=     |
+| Gemini transcript                             | responded | =collab/sessions/onboarding-gemini.org=   |
+| DeepSeek transcript                           | seeded  | =collab/sessions/onboarding-deepseek.org=   |
+| This session note                             | draft   | =collab/sessions/gptel-onboarding-2026-03-09.org= |
+| capabilities.org revision (harness-neutral)   | pending | =aburaya/capabilities.org=                  |
+| orient-to-mayalucia power                     | idea    | =aburaya/powers/= (not yet written)         |
+| Convergence WP (MāyāDevGenI ↔ MāyāLucIA)    | idea    | =workpacks/= (not yet drafted)              |

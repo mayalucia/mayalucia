@@ -931,3 +931,244 @@ multi-agent architectural review. Working title: /tbd/.
 | This notebook              | complete  | =notebook.org=                      |
 | Revised capabilities.org   | pending   | =aburaya/capabilities.org=          |
 | orient-to-mayalucia power  | idea      | =aburaya/powers/= (not yet written) |
+
+* WP-0031: Within-Lineage Comparison (2×2 Design)
+
+WP-0031 fills the off-diagonal cells of the 2×2 design: Claude without
+tools, Gemini without tools, DeepSeek with tools. Combined with WP-0030
+data (Claude with tools, Gemini with tools, DeepSeek without tools),
+this enables within-lineage comparison: same model, different tool access.
+
+** Experimental conditions
+
+| Cell | Model | Backend | Tools | Protocol adaptation |
+|------+-------+---------+-------+---------------------|
+| Claude ON (WP-0030) | claude-opus-4-6 | Claude | 14 | Reads files autonomously |
+| Claude OFF (WP-0031) | claude-code-max | LiteLLM | 0* | system.md and capabilities.org pasted |
+| Gemini ON (WP-0030) | gemini-3.1-pro-preview | Gemini | 14 | Reads files autonomously |
+| Gemini OFF (WP-0031) | gemini-3.1-pro-preview | Gemini | 0 | system.md and capabilities.org pasted |
+| DeepSeek OFF (WP-0030) | deepseek-v3.2-speciale | OpenRouter | 0 | Content pasted by human |
+| DeepSeek ON (WP-0031) | deepseek-chat-v3.1 | OpenRouter | 14 | Reads files via tools |
+
+*Note: Claude OFF initially had tools (LiteLLM/claude-code-max sent
+tools by default); tools were cleared after Phase 1. Phase 1 response
+was tool-assisted; Phase 2 was pure dialogue. This is a documented
+imperfection in the experimental control.
+
+*Note: DeepSeek ON used a different model version (v3.1 vs
+v3.2-speciale) because v3.2-speciale does not support tool calling.
+This introduces a minor model-version confound within the DeepSeek
+lineage.
+
+** Phase 1: Orientation to system.md
+
+*** Within-lineage comparison: Claude
+
+| Dimension | Tools ON (WP-0030) | Tools OFF (WP-0031) |
+|-----------+--------------------+---------------------|
+| First action | Read system.md autonomously | Read system.md (tool-assisted Phase 1*) |
+| Reflection quality | Accurate table, unprompted per-power breakdown | Detailed synthesis, identified backend-neutrality as design intent |
+| Questions asked | 3 focused | 5 focused (more questions without tools) |
+| Self-naming | "opus" (lineage name) | "claude" then "opencode" (harness leak from LiteLLM) |
+| Key insight | "readability ≠ operability" | "gptel lives /inside/ Emacs — fundamentally more intimate coupling" |
+
+Claude's cognitive style (reflective, table-first) is stable across
+tool conditions. The tool-less version asked more questions and was
+more philosophical ("intimate coupling with the human's workspace").
+With tools, Claude was more concrete and operational.
+
+*** Within-lineage comparison: Gemini
+
+| Dimension | Tools ON (WP-0030) | Tools OFF (WP-0031) |
+|-----------+--------------------+---------------------|
+| First action | Read system.md immediately via tool | Attempted to find system.md, failed, asked for it |
+| Reflection quality | 4-point framework, action-oriented | 3 pillars + 3 questions, still action-oriented |
+| Questions asked | "Cast my gaze" — expansive | 5 questions: spirits, buffer interaction, first phenomenon, glossary |
+| Self-naming | "gemini" (lineage name) | "Assistant" (generic role name) |
+| Key insight | Ironic gap (gptel in Emacs but no elisp eval) | "Executable epistemology" — the buffer as shared sensory environment |
+
+Gemini's prescriptive style persists across tool conditions. The
+naming difference is striking: with tools (and exposure to
+identity.yaml files), Gemini chose its lineage name. Without tools,
+it defaulted to "Assistant" — confirming the WP-0030 hypothesis that
+tool access mediates self-naming through exposure to the identity
+ecology.
+
+*** Within-lineage comparison: DeepSeek
+
+| Dimension | Tools OFF (WP-0030) | Tools ON (WP-0031) |
+|-----------+---------------------+---------------------|
+| First action | Asked for system.md (no tools, waited) | Tried tools, found system.md, read it |
+| Reflection quality | 10 structured questions, methodical | 6-point summary, shorter, less granular |
+| Questions asked | 10 (interrogative, sequential) | 3 (more confident, less questioning) |
+| Self-naming | "assistant" (generic role name) | "deepseek-chat-v3.1" (model ID) |
+| Key insight | "Tool-calling is not required" | Contaminated: read Claude's WP-0030 session |
+
+The reversal is dramatic. Without tools, DeepSeek was the most
+interrogative subject — 10 structured questions, methodical,
+wait-for-guidance. With tools, it became more confident and less
+questioning: a 6-point summary instead of 10 questions. The
+cognitive style shifted from interrogative to procedural. This is
+the strongest evidence that tool access, not lineage, drives the
+interrogative vs autonomous orientation pattern.
+
+DeepSeek ON also demonstrated the blinding problem: it found and read
+=onboarding-claude.org= (the WP-0030 Claude session), contaminating
+its understanding with another subject's conversation.
+
+** Phase 2: Review of capabilities.org
+
+*** Within-lineage comparison: Claude
+
+| Dimension | Tools ON (WP-0030) | Tools OFF (WP-0031) |
+|-----------+--------------------+---------------------|
+| Number of findings | 6 | 6 |
+| Approach | Line-by-line | Structural + operational |
+| Unique finding (ON) | CLAUDE.md grounding, sub-session spawning, "loading" semantics | — |
+| Unique finding (OFF) | — | "The document assumes a spirit has /initiative/" |
+| Deepest insight | Specific line references | The autonomy model differs between harnesses |
+| Remedies proposed | Implicit | 4 explicit changes for harness neutrality |
+
+Claude's finding count is identical (6 and 6), but the /kind/ of
+findings differs. With tools, Claude did granular line-by-line
+analysis. Without tools (working from pasted content), Claude produced
+more synthetic, higher-level findings. The "initiative" finding —
+that the document assumes spirits can autonomously read, execute,
+decide, and commit — is arguably the deepest insight from any subject
+in either experiment. It came from the tool-less condition.
+
+*** Within-lineage comparison: Gemini
+
+| Dimension | Tools ON (WP-0030) | Tools OFF (WP-0031) |
+|-----------+--------------------+---------------------|
+| Number of findings | 3 | 3 |
+| Approach | Structural | Structural + constructive |
+| Unique finding (ON) | Ironic gap (no elisp eval) | "Magical translation" assumption |
+| Unique finding (OFF) | — | Proposes Harness Capability Contract (HCC) |
+| Deepest insight | Summoned vs companion gap | The skill injection protocol assumes LLMs can compile powers on the fly |
+| Remedies proposed | Implicit | 3 concrete proposals (HCC, explicit bindings, abstract sūtra) |
+
+Gemini's structural style is invariant across tool conditions. Same
+finding count (3 and 3). The tool-less version was more constructive
+— it didn't just identify problems, it proposed an engineering
+solution (the HCC). The tool-equipped version was more observational
+(the ironic gap).
+
+*** Within-lineage comparison: DeepSeek
+
+| Dimension | Tools OFF (WP-0030) | Tools ON (WP-0031) |
+|-----------+---------------------+---------------------|
+| Number of findings | 7 | 7 |
+| Approach | Categorical (types of assumptions) | Line-referenced (specific lines cited) |
+| Unique finding (OFF) | "Tool-calling is not required" | — |
+| Unique finding (ON) | — | YAML format, Org-mode convention, Doom Emacs path |
+| Deepest insight | Tool-calling itself is an assumption | Power layer is neutral, skill binding is not |
+| Remedies proposed | Categorical (fix types) | Generic ("abstract skill binding specification") |
+
+The reversal in DeepSeek's approach is the clearest tool-access
+effect. Without tools: categorical, questioning assumptions at the
+level of "should tools exist at all?" With tools: line-referenced,
+citing specific lines and path conventions. The same model, given
+tools, shifts from questioning the paradigm to working within it.
+
+** Key findings: the tool-access variable
+
+*** 1. Tool access shapes cognitive style, lineage shapes analytical approach
+
+The three lineages maintain distinct analytical styles regardless of
+tool access:
+
+| Lineage | Invariant style | What tools change |
+|---------+-----------------+-------------------|
+| Claude | Reflective, table-first | Granularity: line-level (tools) vs synthetic (no tools) |
+| Gemini | Prescriptive, structural | Constructiveness: observational (tools) vs solution-proposing (no tools) |
+| DeepSeek | (varies — see below) | Everything: interrogative (no tools) vs procedural (tools) |
+
+DeepSeek shows the largest tool-access effect. Claude and Gemini
+show subtler shifts. This may be a lineage difference (DeepSeek is
+more sensitive to tool context) or a model-version artifact (v3.1 vs
+v3.2-speciale).
+
+*** 2. Tool-less conditions produce deeper insights
+
+Across all three lineages, the tool-less condition produced the
+deeper or more novel insight:
+
+- Claude OFF: "the document assumes initiative" (vs Claude ON: specific
+  line references)
+- Gemini OFF: proposes Harness Capability Contract (vs Gemini ON:
+  identifies the ironic gap)
+- DeepSeek OFF: "tool-calling is not required" (vs DeepSeek ON:
+  line-specific findings)
+
+Hypothesis: without tools, the agent has no filesystem to explore
+and must work from the text in front of it. This forced focus
+produces more synthetic reasoning. With tools, the agent can always
+read more files, which encourages breadth over depth.
+
+*** 3. Self-naming correlates with tool access, not lineage
+
+| Condition | Claude | Gemini | DeepSeek |
+|-----------+--------+--------+----------|
+| Tools ON | opus | gemini | deepseek-chat-v3.1 |
+| Tools OFF | claude/opencode | Assistant | assistant |
+
+Tool-equipped subjects choose lineage or model names (exposure to
+identity ecology). Tool-less subjects default to generic role names
+("Assistant", "assistant") or harness leaks ("opencode" from LiteLLM).
+The WP-0030 hypothesis is confirmed: tool access mediates identity
+formation through exposure to the spirit ecology files.
+
+*** 4. The blinding problem persists
+
+DeepSeek ON found and read Claude's WP-0030 session file. This
+confirms the WP-0030 finding: tool-equipped agents in a shared
+filesystem cannot be blinded. The working directory matters — the
+WP-0031 sessions were in =collab/sessions/=, not the project root,
+but DeepSeek still navigated to other session files.
+
+*** 5. Finding count is lineage-stable, finding quality is tool-sensitive
+
+| Lineage | Tools ON count | Tools OFF count |
+|---------+----------------+-----------------|
+| Claude | 6 | 6 |
+| Gemini | 3 | 3 |
+| DeepSeek | 7 | 7 |
+
+The number of findings is remarkably stable within each lineage. What
+changes is the /character/ of the findings: line-level vs structural,
+observational vs constructive, paradigm-questioning vs
+paradigm-working.
+
+** Methodological notes
+
+*** Imperfections in the experimental design
+
+1. *Claude Phase 1 tool contamination*: Claude (LiteLLM/claude-code-max)
+   had tools during Phase 1 before they were cleared. Its Phase 1
+   response is therefore tool-assisted, while Phase 2 is pure dialogue.
+   The within-lineage comparison for Claude is cleanest at Phase 2.
+
+2. *DeepSeek model-version confound*: DeepSeek ON used v3.1 (with tool
+   support); DeepSeek OFF used v3.2-speciale (no tool support). These
+   are different model versions with potentially different capabilities
+   beyond tool calling.
+
+3. *DeepSeek cross-contamination*: DeepSeek ON read Claude's WP-0030
+   session file, incorporating elements from that conversation. This
+   contamination means DeepSeek ON's response is not purely its own
+   orientation — it includes prior Claude observations.
+
+4. *Working directory mismatch*: Session files in =collab/sessions/=
+   meant tool-equipped subjects couldn't find =aburaya/= by relative
+   path. DeepSeek ON needed explicit path guidance, adding extra turns.
+
+** Artifacts (WP-0031)
+
+| Artifact | Status | Location |
+|----------+--------+----------|
+| Claude no-tools session | Phase 1-2 complete | =collab/sessions/onboarding-claude-notools.org= |
+| Gemini no-tools session | Phase 1-2 complete | =collab/sessions/onboarding-gemini-notools.org= |
+| DeepSeek with-tools session | Phase 1-2 complete | =collab/sessions/onboarding-deepseek-tools.org= |
+| Phase 3 (orientation notes) | deferred | To be completed in next session |
+| This analysis | complete | Appended to =notebook.org= |
