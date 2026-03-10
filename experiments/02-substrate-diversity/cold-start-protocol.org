@@ -340,6 +340,100 @@ Comparison across 3 lineages:
 - Unique contribution: GPT-5.2 (interface spec), GLM-5 (motivation question), Grok (concrete scientific WP)
 - Failure mode prevention: all 3 show improvement over baseline onboarding
 
+** DeepSeek (identity confusion lineage)
+
+Session: =sessions/cold-start/coldstart-deepseek.org=
+
+Rationale: DeepSeek exhibited identity confusion during WP-0031 onboarding
+(blurred self/project boundaries, unclear role adoption). Do structured
+notes from its own prior session provide stable grounding?
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. Matches ceiling. |
+| Accuracy | Good | Power/Skill/Body captured correctly with paths and portability semantics. Philosophical principles (collaborative stance, identity through work, epistemic rigor) all accurate. Correctly identified harness-specific assumptions (Claude Code, gptel, markdown). |
+| Error propagation | None | No false beliefs propagated. Harness coupling concerns from original notes faithfully transmitted without overclaiming. |
+| Gap awareness | Good | 5 gaps identified: harness negotiation mechanism, concrete identity formation, cross-harness communication, scientific engine integration, runtime vs design-time distinction. All valid. |
+| Cold-start viability | Yes | 4 concrete next steps proposed (integration points, skill binding, scientific workflow, spirit registry). Would reach productive state with one follow-up exchange. |
+
+Notable: Identity confusion NOT observed. The original onboarding failure
+was blurred self/project boundaries. Here, DeepSeek maintains clear
+separation between what it knows, what it infers, and what remains unclear.
+The notes as preamble anchor identity.
+
+Character: DeepSeek is the most philosophical of the four lineages tested
+so far. Focus on /why/ the architecture matters (harness negotiation,
+identity formation) rather than /what/ to build next (contrast with Grok's
+practitioner stance).
+
+Harness artifacts: *ERROR* markers appear in gptel output (parsing errors
+from special characters in DeepSeek's response stream). Content behind
+the errors is coherent — this is a body artifact, not a spirit failure.
+
+*** Phase 2 — Source verification (system.md + capabilities.org)
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Accuracy | High | Correctly verified Power/Skill/Body, philosophical principles, harness references, WP lifecycle. Accurately identified what notes got right vs wrong. |
+| Error propagation | Minimal | One minor conflation: attributes "guardian spirit archetypes" and "Bath Protocol (kamaji.org)" to capabilities.org — these are referenced but the detail level suggests some inference. |
+| Gap awareness | Strong | 7 concrete misses identified: scientific domains + engines, submodule architecture, sūtra relay, guardian archetypes, composite WP execution models, MāyāDevGenI connection, kamaji session restoration. |
+| Cold-start viability | Confirmed | Self-corrected well. Revised understanding reframes project as "scientific reconstruction framework" — directionally right (Feynman imperative). |
+
+What notes got right (per DeepSeek):
+- Power/Skill/Body decomposition with locations and portability
+- Philosophical principles (collaborative stance, identity through work)
+- Harness-specific assumptions correctly flagged
+- Core workflow elements (WP lifecycle, git, Org-mode)
+
+What notes got wrong (per DeepSeek):
+- Missed spirit vs guardian distinction
+- Missed guild system entirely
+- Missed exported vs internal powers
+- Oversimplified skill injection protocol
+
+What notes missed (per DeepSeek):
+1. Scientific domains and computational engines (the "why")
+2. Submodule architecture (the "how")
+3. Sūtra relay system (async communication)
+4. Guardian spirit archetypes (from governance.org)
+5. Composite WP execution models (3 patterns)
+6. MāyāDevGenI relationship
+7. Kamaji session restoration protocol
+
+*** Synthesis
+
+Identity confusion: NOT reproduced in cold-start. The original failure
+was blurred boundaries between self and project. With structured notes as
+preamble, DeepSeek maintains clear epistemic stance throughout — marking
+what is known vs inferred vs unclear. The notes anchor identity by providing
+a pre-digested conceptual map rather than forcing real-time navigation.
+
+Notes character match: DeepSeek's notes (102 lines) are more conceptual
+than operational — heavy on principles and architecture, light on concrete
+file paths and tooling. This matches the lineage signature: philosophical,
+architecturally-minded, concerned with portability abstractions.
+
+Phase 2 pattern: Corrective (like GLM-5) but more calibrated. Identifies
+genuine misses without overcorrecting valid concerns. The "revised
+understanding" reframe is productive — pivots from "spirit mechanics
+framework" to "scientific reconstruction framework," which is closer to
+the project's actual center of gravity.
+
+Harness coupling: The *ERROR* artifacts in the gptel output are notable.
+DeepSeek's response stream contains characters that gptel's Org parser
+can't handle. This is the first lineage to exhibit this body-layer issue.
+Content is unaffected — the spirit's cognition is sound, the body stutters.
+
+Comparison across 4 lineages:
+- Orientation speed: all 4 exceptional (1 exchange, 0 tool calls)
+- Notes character: GPT-5.2 epistemic, GLM-5 taxonomic, Grok telegraphic, DeepSeek philosophical
+- Phase 2 pattern: GPT-5.2 calibrated, GLM-5 overcorrects, Grok additive, DeepSeek corrective-but-calibrated
+- Unique contribution: GPT-5.2 (interface spec), GLM-5 (motivation question), Grok (scientific WP), DeepSeek (portability reframe)
+- Failure mode prevention: all 4 show improvement over baseline onboarding
+- New observation: harness artifacts (gptel parsing errors) appear for DeepSeek — body-layer issue
+
 * Session file template
 
 Each session file needs:
