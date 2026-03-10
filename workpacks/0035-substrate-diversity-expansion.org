@@ -2,7 +2,7 @@
 #+subtitle: Extend the orientation experiment to new cognitive lineages
 #+author: mu2tau + mayadev
 #+date: 2026-03-10
-#+property: status drafted
+#+property: status completed
 #+property: executor mayadev
 #+property: guild apprentis
 

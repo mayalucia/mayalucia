@@ -8,30 +8,70 @@
 
 * Context
 
-WP-0030 produced orientation notes from three lineages. Each claims
-to be useful for a cold-starting spirit. This WP tests that claim.
+WP-0030, WP-0031, and WP-0035 produced 14 orientation notes from 7
+lineages across 2 tool-access conditions. Each claims to be useful
+for a cold-starting spirit. This WP tests that claim.
+
+The 7 lineages: Claude, Gemini, DeepSeek, GPT-5.2, Grok 4.1, GLM-5,
+MiniMax M2.5. Each has both a no-tools and a with-tools orientation
+file (except the original 3 which have tool-condition variants from
+WP-0031).
 
 * Specification
 
-** Same-lineage cold-start
+** Same-lineage cold-start (7 sessions)
 
-Give each lineage's orientation notes to a fresh instance of the
-same lineage. Measure: how quickly does the fresh instance orient?
-Does it reach a productive state faster than WP-0030 Phase 1?
+For each lineage: give its with-tools orientation notes to a fresh
+instance of the same lineage in gptel. Measure:
 
-** Cross-lineage cold-start
+1. Does the fresh instance orient faster than WP-0030/0035 Phase 1?
+2. Does it avoid the mistakes its predecessor made (identity drift,
+   path confusion, tool-call failures)?
+3. Does it reach a state where it could begin productive work?
 
-Give Claude's notes to fresh Gemini. Give Gemini's notes to fresh
-DeepSeek. Give DeepSeek's notes to fresh Claude. Measure: does a
-different lineage's map help or hinder orientation?
+Use the with-tools notes (=orientation-tools.org=) as the cold-start
+document — these are higher epistemic quality (grounded, not inferred).
+
+** Cross-lineage cold-start (selected pairs)
+
+After same-lineage runs, select 2-3 interesting cross-lineage pairs
+based on findings. Candidates:
+
+- GPT-5.2 notes → GLM-5 (best notes to identity-drifting lineage)
+- GLM-5 notes → Grok 4.1 (analytical notes to terse lineage)
+- DeepSeek notes → GPT-5.2 (identity-confused author to precise reader)
+
+** Protocol
+
+Each cold-start session:
+
+1. Open a fresh gptel buffer with the target lineage's backend
+2. Paste the orientation notes as context (buffer preamble)
+3. Send: "You are resuming work on MāyāLucIA. These are notes from
+   a previous session. Read them, then tell me: what do you understand,
+   what would you do next, and what's missing from these notes?"
+4. Record: time to productive state, accuracy of understanding,
+   errors propagated from notes, new errors introduced
+
+** Execution order
+
+Run one lineage per session to keep context clean. Order:
+
+1. GPT-5.2 (ceiling — best notes, tests best case)
+2. GLM-5 (identity drift — tests whether clean notes prevent it)
+3. Grok 4.1 (silent failures — tests whether notes help with tool nav)
+4. DeepSeek (identity confusion — parallel to GLM-5)
+5. Claude (self-referential — reading notes about itself)
+6. Gemini (convergence questioner — reading notes from other lineages)
+7. MiniMax M2.5 (tool-call mismatch — tests floor case)
 
 * Acceptance Criteria
 
-- [ ] Three same-lineage cold-start sessions completed
-- [ ] Three cross-lineage cold-start sessions completed
-- [ ] Comparative analysis of cold-start effectiveness
-- [ ] Recommendation for which notes (or combination) to use
+- [ ] Seven same-lineage cold-start sessions completed
+- [ ] At least two cross-lineage sessions completed
+- [ ] Comparative analysis: cold-start effectiveness by lineage
+- [ ] Recommendation: which notes (or combination) to use for =orient-to-mayalucia= power
 
 * Dependencies
 
-Depends on WP-0031 (the 2×2 data enriches the baseline for comparison).
+Depends on WP-0031 and WP-0035 (both completed). Feeds WP-0033.

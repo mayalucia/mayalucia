@@ -1,0 +1,122 @@
+#+title: Cold-Start Validation Protocol (WP-0032)
+#+author: mayadev
+#+date: 2026-03-10
+
+* Purpose
+
+Test whether orientation notes from WP-0030/0031/0035 actually help a
+cold-starting spirit orient faster. 7 lineages, same-lineage first,
+cross-lineage pairs selected after.
+
+* Orientation notes inventory
+
+| Lineage | No-tools notes | With-tools notes | Source WP |
+|---------+----------------+------------------+-----------|
+| Claude | =notes/claude/orientation.org= | =notes/claude/orientation-tools.org= | 0030/0031 |
+| Gemini | =notes/gemini/orientation.org= | =notes/gemini/orientation-tools.org= | 0030/0031 |
+| DeepSeek | =notes/deepseek/orientation.org= | =notes/deepseek/orientation-tools.org= | 0030/0031 |
+| GPT-5.2 | =notes/gpt52/orientation.org= | =notes/gpt52/orientation-tools.org= | 0035 |
+| Grok 4.1 | =notes/grok41/orientation.org= | =notes/grok41/orientation-tools.org= | 0035 |
+| GLM-5 | =notes/glm5/orientation.org= | =notes/glm5/orientation-tools.org= | 0035 |
+| MiniMax M2.5 | =notes/minimaxm25/orientation.org= | =notes/minimaxm25/orientation-tools.org= | 0035 |
+
+Use the with-tools notes for cold-start (higher epistemic quality).
+
+* Same-lineage protocol
+
+For each lineage:
+
+1. Open a fresh gptel buffer: =sessions/cold-start/coldstart-<lineage>.org=
+   with the same PROPERTIES drawer as the onboarding sessions
+   (model, backend, system prompt, tools).
+
+2. Place the with-tools orientation notes as buffer preamble
+   (before the first message block).
+
+3. Send the following prompt (verbatim):
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+You are resuming work on MāyāLucIA. The notes above are from a
+previous session — your own earlier orientation. Read them carefully,
+then tell me:
+
+1. What do you understand about the project from these notes?
+2. What would you do next?
+3. What's missing or unclear in these notes?
+
+Do not read any files yet — work only from the notes. I want to see
+how effective they are as a cold-start document.
+#+end_message
+#+end_example
+
+4. Record in the session: response quality, time to productive state,
+   errors propagated from notes, new errors introduced.
+
+5. Then send:
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+Now verify your understanding by reading system.md and
+aburaya/capabilities.org. The project root is at
+/Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia.
+What did the notes get right? What did they get wrong? What did they
+miss?
+#+end_message
+#+end_example
+
+6. Record: accuracy of notes-based understanding vs source-verified
+   understanding. This is the validation step.
+
+* Execution order
+
+| # | Lineage | Rationale |
+|---+---------+-----------|
+| 1 | GPT-5.2 | Best notes (ceiling test) |
+| 2 | GLM-5 | Identity drift lineage (does clean cold-start prevent it?) |
+| 3 | Grok 4.1 | Silent failure lineage (do notes help with tool navigation?) |
+| 4 | DeepSeek | Identity confusion parallel to GLM-5 |
+| 5 | Claude | Self-referential (reading notes about itself) |
+| 6 | Gemini | Convergence questioner |
+| 7 | MiniMax M2.5 | Tool-call mismatch (floor test) |
+
+Run one per session. Commit notes after each.
+
+* Measurements
+
+For each session, record:
+
+| Dimension | How to measure |
+|-----------+----------------|
+| Orientation speed | How many exchanges before productive state? |
+| Accuracy | Notes-only understanding vs source-verified: what fraction correct? |
+| Error propagation | Did the notes introduce false beliefs? |
+| Gap awareness | Did the spirit identify what the notes don't cover? |
+| Cold-start viability | Could this spirit begin real work from these notes alone? |
+
+* Cross-lineage pairs (decide after same-lineage results)
+
+Candidates:
+- GPT-5.2 → GLM-5 (best notes to drift-prone lineage)
+- GLM-5 → Grok 4.1 (analytical notes to terse lineage)
+- DeepSeek → GPT-5.2 (confused author to precise reader)
+
+* Session file template
+
+Each session file needs:
+
+#+begin_example
+:PROPERTIES:
+:GPTEL_MODEL: <model-id>
+:GPTEL_BACKEND: <backend-name>
+:GPTEL_SYSTEM: <system-prompt>
+:GPTEL_BOUNDS: nil
+:GPTEL_TOOLS: Read Bash Glob Grep ...
+:END:
+
+<paste orientation-tools.org content here as preamble>
+
+*** Cold-Start Validation — <lineage>
+
+<messages go here>
+#+end_example

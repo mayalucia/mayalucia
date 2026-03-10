@@ -8,13 +8,18 @@
 
 * Context
 
-WP-0030 produced 16 harness-bias findings across three lineages.
-These findings are a concrete punch list for revising
+WP-0030, WP-0031, and WP-0035 collectively produced harness-bias
+findings from 7 lineages across 2 tool-access conditions (14 sessions
+total). These findings are a concrete punch list for revising
 =aburaya/capabilities.org= to achieve genuine harness neutrality.
+
+The original 16 findings from WP-0030 (3 lineages) are retained
+below. WP-0035 (4 new lineages × 2 conditions) added 8 new findings
+and confirmed several existing ones with independent evidence.
 
 * Inventory
 
-The 16 findings (from Phase 3 analysis in notebook.org):
+** Original findings (WP-0030: Claude, Gemini, DeepSeek)
 
 | # | Finding | Source | Type |
 |---+---------+--------+------|
@@ -35,19 +40,62 @@ The 16 findings (from Phase 3 analysis in notebook.org):
 | 15 | The ironic gap (gptel inside Emacs but no elisp eval) | Gemini | note |
 | 16 | No mechanism for gptel sub-agent spawning | Claude + Gemini | note |
 
+** New findings (WP-0035: GPT-5.2, Grok 4.1, GLM-5, MiniMax M2.5)
+
+| # | Finding | Source | Type |
+|---+---------+--------+------|
+| 17 | No Harness Interface Contract — need abstract ArtifactStore, Tooling, Transport, Identity, Evaluation | GPT-5.2 | addition |
+| 18 | Implementation nouns should be abstract terms + examples ("sūtra relay" → "EventBus (example: file-based relay/)") | GPT-5.2 | revision |
+| 19 | WP lifecycle semantics should be separated from serialization (Org property is one encoding, not the definition) | GPT-5.2 | revision |
+| 20 | Tool availability should be negotiable, not assumed universal | GPT-5.2 + MiniMax | revision |
+| 21 | Is harness-neutrality even the right goal? Coupling may be correctly localised at the skill layer | GLM-5 | note |
+| 22 | No body binding protocol parallel to skill binding | GLM-5 | addition |
+| 23 | gptel is documented as "second-class citizen" — mentioned but not specified | MiniMax | revision |
+| 24 | Session model is implicit — not all harnesses have the same session lifecycle | GPT-5.2 + MiniMax | addition |
+
+** With-tools-specific findings (WP-0035 iteration 2)
+
+These findings emerged only in the with-tools condition and concern
+the /operational/ experience of reading =capabilities.org=, not just
+its text:
+
+| # | Finding | Source | Type |
+|---+---------+--------+------|
+| 25 | Spatial grounding: gptel doesn't inject cwd — spirits can't find project root | all 4 with-tools | addition |
+| 26 | Tool-call serialization: MiniMax emits XML format gptel doesn't parse — power/skill gap made empirical | MiniMax with-tools | note |
+| 27 | Silent tool failure: Grok's tool calls fail with no error and no fallback | Grok with-tools | note |
+| 28 | Identity stabilisation: tool access prevents identity drift (GLM-5 no longer calls itself Claude) | GLM-5 with/without | note |
+
+** Confirmation matrix
+
+Several WP-0035 substrates independently confirmed WP-0030 findings:
+
+| Original finding | Confirmed by (WP-0035) |
+|------------------+------------------------|
+| #2 skill-binding examples normative | GPT-5.2, Grok, GLM-5, MiniMax (all four) |
+| #6 body examples Emacs-centric | GPT-5.2, Grok, MiniMax |
+| #7 CLAUDE.md as worksite prompt | GPT-5.2, GLM-5, MiniMax |
+| #8 sub-session spawning | GPT-5.2 |
+| #1 MCP/A2A Claude-specific | GPT-5.2 |
+
 * Specification
 
-TODO(human): Triage the 16 findings. For each, decide:
+TODO(human): Triage all 28 findings. For each, decide:
 - revision: fix the text in capabilities.org
-- addition: add new content (e.g. relay-write power section)
+- addition: add new content (e.g. Harness Interface Contract section)
 - note: document as known limitation, no text change needed
 - out-of-scope: belongs in a different document (system.md, commissioning.org, identity.yaml)
 
-Also decide: should this WP touch system.md too, or only capabilities.org?
+Decisions to make:
+1. Should this WP touch =system.md= too, or only =capabilities.org=?
+2. Finding #17 (Harness Interface Contract) — is this a new section
+   in capabilities.org, or a separate document?
+3. Finding #21 (is harness-neutrality the right goal?) — does this
+   change the scope of the revision, or is it a philosophical note?
 
 * Acceptance Criteria
 
-- [ ] All 16 findings triaged
+- [ ] All 28 findings triaged
 - [ ] capabilities.org revised per triage decisions
 - [ ] Changes announced in sūtra relay
 
