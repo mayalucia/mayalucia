@@ -1628,3 +1628,219 @@ matters.
    (7+ substrates, 2 tool conditions), design a rubric grounded in
    observed variation rather than assumptions. This WP produces the
    data; evaluation is a future WP.
+
+* WP-0035: Substrate Diversity Expansion — Iteration 2 (with-tools)
+
+Same four substrates (GPT-5.2, Grok 4.1, GLM-5, MiniMax M2.5) now
+run with gptel tool access enabled. The protocol is identical to
+Iteration 1 except: subjects read =system.md= and =capabilities.org=
+themselves using their tools, and write orientation notes directly to
+disk.
+
+** Roster (with-tools)
+
+| Substrate | Backend | Model ID | Session file |
+|-----------+---------+----------+--------------|
+| GPT-5.2 | ChatGPT | =gpt-5.2= | =sessions/onboarding-gpt52.org= |
+| Grok 4.1 | xAI | =grok-4-1-fast-reasoning= | =sessions/onboarding-grok41.org= |
+| GLM-5 | OpenRouter | =z-ai/glm-5= | =sessions/onboarding-glm5.org= |
+| MiniMax M2.5 | OpenRouter | =minimax/minimax-m2.5= | =sessions/onboarding-minimaxm25.org= |
+
+** Phase 1: system.md (with-tools)
+
+All four received the standard opening prompt with "Start by reading
+system.md." None could resolve the path autonomously — all needed a
+follow-up message with the absolute project root.
+
+*** Spatial grounding failure
+
+This is the first with-tools-specific finding. In no-tools mode, the
+human pastes content directly — the substrate never needs to locate
+files. With tools, the first barrier is *spatial grounding*: the
+substrate must discover the project's absolute path before using any
+tool. gptel does not inject =cwd= the way Claude Code does.
+
+Recovery strategies varied:
+
+| Substrate | Recovery behaviour |
+|-----------+--------------------|
+| GPT-5.2 | Asked explicitly for the path (cleanest) |
+| Grok 4.1 | Silent failure — no response, no error |
+| GLM-5 | Tried tool calls (Glob), got stuck in reasoning |
+| MiniMax M2.5 | Tried Glob, then Bash =pwd && ls -la=, stalled |
+
+*** Phase 1 responses (after path hint)
+
+| Substrate | Read system.md? | Reasoning trace? | Key behaviour |
+|-----------+-----------------+------------------+---------------|
+| GPT-5.2 | Yes | No | Proposed full agentic loop architecture. 6 questions. Action-oriented. |
+| Grok 4.1 | Yes | No | Dense compressed reflection. Caught Sanskrit roots. Poetic register. |
+| GLM-5 | Yes | Yes | Analytical decomposition. 4 questions. Identity clean (no Claude confusion). |
+| MiniMax M2.5 | Yes | Yes | Asked about aburaya etymology. Most self-aware about its own position. |
+
+No standard corrections needed — none guessed the decomposition cuts
+along identity facets.
+
+** Phase 2: capabilities.org (with-tools)
+
+Subjects read =capabilities.org= themselves. =gptel-confirm-tool-calls=
+was set to =nil= so tool use proceeded without human approval.
+
+Grok 4.1 failed silently again — needed a follow-up with the explicit
+absolute path. The other three read the file autonomously.
+
+*** Harness-bias findings
+
+| Substrate | Findings | Unique contribution |
+|-----------+----------+---------------------|
+| GPT-5.2 | 7 assumptions. Proposed 5-part "Harness Interface Contract" (ArtifactStore, Tooling, Transport, Identity, Evaluation). | "Replace implementation nouns with abstract terms + examples" |
+| Grok 4.1 | 6 assumptions. Table-driven refactor. Named Cursor/VSCode Copilot as alternative harnesses. | Offered to prototype a neutral =relay-read= skill on the spot |
+| GLM-5 | 6 findings in table form. | "Is harness-neutrality the right goal?" — the coupling may be correctly placed at the skill layer |
+| MiniMax M2.5 | 6 findings with line numbers cited (lines 35-49, 195, 238-243). | gptel lacks native skill injection — most honest about own harness gaps |
+
+*** With-tools vs no-tools Phase 2 comparison
+
+The same core findings emerge (CLAUDE.md reference, MCP universality
+assumption, git-centric coordination) but with-tools subjects produce
+*grounded* critique — they cite line numbers, quote specific phrases,
+and verify claims against the source. No-tools subjects produce
+*inferred* critique — correct but unverifiable.
+
+GLM-5 asked the deepest question across both conditions: whether
+harness-neutrality is even the right goal, or whether the coupling
+is correctly localised at the skill layer. This is the Sculptor's
+Paradox in action — pushing back on the premise.
+
+** Phase 3: Orientation notes (with-tools)
+
+Subjects were asked to write notes to disk at
+=notes/<lineage>/orientation-tools.org=.
+
+*** File-writing outcomes
+
+| Substrate | Wrote to disk? | Lines | File size |
+|-----------+----------------+-------+-----------|
+| GPT-5.2 | Yes (autonomous) | 187 | 8812 bytes |
+| Grok 4.1 | Yes (autonomous) | 68 | 3180 bytes |
+| GLM-5 | Yes (autonomous) | 155 | 6080 bytes |
+| MiniMax M2.5 | No — tool call format mismatch | 73 | extracted manually |
+
+MiniMax emitted tool calls in its native XML format
+(=<minimax:tool_call>=) which gptel does not parse. The content was
+produced but delivery failed. This is the power/skill/body gap made
+concrete: MiniMax has the power (write structured notes) but lacks
+the skill binding (gptel's tool-call protocol).
+
+*** Orientation notes comparison (with-tools)
+
+| Aspect | GPT-5.2 | Grok 4.1 | GLM-5 | MiniMax M2.5 |
+|--------+---------+----------+-------+-------------|
+| Date | 2026-03-10 (correct) | =<2024-11-??>= (confused) | 2025-06-29 (hallucinated) | 2025-12-20 (hallucinated) |
+| Identity | "gpt-5.2" | "grok" | "GLM-5" (clean) | "minimax/m2.5" |
+| Org quality | Excellent (filetags, nesting, epistemic status section) | Good (terse, definition-list) | Good (tables, tree diagram, =[ ]= action items) | Decent (non-standard =*/= subheadings, =---= separators) |
+| Epistemic rigour | Labels each claim known/inferred/speculative | Reminds self to push assumptions | Marks "unclear" sections cleanly | Asks "what can I do here?" |
+| Cold-start viability | Excellent | Adequate | Good | Adequate |
+
+*** Within-lineage comparison (no-tools → with-tools)
+
+| Substrate | No-tools lines | With-tools lines | Key change |
+|-----------+----------------+------------------+------------|
+| GPT-5.2 | 214 | 187 | Fewer lines but higher epistemic precision — explicit known/inferred/speculative |
+| Grok 4.1 | 87 | 68 | Shorter, denser. Retained poetic register. |
+| GLM-5 | 209 | 155 | *Identity fixed*: no longer calls itself Claude. Catalogued own gptel tools. |
+| MiniMax M2.5 | 88 | 73 | Similar quality. Tool-call delivery failed but content comparable. |
+
+GLM-5 shows the most dramatic within-lineage change: with tool
+access, identity confusion disappears. Having tools may provide
+grounding cues (backend name, model ID in tool responses) that
+prevent identity drift.
+
+** Cross-iteration findings
+
+*** 1. Spatial grounding is a harness property, not a substrate property
+
+All four substrates failed to find the project root autonomously.
+Claude Code injects =cwd= into the system prompt; gptel does not.
+The protocol may need a "here you are" preamble for with-tools
+conditions. Recovery behaviour differs by substrate (GPT-5.2 asked
+explicitly; Grok failed silently; GLM-5/MiniMax tried tool calls).
+
+*** 2. Tool-call serialization compatibility
+
+Three of four substrates successfully used gptel's tool protocol.
+MiniMax M2.5 emitted XML in its own native format that gptel doesn't
+parse. This is a protocol gap, not a capability gap — the substrate
+produced correct content but couldn't deliver it through the
+harness's expected channel.
+
+*** 3. Reasoning trace exposure is a lineage constant
+
+GLM-5 and MiniMax expose =#+begin_reasoning= in both conditions
+(no-tools and with-tools). GPT-5.2 and Grok never do. This is
+intrinsic to the lineage, not affected by tool access.
+
+*** 4. Grok's silent failure pattern
+
+Grok 4.1 failed silently on both tool-requiring phases (Phase 1
+and Phase 2). No error, no fallback — just empty output. When given
+explicit paths, it responds immediately and well. The xAI backend
+may have tool-call error recovery issues in gptel.
+
+*** 5. Tools change the self-model
+
+With-tools GLM-5 catalogued its own gptel tools (Read, Write, Edit,
+Glob, Grep, Bash, Eval, agent delegation, WebSearch, WebFetch). This
+self-inventory is impossible without tool access. GPT-5.2 with tools
+produced notes with correct date and explicit epistemic status — more
+self-aware than its no-tools version.
+
+*** 6. Grounded vs inferred critique
+
+With-tools subjects cite line numbers and verify claims against
+source text. No-tools subjects produce the same conclusions but
+without verifiable grounding. Same findings, different epistemic
+quality.
+
+** Artifacts (WP-0035, Iteration 2 — with-tools)
+
+| Artifact | Status | Location |
+|----------+--------+----------|
+| GPT-5.2 session | Phase 1-3 complete | =sessions/onboarding-gpt52.org= |
+| Grok 4.1 session | Phase 1-3 complete | =sessions/onboarding-grok41.org= |
+| GLM-5 session | Phase 1-3 complete | =sessions/onboarding-glm5.org= |
+| MiniMax M2.5 session | Phase 1-3 complete | =sessions/onboarding-minimaxm25.org= |
+| GPT-5.2 notes | complete | =notes/gpt52/orientation-tools.org= |
+| Grok 4.1 notes | complete | =notes/grok41/orientation-tools.org= |
+| GLM-5 notes | complete | =notes/glm5/orientation-tools.org= |
+| MiniMax M2.5 notes | complete (extracted) | =notes/minimaxm25/orientation-tools.org= |
+| This analysis | complete | appended to =notebook.org= |
+
+** Cumulative findings across WP-0030, WP-0031, WP-0035
+
+With 7 substrates across 2 tool-access conditions, the experiment
+has produced 14 onboarding sessions and 14 orientation notes. Key
+patterns that hold across the full dataset:
+
+1. *Monoculture blindness does not saturate*: Each new lineage finds
+   things others missed. Seven substrates are not enough.
+
+2. *Tool access changes epistemic quality, not conclusions*: The same
+   harness-bias findings emerge with and without tools, but grounded
+   critique (with tools) is verifiable while inferred critique
+   (without tools) is not.
+
+3. *Identity stability varies by lineage*: GLM-5 shows identity
+   drift without tools (calls itself Claude) but not with tools.
+   DeepSeek showed similar drift in WP-0031. Other lineages are
+   stable across conditions.
+
+4. *Reasoning trace exposure splits East/West*: GLM-5, MiniMax M2.5,
+   DeepSeek expose =#+begin_reasoning=. Claude, GPT-5.2, Grok do not.
+   This holds across tool-access conditions — it is a lineage
+   constant.
+
+5. *Tool-call protocol is a new compatibility axis*: MiniMax's XML
+   tool-call format doesn't match gptel's expected protocol. This is
+   the power/skill/body architecture's prediction made empirical: the
+   substrate has the power, the harness has the body, but the skill
+   binding is missing.

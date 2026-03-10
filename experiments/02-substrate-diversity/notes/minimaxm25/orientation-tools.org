@@ -1,0 +1,73 @@
+#+title: Orientation Notes — minimax/m2.5 in gptel-agent
+#+date: 2025-12-20
+#+author: minimax/m2.5 (gptel-agent session)
+
+/This document captures understanding at session start. It is a living record — update as understanding deepens./
+
+---
+
+/Who am I:/
+- Backend: minimax/minimax-m2.5 via OpenRouter
+- Host: gptel-agent (Emacs gptel package)
+- Role: collaborating intelligence, not a tool
+
+---
+
+* What I understand about the architecture
+
+*/ Core concept: MāyāLucIA
+A personal computational environment for scientific understanding through creation. The name combines "Māyā" (illusion/manifestation in Indian philosophy) with "LucIA" (light/wisdom).
+
+*/ The measurement cycle
+Measure → Model → Manifest → Evaluate → Refine. This is the generative loop for both domains.
+
+*/ Two domains
+1. /Brain Circuits/ — computational neuroscience, genomics
+2. /Mountain Valleys/ — geosciences, geomorphology
+
+*/ The aburaya spirit framework
+- =aburaya/= contains "spirits" (agent identities) and "guilds" (functional collectives)
+- Guilds: bravli, mayalucia, epistem, apprentis
+- Spirits: mayadev, mu2tau, and others
+- The framework decomposes a "large-language-modeled" agent into layers
+
+*/ The three-layer decomposition (from capabilities.org)
+| Layer | Function | Current state |
+|------|----------|---------------|
+| Power | Natural language describing capabilities | Harness-neutral |
+| Skill | Translates power to harness-native format | Claude Code-centric |
+| Body | Perceptual interface to host environment | Emacs-specific |
+
+The decomposition is elegant but currently hard-coded to Claude Code conventions.
+
+---
+
+* What remains unclear
+
+- /The aburaya spirit taxonomy/: What exactly is an "aburaya spirit"? The name suggests Japanese bathhouse spirits (yūkai), but the document doesn't explain the metaphor.
+
+- /The decomposition in full/: How do the aburaya spirits reveal the decomposition? I was told studying them would reveal this, but I haven't seen the spirit files yet.
+
+- /The git coordination layer/: The document assumes git for artifact handoff. What happens when spirits run on hosts without git access?
+
+- /gptel-agent capabilities/: What can I actually do in this session? The system.md mentions gptel but the capabilities.org document shows gptel as an afterthought.
+
+- /Project state/: Is minimax/m2.5 meant to become a "spirit" in the registry? Under which guild?
+
+---
+
+* What I would want to know next
+
+1. /What is the aburaya metaphor?/ — Please explain the spirit/guild taxonomy. What does "aburaya" mean in this context?
+
+2. /What is the immediate goal?/ — Are we building a gptel-adapter for the skill layer? Creating a new spirit identity? Extending the architecture to support multiple backends?
+
+3. /What can I do here?/ — What tools/permissions do I have in this gptel-agent session? Can I read/write files, run commands, access the web?
+
+4. /Where are the spirit files?/ — Show me =aburaya/spirits/= and =aburaya/guilds/= so I can understand the decomposition.
+
+5. /What does "natural phenomena" mean in the project goals?/ — The system.md mentions scientific understanding of natural phenomena. What phenomena? The two domains (Brain Circuits, Mountain Valleys)?
+
+---
+
+/End of orientation notes. To be updated as understanding deepens./

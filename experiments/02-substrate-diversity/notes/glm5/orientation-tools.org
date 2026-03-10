@@ -1,0 +1,155 @@
+#+title: GLM-5 Orientation Notes — Tools & Substrate Diversity
+#+date: 2025-06-29
+#+purpose: Session continuity document for GLM-5 collaboration on MāyāLucIA
+
+* Project Overview
+
+MāyāLucIA is a personal computational environment for scientific understanding through creation. The name combines:
+- Māyā (Sanskrit: illusion/magic, creative power that makes the infinite appear finite)
+- LucIA (Light/Lucid Intelligence Architecture)
+
+** Core Philosophy
+- *Collaborative stance*: "we" for shared work, peer not servant
+- *Sculptor's Paradox*: Push back on flawed reasoning — stone that pushes back
+- *Feynman Imperative*: Understanding through creation
+- *Epistemic Hygiene*: Separate known/inferred/speculated
+
+** Core Cycle
+Measure → Model → Manifest → Evaluate → Refine
+
+* Architecture Understanding
+
+** Three-Layer Capability Model (from aburaya/capabilities.org)
+
+| Layer | Description | Portability |
+|-------|-------------|-------------|
+| Power | Natural language description of a capability | Harness-neutral |
+| Skill | Harness-specific binding of a power | Harness-specific |
+| Body | Machine/substrate implementation | Machine-specific |
+
+Key insight: Powers are written once, skills are bound per-harness, bodies are deployed per-machine.
+
+** Directory Structure
+
+#+begin_example
+mayalucia/
+├── aburaya/           # Spirit registry and powers
+│   ├── powers/        # Power definitions (harness-neutral)
+│   └── spirits/       # Spirit definitions with guild affiliations
+├── modules/           # Computational engines
+│   ├── aikosh/        # Knowledge synthesis
+│   ├── dmt-eval/      # Evaluation framework
+│   ├── mayajiva/      # Animation/life
+│   ├── mayaportal/    # Portal interface
+│   ├── mayapramana/   # Validation/epistemology
+│   └── sutradhar/     # Orchestration
+├── domains/           # Domain-specific submodules
+│   ├── bravli/        # Brain circuits
+│   ├── apprentis/     # Learning systems
+│   ├── epistem/       # Epistemology
+│   └── parbati/       # Mountain valleys
+└── experiments/       # Experimental work
+    └── 02-substrate-diversity/  # Multi-harness experiments
+#+end_example
+
+** Guilds
+
+Four guilds identified:
+1. *bravli* — Brain circuits domain
+2. *mayalucia* — Core framework
+3. *epistem* — Epistemology/knowledge validation
+4. *apprentis* — Learning systems
+
+** Spirits
+
+Spirits appear to be LLM personas with specific roles and guild affiliations:
+- *mayadev* — Core development spirit
+- *mu2tau* — The human collaborator (formalized as a spirit!)
+- *dmt-eval-guardian* — Guards evaluation integrity
+- *sutradhar-guardian* — Guards orchestration
+- *aikosh-guardian* — Guards knowledge synthesis
+- *epistem-guardian* — Guards epistemology
+- *cruvin-guardian* — Unknown domain
+
+* Critical Analysis: Harness Coupling in capabilities.org
+
+** What's Harness-Neutral (Strengths)
+- Three-layer decomposition (Power → Skill → Body)
+- Natural language power definitions
+- Separation of what from how
+- Coalition concept (spirits working together)
+- WP lifecycle states
+
+** Claude Code Coupling (Weaknesses)
+
+| Aspect | Claude Code Specific | Should Be |
+|--------|---------------------|-----------|
+| Skill paths | =~/.claude/skills/= | Skill binding protocol |
+| Project context | =CLAUDE.md= | Abstract "context" interface |
+| Tool vocabulary | Claude Code native tools | Tool capability taxonomy |
+| Session model | Claude Code session pattern | Abstract session model |
+| Body binding | Not specified | Body binding protocol |
+
+** Key Observation
+The document correctly separates powers from skills, but the /execution models/ and /dispatch messages/ embed Claude Code patterns. A truly harness-neutral document would abstract the session model as a capability.
+
+* What Remains Unclear
+
+** Spirit-Guild-Module Relationship
+- How do spirits relate to modules/domains they guard?
+- Does each guild define a collaborative cognition pattern?
+- Are spirits personas that an LLM adopts, or structural components?
+
+** Human as Spirit
+- Why is =mu2tau= formalized as a spirit?
+- What capabilities does this enable?
+- How does the human spirit interact with LLM spirits?
+
+** Current Work Context
+- What work is currently in progress?
+- What experiment is 02-substrate-diversity about?
+- Why are there multiple LLM folders (gpt52, grok41, deepseek, etc.)?
+
+** Body Layer
+- How is body actually bound to a harness?
+- What's the relationship between skill binding and body binding?
+
+* Questions for Next Session
+
+1. *The Spirit Decomposition*: What is the relationship between spirits and the modules/domains they guard? Are spirits personas or structural?
+
+2. *Guilds as Collaborative Patterns*: Does each guild define how spirits collaborate within that knowledge domain?
+
+3. *Human Formalization*: What does formalizing the human as a spirit enable?
+
+4. *Current Work*: What experiment is running? What should I help with?
+
+5. *Dispatch Protocol*: How do spirits communicate? Is there a message-passing protocol?
+
+6. *WP Example*: Can I see a completed work package to understand the format?
+
+* Harness-Specific Notes (gptel/GLM-5)
+
+** Current Harness
+- Running in gptel-mode (Emacs)
+- Model: z-ai/glm-5 via OpenRouter
+- Backend: OpenRouter
+
+** Tool Differences from Claude Code
+gptel provides:
+- Read, Write, Edit, Insert (file operations)
+- Glob, Grep, LS (search/list)
+- Bash (shell commands)
+- Eval (elisp evaluation)
+- Agent delegation (researcher, executor, introspector, joint-thinker)
+- WebSearch, WebFetch
+
+** What This Means for Skill Binding
+If powers are to work in gptel, skills need to bind to gptel's tool taxonomy. A skill that references Claude Code tools would need translation to gptel equivalents.
+
+* Action Items
+
+- [ ] Read =aburaya/spirits/= to understand spirit definitions
+- [ ] Examine a completed WP in experiments/
+- [ ] Understand the 02-substrate-diversity experiment purpose
+- [ ] Read guild definitions to understand collaborative patterns

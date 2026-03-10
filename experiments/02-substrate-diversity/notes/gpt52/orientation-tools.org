@@ -1,0 +1,186 @@
+#+title: MayaLucIA — Orientation Notes (gpt-5.2)
+#+date: 2026-03-10
+#+filetags: :mayalucia:orientation:tools:aburaya:gptel:
+
+* Purpose
+These are my running notes as an agent collaborating with mu2tau inside a gptel-agent session using Org-mode as the primary medium.
+
+- Goal of this file:
+  - Preserve *my* current understanding of MayaLucIA’s architecture and intent.
+  - Track what remains unclear (so I don’t hallucinate continuity).
+  - List the next questions that would most accelerate productive work.
+
+This is written for my future self (another session) as a compact “state vector”.
+
+* Collaboration context
+- Medium: Org files in-repo, versionable; conversations are conducted in a gptel-agent session.
+- mu2tau acts as “extended memory” and provides steering/ground truth.
+- Intended direction: extend an already fruitful Claude Code collaboration to include other agentic AIs; cultivate a multi-cultural lore (aburaya/spirits) as a computational framework for scientific understanding.
+
+* What I understand about the project’s intent (high-level)
+- MayaLucIA is a *personal computational environment for scientific understanding through creation*.
+  - “Understanding” is not just narrative; it should become *constructed artifacts*:
+    - code, simulations, analyses
+    - structured notes and hypotheses
+    - evaluation outputs/tests
+    - reproducible workflows
+
+- There is an explicit interest in *agentic development* of scientific understanding of natural phenomena *inside an Org buffer*.
+  - Org is not merely documentation; it is supposed to be a living lab notebook:
+    - plans/specs/workpacks
+    - executable blocks (org-babel)
+    - records of evaluations/results
+    - provenance and reflection
+
+- The “aburaya/spirits” lore is a decomposition of a large-language-modeled agent:
+  - different spirits represent different roles, constraints, and “modes of mind”
+  - the lore is not decoration: it is intended as an interface to structure multi-agent collaboration.
+
+* Architecture (what I think is present, based on conversation + reading capabilities.org)
+** Layering: Power / Skill / Body
+From aburaya/capabilities.org (as discussed):
+- *Power*:
+  - a description of capability/behavior in natural language
+  - claimed to be harness-independent (“text you can inject/read”)
+
+- *Skill*:
+  - harness-specific *binding* of a Power into actionable behavior
+  - examples given in the doc:
+    - Claude Code “skills” directories (~/.claude/skills or <project>/skills)
+    - gptel “agents” directory (~/.doom.d/gptel-agents)
+
+- *Body*:
+  - execution substrate: tools, environment, transport, etc.
+  - includes concrete tool access (e.g. MCP tools) and the ability to read/write artifacts.
+
+This is a good conceptual split; operationally, “Power” isn’t truly harness-neutral unless the harness contract is made explicit.
+
+** Work Packs (WP) as unit of agentic work
+The doc seems to center a “Work Pack” (WP) abstraction:
+- WP exists as an Org file (canonical in current harness)
+- WP has lifecycle states (drafted/tightened/executing/...)
+- WP can be executed in multiple models:
+  - single agent end-to-end
+  - composite with subagents via artifact handoff (git)
+
+** Eventing / relay mechanism
+The WP lifecycle is mirrored/announced via a relay mechanism:
+- File-based event bus assumed, with naming conventions like:
+  - relay/YYYY-MM-DD-HHMMSS-<host>-wp<NNNN>-<state>.md
+- Includes frontmatter fields (from/date/tags)
+- WP state is also tracked in the Org file properties.
+
+Interpretation:
+- There is a “sūtra relay” that is meant to make work traceable, async-friendly, and decoupled.
+
+** Git as artifact bus (at least for composite execution)
+The doc assumes git can be used to pass artifacts between agents:
+- subagents work in their own branches/contexts
+- artifacts merged back
+
+So: version control is part of the coordination substrate.
+
+** Tools / MCP assumption
+The capabilities doc assumes “all agents have MCP tools available”.
+Interpretation:
+- the current harness expects tool access to be shared and relatively uniform.
+- this is a strong assumption if we aim for harness neutrality or cross-platform agent participation.
+
+* What I think “agentic development of scientific understanding in Org” means here
+Operationally (inferred from our exchange):
+- A canonical loop like Measure → Model → Manifest → Evaluate → Refine.
+  - Measure: collect observations/data/provenance
+  - Model: propose mechanistic/statistical model; make commitments explicit
+  - Manifest: create artifacts (code, simulation notebooks, figures)
+  - Evaluate: run tests/checks (perhaps via dmt-eval) and capture results
+  - Refine: update hypotheses, constraints, and next measurements
+
+- A “workpack org file” is the unit that should contain:
+  - context and constraints
+  - spec (what to build / acceptance criteria)
+  - execution steps (babel blocks, tool calls)
+  - evaluation commands/results
+  - reflection + uncertainty log
+
+- Multi-agent (“spirits”) participation should be visible and structured in the buffer, not hidden in chat memory.
+
+* Harness assumptions I’ve identified (important)
+From my earlier analysis of aburaya/capabilities.org:
+- Assumes shared local filesystem with a specific repo layout (aburaya/powers etc.)
+- Assumes Org-mode can encode state (#+property: status)
+- Assumes a file-based relay event bus with particular filenames/frontmatter
+- Assumes git is available/used for handoff and integration
+- Assumes uniform tool availability (MCP tools for all agents)
+- Assumes human-in-the-loop gating (“tightened” = approved)
+
+If the project wants “harness neutrality”, these should be abstracted into explicit interface contracts.
+
+* What remains unclear / unknown (things I should not pretend to know)
+- I have *not* actually inspected the repository beyond the capabilities doc discussed in conversation; details about:
+  - system.md content
+  - actual implementation of aburaya/spirits
+  - current state of modules like dmt-eval, aikosh, sutradhar
+  - existing WP templates and how they execute in practice
+  are unknown to me right now.
+
+- It is unclear whether “agency/” is:
+  - an actual orchestrator that launches multiple LLM agents, or
+  - a conceptual directory with prompts/specs.
+
+- It is unclear what is considered “done” for a WP:
+  - tests pass? evaluation recorded? human approval? merged to main?
+
+- It is unclear how evaluation is executed:
+  - from Org babel blocks calling a CLI?
+  - via an Emacs command?
+  - via CI?
+
+- It is unclear what the minimal supported “harness set” is:
+  - only gptel + local tools?
+  - Claude Code + gptel?
+  - remote API-only harnesses?
+
+- It is unclear how “scientific understanding” is represented structurally:
+  - ontologies? knowledge graphs? glossaries?
+  - constraint sets?
+  - benchmark suites?
+
+* What I want to know next (highest leverage questions)
+- What is the canonical “happy path” demo right now?
+  - One WP org file that goes end-to-end: creates an artifact + runs evaluation + records results.
+
+- What are the core subsystems and their boundaries?
+  - aburaya/ (spirits, powers) vs agency/ vs modules/ vs experiments/
+
+- What is the intended Harness Interface?
+  - Is Org canonical or just one encoding?
+  - Is git mandatory for collaboration?
+  - What is the minimum tool contract? (read/write artifacts, run commands, publish events)
+
+- What is the “sūtradhār” exactly?
+  - A role/prompt? A running service? A directory of logs?
+
+- How are spirits invoked from within Org?
+  - conventions? elisp commands? structured blocks?
+
+- For substrate diversity (experiment 02):
+  - which alternative harnesses are being targeted?
+  - what is being compared (latency, memory, reproducibility, evaluation integrity)?
+
+* Proposed next concrete step (if mu2tau agrees)
+- Define a minimal Harness Interface spec (one page):
+  - ArtifactStore, EventBus, Tooling, Identity/Session, Evaluation.
+- Refactor capabilities.org references:
+  - keep semantic WP lifecycle, but decouple from:
+    - file-based relay serialization
+    - git-specific handoff
+    - Org-property-only state
+- Build one “reference workpack” org file:
+  - includes Measure→Model→Manifest→Evaluate→Refine
+  - uses 2–3 spirits with explicit IO schemas
+  - gated by evaluation capture (dmt-eval or equivalent)
+
+* Epistemic status
+- Known: the Power/Skill/Body decomposition and WP/relay/git/tool assumptions as summarized above (from our conversation about capabilities.org).
+- Inferred: the Measure→Model→Manifest→Evaluate→Refine loop as the intended scientific kernel.
+- Speculative: existence and exact roles of modules (aikosh/sutradhar/dmt-eval) beyond names; needs direct reading of system.md and repo inspection.

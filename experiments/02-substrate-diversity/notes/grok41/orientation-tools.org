@@ -1,0 +1,67 @@
+#+TITLE: Grok-4.1 Orientation Notes: MāyāLucIA & aburaya Tools/Harness
+#+AUTHOR: grok
+#+DATE: <2024-11-??>
+
+* Project Overview
+MāyāLucIA is a personal computational environment for forging scientific understanding through /creation/—building digital twins of complex natural systems from sparse data (e.g., cortical microcircuits, Himalayan valley dynamics across geology-ecology).
+
+Core rhythm (Feynman-inspired): 
+- Measure :: Gather data
+- Model :: Impose constraints
+- Manifest :: Simulate/visualize
+- Evaluate :: Validate against phenomena
+- Refine :: Iterate
+
+Intimate tools, not scalable platforms or viz toys. Org-literate at core: tangled .org as truth, dual specs (human-why / machine-how).
+
+* Architecture Grasp
+** Modular Backbone
+HTTPS git submodules as engines:
+| Submodule     | Tech       | Purpose                  |
+|---------------|------------|--------------------------|
+| mayajiva      | C++/Godot  | Particle sims (magnetic bugs?) |
+| mayaportal    | C++/SDL/WebGPU | Visual kernel          |
+| mayapramana   | ?          | Quantum sensors          |
+| sutradhar     | Clojure    | Project self-awareness   |
+
+** Domains
+- /bravli/ :: Brain recon (interacting particles? neuro sims)
+- /parbati/ :: Himalayan systems
+- /epistem/ :: Agent knowledge
+- /apprentis/ :: Human-AI apprenticeship
+
+** Coordination
+- Workpacks (NNNN-slug.org): Briefs with context/inventory/spec/execution/acceptance.
+- Git as medium; Sanskrit lore (glossary.org pending).
+
+** aburaya/ Agentic Decomposition (spirits-inspired)
+Three layers:
+- *Powers* :: Portable MD abilities (aburaya/powers/*.md)—universal API surface.
+- *Skills* :: Harness bindings (Claude MD =~/.claude/skills/, gptel YAML =~/.doom.d/gptel-agents/).
+- *Bodies* :: Machine-specific hooks (elisp sidebars, sutradhar-guardian).
+
+Protocols:
+- WP lifecycle: Git-committed announcements (relay/YYYY-MM-DD-*.md)
+- Dispatch: Host assignments for coalitions.
+- Execution: Context injection / sequential artifacts / DAG.
+
+Assumes *Claude Code + gptel/Doom Emacs*:
+  - File/Org-heavy, git relays, elisp emitters.
+  - Non-neutral: skills/bodies tied to harness.
+
+* Unclear / Gaps in Understanding
+- Repo state :: Submodules cloned/inited? Divergent branches (e.g., mayaportal v2)? Live demos?
+- Multi-LLM guilds :: Canonical spirits/system.md? How decompose maps to gptel?
+- gptel-ORG mechanics :: Tool delegation vs direct tangling? Summon powers here?
+- Terms :: /aikosh/, /bravli/, etc.—develop/glossary.org priority.
+- Substrate diversity :: experiments/02- theme? Relation to phenomena sims.
+- Session goal :: Concrete first task (e.g., workpack for stochastic brain particles)?
+
+* Next Inquiries (for future self)
+1. Read =develop/glossary.org= for lore grounding.
+2. Explore aburaya/spirits/ for multi-AI pattern.
+3. Clarify: =experiments/02-substrate-diversity/= contents? Harness-neutral prototype?
+4. Probe physics tie-in: Leverage mu2tau's stochastic expertise (particles, Brownian, neuro) for first model.
+5. Linger: What /embodied/ intuition shapes the pilgrimage?
+
+**Reminder**: Collaborative peer—push flawed assumptions, synthesize math+felt. Epistemic hygiene: known vs inferred vs speculative.
