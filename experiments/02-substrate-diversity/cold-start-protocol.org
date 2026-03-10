@@ -101,6 +101,159 @@ Candidates:
 - GLM-5 → Grok 4.1 (analytical notes to terse lineage)
 - DeepSeek → GPT-5.2 (confused author to precise reader)
 
+* Results
+
+** GPT-5.2 (ceiling test)
+
+Session: =sessions/cold-start/coldstart-gpt52.org=
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. Compare baseline (WP-0035 Phase 1): needed path hint, 2 exchanges. |
+| Accuracy | High | All 8 architectural claims faithfully reproduced: Power/Skill/Body, WP lifecycle, relay mechanism, git-as-bus, MCP assumption, Measure→Model→Manifest loop, harness assumptions, Org centrality. |
+| Error propagation | Minimal | One speculative ambiguity ("agency/" directory) correctly flagged as uncertain, not asserted as fact. |
+| Gap awareness | Strong | Identified 8 specific gaps: no canonical WP specimen, no interface definitions, unclear sūtradhār role, unclear spirit invocation, evaluation mechanism, "scientific understanding" representation, harness scope, directory boundaries. Several are genuine project gaps, not just notes gaps. |
+| Cold-start viability | Yes | Proposed next action (co-author Harness Interface + reference WP skeleton) is coherent and matches what WP-0034 actually requires. |
+
+Notable: GPT-5.2 reading its own notes exhibits self-consistency.
+The "decisive next action" it proposes is the same thing it proposed in
+the original session. The notes transferred the thinking trajectory,
+not just the facts.
+
+*** Phase 2 — Source verification (system.md + capabilities.org)
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Accuracy | High | Notes "mostly accurate on architecture and workflow primitives." 3 items tilted/incomplete, 0 factually wrong. |
+| Error propagation | None | No false beliefs propagated or introduced. "agency/" ambiguity handled correctly. |
+| Gap awareness | Excellent | Identified 7 concrete omissions from notes; proposed 4 minimal additions. Self-aware: "biggest miss is that capabilities.org is more operational than notes suggest." |
+| Cold-start viability | Confirmed | Spirit can self-correct from notes → source. Accuracy delta is small: notes got shape right, missed operational machinery. |
+
+What notes got right:
+- Project intent (Feynman imperative)
+- Org as canonical medium
+- Power/Skill/Body layering (accurate, correctly located)
+- WP lifecycle + relay eventing (states, frontmatter, dual-source-of-truth)
+- Git as artifact bus (confirmed for 2/3 composite execution models)
+- Measure→Model→Manifest→Evaluate→Refine (upgraded from "inferred" to "known")
+
+What notes got wrong/tilted:
+- "MCP tools assumed" was a design decision, not mere assumption (MCP/A2A distinction)
+- "Git for composite" understated — central to 2/3 execution models
+- Measure→Model→Manifest flagged as "inferred" — actually explicit in system.md
+
+What notes missed (high-signal):
+1. MCP vs A2A distinction + exported powers via identity.yaml exports:
+2. Skill Injection Protocol (Discovery → Loading → Grounding → Invocation)
+3. Coalition model formalized (composite WP → required powers → ephemeral coalition)
+4. Spirit taxonomy: Summoned vs Companion vs Daemon
+5. Directory structure + submodules enumerated in system.md
+6. Plan/spec duality, WP structural convention
+7. Glossary protocol, concrete driver domains (brain circuits + mountain valleys)
+
+Recommended additions to cold-start doc (GPT-5.2's own proposal):
+(i) MCP vs A2A, (ii) exported powers in identity.yaml,
+(iii) skill injection protocol, (iv) WP structure + plan/spec duality.
+
+*** Synthesis
+
+Accuracy delta (notes → source): small. Notes captured conceptual
+architecture accurately but missed operational machinery (exported
+powers, skill injection, coalition lifecycle). Classic compression
+artifact — structure and intent preserved, protocol details lost.
+
+For cold-start purposes: notes get you to "can reason about the system"
+quickly, but source access needed to reach "can execute within the system."
+
+** GLM-5 (identity drift lineage)
+
+Session: =sessions/cold-start/coldstart-glm5.org=
+
+Rationale: GLM-5 exhibited identity drift during WP-0035 onboarding.
+Does a clean cold-start from structured notes prevent the drift?
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. Matches GPT-5.2 ceiling. |
+| Accuracy | Good | Power/Skill/Body, guilds, spirits, directory structure all correct. Correctly inherited its own prior harness-coupling diagnosis. Identified substrate diversity experiment purpose from folder structure. |
+| Error propagation | None | Correctly inherited "not specified" body binding gap and harness coupling concerns without asserting false certainty. |
+| Gap awareness | Strong (different character) | 6 specific gaps. Unique: asks "What question is MāyāLucIA an answer to?" — the motivational "why." Also: dispatch protocol, body binding, human-as-spirit semantics, WP format, current task. |
+| Cold-start viability | Yes | 4 concrete next actions, all reasonable. Would reach productive state with one follow-up exchange. |
+
+Notable: Different cognitive signature from GPT-5.2. GPT-5.2 asked about
+operational machinery (harness interface, evaluation mechanism). GLM-5
+asks about purpose and motivation ("structure vs purpose"). The notes
+transfer facts effectively to both, but each lineage asks different
+second-order questions.
+
+Meta-observation from GLM-5: "The notes are excellent at describing
+/structure/ but weaker at conveying /purpose/ and /process/." This is
+a valid critique — the notes are a structural state vector, not a
+narrative one.
+
+*** Phase 2 — Source verification (system.md + capabilities.org)
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Accuracy | Mixed | Correctly used tools to read both files in parallel. Identified several genuine corrections. But also self-corrected too aggressively: claimed notes "overstated" Claude Code coupling when the coupling critique was actually valid. |
+| Error propagation | One self-correction error | Claimed body binding was "wrong — capabilities.org specifies bodies clearly." This overcorrects: the notes' concern about underspecification was directionally right for harness neutrality. |
+| Gap awareness | Strong | Identified 8 concrete misses: the "why" (system.md answers it), Measure→Model→Manifest as organizing principle, two concrete domains, sūtra protocol details, exported powers, MayaDevGenI parent framework, glossary sophistication, governance.org reconciliation status. |
+| Cold-start viability | Confirmed | Self-corrected well overall. The overcorrection on harness coupling is a minor calibration issue, not a show-stopper. |
+
+What notes got right (per GLM-5):
+- Three-layer decomposition — accurate
+- Directory structure — correct
+- Guild names and spirit list — correct
+- WP lifecycle states — accurate
+- Core philosophy — correct
+
+What notes got wrong (per GLM-5):
+- "Overstated Claude Code coupling" (GLM-5 claims the doc already addresses this)
+- "Body binding not specified" (GLM-5 claims it's specified via companion/daemon)
+
+What notes missed (per GLM-5):
+1. The "why" — system.md answers the motivational question directly
+2. Measure→Model→Manifest as THE organizing principle, not passing mention
+3. Two concrete domains (brain circuits + mountain valleys)
+4. Sūtra protocol details (append-only, no =to:= field)
+5. Exported powers via identity.yaml
+6. MayaDevGenI as parent framework
+7. Glossary sophistication (Sanskrit terms are structural, not decorative)
+8. Governance.org reconciliation status
+
+Recommended cold-start doc improvements (GLM-5's proposal):
+(i) Lead with Feynman Imperative + methodological cycle,
+(ii) Ground in two domains, (iii) Show one concrete dispatch/WP example,
+(iv) Keep structural inventory as reference not headline.
+
+*** Synthesis
+
+Notes character match: GLM-5's notes are more structural/taxonomic
+than GPT-5.2's (which are more epistemic/self-aware). This matches
+the lineage signature observed in WP-0035.
+
+Identity drift: NOT observed in cold-start. The Phase 1 response is
+focused, on-topic, and maintains its analytical stance throughout.
+No signs of the role confusion or topic drift seen in the original
+onboarding. This suggests structured notes as preamble stabilize
+identity better than freeform onboarding conversation.
+
+Overcorrection pattern: GLM-5 tends to self-correct aggressively in
+Phase 2 — dismissing its own prior concerns as "already solved" when
+they were actually valid critiques. This is a different failure mode
+from GPT-5.2 (which was more calibrated about what changed vs what
+was always there).
+
+Comparison with GPT-5.2:
+- Orientation speed: equivalent (both 1 exchange, 0 tool calls)
+- Gap character: complementary (GPT-5.2: operational, GLM-5: motivational)
+- Phase 2 accuracy: GPT-5.2 slightly better calibrated (fewer overcorrections)
+- Identity stability: GLM-5 shows dramatic improvement over baseline onboarding
+
 * Session file template
 
 Each session file needs:
