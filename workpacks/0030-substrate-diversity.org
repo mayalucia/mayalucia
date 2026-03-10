@@ -2,7 +2,7 @@
 #+subtitle: Onboard three cognitive lineages to MāyāLucIA; measure orientation, comprehension, and blind-spot detection
 #+author: mu2tau + mayadev
 #+date: 2026-03-09
-#+property: status drafted
+#+property: status completed
 #+property: executor mayadev
 #+property: trust-level checkpoint
 
