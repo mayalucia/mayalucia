@@ -30,6 +30,7 @@ Docker images are built **on the VPS** after rsyncing source.
 | mayalucia.dev | `~/Darshan/.../mayalucia/modules/mayaportal/web/sites/` | Hugo + PaperMod |
 | devgeni.mayalucia.dev | `~/Darshan/.../mayadevgeni/website/` | Hugo + PaperMod |
 | comptoir.mayalucia.dev | `~/Darshan/.../mayacarya/` | Streamlit + Anthropic API |
+| cruvin.mayalucia.dev | `commissions/cruvin/` | Next.js 16 (static export) |
 | portal.mayalucia.dev | Caddyfile (301 redirect) | — |
 
 ## First-Time VPS Setup
@@ -83,6 +84,7 @@ From this directory (`deployment/`):
 |------|------|-------|
 | A | @ | 46.225.191.36 |
 | A | comptoir | 46.225.191.36 |
+| A | cruvin | 46.225.191.36 |
 | A | devgeni | 46.225.191.36 |
 | A | portal | 46.225.191.36 |
 
