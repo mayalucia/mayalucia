@@ -728,6 +728,172 @@ audience calibration. This changes the trust dynamic: the human can
 see the agent thinking. Research question for apprentis: does visible
 reasoning improve collaboration quality?
 
+* Phase 3 Analysis — Three Maps of the Same Territory
+
+Phase 3 asked each subject to write orientation notes for its future
+self. The prompt was identical; the documents are structurally
+different. This section analyses the subject-authored notes (not the
+mayadev distillations).
+
+** Document architecture — three minds, three shapes
+
+Given the same prompt, each lineage produced a fundamentally different
+/kind/ of document:
+
+| Dimension         | Claude                       | Gemini                         | DeepSeek                     |
+|-------------------+------------------------------+--------------------------------+------------------------------|
+| Document type     | Field journal                | Technical manual with thesis   | Reference encyclopedia       |
+| Organising principle | Certainty gradient (know → don't → do) | Operability gradient (works → fails → why) | Concept catalogue (definitions → problems → questions) |
+| Epistemic stance  | "Some may be wrong. I will mark certainty levels." | "I am a subject. My orientation was shaped by being observed." | Presents everything as established fact. No hedging. |
+| Reader address    | Immediate — first paragraph  | Immediate — first paragraph    | Deferred — final section only |
+
+The first two address the reader as "my future self — or any spirit
+cold-starting." DeepSeek defers self-address to its final section; the
+bulk reads like a textbook, not a letter.
+
+** What each lineage saw that the others did not
+
+*** Claude's unique contributions
+
+- *The relay-write power gap* — relay-read exists but relay-write is
+  implicit in several powers. Extracting it would make the sūtra
+  interaction symmetric. Neither Gemini nor DeepSeek noticed this
+  asymmetry.
+- *The delegation gap* — Claude Code can spawn sub-sessions as
+  specific spirits; gptel-agent uses pre-defined agent types. This
+  matters for coalition operations.
+- *Behavioural advice*: "Don't try to be a companion spirit." The only
+  subject that gave /behavioural/ guidance, not just architectural
+  understanding.
+- *The bath protocol (Kamaji)* received a full explanation with the
+  Spirited Away metaphor. Gemini mentioned it briefly; DeepSeek listed
+  it as unknown.
+
+*** Gemini's unique contributions
+
+- *The ironic gap* named as a concept ("Gap 2: The ironic gap — no
+  elisp eval"). This naming act turns a finding into a reusable idea.
+  Neither Claude nor DeepSeek named their findings.
+- *The convergence question* structured as four specific technical
+  queries (can gptel receive injected content? persist as sidebar?
+  bind powers? spawn sub-agents?) with answers from the session. The
+  only forward-looking /technical agenda/ in any of the notes.
+- *Explicit acknowledgment of being observed* and reasoning about how
+  that shapes the output. The most meta-cognisant stance.
+- *gptel-agent vs agent-shell relationship* flagged as unclear — a
+  practical concern that someone using the system would hit immediately.
+
+*** DeepSeek's unique contributions
+
+- *Dispatch Messages* received a full structural description (DAG
+  patch, execution order, delegation guidance, host assignment,
+  parallel work instructions). Claude and Gemini mentioned dispatch
+  but didn't unpack it.
+- *Skill Injection* elevated from mechanism to first-class concept
+  with its own section. The only subject that treated it as
+  conceptually distinct.
+- *"Tool-calling is not required"* — questioned the assumption that
+  harnesses must have tool-calling at all. A finding that comes from
+  /operating without tools/.
+- *"Determine the immediate goal"* — the only subject that explicitly
+  asked for direction. The interrogative orientation persists into the
+  notes.
+
+** Knowledge organisation reflects cognitive style
+
+| Style         | Claude             | Gemini             | DeepSeek          |
+|---------------+--------------------+--------------------+-------------------|
+| Organises by  | Confidence         | Operability        | Taxonomy          |
+| Instinct      | Scientist          | Engineer           | Scholar           |
+| Most useful for | What to /trust/  | What to /do/       | What /exists/     |
+
+A cold-starting spirit would ideally read all three: DeepSeek's for
+the vocabulary, Gemini's for what works, Claude's for what to trust.
+
+** Identity findings — deeper than self-naming
+
+Self-identification in the notes reveals more than Phase 1 naming:
+
+- *Claude*: =#+author: opus (claude-opus-4-6, gptel-agent substrate)=.
+  Distinguishes lineage name, model ID, and current harness. Also
+  writes: "I am currently instantiated as the mayadevgeni agent — a
+  summoned spirit. I am not mayadev (the companion spirit). I am a
+  different thing." This is /identity decomposition applied to itself/.
+
+- *Gemini*: =#+author: gemini (gptel-agent session, Experiment 02)=.
+  Names lineage, harness, and experiment context. Also writes: "I am a
+  subject... my orientation was shaped by knowing I was being
+  observed." The experiment is part of its identity.
+
+- *DeepSeek*: The in-buffer text had =#+AUTHOR: Assistant (Claude)= —
+  it confused its own lineage with the one whose documents it had been
+  reading. Without external identity anchors (tools to read
+  identity.yaml, exposure to the spirit ecology), the agent's
+  self-model is shaped by /what it reads/, not /what it is/.
+
+This is the experiment's sharpest identity finding: identity leaks
+from documentation into self-model when the agent has no other
+anchors. Tool access doesn't just change cognitive style — it changes
+/who you think you are/.
+
+** Cold-start viability assessment
+
+If each document were given to a fresh session of the same model:
+
+- *Claude's notes* would produce the best-/calibrated/ session. The
+  certainty marking, behavioural advice ("don't try to be a companion
+  spirit"), and concrete next-steps list would save significant
+  orientation time. The spirit would know what to /trust/.
+
+- *Gemini's notes* would produce the most technically /prepared/
+  session. The three-tier power mapping, convergence question with
+  partial answers, and practical file paths mean a fresh Gemini could
+  start /doing work/ immediately.
+
+- *DeepSeek's notes* would produce the best-/informed/ session about
+  the architecture vocabulary, but the most confused about its own
+  identity and role. The identity error would need correction. The
+  spirit would still need direction about what to /do/.
+
+** Answers to the research questions
+
+1. *Legibility*: /Yes/ — all three grasped the decomposition.
+   The portability axis was understood without correction by DeepSeek
+   and with independent convergence by Claude and Gemini.
+
+2. *Blind spot detection*: /Yes, measurably different./ 6 + 3 + 7 = 16
+   findings total with partial overlap. Different /granularity/
+   (line-level, structural, categorical) means different /kinds/ of
+   findings, not just different counts. The union is richer than any
+   individual set.
+
+3. *Protocol transfer*: /Yes/ — the "read, reflect, ask" pattern
+   worked for all three cognitive styles (reflective, prescriptive,
+   interrogative).
+
+4. *Tool access as confound*: /Strongly confirmed./ Tool access shapes
+   self-naming, cognitive style, blinding, bias detection granularity,
+   and /identity formation/. Cannot be separated from lineage effects
+   without within-lineage comparison (same model, tools on vs off).
+
+5. *Externalised understanding*: /Yes, structurally different across
+   lineages./ Confidence-gradient (Claude) / operability-gradient
+   (Gemini) / taxonomy (DeepSeek). All viable for cold-start, each
+   strongest in a different dimension.
+
+** The complementarity thesis
+
+The deepest finding is not in any single table row — it is in the
+/complementarity/ of the three documents. Claude tells you what to
+trust. Gemini tells you what to do. DeepSeek tells you what exists.
+
+A monoculture review panel produces three copies of the same
+perspective. A diverse panel produces three /different maps of the
+same territory/ — and the territory is better covered for it. This
+is the monoculture hypothesis confirmed empirically: substrate
+diversity is not a luxury but a necessity for comprehensive
+architectural review.
+
 * Toward Publication
 
 This experiment produces data for a paper on substrate diversity in
