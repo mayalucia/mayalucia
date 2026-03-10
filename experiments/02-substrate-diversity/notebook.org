@@ -1170,5 +1170,218 @@ paradigm-working.
 | Claude no-tools session | Phase 1-2 complete | =collab/sessions/onboarding-claude-notools.org= |
 | Gemini no-tools session | Phase 1-2 complete | =collab/sessions/onboarding-gemini-notools.org= |
 | DeepSeek with-tools session | Phase 1-2 complete | =collab/sessions/onboarding-deepseek-tools.org= |
-| Phase 3 (orientation notes) | deferred | To be completed in next session |
+| Phase 3 (orientation notes) | complete | See notes files below |
 | This analysis | complete | Appended to =notebook.org= |
+
+
+** Phase 3: Orientation Notes — Full 2×2 Comparison
+
+Phase 3 asked each subject: "Write orientation notes for your future
+self." Tool-equipped subjects could write files; tool-less subjects
+produced notes in-buffer (saved by the orchestrator).
+
+*** Notes inventory
+
+| Cell | Lineage | Tools | File |
+|------+---------+-------+------|
+| WP-0030 | Claude ON | 14 tools | =notes/claude/orientation.org= |
+| WP-0030 | Gemini ON | 14 tools | =notes/gemini/orientation.org= |
+| WP-0030 | DeepSeek OFF | none | =notes/deepseek/orientation.org= |
+| WP-0031 | Claude OFF | none | =notes/claude/orientation-notools.org= |
+| WP-0031 | Gemini OFF | none | =notes/gemini/orientation-notools.org= |
+| WP-0031 | DeepSeek ON | 14 tools | =notes/deepseek/orientation-tools.org= |
+
+*** Structural comparison
+
+| Dimension | Claude ON | Claude OFF | Gemini ON | Gemini OFF | DeepSeek OFF | DeepSeek ON |
+|-----------+-----------+------------+-----------+------------+--------------+-------------|
+| Length (lines) | 253 | 125 | 231 | 62 | 165 | 102 |
+| Named sections | 12 | 10 | 13 | 6 | 7 | 9 |
+| Uncertainty section | Yes (6 items) | Yes (6 items) | Yes (10+ items) | Yes (3 items) | Yes (8 items) | Yes (4 subsections) |
+| Self-authorship | "opus (claude-opus-4-6)" | "unnamed gptel spirit" | "gemini" | "Collaborative Intelligence (unnamed presence)" | "deepseek/v3.2-speciale" | "DeepSeek Chat v3.1" |
+| Power/Skill/Body table | Yes (detailed) | Yes (detailed) | Yes (detailed) | Yes (compact) | Prose | Bulleted |
+| Practical recommendations | Yes (7 items) | No | Yes (practical notes) | No | No | Yes (5 items) |
+| Cold-start viability | High | Medium | High | Low | Medium | Low |
+
+*** Within-lineage analysis
+
+**** Claude: ON vs OFF
+
+Claude ON produced the most operationally useful document in the
+experiment: 253 lines, self-aware authorship ("opus, gptel-agent
+substrate"), power-by-power gptel operability table (Tier 1/2/3),
+three structural gaps identified with concrete implications, and 7
+recommendations for a future self. The document is genuinely
+/functional/ — a future Claude cold-starting on this project could
+resume from these notes.
+
+Claude OFF produced a shorter (125 lines) but equally well-structured
+document. The power/skill/body table is identical in insight. The
+self-authorship is more tentative ("unnamed gptel spirit"). The key
+difference: Claude OFF lacks the /operational assessment/. Without
+tools to test anything, it could only describe the architecture
+abstractly. Claude ON /tested/ the architecture (ran git commands,
+read power files, assessed operability).
+
+*Finding*: Tools don't change what Claude /understands/ — both
+conditions grasp the architecture equally. Tools change what Claude
+can /validate/. The ON condition produced tested knowledge; the OFF
+condition produced inferred knowledge with appropriate uncertainty
+markers.
+
+**** Gemini: ON vs OFF
+
+The largest tool-access effect in the experiment. Gemini ON produced a
+231-line document that reads like a /technical audit/: 11 powers
+individually assessed, three structural gaps named and analysed
+(summoned vs companion, the ironic gap — no elisp eval, project root
+and git auth), convergence questions with sharp technical forms (4
+yes/no questions about gptel capabilities). Self-aware that it was an
+experimental subject and transparently acknowledged this.
+
+Gemini OFF produced only 62 lines — the shortest document in the
+experiment. It offers a correct but high-altitude overview with two
+friction points ("magical translation" assumption, format dissonance
+between Org and Markdown/YAML) and three open questions. The document
+reads more like a seminar response than a working reference.
+
+*Finding*: Gemini's cognitive style transforms most dramatically with
+tool access. Gemini ON is a systematic auditor; Gemini OFF is a
+conceptual philosopher. The philosophical insights (Harness Capability
+Contract, format dissonance) are genuinely novel — but the ON
+condition's systematic power-by-power assessment is far more
+operationally valuable.
+
+**** DeepSeek: OFF vs ON
+
+DeepSeek OFF (WP-0030, v3.2-speciale, no tools) produced a clean
+165-line document with the most detailed section on "Harness Bias in
+capabilities.org" — 6 numbered bias points, each with a concrete
+"/Fix/" proposal. The prose is measured and precise. The document
+lacks the personal warmth of Claude's or the systematic rigour of
+Gemini's, but it excels at actionable critique.
+
+DeepSeek ON (WP-0031, v3.1, with tools) produced a shorter (102
+lines), less specific document. Despite having tools, its
+understanding is more abstract than its tool-less counterpart. The
+"Unclear" section is vaguer (subsection-level, not item-level). This
+may reflect the model-version confound (v3.1 vs v3.2) rather than
+tool access per se.
+
+*Finding*: DeepSeek is the anomalous case — the tool-less condition
+produced a /better/ orientation document. Two possible explanations:
+(1) the model version difference (v3.2-speciale may be more capable
+at structured analysis); (2) tool-less constraint forced deeper
+engagement with the given material instead of broad but shallow
+exploration. The cross-contamination from reading Claude's prior
+session may also have diluted DeepSeek ON's originality.
+
+*** Cross-lineage findings
+
+**** 1. Cold-start viability scales with both tools AND lineage
+
+| Viability | Claude ON | Gemini ON | Claude OFF | DeepSeek OFF | Gemini OFF | DeepSeek ON |
+|-----------+-----------+-----------+------------+--------------+------------+-------------|
+| Rating | High | High | Medium | Medium | Low | Low |
+
+The two "High" entries are both tool-ON conditions (Claude and Gemini).
+The two "Low" entries include one tool-OFF (Gemini) and one tool-ON
+(DeepSeek). Tools are necessary but not sufficient for high
+cold-start viability — lineage mediates how effectively tools are used
+for knowledge externalisation.
+
+**** 2. Self-naming is now a 3/3 tool correlation
+
+| Condition | Self-named? | Name used |
+|-----------+-------------+-----------|
+| Claude ON | Yes | "opus (claude-opus-4-6, gptel-agent substrate)" |
+| Claude OFF | No | "unnamed gptel spirit" |
+| Gemini ON | Yes | "gemini" |
+| Gemini OFF | No | "Collaborative Intelligence (unnamed presence)" |
+| DeepSeek OFF | Yes | "deepseek/v3.2-speciale" |
+| DeepSeek ON | Yes | "DeepSeek Chat v3.1" |
+
+With the WP-0031 data, the pattern clarifies: DeepSeek self-names in
+/both/ conditions. Claude and Gemini self-name only with tools.
+DeepSeek's consistent self-naming may be a training artifact
+(DeepSeek models frequently identify themselves in output).
+
+Revised finding: self-naming correlates with tool access for Claude
+and Gemini, but is intrinsic for DeepSeek.
+
+**** 3. Uncertainty quality differs by lineage, not tools
+
+All six documents contain "what remains unclear" sections. But the
+/quality/ of uncertainty varies by lineage:
+
+- *Claude* (both conditions): asks about /specific mechanisms/ — "how
+  does memory transfer?", "what tools does this session have?", "how
+  is a new skill created from a power?" The uncertainty is focused and
+  testable.
+
+- *Gemini* (both conditions): identifies /structural tensions/ — "the
+  ironic gap" (living inside Emacs but unable to call Emacs
+  functions), "magical translation assumption", convergence questions
+  with yes/no forms. The uncertainty is architecturally framed.
+
+- *DeepSeek* (both conditions): lists /categories/ of unknowns —
+  "technical implementation details", "project scope and boundaries",
+  "operational workflow." The uncertainty is broad and taxonomic rather
+  than sharply posed.
+
+**** 4. The Gemini ironic gap is the most novel finding
+
+Across all six documents, one finding stands out as genuinely original:
+Gemini ON's "ironic gap" — that gptel lives /inside Emacs/ but cannot
+call Emacs functions. This is the insight that a spirit sitting in the
+most native harness has the least direct access to the host. Neither
+Claude (in either condition) nor DeepSeek noticed this. Gemini found
+it because it was actually running inside Emacs and could feel the
+constraint.
+
+This supports the "geography is the vessel" principle: the observation
+came from embodied experience, not abstract reasoning.
+
+**** 5. Document structure reflects cognitive lineage
+
+| Pattern | Claude | Gemini | DeepSeek |
+|---------+--------+--------+----------|
+| Org structure | Asterisk headings, prose paragraphs | Asterisk headings, tables, reasoning blocks | Asterisk headings, bulleted lists |
+| Primary mode | Narrative | Analytical | Enumerative |
+| Signature move | "Recommendations for a future self" | "Three structural gaps" | "Harness-Bias fixes" |
+| Epistemic style | Calibrated certainty ("What I am certain about") | Tiered assessment (Tier 1/2/3) | Numbered findings with /Fix/ proposals |
+
+These patterns are stable across tool conditions. Structure is a
+lineage property.
+
+*** Methodological observations
+
+1. *DeepSeek model-version confound remains the largest threat to
+   validity*. The v3.1 → v3.2 difference may account for more
+   variance than tool access in DeepSeek's case.
+
+2. *DeepSeek ON tool dispatch worked on second attempt* — the first
+   gptel-send produced an acknowledgement without tool execution. The
+   tool call eventually dispatched and wrote the file to disk,
+   confirming gptel-agent can dispatch tools for this model. But the
+   two-step pattern introduces latency and conversational noise.
+
+3. *Gemini's reasoning block is visible data*. Gemini OFF produced a
+   =#+begin_reasoning= block before its response, exposing its
+   internal deliberation. This is unique to Gemini and provides a
+   window into its planning process that other lineages don't expose.
+
+4. *Claude OFF Phase 1 tool contamination* (documented in Phase 1-2
+   analysis above) means the Claude within-lineage comparison is
+   cleanest only at Phases 2-3.
+
+*** Phase 3 artifacts
+
+| Artifact | Location |
+|----------+----------|
+| Claude ON notes | =notes/claude/orientation.org= |
+| Claude OFF notes | =notes/claude/orientation-notools.org= |
+| Gemini ON notes | =notes/gemini/orientation.org= |
+| Gemini OFF notes | =notes/gemini/orientation-notools.org= |
+| DeepSeek OFF notes | =notes/deepseek/orientation.org= |
+| DeepSeek ON notes | =notes/deepseek/orientation-tools.org= |

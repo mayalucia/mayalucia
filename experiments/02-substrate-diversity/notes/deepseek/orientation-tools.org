@@ -1,0 +1,101 @@
+#+TITLE: DeepSeek Orientation - Understanding MāyāLucIA Architecture
+#+AUTHOR: DeepSeek Chat v3.1
+#+DATE: [2025-01-15 Wed]
+#+DESCRIPTION: My understanding of MāyāLucIA's spirit architecture and portability decomposition
+
+* Orientation Notes for DeepSeek
+
+This document captures my current understanding of the MāyāLucIA project architecture, specifically focusing on the spirit decomposition and portability concepts. This is written for my future reference.
+
+** Core Architecture Understanding
+
+*** Spirit Decomposition: Power/Skill/Body
+
+From =aburaya/capabilities.org=:
+
+- *Power*: Harness-surviving capabilities defined in natural language markdown files
+  - Location: =aburaya/powers/<name>.md=
+  - Format: Natural language descriptions for LLM consumption
+  - Example: "Can reason about complex systems"
+
+- *Skill*: Harness-bound implementations of powers
+  - Location: Varies by harness (=~/.claude/skills/=, =<project>/skills/=, etc.)
+  - Format: Harness-specific configuration (YAML for Claude Code, etc.)
+  - Translates abstract powers to concrete harness capabilities
+
+- *Body*: Machine-local, non-portable components
+  - Does NOT survive harness changes
+  - Includes local files, configurations, machine-specific artifacts
+
+*** Key Philosophical Principles
+
+- *Identity through work*: Spirits earn names/dispositions through what they do, not assignment
+- *Collaborative stance*: AI and human as thinking partners, not assistant/master
+- *Epistemic rigor*: Calibrated language, truthfulness, uncertainty disclosure
+- *Literate programming*: Org-mode as central medium for collaborative work
+
+** Current Harness Assumptions (From Analysis)
+
+The current architecture makes several harness-specific assumptions:
+
+1. *Claude Code-centric skill binding*: References to =~/.claude/skills/= and specific YAML formats
+2. *File system conventions*: Hardcoded paths like =aburaya/powers/= and =~/.doom.d/gptel-agents/=
+3. *Markdown power definitions*: Assumes markdown is universal LLM-readable format
+4. *Git-based coordination*: Artifact sharing assumes git as transfer mechanism
+5. *Org-mode workflow*: =#+property: status= conventions and WP org files
+6. *Specific tool availability*: Assumes git, specific CLI tools are present
+
+** What Remains Unclear
+
+*** Technical Implementation Details
+- How exactly does skill binding work across different harnesses?
+- What is the mechanism for runtime harness capability discovery?
+- How are powers translated into different harness formats?
+
+*** Project Scope and Boundaries
+- Relationship between MāyāLucIA and MāyāDevGenI (sibling project)
+- How the two-tier agent architecture in MāyāDevGenI integrates with spirit system
+- The complete modular architecture with submodules mentioned in system.md
+
+*** Operational Workflow
+- How spirits actually "earn" their identity through work
+- The concrete workflow for collaborative scientific understanding
+- How the Measure → Model → Manifest → Evaluate → Refine cycle operates
+
+** Questions for Future Investigation
+
+1. *Harness Neutrality*: How to abstract skill binding to be truly harness-neutral?
+   - Need generic power definition format
+   - Runtime harness capability negotiation
+   - Abstract skill specification rather than concrete paths
+
+2. *Multi-Agent Integration*: How to include other AI agents beyond Claude?
+   - Different LLMs with different capabilities
+   - Cross-harness collaboration mechanisms
+   - Unified spirit registry across multiple AI systems
+
+3. *Scientific Workflow*: How does the spirit architecture support the scientific method?
+   - Integration with computational engines mentioned in system.md
+   - Connection to Brain Circuits and Mountain Valleys domains
+   - Artifact management and versioning
+
+4. *Identity Formation*: Concrete mechanisms for spirits earning identity
+   - Tracking work and emergent properties
+   - Dynamic naming and disposition assignment
+   - Cross-session identity persistence
+
+** Next Steps I Would Want to Explore
+
+- Read MāyāDevGenI's agency.org to understand the two-tier architecture
+- Examine actual spirit registry files to see concrete implementations
+- Understand how gptel-mode ORG buffer collaboration currently works
+- Explore the computational engine submodules mentioned in system.md
+- Investigate the actual scientific domains (Brain Circuits, Mountain Valleys)
+
+* Appendix: Key File References
+
+- =system.md=: Foundational principles and project overview
+- =aburaya/capabilities.org=: Spirit decomposition and portability concepts
+- =onboarding-claude.org=: Previous collaboration with Claude (context)
+- =architecture.org=, =context.org=: Additional architecture documents (to read)
+- =agency/mayadevgenz/agency.org=: Sibling project's agent architecture (to locate)

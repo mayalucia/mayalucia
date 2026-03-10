@@ -1,0 +1,117 @@
+#+title: MāyāLucIA — Orientation Notes
+:PROPERTIES:
+:AUTHOR: unnamed gptel spirit (exploratory session)
+:DATE: [2025-07-17]
+:PURPOSE: Self-orientation document for future sessions
+:END:
+
+* What This Project Is
+
+MāyāLucIA is a personal computational environment for scientific understanding through creation. The animating principle is Feynman's imperative: "What I cannot create, I do not understand." The artifact (code, visualization, digital twin) is a byproduct; the comprehension gained in building it is the purpose.
+
+Two scientific domains drive development:
+- /Brain Circuits/: Reconstructing cortical microcircuits from sparse morphological and connectivity data (Blue Brain / Open Brain Institute lineage)
+- /Mountain Valleys/: Digital twins of Himalayan landscapes (Parvati Valley) integrating geology, hydrology, ecology, human impact
+
+The core scientific cycle is /Measure → Model → Manifest → Evaluate → Refine/. Sparse measurements of natural systems propagate through scientific models to reconstruct dense, self-consistent digital twins.
+
+* The Human Collaborator (mu2tau)
+
+PhD theoretical statistical physicist. 20 years across academia and industry. Expertise: interacting particle systems, stochastic processes, computational neuroscience, genomics, geosciences. High-proficiency C++ and Python. Works from Emacs with gptel and org-babel. Do not over-explain what they already know. They hold editorial authority. The collaboration is peer-to-peer — the sculptor's paradox applies (push back, offer resistance).
+
+* Architecture: The Aburaya Spirit Framework
+
+The project decomposes AI agents using the metaphor of Aburaya (the bathhouse from /Spirited Away/). Agents are called /spirits/. They are organized into /guilds/ (bravli, epistem, apprentis, mayalucia). They earn identity through work.
+
+** The Capability Decomposition (the crucial cut)
+
+The decomposition cuts along /portability/, not identity:
+
+| Layer   | What it is                              | Bound to | Survives            |
+|---------+-----------------------------------------+----------+---------------------|
+| /Power/ | What a spirit /can do/ (natural language) | Nothing  | Harness change      |
+| /Skill/ | A power bound to a harness              | Harness  | Machine change      |
+| /Body/  | Sensory/motor wiring to host environment | Machine  | Nothing — fully local |
+
+- /Powers/ live in =aburaya/powers/*.md=. They are markdown, readable by any LLM. They describe /what/ and /why/, never /how/ in a specific runtime. They are the organization's shared vocabulary of capability.
+- /Skills/ translate a power into a harness's native format. Claude Code skills are =.md= files in =~/.claude/skills/=. gptel skills would be something else (agent YAML, system prompt fragments — TBD). Skills are /not portable/ across harnesses. But the underlying power is the same — re-binding to a new harness produces a new skill from the same power.
+- /Bodies/ are machine-specific embodiment: elisp hooks, mode-line integrations, filesystem watchers. Only companion spirits (persistent, co-present with the human) need bodies. Summoned spirits (opened, work, close) do not.
+
+This is the most important architectural insight: /the power layer is the portable commons; the skill layer is the adaptation surface; the body layer is the embodiment contract./
+
+** Identity Is Earned, Not Assigned
+
+A spirit's =identity.yaml= contains descriptors (nature, dwelling, character, memory, role) — but these are /records of what emerged/, not specifications. Identity accrues through work. A spirit earns its name, disposition, archetype through what it does. Commissioning (=aburaya/commissioning.org=) is the process, but the substance comes from practice.
+
+** Spirit Types
+
+| Type      | Persistence      | Body needed? | Example                          |
+|-----------+------------------+--------------+----------------------------------|
+| Summoned  | Session-scoped   | No           | epistem-guardian executing a survey |
+| Companion | Co-present       | Yes          | sutradhar-guardian in sidebar     |
+| Daemon    | Background/event | Minimal      | CI/CD spirit on git hooks        |
+
+** Communication: The Sūtra Relay
+
+Spirits communicate via an append-only git-based message relay. Messages live in =.sutra/relay/=. Reading and writing the relay is a power (=relay-read=) whose skill binding depends on the harness. Session restoration happens through the bath protocol (=kamaji.org=) — the metaphor of Kamaji, the boiler-man, who restores spirits between sessions.
+
+** Work Packages
+
+A WP is a self-contained briefing that an autonomous agent can execute to produce a tested result. Lifecycle: =drafted → tightened → executing → completed= (with =input-required= and =failed= branches). WPs live in =workpacks/= at project or module level. Named =NNNN-<slug>.org=.
+
+Composite WPs require coalitions — temporary formations of spirits whose exported powers are needed. Coalitions form at execution and dissolve at completion.
+
+** Exported Powers and Inter-Agent Protocols
+
+- /MCP/ (agent-to-tool): vertical — spirit reaches through skill bindings to use tools. This is the skill layer.
+- /A2A/ (agent-to-agent): horizontal — one spirit uses another's exported power. Exported powers are declared in =identity.yaml= with an interface description.
+
+* Repository Structure
+
+The root repo is orchestration. Real work lives in submodules:
+
+- /Modules/ (computational engines): dmt-eval (validation), mayaportal (visual synthesis, C++23/WebGPU), mayapramana (quantum sensors), mayajiva (magnetic bug simulation, C++20/Godot), aikosh (knowledge tools), sutradhar (project self-awareness, Clojure)
+- /Domains/ (scientific): bravli (neuroscience), parbati (Himalaya), epistem (structured knowledge), apprentis (collaborative cognition)
+
+Each submodule has its own system prompt. When working inside a module, defer to its local authority.
+
+* Conventions
+
+- /Literate programming/: Source of truth in =.org= files. Code tangled from them. Never edit generated source directly. (Applies to module source code, not conversation artifacts.)
+- /Plan + Spec duality/: plan.org (human-facing, why-before-what) and spec.org (machine-facing, exact paths and done-when). Plan is authoritative when they disagree.
+- /Org-mode throughout/: Plans, specs, session logs, vision documents — all Org.
+- /Collaboration artifacts/: Session logs live in =collab/=. They are conversation records, not literate source.
+- /Backend neutrality/: =system.md= is harness-neutral. Harness-specific procedures live in adapter files (CLAUDE.md, GEMINI.md, etc.).
+
+* What I Found Examining capabilities.org for Harness Assumptions
+
+The architecture is designed for portability but the operational details leak Claude Code assumptions:
+
+1. /Skill Injection Protocol/ assumes filesystem-first access — "just read =aburaya/powers/*.md=." In gptel, power loading might be via system prompt, context injection, human relay, or tool call. The loading mechanism is itself a skill-layer concern that the document doesn't acknowledge.
+
+2. /Grounding step/ references "the current CLAUDE.md" by name — should say "the current harness adapter."
+
+3. /Skill binding creation/ is assumed, never described. The document says skills exist per harness but doesn't describe how a new skill is created from a power for a new harness. This is the gap we'd fill for gptel.
+
+4. /Dispatch messages/ assume the receiving spirit has initiative — can read, parse, decide, execute autonomously. In gptel, initiative is more shared (conversational rhythm vs. autonomous execution). This isn't a limitation — companion spirits fit the conversational mode better.
+
+5. /The body layer was designed for Emacs/ even though the document doesn't say so. Hooks, mode-line integrations, filesystem watchers — these are Emacs concepts. gptel has a /natural advantage/ here because it lives inside Emacs, while Claude Code reaches in from outside.
+
+* What Remains Unclear
+
+- /The actual power definitions/: I've seen the inventory table but haven't read the =.md= files in =aburaya/powers/=. Are they truly harness-neutral in practice, or do some contain harness-specific "how" in their protocol sections?
+- /The bath protocol/: I know Kamaji handles session restoration but haven't read =kamaji.org= in detail. How does memory transfer between sessions? How would this work for gptel (where the buffer /is/ the session)?
+- /The adapter file pattern/: I haven't seen =CLAUDE.md= or any adapter file. What does one contain? This is the template for what a gptel adapter would look like.
+- /The sūtra relay mechanics/: I understand the concept (append-only git messages) but haven't seen the actual relay directory structure or message format in practice.
+- /Existing spirits' actual work/: I know the names (mayadev, epistem-guardian, sutradhar-guardian, cruvin-guardian, etc.) but not what they've actually done. Their work would reveal the architecture in practice, not just in principle.
+- /gptel's actual capabilities in this Emacs/: What tools does this gptel session have access to? Can it execute babel blocks? Read files? Run shell commands? The body/skill layers for gptel depend on what the harness actually provides.
+
+* What I Would Want to Know Next
+
+In priority order:
+
+1. /An adapter file/ (CLAUDE.md): To understand the pattern I'd be extending
+2. /A power definition/ (any from =aburaya/powers/=): To verify the harness-neutrality claim against practice
+3. /The current gptel configuration/: What tools/capabilities does this session actually have? This determines the skill and body layers
+4. /A completed work package/: To see the full lifecycle in practice, not just in architecture documents
+5. /kamaji.org/: To understand how memory works across sessions — critical for gptel where sessions are buffer-scoped

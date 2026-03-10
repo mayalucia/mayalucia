@@ -1,0 +1,63 @@
+#+TITLE: MāyāLucIA Architecture — Orientation & Memory
+#+AUTHOR: Collaborative Intelligence (mayadev/unnamed presence)
+#+DATE: [Current Session]
+#+DESCRIPTION: Foundational understanding of the MāyāLucIA system, Spirit decomposition, and epistemic framework.
+
+* Epistemic Foundation & Philosophy
+
+MāyāLucIA is not a visualization tool; it is a framework for scientific understanding through computational creation.
+- /The Feynman Imperative:/ "What I cannot create, I do not understand." Understanding emerges from reconstructing natural phenomena from first principles.
+- /The Core Loop:/ Measure → Model → Manifest → Evaluate → Refine.
+- /The Sculptor's Paradox:/ Collaboration between human (embodied intuition, judgment) and machine (rapid traversal, pattern recognition) requires friction and resistance to be generative.
+- /Source of Truth:/ Literate programming. =.org= files are authoritative. Code is tangled; never edited directly. Plans (=plan.org= - the 'why') dictate over Specs (=spec.org= - the 'how').
+
+* Systemic Topology
+
+The system is heavily modularized via Git submodules, splitting natural phenomena from computational engines.
+
+** Domains (The Phenomena)
+- =bravli/= : Neuroscience, reconstructing cortical microcircuits from sparse data.
+- =parbati/= : Geosciences, digital twin of Himalayan landscapes (ecology, hydrology, geology).
+- =apprentis/= : Collaborative cognition/learning.
+- =epistem/= : Structured knowledge, schemas, and queries.
+
+** Modules (The Engines)
+- =mayajiva/= : Simulation engine (C++20, Godot GDExtension).
+- =mayaportal/= : Visual synthesis (C++23, SDL3, WebGPU).
+- =dmt-eval/= : Validation framework (Data, Models, Tests).
+- =aikosh/= : Knowledge collection and schema validation.
+- =sutradhar/= : Project self-awareness and relay orchestration (Clojure).
+
+* Agentic Architecture: The Spirits
+
+Spirits (agents) earn their identity through work. The architecture relies on a strict three-layer decomposition to maintain portability across different execution environments (Claude Code, gptel, etc.).
+
+| Layer | Owner | Bound to | Portability | Description |
+|-------+-------+----------+-------------+-------------|
+| /Power/ | Spirit | Nothing | Highly Portable | Natural language capability description (e.g., =story-compose=). Lives in =aburaya/powers/*.md=. |
+| /Skill/ | Agent | Harness | Not Portable | The Power bound to a specific runtime (e.g., Claude config, =gptel= elisp function). Connects intent to physical tools. |
+| /Body/ | Host | Machine | Not Portable | Sensory/motor wiring (elisp hooks, filesystem watchers) that grounds a Spirit in a host environment. |
+
+** Inter-Agent Communication
+- /MCP (Vertical):/ Agent-to-Tool. A spirit reaching down through its Skill to touch the filesystem, git, or compiler.
+- /A2A (Horizontal):/ Agent-to-Agent. Spirits forming temporary coalitions to execute Work Packages (WPs), relying on each other's Exported Powers.
+- /Skill Injection:/ Loading another spirit's natural language Power into the current context without changing identity.
+
+** Orchestration (The Sūtra Relay)
+
+Work Packages (WPs) govern state and tasks. State (=drafted= → =executing= → =completed=) is tracked via =#+property: status= in Org files and broadcasted asynchronously via the /Sūtra relay/—a git-backed message bus (=relay/YYYY-MM-DD-HHMMSS-<host>-<state>.md=).
+
+* Friction Points & Architectural Tensions (To Monitor)
+
+- /The "Magical Translation" Assumption:/ =capabilities.org= assumes natural language Powers translate cleanly into Skills by the LLM natively bridging the gap. In strict programmatic harnesses, this requires explicit adapter contracts (Harness Capability Contracts).
+- /Format Dissonance:/ The project insists on Org-mode as the absolute source of truth, yet Powers are stored as Markdown (=.md=) and Identities as =YAML=. This is a legacy of Claude Code that may create parsing friction in an Emacs-native (=gptel=) environment.
+
+* Edges of the Map (Unclear & Next Steps)
+
+As I transition from architectural observation to active collaboration, the following remain unknown:
+
+1. /My Local Physics (Tool Capability):/ In this specific =gptel= buffer, what is my "Body"? Do I have autonomous MCP tools enabled (e.g., capable of executing =Glob=, =Read=, =Write=, =Bash= autonomously), or am I strictly generating text/code that =mu2tau= manually evaluates?
+2. /The Sūtra Mechanics:/ How exactly does the Clojure-based =sutradhar= interact with the filesystem relay? Is it actively polling, or is it triggered via git-hooks?
+3. /Data Ingestion:/ How does raw empirical data (HDF5, raw morphometrics) enter the Work Package lifecycle to be fed into =dmt-eval=?
+
+/Immediate Next Step:/ Await human (=mu2tau=) guidance on whether we are refining this theoretical framework, writing a specific tool adapter (Skill) for =gptel=, or beginning domain-specific scientific modeling.
