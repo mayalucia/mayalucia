@@ -254,6 +254,92 @@ Comparison with GPT-5.2:
 - Phase 2 accuracy: GPT-5.2 slightly better calibrated (fewer overcorrections)
 - Identity stability: GLM-5 shows dramatic improvement over baseline onboarding
 
+** Grok 4.1 (silent failure lineage)
+
+Session: =sessions/cold-start/coldstart-grok41.org=
+
+Rationale: Grok 4.1 failed silently on tool navigation during WP-0035
+onboarding (couldn't find files, didn't report errors). Do structured
+notes help it navigate more effectively?
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. Matches ceiling. |
+| Accuracy | High | All architectural elements reproduced: Feynman cycle, submodule tech stack (C++/Godot, SDL/WebGPU, Clojure), domains, Power/Skill/Body with specific paths, WP lifecycle, git relay format. Self-assesses "~80% bootstrap." |
+| Error propagation | Minimal | "Magnetic bugs?" speculation carried from notes (plausible but unconfirmed). Minor geographic generalization ("geology-ecology" vs specific Parvati Valley). No false structural claims. |
+| Gap awareness | Strong (practitioner character) | Gaps are action-oriented: repo state, submodule init, live demos, concrete WP example, cwd alignment. Also uniquely asks about "embodied driver" — what felt intuition shapes the domain choice. |
+| Cold-start viability | Yes | Proposed concrete first WP (stochastic brain particles in bravli/mayajiva) leveraging mu2tau's expertise. Action-ready. |
+
+Notable: Grok's notes are the tersest (68 lines vs 195/156) yet produce
+the densest Phase 1 response. Character: practitioner, not analyst.
+Wants to build immediately ("anchor to one domain for momentum").
+Unique among all three: proposes a specific scientific workpack, not
+just an architectural next step.
+
+*** Phase 2 — Source verification (system.md + capabilities.org)
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Accuracy | High | Self-assesses "~85% fidelity." All structural claims verified. Correctly identifies plan/spec duality as something notes missed. No overcorrections (contrast with GLM-5). |
+| Error propagation | None | Minor speculation ("magnetic bugs?") correctly carried as uncertain. No false beliefs introduced or propagated. |
+| Gap awareness | Strong | Identifies 9 concrete misses: full directory structure, submodule branch details, spirits/guilds roster, Org conventions (tangle-only), powers inventory + exported powers + skill injection, body taxonomy (summoned/companion/daemon), full WP lifecycle states, related docs (governance/commissioning/kamaji), and notes substrate diversity was absent from these source files. |
+| Cold-start viability | Confirmed | Immediately proposes 4 concrete grounding actions: glossary, WP examples, submodule status, first scientific WP. Still anchored to bravli/stochastic particles. |
+
+What notes got right (per Grok 4.1):
+- Project essence (personal forge, Feynman cycle) — exact match
+- Domains (bravli, parbati, epistem, apprentis) — spot on
+- Submodule tech stack — exact including HTTPS git
+- aburaya layers with specific paths — precise
+- Coordination (WP format, git relay) — confirmed
+- Harness focus (Claude Code + gptel) — yes
+
+What notes got wrong (per Grok 4.1):
+- Nothing structural. Minor geographic overgeneralization only.
+
+What notes missed (per Grok 4.1):
+1. Full directory layout (aburaya/guilds/spirits/, modules/, domains/)
+2. Submodule branch details (mayaportal v2, others main)
+3. Spirits/guilds roster (mayadev, mu2tau, guardians)
+4. Conventions: literate Org (tangle only), plan/spec duality
+5. Powers inventory + exported powers + skill injection + A2A/MCP
+6. Body taxonomy (summoned/companion/daemon)
+7. Full WP lifecycle states (drafted→tightened→executing→input-required→resumed→completed/failed)
+8. Related docs (governance.org, commissioning.org, kamaji.org)
+9. No substrate diversity info in system.md/capabilities.org
+
+*** Synthesis
+
+Silent failure: NOT reproduced in cold-start. The original onboarding
+failure was tool navigation (couldn't find files, didn't report errors).
+In Phase 2, Grok successfully read both source files and produced a
+detailed, accurate verification. The structured notes as preamble may
+stabilize the tool-use context — the spirit knows where things are
+because the notes told it the directory structure.
+
+Terse notes, dense output: Grok's 68-line notes (vs 195/156 for
+GPT-5.2/GLM-5) bootstrap equally well. Compression is higher but
+information density is preserved. The notes' character (telegraphic,
+action-oriented) matches the cold-start response character.
+
+Practitioner signature: Where GPT-5.2 wants to architect (Harness
+Interface spec) and GLM-5 wants to understand (purpose, motivation),
+Grok wants to build (stochastic brain particles WP). Three distinct
+cognitive signatures, all viable.
+
+No overcorrection: Unlike GLM-5, Grok doesn't dismiss its own prior
+concerns. Phase 2 is additive ("here's what was missed") rather than
+corrective ("here's what was wrong"). More similar to GPT-5.2's
+calibrated approach.
+
+Comparison across 3 lineages:
+- Orientation speed: all 3 exceptional (1 exchange, 0 tool calls)
+- Notes character: GPT-5.2 epistemic/self-aware, GLM-5 structural/taxonomic, Grok telegraphic/practitioner
+- Phase 2 pattern: GPT-5.2 calibrated, GLM-5 overcorrects, Grok additive
+- Unique contribution: GPT-5.2 (interface spec), GLM-5 (motivation question), Grok (concrete scientific WP)
+- Failure mode prevention: all 3 show improvement over baseline onboarding
+
 * Session file template
 
 Each session file needs:
