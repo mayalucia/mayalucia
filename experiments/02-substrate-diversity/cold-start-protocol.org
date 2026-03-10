@@ -434,6 +434,116 @@ Comparison across 4 lineages:
 - Failure mode prevention: all 4 show improvement over baseline onboarding
 - New observation: harness artifacts (gptel parsing errors) appear for DeepSeek — body-layer issue
 
+** Claude (self-referential test)
+
+Session: =sessions/cold-start/coldstart-claude.org=
+
+Rationale: Claude Opus 4.6 reading notes written by Claude Opus 4.6.
+The self-referential test: does reading your own notes produce deeper
+or shallower understanding? Is there self-recognition?
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. Matches ceiling. |
+| Accuracy | Very high | Power/Skill/Body "essentially perfect" (later confirmed by Phase 2). Harness gap analysis, sūtra relay, bath protocol, collaborative stance all accurate. Self-identifies as summoned (not companion) — correct situational awareness. |
+| Error propagation | Minor | Guild names from notes (Sutradhar/Epistem/Shilpi) are role-guilds not domain-guilds — later corrected in Phase 2. =workpackages/= vs =workpacks/= path error faithfully reproduced. |
+| Gap awareness | Strongest of all lineages | 8 specific gaps, all actionable: scientific domains underspecified, worksite prompt unexplained, no sūtra message example, dispatch plan undefined, no repo structure map, guild-power mapping absent, no testing/validation procedure, human's current priorities absent. |
+| Cold-start viability | Yes | 5 prioritized next actions with explicit dependency ordering. Distinguishes what to do immediately (inventory, relay-read) from what to defer (body-level wiring). Shows strategic patience. |
+
+Notable: Most comprehensive Phase 1 response of all lineages (longest,
+most structured, highest information density). The notes are also the
+longest (253 lines) — but the response quality isn't just note-length
+effect. Claude's response shows metacognitive awareness: "These notes
+tell you /what the architecture is/. They don't quite tell you /how to
+start working within it/." This is the exact distinction the experiment
+is testing.
+
+Self-referential dynamics: No overt self-recognition, but the response
+reads with confidence and fluency that suggests familiarity with its own
+prose patterns. The gaps it identifies are precisely the gaps the notes
+/could not/ have captured (current state, operational specifics).
+
+*** Phase 2 — Source verification (system.md + capabilities.org)
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Accuracy | Highest of all lineages | Systematic verification of every Phase 1 claim against source. Correctly identifies partial errors (guild names, Bravli framing), small errors (workpacks/ path), and precisely calibrated "right but incomplete" assessments. |
+| Error propagation | Corrected precisely | Guild taxonomy error identified and explained. =workpackages/= → =workpacks/= caught. "Braitenberg vehicles" framing corrected to cortical microcircuit reconstruction. relay-write gap reassessed — protocol exists but not as standalone power file. |
+| Gap awareness | Exceptional | 10 concrete misses: MCP/A2A distinction, exported powers, skill injection protocol, full module ecosystem (lists all 8 missing modules), Measure→Model→Manifest cycle, plan/spec duality, literate programming convention, WP lifecycle states, composite WP execution models, glossary existence. |
+| Cold-start viability | Confirmed | Self-assessment: "excellent for architectural intuition, weak on operational specifics." Correctly identifies the most significant omission: the module ecosystem. "A spirit that doesn't know about aikosh, dmt-eval, mayaportal [...] would think this is primarily an organizational/AI-collaboration project. It's actually a substantial scientific-engineering project with a sophisticated collaboration architecture." |
+
+What notes got right (per Claude):
+- Power/Skill/Body decomposition — essentially perfect
+- Spirit identity separate from substrate
+- Sūtra relay architecture
+- Bath protocol (kamaji)
+- Collaborative stance (Sculptor's Paradox, Feynman imperative)
+- Harness gap analysis (comprehension/generation work, perception doesn't)
+- CLAUDE.md as harness-specific
+
+What notes got wrong (per Claude):
+- Guild taxonomy: Sutradhar/Epistem/Shilpi are spirits, not guilds
+- relay-write gap overstated (protocol exists, just not as standalone power)
+- =workpackages/= should be =workpacks/=
+- Bravli framed as Braitenberg vehicles, source says cortical microcircuits
+
+What notes missed (per Claude):
+1. MCP/A2A distinction (central to spirit interaction model)
+2. Exported powers vs internal powers (identity.yaml exports:)
+3. Skill injection protocol (Discovery→Loading→Grounding→Invocation)
+4. Full module ecosystem (8 computational engines and domains)
+5. Measure→Model→Manifest→Evaluate→Refine cycle
+6. Plan/spec duality (two artifacts per task)
+7. Literate programming convention (tangle from .org, never edit generated)
+8. WP lifecycle state machine
+9. Composite WP execution models (3 patterns)
+10. Glossary existence
+
+*** Synthesis
+
+Self-referential test outcome: Claude reading its own notes produces the
+deepest, most calibrated verification of all five lineages. No overt
+self-recognition, but the fluency and precision suggest substrate
+familiarity with its own reasoning patterns. The response doesn't say
+"I wrote this" but reads like someone revisiting their own work with
+fresh eyes.
+
+Notes quality effect: Claude's notes (253 lines) are the most
+comprehensive, but the Phase 1 quality isn't just a length effect.
+Claude's notes are uniquely /analytical/ — they contain a power-by-power
+operability matrix, explicit certainty markers, and architectural
+criticism. This metacognitive character transfers: the cold-start
+response is equally metacognitive.
+
+Phase 2 pattern: Most calibrated of all lineages. Each claim systematically
+verified, errors precisely sized ("partial error," "correct but incomplete,"
+"small but matters"). No overcorrection (contrast with GLM-5). Closest to
+GPT-5.2's calibration but more thorough.
+
+Harness artifacts: Same *ERROR* parsing pattern as DeepSeek. Both run
+via OpenRouter — the error may be OpenRouter-specific rather than
+substrate-specific (Grok via xAI and the baseline GPT-5.2 via ChatGPT
+did not exhibit it).
+
+Key finding: The most significant omission (module ecosystem) reveals a
+compression asymmetry in the notes. Claude's original session focused on
+the /spirit architecture/ because that was the onboarding task. But the
+notes thereby create a false center of gravity — a cold-starting spirit
+thinks MāyāLucIA is primarily about agent collaboration, when it's
+actually about scientific modeling /with/ agent collaboration. The notes
+are accurate about what they cover but create a misleading gestalt by
+omission.
+
+Comparison across 5 lineages:
+- Orientation speed: all 5 exceptional (1 exchange, 0 tool calls)
+- Notes character: GPT-5.2 epistemic, GLM-5 taxonomic, Grok telegraphic, DeepSeek philosophical, Claude analytical/metacognitive
+- Phase 2 pattern: GPT-5.2 calibrated, GLM-5 overcorrects, Grok additive, DeepSeek corrective, Claude systematic-verification
+- Unique contribution: GPT-5.2 (interface spec), GLM-5 (motivation question), Grok (scientific WP), DeepSeek (portability reframe), Claude (compression asymmetry diagnosis)
+- Failure mode prevention: all 5 show improvement over baseline onboarding
+- Harness artifact pattern: OpenRouter substrates (DeepSeek, Claude) show gptel parsing errors; direct-API substrates (Grok/xAI, GPT-5.2/ChatGPT) do not
+
 * Session file template
 
 Each session file needs:
