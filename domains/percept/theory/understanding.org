@@ -1,0 +1,194 @@
+#+title: Deep Understanding Natural Phenomena
+
+We say "I understand" as if the state of our understanding can be fully characterized as a binary state. However, experience of living tells us that a /true-understanding/ is always multi-faceted. We have to gather a layered spectrum of knowledge. Here we explore how to use deep learning to enhance our understanding of a natural phenomenon.
+
+* Professional Understanding
+
+Let us begin by reflecting on the meaning of "understanding" to different professionals.
+
+ * *The Physicist's Understanding*: The physicist likes to understand if there are some general principles that govern the structure and dynamics of the phenomena they are studying. However, a physicist's approach is open ended, and does not follow a rigid framework. Their efforts are devoted to the development of a predictive, mathematical description of nature. The physicist chases phenomena that are qualitatively striking, searching for a deep theoretical explanation. In their everyday work, the physicist tames the evident complexities of their current understanding of the phenomenon under study.
+
+   As an example, consider a key element of a statistical-physicist's perspective is the interplay between /reductionism/ and /emergence/. The physicist often seeks to understand a complex system such as a magnet by /decomposing/ the system's description into /constituent parts/ (atomic spins for a magnet), and their local interactions. The true triumph of /understanding/ comes from showing how the collective emergent phenomena (like a phase transition) arise from those simple details.
+
+   For deep learning in artificial neural networks, this perspective translates into treating the network as a complex statistical system. The /constituent parts/ are the neurons and their weighted connections. The /emergent phenomena/ are the network's capacity to learn, generalize, and form intricate internal representations of data. A physicist might ask: Can we describe the process of learning as a trajectory in a high-dimensional energy landscape, similar to protein folding? Are there "phase transitions" in learning, where the network's performance abruptly changes as a parameter (like dataset size or model width) is varied? The goal is to find universal laws or scaling properties that are independent of the specific architecture, connecting the microscopic details (weights, activations) to macroscopic behavior (learning accuracy, generalization error).
+
+ * *The Engineer's Understanding*: The engineer understands the functional and constructive aspects of their /world/. To understand means to /build it/, /control it/, and have it perform a task in a reliable and efficient manner. This perspective is grounded in the art of principled design and the science of managing trade-offs.
+
+   In the context of deep learning, this understanding manifests in two interconnected ways. First, in foundational engineering research (often at universities), the goal is to invent new and better building blocks. This involves designing novel architectures (like the Transformer), creating more efficient optimization algorithms, or developing techniques to make models more robust and fair. The focus is on creating new capabilities and principles. Second, in applied engineering (prevalent in industry), the focus shifts to using these blocks to construct reliable systems that solve real-world problems. This involves questions like: Can we design an architecture and training regimen to achieve a target accuracy? Can we deploy it on low-power hardware? How do we build the data pipelines and infrastructure to train a model with a trillion parameters? In both cases, the core is a constructive, "how-to" understanding, rooted in making something that works well.
+
+ * *The Biologist's Understanding*: A biologist's understanding of their world is mechanistic and descriptive. you start by identifying its components, map their connections, and describe the causal chain of events that produces a behavior. It's an understanding that must grapple with the immense complexity and historical contingency of evolution.
+
+   When using neural networks to understand the brain, the focus is on creating /mechanistic models/. The "mechanism" is the set of interacting components (artificial neurons, synapses) and the rules governing their dynamics, which together produce a computation. The goal is to build a model that not only mimics a biological behavior (e.g., classifying images) but whose internal workings are analogous to the brain's. A powerful approach, pioneered by researchers like Churchland and Shenoy, treats neural computation as a dynamical system. The state of a neural population is a point in a high-dimensional space, and computation is the trajectory of this state over time. An artificial neural network (especially a recurrent one) can be trained on a similar task. Neuroscientists then compare the "state space trajectories" of the artificial network with those recorded from real brains. If the geometries of these trajectories match, the artificial network becomes a candidate mechanism—a concrete, testable hypothesis for how the brain's neural dynamics implement that specific computation.
+
+ * *The Mathematician's Understanding*: A /mathematical understanding/ is about making ideas precise and discovering their deep, underlying structure. A mathematician begins by exploring, led by intuition, using the language of mathematics to quantify and frame a problem--and culminates in rigor and proof, which provide certainty and reveal the true boundaries of a concept.
+
+   For neural networks, the exploratory phase might involve asking: How "powerful" is a given network architecture? We can use mathematics to formalize this notion of power as "function expressivity." This exploration leads to conjectures, such as the idea that a network with a single hidden layer can approximate any continuous function. The second, crucial phase is rigor. The mathematician proves this conjecture, turning it into the Universal Approximation Theorem. This proof not only validates the intuition but also clarifies its conditions and limitations. This perspective leads to a deep understanding of why neural networks work at all, exploring the geometry of high-dimensional loss landscapes, the properties of stochastic gradient descent, and the fundamental relationship between network depth, width, and the types of functions it can learn.
+
+ * *The Computer-Scientist's Understanding*: The computer scientist understands the world through the lens of computation, algorithms, and data. To understand a system computationally is to analyze it in terms of its computational complexity, its implementation as a data structure, and its ability to scale. This perspective treats a neural network not just as a mathematical function or a physical system, but as a concrete /computational artifact/.
+
+   From this viewpoint, questions about deep learning and neural networks are algorithmic and structural. What is the most efficient algorithm to perform backpropagation on a GPU? (This leads to innovations in libraries like PyTorch and TensorFlow). What is the time and space complexity (Big-O notation) of training or running inference on a Transformer model? How should we design data structures and distributed systems to handle petabyte-scale datasets and train models with billions of parameters across thousands of machines? The computer scientist's understanding is concerned with what is practically computable, how to implement it efficiently, and how to build the complex software systems that make modern AI possible.
+
+* Understanding Connects Dots
+
+Understanding involves connecting dots: mapping relationships, seeing how components interact within systems, how causes connect to effects, how principles manifest across different scales. Understanding builds bridges between different levels of description. We do this when /macroscopic/ thermodynamic properties are connected to statistical physics of /microscopic/ particles.
+
+* Understanding as Belief Revision
+*The Bayesian Meaning*
+
+The Bayesian school of thought reframes understanding not as the acquisition of an absolute, binary truth ("I know this"), but as the *principled and continuous updating of our degree of belief in a hypothesis in light of new evidence*. Understanding, from this perspective, is a dynamic process governed by probability theory.
+
+At its core, Bayesian reasoning posits that our knowledge about the world can be expressed as a probability distribution over a set of possible models or explanations. To "understand" a phenomenon is to possess a sharp posterior distribution that assigns high probability to a small set of models that are both plausible (have reasonable prior probability) and are good at explaining the data we have observed (have a high likelihood).
+
+This leads to several profound implications for the nature of understanding:
+
+-   *Understanding is a Spectrum, Not a Switch:* You don't simply understand or not understand. Rather, you have a degree of confidence in a particular explanation. The "aha!" moment is not a leap from ignorance to truth, but a dramatic update where evidence causes the probability mass to concentrate heavily on one particular hypothesis, making it overwhelmingly more credible than its rivals.
+
+-   *Understanding is Generative:* A core part of the Bayesian framework is the generative model—a hypothesis about the process that creates the data. To have a good model is to be able to describe the "causal story" of how the observations came to be. This resonates deeply with Feynman's dictum, "What I cannot create, I do not understand." A strong Bayesian understanding implies having a model that can simulate the phenomenon in question, thus capturing its essential generative principles.
+
+-   *It Naturally Incorporates Ockham's Razor:* The Bayesian framework provides a mathematical basis for preferring simpler explanations. Through the mechanism of the "marginal likelihood" or "evidence," models are penalized for being overly complex. A model that can explain anything and everything is not a good model. A true understanding corresponds to a model that is constrained, one that makes specific predictions and is therefore more powerfully confirmed when those predictions hold true. Abstraction and generalization are not just aesthetic preferences; they are the hallmarks of a model with high evidence.
+
+-   *Uncertainty is Fundamental:* The Bayesian view does not seek to eliminate uncertainty but to quantify and manage it. Understanding is not the absence of doubt, but the possession of a well-calibrated and justifiable set of beliefs. It is knowing not only what you believe, but also /how strongly/ you should believe it, and what evidence would be required to change your mind.
+
+* Understanding as an Interaction
+*Quantum Mechanics and Information Theory*
+
+The "classical" meaning of /scientific/ understanding, inherited from Newtonian physics, is rooted in the ideal of a detached, omniscient observer who can know the state of a deterministic system with arbitrary precision. Understanding, in this view, is about uncovering the system's "true" state and the fixed laws that govern its evolution. Modern physics, particularly quantum mechanics and information theory, fundamentally tempers this classical ideal.
+
+*Quantum Mechanics: Embracing Indeterminacy and the Observer*
+
+Quantum mechanics shatters the classical picture in three critical ways:
+
+1.  *From Certainty to Probability:* At a fundamental level, the universe is not deterministic. The state of a quantum system is described by a wavefunction, which only allows us to calculate the /probability/ of observing a particular outcome upon measurement. This means perfect prediction is impossible, even in principle. Understanding shifts from knowing "what will happen" to knowing "the full spectrum of what /could/ happen and with what likelihood." Understanding becomes the mastery of the system's probabilistic nature.
+
+2.  *The Observer is Part of the System:* The act of measurement is not a passive observation of a pre-existing reality. Measurement forces the system to "choose" an outcome from its range of possibilities (the collapse of the wavefunction). This demolishes the idea of a detached observer. To understand a quantum system is to understand the results of its /interaction/ with a measurement apparatus. We can no longer speak of the properties of the system "as it is," only of the properties it reveals under specific experimental conditions.
+
+3.  *Holism over Reductionism:* Quantum entanglement reveals that parts of a system can be fundamentally interconnected in ways that defy classical intuition. Two entangled particles behave as a single entity, no matter how far apart they are. A complete understanding of one particle is impossible without reference to the other. This challenges a purely reductionist approach, suggesting that true understanding must sometimes be holistic, grasping the system's irreducible correlations.
+
+*Information Theory: Understanding as Compression and Communication*
+
+Information theory, founded by Claude Shannon, provides a mathematical language to quantify information, uncertainty (entropy), and communication. When applied to the concept of understanding, it offers a powerful, computational perspective:
+
+1.  *Understanding as Compression:* One of the most potent ideas from information theory is that to understand a set of data is to find a compact, minimal description (a model, a theory, a law) from which the original data can be approximately reconstructed. The Ideal Gas Law, $PV=nRT$, is an incredibly compressed representation of a vast number of observations about the behavior of gases. A good theory is one that achieves maximum compression with minimum loss of information. This formalizes the process of abstraction: we are finding the shortest possible computer program that can generate the phenomenon we are trying to understand.
+
+2.  *Information is Physical:* Landauer's principle establishes a fundamental link between information and the physical world: erasing a bit of information necessarily dissipates a minimum amount of energy. This means that knowledge, computation, and understanding are not purely abstract mental processes; they are grounded in physical reality and are subject to its laws.
+
+In summary, quantum mechanics and information theory force us to abandon the classical ideal of a perfect, objective, and deterministic understanding. They replace it with a more nuanced and interactive view where understanding means:
+-   Mastering the probabilistic nature of a system.
+-   Acknowledging the indelible role of the observer and the act of measurement.
+-   Seeing knowledge as a process of compression and model-building, a way to find concise descriptions of a complex reality.
+-   Recognizing that uncertainty is not just a temporary lack of knowledge but a fundamental feature of the universe itself.
+
+* Explain the Mechanisms to Understanding How
+
+To explain the /mechanism/ behind a phenomenon, we have to explain the internal workings of the system. We start by identifying the components, determine their interactions, and assembling the causal story of how they produce the system's behavior. This story can take two forms. Sometimes, it is a causal chain of events that leads from a clear /input/ to an /output/. At other times, it explains /how/ a stable, macroscopic property /emerges/ from and is /maintained/ by continuous microscopic interactions.
+
+Consider the pressure of a gas in a container. A mechanistic explanation for this stable property involves describing /how/ the constant, random collisions of countless gas molecules with the container walls give rise to the steady outward force we measure as pressure. We can also frame this as a dynamic input-output system. If we heat the container (the input), the mechanism describes how this added energy increases molecular kinetic energy, leading to more forceful collisions and thus a higher measured pressure (the output). In this view, the ideal gas law, $PV=nRT$, is the high-level summary of the relationship, while the statistical mechanics of molecular motion provides the deep mechanistic understanding.
+
+In our study of deep learning neural networks, this will be the domain of /interpretability/ and /explainability/ (XAI). What specific features in the input image caused the network to activate certain neurons? What do the intermediate layers of thee network represent? Can we trace a decision path through the network?
+
+* Abstract and Generalize to Understand Why
+
+/Abstraction/ is the cognitive act of distilling the essential from the incidental. Abstraction filters out the noisy, specific details of individual examples to isolate a common structure, a core property, or an invariant relationship. Observations of apples, stones, and planets all falling lead us to abstract away their color, size, and composition to arrive at the concept of =mass= and the principle of =gravity=.
+
+An abstraction's true worth is revealed through /generalization/. Generalization is the ability to apply an abstract principle or concept successfully to new, previously unseen instances. A principle is not truly understood if it only applies to the examples from which it was derived. Newton's law of gravitation describes not just the apple that fell on his head, but generalizes to predict the orbits of comets yet to be discovered and, with additional Einsteinian insights and amendment, also to the bending of starlight by the sun. Generalization validates that our abstraction has captured a genuine truth about the world in the form of /a general principle/.
+
+For a deep learning neural network we may ask why a convolutional architecture work so well for images? Why does a  recurrent network handle sequences? We need to apprehend abstract concepts such as invariants of translation and locality, and sequence data to understand such neural networks. And in doing so we develop further abstractions, such as those of /neural-network-architecture/ as something that /preceeds/ weights of the network.
+
+A trained network is, in essence, a machine that has learned a hierarchy of abstractions. The initial layers of a vision model learn to abstract simple features like edges, and colors from raw pixels. Deeper layers compose these into more complex abstractions like textures, patterns, and object parts, culminating in abstract representations of entire objects. The network's ability to correctly classify an image it has never seen before is a direct measure of its capacity for generalization.
+
+The very design of a neural network architecture is itself an act of human-driven abstraction. In a particular architecture we embed an assumption -- an inductive bias -- about the abstract structure of the problem domain.
+
+-   *Why does a convolutional network work so well for images?* Because the convolution and pooling operations are masterful abstractions that embody the principles of /locality/ (nearby pixels are related) and /translational invariance/ (an object is the same regardless of where it appears in the frame). The architecture generalizes across the domain of natural images precisely because it reflects these fundamental symmetries.
+
+-   *Why does a Transformer handle sequences so effectively?* Because its self-attention mechanism is a powerful abstraction for how meaning is constructed in language: the importance of any given word depends on its relationship to all other words in the sequence, not just its immediate neighbors.
+
+Therefore, to understand /why/ a network succeeds or fails, we must look to the quality of the abstractions it has learned and the appropriateness of the abstract principles embedded in its architecture. Understanding the architecture is to understand the built-in hypothesis about the world that precedes any learning from data. This connects the engineer's design choice to the physicist's search for universal principles, revealing that building intelligent systems is deeply entwined with the process of abstracting the fundamental structure of reality.
+
+* Predictive Power of Understanding
+
+Understanding often manifests as predictive power -- allowing us to anticipate the system's behavior under novel conditions, helping us grasp the underlying generative principles that creates the observed patterns.
+
+Reconstrucing and simulating the system process we are studying is a form of understanding, that is computational in nature. With code that reproduces a phenomena we expect to capture something essential about the system's operation.
+
+A well-trained neural network possesses this form of understanding. It has learned a complex function mapping inputs to outputs, much like an ancient astronomer could predict eclipses using empirical tables (Ptolemaic model) without understanding the underlying gravitational mechanics.
+
+In physics a well-calibrated phenomenological model is a predictive model. We know the equations work, and we can use them to make predictions, while lacking /a first-principles/ derivation for them.
+
+* Experiencing an Understanding
+
+To understand is to experience a particular quality of cognitive satisfaction. It is the "aha!" moment when disparate pieces (set of mathematical equations) suddenly cohere into a meaningful pattern (a theory), or when a complex biological process reveals its underlying logic.
+
+Not purely abstract, understanding is very much grounded in our accumulated experience with similar patterns across domains. Years of engaging with physical systems, mathematical structures, and computational process has shaped our brains' neural networks of understanding. Thus, we may characterize /understanding/ as achieving multiple, mutually reinforcing perspectives on a phenomenon -- phenomenological, structural, predictive, mechanistic, and experiential -- that together create a robust and flexible mental model.
+
+* Embodied Intuition as Understanding
+
+This is the highest and most personal level, where the formal knowledge has been so deeply internalized that it becomes second nature. It allows for rapid, almost subconscious, reasoning about a system's behavior. It is the "feel" an experienced physicist has for a problem or the intuition a master programmer has for debugging complex code. This intuition is built upon a solid foundation in all the previous levels.
+
+* Creative Understanding
+
+Richard Feynman famously said, "What I cannot create, I do not understand".
+
+We may not be satisfied to just thoroughly analyze a system. We may want to synthesize, modify, or design to achieve new goals. It will require a a mastery of the mechanics and principles so complete as to be able play with them.
+
+We can use our knowledge of the physics of electromagnetism to build a motor. Physics of quantum mechanics allows us to build a laser or a transistor.
+
+For neural networks, this kind of understanding will help is to design a novel network architecture for a new problem, or to diagnose why a network is failing to train, or to artfully craft the training data to improve performance, or to perform "adversarial attacks" by manipulating inputs in subtle ways to fool the network.
+
+* Understanding with a General Computational Paradigm
+
+Beyond the specific architecture of ANNs, deep learning can be understood as a computational paradigm built on three core pillars:
+
+1. *Hierarchical Representation Learning*: Deep learning represents data in a compositional hierarchy. Each level adds abstraction, with features at one level being composed of features from the level below. A system might learn from raw pixels to detect edges, then compose edges to detect textures and patterns, then compose those to detect object parts, and finally compose those to recognize objects. This is a general strategy for untangling complex, high-dimensional data by finding a sequence of simplifying transformations.
+
+2. *Differentiable Programming*: A deep learning model is a complex, parameterized function (or a /computational graph/). If the components of this function are (at least piecewise) differentiable, we can use the calculus of gradients (/i.e./ the chain rule generalized as backpropagation) to figure out how to adjust the millions of parameters to improve the model's performance on a given task. This is a framework for building complex computational structures--which could include physics simulations, graphics renderers, or logical operations--and then using gradient-based optimization to make them /learn/.
+
+3. *End-to-End Optimization*: Deep learning promotes learning the entire processing pipeline in a single, unified optimization process. The system learns the optimal features /at the same time/ as it learns how to use them to perform the final task. As a result the learned representations are perfectly tailored to the problem at hand, driven by the data and the objective function alone.
+
+In this broader view, an artificial neural network is simply the most successful and widely-used /implementation/ of these principles to date. The layers of the network provide the structure for hierarchical representation; the activation functions and linear transformations are the differentiable components; and backpropagation is the algorithm used for end-to-end optimization.
+
+Thinking of deep learning in this way frees us to imagine other systems that embody the same principles but look very different from a standard ANN. This is precisely where the most exciting research at the intersection of AI and natural sciences is happening.
+
+Instead of thinking of a deep learning model as /a multi-layer network of artificial neurons/, we generalize it as *a computational graph of differentiable functional blocks*. Any complex process—be it a physical simulation, a graphics rendering pipeline, or a logical inference engine—can become a part of the learning system, provided its operations can be made differentiable. This allows us to construct models that embed rich, domain-specific knowledge directly into their structure. Learning then becomes a process of end-to-end optimization, where gradient information flows through the entire computational graph—not just through layers of neurons, but through the very logic of the modeled domain.
+
+With this more general perspective we see that deep learning is not just about stacking layers of neurons. Instead, it is a powerful paradigm for building and optimizing almost any complex, parameterized computational system, that allows us to seamlessly integrate data-driven knowledge with domain-specific structural knowledge from physics, graphics, logic, and beyond. Let us consider some concrete examples of this generalized view of deep learning.
+
+** Encoding Physical Laws (Physics-Informed Neural Networks)
+
+A classic challenge in physics is to solve the differential equations that govern a system, often with only sparse and noisy data available.  Physics-Informed Neural Networks (PINNs) offer an elegant solution by fusing data-driven learning with first-principles physics. The model's network architecture may be represented as constituting two blocks,
+
+1. *The Functional Approximator Block*: A standard neural network is set up to approximate the solution. It takes coordinates (like position $x$ and time $t$) as input and outputs a predicted value (like fluid velocity $v$). This block works as a universal function approximator, learning directly from data.
+2. *The Physics Constraint Block*: A /virtual/ block with no learnable parameters, it takes the output of the first block (=v=) and uses automatic differentiation to compute its derivatives with respect to the inputs (=x= and =t=). It then plugs these computed derivatives into the governing differential equation. The output of this block is the "residual" of the equation—a measure of how much the approximated function violates the physical law.
+
+Thus the total loss function has two parts: a) the usual data-fitting loss that measures the match of output $v$ against the measurements, and b) the /physics/ loss that measures the PDE residual. The model then backpropagates through the entire graph -- include the derivative calculations in the PDE block to update the weights of the ANN. The result is a function that both fits the data and, by construction, obeys the laws of physics everywhere in the domain. Thus the model is not a black box, but a data-driven solution constrained by the mathematical expression of a physical law.
+
+** Inverting Causal Processes with Differentiable Rendering
+
+We understand an image when we can infer the properties of the 3D world that produced it. Differentiable rendering operationalizes this idea, framing "inverse graphics" as a deep learning problem. Here the blocks of our deep learning model will be,
+
+1. *The Scene Representation Block*: A 3D scene may be parameterized using a mesh, a set of voxels, or even another neural network that outputs color and density for any point in space (as in Neural Radiance Fields, NeRFs).
+2. *The Differentiable Renderer*: This is a program that simulates the process of light transport and camera projection to create a 2D image from the 3D scene in Block 1. Crucially, every operation in this renderer (ray-casting, shading, /etc./) is made differentiable. Its input is the scene description, and its output a pixel array (an image).
+
+The loss function is defined as the difference between the rendered image and the real photograph. To fit the model, the gradient of this pixel-wise loss is calculated, tracing the /computational graph/ all the way back through the renderer to the parameters of the 3D scence in Block 1. The optimizer then adjusts the 3D shape or texture parameters to make the rendered image look more like the target photograph. Thus the resulting deep learning model is a hybrid of a parameterized 3D representation and a full-fledged physics based renderer.
+
+** Learning with Symbolic Structure
+
+A key aspect of human understanding is our ability to reason with abstract symbols and logical rules. Neuro-symbolic models attempt to bridge the gap between the pattern-matching strengths of neural networks and the reasoning capabilities of symbolic AI.
+
+1. *The Symbolic Embedding Block*: Logical predicates and constants are not represented as True/False variables, but as vectors in a high-dimensional space as /embeddings/.
+2. *The Differentiable Logic Block*: Logical rules (like =AND=, =OR=, =IMPLIES=) are implemented as differentiable functions that operate on these vectors. For instance, a simple differentiable =AND= could be implemented using element-wise multiplication of the vectors.
+
+The system tries to prove a set of known facts using a set of candidate rules. The loss function measures the "truth-likeness" of its conclusions. Gradients are then propagated back through the logical operators to update the vector representations and the confidence in each rule. The system thus learns symbolic reasoning by optimizing a computational graph where the nodes are differentiable versions of classical logical operators.
+
+* Explore and Understand
+
+So what path are we going to choose? When we study a deep learning model, are we seeking a physicist's understanding (e.g., are there universal principles of learning?), an engineer's (how do we build better ones?), a biologist's (what can they teach us about the brain?), or a mathematician's (what can we formally prove about them?)?
+
+Strictly following a particular tradition of inquiry may be too dry to be fun. But the process of understanding should be full of fun. When we say "I understand" we're making a claim about our relationship with information, patterns, and reality itself.
+
+Understanding takes time, and is not monolithic. Our understanding will grow. We will be /creative/, producing digital artifacts that help us understand natural phenomena and beings.  We just have to begin on an exploration.
+
+At the same time we will refine our knowledge and understanding of the core concepts of physics, biology, neuroscience, information theory, and computation.
+
+* Notes
+
+- intelligent behavior :: awareness, perception, learning

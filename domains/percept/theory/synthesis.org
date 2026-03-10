@@ -1,0 +1,19 @@
+#+title: Perception as a Physical Mechanism
+
+
+Can we think of perception as a physical mechanism?
+
+
+* Cognitive Systems
+- cognitive system :: (Eliasmith) ...an integrated, adaptive system able to perform a myriad of perceptual, motor, and problem-solving tasks.
+
+- neural engineering framework (NEF) :: ...set of three principles that can help determine /how/ the brain performs some given function --- *neural compiler*
+  - about /how/ brains compute, not /what/ they compute
+  1. Neural representations are defined by the combination of nonlinear encoding (exemplified by neuron tuning curves and neural spiking) and weighted linear decoding (over populations of neurons and over time)
+  2. Transformations of neural representations are functions of the variables represented by neural populations. Transformations are determined using an alternately weighted linear decoding.
+  3. Neural dynamics are characterized by considering neural representations as state variables of dynamic systems. Thus, the dynamics of neurobiological systems can be analyzed using control (or dynamics systems) theory.
+  - Neural systems are subject to significant amounts of noise. Therefore, any analysis of such systems must account for the effects of noise.
+
+* Neural dynamics and representational geometry
+
+- brain computation can be understood as the transformation of representations across stages of processing

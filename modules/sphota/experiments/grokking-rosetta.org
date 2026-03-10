@@ -1,0 +1,89 @@
+#+TITLE: Grokking: A Rosetta Stone of Computational Paradigms
+#+AUTHOR: mu2tau & Collaborative Intelligence
+#+PROPERTY: header-args:python :session *grokking-py* :results output
+#+PROPERTY: header-args:julia :session *grokking-jl* :results output
+
+* Introduction
+We approach the phenomenon of *grokking*—the delayed phase transition from memorization to generalization in deep neural networks—as an experimental physics problem. 
+
+To fully understand the structure of the computation, we will build the same 1-layer Transformer (trained on Modulo 113 arithmetic) across three distinct computational paradigms:
+1. *JAX + Equinox:* The functional, statistical mechanics paradigm.
+2. *TinyGrad:* The raw, particle-physics minimalist paradigm.
+3. *Julia + Lux.jl:* The native differential computing paradigm.
+
+* Phase 1: The Physical System (Modulo 113 Addition)
+The "universe" we are simulating is simple modular arithmetic: $x + y \pmod{113}$.
+We formulate this as a classification problem over a vocabulary of 114 tokens (0-112, plus an '=' token).
+
+#+begin_src python
+  # Intended implementation: Define the Modulo 113 dataset
+  # Generate all pairs (x, y) where x, y \in [0, 112]
+  # Target is (x + y) % 113
+  # Split into train/test sets based on a memorization-inducing fraction (e.g., 30% train, 70% test)
+  pass
+#+end_src
+
+* Phase 2: JAX + Equinox (The Functional Paradigm)
+In JAX, state is immutable. A neural network is simply a PyTree of arrays. The forward pass is a pure function. 
+We will explicitly track the "excluded loss" by transforming the parameter space via a discrete Fourier transform during evaluation.
+
+** 2.1 The 1-Layer Transformer Architecture
+#+begin_src python
+  # Intended implementation: Equinox Module for a 1-layer Transformer
+  # - Embedding: 114 -> d_model (128)
+  # - 1x Attention Block (d_model=128, n_heads=4)
+  # - 1x MLP Block (hidden=512)
+  # - Unembedding: d_model -> 114
+  pass
+#+end_src
+
+** 2.2 Functional Training Loop & Excluded Loss
+#+begin_src python
+  # Intended implementation: Pure JAX jitted update step
+  # - compute cross_entropy loss
+  # - optax adamw optimizer
+  # - apply fourier mask to track excluded loss metric
+  pass
+#+end_src
+
+* Phase 3: TinyGrad (The Raw Minimalist)
+TinyGrad forces us to look at the exact computational graph. Here we abstract nothing.
+
+** 3.1 The 1-Layer Transformer Architecture
+#+begin_src python
+  # Intended implementation: TinyGrad Tensor operations for Transformer
+  # Manually defining embeddings, matmuls for attention (Q, K, V), and MLP
+  pass
+#+end_src
+
+** 3.2 Bare-Metal Training Loop
+#+begin_src python
+  # Intended implementation: TinyGrad update step
+  # - tensor.backward()
+  # - custom SGD/Adam step
+  pass
+#+end_src
+
+* Phase 4: Julia + Lux.jl (Native Differential Computing)
+Here we switch the runtime. We use Julia's multiple dispatch and native AD (Zygote/Enzyme) via Lux.jl, separating explicit state from parameter bindings.
+
+** 4.1 Julia Environment and Dataset Setup
+#+begin_src julia
+  # Intended implementation: Setup Julia environment, load Lux.jl, Optimisers.jl
+  # Generate Modulo 113 dataset in Julia native arrays
+#+end_src
+
+** 4.2 Lux.jl Explicit-State Architecture
+#+begin_src julia
+  # Intended implementation: Lux.Chain for the 1-layer Transformer
+  # Defining the explicit parameter (ps) and state (st) tuples
+#+end_src
+
+** 4.3 Native AD Training Loop
+#+begin_src julia
+  # Intended implementation: Zygote gradient computation and Optimisers.jl update
+  # Explicit tracking of parameter trajectories
+#+end_src
+
+* Phase 5: Synthesis and Observation
+Comparing the phase transition (memorization -> grokking) across the three paradigms.

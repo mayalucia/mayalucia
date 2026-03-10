@@ -1,0 +1,31 @@
+#+title: Grokking: The Most Complex Model We Actually Understand
+#+author: Welch Labs
+#+source: https://www.youtube.com/watch?v=D8GOeCFFby4
+
+* Description
+New AI Book! https://www.welchlabs.com/resources/ai-book-ezrzm-msrmc
+Get a free ebook version today when you order a copy from our January 2026 print run!
+
+* Core Literature & References
+- *The OpenAI Discovery*: Nakkiran et al. (2022) /"Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets"/ https://arxiv.org/abs/2201.02177
+- *The Mechanistic Interpretation*: Nanda et al. (2023) /"Progress measures for grokking via mechanistic interpretability"/ https://arxiv.org/abs/2301.05217
+- *Polynomial Double Descent*: Avaneesh Narla's blog https://www.avaneeshnarla.com/blog/double-descent.html
+- *Claude Haiku Linebreaks*: Anthropic (2025) https://transformer-circuits.pub/2025/linebreaks/index.html
+- *Canonical Codebase*: Neel Nanda's Colab https://colab.research.google.com/drive/1F6_1_cWXE5M7WocUcpQWp3v8z4b1jL20
+
+* Transcript
+[0:00] No one understands modern AI. Each new little piece of text known as a token produced by Chat GPT is the result of hundreds of billions of separate calculations. The parameters used in these calculations are learned from data by training Chat GPT to predict a single token at a time...
+
+[2:39] The team was studying modular arithmetic, meaning we need to pick a largest number or modulus. When our number reaches or exceeds the modulus, we divide by the modulus and take the remainder. If we choose a modulus of 5...
+
+[7:56] In Robert A. Highland's 1961 novel, Stranger in a Strange Land, he coins the term grocking. One meaning is to understand something so thoroughly that you merge with it and it merges with you. The OpenAI team was able to replicate the sudden generalization phenomenon across a range of arithmetic operations and model configurations and in January 2022 published this paper where they called the phenomenon groing.
+
+[14:00] The wave shapes and loops we see inside our model as it gro suggest that the model is potentially computing and making use of the signs and cosiness of our inputs x and y. If we take a discrete 4a transform of our activation pattern, we can compute the frequencies of the waves learned by our model.
+
+[20:30] Extracting our top frequencies, we can decompose our surface into a few key components. This component is the cosine of x and this component is the cosine of y. This top component is the strongest and the most interesting. It's equal to the cosine of x times the cosine of y.
+
+[24:31] As you may remember from trigonometry class, the cosine of x time the cosine of y minus the s of x * the s of y is actually a trigonometric identity. specifically a sum of angles identity that exactly equals the cosine of x + y. This identity allows us to convert the sum of products of s and cosiness into a sum of x and y, which is exactly what our network needs to compute.
+
+[28:01] What happens when we remove the information at these frequencies from the model's final output before measuring performance? Removing the 8 pi over 113 frequency that we found and plotting this excluded loss as the model learns. We see our new metric dip down quickly with training loss, but then slowly climb as our model builds the sign and cosine representations. This excluded loss increases because we've taken away the model's ability to use this key frequency.
+
+[32:24] The names we give our discoveries matter and I like the name groing. It feels alien and originates from the complex Martian language in Highland's novel. The AI researcher Andre Karpathy recently commented that training large language models is less like building animal intelligence and more like summoning ghosts. You can think of a ghost as a fundamentally different kind of point in the space of possible intelligences.

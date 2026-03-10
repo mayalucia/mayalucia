@@ -1,0 +1,273 @@
+#+title: Computational Perception
+#+subtitle: Statistical mechanics of perception, in brains & machines
+
+Computational Perception (CP) formulates a single, profound question: How do intelligent systems, biological or artificial, construct meaningful models of the world from raw, ambiguous sensory data?
+
+Computational Perception (CP) formalizes how intelligent systems--natural or artificial--transform raw sensory data into structured representations of the world.
+
+CP emphasizes:
+  - *Generative modeling* :: of sensory inputs (/e.g./ Bayesian inference, predictive coding)
+  - *Active perception* :: sensorimotor loops, attention mechanisms
+  - *Embodied cognition* :: perception as constrained by physical/dynamic context
+  - *Hierarchical abstraction* :: from low-level features to semantic meaning
+
+CP seeks to understand natural =perception= not as a passive reception of sensory data, but as an *active, inferential process of constructing a model of the world*. It formalizes this processing using mathematics and computation, modeling perception as an /inverse problem/: inferring latent causes from noisy partial observations. Thus CP bridges the world of formal, mathematical structure with the ineffable experience of sensing and being.
+
+* Understanding Perception by Modeling Natural Systems
+** The Philosophical Bedrock (19th Century)
+  *Hermann von Helmholtz*, the intellectual ancestor of the /Bayesian Brain hypothesis/, first proposed the idea of /unconcsious inference/ (/"unbewusster Schluss"/), arguing that our perceptions are not direct readouts of raw sensations but are the conclusions of an implicit, inferential process that resolves sensory ambiguity based on prior experience. He argued that perception is a process akin to logical inference, where the brain uses prior knowledge to resolve sensory ambiguities. This frames perception as the solution to an /inverse problem/: inferring the hidden causes (the state of the world) from their sensory effects.
+
+** Structuring the Problem (Mid-20th Century)
+  In his landmark book /A Computational Investigation into the Human Representation and Processing of Visual Information/ *David Marr* proposed that to understand any complex information-processing system including perception, we must analyze it at three distinct, complementary levels:
+
+  1. *Computational Theory*: /What is the goal of the computation, and what is the logic of the strategy by which it can be carried out?/ For vision the goal would be to build a stable, rich, 3D description of the world from 2D images.
+
+  2. *Representation and Algorithm*: /How can this computational theory be implemented? What are the specific representations of the input and output? What is the algorithm for the transformation?/
+
+  3. *Hardware Implementation*: /How can the representation and algorithm be realized physically?/ Consider problems from biology, we would deal with neural tissue, and in AI we would have to design silicon based integrated circuits.
+
+  Marr's tripartite framework brought a critical discipline to the field. It allowed researchers to disentangle the ultimate goal of perception from the specific neural hardware that implements it. Simultaneously psychologists like *Richard Gregory* championed the idea of /perception as hypothesis testing/, using visual illusions as powerful demonstrations that the brain is not a passive camera but an active hypothesis generator, constantly betting on the most probable cause of sensory input.
+
+  Marr's specific proposal for vision was a bottom-up pipeline:
+  1. /Primal Sketch/: Extract basic features like edges, bars, and blobs.
+  2. /2.5D Sketch/: Infer orientation, depth, and texture of visible surfaces from the viewer's perspective.
+  3. /3D Model Representation/: Achieving a full, objective-centered 3D description, independent of the viewpoint.
+
+** The Bayesian Revolution (Late 20th - 21st Century)
+The ideas of Helmholtz and Gregory found their natural mathematical language in Bayesian probability theory. *Judea Pearl's Bayesian Networks (1988)* work on probabilistic graphical models provided the mathematical language for representing and reasoning about uncertainty, which became the foundation for modern Bayesian approaches in both AI and neuroscience.
+
+The /Bayesian Brain hypothesis/ formalizes perception as probabilistic inference. The brain maintains a /prior/ model of the world, which generates predictions. Sensory input is used to calculate a /likelihood/—how probable that input is, given the current prediction. Bayes' theorem provides the machinery to combine the prior and the likelihood into an updated /posterior/ belief. Perception, in this view, /is/ the posterior.
+
+This framework led to one of the most powerful ideas in modern neuroscience: *Predictive Coding*. As proposed by *Rao and Ballard* (1999), the brain is a hierarchical prediction machine. Higher cortical areas send predictions down to lower areas. Lower areas compare these predictions with actual sensory input and send only the discrepancy--the /prediction error/ back up. This is an incredibly efficient coding scheme. The goal the system is to minimize prediction error over time, which can be achieved in two ways:
+
+  * Update the model :: (*Perception/Learning*) to change your internal beliefs to better predict the world
+  * Change the world :: (Action) to make the world conform to your predictions
+
+In their work, /Hierarchical Bayesian Inference in the Visual Cortex/, *Tai Sing Lee & David Mumford (JOSA A, 2003)* provided a highly influential model of how the hierarchy of the visual cortex could be implementing Bayesian inference, with feedback connections carrying prior expectations and feedforward connections carrying the prediction errors.
+
+*Andy Clark* critically examines this *"hierarchical prediction machine"* approach in "Whatever Next? Predictive Brains" (Behavioral and Brain Sciences 2013).
+
+This entire process is captured most comprehensively by *Karl Friston's Free Energy Principle*, which posits that all adaptive behavior in the brain is driven by the single imperative to minimize a quantity called variational free energy. This quantity, an information-theoretic concept with deep roots in statistical mechanics, serves as a proxy for surprise or prediction error. Minimizing free energy is mathematically equivalent to performing approximate Bayesian inference.
+
+Plausible implementation details of Bayesian inference in the brain are provided in the work of Dayan and Pouget (Probabilistic brains: knowns and unknowns, Nature Neuroscience 2013; Probabilistic Interpretation of Population Codes, Neural Computation 1998). This line of work investigates how populations of neurons can represent probability distributions and perform the calculations required by Bayesian inference.
+
+** Engineering Generative Systems
+ The quest to build seeing machines followed a different, yet conceptually related, path.
+
+*** Early Connectionism and its Limits (1950s-60s)
+ Frank Rosenblatt's *Perceptron* was an early, brain-inspired attempt to create a pattern recognizer. It was a single-layer neural network that could learn to classify simple patterns. However, its fundamental limitations, famously highlighted by Minsky and Papert in their analysis of the XOR problem, contributed to the first "AI winter."
+
+*** The Return of Connectionism (1980s)
+ The intellectual winter thawed with the (re)discovery and popularization of the *backpropagation algorithm* by *Geoffrey Hinton, David Rumelhart, and Ronald Williams*. This allowed for the training of /multi-layer/ networks, overcoming the Perceptron's limitations. It was during this period that Hinton, deeply influenced by statistical physics, also co-developed the *Boltzmann Machine*. This was a stochastic recurrent neural network that used concepts like "energy" and "temperature" to settle into a low-energy state representing a coherent interpretation of the input—a clear parallel to the brain's process of finding the "best fit" hypothesis.
+
+*** The Deep Learning Revolution (2010s-Present)
+ The confluence of massive datasets (e.g., ImageNet), powerful GPUs, and algorithmic refinements (like new activation functions and regularization techniques) unleashed the power of deep neural networks. *Convolutional Neural Networks (CNNs)*, whose hierarchical architecture of feature detectors was directly inspired by Hubel and Wiesel's work on the cat visual cortex, shattered records in image recognition (e.g., Krizhevsky, Sutskever, & Hinton's AlexNet, 2012). For the first time, artificial systems began to approach, and in some narrow domains surpass, human-level perceptual performance.
+
+** A Common Theme
+ The two fields, of modeling perception by the brain and engineering of machines that /perceive/, have been intertwined in a productive virtuous cycle.
+
+ - Neuroscience -> AI :: AI modelers have taken inspiration from neuroscience developments:
+   *   *Hierarchy:* The hierarchical organization of the primate visual cortex directly inspired the architecture of CNNs.
+   *   *Predictive Processing:* The neuroscience theory of predictive coding inspired AI architectures like *PredNet* (Lotter et al.), which explicitly try to predict future video frames and use the error to drive learning.
+   *   *Generative Models:* Helmholtz's 19th-century ideas were the direct inspiration for the *Helmholtz Machine* (Dayan, Hinton et al., 1995), a foundational generative model that paved the way for modern architectures like Variational Autoencoders (VAEs).
+
+ - AI -> Neuroscience :: As AI models become more powerful, they become testable hypotheses for brain function:
+  *   *Probing Representations:* The internal representations learned by a deep network trained on object recognition show a surprising correspondence to the representations found along the ventral visual stream of the primate brain. Neuroscientists can now use these models as /in silico/ experimental subjects to generate hypotheses about neural coding.
+  *   *Challenging Biological Plausibility:* The wild success of the backpropagation algorithm, despite being biologically implausible, forced neuroscientists to seriously confront the /credit assignment problem/: how does the brain know which of its billions of synapses to tweak to improve performance? This has spurred research into more biologically plausible learning rules, including Hinton's recent work on the Forward-Forward algorithm.
+  *   *Unifying Principles:* The success of both predictive coding in neuroscience and generative models in AI reinforces the core idea that perception is fundamentally about /inference/ and /model building/, not just feedforward feature detection.
+
+
+ Marr's framework directly inspired a wave of research in computer vision known as ="Shape from X"=. This involved creating algorithms to recover 3D structure from various 2D cues, directly addressing the 2.5D sketch:
+  - /Shape from Shading/: Inferring surface orientation from how it is illuminated.
+  - /Shape from Texture/: Using texture gradients to infer surface slant and distance.
+  - /Structure from Motion/: Reconstructing 3D geometry from a sequence of 2D images.
+
+Geoffrey Hinton's work provides a powerful lens through which to unify these threads. His career can be seen as a relentless effort to build practical, learnable algorithms that embody the principles of inferential perception. His central philosophy, inherited from Helmholtz, is *"analysis by synthesis."*
+
+To truly recognize or /analyze/ an image (e.g., "that's a face"), your brain must possess an implicit generative model that is capable of /synthesizing/ a face. Recognition is the process of finding the parameters of your internal generative model (pose, lighting, identity) that best explain the incoming sensory data.
+This philosophy manifests in his key contributions:
+
+1.  *The Helmholtz Machine (1995):* This was a direct attempt to build a machine that learns according to Helmholtz's principles. It consists of two sets of weights: a "recognition" pathway that infers causes from effects (bottom-up), and a "generative" pathway that reconstructs effects from causes (top-down). The learning algorithm's goal is to minimize the difference between the recognition model's guesses and the true state of the world, a direct parallel to minimizing prediction error. It explicitly framed perception as statistical inference in a hierarchical generative model, and is the direct conceptual ancestor of the *Variational Autoencoder (VAE)* and introduced the =wake-sleep= algorithm for training.
+
+2.  *The Boltzmann Machine:* Drawing on his statistical physics intuition, Hinton framed the problem in terms of energy. A perceptual state corresponds to a configuration of neurons, and the "goodness" of that state is its low energy. The network uses stochastic fluctuations (a "temperature" parameter) to explore different states and settle into a low-energy "harmony" that represents the most coherent interpretation of the input. This elegantly connects the logic of inference to the dynamics of a physical system.
+
+3.  *Deep Belief Networks (DBNs):* Before modern techniques made end-to-end deep learning tractable, DBNs offered a solution. They are generative models built by stacking *Restricted Boltzmann Machines (RBMs)*. Each RBM is trained greedily, layer by layer, to learn a generative model of the activations in the layer below. This process builds a deep, hierarchical generative model of the data. Once pre-trained in this unsupervised, generative fashion, the network could be fine-tuned for a discriminative task like classification. This "generative pre-training" was a key breakthrough that enabled the deep learning revolution.
+
+In Hinton's view, *computational perception is the process of fitting a hierarchical, generative model to the sensory world.* The layers of this model correspond to increasingly abstract causal factors. The "pixels" are caused by the interaction of "edges," which are caused by "object parts," which are caused by "objects." Learning is the process of adjusting the parameters of this internal model to make it better at explaining (and thus predicting or reconstructing) sensory data. Action is simply manipulating the world to make it easier for your model to explain. This provides a concrete, algorithmic embodiment of the more abstract principles laid out by Marr, Gregory, and Friston.
+
+Moving beyond pure engineering performance, ambitious projects are building AI that more closely models brain fuction.
+ - /Deep Predictive Coding Networks (PredNet)/ (Lotter, Kreiman & Cox, 2016): An explicit attempt to build a deep neural network based on the principles of predictive coding. Each layer tries to predict the input from the layer below, only propagating the error forward. This architecture learns powerful representations of video sequences.
+ - /Embodied AI and Active Vision/: Reflecting Gibson's ideas, there is a growing movement in AI and robotics to build agents that learn through active interaction with their environment, emphasizing that perception is not passive but is in the service of action. This naturally aligns with the Active Inference framework.
+
+** Bibliography
+
+#+begin_src bibtex :tangle no
+@book{Helmholtz1925,
+  author    = {von Helmholtz, Hermann},
+  title     = {Treatise on Physiological Optics},
+  publisher = {The Optical Society of America},
+  year      = {1925},
+  volume    = {III},
+  editor    = {Southall, James P. C.},
+  note      = {English translation from the 3rd German edition of 'Handbuch der physiologischen Optik', 1909-1911.}
+}
+
+@book{Marr1982,
+  author    = {Marr, David},
+  title     = {Vision: A Computational Investigation into the Human Representation and Processing of Visual Information},
+  publisher = {W. H. Freeman and Company},
+  year      = {1982},
+  address   = {San Francisco},
+  isbn      = {978-0716712848}
+}
+
+@book{Gregory1997,
+  author    = {Gregory, Richard L.},
+  title     = {Eye and Brain: The Psychology of Seeing},
+  publisher = {Princeton University Press},
+  year      = {1997},
+  edition   = {5th},
+  address   = {Princeton, NJ},
+  isbn      = {978-0691048376}
+}
+
+@book{Pearl1988,
+  author    = {Pearl, Judea},
+  title     = {Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference},
+  publisher = {Morgan Kaufmann},
+  year      = {1988},
+  address   = {San Mateo, CA},
+  isbn      = {978-0934613736}
+}
+
+@article{Rao1999,
+  author  = {Rao, Rajesh P. N. and Ballard, Dana H.},
+  title   = {Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects},
+  journal = {Nature Neuroscience},
+  year    = {1999},
+  volume  = {2},
+  number  = {1},
+  pages   = {79--87},
+  doi     = {10.1038/4580}
+}
+
+@article{Lee2003,
+  author  = {Lee, Tai Sing and Mumford, David},
+  title   = {Hierarchical {Bayesian} inference in the visual cortex},
+  journal = {Journal of the Optical Society of America A},
+  year    = {2003},
+  volume  = {20},
+  number  = {7},
+  pages   = {1434--1448},
+  doi     = {10.1364/JOSAA.20.001434}
+}
+
+@article{Clark2013,
+  author  = {Clark, Andy},
+  title   = {Whatever next? {Predictive} brains, situated agents, and the future of cognitive science},
+  journal = {Behavioral and Brain Sciences},
+  year    = {2013},
+  volume  = {36},
+  number  = {3},
+  pages   = {181--204},
+  doi     = {10.1017/S0140525X1200047X}
+}
+
+@article{Friston2010,
+  author  = {Friston, Karl},
+  title   = {The free-energy principle: a unified brain theory?},
+  journal = {Nature Reviews Neuroscience},
+  year    = {2010},
+  volume  = {11},
+  number  = {2},
+  pages   = {127--138},
+  doi     = {10.1038/nrn2787}
+}
+
+@article{Pouget2013,
+  author  = {Pouget, Alexandre and Drugowitsch, Jan and Kepecs, Adam},
+  title   = {Probabilistic brains: knowns and unknowns},
+  journal = {Nature Neuroscience},
+  year    = {2013},
+  volume  = {16},
+  number  = {9},
+  pages   = {1170--1178},
+  doi     = {10.1038/nn.3495},
+  note    = {This is the correct reference for "Probabilistic brains: knowns and unknowns", which was mentioned in the text with a different author attribution.}
+}
+
+@article{Zemel1998,
+  author  = {Zemel, Richard S. and Dayan, Peter and Pouget, Alexandre},
+  title   = {Probabilistic Interpretation of Population Codes},
+  journal = {Neural Computation},
+  year    = {1998},
+  volume  = {10},
+  number  = {2},
+  pages   = {403--430},
+  doi     = {10.1162/089976698300017812}
+}
+
+@book{Minsky1969,
+  author    = {Minsky, Marvin and Papert, Seymour},
+  title     = {Perceptrons: An Introduction to Computational Geometry},
+  publisher = {MIT Press},
+  year      = {1969},
+  address   = {Cambridge, MA},
+  isbn      = {978-0262630221}
+}
+
+@article{Rumelhart1986,
+  author  = {Rumelhart, David E. and Hinton, Geoffrey E. and Williams, Ronald J.},
+  title   = {Learning representations by back-propagating errors},
+  journal = {Nature},
+  year    = {1986},
+  volume  = {323},
+  number  = {6088},
+  pages   = {533--536},
+  doi     = {10.1038/323533a0}
+}
+
+@incollection{Hinton1986,
+  author    = {Hinton, Geoffrey E. and Sejnowski, Terrence J.},
+  title     = {Learning and Relearning in {Boltzmann} Machines},
+  booktitle = {Parallel Distributed Processing: Explorations in the Microstructure of Cognition, Volume 1: Foundations},
+  editor    = {Rumelhart, David E. and McClelland, James L. and the PDP Research Group},
+  publisher = {MIT Press},
+  year      = {1986},
+  pages     = {282--317},
+  address   = {Cambridge, MA},
+  isbn      = {978-0262680537}
+}
+
+@inproceedings{Krizhevsky2012,
+  author    = {Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E.},
+  title     = {ImageNet Classification with Deep Convolutional Neural Networks},
+  booktitle = {Advances in Neural Information Processing Systems 25},
+  editor    = {Pereira, F. and Burges, C. J. C. and Bottou, L. and Weinberger, K. Q.},
+  pages     = {1097--1105},
+  year      = {2012},
+  publisher = {Curran Associates, Inc.},
+  url       = {http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf}
+}
+
+@article{Dayan1995,
+  author  = {Dayan, Peter and Hinton, Geoffrey E. and Neal, Radford M. and Zemel, Richard S.},
+  title   = {The {Helmholtz} Machine},
+  journal = {Neural Computation},
+  year    = {1995},
+  volume  = {7},
+  number  = {5},
+  pages   = {889--904},
+  doi     = {10.1162/neco.1995.7.5.889}
+}
+
+@article{Lotter2016,
+  author  = {Lotter, William and Kreiman, Gabriel and Cox, David},
+  title   = {Deep predictive coding networks for video prediction and unsupervised learning},
+  journal = {arXiv preprint arXiv:1605.08104},
+  year    = {2016},
+  url     = {https://arxiv.org/abs/1605.08104},
+  note    = {Presented at the International Conference on Learning Representations (ICLR) 2017 Workshop Track.}
+}
+#+end_src
+

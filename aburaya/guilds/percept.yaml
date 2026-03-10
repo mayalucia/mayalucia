@@ -1,0 +1,27 @@
+# Guild: percept
+# The physics of understanding
+#
+# How systems — brains, networks, populations — construct internal models
+# of the world from sparse data, and when that construction becomes
+# understanding.
+
+name: percept
+domain: the physics of understanding in natural and artificial systems
+
+concerns:
+  - perception as inverse problem (Helmholtz, Marr, Bayesian, Friston, Hinton)
+  - predictive coding, active inference, and the free energy principle
+  - the geometry of representation and dynamics in neural systems
+  - phase transitions in learning (grokking, insight, abstraction)
+  - understanding as compression, belief revision, and generative modeling
+
+projects:
+  - domains/percept     # the domain — theoretical inquiry into understanding
+  - modules/sphota      # the module — computational lab for studying insight dynamics
+
+spirits:
+  - percept-guardian-placeholder # guardian spirit (to be formally commissioned)
+
+evaluation:
+  question: does our model of a system reveal the principles by which it understands its world?
+  method: prediction of novel phenomena, explanatory reach, and correspondence to internal representations
