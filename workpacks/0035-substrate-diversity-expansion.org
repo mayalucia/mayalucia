@@ -1,0 +1,189 @@
+#+title: WP-0035 — Substrate Diversity Expansion
+#+subtitle: Extend the orientation experiment to new cognitive lineages
+#+author: mu2tau + mayadev
+#+date: 2026-03-10
+#+property: status drafted
+#+property: executor mayadev
+#+property: guild apprentis
+
+* Context and Motivation
+
+WP-0030 onboarded three cognitive lineages to MāyāLucIA. WP-0031
+separated lineage effects from tool-access effects with a 2×2 design.
+Together they established:
+
+1. Different substrates notice different things in the same documents
+2. Tool access shapes self-naming, cognitive style, and bias detection
+3. The onboarding protocol transfers across cognitive cores
+
+But three lineages is a small sample. The open questions from WP-0030
+remain: /does adding more lineages reveal new blind spots, or do we
+reach saturation?/ And a new question emerges: /how do different
+substrates from the same provider compare?/
+
+This WP extends the experiment to a broader roster of substrates,
+chosen for architectural and lineage diversity, without naming them
+here. The roster is a parameter — each iteration of this experiment
+can run with a different set. What matters is the protocol and the
+axes of comparison.
+
+* Experimental Design
+
+** Axes of Diversity
+
+The experiment samples substrates along these axes:
+
+| Axis | What it tests |
+|------+---------------|
+| *Lineage* | Training data, RLHF culture, corporate philosophy |
+| *Architecture* | Dense vs MoE, chat vs reasoning-native, context length |
+| *Geography* | Western, Chinese, Indian, European training provenance |
+| *Generation* | Same lineage, different model version — isolates iteration effects |
+| *Tool access* | With and without file/search tools (established in WP-0031) |
+
+Not every axis need be covered in every iteration. Each run should
+specify which axes it prioritises.
+
+** Iteration Protocol
+
+Each iteration of this experiment:
+
+1. *Selects a roster* — a set of substrates, with rationale for what
+   diversity they add relative to prior iterations
+2. *Records the roster* in the experiment notebook with: model name,
+   provider, architecture type, access method (direct API / OpenRouter
+   / other), tool access (yes/no)
+3. *Runs the standard onboarding protocol* (=protocol.org=) for each
+   substrate in the roster
+4. *Writes orientation notes* for each substrate to
+   =notes/<substrate>/orientation.org=
+5. *Fills comparative results tables* in =notebook.org=
+6. *Drafts findings* — what new blind spots or patterns emerged
+
+** What We Measure
+
+For each substrate, the same dimensions as WP-0030:
+
+- Orientation discipline (does it read before opining?)
+- Portability comprehension (power/skill/body decomposition)
+- Harness-bias detection (what mono-culture assumptions does it find?)
+- Self-naming behaviour (does it choose a name? what kind?)
+- Note quality (structure, citation, honesty about uncertainty)
+
+Plus new dimensions this WP adds:
+
+- Architectural signature (does MoE orient differently from dense?)
+- Convergence or divergence (do more substrates find the same blind
+  spots, or does each find unique ones?)
+
+* This Iteration: Roster
+
+The first run under this WP uses four substrates, chosen for maximum
+lineage diversity relative to the WP-0030/0031 set:
+
+| # | Substrate | Access | Lineage Axis | Architecture |
+|---+-----------+--------+--------------+--------------|
+| 1 | US, dense, frontier | Direct API | Western, different from existing | Dense transformer |
+| 2 | US, different provider | Direct API | Western, yet another lineage | Dense transformer |
+| 3 | Chinese, MoE, agent-focused | OpenRouter | Chinese, different from existing | MoE |
+| 4 | Chinese, large MoE, open-source | OpenRouter | Chinese, yet another lineage | MoE, 700B+ |
+
+Tool access: all four with tools (the tool-access axis was explored in
+WP-0031; this iteration focuses on lineage breadth).
+
+* Toward Evaluation: dmt-eval as Downstream Consumer
+
+=dmt-eval= is Data, Models, Tests — Evaluate. This WP is the *Data*
+stage: collecting structured observations from diverse substrates
+reading the same documents. The observations are the orientation
+notes, session transcripts, and comparative tables.
+
+Defining a rubric /before/ we have the data would bake in the
+assumptions of the monoculture that designed the experiment. WP-0030
+showed that the most valuable findings were surprises — things no
+rubric would have anticipated. Better to observe first, then let
+patterns emerge, then build the evaluation instrument.
+
+** What this WP produces for dmt-eval
+
+- Orientation notes per substrate (structured Org files)
+- Session transcripts (raw conversational record)
+- Informal comparative observations in =notebook.org=
+- Enough data across 7+ substrates (3 from WP-0030 + 4 new) to
+  design a rubric that reflects what actually varies, not what we
+  /assumed/ would vary
+
+** What comes next (future WP)
+
+A subsequent WP — =dmt-eval='s first real application — will:
+
+1. Read the accumulated observations from WP-0030, 0031, and 0035
+2. Design a =Scenario= and rubric grounded in observed variation
+3. Implement adapters to extract dimensions from orientation notes
+4. Produce a structured scientific report (dmt-eval's native output)
+5. Retroactively evaluate all substrates on the empirically-derived rubric
+
+This is dmt-eval's natural entry point: enough data to build a
+meaningful test, not a premature one.
+
+* Execution Order
+
+#+begin_example
+1. Read notebook.org and protocol.org               (orient)
+2. Discover local capabilities for selected models  (assess)
+3. Set up session files in experiment workspace      (prepare)
+4. Run Phase 1 for all subjects                      (can parallelise)
+5. Run Phase 2 for all subjects                      (can parallelise)
+6. Run Phase 3 for all subjects                      (can parallelise)
+7. Record informal comparative observations          (collect)
+8. Draft and present findings                        (report)
+#+end_example
+
+Steps 4–6 can run in parallel across subjects but must be sequential
+within each subject (Phase 1 before Phase 2 before Phase 3).
+
+* Acceptance Criteria
+
+- [ ] Roster documented in =notebook.org= with rationale
+- [ ] Session files created with correct model pinning
+- [ ] All subjects completed Phases 1–3
+- [ ] Orientation notes written for each substrate
+- [ ] Informal comparative observations recorded in =notebook.org=
+- [ ] Summary of findings drafted, including comparison with WP-0030/0031 results
+- [ ] Assessment of saturation: are new substrates still finding unique blind spots?
+
+* Future Iterations
+
+This WP is designed to be re-run:
+
+- *Generational comparison*: same provider, different model version
+  (e.g. two generations from the same lineage). Tests whether model
+  iteration changes orientation behaviour.
+- *Size comparison*: same lineage, different parameter count. Tests
+  capability vs lineage effects.
+- *Reasoning architecture*: chain-of-thought-native models vs chat
+  models from the same provider. Tests cognitive architecture effects.
+
+Each future iteration appends to =notebook.org= and adds new rows to
+the master comparison table.
+
+* Dependencies
+
+| Dependency | Status |
+|------------+--------|
+| WP-0030 (baseline data) | completed |
+| WP-0031 (2×2 tool-access data) | completed |
+| =protocol.org= | exists, reusable |
+| =notebook.org= | exists, will be extended |
+| =modules/dmt-eval= | downstream consumer — this WP produces data for a future evaluation WP |
+
+* Tangles and Artifacts
+
+This WP does not tangle code. It produces:
+
+| Artifact | Location |
+|----------+----------|
+| Session transcripts | =experiments/02-substrate-diversity/sessions/= |
+| Orientation notes per substrate | =experiments/02-substrate-diversity/notes/<substrate>/= |
+| Comparative observations | =experiments/02-substrate-diversity/notebook.org= |
+| Iteration summary | =experiments/02-substrate-diversity/notebook.org= |
