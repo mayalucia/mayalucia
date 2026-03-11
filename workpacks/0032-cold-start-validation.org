@@ -2,7 +2,7 @@
 #+subtitle: Test orientation notes as cold-start documents
 #+author: mu2tau + mayadev
 #+date: 2026-03-10
-#+property: status drafted
+#+property: status completed
 #+property: executor mayadev
 #+property: guild apprentis
 

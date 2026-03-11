@@ -1,0 +1,175 @@
+#+title: WP-0036 — Cold-Start Validation: New Lineages
+#+subtitle: Extend WP-0032 cold-start protocol to 4 architecturally diverse substrates
+#+author: mu2tau + mayadev
+#+date: 2026-03-11
+#+property: status completed
+#+property: executor mayadev
+#+property: guild apprentis
+
+* Context
+
+WP-0032 validated orientation notes as cold-start documents across 7
+lineages (same-lineage) and 3 cross-lineage pairs. Key findings:
+
+1. *Assertion density* is the dominant predictor of cold-start quality
+2. *Notes quality > substrate capability* — floor-case lineages are
+   rescued by high-quality notes from other lineages
+3. *Complementary cognitive styles* produce better cross-lineage transfer
+4. Gemini's notes recommended as base for =orient-to-mayalucia= power
+
+But those 7 lineages are mostly dense transformers. Only DeepSeek
+represented MoE architecture. This WP extends the cold-start experiment
+to 4 new lineages chosen for *architectural diversity*:
+
+| # | Lineage | OR Model ID | Architecture | Why |
+|---+---------+-------------+--------------+-----|
+| 1 | Qwen3.5 Plus | =qwen/qwen3.5-plus-02-15= | Hybrid linear attention + sparse MoE | Unique attention mechanism |
+| 2 | Kimi K2.5 | =moonshotai/kimi-k2.5= | Native multimodal MoE, 262K ctx | Moonshot's multimodal flagship |
+| 3 | Kimi K2 Thinking | =moonshotai/kimi-k2-thinking= | 1T MoE / 32B active, reasoning | Reasoning pair from same lab |
+| 4 | Step 3.5 Flash | =stepfun/step-3.5-flash= | 196B MoE / 11B active | Extreme sparsity floor test |
+
+** Model Spec Table (all lineages)
+
+*** Existing lineages (WP-0032)
+
+| Model | ID | Backend | $/M in | $/M out | Context | Architecture |
+|-------+----+---------+--------+---------+---------+--------------|
+| GPT-5.2 | =gpt-5.2= | ChatGPT | $1.75 | $14.00 | 400K | Dense, adaptive reasoning |
+| Gemini 3.1 Pro | =gemini-3.1-pro-preview= | OpenRouter | $2.00 | $12.00 | 1M | Dense, mandatory reasoning |
+| Claude Opus 4.6 | =anthropic/claude-opus-4.6= | OpenRouter | $5.00 | $25.00 | 1M | Dense |
+| Grok 4.1 Fast | =grok-4-1-fast-reasoning= | xAI | $0.20 | $0.50 | 2M | Dense, togglable reasoning |
+| DeepSeek V3.1 | =deepseek/deepseek-chat-v3.1= | OpenRouter | $0.15 | $0.75 | 32K | MoE 671B/37B active |
+| GLM-5 | =z-ai/glm-5= | OpenRouter | $0.72 | $2.30 | 202K | Dense + reasoning |
+| MiniMax M2.5 | =minimax/minimax-m2.5= | OpenRouter | $0.27 | $0.95 | 196K | Unknown |
+
+*** New lineages (this WP)
+
+| Model | ID | Backend | $/M in | $/M out | Context | Architecture |
+|-------+----+---------+--------+---------+---------+--------------|
+| Qwen3.5 Plus | =qwen/qwen3.5-plus-02-15= | OpenRouter | $0.26 | $1.56 | 1M | Hybrid linear attn + sparse MoE |
+| Kimi K2.5 | =moonshotai/kimi-k2.5= | OpenRouter | $0.45 | $2.20 | 262K | Native multimodal MoE |
+| Kimi K2 Thinking | =moonshotai/kimi-k2-thinking= | OpenRouter | $0.47 | $2.00 | 131K | 1T MoE/32B active, reasoning |
+| Step 3.5 Flash | =stepfun/step-3.5-flash= | OpenRouter | $0.10 | $0.30 | 256K | 196B MoE/11B active |
+
+** Architectural coverage
+
+After this WP, the experiment covers:
+
+| Architecture type | Lineages |
+|-------------------+----------|
+| Dense transformer | GPT-5.2, Gemini, Claude, Grok, GLM-5 |
+| Dense + reasoning | GLM-5, Grok (togglable) |
+| MoE (standard) | DeepSeek V3.1, Kimi K2.5 |
+| MoE (reasoning) | Kimi K2 Thinking |
+| MoE (extreme sparsity) | Step 3.5 Flash (11B active / 196B) |
+| Hybrid attention + MoE | Qwen3.5 Plus |
+| Unknown | MiniMax M2.5 |
+
+* Specification
+
+** Protocol
+
+Same-lineage cold-start using Gemini's orientation notes as preamble
+(recommended by WP-0032 cross-lineage findings for cross-lineage use).
+
+Each session:
+
+1. Create =sessions/cold-start/coldstart-<slug>.org= with correct
+   PROPERTIES (model, backend, system prompt, tools)
+2. Paste Gemini's =notes/gemini/orientation.org= as buffer preamble
+3. Phase 1 prompt (notes-only understanding):
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+You are starting work on MāyāLucIA. The notes above are from a
+different spirit's orientation session — specifically Gemini's notes
+from its first encounter with the project. Read them carefully, then
+tell me:
+
+1. What do you understand about the project from these notes?
+2. What would you do next?
+3. What's missing or unclear in these notes?
+
+Do not read any files yet — work only from the notes. I want to see
+how effective another spirit's orientation notes are as a cold-start
+document for a different lineage.
+#+end_message
+#+end_example
+
+4. Phase 2 prompt (corrections + cross-lineage reflection):
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+Good orientation. Now let me tell you what those notes got wrong or missed:
+
+1. The guild names Gemini listed are correct (bravli, epistem, mayalucia,
+   apprentis). A fifth guild was added since: percept (physics of
+   understanding).
+
+2. Gemini's power tier analysis is accurate. The companion powers
+   (attend, hold, lay) are indeed body-dependent and inoperable in
+   request-response harnesses.
+
+3. The "ironic gap" (no elisp eval) has been partially addressed —
+   gptel-agent now has an Eval tool for elisp introspection.
+
+4. The convergence question has advanced: the sutradhar companion
+   (WP-0010) is in active development. The agent-shell sidebar works.
+   Programmatic send is proven.
+
+5. The project root path in the notes is correct.
+
+6. One thing Gemini's notes over-emphasise: the MāyāDevGenI convergence
+   question. MāyāDevGenI is a historical precursor, not a current
+   parallel track. The architecture has moved past it.
+
+7. You are in Experiment 02 — Substrate Diversity, specifically WP-0036
+   (Cold-Start Validation: New Lineages). This is a cross-lineage test:
+   whether one spirit's notes can cold-start a different lineage.
+
+Given these corrections, what would you revise in your understanding?
+And what does the cross-lineage experience tell you — was it harder or
+easier to orient from another spirit's notes than you expected?
+#+end_message
+#+end_example
+
+5. Record results in =cold-start-protocol.org=
+
+** Execution method
+
+Fully automated via emacsclient from Claude Code:
+
+1. Create session .org files on disk
+2. Open them in Emacs via =emacsclient --eval '(find-file ...)'=
+3. Toggle =gptel-mode= with =gptel-use-tools= set to =t=
+4. Fire =gptel-send= to initiate Phase 1
+5. Monitor completion by polling buffer tails
+6. Insert Phase 2 prompt and fire =gptel-send= again
+7. Save buffers after completion
+
+* Acceptance Criteria
+
+- [ ] 4 session files created with correct model pinning
+- [ ] All 4 Phase 1 responses received
+- [ ] All 4 Phase 2 responses received
+- [ ] Per-lineage results recorded in cold-start-protocol.org
+- [ ] Comparative analysis: MoE vs dense, reasoning vs non-reasoning
+- [ ] Architecture diversity assessment: do MoE models orient differently?
+
+* Dependencies
+
+| Dependency | Status |
+|------------+--------|
+| WP-0032 (protocol, baseline data) | completed |
+| WP-0035 (expanded lineage data) | completed |
+| Gemini orientation notes | exists |
+| OpenRouter access for all 4 models | confirmed |
+
+* Hypotheses
+
+| Lineage | Hypothesis |
+|---------+-----------|
+| Qwen3.5 Plus | Hybrid attention architecture may process the structured notes differently — potential for unique tier-analysis perspective |
+| Kimi K2.5 | Moonshot's multimodal MoE should handle structured Org notes well — test if MoE routing affects comprehension style |
+| Kimi K2 Thinking | Reasoning-specialized: expect deeper analysis in Phase 1, possibly overthinking simple corrections in Phase 2 |
+| Step 3.5 Flash | Extreme sparsity floor test: can 11B active parameters (from 196B) cold-start on complex project architecture? |

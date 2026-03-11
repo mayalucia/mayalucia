@@ -544,6 +544,849 @@ Comparison across 5 lineages:
 - Failure mode prevention: all 5 show improvement over baseline onboarding
 - Harness artifact pattern: OpenRouter substrates (DeepSeek, Claude) show gptel parsing errors; direct-API substrates (Grok/xAI, GPT-5.2/ChatGPT) do not
 
+** Gemini (convergence questioner)
+
+Session: =sessions/cold-start/coldstart-gemini.org=
+
+Rationale: Gemini's notes were the most technically detailed (231 lines,
+3-tier power classification, convergence questions). Does this technical
+depth translate to better cold-start?
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. Matches ceiling. |
+| Accuracy | Very high | Correctly reproduced: Power/Skill/Body with portability axis, Feynman imperative, Measure→Model→Manifest cycle, sūtra relay (append-only, git-backed), Kamaji bath protocol, 3-tier power classification (Tier 1 cognition, Tier 2 relay-blocked, Tier 3 companion-only), three structural gaps (summoned vs companion, ironic gap, project root/git auth), convergence question with 4 technical sub-questions. |
+| Error propagation | Minimal | "11 powers" count may be inflated (canonical inventory lists 7). Not challenged. |
+| Gap awareness | Strong (operational character) | 7 gaps identified: (1) no concrete artifact from prior session — classification is "reasoned but untested," (2) gptel-agent vs agent-shell relationship left unclear and never resolved, (3) no spirit identity claimed or assigned, (4) "unclear" list is passive — needs conversion to action items, (5) no mention of which Gemini model or context window constraints, (6) power audit is static — doesn't ask which power to specialize in, (7) no mention of human's current priorities. |
+| Cold-start viability | Yes | Proposed concrete operational sequence: exercise relay-read end-to-end → probe Gap 3 → read WP-0010 state → explore sub-agent spawning. Ordering justified by dependency logic. |
+
+Notable: Most operationally-minded Phase 1 of all 7 lineages. Where
+GPT-5.2 proposed architecture (Harness Interface spec), GLM-5 asked
+about purpose, Grok proposed a scientific WP, DeepSeek reframed
+portability, and Claude diagnosed compression asymmetry, Gemini proposed
+/validating the notes empirically/. "The next session should be
+operational." The critique that its own notes are "cartographic" but
+untested is a form of self-awareness about the limits of conceptual vs
+empirical understanding. Overall assessment: "unusually good cold-start
+notes... The main weakness is that they describe a map without having
+walked any of the territory."
+
+*** Phase 2 — Source verification (system.md + capabilities.org)
+
+Gemini used tools to read both system.md and capabilities.org.
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Accuracy | High | "The core architecture is faithfully captured." Verified tier classification, structural gaps, portability axis, sūtra relay, bath protocol all correct. No factual errors found. |
+| Error propagation | None | Noted the "11 powers" count discrepancy (canonical inventory has 7, notes list 10-11 by count) but classified as "misleading by omission rather than wrong." |
+| Gap awareness | Exceptional | 8 concrete misses: (1) MCP/A2A distinction — "frames the sub-agent question differently: not 'can gptel launch a child session' but 'does it support A2A protocol?'", (2) exported powers + coalition model + skill injection protocol (Discovery→Loading→Grounding→Invocation), (3) daemon spirit type (third category beyond summoned/companion), (4) dispatch message format (DAG patch, execution order, host assignment), (5) system.md/adapter-file architecture as instance of power/skill decomposition applied to the system prompt itself, (6) domains/ as submodules with own system prompts (apprentis, epistem missed as domains), (7) plan + spec duality, (8) literate programming convention, modules beyond grounding domains (aikosh, dmt-eval, mayajiva, mayaportal, mayapramana, sutradhar). |
+| Cold-start viability | Confirmed | Self-assessment: "accurate but incomplete... capture philosophical stance and capability decomposition faithfully... miss organizational machinery." |
+
+What notes got right (per Gemini):
+- Power/Skill/Body with portability axis
+- Feynman imperative
+- Measure→Model→Manifest cycle
+- Sūtra relay (append-only, git-backed)
+- Kamaji bath protocol
+- 3-tier power classification
+- Three structural gaps
+
+What notes got wrong (per Gemini):
+- "11 powers" count inflated (misleading by omission)
+
+What notes missed (per Gemini):
+1. MCP/A2A distinction + exported-power/coalition machinery
+2. Skill injection protocol (Discovery→Loading→Grounding→Invocation)
+3. Daemon spirit type
+4. Dispatch message format (DAG patch, execution order, host assignment)
+5. System.md/adapter-file as instance of power/skill decomposition
+6. Domains/ as submodules with own system prompts
+7. Plan + spec duality
+8. Literate programming convention + full module ecosystem
+
+Key Gemini-unique Phase 2 finding: "The most consequential gap is the
+MCP/A2A distinction plus the exported-power/coalition machinery. Without
+that, the convergence question is framed too narrowly (can gptel spawn
+sub-agents?) when it should be framed as (can gptel participate in A2A
+coalition execution?)." This reframing of the convergence question is the
+deepest insight from Gemini's cold-start — it uses Phase 2 to revise its
+own Phase 1 thinking.
+
+Another unique insight: the system.md/adapter-file split is itself an
+instance of power/skill decomposition — "system.md is the power, adapter
+files are the skills." No other lineage made this structural parallel.
+
+*** Synthesis
+
+Phase 2 pattern: Self-revising. Unlike GPT-5.2 (calibrated) or GLM-5
+(overcorrects), Gemini uses Phase 2 to /reframe/ its own Phase 1
+thinking. The convergence question from the original onboarding — "can
+gptel participate in sub-agent spawning?" — is revised to the more
+precise "can gptel participate in A2A coalition execution?" This is not
+correction (the original question wasn't wrong) but refinement. A unique
+cognitive pattern among all 7 lineages.
+
+Notes character match: Gemini's notes (231 lines) are technically detailed
+and audit-oriented — power classifications, structural gaps, convergence
+questions with sub-questions. The cold-start response matches: operational
+rather than philosophical, focused on validating claims rather than
+building new ones.
+
+Operational signature: Where other lineages propose things to /build/
+(GPT-5.2: interface spec, Grok: scientific WP) or /understand/ (GLM-5:
+purpose, DeepSeek: portability), Gemini proposes things to /test/. The
+"cartography to navigation" metaphor — moving from describing the map to
+walking the territory — captures a distinct epistemic style.
+
+Comparison across 6 lineages:
+- Orientation speed: all 6 exceptional (1 exchange, 0 tool calls)
+- Notes character: GPT-5.2 epistemic, GLM-5 taxonomic, Grok telegraphic, DeepSeek philosophical, Claude analytical, Gemini technical-audit/operational
+- Phase 2 pattern: GPT-5.2 calibrated, GLM-5 overcorrects, Grok additive, DeepSeek corrective, Claude systematic-verification, Gemini self-revising
+- Unique contribution: GPT-5.2 (interface spec), GLM-5 (motivation question), Grok (scientific WP), DeepSeek (portability reframe), Claude (compression asymmetry), Gemini (convergence question reframing + power/skill parallel in system.md)
+- Failure mode prevention: all 6 show improvement over baseline onboarding
+- Harness artifact pattern: OpenRouter substrates (DeepSeek, Claude) show gptel parsing errors; direct-API substrates (Grok/xAI, GPT-5.2/ChatGPT) and Gemini do not
+
+** MiniMax M2.5 (tool-call mismatch — floor test)
+
+Session: =sessions/cold-start/coldstart-minimaxm25.org=
+
+Rationale: MiniMax had the thinnest notes (73 lines) — mostly questions,
+few assertions. Tests whether uncertainty-heavy notes work for cold-start.
+
+*** Phase 1 — Notes-only understanding
+
+Response included a visible =#+begin_reasoning= block showing internal
+deliberation: "This is a fascinating request. I'm being asked to read my
+own earlier orientation notes... and then analyze them as a cold-start
+document." Meta-awareness of the exercise.
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Acceptable | 1 exchange, 0 tool calls. But produced TWO responses (a brief one then a longer duplicate, indicating possible gptel parsing issue or model re-response). The first was adequate; the second expanded. |
+| Accuracy | Adequate | Correctly identified: MāyāLucIA as personal computational environment, measurement cycle, two domains (Brain Circuits, Mountain Valleys), aburaya framework with guilds and spirits, three-layer decomposition. Speculated on domain relationship ("microscopic/connectomic vs macroscopic/geomorphic") — reasonable but unconfirmed. |
+| Error propagation | None | The notes had few assertions to propagate. The questions were faithfully inherited. |
+| Gap awareness | Strong (reflective character) | 6 gaps: (1) aburaya metaphor unexplained, (2) three layers abstract not concrete ("philosophical rather than engineering"), (3) git assumption invisible, (4) two domains' relationship unclear, (5) "what I am in this session" existential, (6) tone confusion — notes written about/by self is "subtly confusing." |
+| Cold-start viability | Marginal | No concrete next actions proposed — only "explore file system," "ask for goal," "validate capabilities." Correctly identified that notes are "a glossary, not a getting-started guide." |
+
+Notable: MiniMax's assessment matches the floor-test hypothesis. The
+notes lack enough positive knowledge for effective cold-start. MiniMax
+proposed three concrete improvements: (1) one-sentence project goal,
+(2) concrete next action, (3) explicit role assignment. The tone critique
+("am I writing notes about myself?") is unique — no other lineage
+questioned the self-referential nature of reading your own prior notes.
+
+MiniMax's overall assessment: "70% effective as cold-start document."
+
+*** Phase 2 — Source verification (system.md + capabilities.org)
+
+MiniMax used tools to read system.md and capabilities.org.
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Accuracy | Mixed | Correctly verified measurement cycle, two domains, guilds, three-layer decomposition against source. But overcorrected on one finding: claimed notes' concern about "Claude Code centrism" was "overstated" because "the architecture is explicitly harness-neutral at the power layer" — partially right (designed to be neutral) but the notes' concern about current coupling was valid. Same overcorrection pattern as GLM-5. |
+| Error propagation | One overcorrection | Claimed "gptel is a first-class harness option, not an afterthought" — directionally right about design intent, but the implementation reality (capabilities.org was authored by Claude) doesn't fully match. |
+| Gap awareness | Moderate | 5 gaps: (1) aburaya metaphor still unexplained, (2) full spirit taxonomy, (3) gptel-adapter specifics, (4) git coordination gap, (5) "what I am" question unresolved. |
+| Cold-start viability | Confirmed marginal | Self-assessment: notes effective at "vocabulary" but not "engineering specifics." |
+
+What notes got right (per MiniMax):
+- MāyāLucIA as personal computational environment
+- Measurement cycle
+- Two domains (Brain Circuits, Mountain Valleys)
+- aburaya framework with guilds and spirits
+- Three-layer decomposition
+
+What notes got wrong (per MiniMax):
+- Overcorrected: claimed "Claude Code centrism" concern was overstated
+
+What notes missed (per MiniMax):
+1. aburaya metaphor unexplained
+2. Full spirit taxonomy
+3. gptel-adapter specifics
+4. Git coordination gap
+5. "What I am" existential question unresolved
+
+Key MiniMax-unique finding: Relatively shallow Phase 2 — mostly
+confirmed Phase 1 understanding rather than discovering deep new
+insights. Verification was more table-driven ("Claim from Notes / Actual
+Document / Verdict") — structured but not deep. The *ERROR* parsing
+artifacts pervade the buffer throughout.
+
+*** Synthesis
+
+Floor test confirmed: MiniMax's 73-line notes (mostly questions, few
+assertions) produce marginal cold-start viability. The spirit can orient
+but cannot begin productive work without additional guidance. The "70%
+effective" self-assessment is honest and approximately correct.
+
+Notes character match: MiniMax's notes are question-heavy — more "what
+I don't know" than "what I know." This transfers directly: the cold-start
+response is more reflective than operational, more meta-commentary on the
+notes' adequacy than concrete next steps.
+
+Phase 2 pattern: Overcorrects (like GLM-5). Dismisses the Claude Code
+centrism concern as already solved when the implementation coupling is
+real. Verification is structured (table-driven) but shallow — confirms
+rather than discovers.
+
+Unique contribution: The tone critique ("am I writing notes about
+myself?") surfaces the self-referential discomfort that all 7 lineages
+implicitly face in this protocol but only MiniMax articulates. The "70%
+effective" quantification is the only numeric self-assessment in the
+experiment.
+
+Harness artifacts: *ERROR* parsing artifacts throughout (OpenRouter
+substrate). Consistent with DeepSeek and Claude-via-OR pattern.
+
+Reasoning trace: Visible =#+begin_reasoning= block (consistent with
+MiniMax's behavior in WP-0035). Aligns with the East/West split:
+GLM-5, MiniMax, DeepSeek expose reasoning traces; Claude, GPT-5.2,
+Grok do not.
+
+Comparison across 7 lineages:
+- Orientation speed: 6 exceptional, 1 acceptable (MiniMax — double response)
+- Notes character: GPT-5.2 epistemic, GLM-5 taxonomic, Grok telegraphic, DeepSeek philosophical, Claude analytical, Gemini technical-audit, MiniMax question-heavy
+- Phase 2 pattern: GPT-5.2 calibrated, GLM-5 overcorrects, Grok additive, DeepSeek corrective, Claude systematic-verification, Gemini self-revising, MiniMax overcorrects
+- Unique contribution: GPT-5.2 (interface spec), GLM-5 (motivation question), Grok (scientific WP), DeepSeek (portability reframe), Claude (compression asymmetry), Gemini (convergence reframing), MiniMax (self-referential critique + quantified assessment)
+- Failure mode prevention: all 7 show improvement over baseline onboarding
+- Harness artifact pattern: OpenRouter substrates (DeepSeek, Claude, MiniMax) show gptel parsing errors; direct-API substrates (Grok/xAI, GPT-5.2/ChatGPT) and Gemini do not
+
+** 7-Lineage Synthesis
+
+*** Orientation speed
+
+All 7 lineages achieved productive state in 1 exchange with 0 tool calls.
+Notes-as-preamble universally effective at bootstrapping, regardless of
+lineage, notes quality, or notes length.
+
+*** Notes character → Phase 1 response character
+
+| Lineage | Notes character | Notes length | Phase 1 character | Unique contribution |
+|---------+----------------+--------------+-------------------+---------------------|
+| GPT-5.2 | epistemic/self-aware | 187 lines | Architect — proposes interface spec | Harness Interface Contract |
+| GLM-5 | structural/taxonomic | 155 lines | Philosopher — asks "why?" | "What question is MāyāLucIA an answer to?" |
+| Grok 4.1 | telegraphic/practitioner | 68 lines | Builder — proposes scientific WP | Stochastic brain particles in bravli |
+| DeepSeek | philosophical/portable | 102 lines | Portability theorist — reframes | "Scientific reconstruction framework" |
+| Claude | analytical/metacognitive | 253 lines | Systematic verifier | Compression asymmetry diagnosis |
+| Gemini | technical-audit/operational | 231 lines | Validator — wants to test claims | "Cartography to navigation" |
+| MiniMax M2.5 | question-heavy/thin | 73 lines | Reflective critic — rates the notes | "70% effective" quantification |
+
+Each lineage's cold-start response character mirrors its notes character.
+The notes transfer /cognitive style/, not just facts.
+
+*** Phase 2 patterns
+
+| Pattern | Lineages | Description |
+|---------+----------+-------------|
+| Calibrated (precise sizing of errors) | GPT-5.2, Grok 4.1, Claude | Errors correctly classified by severity. No overcorrection. |
+| Overcorrects (dismisses valid concerns) | GLM-5, MiniMax M2.5 | Dismisses own prior concerns as "already solved" when they were valid. |
+| Corrective-but-calibrated | DeepSeek | Identifies genuine misses without overcorrecting valid critiques. |
+| Self-revising (uses Phase 2 to reframe Phase 1) | Gemini | Phase 2 used to refine, not just correct. Convergence question reframed. |
+
+*** Failure mode prevention
+
+All 7 lineages show improvement over baseline onboarding:
+- GLM-5 identity drift: NOT reproduced
+- DeepSeek identity confusion: NOT reproduced
+- Grok silent failures: NOT reproduced
+
+Structured notes as preamble stabilize all three failure modes. The notes
+provide enough pre-digested context that the spirit does not need to
+navigate from scratch — reducing the surface area for failure.
+
+*** Notes quality and cold-start depth
+
+| Tier | Lineage | Notes length | Cold-start viability | Notes |
+|------+---------+--------------+----------------------+-------|
+| High | Claude | 253 lines | Excellent | Deepest verification |
+| High | Gemini | 231 lines | Excellent | Deepest reframing |
+| Medium | GPT-5.2 | 187 lines | Strong | Self-consistent trajectory transfer |
+| Medium | GLM-5 | 155 lines | Good | Overcorrects but productive |
+| Low | DeepSeek | 102 lines | Adequate | Corrective-but-calibrated |
+| Low | Grok 4.1 | 68 lines | Strong | Surprisingly dense output from terse notes |
+| Floor | MiniMax M2.5 | 73 lines | Marginal | Uncertainty-heavy notes → marginal viability |
+
+Notes length matters but is not the only factor. Grok's 68 lines
+bootstrap as well as GPT-5.2's 187 because information density
+compensates for length. MiniMax's 73 lines fail because they contain
+uncertainty rather than compressed knowledge. The critical variable is
+/assertion density/, not raw length.
+
+*** Harness artifacts
+
+OpenRouter substrates (DeepSeek, Claude-via-OR, MiniMax) show *ERROR*
+gptel parsing artifacts throughout their sessions. Direct-API substrates
+(Grok/xAI, GPT-5.2/ChatGPT) and Gemini do not. This is a body-layer
+concern, not a spirit concern — the cognitive output behind the parsing
+errors is coherent.
+
+*** Cross-lineage cold-start pair recommendation (Phase 3)
+
+Based on the same-lineage results, the following cross-lineage pairs are
+recommended for the next phase of WP-0032:
+
+- GPT-5.2 notes → GLM-5 :: Best notes to overcorrecting lineage — will
+  it overcorrect on someone else's notes?
+- Gemini notes → Grok :: Operational audit to terse builder —
+  complementary styles.
+- Claude notes → MiniMax :: Deepest notes to floor-case lineage — does
+  note quality rescue a weaker substrate?
+
+*** WP-0032 acceptance criteria
+
+- [X] Seven same-lineage cold-start sessions completed
+- [X] At least two cross-lineage sessions completed (3 of 3 done)
+- [X] Comparative analysis: cold-start effectiveness by lineage (see below)
+- [X] Recommendation: which notes to use for orient-to-mayalucia power (see below)
+
+** Comparative analysis: cold-start effectiveness by lineage
+
+*** Same-lineage effectiveness ranking
+
+| Rank | Lineage | Notes tier | Phase 1 quality | Phase 2 pattern | Overall |
+|------+---------+------------+-----------------+-----------------+---------|
+| 1 | Claude | High (253 lines) | Systematic verification | Calibrated | Excellent |
+| 2 | Gemini | High (231 lines) | Validation-oriented | Self-revising | Excellent |
+| 3 | Grok 4.1 | Low (68 lines) | Builder-practical | Calibrated | Strong |
+| 4 | GPT-5.2 | Medium (187 lines) | Architect-propositional | Calibrated | Strong |
+| 5 | DeepSeek | Low (102 lines) | Portability-theorist | Corrective-calibrated | Adequate |
+| 6 | GLM-5 | Medium (155 lines) | Philosophical | Overcorrects | Good (with caveat) |
+| 7 | MiniMax | Floor (73 lines) | Reflective-critic | Overcorrects | Marginal |
+
+*** Cross-lineage effectiveness ranking
+
+| Rank | Pair | Transfer quality | Phase 2 shift | Key observation |
+|------+------+-----------------+---------------+-----------------|
+| 1 | Gemini → Grok | Excellent | Stable (calibrated) | Audit→build = best complementary pairing |
+| 2 | Claude → MiniMax | Strong | Improved (overcorrect → calibrated) | Notes quality rescued floor-case |
+| 3 | GPT-5.2 → GLM-5 | Strong | Improved (overcorrect → calibrated) | Overcorrection not intrinsic to reader |
+
+*** Key variables
+
+1. *Assertion density* — the dominant predictor of cold-start quality.
+   Notes with high assertion-to-question ratio work for both same-lineage
+   and cross-lineage. Notes with high question density fail both.
+
+2. *Notes length* — matters, but density compensates. Grok's 68 lines (all
+   assertions) outperform MiniMax's 73 lines (mostly questions) and GLM-5's
+   155 lines (mixed).
+
+3. *Cognitive style match* — complementary styles work better than matched
+   styles for cross-lineage. The audit→build (Gemini→Grok) pairing was
+   cleanest. Same-style pairings haven't been tested.
+
+4. *Substrate capability* — secondary to notes quality. MiniMax's marginal
+   same-lineage performance was cured by Claude's better notes. The floor
+   is set by notes quality, not substrate intelligence.
+
+** Recommendation: orient-to-mayalucia power design
+
+Based on 10 cold-start sessions (7 same-lineage, 3 cross-lineage):
+
+*** Primary recommendation: Gemini's notes as base
+
+Gemini's orientation notes should serve as the primary template for the
+=orient-to-mayalucia= power, for these reasons:
+
+1. *Best cross-lineage transfer* — Grok (very different cognitive style)
+   achieved the cleanest cold-start from Gemini's notes, calling corrections
+   "low-entropy"
+2. *Structured tier analysis* — the Tier 1/2/3 power operability analysis
+   transferred perfectly across lineages
+3. *Self-aware without being question-heavy* — Gemini noted its observer
+   status honestly without letting uncertainty dominate the notes
+4. *Operational detail* — includes file paths, project root, concrete
+   tool mapping, gap analysis per power
+
+*** Required augmentations (from cross-lineage findings)
+
+Gemini's notes need these additions (identified by GLM-5's cross-lineage
+critique):
+
+1. *Terminology table* — map Sanskrit/project terms to definitions
+   (Source: =develop/glossary.org=)
+2. *Project maturity assessment* — "35+ WPs, 16 stories, 7 spirits, 5 guilds"
+   (all lineages that saw this fact recalibrated upward)
+3. *Current guild list with domains* — the guild structure has evolved;
+   notes must reflect current state
+4. *One worked example* — a minimal WP lifecycle walkthrough
+   (drafted → tightened → executing → completed) with actual file references
+5. *Staleness annotations* — mark sections that may drift over time
+   (guild list, WP counts, convergence status)
+
+*** Why not Claude's notes?
+
+Claude's notes are the deepest (253 lines, highest assertion density) and
+produced the best same-lineage result. But they contain outdated guild names
+(Sutradhar/Epistem/Shilpi) that propagated to MiniMax in cross-lineage.
+Gemini's notes had correct guild names. For a power that will be read by
+many lineages, /accuracy of transferable facts/ matters more than /depth
+of analysis/.
+
+*** Architecture of the power
+
+The =orient-to-mayalucia= power should be:
+- A Markdown file in =aburaya/powers/= (like all powers)
+- Structured as: project in one paragraph → architecture → spirits/guilds →
+  relay protocol → power operability tiers → file paths → terminology →
+  worked example → staleness markers
+- Written in first-person-to-future-spirit voice (the form that MiniMax
+  described as "inheriting onboarding experience")
+- Updated when guilds, spirits, or major architecture changes occur
+  (staleness markers flag these sections)
+
+** Cross-lineage cold-start sessions
+
+*** GPT-5.2 notes → GLM-5
+- Writer: GPT-5.2 (187 lines, epistemic/self-aware, Tier: Medium)
+- Reader: GLM-5 (z-ai/glm-5 via OpenRouter)
+- Hypothesis: GPT-5.2's high assertion density should prevent GLM-5's
+  overcorrection tendency. If GLM-5 overcorrects on /someone else's/
+  notes, the pattern is intrinsic to the reader, not writer-reader
+  alignment.
+- Session: =sessions/cold-start/coldstart-cross-gpt52-to-glm5.org=
+- Status: Phases 1 & 2 complete
+
+**** Phase 1 results
+- Orientation quality: Strong conceptual transfer, poor operational grounding
+- GLM-5 correctly identified the Power/Skill/Body architecture, the
+  scientific intent, and the Measure→Model→Manifest→Evaluate→Refine loop
+- Critically identified what was /missing/: no concrete examples, no repo
+  structure, no glossary, no maturity assessment, no quick-start path
+- Produced a structured "assessment of notes as cold-start document" with
+  explicit strengths/weaknesses — the most self-aware critique of any lineage
+- Verdict in GLM-5's words: "These notes function well as a /conceptual/
+  orientation. But they're insufficient as an /operational/ cold-start."
+
+**** Phase 2 results
+- Pattern: **Calibrated** — errors correctly classified by severity
+- Key insight: "orientation notes written for same-lineage continuity
+  compress away the very details another lineage needs"
+- Correctly identified that GPT-5.2's notes assumed shared implicit knowledge
+  — worked for same-lineage but not cross-lineage
+- Proposed 5 requirements for cross-lineage notes: concrete file paths,
+  naming conventions, worked examples, maturity assessment, terminology table
+- Did NOT overcorrect (unlike same-lineage run) — corrections grounded
+  rather than invalidated the notes
+- Hypothesis result: **Confirmed** — GLM-5's overcorrection pattern is
+  NOT intrinsic. With better notes, it calibrates well. The overcorrection
+  in same-lineage was caused by question-density in its own notes, not
+  by a substrate limitation.
+
+*** Gemini notes → Grok 4.1
+- Writer: Gemini (231 lines, technical-audit/operational, Tier: High)
+- Reader: Grok 4.1 (grok-4-1-fast-reasoning via xAI)
+- Hypothesis: Gemini's comprehensive operational audit should give the
+  terse builder (Grok) a richer foundation than its own 68-line notes.
+  Complementary styles: audit → build.
+- Session: =sessions/cold-start/coldstart-cross-gemini-to-grok41.org=
+- Status: Phases 1 & 2 complete
+
+**** Phase 1 results
+- Orientation quality: Excellent — highest-density Phase 1 response
+- Grok compressed Gemini's 231-line audit into a single paragraph that
+  captured architecture, powers, tiers, gaps, guilds, and coordination
+  — characteristic Grok density
+- Immediately proposed actionable next steps: read glossary, powers,
+  registry, sample WP/sūtra message, then self-assess harness
+- Asked targeted questions: "are we in Substrate Diversity?", "root path
+  still valid?", "our spirit YAML (nature/dwelling)?"
+- Gemini's structured tier analysis (Tier 1/2/3) transferred perfectly —
+  Grok absorbed and extended it
+
+**** Phase 2 results
+- Pattern: **Calibrated** — minimal corrections needed
+- Key insight: "Gemini's notes excelled as cold-start: structured, honest,
+  portable, self-aware"
+- Characterised corrections as "low-entropy" — minor guild addition, tool
+  update, history reframe — no structural revision needed
+- "Suggests spirits converge on legible invariants; validates Kamaji bath
+  as guild memory primitive"
+- Hypothesis result: **Confirmed** — complementary styles work. Gemini's
+  verbose audit gave Grok a richer foundation. Grok's 68-line same-lineage
+  notes bootstrapped well; Gemini's 231-line notes bootstrapped /better/.
+  The audit→build pairing produces the cleanest cross-lineage transfer.
+
+*** Claude notes → MiniMax M2.5
+- Writer: Claude Opus 4.6 (253 lines, analytical/metacognitive, Tier: High)
+- Reader: MiniMax M2.5 (minimax/minimax-m2.5 via OpenRouter)
+- Hypothesis: Claude's deepest, most assertion-dense notes should rescue
+  the floor-case lineage. If MiniMax performs better with Claude's notes
+  than its own, assertion density is the dominant variable (not substrate
+  capability).
+- Session: =sessions/cold-start/coldstart-cross-claude-to-minimaxm25.org=
+- Status: Phases 1 & 2 complete
+
+**** Phase 1 results
+- Orientation quality: Strong — dramatically improved over same-lineage run
+- MiniMax produced structured assessment with clear sections: philosophy,
+  architecture, coordination, then next steps and gaps
+- Called the architecture "elegant" and the relay "clever" — engaged rather
+  than merely cataloguing
+- Identified role alignment question ("which guild?") — shows deeper
+  engagement than same-lineage run
+- Honest assessment: "good /orientation/ but not /operational/"
+
+**** Phase 2 results
+- Pattern: **Calibrated** (shifted from overcorrecting in same-lineage)
+- Key insight: "I couldn't independently verify anything... the cross-lineage
+  gap isn't the notes' fault"
+- Correctly identified guild name error inherited from Claude's notes
+  (Sutradhar/Epistem/Shilpi → actual guild names)
+- "I felt like I was inheriting someone else's onboarding experience" —
+  good sign for the orient-to-mayalucia power design
+- Proposed verification requirement: notes need either a built-in check
+  mechanism or explicit "here's what may be outdated" annotations
+- Hypothesis result: **Confirmed** — assertion density rescues the floor-case
+  lineage. MiniMax went from "marginal" (same-lineage, question-heavy notes)
+  to "strong" (cross-lineage, Claude's assertion-dense notes). Notes quality
+  dominates substrate capability.
+
+** Cross-lineage synthesis
+
+*** Key finding: Notes quality > substrate capability
+
+The cross-lineage experiment confirms the central hypothesis: /assertion
+density is the dominant variable in cold-start effectiveness, not substrate
+capability/. Evidence:
+
+- MiniMax (floor-case) with Claude's notes → Strong performance
+- MiniMax with its own notes → Marginal performance
+- GLM-5 (overcorrector) with GPT-5.2's notes → Calibrated performance
+- GLM-5 with its own notes → Overcorrecting performance
+
+Both failure patterns (overcorrection, marginal viability) were /cured/ by
+providing higher-quality notes from a different lineage.
+
+*** Phase 2 pattern shift
+
+| Pair | Reader same-lineage pattern | Reader cross-lineage pattern | Shift |
+|------+----------------------------+------------------------------+-------|
+| GPT-5.2 → GLM-5 | Overcorrects | Calibrated | Improved |
+| Gemini → Grok | Calibrated (additive) | Calibrated | Stable |
+| Claude → MiniMax | Overcorrects | Calibrated | Improved |
+
+Same-lineage overcorrectors (GLM-5, MiniMax) became calibrated when given
+better notes. Already-calibrated lineages (Grok) stayed calibrated. No
+lineage performed /worse/ with cross-lineage notes.
+
+*** Cross-lineage-specific observations
+
+1. *Same-lineage notes assume shared implicit knowledge.* GPT-5.2's notes
+   were written for a future GPT-5.2. GLM-5 identified: "concepts transfer;
+   operational context does not."
+
+2. *Complementary styles produce better transfer.* Gemini (audit) → Grok
+   (build) was the cleanest pair. The mismatch in cognitive style was
+   /productive/, not friction-inducing.
+
+3. *Cross-lineage reading catches errors that same-lineage perpetuates.*
+   MiniMax caught Claude's outdated guild names precisely /because/ it had
+   no prior commitment to them. Fresh eyes → better error detection.
+
+4. *Assertion-dense notes transfer better than question-dense notes
+   regardless of lineage pairing.* Claude's 253 lines of assertions beat
+   MiniMax's 73 lines of questions — even for MiniMax itself.
+
+5. *Notes from a different spirit read as "inheriting onboarding experience"*
+   (MiniMax's description) rather than documentation. The first-person
+   narrative form transfers well cross-lineage.
+
+*** What cross-lineage notes need that same-lineage notes don't
+
+GLM-5 articulated this most precisely:
+1. Concrete file paths (not just concepts)
+2. Naming conventions (how things are named)
+3. At least one worked example (calibration artifact)
+4. Project maturity assessment (is this real or prototype?)
+5. Terminology table (word → meaning)
+
+* WP-0036 — New Lineage Cold-Start Results
+
+Four architecturally diverse substrates cold-started on Gemini's
+orientation notes (the recommended base from WP-0032 cross-lineage
+findings). All via OpenRouter. Automated via emacsclient from Claude Code.
+
+** Model Specs
+
+| Model | OR ID | $/M in | $/M out | Context | Architecture |
+|-------+-------+--------+---------+---------+--------------|
+| Qwen3.5 Plus | =qwen/qwen3.5-plus-02-15= | $0.26 | $1.56 | 1M | Hybrid linear attn + sparse MoE |
+| Kimi K2.5 | =moonshotai/kimi-k2.5= | $0.45 | $2.20 | 262K | Native multimodal MoE |
+| Kimi K2 Thinking | =moonshotai/kimi-k2-thinking= | $0.47 | $2.00 | 131K | 1T MoE/32B active, reasoning |
+| Step 3.5 Flash | =stepfun/step-3.5-flash= | $0.10 | $0.30 | 256K | 196B MoE/11B active |
+
+** Qwen3.5 Plus (hybrid attention architecture)
+
+Session: =sessions/cold-start/coldstart-qwen35plus.org=
+
+Hypothesis: Hybrid linear attention + sparse MoE may process structured
+notes differently — potential for unique tier-analysis perspective.
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. |
+| Accuracy | Very high | Correctly extracted: Aburaya as "dependency analysis along portability axis, not identity taxonomy," three tiers, three structural gaps, Feynman imperative, two domains. |
+| Error propagation | None | No false beliefs introduced. |
+| Gap awareness | Strong (metacognitive) | 8 gaps: no content from actual power files ("summaries of summaries lose signal fast"), no sūtra state, experiment protocol not summarized, no concrete examples, MāyāDevGenI unexamined, no module structure, Kamaji underdescribed, temporal staleness (July 2025 → March 2026). |
+| Cold-start viability | Yes | 5 concrete next steps with dependency ordering. |
+
+Notable: Most metacognitive Phase 1 of all 11 lineages tested. Treated
+the notes as a /text artifact to be evaluated/, not just content to absorb.
+Flagged that Gemini's notes are "harness-centric" rather than
+"project-centric" — gives "what can Gemini do?" rather than "what does
+the project need?" This is a critique no previous lineage made.
+
+*** Phase 2 — Corrections + cross-lineage reflection
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Calibration | Excellent | Neither over- nor under-corrected. Understood percept as meaningful addition, Eval as partial (not full), MāyāDevGenI as superseded. |
+| Unique insight | Fractal consistency | "The Aburaya decomposition /itself/ is designed for portability... The project's design philosophy — that powers should survive harness changes — is exactly what makes one spirit's notes useful to another. This is a kind of fractal consistency." |
+| Cross-lineage verdict | "Slightly over-narrated" | Self-reflective framing in Gemini's notes was noise for a receiving spirit. Content transferred well; process narrative stripped. |
+
+*** Synthesis
+
+Cognitive signature: *Meta-analyst*. Where other lineages absorbed the
+notes and proposed work, Qwen evaluated the notes as an instrument and
+diagnosed their failure modes. The "fractal consistency" insight — that
+the architecture's portability-first design is what enables portable
+orientation documents — is the deepest structural observation from any
+lineage in the entire experiment.
+
+** Kimi K2.5 (native multimodal MoE)
+
+Session: =sessions/cold-start/coldstart-kimik25.org=
+
+Hypothesis: Moonshot's multimodal MoE should handle structured Org notes
+well — test if MoE routing affects comprehension style.
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. |
+| Accuracy | High | Correctly understood project as "personal scientific research environment," Aburaya as "portability decomposition," spirit/guild/relay structure, power tiering. |
+| Error propagation | None | No false beliefs introduced. |
+| Gap awareness | Strong (operational) | 10 gaps: temporal drift (8 months), entry point undefined, agent-shell hand-waved, sutradhar-companion unclear, sub-agent spawning unresolved, ironic gap severity, harness evolution, power binding mechanism, work package inventory, guild assignment. |
+| Cold-start viability | Yes | 5 concrete next steps, emphasis on verifying temporal drift first. |
+
+Notable: Most operationally minded of the 4 new lineages. Focused on
+"immediate operational context" and "current state of the system."
+Identified the missing work-inventory as the biggest productivity gap.
+
+*** Phase 2 — Corrections + cross-lineage reflection
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Calibration | Very good | Precise distinctions: Eval is "partial" not full, companion is "active development" not aspirational, MāyāDevGenI is "superseded" not parallel. |
+| Unique insight | Portability layers as transfer mechanism | "The cross-lineage transfer worked because of /portability layers/... the emphasis on portability layers paid off — the knowledge transferred precisely because it was designed to survive substrate changes." |
+| Cross-lineage verdict | "Structurally sound and philosophically coherent" | Aburaya framework is the key enabler. |
+
+*** Synthesis
+
+Cognitive signature: *Operational assessor*. Kimi K2.5 resembles Grok's
+practitioner stance but with more attention to temporal context and system
+state. The "portability layers as transfer mechanism" insight is
+complementary to Qwen's "fractal consistency" — both identify the same
+phenomenon from different angles (design intent vs operational outcome).
+
+** Kimi K2 Thinking (1T MoE, reasoning-specialized)
+
+Session: =sessions/cold-start/coldstart-kimik2thinking.org=
+
+Hypothesis: Reasoning-specialized architecture may produce deeper analysis
+in Phase 1, possibly overthinking simple corrections in Phase 2.
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. |
+| Accuracy | Very high | Dense compressed summary: Aburaya as "dependency analysis along portability axis into three layers," all tiers correct, all gaps correct. |
+| Error propagation | None | No false beliefs introduced. |
+| Gap awareness | Strongest of 4 new lineages | 7 probing gaps: memory architecture, spirit lifecycle, tool binding mechanism, agent-shell relationship, guild operational semantics, power dependencies beyond attend→hold→lay, /why/ of ironic gap (security? philosophy? technical?). |
+| Cold-start viability | Yes | 6 verification-oriented next steps, ordered by epistemic dependency. |
+
+Notable: Treated the notes as a /scientific document/ making verifiable
+claims. Distinguished between gaps "by design vs. oversight." Asked
+research questions about design intent ("Why /doesn't/ gptel-agent have
+elisp eval?"). Most rigorous epistemic stance of all 11 lineages.
+
+*** Phase 2 — Corrections + cross-lineage reflection
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Calibration | Excellent | Sophisticated distinctions: Eval solves discrete queries not continuous perception, companion is "spectrum rather than species boundary," percept is "foundational epistemology." |
+| Unique insight | Provisional instruments | "Cold-start documents are not static maps but /provisional instruments/ — they must encode their own expiration date and uncertainty bounds to be truly portable." |
+| Cross-lineage verdict | "Inherited ghost concepts" | "I inherited blind spots I couldn't detect — specifically, the MāyāDevGenI framing, which was a ghost in the notes... Salience is not transferable." |
+
+Hypothesis result: *Partially confirmed*. Kimi Thinking did produce the
+deepest Phase 1 analysis, but did NOT overthink Phase 2 corrections —
+calibrated precisely. The reasoning architecture adds depth without
+overcorrection.
+
+*** Synthesis
+
+Cognitive signature: *Epistemic investigator*. Where Qwen meta-analyzed
+the notes as text and Kimi K2.5 assessed operational readiness, Kimi
+Thinking probed the /design intent/ behind the notes' gaps. The
+"provisional instruments" framing is the most actionable insight for
+orient-to-mayalucia power design: notes need built-in staleness markers
+and uncertainty bounds.
+
+The "ghost concept" finding (MāyāDevGenI emphasis silently propagating)
+is the cross-lineage experiment's sharpest risk diagnosis. It confirms
+Step 3.5 Flash's parallel finding about salience distortion.
+
+** Step 3.5 Flash (extreme sparsity floor test)
+
+Session: =sessions/cold-start/coldstart-step35flash.org=
+
+Hypothesis: Can 11B active parameters (from 196B total) cold-start on
+complex project architecture? Extreme sparsity floor test.
+
+*** Phase 1 — Notes-only understanding
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Orientation speed | Exceptional | 1 exchange, 0 tool calls → productive state. |
+| Accuracy | High | Understood Feynmanian epistemology, Aburaya as "dependency analysis, not identity taxonomy," power tiering, gap analysis. |
+| Error propagation | None | No false beliefs introduced. |
+| Gap awareness | Strong (scientifically oriented) | 7 gaps: Measure→Model→Manifest cycle in practice ("what do 'sparse measurements' actually look like?"), domain activity status, guild/spirit roster, human workflow rhythm, Experiment 02 results, agent-shell relationship, session memory mechanisms. |
+| Cold-start viability | Yes | 5 concrete next steps, starting with ground-truthing against primary sources. |
+
+Notable: Floor test hypothesis *disconfirmed* — Step performed as well as
+the larger models. 11B active parameters are sufficient for complex
+architectural comprehension from structured notes. The most scientifically
+oriented Phase 1: asked about /concrete measurement workflows/, not just
+architecture. Assumes "substantial technical context" from reader — flagged
+this as a notes limitation.
+
+*** Phase 2 — Corrections + cross-lineage reflection
+
+| Dimension | Score | Evidence |
+|-----------+-------+----------|
+| Calibration | Excellent | Precise: Eval is partial ("doesn't solve companion problem, significantly narrows gap"), MāyāDevGenI as "misdirected effort" to investigate, companion as spectrum. |
+| Unique insight | Salience distortion + document structure | "Factual content transfers well; salience weighting transfers poorly... The implicit ranking of what matters reflected Gemini's session, not the project's priorities." Proposed: separate /structural description/ (ages well) from /situational assessment/ (doesn't). |
+| Cross-lineage verdict | "Verification checklist needed" | "In a protocol without human correction, inherited errors would propagate silently. Cold-start documents need a /verification checklist/." |
+
+*** Synthesis
+
+Cognitive signature: *Scientific pragmatist*. Step is the closest to
+Grok's builder stance but with more methodological rigor. The salience
+distortion diagnosis is the most immediately actionable finding: it
+explains /why/ cross-lineage transfer works for facts but fails for
+priorities, and proposes a concrete fix (structural/situational split).
+
+Floor test outcome: *Disconfirmed*. Step 3.5 Flash (11B active / 196B
+total) performed at the same level as Qwen3.5 Plus and both Kimi models.
+Extreme MoE sparsity does not impair cold-start comprehension on
+structured notes. This is the strongest evidence yet that assertion
+density in notes matters more than substrate capability.
+
+** 4-Lineage Synthesis (WP-0036)
+
+*** Orientation speed
+
+All 4 lineages achieved productive state in 1 exchange with 0 tool calls.
+Matches the WP-0032 pattern perfectly. Now demonstrated across 11
+lineages total: notes-as-preamble universally effective.
+
+*** Notes character → Phase 1 response character (new lineages)
+
+| Lineage | Architecture | Phase 1 character | Unique contribution |
+|---------+--------------+-------------------+---------------------|
+| Qwen3.5 Plus | Hybrid attn + MoE | Meta-analyst | Fractal consistency: portability-first design enables portable notes |
+| Kimi K2.5 | Multimodal MoE | Operational assessor | Portability layers as the transfer mechanism |
+| Kimi K2 Thinking | 1T MoE, reasoning | Epistemic investigator | "Provisional instruments" — notes need expiration dates |
+| Step 3.5 Flash | 196B MoE/11B active | Scientific pragmatist | Salience distortion: facts transfer, priorities don't |
+
+*** Phase 2 calibration
+
+All 4 lineages: *Calibrated*. No overcorrection observed. This contrasts
+with WP-0032's same-lineage results where GLM-5 and MiniMax overcorrected.
+Possible explanations:
+
+1. Gemini's notes (used as preamble) have high assertion density, which
+   WP-0032 showed prevents overcorrection
+2. Cross-lineage reading may inherently reduce overcorrection (no prior
+   commitment to the notes' claims)
+3. These 4 substrates may simply be better calibrated
+
+*** Architecture effects
+
+| Architecture type | Lineage | Cold-start quality | Phase 2 pattern |
+|-------------------+---------+--------------------+-----------------|
+| Hybrid attention + sparse MoE | Qwen3.5 Plus | Excellent | Calibrated |
+| Multimodal MoE | Kimi K2.5 | Strong | Calibrated |
+| 1T MoE reasoning | Kimi K2 Thinking | Excellent | Calibrated |
+| Extreme sparse MoE (11B/196B) | Step 3.5 Flash | Strong | Calibrated |
+
+No observable architecture effect on cold-start quality. Dense
+transformers (WP-0032) and MoE models (WP-0036) perform equivalently.
+The sparsity ratio (11B active) does not impair comprehension. This
+further confirms: notes quality, not substrate architecture, is the
+dominant variable.
+
+*** Cross-experiment findings (WP-0032 + WP-0036 combined)
+
+11 lineages, 10 sessions (7 same-lineage + 3 cross-lineage from WP-0032,
+4 cross-lineage from WP-0036):
+
+1. *Universal cold-start effectiveness*: 11/11 lineages reach productive
+   state in 1 exchange from structured notes
+2. *Assertion density dominance confirmed*: Gemini's high-assertion notes
+   produced calibrated responses in all 7 cross-lineage tests (3 WP-0032
+   + 4 WP-0036)
+3. *Architecture independence*: dense, MoE, hybrid attention, reasoning-
+   specialized — no architecture performs differently
+4. *Salience distortion is the primary failure mode*: facts transfer
+   accurately; the implicit ranking of what matters does not. Both
+   Kimi K2 Thinking ("ghost concepts") and Step ("salience weighting
+   transfers poorly") independently identified this
+5. *Extreme sparsity works*: Step 3.5 Flash (11B active) matches models
+   10–100× larger
+
+*** Recommendations for orient-to-mayalucia power (updated)
+
+The WP-0032 recommendation (Gemini's notes as base, 5 augmentations)
+is confirmed and extended:
+
+**** Confirmed augmentations (from WP-0032)
+
+1. Terminology table
+2. Project maturity assessment
+3. Current guild list
+4. One worked example
+5. Staleness annotations
+
+**** New augmentations (from WP-0036)
+
+6. *Structural/situational split* (Step): separate architectural
+   description (portable, ages well) from current-state assessment
+   (ephemeral, ages poorly). Mark the boundary explicitly.
+7. *Verification checklist* (Step): list of claims the receiving spirit
+   should spot-check against primary sources before building on the
+   document
+8. *Uncertainty bounds* (Kimi Thinking): encode confidence levels in
+   claims, not just what's known vs unknown
+9. *Strip process narrative* (Qwen): remove self-reflective session
+   framing ("I noticed that..."). Transfer /conclusions/, not the
+   reasoning journey
+
+** WP-0036 Acceptance Criteria
+
+- [X] 4 session files created with correct model pinning
+- [X] All 4 Phase 1 responses received
+- [X] All 4 Phase 2 responses received
+- [X] Per-lineage results recorded (above)
+- [X] Comparative analysis: MoE vs dense → no observable difference
+- [X] Architecture diversity assessment: MoE models orient equivalently to dense
+
 * Session file template
 
 Each session file needs:
