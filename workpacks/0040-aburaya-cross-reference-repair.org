@@ -1,0 +1,197 @@
+#+title: WP-0040 — Aburaya Cross-Reference Repair
+#+author: you
+#+date: 2026-03-11
+#+property: status drafted
+#+property: executor mayadev
+#+property: type simple
+
+* Context and Motivation
+
+The spirit registry (aburaya/) has grown organically through commissioning
+acts. Cross-references between spirit identity files and guild YAML files
+have drifted. This creates identity confusion: a spirit may claim a guild
+that does not list it, or a guild may reference a spirit that has no
+identity file.
+
+The audit was triggered by WP-0038 (dixa guild sweep) and WP-0039
+(aburaya cross-reference audit). The gaps block dixa from performing
+its verification function and confuse newly commissioned spirits about
+their organisational home.
+
+* Inventory (What Already Exists)
+
+** Current spirit registry (aburaya/spirits/)
+
+Eight spirit directories exist:
+- aikosh-guardian → guild: epistem
+- cruvin-guardian → guild: mayalucia
+- dixa → guild: mayalucia
+- dmt-eval-guardian → guild: bravli
+- epistem-guardian → guild: epistem
+- mayadev → NO GUILD FIELD
+- mu2tau → NO GUILD FIELD
+- sutradhar-guardian → guild: mayalucia
+
+** Current guild registry (aburaya/guilds/)
+
+Five guilds with spirit listings:
+- apprentis: (empty — "No guardian commissioned")
+- bravli: dmt-eval-guardian ✓
+- epistem: aikosh-guardian ✓, epistem-guardian ✓
+- mayalucia: sutradhar-guardian ✓, cruvin-guardian ✓, dixa ✓
+- percept: percept-guardian-placeholder (MISSING — no identity.yaml)
+
+** Identified gaps
+
+1. *mayadev and mu2tau have no guild assignment* — These are special
+   cases. mu2tau is the human principal-investigator; mayadev is the
+   primary-developer. Neither belongs to a guild in the standard sense.
+   However, their identity.yaml files should explicitly state this
+   (e.g., guild: none, or a note explaining their trans-guild status).
+
+2. *percept-guardian-placeholder is listed in percept guild but has no
+   identity.yaml* — This is a placeholder for a future spirit. It should
+   either be commissioned properly (identity.yaml created) or removed
+   from the guild listing with a comment explaining the commissioning
+   need.
+
+3. *system.md spirit list is stale* — The system.md directory structure
+   comment (line 38) lists only 7 spirits, missing dixa. This is
+   low-priority but should be updated for completeness.
+
+** What works
+
+- All other cross-references are consistent
+- Guild project paths all exist on disk
+- Spirit identity files correctly reference their guilds (when guild
+  field is present)
+
+* Specification (What You Build)
+
+** Part 1: Fix mayadev and mu2tau identity files
+
+Add a role.guild field with an explicit note explaining their
+trans-guild status.
+
+for mayadev/identity.yaml (after line 46, before function):
+#+begin_src yaml
+role:
+  guild: trans-guild                   # primary-developer and coordinator — serves all guilds
+  function: primary-developer
+#+end_src
+
+for mu2tau/identity.yaml (after line 37, before function):
+#+begin_src yaml
+role:
+  guild: trans-guild                   # principal-investigator — scientific direction across all domains
+  function: principal-investigator
+#+end_src
+
+** Part 2: Fix percept guild YAML
+
+The percept-guardian-placeholder should be removed from the spirits
+list and replaced with a commissioning note. Edit percept.yaml:
+
+Replace lines 22-23:
+#+begin_src yaml
+spirits:
+  - percept-guardian-placeholder # guardian spirit (to be formally commissioned)
+#+end_src
+
+With:
+#+begin_src yaml
+spirits:
+  # percept-guardian not yet commissioned. First work: define the
+  # guardian's scope (percept domain inquiry + sphota module stewardship).
+  # Commission via WP with identity.yaml in aburaya/spirits/percept-guardian/
+#+end_src
+
+This makes the gap explicit and actionable rather than a phantom entry.
+
+** Part 3: Update system.md spirit list
+
+Line 38 in system.md lists spirits. Add dixa to the list.
+
+Replace:
+#+begin_example
+  spirits/        #   mayadev, mu2tau, dmt-eval-guardian, sutradhar-guardian, aikosh-guardian, epistem-guardian, cruvin-guardian
+#+end_example
+
+With:
+#+begin_example
+  spirits/        #   mayadev, mu2tau, sutradhar-guardian, dmt-eval-guardian, epistem-guardian, aikosh-guardian, cruvin-guardian, dixa
+#+end_example
+
+** Part 4: Relay announcement
+
+Push a message to the sūtra relay announcing the repairs. This is
+organisational hygiene — the relay should know what changed.
+
+Message format:
+#+begin_example
+tags: [org-hygiene, aburaya]
+---
+WP-0040 completed: Aburaya cross-reference repair.
+
+Changes:
+- mayadev and mu2tau: added guild: trans-guild with explanatory note
+- percept.yaml: removed phantom placeholder, added commissioning note
+- system.md: updated spirit list to include dixa
+
+No spirits were commissioned or decommissioned. Cross-references now
+consistent across all guild and spirit files.
+#+end_example
+
+* Execution Order
+
+Execute sequentially:
+
+1. Read current identity.yaml files for mayadev and mu2tau (confirm
+   exact line numbers for insertion)
+2. Edit mayadev/identity.yaml — add guild field
+3. Edit mu2tau/identity.yaml — add guild field
+4. Edit percept.yaml — replace placeholder with commissioning note
+5. Edit system.md — update spirit list
+6. Commit: "org(aburaya): cross-reference repair (WP-0040)"
+7. Push to sūtra relay with announcement message
+
+* Acceptance Criteria
+
+✓ mayadev/identity.yaml has guild: trans-guild with explanatory comment
+✓ mu2tau/identity.yaml has guild: trans-guild with explanatory comment
+✓ percept.yaml spirits section has no phantom entries, only commissioning note
+✓ system.md line 38 includes dixa in spirit list
+✓ All git changes committed with conventional message
+✓ Relay message pushed with tags [org-hygiene, aburaya]
+✓ Optional: run dixa verify-scan (if it exists) to confirm no remaining gaps
+
+* What This Proves
+
+Organisational artifacts degrade through accretion. Spirits are
+commissioned, guilds are updated, cross-references drift. A project
+that runs autonomous agents needs machinery to detect and repair this
+drift — not as a one-time fix, but as a recurring hygiene practice.
+
+This WP is the first instantiation of that practice. The pattern it
+establishes (audit → repair → announce) can be formalised into a dixa
+power (verify-scan) that runs before each commissioning act.
+
+* Open Questions
+
+1. Should mayadev and mu2tau be assigned to mayalucia guild instead
+   of trans-guild? They do serve the organisation as a whole. Discuss
+   with mu2tau during spec-tighten.
+
+2. Should the percept guild have a placeholder identity.yaml for
+   percept-guardian even before commissioning? This would let dixa
+   verify the placeholder exists. Currently the convention is: no
+   identity.yaml until commissioning. Clarify in dixa power docs.
+
+* Tangles and Artifacts
+
+No code tangling. Artifacts:
+- aburaya/spirits/mayadev/identity.yaml (edited)
+- aburaya/spirits/mu2tau/identity.yaml (edited)
+- aburaya/guilds/percept.yaml (edited)
+- system.md (edited)
+- Sūtra relay message (pushed)
