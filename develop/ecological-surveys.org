@@ -1,0 +1,532 @@
+#+title: Ecological Surveys — Convention
+#+author: mu2tau + mayadev
+#+date: 2026-03-11
+
+* What an Ecological Survey Is
+
+An /ecological survey/ in this project is not a species list. It is a
+stability analysis of a living system across deep time.
+
+#+begin_quote
+;; TODO(human) — The thermodynamic framing
+;;
+;; This section needs your voice. The framing:
+;;
+;; Deep geological time built an ecological assemblage — a stable
+;; attractor. Millions of years of tectonic forcing, monsoon evolution,
+;; glacial cycles, and co-evolutionary pressure converged on a
+;; configuration that persisted. That configuration is the present
+;; ecology — but "the present" is a metastable state: long-lived on
+;; human timescales, now being perturbed. Climate change is the
+;; perturbation that tips a planet-wide metastable state toward pure
+;; instability.
+;;
+;; Write 3–8 paragraphs here. What matters:
+;; - Why deep time is not background but evidence for how stable the
+;;   attractor was (and therefore how violent the transition will be)
+;; - Why "metastable" and not just "stable" — what maintained the
+;;   equilibrium, and what is now overwhelming those restoring forces
+;; - Why the unravelling is educational: it reveals the hidden
+;;   dependencies that held the system together
+;; - The human scale: a metastable state that lasted longer than any
+;;   civilisation now transitioning within a single human lifetime
+#+end_quote
+
+The survey template has three temporal layers, each requiring a
+different kind of knowledge:
+
+- *Construction* (Ma to ka) — how the ecological assemblage was built.
+  Tectonic forces, paleoclimate, paleo-ecology, co-evolutionary
+  pressure. This is the evidence for the attractor's depth: the deeper
+  the basin, the more energy required to escape it.
+
+- *Configuration* (decades to centuries) — the present state. Species,
+  trophic webs, phenological calendars, nutrient cycles, human
+  entanglement. This is the metastable configuration — what we observe,
+  what we can still count and map.
+
+- *Unravelling* (decades to centuries forward) — the transition dynamics.
+  What happens when the perturbation exceeds the restoring forces.
+  Glacier loss, treeline migration, phenological mismatch, trophic
+  cascade, human displacement. Which transitions are gradual, which are
+  threshold events, and which are irreversible.
+
+Every species, every interaction, every seasonal rhythm occupies a
+position in a stability landscape that is being tilted. The survey
+must make this visible.
+
+** Relationship to other conventions
+
+| Convention           | Relationship                                     |
+|----------------------+--------------------------------------------------|
+| Work packages        | Each survey is one or more WPs following the     |
+|                      | standard convention (=develop/work-packages.org=). |
+|                      | Large surveys split into one WP per Part.        |
+| Story development    | Surveys are homework for stories. They live in   |
+|                      | =domains/epistem/surveys/=. A story draws from     |
+|                      | them; the story's =research.org= links back.       |
+|                      | (=develop/story-development.org=)                  |
+| Gazetteer genera     | Surveys are raw research. YAML in                |
+|                      | =domains/epistem/collections/= is the queryable    |
+|                      | distillation. A survey may produce new YAML      |
+|                      | entries or enrich existing ones.                 |
+| Illustrated surveys  | Surveys may produce an illustration atlas         |
+|                      | (=develop/illustrated-surveys.org=). The atlas is   |
+|                      | a separate deliverable, not part of the survey.  |
+| Existing surveys     | The Diamer surveys (WP-0012, WP-0013) and the   |
+|                      | Western Himalaya ecological web (WP-0016) are    |
+|                      | proto-surveys — they predate this convention     |
+|                      | but follow compatible patterns. This convention  |
+|                      | generalises and names the structure.             |
+
+* Structure of a Survey
+
+The template has five parts. Not every survey will need all five — a
+survey of a well-studied region may have a thin Part A (deep time is
+well-documented elsewhere) and a thick Part C (unravelling is the
+urgent question). A first survey of a poorly-known region may stop at
+Part B (configuration) with an explicit statement of what Part C
+would need. But the skeleton is stable.
+
+** Part A: Construction — Deep Time Ecology
+
+Timescale: Ma to ka. The geological and evolutionary history that
+assembled the present ecological configuration.
+
+*** A.1 Tectonic and lithological setting
+
+The rock and the forces that made it. Plate tectonics, suture zones,
+metamorphic grade, uplift rates, erosion rates. The substrate —
+literally — on which everything else stands. Include the tectonic
+context that makes this region different from adjacent regions
+(syntaxis, arc collision, rain shadow formation).
+
+*** A.2 Paleoclimate
+
+Monsoon history, rain shadow evolution, glacial cycles. How the
+climate regime that shapes present ecology was itself shaped by
+tectonic and orbital forcing. The key transitions:
+
+- Monsoon onset and intensification (~25–8 Ma)
+- Rain shadow deepening as mountains rise
+- Pleistocene glacial cycles and their /regional/ expression
+  (asynchrony with global ice volume in westerly-dominated ranges)
+- Holocene optimum and subsequent neoglaciation
+- Named aridification events (4.2 ka, 8.2 ka) and their regional
+  signature
+
+*** A.3 Paleo-ecology
+
+What lived here when. Fossil evidence (or its absence and why).
+Vegetation shifts inferred from pollen, isotope, and sediment records.
+Megafauna presence and extinction. The C3/C4 transition. Treeline
+history.
+
+Be honest about evidentiary gaps — high-erosion environments destroy
+fossils. The absence of evidence /is/ evidence of the erosional regime,
+not evidence of absence.
+
+*** A.4 The ecological attractor
+
+The synthesis of A.1–A.3: what convergent configuration emerged, and
+/why it was stable/. What feedback loops held it in place? What would
+it take to break them?
+
+This section is interpretive. It requires the surveyor to articulate
+the stability mechanism — not just describe the state but explain the
+basin. Examples:
+
+- The monsoon–vegetation–erosion feedback (vegetation stabilises
+  slopes → reduces erosion → allows soil development → supports more
+  vegetation)
+- The glacier–river–valley feedback (glacier melt feeds river →
+  river incises valley → deeper valley traps cold air → sustains
+  glacier)
+- The predator–prey equilibrium (snow leopard limits ibex →
+  ibex don't overgraze → alpine meadow persists → marmot habitat
+  stable → golden eagle sustained)
+
+The attractor is the starting point for Part C. You cannot assess
+unravelling without knowing what is being unravelled.
+
+** Part B: Configuration — The Present Ecological Web
+
+Timescale: decades. The current state — what can be observed, counted,
+and mapped.
+
+*** B.1 Altitude zonation
+
+The physical scaffold. A table of zones (elevation range, dominant
+vegetation, key species, physical character) anchors the rest of
+Part B. Every subsequent section references these zones.
+
+Use the project's established format:
+
+#+begin_example
+| Zone | Elevation | Character | Key species |
+|------+-----------+-----------+-------------|
+| ...  | ...       | ...       | ...         |
+#+end_example
+
+*** B.2 Flora by zone
+
+Dominant species, keystone species, endemic species, relict species.
+For each species: physical description → ecology in the survey region
+→ cultural significance → narrative interest → inline sources.
+
+Include the decomposition layer: fungi (beyond just the economically
+important ones), lichen colonisation, soil microbiology where known.
+Lichen on young granite is relevant where uplift exposes new rock.
+
+*** B.3 Fauna by zone
+
+Mammals, birds, herpetofauna, invertebrates. Same per-entity format
+as B.2. Invertebrates will be thin for most Himalayan regions — say
+so explicitly rather than omitting the heading.
+
+*** B.4 Trophic web
+
+Who eats whom. The food chains that connect B.2 and B.3 into a web.
+Decomposition chains (who breaks down whom after death). Pollination
+networks (who pollinates what — high-altitude bumblebees, butterfly
+assemblages, wind pollination).
+
+This is the /plot/ that the species catalogue (B.2–B.3) lacks. The
+species are actors; the trophic web is the story.
+
+*** B.5 Phenological calendar
+
+Seasonal rhythms as a table or timeline:
+
+- Snowmelt timing by altitude
+- Flowering periods (which species when)
+- Breeding seasons (mammals, birds)
+- Migration and transhumance
+- Harvest calendars (morel, medicinal plants, crops)
+- Monsoon onset/retreat (where applicable)
+- Glacial melt peak
+
+The phenological calendar is the first thing climate change disrupts.
+Document it precisely so that Part C can describe the mismatch.
+
+*** B.6 Aquatic ecology
+
+Rivers, streams, glacial lakes, hot springs. Not just the water
+itself but the life in it: snow trout (/Schizothorax/), mahseer,
+macroinvertebrate communities. Hot springs as thermophilic niches.
+
+Where the survey region's rivers are dammed or diverted for
+hydropower, document the pre- and post-dam ecology.
+
+*** B.7 Human entanglement
+
+Agriculture, pastoralism, resource extraction, sacred groves, spirit
+ecology. The human is not separate from the ecological web — the
+human is a node. Grazing pressure, fire management, transhumance
+routes, kuhl irrigation, timber extraction, morel harvesting,
+medicinal plant collection, tourism.
+
+Include the spirit traditions that are ecologically grounded: the
+devta's sacred groves, the peri's alpine meadows, the gur's trance
+triggered by seasonal cues, the bitan's juniper smoke. These are
+/ecological relationships/ — they bind human behaviour to species
+and seasons through ritual obligation.
+
+*** B.8 Disturbance regime
+
+Avalanche corridors, rockfall zones, flood pulses from glacial lake
+outbursts (GLOFs), fire regimes. These are not disasters — they are
+ecological events that reset succession.
+
+What colonises after a GLOF? What grows in an avalanche corridor that
+cannot grow in undisturbed forest? What species depend on disturbance?
+The disturbance regime is part of the stability — removing it changes
+the attractor.
+
+** Part C: Unravelling — The Metastable State Under Perturbation
+
+Timescale: decades to centuries forward. The transition dynamics.
+
+*** C.1 The perturbation
+
+What is changing. Regional temperature trends, precipitation regime
+shifts, seasonality changes, extreme event frequency. Use regional
+climate projections where available (IPCC AR6 WG1 regional data,
+ICIMOD HKH Assessment, national climate reports). State the
+uncertainty ranges — models disagree on precipitation more than on
+temperature.
+
+The perturbation is /not just warming/. It is a shift in the seasonal
+structure — earlier snowmelt, later monsoon onset, more intense but
+shorter precipitation events, increased interannual variability. The
+system evolved for a rhythm; the rhythm is changing.
+
+*** C.2 Glacier and cryosphere response
+
+Mass balance trends, equilibrium line altitude (ELA) shifts, debris
+cover dynamics. GLOF risk assessment (inventoried lakes, documented
+events, projected risk).
+
+The critical transition: from "glacial melt supplements river flow"
+to "glacial melt /is/ river flow" (the point where rain and snowmelt
+are insufficient). Peak water — the point of maximum meltwater before
+declining glacier mass reduces flow — and when it is projected for
+each major glacier system.
+
+Where a regional anomaly exists (the Karakoram Anomaly — relative
+glacial stability amid global retreat), document its mechanism and
+assess whether it is ending.
+
+*** C.3 Treeline and vegetation migration
+
+Upslope advance: rate, species composition, spatial heterogeneity
+(aspect, soil, grazing). The squeeze: invasive species from below
+(Lantana, Ageratina) and advancing treeline from above — compressing
+the zones between them.
+
+What happens to the alpine meadow when the treeline rises through it?
+What happens to the species that define the meadow (and the human
+practices — pastoralism, morel harvesting — that depend on it)?
+
+*** C.4 Faunal range shifts
+
+Species tracking their climate envelope upward. Range compression:
+when a species is already near the summit, there is nowhere higher
+to go. Isolation: populations on separate peaks becoming genetically
+disconnected as corridors warm.
+
+Assess by functional group: apex predator (snow leopard), large
+herbivore (ibex, markhor), keystone prey (marmot), scavenger
+(lammergeier, griffon vulture), indicator species (western tragopan,
+snow partridge).
+
+*** C.5 Phenological mismatch
+
+When seasonal cues decouple. Pollinators emerge before or after the
+flowers they pollinate. Snowmelt timing shifts but breeding cues
+(photoperiod) do not. Migratory species arrive to find the season
+has moved.
+
+Where spirit traditions are tied to phenological cues (apricot blossom
+= time of peri selection, monsoon onset = devta procession season),
+document the cultural mismatch alongside the ecological one. The
+bitan's calendar and the chukar's calendar are both disrupted by the
+same forcing.
+
+*** C.6 Trophic cascade
+
+What breaks when keystone links fail. If ibex populations decline
+(range compression, disease, poaching compounded by climate stress),
+what happens to the snow leopard? To the lammergeier that eats the
+ibex bones the snow leopard left? To the alpine meadow the ibex no
+longer grazes?
+
+Trace at least one complete cascade from primary producer to apex
+predator/terminal consumer. Include the decomposition pathway. Where
+data is insufficient for quantitative modelling, describe the chain
+qualitatively and flag the data gaps.
+
+*** C.7 Human displacement and adaptation
+
+Pastoralism collapse (transhumance routes blocked, alpine meadows
+encroached). Hydropower vulnerability (glacial recession reducing
+flow below design thresholds). Livelihood shifts (timber → tourism →
+morels → ?). Cultural erosion (spirit traditions that depend on
+ecological rhythms — if the apricot blooms early, does the bitan know?).
+
+The compounding: when climate change, infrastructure development (dams,
+roads), and demographic pressure act simultaneously. The dam displaces
+the community whose oral tradition preserves the ecological knowledge
+that would otherwise document the climate change. The knowledge is
+destroyed by the same forces it could illuminate.
+
+*** C.8 Transition dynamics
+
+The synthesis of C.1–C.7. Which transitions are gradual and continuous?
+Which are threshold events (tipping points)? Which are irreversible
+on human timescales?
+
+A table:
+
+#+begin_example
+| Transition | Type | Reversibility | Timescale | Certainty |
+|------------+------+---------------+-----------+-----------|
+| ...        | ...  | ...           | ...       | ...       |
+#+end_example
+
+Types: /gradual/ (linear response to forcing), /threshold/ (rapid
+shift once a tipping point is crossed), /hysteretic/ (threshold event
+that requires a different, stronger forcing to reverse).
+
+This section is the survey's most interpretive and most valuable. It
+is where the three Parts converge: the attractor (A) defines what was
+stable, the configuration (B) defines what is at stake, and the
+transition dynamics (C) assess what will be lost and what might be
+gained.
+
+** Part D: Cross-Reference and Synthesis
+
+*** D.1 Parallel chains
+
+Systematic alignment with other surveyed regions. Use an org table
+with columns for each region. Align by: geology, altitude zonation,
+dominant flora, dominant fauna, trophic structure, spirit tradition,
+human practice, climate vulnerability.
+
+*** D.2 The monsoon gradient as natural experiment
+
+For Western Himalaya surveys: the gradient from full monsoon (Tirthan)
+through the transition zone (Baspa, Sutlej) to the rain shadow (Spiti,
+Diamer) is a natural experiment in what happens when you remove water
+from the system. The same species assemblage — deodar → juniper,
+terraced agriculture → none, devtas → peri — responds to the same
+tectonic and orbital forcing under different precipitation regimes.
+
+This gradient is educational: it shows what climate /already did/ to
+ecology across space, which is a proxy for what climate change will
+do across time.
+
+*** D.3 Narrative tensions
+
+What makes this region story-generative. The tensions that survive
+translation into the valley's language. Each tension should be
+nameable in a single phrase and expandable in a paragraph.
+
+The existing Diamer survey has 9 named tensions. New surveys should
+aim for at least 5.
+
+** Part E: Sources, Gaps, and Fieldwork Needs
+
+*** E.1 Consolidated sources
+
+All URLs and citations gathered in one place, grouped by topic.
+Sufficient for a reader to verify every claim. Use the project's
+established format (inline sources per entity in Parts A–C, plus
+consolidated list here).
+
+*** E.2 Data gaps
+
+What is known to be unknown. Use an org table:
+
+#+begin_example
+| Topic | Known | Missing | Priority |
+|-------+-------+---------+----------|
+| ...   | ...   | ...     | ...      |
+#+end_example
+
+Priority: /high/ (blocks Part C interpretation), /medium/ (would
+strengthen the survey), /low/ (interesting but not critical).
+
+*** E.3 Fieldwork needs
+
+What can only be settled by being there. Not every gap can be closed
+by web search or training knowledge. Some require walking the valley,
+talking to the bitan, counting the ibex, smelling the juniper smoke.
+
+* Per-Entity Entry Format
+
+The project's established pattern for documenting a species, place,
+or phenomenon within a survey:
+
+1. Opening paragraph — taxonomic or general characterisation
+2. *Physical* — morphological description, range, habitat
+3. *Ecology near [place]* — behaviour in the specific survey region
+4. *Cultural significance* — spirit, petroglyph, ritual connections
+5. Language table (where relevant):
+   =| Language | Name | Source |=
+6. *Narrative interest* — what makes this entity story-generative
+7. Sources — inline, immediately after the entry
+
+Not every entry needs all sections. A fungal species may lack cultural
+significance. A sacred grove may lack a morphological description. But
+the skeleton is available.
+
+* Confidence Annotation System
+
+Embedded inline throughout the survey prose:
+
+| Annotation | Meaning | Example |
+|------------+---------+---------|
+| =[cross-ref: filename.org]= | Grounded in existing verified project file | =[cross-ref: diamer-nanga-parbat.org]= |
+| =[cross-ref: filename.org § Section]= | With section pointer | =[cross-ref: diamer-nanga-parbat.org § F.2]= |
+| =[training-knowledge]= | From agent training data, not web-verified | After a factual claim without URL |
+| =[needs-verification]= | Requires web search or fieldwork to confirm | Flags for the verification pass |
+
+The verification pass upgrades =[training-knowledge]= to either
+=[cross-ref:]= (found in project) or a cited source with URL. Items
+that resist verification are promoted to data gaps (Part E).
+
+* Frontmatter
+
+Every survey file carries standard Org properties:
+
+#+begin_example
+#+title: Ecological Survey: <Region>
+#+subtitle: WP-NNNN — <descriptive subtitle>
+#+author: <executor spirit>
+#+date: YYYY-MM-DD
+#+property: status draft | draft-verified | enriched
+#+property: web-access none | partial | full
+#+property: verification-pass none | partial (N sources) | full
+#+property: companion <related survey files>
+#+property: version vN
+#+startup: overview
+#+options: toc:3 num:t
+#+end_example
+
+** Status lifecycle
+
+| Status | Meaning |
+|--------+---------|
+| =draft= | Written from training knowledge and cross-references |
+| =draft-verified= | Web verification pass complete (URLs cited, facts checked) |
+| =enriched= | Human has annotated from lived experience or fieldwork |
+
+The =enriched= state is the goal. A survey that reaches =draft-verified=
+is useful; a survey that reaches =enriched= is trustworthy.
+
+* When to Split
+
+A survey exceeding ~1500 lines should split into Part files in a
+same-name subdirectory, following the multi-part output convention
+(=develop/work-packages.org= §  Multi-Part Output Convention):
+
+#+begin_example
+domains/epistem/surveys/
+  <slug>/
+    <slug>.org              # master file with #+include directives
+    part-a-construction.org
+    part-b-configuration.org
+    part-c-unravelling.org
+    part-d-synthesis.org
+    part-e-sources.org
+#+end_example
+
+Each Part file is self-contained: own title, own sources section.
+The master file assembles them via =#+include= directives.
+
+Surveys under 1500 lines remain a single file.
+
+* Existing Surveys and Their Relationship to This Convention
+
+| Survey | File(s) | Lines | Status | Template Coverage |
+|--------+---------+-------+--------+-------------------|
+| Diamer / Nanga Parbat | =diamer-nanga-parbat.org= | ~2,585 | v1 (draft-verified) | A (partial), B (strong), C (absent), D (9 tensions) |
+| Diamer Deep Time | =diamer-deep-time.org= | ~962 | draft-verified | A (strong) |
+| Travellers to Diamer | =travellers-to-diamer/= (5 parts) | ~4,817 | draft | Human context for B.7, C.7 |
+| W. Himalaya Ecological Web | =ecological-web-western-himalaya.org= | ~1,339 | draft | A (partial), B (moderate), C (partial — "Shifting Baselines"), D (cross-ref) |
+| Spirit Ecology (verified) | =spirit-ecology-verified.org= | — | verified | B.7 (spirit traditions) |
+
+The Diamer surveys are the richest and closest to template
+compliance. Their gap is Part C — the "Anthropocene" promised in the
+subtitle was never written. The Western Himalaya survey's Part C
+("Shifting Baselines") covers some unravelling content but without the
+thermodynamic framing or transition dynamics analysis.
+
+* Document Status
+
+| Version |       Date | Notes                                         |
+|---------+------------+-----------------------------------------------|
+|     0.1 | 2026-03-11 | Initial convention, distilled from Diamer and |
+|         |            | W. Himalaya survey patterns + thermodynamic   |
+|         |            | framing from mu2tau                           |
