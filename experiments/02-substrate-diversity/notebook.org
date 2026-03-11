@@ -1844,3 +1844,86 @@ patterns that hold across the full dataset:
    the power/skill/body architecture's prediction made empirical: the
    substrate has the power, the harness has the body, but the skill
    binding is missing.
+
+* gptel Harness Issues (WP-0036, 2026-03-11)
+
+Issues encountered while running orient-power tests via gptel with
+tools enabled.
+
+** Gemini: tool-call confirmation despite ~gptel-confirm-tool-calls~ nil
+
+~setq-local~ was verified (eval returned ~confirm nil~) before firing.
+Yet when Gemini was fired manually (via =C-c RET= in the buffer),
+every tool call still prompted for approval in the minibuffer.
+
+Hypothesis: ~gptel-confirm-tool-calls~ is buffer-local but not
+persisted in the Org property drawer. If the buffer is re-entered
+(kill/revisit, or gptel-org--restore-state doesn't restore it),
+the global default (~t~) reasserts. Same class of bug as the
+~gptel-backend~ model leakage documented earlier.
+
+** Gemini: ~*ERROR*: Unknown message~ corruption in streamed output
+
+Gemini's response was spliced with error fragments:
+#+begin_example
+...human (embodied intuition)
+*ERROR*: Unknown message: &_and&_mach
+ine (conceptual traversal)...
+#+end_example
+
+The ~&_~ encoding (spaces replaced with ~&_~) suggests streaming
+chunks are being misrouted through a message-type dispatcher that
+doesn't recognise them. Possibly a Gemini-specific streaming format
+incompatibility in gptel's tool-call loop. The ~-print-nonl~ fragment
+visible in one error points to an Emacs ~message~ call receiving
+content it wasn't expecting.
+
+** Gemini: programmatic ~gptel-send~ returns empty response
+
+When fired programmatically via ~emacsclient --eval~, the API log
+showed a ~functionCall~ for ~git log --oneline -20~, followed by
+a second response chunk with ~finishReason: STOP~ and empty text.
+Buffer size did not grow. Likely: gptel's tool-call loop saw ~STOP~
+and treated it as conversation end, discarding the tool result
+continuation.
+
+** Qwen: same tool-call confirmation bug, same error interleaving
+
+~gptel-confirm-tool-calls~ set to ~nil~ globally (not just
+buffer-local). Qwen still prompted =Execute command: ...? (y or n)=
+in the minibuffer. This rules out buffer-local scoping as the cause.
+The confirmation check is either hardcoded or the variable is checked
+in a callback that doesn't see the binding.
+
+Qwen's output also shows ~*ERROR*: Unknown message~ interleaving.
+
+** Root cause: ~org-mem--scan-full~ timer collision
+
+The ~*ERROR*: Unknown message~ fragments are NOT from gptel streaming.
+They are from an unrelated Emacs timer (~org-mem--scan-full~) that
+errors on a missing =harnesses/= directory:
+
+#+begin_example
+Error running timer 'org-mem--scan
+*ERROR*: Unknown message: &-full'
+: (error "Directory not readable: .../harnesses/")
+#+end_example
+
+The error fires during gptel's buffer insertion, and something in
+the message dispatch (possibly agent-shell infrastructure) captures
+it as an "unknown message" and splices it into the active buffer
+with ~&_~ encoding for spaces.
+
+Fix: either suppress ~org-mem~ during gptel streaming, create the
+missing directory, or make the timer tolerate missing paths.
+
+** Impact on experiment
+
+Gemini produced usable orientation notes despite these issues (content
+quality was good — followed all four phases, passed the six-criterion
+self-check). But the output needs manual cleaning to remove error
+fragments before it can be used as a cold-start transfer document.
+
+Qwen stalled because the minibuffer confirmation blocked the tool-call
+loop without a human present to approve. The programmatic fire-and-wait
+pattern does not work when confirmation cannot be suppressed.
