@@ -1,0 +1,177 @@
+#+title: Epic 0001 — Substrate Portability
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status executing
+
+* Thesis
+
+Spirit identity and organisational powers are substrate-independent.
+
+* What This Epic Is
+
+An epic bundles work packages that share a thesis. It is not a WP
+(too broad), not a dispatch plan (those sequence WPs into DAGs), and
+not a project plan (those have timelines). An epic names the question
+that a cluster of WPs, together, answer.
+
+This epic contains the work that establishes, validates, and applies
+the substrate portability claim across MāyāLucIA.
+
+* The Argument, in Stages
+
+** Stage 1: Foundation — decouple identity from substrate
+
+Before you can test portability, you must /define/ it. What is a
+spirit? What is a harness? What is a power?
+
+| WP | Title | Status | Key contribution |
+|----+-------+--------+------------------|
+| 0008 | Commission CruVin Guardian Spirit | completed | Three-layer decomposition: power / skill / body |
+| 0009 | Dīkṣā: Spirit Initiation Protocol | completed | Verification that a spirit is well-formed, independent of substrate |
+| 0029 | Substrate-Agnostic Spirit Identity | completed | Identity schema v2: substrate binding resolved at session launch, not baked into identity |
+
+These WPs established the vocabulary and schema. After them, a spirit
+/can/ inhabit any substrate. The question becomes: does it actually
+work?
+
+** Stage 2: Discover — substrate diversity reveals blind spots
+
+First empirical tests. Same task, different substrates. What do they
+see differently?
+
+| WP | Title | Status | Key contribution |
+|----+-------+--------+------------------|
+| 0030 | Substrate Diversity Experiment | completed | 3 lineages (Claude, Gemini, DeepSeek). Finding: monoculture blindness |
+| 0031 | Substrate Diversity: 2×2 Design | completed | Factorial design separating lineage from tool-access |
+| 0035 | Substrate Diversity Expansion | completed | 4 new lineages (Qwen, Kimi, Step, GPT). Sample across architecture/geography/generation axes |
+
+** Stage 3: Validate — cold-start transfer across substrates
+
+Can one spirit's understanding bootstrap another? Do orientation notes
+survive cross-lineage transfer?
+
+| WP | Title | Status | Key contribution |
+|----+-------+--------+------------------|
+| 0032 | Cold-Start Validation | completed | 7 lineages. Finding: notes quality > substrate capability |
+| 0036 | Cold-Start: New Lineages | completed | 4 new lineages. Finding: assertion density is the dominant predictor. 11B model matches 100×-larger on good notes |
+
+Key findings consolidated:
+1. Facts transfer; salience does not
+2. Notes quality dominates substrate capability
+3. Architecture is independent (tested across 15 lineages)
+4. Strip process narrative — transfer conclusions, not journey
+
+** Stage 4: Formalise — extract portable powers
+
+Encode the findings as substrate-neutral procedures.
+
+| WP | Title | Status | Key contribution |
+|----+-------+--------+------------------|
+| 0033 | orient-to-mayalucia Power | drafted | The orientation procedure as a portable power. The file exists (=aburaya/powers/orient-to-mayalucia.md=), synthesised during WP-0036/0037 execution. WP needs formal closure. |
+| 0034 | Capabilities Document Revision | drafted | 28 harness-bias findings to triage. The "so what?" of stages 2–3: what concretely changes in the project's self-description? |
+
+Status: the /work/ of formalisation happened during execution of
+stages 2–3. The WPs themselves were never formally closed. This is
+debt.
+
+** Stage 5: Apply — test powers across substrates on a real task
+
+Use the formalised powers in a production-like scenario: survey a
+codebase, discover gaps, write a specification.
+
+| WP | Title | Status | Key contribution |
+|----+-------+--------+------------------|
+| 0037 | Gaddi: Substrate-Portable Agent Onboarding | executing | 10 substrates tested. author-wp power exercised. Tool usage as cognitive fingerprint. Token efficiency measured. |
+
+Key findings (WP-0037):
+- Tool usage varies by substrate: Read-only (Grok), Glob-heavy (Step), Grep-heavy (Claude)
+- Cost spans 135× ($0.02 for GLM-5 to $2.70 for Claude Opus)
+- Every substrate produced a WP draft and a reflection
+- The gaddi orchestration pattern works: autonomous multi-substrate shepherding
+
+** Stage 6: Verify — ensure the registry is sound
+
+The substrates all found the same gaps in =aburaya/=. Now fix them.
+
+| WP | Title | Status | Key contribution |
+|----+-------+--------+------------------|
+| 0038 | Dixa: Guild-First Sweep | drafted | Extend dixa to catch guild→spirit gaps (not just spirit→guild) |
+| 0039 | Aburaya Cross-Reference Audit | drafted | Superseded by WP-0041 |
+| 0040 | Aburaya Cross-Reference Repair | drafted | Superseded by WP-0041 |
+| 0041 | Aburaya Registry Reconciliation | drafted | Consolidates 0039/0040. Five repair planes. The actual fix. |
+
+Status: WP-0041 supersedes 0039 and 0040. WP-0038 should execute
+before 0041 (improve dixa first, then use it to verify the repair).
+
+* Supporting Work
+
+These WPs are not /about/ substrate portability but provide
+infrastructure that the epic depends on.
+
+| WP | Title | Status | Relationship |
+|----+-------+--------+--------------|
+| 0005 | Autonomous Orchestration | completed | Dispatch machinery routes work across spirits |
+| 0007 | Apprentis Guild | completed | The guild that studies collaborative cognition — this epic's home guild |
+| 0010 | Sutradhar Companion | executing | Three-layer architecture (power/skill/body) in practice |
+| 0011 | DP-Level Dispatch | drafted | DAG evaluation for multi-WP chains |
+| 0027 | Percept Guild | completed | Emerged from substrate diversity findings |
+
+* Dispatch Plans
+
+| DP | Title | Status | WPs covered |
+|----+-------+--------+-------------|
+| 0005 | Substrate Diversity Second Iteration | drafted | 0031 → 0032 → 0033; 0034 (parallel) |
+
+No DP yet covers the full epic. DP-0005 covers stages 2–4 partially.
+A new DP should be drafted to sequence the remaining work (0033
+closure, 0034 triage, 0037 completion, 0038 → 0041 chain).
+
+* What Remains
+
+** Immediate (close the sprint)
+
+1. *WP-0037*: complete analysis + plots for all 10 substrates.
+   Write comparative WP content analysis. Close.
+2. *WP-0033*: the power file exists. Mark completed.
+   If the WP text needs reconciliation with the actual file, do it.
+3. *WP-0039, 0040*: mark as =superseded= (by WP-0041).
+
+** Short-term (tighten and execute)
+
+4. *WP-0034*: triage the 28 findings. Human decision needed on scope.
+   This is the only WP that requires significant human judgment
+   before a spirit can execute it.
+5. *WP-0038*: tighten and execute. Extend dixa's validation.
+6. *WP-0041*: tighten (after 0038 gives dixa bidirectional capability),
+   then execute. The actual registry repair.
+
+** Longer-term (toward publication)
+
+7. *Synthesis document*: what did N lineages teach us that 1 couldn't?
+   Not a WP — a paper or report.
+8. *Publishable onboarding tool*: the orient → specify loop as a
+   standalone tool. Organisations use it to onboard agents to their
+   codebase. This is WP-0037's larger goal.
+9. *Sub-bridge integration*: free Claude Max routing through gptel.
+   Reduces experiment cost to near-zero for Anthropic models.
+
+* Numbers
+
+As of 2026-03-13:
+
+| Metric | Value |
+|--------+-------|
+| WPs in this epic | 20 (core: 15, supporting: 5) |
+| Completed | 11 |
+| Executing | 2 (WP-0037, WP-0010) |
+| Drafted | 7 (of which 2 superseded) |
+| Substrates tested | 15 lineages across WP-0030/0031/0032/0035/0036/0037 |
+| Total experiment cost (WP-0037 Phase 2) | $6.72 for 10 substrates |
+| Tool calls observed | 323 across 10 substrates |
+| Dispatch plans | 1 (DP-0005, covers stages 2–4 partially) |
+
+* Changelog
+
+| Version | Date | Notes |
+|---------+------+-------|
+| 0.1 | 2026-03-13 | Initial draft, surveying WP-0008 through WP-0041 |

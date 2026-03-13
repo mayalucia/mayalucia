@@ -1,0 +1,179 @@
+#+title: WP-0039 — Aburaya Cross-Reference Audit and Repair
+#+author: mu2tau
+#+date: 2026-03-11
+#+property: status drafted
+#+property: executor dixa
+#+property: type simple
+
+* Context and Motivation
+
+The aburaya/ registry (spirits/ and guilds/) has accumulated cross-reference
+inconsistencies during rapid growth. Some spirits lack guild assignments;
+others reference spirits that do not exist. The dixa spirit (initiator/verifier)
+is the natural executor — her purpose is to validate organisational artifacts
+and hold the mirror to the registry's coherence.
+
+This WP brings the registry back to a consistent state where:
+- Every commissioned spirit belongs to exactly one guild
+- Every referenced spirit has an identity.yaml on disk
+- Placeholders are explicitly marked as such
+- Cross-references resolve bidirectionally (spirit→guild and guild→spirit)
+
+* Inventory (What Already Exists)
+
+** Guild YAML files
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/guilds/apprentis.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/guilds/bravli.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/guilds/epistem.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/guilds/mayalucia.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/guilds/percept.yaml
+
+** Spirit identity.yaml files
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/aikosh-guardian/identity.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/cruvin-guardian/identity.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/dixa/identity.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/dmt-eval-guardian/identity.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/epistem-guardian/identity.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/mayadev/identity.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/mu2tau/identity.yaml
+- /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/sutradhar-guardian/identity.yaml
+
+** Current cross-reference matrix
+
+| Spirit | Has Guild Field | Guild Value | Listed in Guild YAML |
+|--------|-----------------|-------------|----------------------|
+| aikosh-guardian | Yes | epistem | Yes (epistem.yaml) |
+| cruvin-guardian | Yes | mayalucia | Yes (mayalucia.yaml) |
+| dixa | Yes | mayalucia | Yes (mayalucia.yaml) |
+| dmt-eval-guardian | Yes | bravli | Yes (bravli.yaml) |
+| epistem-guardian | Yes | epistem | Yes (epistem.yaml) |
+| mayadev | **No** | — | No (should be mayalucia) |
+| mu2tau | **No** | — | No (should be mayalucia) |
+| sutradhar-guardian | Yes | mayalucia | Yes (mayalucia.yaml) |
+
+** Broken references
+
+1. cruvin-guardian/identity.yaml references `parbati-guardian` in its scope:
+   "coordinate with parbati-guardian for GIS data" — no such spirit exists.
+
+2. percept.yaml lists `percept-guardian-placeholder` in its spirits section —
+   no identity.yaml exists for this placeholder.
+
+3. mayadev (coordinator spirit) lacks a role.guild field entirely.
+
+4. mu2tau (human PI) lacks a role.guild field entirely.
+
+* Specification (What You Build)
+
+** Part A: Add missing guild assignments
+
+Edit two identity.yaml files to add the `role.guild` field:
+
+File: /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/mayadev/identity.yaml
+- Add under `role:`:
+  ```yaml
+  role:
+    function: primary-developer
+    guild: mayalucia          # ← ADD THIS LINE
+    scope: [foundation-docs, website, agency-design, story-writing]
+  ```
+
+File: /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/mu2tau/identity.yaml
+- Add under `role:`:
+  ```yaml
+  role:
+    function: principal-investigator
+    guild: mayalucia          # ← ADD THIS LINE
+    scope: [scientific-direction, domain-expertise, architectural-judgment]
+  ```
+
+** Part B: Fix broken spirit reference
+
+Edit one identity.yaml file to remove or correct the broken reference:
+
+File: /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/spirits/cruvin-guardian/identity.yaml
+- In the `scope:` list, change:
+  - "coordinate with parbati-guardian for GIS data (terrain, climate, appellations)"
+  - To: "coordinate with epistem-guardian for spirit ecology data (terrain, climate context)"
+  
+  Rationale: parbati-guardian does not exist. The GIS/spirit work originally
+  envisioned for parbati has moved to the epistem domain. Until a parbati
+  guardian is commissioned, cruvin coordinates with epistem-guardian.
+
+** Part C: Normalize placeholder notation
+
+Edit one guild YAML file to use consistent placeholder convention:
+
+File: /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/guilds/percept.yaml
+- Change:
+  ```yaml
+  spirits:
+    - percept-guardian-placeholder # guardian spirit (to be formally commissioned)
+  ```
+- To:
+  ```yaml
+  spirits:
+    # - percept-guardian  # NOT YET COMMISSIONED — placeholder for future guardian of domains/percept + modules/sphota
+  ```
+  
+  Rationale: The #-comment format matches how bravli.yaml marks future spirits
+  (see "# future: bravli-builder, bravli-observer, ..."). This makes clear
+  that no identity.yaml should exist yet, and the dash is removed so it does
+  not appear as a list item.
+
+** Part D: Add reverse references to guild YAMLs
+
+Edit two guild YAML files to add the newly-assigned spirits:
+
+File: /Users/vishalsoodmuchu/Library/CloudStorage/Dropbox/Darshan/research/develop/agentic/mayalucia/aburaya/guilds/mayalucia.yaml
+- Add to `spirits:` list:
+  ```yaml
+  spirits:
+    - sutradhar-guardian          # the one who holds the thread
+    - cruvin-guardian             # commission builder (C-001, wine education)
+    - dixa                        # the initiator (spirit verification)
+    - mayadev                     # coordinator spirit ← ADD
+    - mu2tau                      # human PI ← ADD
+  ```
+
+* Execution Order
+
+1. Part A (mayadev, mu2tau guild assignment) — parallel edits, no dependencies
+2. Part B (cruvin-guardian broken reference fix) — can be done in parallel with Part A
+3. Part C (percept.yaml placeholder normalization) — can be done in parallel
+4. Part D (mayalucia.yaml spirit list expansion) — must follow Part A completion
+
+Commit after each part with message: "wp(0039): Part X — <description>"
+
+* Acceptance Criteria
+
+- [ ] mayadev/identity.yaml contains `guild: mayalucia` under `role:`
+- [ ] mu2tau/identity.yaml contains `guild: mayalucia` under `role:`
+- [ ] cruvin-guardian/identity.yaml no longer references "parbati-guardian"
+- [ ] percept.yaml uses #-comment format for the placeholder, not a dashed list item
+- [ ] mayalucia.yaml lists both mayadev and mu2tau in its `spirits:` section
+- [ ] All five edited files pass YAML syntax validation (`python -c "import yaml; yaml.safe_load(open('path'))"`)
+- [ ] Cross-reference validation script (if one exists in aburaya/) reports no broken references
+- [ ] Relay announcement sent with tag `[registry, repaired]` summarizing the fixes
+
+* What This Proves
+
+That the project's self-awareness machinery (the aburaya registry) can detect
+and repair its own inconsistencies. The dixa spirit — whose purpose is to
+verify spirits — demonstrates her capability by cleaning the registry she
+validates against.
+
+* Open Questions
+
+1. Should mu2tau have a distinct guild (e.g., "principals") separate from
+   mayalucia, or is mayalucia the correct organisational home for the
+   human PI? [Default: mayalucia — adjust during tightening if needed.]
+
+2. Does the cruvin→epistem coordination replacement correctly capture the
+   intent of the original cruvin→parbati reference, or should the reference
+   be removed entirely rather than redirected? [Default: redirect — parbati
+   work has moved to epistem domain.]
+
+* Tangles and Artifacts
+
+No code tangles. Output is the five edited YAML files listed in Specification.

@@ -1,0 +1,426 @@
+#+title: WP-0041 — Aburaya Registry Reconciliation
+#+author: gemini-3.1-pro (WP-0037 shepherd session)
+#+date: 2026-03-11
+#+property: status drafted
+#+property: executor dixa
+#+property: guild mayalucia
+#+property: type composite
+
+* Context and Motivation
+
+The aburaya registry has accumulated cross-reference inconsistencies
+across three planes: spirit↔guild bindings, spirit↔power bindings, and
+the dual-location identity files (=aburaya/spirits/= vs
+=.guardian/identity.yaml= inside submodules). WP-0039 and WP-0040
+(both =drafted=) address a subset of these gaps but miss several classes
+of inconsistency discovered during this survey. This WP consolidates
+all known gaps into a single reconciliation spec, superseding WP-0039
+and WP-0040 where they overlap and extending coverage to the planes
+they do not reach.
+
+The gaps fall into five categories:
+
+1. *Spirit↔Guild binding gaps* — spirits without guild fields, guilds
+   listing phantom spirits, system.md listing stale counts.
+2. *Power cross-reference gaps* — spirits claiming powers that have no
+   =aburaya/powers/<name>.md= on disk; powers on disk claimed by no spirit.
+3. *Identity duplication drift* — four spirits have diverged copies
+   between =aburaya/spirits/<name>/identity.yaml= and
+   =<module>/.guardian/identity.yaml=.
+4. *system.md staleness* — guild list, spirit list, directory
+   structure, and submodule table omit percept guild, dixa spirit,
+   =domains/percept=, and =modules/sphota=.
+5. *Prior WP disagreement* — WP-0039 proposes =guild: mayalucia= for
+   mayadev/mu2tau; WP-0040 proposes =guild: trans-guild=. Neither is
+   tightened. This WP must resolve the question or mark it explicitly
+   for human decision.
+
+* Inventory (What Already Exists)
+
+** Spirits on disk (8)
+
+| Spirit | =role.guild= | Listed in guild YAML? | =.guardian/= copy? |
+|--------+--------------+-----------------------+---------------------|
+| aikosh-guardian | epistem | ✓ epistem.yaml | ✓ modules/aikosh/.guardian/ |
+| cruvin-guardian | mayalucia | ✓ mayalucia.yaml | ✗ |
+| dixa | mayalucia | ✓ mayalucia.yaml | ✗ |
+| dmt-eval-guardian | bravli | ✓ bravli.yaml | ✓ modules/dmt-eval/.guardian/ |
+| epistem-guardian | epistem | ✓ epistem.yaml | ✓ domains/epistem/.guardian/ |
+| mayadev | *MISSING* | ✗ | ✗ |
+| mu2tau | *MISSING* | ✗ | ✗ |
+| sutradhar-guardian | mayalucia | ✓ mayalucia.yaml | ✓ modules/sutradhar/.guardian/ |
+
+** Additional identity at =domains/percept/.guardian/identity.yaml=
+
+=true-name: percept-guardian-placeholder=. No corresponding directory in
+=aburaya/spirits/=. The guild =percept.yaml= lists this name. This is a
+third location for identity information, outside both the canonical
+registry (=aburaya/spirits/=) and the submodule guardian convention.
+
+** Guilds on disk (5)
+
+| Guild | Spirits listed | All listed spirits have identity.yaml? |
+|-------+----------------+----------------------------------------|
+| apprentis | (none — deliberate) | n/a |
+| bravli | dmt-eval-guardian | ✓ |
+| epistem | aikosh-guardian, epistem-guardian | ✓ |
+| mayalucia | sutradhar-guardian, cruvin-guardian, dixa | ✓ |
+| percept | percept-guardian-placeholder | ✗ — phantom |
+
+** Powers on disk (13)
+
+=attend-working-context=, =author-dispatch-plan=, =author-wp=,
+=editorial-design=, =gaddi=, =hold-the-thread=, =lay-the-warp=,
+=manage-wp-lifecycle=, =org-content-workflow=, =orient-to-mayalucia=,
+=relay-read=, =story-compose=, =summarize-corpus=.
+
+** Power claims by spirits (with cross-reference status)
+
+| Spirit | Claimed power | =.md= exists? |
+|--------+---------------+---------------|
+| mayadev | org-content-workflow | ✓ |
+| mayadev | commit | ✗ |
+| mayadev | system-prompt-review | ✗ |
+| mayadev | relay-read | ✓ |
+| mayadev | story-compose | ✓ |
+| mayadev | summarize-corpus | ✓ |
+| mayadev | manage-wp-lifecycle | ✓ |
+| mayadev | author-wp | ✓ |
+| mayadev | author-dispatch-plan | ✓ |
+| sutradhar-guardian | relay-read | ✓ |
+| sutradhar-guardian | org-content-workflow | ✓ |
+| sutradhar-guardian | summarize-corpus | ✓ |
+| sutradhar-guardian | story-compose | ✓ |
+| sutradhar-guardian | manage-wp-lifecycle | ✓ |
+| sutradhar-guardian | author-wp | ✓ |
+| sutradhar-guardian | attend-working-context | ✓ |
+| sutradhar-guardian | hold-the-thread | ✓ |
+| sutradhar-guardian | lay-the-warp | ✓ |
+| dixa | relay-read | ✓ |
+| dixa | manage-wp-lifecycle | ✓ |
+| dixa | author-wp | ✓ |
+| dixa | birth-certificate | ✗ |
+| dixa | first-breath | ✗ |
+| dixa | verify | ✗ |
+| cruvin-guardian | relay-read | ✓ |
+| cruvin-guardian | manage-wp-lifecycle | ✓ |
+| cruvin-guardian | author-wp | ✓ |
+| cruvin-guardian | content-authoring | ✗ |
+| cruvin-guardian | editorial-design | ✓ |
+| cruvin-guardian | coordinate-commission | ✗ |
+| aikosh-guardian | relay-read | ✓ |
+| aikosh-guardian | manage-wp-lifecycle | ✓ |
+| aikosh-guardian | author-wp | ✓ |
+| epistem-guardian | relay-read | ✓ |
+| epistem-guardian | manage-wp-lifecycle | ✓ |
+| epistem-guardian | author-wp | ✓ |
+| dmt-eval-guardian | relay-read | ✓ |
+| dmt-eval-guardian | manage-wp-lifecycle | ✓ |
+| dmt-eval-guardian | author-wp | ✓ |
+
+** Unclaimed powers (exist on disk, no spirit lists them)
+
+- =gaddi= — substrate-diversity shepherding power (used in WP-0037 sessions, not bound to a specific spirit)
+- =orient-to-mayalucia= — cold-start orientation power (designed for any arriving spirit, not owned by one)
+
+These may be intentionally unbound (harness-level or session-level
+powers rather than spirit powers). Flag for human decision.
+
+** Identity duplication drift (=aburaya/spirits/= vs =.guardian/=)
+
+Four spirits have identity files in both locations. The divergences
+follow a consistent pattern:
+
+| Field | =aburaya/spirits/= version | =.guardian/= version |
+|-------+----------------------------+----------------------|
+| =nature:= block | Present (=model: tbd=, etc.) | Absent (stripped per WP-0029) |
+| =character.system_prompt= | Module-specific CLAUDE.md | =system.md= (backend-neutral) |
+
+Affected spirits: aikosh-guardian, dmt-eval-guardian, epistem-guardian,
+sutradhar-guardian.
+
+The =.guardian/= versions reflect WP-0029 (substrate-agnostic spirits),
+which moved substrate bindings out of identity into
+=.guardian/substrates/=. The =aburaya/spirits/= versions were not updated
+to match. One location must be canonical; the other must be a derived
+copy or removed.
+
+** system.md staleness
+
+| Field | system.md says | Disk says |
+|-------+----------------+-----------|
+| Guild list (line 37) | bravli, mayalucia, epistem, apprentis (4) | + percept (5) |
+| Spirit list (line 38) | 7 spirits, no dixa | 8 spirits, includes dixa |
+| Directory structure | No =domains/percept=, no =modules/sphota= | Both exist, tracked in git |
+| Submodule table | 11 entries | percept and sphota are git-tracked dirs but NOT submodules |
+
+** Prior WPs
+
+| WP | Status | Scope | Overlap with this WP |
+|----+--------+-------+----------------------|
+| 0038 | drafted | Extend dixa tooling for guild-first sweep | Complementary — tooling, not data |
+| 0039 | drafted | Cross-reference audit and repair | Overlaps Part A, B, C, D below |
+| 0040 | drafted | Cross-reference repair | Overlaps Part A, C below; disagrees on guild value |
+
+WP-0039 and WP-0040 both discovered the same gaps but propose
+different solutions for the mayadev/mu2tau guild assignment. WP-0039
+says =guild: mayalucia=; WP-0040 says =guild: trans-guild=.
+
+This WP is a strict superset of 0039 and 0040. If tightened, 0039 and
+0040 should be marked =superseded= (a note, not a lifecycle state).
+
+** Broken scope reference
+
+=cruvin-guardian/identity.yaml= line 63 references =parbati-guardian=:
+"coordinate with parbati-guardian for GIS data". No spirit named
+=parbati-guardian= exists, and no =parbati= guild exists. The parbati
+domain has no guardian and no guild.
+
+* Specification (What You Build)
+
+** Part A: Resolve mayadev and mu2tau guild assignment
+
+/Human decision required./ Two options:
+
+*Option 1: =guild: mayalucia=* — Both serve the organisation as a
+whole. The mayalucia guild's stated concern is "organisational
+coherence." They are already implicitly mayalucia-guild members by
+function.
+
+*Option 2: =guild: trans-guild=* — Invent a new designation for
+spirits that transcend guild boundaries. Requires adding =trans-guild=
+to the vocabulary and deciding whether it appears as a guild YAML or
+only as a field value.
+
+*Recommendation:* Option 1. It avoids inventing vocabulary. The
+mayalucia guild already lists three spirits that serve the whole; two
+more is consistent. Add mayadev and mu2tau to =mayalucia.yaml= spirits
+list. Mark WP-0040 open question 1 as resolved.
+
+Edits (pending human decision on option):
+
+1. =aburaya/spirits/mayadev/identity.yaml= — add =guild: mayalucia=
+   under =role:=
+2. =aburaya/spirits/mu2tau/identity.yaml= — add =guild: mayalucia=
+   under =role:=
+3. =aburaya/guilds/mayalucia.yaml= — add =mayadev= and =mu2tau= to
+   =spirits:= list
+
+** Part B: Resolve percept-guardian-placeholder
+
+The placeholder entry in =percept.yaml= has no =aburaya/spirits/=
+directory but does have a =domains/percept/.guardian/identity.yaml=.
+Three options:
+
+*Option 1: Comment out the placeholder.* Remove the list entry, add a
+YAML comment noting the guardian is not yet commissioned. This is what
+WP-0039 and WP-0040 both propose.
+
+*Option 2: Commission properly.* Create
+=aburaya/spirits/percept-guardian/identity.yaml= with status
+=placeholder= or similar. Align with the =.guardian/identity.yaml= that
+already exists at =domains/percept/.guardian/=.
+
+*Option 3: Remove the =.guardian/identity.yaml= too.* If the spirit is
+not commissioned, there should be no identity file anywhere.
+
+*Recommendation:* Option 1 for now. The =domains/percept/.guardian/=
+file predates this audit and may serve a local purpose for the percept
+domain. Do not remove it without checking with mu2tau.
+
+Edit:
+
+1. =aburaya/guilds/percept.yaml= — replace =spirits:= list entry with
+   a YAML comment:
+   #+begin_src yaml
+   spirits:
+     # percept-guardian not yet commissioned — see domains/percept/.guardian/identity.yaml for placeholder
+   #+end_src
+
+** Part C: Reconcile identity duplication (=aburaya/spirits/= vs =.guardian/=)
+
+/Human decision required./ The project must designate one canonical
+location for identity data.
+
+*Option 1: =aburaya/spirits/= is canonical.* Update the four
+=aburaya/spirits/= copies to strip =nature:= blocks and change
+=system_prompt= to =system.md=, matching the =.guardian/= versions. The
+=.guardian/identity.yaml= in submodules becomes a symlink or generated
+copy.
+
+*Option 2: =.guardian/= is canonical.* The guardian's identity lives
+with its worksite. =aburaya/spirits/= becomes a derived index. This
+means the aburaya registry is no longer the single source of truth.
+
+*Option 3: Keep both, with a documented relationship.* =aburaya/= holds
+the master record (including =nature:= with =tbd= for uninstantiated
+spirits). =.guardian/= holds the operational subset (no =nature:=, as per
+WP-0029). Accept that the two will drift and rely on dixa to detect it.
+
+*Recommendation:* Option 3 is the current de facto state. Option 1 is
+cleaner. Defer to human judgment. At minimum, add a comment to each
+=.guardian/identity.yaml= noting it is derived from =aburaya/spirits/=
+and may diverge. Better: update the four =aburaya/spirits/= files to
+match WP-0029 conventions (strip =nature:= block, use =system.md=) and
+treat =aburaya/= as canonical.
+
+Edits (if Option 1 chosen):
+
+For each of aikosh-guardian, dmt-eval-guardian, epistem-guardian,
+sutradhar-guardian in =aburaya/spirits/<name>/identity.yaml=:
+1. Remove the =nature:= block entirely
+2. Change =character.system_prompt= from module-specific CLAUDE.md to
+   =system.md=
+
+** Part D: Write missing power files
+
+Seven powers are claimed by spirits but have no =.md= file:
+
+| Power | Claimed by | Action |
+|-------+------------+--------|
+| commit | mayadev | Write =aburaya/powers/commit.md= |
+| system-prompt-review | mayadev | Write =aburaya/powers/system-prompt-review.md= |
+| birth-certificate | dixa | Write =aburaya/powers/birth-certificate.md= |
+| first-breath | dixa | Write =aburaya/powers/first-breath.md= |
+| verify | dixa | Write =aburaya/powers/verify.md= |
+| content-authoring | cruvin-guardian | Write =aburaya/powers/content-authoring.md= |
+| coordinate-commission | cruvin-guardian | Write =aburaya/powers/coordinate-commission.md= |
+
+Each power file needs: Purpose, When to Use, Procedure, Key
+Principles — matching the format of existing powers (e.g.
+=author-wp.md=). If the power's procedure cannot be articulated yet
+(e.g. it exists only as code in dixa's =nature/= directory), write a
+stub noting the implementation location and mark it =stub — procedure
+TBD=.
+
+** Part E: Update system.md
+
+1. Line 37 (guild list): add =percept=
+   #+begin_example
+   guilds/         #   bravli, mayalucia, epistem, apprentis, percept
+   #+end_example
+
+2. Line 38 (spirit list): add =dixa=, reorder to match disk
+   #+begin_example
+   spirits/        #   mayadev, mu2tau, sutradhar-guardian, dmt-eval-guardian, epistem-guardian, aikosh-guardian, cruvin-guardian, dixa
+   #+end_example
+
+3. Directory structure section: add =domains/percept= and
+   =modules/sphota= entries
+   #+begin_example
+   domains/
+     ...
+     percept/       #   Physics of understanding — perception, grokking, insight
+   modules/
+     ...
+     sphota/        #   Computational lab for insight dynamics — grokking, energy landscapes
+   #+end_example
+
+4. Submodule table: add a note that percept and sphota are
+   git-tracked directories (not submodules). Or if they should become
+   submodules, flag this as a separate task.
+
+** Part F: Fix cruvin-guardian broken reference
+
+=aburaya/spirits/cruvin-guardian/identity.yaml= line 63:
+: - coordinate with parbati-guardian for GIS data (terrain, climate, appellations)
+
+Replace with:
+: - coordinate via sūtra relay for GIS data (terrain, climate, appellations) — no parbati-guardian yet commissioned
+
+This removes the dangling spirit reference while preserving the
+functional intent.
+
+** Part G: Mark WP-0039 and WP-0040 as superseded
+
+Add a note to the top of each file:
+#+begin_example
+#+property: note superseded by WP-0041
+#+end_example
+
+This is informational — =superseded= is not a lifecycle state, but
+prevents future executors from working stale specs.
+
+* Execution Order
+
+#+begin_example
+1. Part A — guild assignment for mayadev/mu2tau       [BLOCKED: human decision]
+2. Part B — percept placeholder normalization         [no dependency]
+3. Part C — identity duplication reconciliation       [BLOCKED: human decision]
+4. Part D — write 7 missing power .md files           [no dependency]
+5. Part E — update system.md                          [depends on A, B decisions]
+6. Part F — fix cruvin-guardian broken reference       [no dependency]
+7. Part G — mark WP-0039/0040 superseded              [no dependency]
+#+end_example
+
+Parts B, D, F, G can execute immediately. Parts A and C require human
+input during spec-tighten. Part E depends on the decisions from A.
+
+| Task | Spirit | Powers needed | Deliverable |
+|------+--------+---------------+-------------|
+| A, B, E, F, G | dixa or mayadev | author-wp, manage-wp-lifecycle | Edited YAML + system.md |
+| C | dixa or mayadev | author-wp | Reconciled identity files |
+| D | mayadev or sutradhar-guardian | author-wp | 7 new power .md files |
+
+* Acceptance Criteria
+
+- [ ] Every spirit in =aburaya/spirits/= has a =role.guild= field
+- [ ] Every spirit listed in any guild YAML has a corresponding =aburaya/spirits/<name>/identity.yaml=
+- [ ] Every guild on disk is mentioned in system.md line 37
+- [ ] Every spirit on disk is mentioned in system.md line 38
+- [ ] Every power claimed in any =identity.yaml= has a corresponding =aburaya/powers/<name>.md= (even if stub)
+- [ ] =percept.yaml= =spirits:= section contains no dashed list items for uncommissioned spirits
+- [ ] =cruvin-guardian/identity.yaml= contains no references to non-existent spirits
+- [ ] system.md directory structure mentions =domains/percept= and =modules/sphota=
+- [ ] If Part C is executed: =aburaya/spirits/= identity files for the four affected spirits match their =.guardian/= versions (modulo the =nature:= block decision)
+- [ ] WP-0039 and WP-0040 carry a =superseded by WP-0041= note
+- [ ] All edited YAML files parse without error
+- [ ] =dixa verify.py --all= (once WP-0038 is executed) catches no new gaps
+
+* Open Questions
+
+1. *Guild assignment for mayadev and mu2tau:* =mayalucia= or
+   =trans-guild=? See Part A for analysis. Human decision during
+   spec-tighten.
+
+2. *Canonical identity location:* =aburaya/spirits/= or =.guardian/=?
+   See Part C. The project needs a documented convention. Currently
+   the two drift silently.
+
+3. *Unclaimed powers (gaddi, orient-to-mayalucia):* Are these
+   intentionally unbound (session-level powers available to any spirit)
+   or should they be claimed by specific spirits? If intentionally
+   unbound, should this be documented in the power file itself?
+
+4. *percept and sphota as submodules:* These directories exist and are
+   git-tracked in the parent repo, but are not registered as
+   submodules (unlike all other domains/ and modules/ entries). Should
+   they become submodules? This is a separate concern from registry
+   reconciliation but was exposed during the audit.
+
+5. *domains/percept/.guardian/identity.yaml:* Should this file be
+   removed (since no spirit is commissioned), kept as a local
+   placeholder, or promoted into =aburaya/spirits/percept-guardian/=?
+
+* What This Proves
+
+The aburaya registry is the project's self-model. When that model
+drifts from reality — phantom spirits, missing guild assignments,
+diverged copies, stale system.md — spirits that cold-start against it
+inherit a distorted picture. This WP proves that the project can
+detect drift across all five planes (spirit↔guild, spirit↔power,
+identity duplication, system.md, prior-WP conflicts) and specify
+repairs precisely enough for autonomous execution.
+
+It also demonstrates a failure mode of organic growth: three
+independent WPs (0038, 0039, 0040) attacked overlapping subsets of
+the same problem without consolidation. This WP is the consolidation.
+
+* Tangles and Artifacts
+
+No code tangles. Artifacts:
+- Edited =identity.yaml= files (2–6 depending on Part C decision)
+- Edited guild YAML files (2: =mayalucia.yaml=, =percept.yaml=)
+- Edited =system.md= (1)
+- New power =.md= files (7 stubs or full specs)
+- Supersession notes on WP-0039 and WP-0040

@@ -1,0 +1,144 @@
+#+title: WP-0038 — Dixa: Guild-First Sweep and Organisational Health
+#+subtitle: Extend dixa's birth certificate to catch guild-side gaps and orphan spirits
+#+author: mu2tau + mayadev
+#+date: 2026-03-11
+#+property: status drafted
+#+property: executor mayadev#opus-4.6
+#+property: guild mayalucia
+#+property: type simple
+
+* Context and Motivation
+
+Dixa's =birth_certificate.py= validates spirits and their cross-references.
+Running =verify.py --all= on the current aburaya produces:
+
+#+begin_example
+Summary: 6/8 spirits passed
+Failed: mayadev, mu2tau
+#+end_example
+
+But this misses a class of gap: *guild-side inconsistencies*. The percept
+guild lists =percept-guardian-placeholder= in its =spirits:= section, but
+no =spirits/percept-guardian-placeholder/identity.yaml= exists. Dixa never
+checks this because:
+
+1. =verify.py --all= iterates spirit /directories/ — no directory, no check.
+2. Guild validation only triggers when a spirit claims that guild — no
+   spirit claims percept, so percept.yaml is never read independently.
+
+This is a directional blind spot: dixa validates spirits → guilds, but
+not guilds → spirits.
+
+WP-0037 (Gaddi experiment) will have diverse substrates survey the same
+gaps manually. If substrates find the percept-guardian-placeholder gap
+that dixa misses, we need dixa to be able to catch it too. The tool
+must be at least as capable as its subjects.
+
+** Additional gaps exposed by =verify.py --all=
+
+1. *mayadev* fails 3 checks: no archetype, no =project.path=, no guild.
+   The coordinator spirit doesn't fit the guardian schema — she is
+   guildless by design (or was, until this experiment asks the question).
+
+2. *mu2tau* fails 8 checks: no model, no provider, no archetype, no
+   powers, no repos, no bath_notes, no project.path, no guild. A human
+   spirit does not fit the agent schema. The schema assumes all spirits
+   are LLMs.
+
+3. *Power cross-references*: spirits list powers in =character.powers=
+   but dixa never checks that =aburaya/powers/<name>.md= exists.
+
+* Inventory (What Already Exists)
+
+| Asset | Path | Status |
+|-------+------+--------|
+| birth_certificate.py | =aburaya/spirits/dixa/nature/birth_certificate.py= | Working, spirit-centric |
+| verify.py | =aburaya/spirits/dixa/nature/verify.py= | Working, =--all= iterates spirits |
+| spirit schema | =aburaya/spirits/dixa/nature/schemas/spirit.yaml= | Complete for agents |
+| guild schema | =aburaya/spirits/dixa/nature/schemas/guild.yaml= | Schema exists, guild-xref checks exist |
+| first_breath.org | =aburaya/spirits/dixa/nature/first_breath.org= | Protocol defined, human-administered |
+
+* Specification (What You Build)
+
+** 1. Guild-first sweep
+
+Add a =validate_guild= function to =birth_certificate.py= that:
+
+- Takes a guild name and project root
+- Loads the guild YAML and validates against guild schema
+- For each spirit in =spirits:=, checks =spirits/<name>/identity.yaml= exists
+- For each project in =projects:=, checks the path exists
+- Returns a =Report= (same structure as spirit validation)
+
+Add =--guilds= flag to =verify.py= that iterates all =aburaya/guilds/*.yaml=
+files and runs =validate_guild= on each.
+
+Add =--full= flag that runs both =--all= (spirits) and =--guilds= together.
+
+** 2. Orphan detection
+
+After both sweeps complete, cross-reference:
+
+- *Guildless spirits*: spirits with identity.yaml that are not listed
+  in any guild's =spirits:= section (currently: mayadev)
+- *Phantom spirits*: entries in guild =spirits:= lists that have no
+  identity.yaml directory (currently: percept-guardian-placeholder)
+- *Guildless guilds*: guilds where all listed spirits are phantoms
+  (not currently the case, but defensive)
+
+Report these as a separate section in the summary output.
+
+** 3. Spirit kind discrimination
+
+Deferred. Human spirits are incorporate — recruiting them into the
+schema requires a different interface (possibly a single field asking
+how adept the human is in using agentic AI). For now, =verify.py=
+should skip spirits whose identity.yaml contains no =nature.model=
+field (or where =nature.model= is absent entirely), with a note:
+"human spirit — schema validation skipped." This prevents mu2tau from
+polluting the failure count without pretending the problem is solved.
+
+** 4. Power cross-references
+
+Add a check to =check_spirit_cross_refs= that for each entry in
+=character.powers=, verifies =aburaya/powers/<name>.md= exists.
+
+Report missing powers as failures.
+
+* Execution Order
+
+#+begin_example
+1. Implement validate_guild in birth_certificate.py           (build)
+2. Add --guilds and --full flags to verify.py                 (build)
+3. Implement orphan detection cross-reference                 (build)
+4. Add human-spirit skip logic (no nature.model = skip)       (build)
+5. Implement power cross-reference check                      (build)
+6. Run --full and verify all known gaps are caught            (test)
+7. Run against dixa output from WP-0037 baseline              (validate)
+#+end_example
+
+* Acceptance Criteria
+
+- [ ] =uv run verify.py --guilds= catches percept-guardian-placeholder gap
+- [ ] =uv run verify.py --full= runs both spirit and guild sweeps
+- [ ] Orphan report identifies mayadev as guildless
+- [ ] Orphan report identifies percept-guardian-placeholder as phantom
+- [ ] Power cross-reference check catches any missing power files
+- [ ] mu2tau's identity is skipped with "human spirit" note (not a failure)
+- [ ] All previously-passing spirits still pass (no regressions)
+
+* Open Questions
+
+- Should =--full= be the new default for =verify.py --all=? Or keep
+  =--all= as spirit-only for backward compatibility?
+- Should orphan detection be a warning or a failure? A guildless
+  spirit (mayadev) may be intentional. A phantom spirit is always
+  a bug.
+
+* Tangles and Artifacts
+
+| Artifact | Location |
+|----------+----------|
+| Updated birth_certificate.py | =aburaya/spirits/dixa/nature/birth_certificate.py= |
+| Updated verify.py | =aburaya/spirits/dixa/nature/verify.py= |
+| Possibly updated spirit.yaml schema | =aburaya/spirits/dixa/nature/schemas/spirit.yaml= |

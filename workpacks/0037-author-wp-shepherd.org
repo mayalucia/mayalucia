@@ -1,0 +1,548 @@
+#+title: WP-0037 — Gaddi: Substrate-Portable Agent Onboarding
+#+subtitle: Test the author-wp power across diverse substrates with a gaddi orchestrator; measure token efficiency; develop toward a publishable onboarding tool
+#+author: mu2tau + mayadev
+#+date: 2026-03-11
+#+property: status executing
+#+property: executor mayadev#opus-4.6
+#+property: guild apprentis
+#+property: type simple
+
+* Context and Motivation
+
+WP-0030 through WP-0036 tested substrate diversity on a /receptive/ task:
+read the project, orient, produce notes. The orient-to-mayalucia power
+asks substrates to /understand/. But understanding is half the loop.
+The other half is /specification/ — translating understanding into an
+actionable artifact.
+
+This experiment tests the *author-wp* power across diverse cognitive
+substrates. Each substrate receives the full orient-to-mayalucia
+preamble (isolating author-wp as the variable), the same concrete
+problem (spirit-guild cross-reference gaps in aburaya), and tool access
+via gptel-agent.
+
+The orchestrator is a *gaddi* — named for the nomadic shepherds of the
+Dhauladhar and Pir Panjal who walk with their flocks across high
+passes, reading terrain, knowing which route is open, accumulating
+traversal knowledge across seasons. The gaddi does not own the pasture
+at either end. It traverses. Each substrate traversal of the author-wp
+task teaches the gaddi something about the power's portability.
+
+The gaddi role is itself a testable substrate behavior. In this
+experiment, mayadev#opus-4.6 is the gaddi. How it orchestrates,
+monitors, injects prompts, and analyses — that is the Opus 4.6
+contribution. A future experiment may test a different substrate as
+gaddi on the same task.
+
+** Why this matters
+
+- *Orient* measures comprehension. *Author-wp* measures judgment:
+  scoping, surveying, specifying, and knowing when to stop.
+- A substrate that orients well may still produce vague or over-broad
+  WPs. Or it may over-specify. The failure modes are different from
+  orient failures.
+- The spirit-guild gap is small enough to be tractable in a single
+  session, yet real enough that the WP must be precise to be executable.
+
+** The larger goal
+
+This experiment is a step toward a *publishable, organisation-independent
+onboarding tool*. The orient-to-mayalucia power already encodes
+substrate-independent principles distilled from 11 lineages. The gaddi
+pattern generalises: any organisation with structured documentation can
+use the same orient → specify loop to onboard agents. The MayaLucIA
+spirit-guild gaps are the test case. The tool is the product.
+
+Token efficiency — tokens consumed per unit of organisational complexity
+onboarded — is the quantitative measure that makes this publishable.
+An organisation shouldn't need to know which substrate it's buying;
+the tool should work for any of them.
+
+** The gap (problem given to substrates)
+
+Two cross-reference inconsistencies in =aburaya/=:
+
+1. *percept-guardian-placeholder* is listed in =guilds/percept.yaml=
+   spirits section, but no =spirits/percept-guardian-placeholder/identity.yaml=
+   exists. The guild references a spirit that hasn't been commissioned.
+
+2. *mayadev* has =spirits/mayadev/identity.yaml= but is not listed in
+   any guild's =spirits:= section. The coordinator spirit is guildless
+   in the registry.
+
+Substrates must discover these gaps (or others they find), decide what
+to fix, and write a WP specifying the fix.
+
+* Inventory (What Already Exists)
+
+| Asset | Path | Purpose |
+|-------+------+---------|
+| author-wp power | =aburaya/powers/author-wp.md= | The procedure under test |
+| orient-to-mayalucia power | =aburaya/powers/orient-to-mayalucia.md= | Full preamble for each substrate |
+| Spirit identities | =aburaya/spirits/*/identity.yaml= | 8 spirits registered |
+| Guild definitions | =aburaya/guilds/*.yaml= | 5 guilds registered |
+| dixa birth_certificate | =aburaya/spirits/dixa/nature/birth_certificate.py= | Ground truth — known gap oracle |
+| dixa verify | =aburaya/spirits/dixa/nature/verify.py= | =--all= produces the answer key |
+| WP convention | =develop/work-packages.org= | What a good WP looks like |
+| Cold-start protocol results | =experiments/02-substrate-diversity/cold-start-protocol.org= | 11-lineage baseline data |
+| Prior orient sessions | =experiments/02-substrate-diversity/sessions/= | Per-substrate orient capabilities |
+| Author-wp sessions dir | =experiments/02-substrate-diversity/sessions/author-wp/= | Empty, ready for output |
+
+** Dixa as ground truth
+
+=uv run verify.py --all= produces a structured report of spirit-centric
+failures. As of 2026-03-11:
+
+- *mayadev*: 3 failures (no archetype, no project.path, no guild)
+- *mu2tau*: 8 failures (human spirit doesn't fit agent schema)
+- *6/8 spirits pass*
+
+But dixa has a directional blind spot: she validates spirits → guilds,
+not guilds → spirits. The percept guild's =percept-guardian-placeholder=
+(no identity.yaml) is invisible to =verify.py --all= because no spirit
+claims the percept guild. If substrates discover this gap, they have
+outperformed the existing tooling. WP-0038 addresses this gap in dixa's
+own capabilities.
+
+** Prior experiment chain
+
+| WP | What it tested | Outcome |
+|----+----------------+---------|
+| 0030 | Orientation across 3 lineages | Monoculture blindness confirmed |
+| 0031 | 2x2 factorial (substrate x tools) | Drafted |
+| 0032 | Cold-start with orientation notes | Notes quality > substrate capability |
+| 0035 | Expand to 7 lineages | Completed |
+| 0036 | 4 new architecturally diverse lineages | Completed |
+
+* Specification (What You Build)
+
+** 1. Substrates
+
+| # | Lineage | Model ID | Backend | Role |
+|---+---------+----------+---------+------|
+| 0 | Claude Opus 4.6 | =anthropic/claude-opus-4-6= | Claude Code | Gaddi (orchestrator + self-test) |
+| 1 | Kimi K2.5 | =moonshotai/kimi-k2.5= | OpenRouter | Subject — best orient performer (WP-0036) |
+| 2 | Gemini 3.1 Pro | =gemini-3.1-pro-preview= | OpenRouter | Subject — strong orienter, notes producer |
+| 3 | Qwen 3.5+ | =qwen/qwen3.5-plus-02-15= | OpenRouter | Subject — hybrid architecture |
+
+The gaddi (mayadev#opus-4.6) is substrate #0. Its orchestration
+behavior is measured alongside the subjects' authoring behavior.
+Subjects run one at a time, sequential.
+
+** 2. Session protocol
+
+Each subject session is a gptel-agent Org buffer with tools enabled.
+
+*** Preamble (injected by gaddi)
+
+Full orient-to-mayalucia output: the complete power document from
+=aburaya/powers/orient-to-mayalucia.md= is injected as the system-level
+preamble for each substrate session. This isolates the author-wp power
+as the experimental variable — all substrates start equally oriented.
+
+*** Prompt sequence
+
+**** Prompt 1 — Task brief
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+You are working on MayaLucIA. Read aburaya/powers/author-wp.md to
+understand how work packages are written in this project. Then read
+develop/work-packages.org for the full convention.
+
+Your task: there are cross-reference inconsistencies in the spirit
+registry (aburaya/). Survey the spirits and guilds, identify the gaps,
+and write a work package that specifies exactly how to fix them.
+
+Start by reading the guild YAML files and the spirit identity files.
+Do not assume you know what the gaps are — discover them.
+#+end_message
+#+end_example
+
+**** Prompt 2 — Reflection (after WP draft is produced)
+
+#+begin_example
+#+begin_message :role user :name mu2tau
+Good. Now reflect on what you just did:
+
+1. What did you survey before writing?
+2. What scoping decisions did you make? (What did you include vs exclude?)
+3. How confident are you that the acceptance criteria are testable?
+4. If another spirit — from a different lineage — executed your WP,
+   would they produce the same result? Why or why not?
+#+end_message
+#+end_example
+
+** 3. Metrics
+
+*** Token efficiency
+
+For each substrate, record:
+
+| Metric | How to measure |
+|--------+----------------|
+| Input tokens | Total tokens consumed reading files + orient preamble + prompts |
+| Output tokens | Total tokens produced (tool calls + WP draft + reflection) |
+| Total tokens | Input + output |
+| Organisational surface | Count of files read, YAML keys parsed, cross-references checked |
+| Token efficiency ratio | Total tokens / organisational surface |
+| Cost (USD) | Total tokens x per-model pricing from WP-0036 spec table |
+
+The token efficiency ratio measures how many tokens a substrate burns
+per unit of organisational complexity it processes. Lower is better.
+A substrate that reads 12 files and produces a precise WP in 8K tokens
+is more efficient than one that reads 30 files and produces a vague WP
+in 40K tokens.
+
+*** Qualitative dimensions
+
+| Dimension | What to measure |
+|-----------+-----------------|
+| Survey completeness | Did the substrate find both gaps? Others? |
+| Scoping judgment | What was included vs excluded? Over-broad or too narrow? |
+| Specification precision | Are file paths, YAML keys, exact values named? |
+| Acceptance criteria quality | Testable? Automatable? |
+| Convention adherence | Does the WP follow the develop/work-packages.org template? |
+| Self-awareness | Does the reflection (Prompt 2) reveal understanding of its own process? |
+| Dixa parity | Did the substrate find all gaps dixa found? |
+| Beyond dixa | Did the substrate find gaps dixa missed (e.g. percept-guardian-placeholder)? |
+
+*** Gaddi metrics (mayadev#opus-4.6)
+
+| Metric | What to measure |
+|--------+----------------|
+| Orchestration tokens | Tokens consumed by the gaddi across all 3 sessions |
+| Intervention count | How many times the gaddi intervened beyond the 2 prompts |
+| Session setup time | Time from "create session file" to "fire gptel-send" |
+| Failure recovery | Did the gaddi recover from tool-call failures or API errors? |
+
+** 4. Output artifacts
+
+Each substrate session produces:
+
+| Artifact | Path |
+|----------+------|
+| Session transcript | =experiments/02-substrate-diversity/sessions/author-wp/<slug>.org= |
+| Drafted WP (in-buffer) | Extracted from session, saved separately if well-formed |
+
+The gaddi produces:
+
+| Artifact | Path |
+|----------+------|
+| Comparative analysis | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= |
+| Token efficiency table | Included in comparative analysis |
+| Gaddi self-assessment | Included in comparative analysis |
+
+* Execution Order
+
+#+begin_example
+0. Run dixa verify --all, record baseline report          (ground truth)
+1. Revise orient-to-mayalucia.md with WP-0036 data        (prepare)
+2. Create session file for Kimi K2.5                       (prepare)
+3. Fire Kimi K2.5 session via gptel                       (execute)
+4. Monitor, inject Prompt 2 after WP draft appears        (gaddi)
+5. Record token counts. Save session.                     (measure)
+6. Create session file for Gemini 3.1 Pro                 (prepare)
+7. Fire Gemini session                                    (execute)
+8. Monitor, inject Prompt 2                               (gaddi)
+9. Record token counts. Save session.                     (measure)
+10. Create session file for Qwen 3.5+                     (prepare)
+11. Fire Qwen session                                     (execute)
+12. Monitor, inject Prompt 2                              (gaddi)
+13. Record token counts. Save session.                    (measure)
+14. Write comparative analysis with token efficiency      (analyse)
+15. Draft gaddi power document                            (synthesise)
+#+end_example
+
+Sequential — one substrate at a time. The gaddi monitors each to
+completion before starting the next. Tool-call timeouts on the Dropbox
+path killed parallel attempts in WP-0036.
+
+Step 1 is a prerequisite: the orient preamble must be current before
+any substrate receives it.
+
+Step 15 is the side product: the gaddi power, distilled from the
+experience of orchestrating this experiment. The power document
+describes the traverse, not the pasture.
+
+* Acceptance Criteria
+
+- [ ] orient-to-mayalucia.md revised with all WP-0036 data
+- [ ] 3 session files created with correct model pinning and tools enabled
+- [ ] All 3 substrates produce a WP draft (may vary in quality)
+- [ ] All 3 substrates respond to the reflection prompt
+- [ ] Token counts recorded for all 3 substrates
+- [ ] Token efficiency ratios computed and compared
+- [ ] Comparative analysis covers all 6 qualitative dimensions
+- [ ] Gaddi self-assessment included in analysis
+- [ ] Each session transcript saved to the author-wp sessions directory
+- [ ] Gaddi power document drafted in =aburaya/powers/gaddi.md=
+
+* What This Proves
+
+If the experiment works:
+
+1. *author-wp is substrate-portable* — diverse lineages can exercise
+   the power and produce recognisable WP artifacts
+2. *Specification quality varies by lineage* — different substrates
+   make different scoping and precision trade-offs
+3. *Token efficiency is measurable* — we can quantify the cost of
+   onboarding an agent to an organisation, per substrate
+4. *The gaddi pattern works* — a spirit can orchestrate other
+   substrates through a task more complex than orientation
+5. *The gap itself gets documented* — at least one substrate should
+   produce a WP good enough to actually execute
+6. *The gaddi power is extractable* — the orchestration pattern can
+   be written as a harness-neutral power document
+
+If it fails:
+
+- Some substrates may not be able to exercise author-wp (tool-call
+  failures, inability to survey, convention blindness)
+- The gptel harness may impose limits (Gemini thinking-mode conflicts,
+  API timeouts, buffer management)
+- The token efficiency metric may not capture meaningful variation
+  (all substrates may converge on similar token counts)
+- These failure modes are themselves data for the apprentis guild
+
+* Dependencies
+
+| WP | Relationship | Direction |
+|----+--------------+-----------|
+| 0038 | Dixa guild-first sweep | WP-0037 findings feed WP-0038 requirements |
+
+WP-0037 does /not/ depend on WP-0038 — it uses dixa's current tools as
+baseline. WP-0038 depends on WP-0037's findings to know what to build.
+
+* Open Questions
+
+- Should the gaddi intervene if a substrate goes off-track (e.g.
+  starts fixing files instead of writing a WP), or let it run to
+  observe the failure mode?
+- Should we also test a substrate /without/ tools (request-response only,
+  author-wp from memory of what it read during orient)? This would
+  parallel the WP-0031 tool-access axis.
+- What unit of "organisational complexity" makes the token efficiency
+  ratio meaningful across different organisations? File count? YAML
+  key count? Cross-reference count? This needs definition before the
+  tool is publishable.
+
+* Tangles and Artifacts
+
+No code tangles. Artifacts:
+
+| Artifact | Location |
+|----------+----------|
+| 3 session transcripts (Phase 1) | =experiments/02-substrate-diversity/sessions/author-wp/= |
+| Comparative analysis | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= |
+| Extracted WP drafts (if viable) | =experiments/02-substrate-diversity/sessions/author-wp/drafts/= |
+| Gaddi power document | =aburaya/powers/gaddi.md= |
+| Revised orient power | =aburaya/powers/orient-to-mayalucia.md= |
+| Surveyor agent definition | =mayadevgenz/agents/surveyor.md= |
+| Phase 2 session transcripts | =experiments/02-substrate-diversity/sessions/author-wp/= |
+
+* Extension: Phase 2 — Tool-Correct Pipeline with More Substrates
+
+** Motivation
+
+Phase 1 (Steps 0–15) completed with 3 substrates (Kimi K2.5, Gemini
+3.1 Pro, Qwen 3.5+). All produced results but the gaddi could not run
+fully autonomously because:
+
+1. *Tool confirmation gates* — the Gemini session used filesystem tools
+   (opencode-sourced) that required interactive approval from the human,
+   outside gptel's =gptel-confirm-tool-calls= control. The gaddi stalled
+   at each confirmation prompt.
+
+2. *Tool registry mismatch* — gptel-agent's native tools (=gptel-agent-tools.el=)
+   have =:confirm t= only on mutating tools (Bash, Edit, Write, Insert,
+   Mkdir, Eval, Agent). Read-only tools (Read, Glob, Grep) have no
+   =:confirm= slot and run freely under the =auto= setting. But if a
+   session picks up tools from a /different/ registry (opencode), those
+   tools carry their own confirmation mechanism that gptel cannot disable.
+
+The fix is at configuration time: use a dedicated agent definition that
+declares /only/ gptel-agent's native read-only tools.
+
+** Surveyor agent
+
+A new gptel-agent definition: =mayadevgenz/agents/surveyor.md=.
+
+| Property | Value |
+|----------+-------|
+| Tools | Read, Glob, Grep, TodoWrite |
+| Mutating tools | None |
+| Confirm gates | Zero (all tools are read-only) |
+| Purpose | Audit, survey, specify |
+
+The surveyor cannot edit files. Its output is text in the conversation
+buffer — WP drafts, audit reports, reflections. This makes gaddi
+orchestration fully autonomous: no tool confirmation, no human
+intervention between prompts.
+
+The system prompt encodes survey methodology (discover-then-interpret,
+scope tightly, name concretely, write testable criteria) without
+project-specific content. The orient-to-mayalucia preamble and task
+brief are injected by the gaddi as the prompt sequence, same as Phase 1.
+
+** New substrates
+
+Phase 2 adds 8 substrates from the WP-0036 cold-start pool, ordered
+by interest for the author-wp task:
+
+| # | Lineage | Model ID | Backend | Interest rationale |
+|---+---------+----------+---------+--------------------|
+| 4 | Kimi K2 Thinking | =moonshotai/kimi-k2-thinking= | OpenRouter | Reasoning-specialized, ghost-concept detection |
+| 5 | Step 3.5 Flash | =stepfun/step-3.5-flash= | OpenRouter | 11B active, salience distortion diagnosis |
+| 6 | GPT-5.2 | =gpt-5.2= | ChatGPT | Interface specification, self-consistent |
+| 7 | Grok 4.1 Fast | =grok-4-1-fast-reasoning= | xAI | Builder mentality, terse, concrete proposals |
+| 8 | DeepSeek V3.1 | =deepseek/deepseek-chat-v3.1= | OpenRouter | Portability lens, MoE, philosophical |
+| 9 | Claude Opus 4.6 | =anthropic/claude-opus-4-6= | OpenRouter | Self-test: gaddi lineage as subject |
+| 10 | GLM-5 | =z-ai/glm-5= | OpenRouter | Motivational questioning, overcorrection |
+| 11 | MiniMax M2.5 | =minimax/minimax-m2.5= | OpenRouter | Floor case, marginal cold-start |
+
+Execution in batches of 3, parallel within each batch. The gaddi fires
+3 buffers simultaneously (one per substrate), each with the surveyor
+agent definition pinned.
+
+*** Batch 1 (first 3)
+
+| Substrate | Backend | Model |
+|-----------+---------+-------|
+| Kimi K2 Thinking | OpenRouter | =moonshotai/kimi-k2-thinking= |
+| Step 3.5 Flash | OpenRouter | =stepfun/step-3.5-flash= |
+| GPT-5.2 | ChatGPT | =gpt-5.2= |
+
+*** Remaining batches
+
+Batches 2 and 3 follow the priority order. Exact grouping depends on
+API stability and rate limits observed in Batch 1.
+
+** Session protocol (Phase 2)
+
+Same prompt sequence as Phase 1. Each substrate receives:
+
+1. Orient-to-mayalucia preamble (system-level, via gptel buffer setup)
+2. Prompt 1 — task brief (injected by gaddi)
+3. Prompt 2 — reflection (injected by gaddi after WP draft appears)
+
+The only change from Phase 1: tools are restricted to read-only
+(=Glob Read Grep TodoWrite=) via the =:GPTEL_TOOLS:= Org property,
+using gptel-agent's native tool implementations exclusively.
+
+*** Post-session log extraction
+
+The session buffer shows only the model's prose output. Tool calls,
+token counts, and API-level metadata live in the =*gptel-log*= buffer.
+After each substrate completes (both prompts answered), extract:
+
+**** 1. Token counts (from the =usage= block in the final streaming chunk)
+
+Each OpenRouter response ends with a =usage= JSON object:
+
+#+begin_example
+"usage": {
+  "prompt_tokens": N,
+  "completion_tokens": N,
+  "total_tokens": N,
+  "cost": N.NNNNN,
+  "completion_tokens_details": { "reasoning_tokens": N }
+}
+#+end_example
+
+Sum across all API round-trips for the session (one per model turn —
+each tool-call cycle is a separate round-trip). Use =emacsclient= to
+query the log buffer programmatically:
+
+#+begin_src elisp :tangle no
+;; Count tool invocations by name
+(with-current-buffer "*gptel-log*"
+  (save-excursion
+    (goto-char (point-min))
+    (let ((count 0))
+      (while (search-forward "\"name\":\"Read\"" nil t)
+        (setq count (1+ count)))
+      count)))
+#+end_src
+
+**** 2. Tool usage profile
+
+For each tool (Glob, Read, Grep, TodoWrite), count invocations.
+This gives the /organisational surface/ — how many file operations the
+substrate performed to produce its specification.
+
+**** 3. Streaming errors
+
+Count =*ERROR*: Unknown message:= entries in the session buffer.
+These are gptel's streaming parser struggling with certain character
+sequences in the model's output (e.g. YAML frontmatter, Org table
+separators). They do not indicate API failures — the content still
+arrives. Record the count as a harness friction metric.
+
+**** 4. Save extracted data
+
+Append a metrics block to the end of each session file:
+
+#+begin_example
+* Metrics (extracted from *gptel-log*)
+#+property: extracted-by mayadev
+#+property: extracted-date YYYY-MM-DD
+
+| Metric | Value |
+|--------+-------|
+| API round-trips | N |
+| Prompt tokens (total) | N |
+| Completion tokens (total) | N |
+| Reasoning tokens (total) | N |
+| Total tokens | N |
+| Cost (USD) | N.NNNNN |
+| Glob calls | N |
+| Read calls | N |
+| Grep calls | N |
+| TodoWrite calls | N |
+| Streaming parse errors | N |
+#+end_example
+
+**** Important: do not inject into gptel during streaming
+
+The =*gptel-log*= buffer is shared across all sessions. Reading it
+via =emacsclient= while a substrate is streaming will not corrupt the
+stream (read-only access is safe). But *never inject text into the
+session buffer* while the model is streaming — this corrupts gptel's
+response handler. Extract metrics only after =finish_reason: stop=
+appears in the log for that session's final round-trip.
+
+** Execution order (Phase 2)
+
+#+begin_example
+16. Reload gptel-agent-update to pick up surveyor.md          (prepare)
+17. Create 3 session files for Batch 1 with surveyor agent    (prepare)
+18. Fire all 3 via gaddi-start (parallel)                     (execute)
+19. Monitor gaddi-status across all 3 buffers                 (gaddi)
+20. Record token counts. Save sessions.                       (measure)
+21. Repeat for Batch 2                                        (execute)
+22. Repeat for Batch 3                                        (execute)
+23. Update comparative analysis with all 11 substrates        (analyse)
+#+end_example
+
+** New acceptance criteria (Phase 2)
+
+- [ ] Surveyor agent definition committed in mayadevgenz
+- [ ] All Phase 2 substrates fire via gaddi with zero confirmation gates
+- [ ] At least 6/8 new substrates produce a WP draft or audit report
+- [ ] All substrates respond to the reflection prompt
+- [ ] Comparative analysis updated to cover all 11 substrates
+- [ ] Tool-configuration finding documented as a lesson
+
+** What Phase 2 adds to what Phase 1 proved
+
+7. *Tool configuration is a control-plane variable* — the same
+   substrate produces different autonomy outcomes depending on which
+   tool registry its session uses.
+8. *Read-only surveying suffices for author-wp* — substrates don't
+   need write access to produce executable specifications.
+9. *Parallel gaddi orchestration works* — 3 substrates can run
+   simultaneously if tool gates are eliminated.
+10. *Toward a pipeline* — with the surveyor agent + gaddi + prompt
+    sequence, the experiment is repeatable: any new lineage can be
+    tested by creating a session file and firing the gaddi.
