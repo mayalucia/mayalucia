@@ -1,0 +1,29 @@
+{{- /*
+  illustrated-panel: image-primary story panel with expandable text bubble.
+
+  Usage:
+    {{< illustrated-panel src="/images/writing/slug/fig.png" bubble="Short visible text" >}}
+    Expanded prose goes here. Markdown supported.
+    {{< /illustrated-panel >}}
+
+  Parameters:
+    src     (required) — image path
+    bubble  (required) — the visible summary text (1-2 sentences)
+    alt     (optional) — image alt text, defaults to bubble
+    align   (optional) — "left", "right", "center" (default: "left") — bubble position
+*/ -}}
+<div class="illustrated-panel">
+  <div class="illustrated-panel__image">
+    <img loading="lazy"
+         src="{{ .Get "src" }}"
+         alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "bubble" | plainify }}{{ end }}" />
+  </div>
+  <div class="illustrated-panel__bubble{{ with .Get "align" }} illustrated-panel__bubble--{{ . }}{{ end }}">
+    <details>
+      <summary>{{ .Get "bubble" | markdownify }}</summary>
+      <div class="illustrated-panel__expanded">
+        {{ .Inner | markdownify }}
+      </div>
+    </details>
+  </div>
+</div>

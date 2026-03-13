@@ -19,6 +19,95 @@
 <script defer src="/js/story-browser.js?v={{ $ts }}"></script>
 {{- end }}
 
+{{- /* Illustrated panels: inline CSS for image-primary story format */ -}}
+{{- if .Params.illustrated_panels }}
+<style>
+.illustrated-panel {
+  position: relative;
+  margin: 2.5rem -1rem;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--code-bg, #1a1a1a);
+}
+.illustrated-panel__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.illustrated-panel__bubble {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  max-width: 55%;
+  background: rgba(10, 10, 10, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 6px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.illustrated-panel__bubble--right {
+  left: auto;
+  right: 1.5rem;
+}
+.illustrated-panel__bubble--center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.illustrated-panel__bubble details {
+  margin: 0;
+}
+.illustrated-panel__bubble summary {
+  cursor: pointer;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #e8e0d8;
+  font-style: italic;
+  list-style: none;
+}
+.illustrated-panel__bubble summary::-webkit-details-marker { display: none; }
+.illustrated-panel__bubble summary::marker { display: none; content: ""; }
+.illustrated-panel__bubble summary::after {
+  content: " ▸";
+  font-style: normal;
+  opacity: 0.4;
+  font-size: 0.8em;
+}
+.illustrated-panel__bubble details[open] summary::after {
+  content: " ▾";
+}
+.illustrated-panel__expanded {
+  padding: 0 1.2rem 1rem;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #c8c0b8;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.illustrated-panel__expanded p {
+  margin: 0.6rem 0;
+}
+.illustrated-panel__expanded p:first-child {
+  margin-top: 0.8rem;
+}
+/* Mobile: bubble sits below image instead of overlaid */
+@media (max-width: 640px) {
+  .illustrated-panel { margin: 1.5rem 0; }
+  .illustrated-panel__bubble {
+    position: relative;
+    bottom: auto; left: auto; right: auto;
+    max-width: 100%;
+    border-radius: 0 0 6px 6px;
+    transform: none;
+  }
+  .illustrated-panel__bubble--right,
+  .illustrated-panel__bubble--center {
+    left: auto; right: auto; transform: none;
+  }
+}
+</style>
+{{- end }}
+
 {{- /* KaTeX: load on pages with math: true */ -}}
 {{ if or .Params.math .Site.Params.math }}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">

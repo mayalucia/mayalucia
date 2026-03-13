@@ -143,21 +143,7 @@
         :stroke-dasharray "4,4"
         :opacity 0.25}])))
 
-(defn- karakoram-territory
-  "Edge label pointing north toward future Karakoram stories."
-  []
-  (let [x     (/ data/svg-w 2)
-        y     15
-        colour (get data/region-colours "karakoram")]
-    [:g
-     [:text {:x x :y y
-             :text-anchor "middle"
-             :fill colour
-             :font-size 9
-             :font-style "italic"
-             :font-family "serif"
-             :opacity 0.3}
-      "Karakoram \u2191"]]))
+;; karakoram-territory placeholder removed — Karakoram now has stories
 
 (defn- abstract-zone
   "Small label for the Abstract region (Phantom Faculty)."
@@ -216,8 +202,7 @@
             [abstract-zone]
             ;; Thread Walker's path
             [thread-walker-path]
-            ;; Karakoram edge label
-            [karakoram-territory]
+            ;; (karakoram-territory placeholder removed)
             ;; Story pins (on top)
             (for [s data/stories]
               ^{:key (:id s)}

@@ -12,7 +12,9 @@
    "sutlej"        "#8a9cb0"   ; grey-blue
    "doridhar"      "#c9a84c"   ; gold
    "abstract"      "#a0a0a8"   ; silver
-   "karakoram"     "#6b6b78"}) ; muted slate (empty territory)
+   "karakoram"     "#6b6b78"   ; muted slate — the journey's arc
+   "diamer"        "#8a6858"   ; warm dark stone — Indus gorge gneiss
+   "hunza"         "#9a7868"}) ; iron/blossom — warmer than Diamer
 
 (def slate  "#12121e")
 (def chalk  "#e8e4d4")
@@ -29,8 +31,8 @@
 ;;; ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 (def lat-min 30.9)
-(def lat-max 33.0)
-(def lon-min 76.5)
+(def lat-max 36.6)
+(def lon-min 73.8)
 (def lon-max 78.6)
 
 (def svg-w 800)
@@ -366,7 +368,180 @@
                     "trail-marks.png"]
     :description   "Above the gorge where the Tirthan turns east toward Banjar, the Thread Walker finds a ruined dāk bungalow where the old postal runners once rested."
     :region-id     "tirthan"
-    :geo           {:lat 31.64 :lon 77.34}}])
+    :geo           {:lat 31.64 :lon 77.34}}
+
+   {:id            "serais-register"
+    :number        13
+    :title         "The Serai's Register"
+    :slug          "the-serais-register"
+    :setting       {:region "Tirthan Valley"
+                    :places ["Tirthan-Sainj confluence" "Larji" "Banjar"]
+                    :altitude "900-1000m"
+                    :season :spring}
+    :document-type :field-notes
+    :characters    ["thread-walker" "serai-keeper"]
+    :concepts      [:identity-from-traces :handwriting-as-signature
+                    :pattern-recognition :accumulation
+                    :re-identification :convergence-at-junctions
+                    :provisional-knowledge :uncertainty-tolerance]
+    :image-dir     "the-serais-register"
+    :illustrations ["the-serai.png"
+                    "the-hand.png"
+                    "slate-register.png"
+                    "voices-in-the-dark.png"]
+    :description   "At the junction where the Tirthan meets the Sainj below Larji, the Thread Walker finds a serai whose keeper has maintained a register for forty years — and who can tell, from the handwriting alone, when the same traveller arrives from a different valley."
+    :region-id     "tirthan"
+    :geo           {:lat 31.77 :lon 77.13}}
+
+   {:id            "cartographers-slab"
+    :number        14
+    :title         "The Cartographer's Slab"
+    :slug          "the-cartographers-slab"
+    :setting       {:region "Tirthan Valley"
+                    :places ["Forest Rest House" "Tirthan gorge" "Banjar"]
+                    :altitude "1500-2000m"
+                    :season :spring}
+    :document-type :field-notes
+    :characters    ["thread-walker" "mehra"]
+    :concepts      [:cartography :bounding-box :projection
+                    :relational-geography :structure-vs-facts
+                    :chalk-on-slate :seasonal-redrawing :faintness]
+    :image-dir     "the-cartographers-slab"
+    :illustrations ["rest-house.png"
+                    "bounding-box.png"
+                    "the-slab.png"
+                    "the-background.png"]
+    :description   "In a Forest Rest House above the Tirthan gorge, the Thread Walker finds a retired Survey of India cartographer who spent thirty years mapping valleys he could not fit on a single sheet."
+    :region-id     "tirthan"
+    :geo           {:lat 31.83 :lon 77.18}}
+
+   {:id            "three-readers"
+    :number        15
+    :title         "The Three Readers"
+    :slug          "the-three-readers"
+    :setting       {:region "Tirthan Valley"
+                    :places ["Forest Rest House" "Tirthan gorge"]
+                    :altitude "1500-2000m"
+                    :season :spring}
+    :document-type :field-notes
+    :characters    ["thread-walker" "mehra"]
+    :concepts      [:reading-as-interpretation :tools-shape-seeing
+                    :the-measurer :the-climber :the-reader
+                    :composite-knowledge :identity-absorption
+                    :what-each-cannot-see]
+    :image-dir     "the-three-readers"
+    :illustrations ["the-three-studies.png"
+                    "first-study.png"
+                    "second-study.png"
+                    "third-study.png"
+                    "the-signature.png"
+                    "the-names.png"]
+    :description   "At the Forest Rest House, the cartographer shows the Thread Walker three studies of the same valley — drawn by three hands that had never met — and she discovers that what each one failed to draw reveals more than what each one drew."
+    :region-id     "tirthan"
+    :geo           {:lat 31.83 :lon 77.18}}
+
+   {:id            "six-tri-junctions"
+    :number        16
+    :title         "The Six Tri-Junctions"
+    :slug          "the-six-tri-junctions"
+    :setting       {:region "Western Himalaya to Karakoram"
+                    :places ["Mantalai" "Trilokinath" "Bara Bhangal"
+                             "Chilas" "Nanga Parbat" "Hunza"]
+                    :altitude "900-8126m"
+                    :season :spring}
+    :document-type :field-notes
+    :characters    ["thread-walker" "kullu-shepherd" "kangra-shepherd"
+                    "chamba-shepherd" "karimabad-teacher" "gojal-elder"
+                    "tato-porter"]
+    :concepts      [:tri-junction :perspective-dependence :composite-knowledge-16
+                    :rain-shadow :religious-pluralism :pastoral-tradition
+                    :petroglyph-stratigraphy :language-isolate
+                    :spirit-possession :corridor :accumulation-16]
+    :image-dir     "the-six-tri-junctions"
+    :illustrations ["the-rain-wall.png"
+                    "three-climates.png"
+                    "two-processions.png"
+                    "three-flocks.png"
+                    "the-petroglyphs.png"
+                    "the-palimpsest.png"
+                    "three-faces.png"
+                    "the-gorge.png"
+                    "three-languages.png"
+                    "the-bitan.png"]
+    :description   "The Thread Walker follows the arc of the Western Himalaya from the Parvati headwall to the Karakoram, stopping at six places where three valleys, three traditions, or three languages converge."
+    :region-id     "karakoram"
+    :geo           {:lat 32.04 :lon 77.45}}
+
+   {:id            "glaciers-dowry"
+    :number        17
+    :title         "The Glacier's Dowry"
+    :slug          "the-glaciers-dowry"
+    :setting       {:region "Rakhiot Valley / Diamer"
+                    :places ["Tato" "Rakhiot glacier" "Raikot Bridge"]
+                    :altitude "1500-8126m"
+                    :season :unknown}
+    :document-type :field-notes
+    :characters    ["thread-walker" "rahim" "guesthouse-keeper"]
+    :concepts      [:glacier-gender :marriage-protocol :commissioning-as-grafting
+                    :gestation :dowry :chorong-as-harness
+                    :tectonic-aneurysm :karakoram-anomaly
+                    :acceleration :two-waters]
+    :image-dir     "the-glaciers-dowry"
+    :illustrations ["fig1-two-waters.png"
+                    "fig2-gender-of-ice.png"
+                    "fig3-marriage-protocol.png"
+                    "fig4-the-dowry.png"]
+    :description   "In the Rakhiot valley below Nanga Parbat, the Thread Walker learns that glaciers have gender, that they can be married, and that the protocol for creating a new glacier has an eighty percent success rate."
+    :region-id     "diamer"
+    :geo           {:lat 35.23 :lon 74.59}}
+
+   {:id            "peg-path"
+    :number        18
+    :title         "The Peg-Path"
+    :slug          "the-peg-path"
+    :setting       {:region "Upper Indus / Diamer"
+                    :places ["Thalpan" "Chilas" "Shatial"]
+                    :altitude "900-1200m"
+                    :season :summer}
+    :document-type :field-notes
+    :characters    ["thread-walker" "survey-man" "jeep-driver"]
+    :concepts      [:palimpsest :petroglyph-stratigraphy-18
+                    :ten-writing-systems :dam-as-context-loss
+                    :stratigraphy-vs-scan :ibex-above-waterline
+                    :symbol-vs-behaviour :silence-of-residents
+                    :outsider-marks]
+    :image-dir     "the-peg-path"
+    :illustrations ["fig1-palimpsest.png"
+                    "fig2-writing-systems.png"
+                    "fig3-water-line.png"
+                    "fig4-ibex-above.png"]
+    :description   "The Thread Walker visits the petroglyph terraces of the upper Indus gorge, where fifty thousand carvings in ten writing systems have accumulated over ten thousand years — and where eighty-six percent of them will soon be submerged by a dam."
+    :region-id     "diamer"
+    :geo           {:lat 35.42 :lon 74.10}}
+
+   {:id            "bitans-tongue"
+    :number        19
+    :title         "The Bitan's Tongue"
+    :slug          "the-bitans-tongue"
+    :setting       {:region "Hunza / Karakoram"
+                    :places ["Karimabad" "Gojal"]
+                    :altitude "2400-3100m"
+                    :season :spring}
+    :document-type :field-notes
+    :characters    ["thread-walker" "karimabad-teacher"
+                    "dom-musician" "grandmother"]
+    :concepts      [:substrate-independence :kau-paradox :peri-choosing
+                    :music-as-protocol :dom-monopoly :twelve-tunes
+                    :trance-language :makhakhar-rathas
+                    :practice-before-theory :belonging-vs-understanding]
+    :image-dir     "the-bitans-tongue"
+    :illustrations ["fig1-the-kau.png"
+                    "fig2-the-choosing.png"
+                    "fig3-twelve-tunes.png"
+                    "fig4-the-tongue.png"]
+    :description   "In Hunza, the Thread Walker learns about the bitan — a shaman who speaks Shina in trance though his waking language is Burushaski. The spirit brings its own language. The iron bangle binds and protects in the same circle."
+    :region-id     "hunza"
+    :geo           {:lat 36.32 :lon 74.65}}])
 
 
 (def concepts
@@ -463,11 +638,82 @@
    {:id :mechanism-gradient  :name "Mechanism gradient"       :story-equiv "Trail gradient — water flows, mail flows"                      :introduced-in 12}
    {:id :embodied-norm       :name "Embodied norm"            :story-equiv "Trail knowledge vs register entry"                             :introduced-in 12}
    {:id :convention-loss     :name "Convention loss"           :story-equiv "Custom lost when road replaced trail"                          :introduced-in 12}
-   {:id :dispatch-loop-failure :name "Dispatch loop failure"   :story-equiv "Runner who carried without reading"                           :introduced-in 12}])
+   {:id :dispatch-loop-failure :name "Dispatch loop failure"   :story-equiv "Runner who carried without reading"                           :introduced-in 12}
+   ;; ── Story 13 ──
+   {:id :identity-from-traces  :name "Identity from traces"   :story-equiv "Handwriting on slate — the same hand from three valleys"          :introduced-in 13}
+   {:id :handwriting-as-signature :name "Handwriting as signature" :story-equiv "The invariants of a hand that does not know it is being read"  :introduced-in 13}
+   {:id :pattern-recognition   :name "Pattern recognition"    :story-equiv "Sorting tiles by identity, not by time"                            :introduced-in 13}
+   {:id :accumulation          :name "Accumulation"           :story-equiv "Forty years of chalk on slate"                                     :introduced-in 13}
+   {:id :re-identification     :name "Re-identification"      :story-equiv "The same traveller with two names"                                 :introduced-in 13}
+   {:id :convergence-at-junctions :name "Convergence at junctions" :story-equiv "The serai where different valleys arrive at the same hearth"  :introduced-in 13}
+   {:id :provisional-knowledge :name "Provisional knowledge"  :story-equiv "I think this is the same hand — but I do not know"                 :introduced-in 13}
+   {:id :uncertainty-tolerance :name "Uncertainty tolerance"   :story-equiv "The keeper who groups without certainty"                            :introduced-in 13}
+   ;; ── Story 14 ──
+   {:id :cartography           :name "Cartography"            :story-equiv "The slab — chalk on slate, what the mountains do to each other"     :introduced-in 14}
+   {:id :bounding-box          :name "Bounding box"           :story-equiv "Sheet 53F/4 — the valley that does not fit"                         :introduced-in 14}
+   {:id :projection            :name "Projection"             :story-equiv "To make a map you must decide what to lose"                          :introduced-in 14}
+   {:id :relational-geography  :name "Relational geography"   :story-equiv "Not what is in the valley but what the valley does to its neighbours" :introduced-in 14}
+   {:id :structure-vs-facts    :name "Structure vs facts"     :story-equiv "Mehra draws connections, not content"                                :introduced-in 14}
+   {:id :chalk-on-slate        :name "Chalk on slate"         :story-equiv "Erasable, seasonal, redrawn each spring"                             :introduced-in 14}
+   {:id :seasonal-redrawing    :name "Seasonal redrawing"     :story-equiv "The slab wiped clean and redrawn after each winter"                  :introduced-in 14}
+   {:id :faintness             :name "Faintness"              :story-equiv "The background — what recedes so the structure can appear"            :introduced-in 14}
+   ;; ── Story 15 ──
+   {:id :reading-as-interpretation :name "Reading as interpretation" :story-equiv "A map is a reading — same valley, three different maps"      :introduced-in 15}
+   {:id :tools-shape-seeing    :name "Tools shape seeing"     :story-equiv "The clinometer sees the floor; the compass sees the ridge"            :introduced-in 15}
+   {:id :the-measurer          :name "The Measurer"           :story-equiv "First student — dense detail, absent ridges"                          :introduced-in 15}
+   {:id :the-climber           :name "The Climber"            :story-equiv "Second student — sparse, structural, visibility marks"                :introduced-in 15}
+   {:id :the-reader            :name "The Reader"             :story-equiv "Third student — read the documents, signed 'Mehra'"                   :introduced-in 15}
+   {:id :composite-knowledge   :name "Composite knowledge"    :story-equiv "Three studies together see what none sees alone"                      :introduced-in 15}
+   {:id :identity-absorption   :name "Identity absorption"    :story-equiv "The third student who signed his teacher's name"                      :introduced-in 15}
+   {:id :what-each-cannot-see  :name "What each cannot see"   :story-equiv "What was not drawn reveals more than what was"                        :introduced-in 15}
+   ;; ── Story 16 ──
+   {:id :tri-junction          :name "Tri-junction"           :story-equiv "Where three valleys meet — maximum information, minimum comprehension" :introduced-in 16}
+   {:id :perspective-dependence :name "Perspective dependence" :story-equiv "What you see depends on where you stand"                             :introduced-in 16}
+   {:id :composite-knowledge-16 :name "Composite knowledge (journey)" :story-equiv "The country cannot be seen whole from any single valley"      :introduced-in 16}
+   {:id :rain-shadow           :name "Rain shadow"            :story-equiv "Moisture gradient — three climates from one ridge"                    :introduced-in 16}
+   {:id :religious-pluralism   :name "Religious pluralism"    :story-equiv "Trilokinath — two processions through the same gate"                  :introduced-in 16}
+   {:id :pastoral-tradition    :name "Pastoral tradition"     :story-equiv "Three shepherds, three grazing patterns, one meadow"                  :introduced-in 16}
+   {:id :petroglyph-stratigraphy :name "Petroglyph stratigraphy" :story-equiv "Ten thousand years of marks, none erased"                         :introduced-in 16}
+   {:id :language-isolate      :name "Language isolate"       :story-equiv "Burushaski — the tongue with no relatives"                            :introduced-in 16}
+   {:id :spirit-possession     :name "Spirit possession"      :story-equiv "The bitan speaks a language he does not know"                         :introduced-in 16}
+   {:id :corridor              :name "Corridor"               :story-equiv "The gorge — everything that passes through leaves a mark"              :introduced-in 16}
+   {:id :accumulation-16       :name "Accumulation (journey)" :story-equiv "Each halt adds a lesson; nothing is erased"                           :introduced-in 16}
+   ;; ── Story 17 ──
+   {:id :glacier-gender        :name "Glacier gender"         :story-equiv "Po gang and mo gang — male grey, female white"                        :introduced-in 17}
+   {:id :marriage-protocol     :name "Marriage protocol"      :story-equiv "Male ice + female ice + coal + hay + cave + 12 years"                 :introduced-in 17}
+   {:id :commissioning-as-grafting :name "Commissioning as grafting" :story-equiv "You do not build a glacier. You create conditions for birth"   :introduced-in 17}
+   {:id :gestation             :name "Gestation"              :story-equiv "Twelve years — not a schedule but a gestation"                         :introduced-in 17}
+   {:id :dowry                 :name "Dowry"                  :story-equiv "We carry the dowry. The mountain provides the house"                   :introduced-in 17}
+   {:id :chorong-as-harness    :name "Chorong as harness"     :story-equiv "The basket carries the ice but does not determine the glacier"         :introduced-in 17}
+   {:id :tectonic-aneurysm     :name "Tectonic aneurysm"      :story-equiv "The mountain makes ice and heat by the same mechanism"                :introduced-in 17}
+   {:id :karakoram-anomaly     :name "Karakoram Anomaly"      :story-equiv "Glaciers resisting the global trend — until they don't"               :introduced-in 17}
+   {:id :acceleration          :name "Acceleration"           :story-equiv "Seven-fold rate change — a phase transition, not a trend"              :introduced-in 17}
+   {:id :two-waters            :name "Two waters"             :story-equiv "Hot spring and glacial melt from the same massif"                      :introduced-in 17}
+   ;; ── Story 18 ──
+   {:id :palimpsest            :name "Palimpsest"             :story-equiv "Layers that coexist without erasure"                                   :introduced-in 18}
+   {:id :petroglyph-stratigraphy-18 :name "Petroglyph stratigraphy (deep)" :story-equiv "Position relative to others tells what a photograph cannot" :introduced-in 18}
+   {:id :ten-writing-systems   :name "Ten writing systems"    :story-equiv "Kharosthi to Hebrew — accumulated, not curated"                       :introduced-in 18}
+   {:id :dam-as-context-loss   :name "Dam as context loss"    :story-equiv "The scan preserves the letter. The drowning loses the sentence"        :introduced-in 18}
+   {:id :stratigraphy-vs-scan  :name "Stratigraphy vs scan"   :story-equiv "Stratigraphy cannot be photographed. It can only be visited"           :introduced-in 18}
+   {:id :ibex-above-waterline  :name "Ibex above waterline"   :story-equiv "The symbol drowns. The thing it symbolises does not"                   :introduced-in 18}
+   {:id :symbol-vs-behaviour   :name "Symbol vs behaviour"    :story-equiv "What is carved in rock can drown. What is carved in behaviour climbs"  :introduced-in 18}
+   {:id :silence-of-residents  :name "Silence of residents"   :story-equiv "The most documented mountain. The least documented community"           :introduced-in 18}
+   {:id :outsider-marks        :name "Outsider marks"         :story-equiv "The Thread Walker recognises herself as another traveller making marks" :introduced-in 18}
+   ;; ── Story 19 ──
+   {:id :substrate-independence :name "Substrate independence" :story-equiv "Shina through a Burushaski throat"                                    :introduced-in 19}
+   {:id :kau-paradox           :name "Kau paradox"            :story-equiv "The binding is the protection — one circle, two functions"              :introduced-in 19}
+   {:id :peri-choosing         :name "Peri choosing"          :story-equiv "The peri choose by smell — before consent, before language"             :introduced-in 19}
+   {:id :music-as-protocol     :name "Music as protocol"      :story-equiv "The Danyal tune opens the door. A different tune: nothing happens"     :introduced-in 19}
+   {:id :dom-monopoly          :name "Dom monopoly"           :story-equiv "Control the musicians → control access to the spirits"                 :introduced-in 19}
+   {:id :twelve-tunes          :name "Twelve tunes"           :story-equiv "Twelve keys — one opens the door to the peri"                          :introduced-in 19}
+   {:id :trance-language       :name "Trance language"        :story-equiv "The voice is not borrowed. It arrives"                                 :introduced-in 19}
+   {:id :makhakhar-rathas      :name "Makhakhar & Rathas"     :story-equiv "Fairy of milk, fairy of blood — both come, both ask"                   :introduced-in 19}
+   {:id :practice-before-theory :name "Practice before theory" :story-equiv "The kau before the explanation of the kau"                            :introduced-in 19}
+   {:id :belonging-vs-understanding :name "Belonging vs understanding" :story-equiv "The bitan does not understand the peri. He belongs to them"   :introduced-in 19}])
 
 
 (def characters
-  [{:id "thread-walker"     :name "The Thread Walker"          :appears-in [1 4 5 7 8 9 10 11 12] :role "narrator/observer"}
+  [{:id "thread-walker"     :name "The Thread Walker"          :appears-in [1 4 5 7 8 9 10 11 12 13 14 15 16 17 18 19] :role "narrator/observer"}
    {:id "guild-members"     :name "Guild Members"              :appears-in [1]                     :role "collective"}
    {:id "traveller"         :name "The Traveller"              :appears-in [2]                     :role "visitor/observer"}
    {:id "cartographer"      :name "The Cartographer"           :appears-in [2]                     :role "village keeper of the glass plate"}
@@ -485,11 +731,26 @@
    {:id "rest-house-keeper" :name "The Rest-House Keeper"      :appears-in [8]                     :role "silent attendant"}
    {:id "kohli"             :name "The Kohli"                  :appears-in [10 12]                 :role "water master"}
    {:id "weaver"            :name "The Weaver"                 :appears-in [11]                    :role "artisan/teacher"}
-   {:id "grandson"          :name "The Grandson"               :appears-in [12]                    :role "oral historian"}])
+   {:id "grandson"          :name "The Grandson"               :appears-in [12]                    :role "oral historian"}
+   ;; ── Stories 13–19 ──
+   {:id "serai-keeper"      :name "The Serai Keeper"           :appears-in [13]                    :role "register keeper / pattern reader"}
+   {:id "mehra"             :name "Mehra"                      :appears-in [14 15]                 :role "retired Survey of India cartographer"}
+   {:id "kullu-shepherd"    :name "Shepherd from Kullu"        :appears-in [16]                    :role "straight-line grazer"}
+   {:id "kangra-shepherd"   :name "Shepherd from Kangra"       :appears-in [16]                    :role "circle grazer"}
+   {:id "chamba-shepherd"   :name "Shepherd from Chamba"       :appears-in [16]                    :role "water-following grazer"}
+   {:id "karimabad-teacher" :name "Teacher in Karimabad"       :appears-in [16 19]                 :role "multilingual educator / physics graduate"}
+   {:id "gojal-elder"       :name "Old Man in Gojal"           :appears-in [16]                    :role "tradition keeper"}
+   {:id "tato-porter"       :name "Porter at Tato"             :appears-in [16]                    :role "mountain worker / both-faces guide"}
+   {:id "rahim"             :name "Rahim"                      :appears-in [17]                    :role "glacier marriage practitioner"}
+   {:id "guesthouse-keeper" :name "Guesthouse Keeper"          :appears-in [17]                    :role "the mountain breathes"}
+   {:id "survey-man"        :name "The Survey Man"             :appears-in [18]                    :role "archaeological surveyor / cataloguer of a drowning library"}
+   {:id "jeep-driver"       :name "The Jeep Driver"            :appears-in [18]                    :role "silent guide — 'Marks.'"}
+   {:id "dom-musician"      :name "Dom Musician"               :appears-in [19]                    :role "surnai player / hereditary sacred music"}
+   {:id "grandmother"       :name "The Grandmother"            :appears-in [19]                    :role "'Both come. Both ask him to drink.'"}])
 
 
 (def regions
-  [{:id "tirthan"       :name "Tirthan Valley"    :stories [7 10 11 12]
+  [{:id "tirthan"       :name "Tirthan Valley"    :stories [7 10 11 12 13 14 15]
     :geo {:lat 31.60 :lon 77.40}}
    {:id "lahaul-passes" :name "Lahaul / Passes"   :stories [1 5 8]
     :geo {:lat 32.50 :lon 77.10}}
@@ -503,29 +764,46 @@
     :geo {:lat 31.63 :lon 77.35}}
    {:id "abstract"      :name "Abstract"           :stories [6]
     :geo nil}
-   {:id "karakoram"     :name "Karakoram"          :stories []
-    :geo {:lat 35.24 :lon 74.59}}])
+   {:id "karakoram"     :name "Karakoram"          :stories [16]
+    :geo {:lat 35.24 :lon 74.59}}
+   {:id "diamer"        :name "Diamer"             :stories [17 18]
+    :geo {:lat 35.33 :lon 74.35}}
+   {:id "hunza"         :name "Hunza"              :stories [19]
+    :geo {:lat 36.32 :lon 74.65}}])
 
 
 (def edges
   [;; Geography clusters
-   {:type :geography :stories [7 10 11 12] :region "tirthan"}
-   {:type :geography :stories [1 5 8]      :region "lahaul-passes"}
+   {:type :geography :stories [7 10 11 12 13 14 15] :region "tirthan"}
+   {:type :geography :stories [1 5 8]               :region "lahaul-passes"}
+   {:type :geography :stories [17 18]               :region "diamer"}
    ;; Character threads
    {:type :character :character "kohli"         :stories [10 12]}
-   {:type :character :character "thread-walker" :stories [1 4 5 7 8 9 10 11 12]}
+   {:type :character :character "mehra"         :stories [14 15]}
+   {:type :character :character "karimabad-teacher" :stories [16 19]}
+   {:type :character :character "thread-walker" :stories [1 4 5 7 8 9 10 11 12 13 14 15 16 17 18 19]}
    ;; Concept bridges
    {:type :concept :link [:mechanism :mechanism-gradient]     :stories [10 12]}
    {:type :concept :link [:relay :sutra-relay]                :stories [1 12]}
    {:type :concept :link [:commissioning :commissioning-two]  :stories [7 10]}
+   {:type :concept :link [:commissioning :commissioning-as-grafting] :stories [7 17]}
    {:type :concept :link [:spirit-vs-mechanism :spirit-vs-body] :stories [10 11]}
+   {:type :concept :link [:harness :chorong-as-harness]       :stories [1 17]}
+   {:type :concept :link [:substrate :substrate-independence] :stories [1 19]}
+   {:type :concept :link [:petroglyph-stratigraphy :petroglyph-stratigraphy-18] :stories [16 18]}
+   {:type :concept :link [:spirit-possession :trance-language] :stories [16 19]}
+   {:type :concept :link [:convention :music-as-protocol]     :stories [12 19]}
+   {:type :concept :link [:embodied-database :symbol-vs-behaviour] :stories [3 18]}
    ;; Concept lineages
    {:type :concept-lineage :concept :ideal-viewer                    :stories [2 4 8]}
    {:type :concept-lineage :concept :ground-state                    :stories [2 7 9 11]}
    {:type :concept-lineage :concept :sutra-relay                     :stories [1 5 12]}
    {:type :concept-lineage :concept :thread-holding                  :stories [8 11]}
    {:type :concept-lineage :concept :knowledge-transmission-failure  :stories [3 12]}
-   {:type :concept-lineage :concept :embodied-database               :stories [3 9]}])
+   {:type :concept-lineage :concept :embodied-database               :stories [3 9]}
+   {:type :concept-lineage :concept :composite-knowledge             :stories [15 16]}
+   {:type :concept-lineage :concept :accumulation                    :stories [13 18]}
+   {:type :concept-lineage :concept :convergence-at-junctions        :stories [13 16]}])
 
 
 ;;; ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -633,7 +911,29 @@
              {:lat 31.48 :lon 78.38}
              {:lat 31.42 :lon 78.26}
              {:lat 31.38 :lon 78.15}
-             {:lat 31.35 :lon 78.05}]}])
+             {:lat 31.35 :lon 78.05}]}
+   ;; ── Karakoram rivers ──
+   {:id "indus"
+    :name "Indus"
+    :points [{:lat 36.30 :lon 74.80}
+             {:lat 36.05 :lon 74.65}
+             {:lat 35.85 :lon 74.55}
+             {:lat 35.60 :lon 74.40}
+             {:lat 35.42 :lon 74.10}
+             {:lat 35.30 :lon 73.95}
+             {:lat 35.10 :lon 74.00}
+             {:lat 34.90 :lon 74.10}]}
+   {:id "hunza-river"
+    :name "Hunza"
+    :points [{:lat 36.85 :lon 75.40}
+             {:lat 36.60 :lon 75.00}
+             {:lat 36.32 :lon 74.65}
+             {:lat 36.05 :lon 74.65}]}
+   {:id "gilgit-river"
+    :name "Gilgit"
+    :points [{:lat 36.10 :lon 74.00}
+             {:lat 35.92 :lon 74.20}
+             {:lat 35.85 :lon 74.55}]}])
 
 (def ridges
   [{:id "great-himalayan"
@@ -658,13 +958,29 @@
              {:lat 32.15 :lon 76.70}
              {:lat 32.00 :lon 76.85}
              {:lat 31.85 :lon 77.00}
-             {:lat 31.70 :lon 77.15}]}])
+             {:lat 31.70 :lon 77.15}]}
+   ;; ── Karakoram ridges ──
+   {:id "karakoram-range"
+    :name "Karakoram Range"
+    :points [{:lat 36.80 :lon 75.60}
+             {:lat 36.50 :lon 75.20}
+             {:lat 36.20 :lon 74.90}
+             {:lat 35.90 :lon 74.60}
+             {:lat 35.60 :lon 74.30}
+             {:lat 35.30 :lon 74.00}]}
+   {:id "nanga-parbat-massif"
+    :name "Nanga Parbat"
+    :points [{:lat 35.40 :lon 74.30}
+             {:lat 35.24 :lon 74.59}
+             {:lat 35.10 :lon 74.80}]}])
 
 (def passes
   [{:id "rohtang"      :name "Rohtang"       :geo {:lat 32.37 :lon 77.25}}
    {:id "jalori"       :name "Jalori"        :geo {:lat 31.53 :lon 77.37}}
    {:id "chandrakhani" :name "Chandrakhani"  :geo {:lat 31.90 :lon 77.30}}
-   {:id "pin-parvati"  :name "Pin Parvati"   :geo {:lat 32.05 :lon 77.55}}])
+   {:id "pin-parvati"  :name "Pin Parvati"   :geo {:lat 32.05 :lon 77.55}}
+   {:id "khunjerab"    :name "Khunjerab"    :geo {:lat 36.85 :lon 75.42}}
+   {:id "babusar"      :name "Babusar"      :geo {:lat 35.16 :lon 74.00}}])
 
 (def towns
   [{:id "kullu"   :name "Kullu"   :geo {:lat 31.96 :lon 77.10}}
@@ -675,4 +991,10 @@
    {:id "rampur"  :name "Rampur"  :geo {:lat 31.45 :lon 77.63}}
    {:id "mandi"   :name "Mandi"   :geo {:lat 31.71 :lon 76.93}}
    {:id "kasol"   :name "Kasol"   :geo {:lat 32.01 :lon 77.32}}
-   {:id "banjar"  :name "Banjar"  :geo {:lat 31.64 :lon 77.34}}])
+   {:id "banjar"      :name "Banjar"      :geo {:lat 31.64 :lon 77.34}}
+   ;; ── Karakoram towns ──
+   {:id "gilgit"      :name "Gilgit"      :geo {:lat 35.92 :lon 74.31}}
+   {:id "chilas"      :name "Chilas"      :geo {:lat 35.42 :lon 74.10}}
+   {:id "karimabad"   :name "Karimabad"   :geo {:lat 36.32 :lon 74.65}}
+   {:id "skardu"      :name "Skardu"      :geo {:lat 35.30 :lon 75.63}}
+   {:id "tato"        :name "Tato"        :geo {:lat 35.28 :lon 74.55}}])
