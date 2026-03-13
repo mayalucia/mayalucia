@@ -1,0 +1,141 @@
+#+title: WP-0046 — Shepherded Execution: Tool-less Substrate Through a Full WP
+#+subtitle: Validate power/skill/body decomposition at the lowest autonomy level
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status drafted
+#+property: executor mu2tau
+#+property: guild apprentis
+
+* Genesis
+
+While triaging WP-0034 finding #4 (skill injection requires runtime
+file reading), mu2tau observed that the gaddi mechanism already
+shepherds tool-less substrates through complex tasks — WP-0037 proved
+this with 10 substrates. The next question: can a shepherded substrate
+execute a full WP, not just a single power? The power/skill/body
+decomposition predicts yes — the power stays the same, only the skill
+binding changes. In case 1 (self-serving) the agent reads and writes
+files. In case 2 (shepherded) the gaddi reads files into the context
+window and writes agent output to disk. In case 3 (manual) the human
+pastes in and copies out. The mechanism is a skill-layer concern, not
+a power-layer concern.
+
+* Context
+
+WP-0037 demonstrated that gaddi can shepherd a substrate through a
+single power (=author-wp=). But a full WP execution involves multiple
+powers in sequence: reading the sūtra (=relay-read=), understanding
+the project (=orient-to-mayalucia=), surveying the landscape, drafting
+artifacts, and announcing results. Each of these requires file access
+that a tool-less substrate cannot provide for itself.
+
+The gaddi body (=~/.doom.d/gaddi.el=) already handles prompt queuing,
+response harvesting, and watchdog timeouts. What's missing is a skill
+binding that translates multi-power WP execution into a sequence of
+shepherded prompts — injecting file contents before each step, and
+writing agent output to disk after each response.
+
+This experiment tests whether the three-layer decomposition holds
+under the most constrained condition: a substrate that can think but
+cannot act.
+
+* Specification
+
+** Task
+
+Select a concrete WP (small scope, clear acceptance criteria) and
+execute it entirely through a shepherded gptel session with a
+tool-less substrate. The gaddi mechanism provides all file I/O.
+
+** Candidate WPs for the test
+
+| WP   | Why suitable                                           |
+|------+--------------------------------------------------------|
+| 0043 | Tagging — reads files, applies tags, extends catalog.  |
+|      | Bounded scope (one file at a time). Clear output.      |
+| 0044 | Convention extension — reads one doc, edits it.        |
+|      | Very small scope. Good first test.                     |
+
+** Autonomy spectrum
+
+| Level          | Who reads files | Who writes artifacts | Mechanism    |
+|----------------+-----------------+----------------------+--------------|
+| Self-serving   | Agent           | Agent                | Claude Code  |
+| Shepherded     | Gaddi           | Gaddi                | gptel + body |
+| Manual         | Human           | Human                | paste/copy   |
+
+This experiment targets the *shepherded* level.
+
+** Protocol
+
+1. Select substrate (prefer one that performed well in WP-0037 without
+   tools — e.g. DeepSeek, Kimi)
+2. Select WP (start with 0044 — smallest scope)
+3. Build a gaddi prompt queue that mirrors the WP's execution order:
+   - Prompt 1: inject =orient-to-mayalucia= power + project context
+   - Prompt 2: inject the target document + WP specification
+   - Prompt 3: ask for the revision (the agent produces text)
+   - Prompt 4: inject result back for self-review
+4. Gaddi writes each agent response to =.lab/shepherded-execution/=
+5. Human reviews agent output, applies to codebase if correct
+
+** Measurements
+
+| Metric                       | What it reveals                              |
+|------------------------------+----------------------------------------------|
+| Task completion (yes/no)     | Can a tool-less substrate execute a full WP? |
+| Prompt count                 | Overhead of shepherding vs self-serving      |
+| Quality of output            | Does shepherding degrade the work?            |
+| Points of confusion          | Where does the agent struggle without tools? |
+| Gaddi modifications needed   | What skill-layer work does shepherding need? |
+
+* Execution Order
+
+#+begin_example
+1. Choose substrate and WP                               (prepare)
+2. Design gaddi prompt queue for the WP                  (prepare)
+3. Run the shepherded session                            (execute)
+4. Review output, compare to self-served execution       (analyse)
+5. Document findings in .lab/shepherded-execution/       (report)
+#+end_example
+
+* Acceptance Criteria
+
+- [ ] One WP executed entirely through shepherded mechanism
+- [ ] Agent output reviewed and assessed for correctness
+- [ ] Comparison notes: shepherded vs self-served (if same WP done both ways)
+- [ ] Findings documented
+
+* What This Proves
+
+1. The power/skill/body decomposition holds at the lowest autonomy
+   level — a substrate that cannot act can still execute meaningful
+   work when shepherded
+2. Skill binding is genuinely a separate concern from the power itself
+3. The gaddi mechanism generalises from single-power shepherding
+   (WP-0037) to multi-power WP execution
+
+#+begin_insight
+The autonomy spectrum (self-serving → shepherded → manual) maps onto
+a familiar pattern in cognitive science: the scaffolding-fading
+continuum. A novice (tool-less substrate) needs full scaffolding
+(gaddi injects everything). An expert (Claude Code) self-serves. The
+interesting question is whether a substrate can /learn/ to need less
+scaffolding across sessions — but that requires persistent state,
+which is a separate research thread.
+#+end_insight
+
+* Dependencies
+
+|   WP | Relationship                                           |
+|------+--------------------------------------------------------|
+| 0037 | Gaddi infrastructure and substrate selection reused    |
+| 0034 | Finding #4 motivates this experiment                   |
+| 0044 | Candidate WP for the test (smallest scope)             |
+
+* Open Questions
+
+- Should the agent know it's being shepherded, or should the prompt
+  present file contents as if the agent read them itself?
+- Can the gaddi prompt queue be generated automatically from a WP's
+  Execution Order section, or must it be hand-crafted per WP?

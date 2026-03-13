@@ -1,0 +1,238 @@
+#+title: WP-0043 — Org Tagging: Document Registry Navigation
+#+subtitle: Tag all project Org files with filetags and headline tags; build a tag catalog; test as substrate experiment
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status drafted
+#+property: executor tbd
+#+property: guild apprentis
+
+* Context
+
+The project has 62+ Org files across =workpacks/=, =develop/=, and
+=aburaya/=. Navigation relies on memory, filename convention, and
+grep. Org's native tag system (=#+filetags:= and headline tags) is
+unused. As the project grows, discoverability — not availability — is
+the bottleneck (WP-0042 insight).
+
+Tagging is also a substrate experiment: reading a document, choosing
+the right tags, and extending the catalog requires /judgment/, not
+just comprehension. Different substrates will see different concerns
+in the same document. The tag catalog's evolution across substrates is
+itself data for the apprentis guild.
+
+* Inventory
+
+** Document census
+
+62 Org files across three directories:
+
+| Directory     | Count | Character                                  |
+|---------------+-------+--------------------------------------------|
+| =workpacks/=    |    42 | WPs: specifications, experiments, surveys  |
+| =develop/=      |    15 | Conventions, devlog, philosophy, glossary  |
+| =aburaya/=      |     5 | Governance, commissioning, capabilities    |
+
+** Existing metadata
+
+WPs already carry =#+property: status=, =#+property: executor=, and
+=#+property: guild= in their headers. These are queryable via Org
+property search but not via the tag system. The tagging should
+complement, not duplicate, existing properties.
+
+* Specification
+
+** 1. Tagging protocol
+
+For each Org file, a two-phase process:
+
+*Phase A — Headlines (bottom-up)*
+
+1. Read the file's headlines (all levels, down to the finest)
+2. Tag each headline with =:tag1:tag2:= drawn from the catalog
+3. Produce a brief summary of the file (constrained by context)
+4. If no existing tag fits a headline, propose a new tag with a
+   one-line definition. Record the addition.
+
+*Phase B — Filetags (top-down)*
+
+5. From the set of headline tags and the summary, derive =#+filetags:=
+6. Add the =#+filetags:= line after existing =#+property:= lines
+
+This two-phase design keeps context manageable — large files need not
+be sent whole to the substrate. The headline scan (Phase A) is the
+expensive read; filetag derivation (Phase B) works from the Phase A
+output.
+
+Going forward, when new content is written (new files, new headlines,
+or edits to existing headlines), the author tags that content
+incrementally. The full-file pass is a one-time cost.
+
+#+begin_insight
+The two-phase design mirrors the sutradhar companion's
+perception-cognition loop: Phase A is /attend/ (scan the document, tag
+what you see — like =attend-working-context=), Phase B is /synthesise/
+(derive the whole from the parts — like =hold-the-thread=). If run as
+a substrate experiment, the Phase A → Phase B transition is where
+substrate character will show most clearly — same headlines, different
+filetags.
+#+end_insight
+
+** 2. Tag catalog (seed)
+
+The catalog lives in =develop/tags.org= (Org, not YAML — the audience
+is spirits and humans, not compilers). Tags should be short, lowercase,
+no hyphens (Org convention: underscores or single words).
+
+Seed catalog approved by mu2tau (2026-03-13):
+
+*** Concern tags (what it's about)
+
+| Tag           | Meaning                                         |
+|---------------+-------------------------------------------------|
+| =architecture=  | Power/skill/body decomposition, layers          |
+| =substrate=     | Substrate diversity, lineage comparison         |
+| =orchestration= | Dispatch, gaddi, multi-agent coordination       |
+| =identity=      | Spirit naming, commissioning, identity.yaml     |
+| =governance=    | Lifecycle, conventions, decision protocols      |
+| =story=         | Fiction, narrative, illustration                |
+| =ecology=       | Surveys, gazetteers, geographic knowledge       |
+| =harness=       | Claude Code, gptel, agent-shell specifics       |
+| =experiment=    | Controlled tests, measurements, data collection |
+| =theory=        | Apprentis research, situational awareness       |
+
+*** Guild tags (which guild cares)
+
+Use guild names directly: =apprentis=, =epistem=, =bravli=, =mayalucia=, =percept=, =parbati=.
+
+*** Status tags (for WPs — mirrors property but enables tag filtering)
+
+| Tag          | Meaning                   |
+|--------------+---------------------------|
+| =completed=    | Work done, criteria met   |
+| =executing=    | In progress               |
+| =drafted=      | Written, not yet approved |
+| =superseded=   | Replaced by another WP   |
+
+*** Type tags (document kind)
+
+| Tag          | Meaning                            |
+|--------------+------------------------------------|
+| =wp=           | Work package                       |
+| =convention=   | Convention/standard document       |
+| =registry=     | Identity, guild, capability record |
+
+** 3. Reading order
+
+The tagger reads in this order (most foundational first, so tags stabilise early):
+
+*Phase 1 — Foundation (5 files)*
+
+| # | File                           | Why first                     |
+|---+--------------------------------+-------------------------------|
+| 1 | =develop/glossary.org=           | Defines vocabulary            |
+| 2 | =develop/work-packages.org=      | Defines WP convention         |
+| 3 | =aburaya/governance.org=         | Scientific methodology        |
+| 4 | =aburaya/capabilities.org=       | Power/skill/body architecture |
+| 5 | =aburaya/commissioning.org=      | Spirit creation protocol      |
+
+*Phase 2 — Conventions (10 files)*
+
+|  # | File                            | Why                   |
+|----+---------------------------------+-----------------------|
+|  6 | =develop/story-development.org=   | Story convention      |
+|  7 | =develop/orchestration.org=       | Dispatch/coordination |
+|  8 | =develop/lab.org=                 | .lab/ convention      |
+|  9 | =develop/ecological-surveys.org=  | Survey convention     |
+| 10 | =develop/illustrated-surveys.org= | Illustration pipeline |
+| 11 | =develop/review-practice.org=     | Review convention     |
+| 12 | =develop/co-ownership.org=        | Collaboration model   |
+| 13 | =develop/guiding-philosophy.org=  | Philosophy            |
+| 14 | =develop/DEVELOPMENT.org=         | Development overview  |
+| 15 | =develop/devlog.org=              | Chronological log     |
+
+*Phase 3 — Remaining aburaya (2 files)*
+
+|  # | File                      | Why                    |
+|----+---------------------------+------------------------|
+| 16 | =aburaya/kamaji.org=        | Session restoration    |
+| 17 | =aburaya/governance-v0.org= | Historical predecessor |
+
+*Phase 4 — Work packages (42 files, by number)*
+
+WPs 0001 through 0042 in numerical order. This is the bulk. Each WP is a self-contained read — the tagger applies filetags + headline tags, drawing from the catalog built in Phases 1–3.
+
+** 4. Progress tracking table
+
+A table in this WP, updated as files are tagged:
+
+| # | File | Filetags | Headlines tagged | New tags added | Tagger |
+|---+------+----------+------------------+----------------+--------|
+|   |      |          |                  |                |        |
+
+(One row per file, filled during execution.)
+
+** 5. Substrate experiment dimension
+
+If run across multiple substrates:
+
+| Metric                  | What it reveals                              |
+|-------------------------+----------------------------------------------|
+| Tags per file           | Granularity of attention                     |
+| New tags proposed       | Conceptual range — what the substrate /sees/   |
+| Catalog growth curve    | When tags stabilise (diminishing new tags)   |
+| Tag agreement (overlap) | Inter-substrate reliability                  |
+| Time per file           | Efficiency across architectures              |
+
+* Execution Order
+
+#+begin_example
+1. Human reviews seed catalog, adjusts                    (triage)
+2. Create develop/tags.org with approved catalog          (prepare)
+3. Tag Phase 1 files (5 foundation docs)                  (execute)
+4. Review catalog — add any new tags from Phase 1         (checkpoint)
+5. Tag Phase 2 files (10 convention docs)                 (execute)
+6. Tag Phase 3 files (2 aburaya docs)                     (execute)
+7. Tag Phase 4 files (42 WPs)                             (execute)
+8. Final catalog reconciliation                           (analyse)
+#+end_example
+
+For the substrate experiment variant, Steps 3–7 are repeated per
+substrate, each starting from the same seed catalog.
+
+* Acceptance Criteria
+
+- [ ] Tag catalog created at =develop/tags.org=
+- [ ] All 62 Org files have =#+filetags:= lines
+- [ ] All 62 Org files have headline tags (all levels)
+- [ ] Progress tracking table completed
+- [ ] Tag catalog reflects all tags actually used
+
+* What This Proves
+
+1. The project's document space is navigable via Org's native tag system
+2. Tagging judgment varies across substrates (if run as experiment)
+3. The tag catalog stabilises — most tags are discovered in Phases 1–2
+4. =org-agenda= tag filtering becomes a viable navigation tool
+
+* Dependencies
+
+|   WP | Relationship                                            |
+|------+---------------------------------------------------------|
+| 0042 | Discoverability finding motivates this WP               |
+| 0034 | Capabilities revision may add/change architectural tags |
+
+* Settled Questions
+
+- *Headline depth:* all levels, down to the finest. One-time cost;
+  incremental tagging going forward.
+- *Catalog format:* Org file (=develop/tags.org=). The audience is
+  spirits (LLM substrate) and humans (brain substrate). YAML is for
+  a mechanism's compiler.
+- *Tagging protocol:* two-phase (headlines first, filetags derived).
+  Large files need not be sent whole to the substrate.
+
+* Open Questions
+
+- Should status tags duplicate the =#+property: status= value, or
+  should we rely on property search for status and use tags only for
+  concern?

@@ -10,11 +10,11 @@ Each layer has a different owner, a different lifetime, and a different
 portability. Conflating them produces confusion; separating them
 produces clarity.
 
-| Layer | Owned by | Lives at | Bound to | Portable? |
-|-------+----------+----------+----------+-----------|
-| *Power* | Spirit | =aburaya/powers/= | Nothing | Yes — survives harness change |
-| *Skill* | Agent | harness config | Harness | No — harness-specific |
-| *Body* | Host | host wiring | Machine | No — machine-specific |
+| Layer | Owned by | Lives at        | Bound to | Portable?                     |
+|-------+----------+-----------------+----------+-------------------------------|
+| *Power* | Spirit   | =aburaya/powers/= | Nothing  | Yes — survives harness change |
+| *Skill* | Agent    | harness config  | Harness  | No — harness-specific         |
+| *Body*  | Host     | host wiring     | Machine  | No — machine-specific         |
 
 ** Power (spirit layer)
 
@@ -65,20 +65,20 @@ Not all spirits need bodies. A spirit that runs in a summoned session
 tools. A companion spirit that persists alongside the human's work
 needs a body to perceive and act.
 
-| Spirit type | Body needed? | Example |
-|-------------+--------------+---------|
-| Summoned | No | epistem-guardian executing a survey |
-| Companion | Yes | sutradhar-guardian in sidebar |
-| Daemon | Minimal | a CI/CD spirit triggered by git hooks |
+| Spirit type | Body needed? | Example                               |
+|-------------+--------------+---------------------------------------|
+| Summoned    | No           | epistem-guardian executing a survey   |
+| Companion   | Yes          | sutradhar-guardian in sidebar         |
+| Daemon      | Minimal      | a CI/CD spirit triggered by git hooks |
 
 ** The MCP/A2A distinction
 
 These three layers map to two inter-agent communication patterns:
 
-| Protocol | What it connects | Our layer |
-|----------+------------------+-----------|
-| MCP (agent-to-tool) | Spirit to harness tools | Skill |
-| A2A (agent-to-agent) | Spirit to spirit | Exported power |
+| Protocol             | What it connects        | Our layer      |
+|----------------------+-------------------------+----------------|
+| MCP (agent-to-tool)  | Spirit to harness tools | Skill          |
+| A2A (agent-to-agent) | Spirit to spirit        | Exported power |
 
 MCP is vertical: the spirit reaches down through its skill bindings
 to use tools (file operations, git, web search). A2A is horizontal:
@@ -113,14 +113,14 @@ specificity is needed.
 
 ** Recommended sections (use when appropriate)
 
-| Section | When to include |
-|---------+-----------------|
-| Purpose | Always |
+| Section                      | When to include                                                    |
+|------------------------------+--------------------------------------------------------------------|
+| Purpose                      | Always                                                             |
 | Relationship to Other Powers | When the power is part of a composition (e.g. attend → hold → lay) |
-| Key Principles | Always — the invariants |
-| Pairing / Used by | When multiple spirits share the power |
-| Constraints / What NOT to do | When the boundary is non-obvious |
-| Protocol / How It Works | When there is a step-by-step procedure |
+| Key Principles               | Always — the invariants                                            |
+| Pairing / Used by            | When multiple spirits share the power                              |
+| Constraints / What NOT to do | When the boundary is non-obvious                                   |
+| Protocol / How It Works      | When there is a step-by-step procedure                             |
 
 ** Authorship
 
@@ -131,15 +131,21 @@ definition. The power's provenance is recorded in =identity.yaml=
 
 ** Current inventory
 
-| Power | Purpose | Held by |
-|-------+---------+---------|
-| =relay-read= | Read the sūtra for relevant messages | All spirits |
-| =story-compose= | Compose fiction set in MāyāLucIA's world | sutradhar-guardian |
-| =summarize-corpus= | Distill a body of text into structured summary | epistem-guardian |
-| =org-content-workflow= | Org → Hugo content pipeline | sutradhar-guardian |
-| =attend-working-context= | Perceive editor events | sutradhar-guardian (companion) |
-| =hold-the-thread= | Maintain continuity across transitions | sutradhar-guardian (companion) |
-| =lay-the-warp= | Deposit structured understanding as s-expression | sutradhar-guardian (companion) |
+| Power                    | Purpose                                          | Held by                        |
+|--------------------------+--------------------------------------------------+--------------------------------|
+| =relay-read=               | Read the sūtra for relevant messages             | All spirits                    |
+| =manage-wp-lifecycle=      | Transition WP status and announce in relay       | All spirits                    |
+| =author-wp=                | Draft a work package from survey to specification | All spirits                    |
+| =author-dispatch-plan=     | Compose a DAG of WPs for coordinated execution   | mayadev                        |
+| =orient-to-mayalucia=      | Cold-start orientation to the project            | All spirits (onboarding)       |
+| =story-compose=            | Compose fiction set in MāyāLucIA's world         | sutradhar-guardian             |
+| =summarize-corpus=         | Distill a body of text into structured summary   | epistem-guardian               |
+| =org-content-workflow=     | Org → Hugo content pipeline                      | sutradhar-guardian             |
+| =editorial-design=         | Steward a project's visual identity              | cruvin-guardian                |
+| =attend-working-context=   | Perceive editor events                           | sutradhar-guardian (companion) |
+| =hold-the-thread=          | Maintain continuity across transitions           | sutradhar-guardian (companion) |
+| =lay-the-warp=             | Deposit structured understanding as s-expression | sutradhar-guardian (companion) |
+| =gaddi=                    | Orchestrate substrate sessions through a task    | mayadev                        |
 
 
 * Exported Powers
@@ -260,15 +266,15 @@ drafted → tightened → executing → completed
                                failed
 #+end_example
 
-| State | Meaning | Transition by |
-|-------+---------+---------------|
-| =drafted= | WP written, not yet reviewed | Author (spirit or human) |
-| =tightened= | Spec reviewed and approved | Human |
-| =executing= | Agent working on the WP | Executing spirit |
-| =input-required= | Agent blocked, needs human input | Executing spirit |
-| =resumed= | Human provided input, work continues | Human |
-| =completed= | Acceptance criteria met | Executing spirit + human |
-| =failed= | Cannot complete, reasons documented | Executing spirit |
+| State          | Meaning                              | Transition by            |
+|----------------+--------------------------------------+--------------------------|
+| =drafted=        | WP written, not yet reviewed         | Author (spirit or human) |
+| =tightened=      | Spec reviewed and approved           | Human                    |
+| =executing=      | Agent working on the WP              | Executing spirit         |
+| =input-required= | Agent blocked, needs human input     | Executing spirit         |
+| =resumed=        | Human provided input, work continues | Human                    |
+| =completed=      | Acceptance criteria met              | Executing spirit + human |
+| =failed=         | Cannot complete, reasons documented  | Executing spirit         |
 
 ** Lifecycle messages
 

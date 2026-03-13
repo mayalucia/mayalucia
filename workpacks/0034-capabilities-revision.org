@@ -6,52 +6,87 @@
 #+property: executor mayadev
 #+property: guild apprentis
 
+* Genesis
+
+WP-0030 (substrate diversity experiment) produced 16 findings about harness bias in =capabilities.org=. WP-0035 extended the experiment to 4 additional lineages × 2 tool-access conditions, adding 8 new findings and confirming several originals. WP-0037 (author-wp across 10 substrates) surfaced a housekeeping finding (#29: stale power inventory). The accumulated 29 findings sat as a TODO(human) triage for several sessions. During the session that closed WP-0033, mu2tau asked about the triage, which became the session's main work.
+
 * Context
 
-WP-0030, WP-0031, and WP-0035 collectively produced harness-bias
-findings from 7 lineages across 2 tool-access conditions (14 sessions
-total). These findings are a concrete punch list for revising
-=aburaya/capabilities.org= to achieve genuine harness neutrality.
+WP-0030, WP-0031, and WP-0035 collectively produced harness-bias findings from 7 lineages across 2 tool-access conditions (14 sessions total). These findings are a concrete punch list for revising =aburaya/capabilities.org= to achieve genuine harness neutrality.
 
-The original 16 findings from WP-0030 (3 lineages) are retained
-below. WP-0035 (4 new lineages × 2 conditions) added 8 new findings
-and confirmed several existing ones with independent evidence.
+The original 16 findings from WP-0030 (3 lineages) are retained below. WP-0035 (4 new lineages × 2 conditions) added 8 new findings and confirmed several existing ones with independent evidence.
 
 * Inventory
 
 ** Original findings (WP-0030: Claude, Gemini, DeepSeek)
 
-| # | Finding | Source | Type |
-|---+---------+--------+------|
-| 1 | MCP/A2A terminology is Claude-specific | DeepSeek | revision |
-| 2 | Concrete skill-binding examples taken as normative | DeepSeek | revision |
-| 3 | Assumption of tool-calling protocol | DeepSeek | revision |
-| 4 | Skill injection requires runtime file reading | DeepSeek | revision |
-| 5 | Dispatch message format details are project convention, not architecture | DeepSeek | revision |
-| 6 | Body layer examples are Emacs-centric | DeepSeek | revision |
-| 7 | "the current CLAUDE.md" as worksite prompt | Claude | revision |
-| 8 | Sub-session spawning assumes Claude Code Task tool | Claude | revision |
-| 9 | Commissioning steps 2-4 use gh CLI | Claude | note |
-| 10 | "Write the module's CLAUDE.md" naming | Claude | revision |
-| 11 | character.system_prompt references CLAUDE.md | Claude | revision |
-| 12 | memory.auto references ~/.claude/projects/ | Claude | revision |
-| 13 | attend-working-context assumes event stream | Gemini | note |
-| 14 | relay-write is implicit, not explicit | Claude | addition |
-| 15 | The ironic gap (gptel inside Emacs but no elisp eval) | Gemini | note |
-| 16 | No mechanism for gptel sub-agent spawning | Claude + Gemini | note |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  # | Finding                                                 | Source   | Type     | Location               |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  1 | MCP/A2A terminology is Claude-specific                  | DeepSeek | revision | cap:74–87              |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  2 | Concrete skill-binding examples taken as normative      | DeepSeek | revision | cap:36–49              |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  3 | Assumption of tool-calling protocol                     | DeepSeek | revision | cap:80–81              |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  4 | Skill injection requires runtime file reading           | DeepSeek | revision | cap:179–219            |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  5 | Dispatch message format details are project convention, | DeepSeek | revision | cap:302–316            |
+|    | not architecture                                        |          |          |                        |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  6 | Body layer examples are Emacs-centric                   | DeepSeek | revision | cap:53–66              |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  7 | "the current CLAUDE.md" as worksite prompt              | Claude   | revision | cap:201                |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  8 | Sub-session spawning assumes Claude Code Task tool      | Claude   | revision | cap:237–249            |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+|  9 | Commissioning steps 2-4 use gh CLI                      | Claude   | note     | comm:121–129           |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+| 10 | "Write the module's CLAUDE.md" naming                   | Claude   | revision | comm:151–156           |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+| 11 | character.system_prompt references CLAUDE.md            | Claude   | revision | cap:159–168            |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+| 12 | memory.auto references ~/.claude/projects/              | Claude   | revision | comm:82                |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+| 13 | attend-working-context assumes event stream             | Gemini   | note     | power:attend-wc        |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+| 14 | relay-write is implicit, not explicit                   | Claude   | addition | (no text yet)          |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+| 15 | The ironic gap (gptel inside Emacs but no elisp eval)   | Gemini   | note     | (architectural)        |
+|----+---------------------------------------------------------+----------+----------+------------------------|
+| 16 | No mechanism for gptel sub-agent spawning               | Claude   | note     | (architectural)        |
+|    |                                                         | + Gemini |          |                        |
+|----+---------------------------------------------------------+----------+----------+------------------------|
 
 ** New findings (WP-0035: GPT-5.2, Grok 4.1, GLM-5, MiniMax M2.5)
 
-| # | Finding | Source | Type |
-|---+---------+--------+------|
-| 17 | No Harness Interface Contract — need abstract ArtifactStore, Tooling, Transport, Identity, Evaluation | GPT-5.2 | addition |
-| 18 | Implementation nouns should be abstract terms + examples ("sūtra relay" → "EventBus (example: file-based relay/)") | GPT-5.2 | revision |
-| 19 | WP lifecycle semantics should be separated from serialization (Org property is one encoding, not the definition) | GPT-5.2 | revision |
-| 20 | Tool availability should be negotiable, not assumed universal | GPT-5.2 + MiniMax | revision |
-| 21 | Is harness-neutrality even the right goal? Coupling may be correctly localised at the skill layer | GLM-5 | note |
-| 22 | No body binding protocol parallel to skill binding | GLM-5 | addition |
-| 23 | gptel is documented as "second-class citizen" — mentioned but not specified | MiniMax | revision |
-| 24 | Session model is implicit — not all harnesses have the same session lifecycle | GPT-5.2 + MiniMax | addition |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+|  # | Finding                                                       | Source    | Type     | Location               |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 17 | No Harness Interface Contract — need abstract ArtifactStore,  | GPT-5.2   | addition | (no text yet)          |
+|    | Tooling, Transport, Identity, Evaluation                      |           |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 18 | Implementation nouns should be abstract terms + examples      | GPT-5.2   | revision | cap: throughout        |
+|    | ("sūtra relay" → "EventBus (example: file-based relay/)")     |           |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 19 | WP lifecycle semantics should be separated from serialization | GPT-5.2   | revision | cap:256–299            |
+|    | (Org property is one encoding, not the definition)            |           |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 20 | Tool availability should be negotiable, not assumed universal | GPT-5.2   | revision | cap:217–219            |
+|    |                                                               | + MiniMax |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 21 | Is harness-neutrality even the right goal?                    | GLM-5     | note     | (philosophical)        |
+|    | Coupling may be correctly localised at the skill layer        |           |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 22 | No body binding protocol parallel to skill binding            | GLM-5     | addition | cap:51–72              |
+|    |                                                               |           |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 23 | gptel is documented as "second-class citizen"                 | MiniMax   | revision | cap:39–41              |
+|    | — mentioned but not specified                                 |           |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
+| 24 | Session model is implicit                                     | GPT-5.2   | addition | (no text yet)          |
+|    | — not all harnesses have the same session lifecycle           | + MiniMax |          |                        |
+|----+---------------------------------------------------------------+-----------+----------+------------------------|
 
 ** With-tools-specific findings (WP-0035 iteration 2)
 
@@ -59,46 +94,256 @@ These findings emerged only in the with-tools condition and concern
 the /operational/ experience of reading =capabilities.org=, not just
 its text:
 
-| # | Finding | Source | Type |
-|---+---------+--------+------|
-| 25 | Spatial grounding: gptel doesn't inject cwd — spirits can't find project root | all 4 with-tools | addition |
-| 26 | Tool-call serialization: MiniMax emits XML format gptel doesn't parse — power/skill gap made empirical | MiniMax with-tools | note |
-| 27 | Silent tool failure: Grok's tool calls fail with no error and no fallback | Grok with-tools | note |
-| 28 | Identity stabilisation: tool access prevents identity drift (GLM-5 no longer calls itself Claude) | GLM-5 with/without | note |
+|----+----------------------------------------------+--------------+----------+------------------------|
+|  # | Finding                                      | Source       | Type     | Location               |
+|----+----------------------------------------------+--------------+----------+------------------------|
+| 25 | Spatial grounding: gptel doesn't inject cwd  | all 4        | addition | (no text yet)          |
+|    | — spirits can't find project root            | with-tools   |          |                        |
+|----+----------------------------------------------+--------------+----------+------------------------|
+| 26 | Tool-call serialization:                     | MiniMax      | note     | (operational)          |
+|    | MiniMax emits XML format gptel doesn't parse | with-tools   |          |                        |
+|    | — power/skill gap made empirical             |              |          |                        |
+|----+----------------------------------------------+--------------+----------+------------------------|
+| 27 | Silent tool failure:                         | Grok         | note     | (operational)          |
+|    | Grok's tool calls fail with no error         | with-tools   |          |                        |
+|    | and no fallback                              |              |          |                        |
+|----+----------------------------------------------+--------------+----------+------------------------|
+| 28 | Identity stabilisation:                      | GLM-5        | note     | (operational)          |
+|    | tool access prevents identity drift          | with/without |          |                        |
+|    | (GLM-5 no longer calls itself Claude)        |              |          |                        |
+|----+----------------------------------------------+--------------+----------+------------------------|
+
+** Housekeeping finding (WP-0037)
+
+|----+----------------------------------------------+---------+----------+------------------------|
+|  # | Finding                                      | Source  | Type     | Location               |
+|----+----------------------------------------------+---------+----------+------------------------|
+| 29 | Power inventory table is stale — 7 listed,   | WP-0037 | revision | cap:132–148 (fixed)    |
+|    | 13 exist on disk                             |         |          |                        |
+|----+----------------------------------------------+---------+----------+------------------------|
+
+The updated inventory (13 powers) groups naturally into three tiers:
+
+- *Organisational* — held by all spirits: =relay-read=, =manage-wp-lifecycle=,
+  =author-wp=, =orient-to-mayalucia=
+- *Domain* — held by specific guardians: =story-compose=, =editorial-design=,
+  =summarize-corpus=, =org-content-workflow=
+- *Embodiment* — bound to companion spirits: =attend-working-context=,
+  =hold-the-thread=, =lay-the-warp=
+
+Two powers sit outside this grouping: =author-dispatch-plan= (governance,
+mayadev only) and =gaddi= (orchestration, mayadev only). Whether
+orchestration is a fourth tier or a new spirit type is an open question
+(see out-of-scope section below).
+
+** Out-of-scope: WP-0037 architectural findings
+
+WP-0037 also surfaced architectural insights that do /not/ belong in
+this WP's scope (harness-bias text revision). They require separate
+treatment:
+
+- *Survey depth vs specification quality* — inherent tension in powers
+  that combine exploration with artifact production. Belongs in
+  apprentis theory or in the author-wp power definition itself.
+- *Tool configuration as control-plane variable* — same substrate,
+  different tool registry → different autonomy. May imply the
+  three-layer decomposition is incomplete.
+- *Orchestration as capability class* — the gaddi pattern (summoned →
+  companion → daemon → orchestrator?) is missing from the spirit-type
+  taxonomy.
+
+These are deferred to future WPs.
 
 ** Confirmation matrix
 
 Several WP-0035 substrates independently confirmed WP-0030 findings:
 
-| Original finding | Confirmed by (WP-0035) |
-|------------------+------------------------|
+| Original finding                    | Confirmed by (WP-0035)                   |
+|-------------------------------------+------------------------------------------|
 | #2 skill-binding examples normative | GPT-5.2, Grok, GLM-5, MiniMax (all four) |
-| #6 body examples Emacs-centric | GPT-5.2, Grok, MiniMax |
-| #7 CLAUDE.md as worksite prompt | GPT-5.2, GLM-5, MiniMax |
-| #8 sub-session spawning | GPT-5.2 |
-| #1 MCP/A2A Claude-specific | GPT-5.2 |
+| #6 body examples Emacs-centric      | GPT-5.2, Grok, MiniMax                   |
+| #7 CLAUDE.md as worksite prompt     | GPT-5.2, GLM-5, MiniMax                  |
+| #8 sub-session spawning             | GPT-5.2                                  |
+| #1 MCP/A2A Claude-specific          | GPT-5.2                                  |
 
 * Specification
 
-TODO(human): Triage all 28 findings. For each, decide:
-- revision: fix the text in capabilities.org
-- addition: add new content (e.g. Harness Interface Contract section)
-- note: document as known limitation, no text change needed
-- out-of-scope: belongs in a different document (system.md, commissioning.org, identity.yaml)
+** Governing principle
 
-Decisions to make:
-1. Should this WP touch =system.md= too, or only =capabilities.org=?
-2. Finding #17 (Harness Interface Contract) — is this a new section
-   in capabilities.org, or a separate document?
-3. Finding #21 (is harness-neutrality the right goal?) — does this
-   change the scope of the revision, or is it a philosophical note?
+Write in plain English throughout. No industry protocol names (MCP,
+A2A), no harness-specific paths (=~/.claude/skills/=,
+=~/.doom.d/gptel-agents/=), no tool-specific terminology. Describe
+/what the pattern is/, not /what external framework names it/. WP-0045
+tests whether substrates can supply industry terminology themselves.
+
+#+begin_insight
+Plain English is not a stylistic choice — it is the portability
+mechanism. A document written in one vendor's terminology is
+implicitly coupled to that vendor's training data. A document written
+in plain English is coupled to nothing except the reader's
+comprehension. The same logic that separates powers from skills
+(harness-independent from harness-specific) applies to the document
+that describes them.
+#+end_insight
+
+** Triage decisions
+
+*** Finding-level triage
+
+|----+----------+---------------------+-------------------------------------------------|
+|  # | Decision | Cluster             | Revision note                                   |
+|----+----------+---------------------+-------------------------------------------------|
+|  1 | revision | A: cap:74–87        | Plain English. Merge with #3.                   |
+|----+----------+---------------------+-------------------------------------------------|
+|  2 | revision | B: cap:36–49        | Binding patterns, not paths. Merge with #23.    |
+|----+----------+---------------------+-------------------------------------------------|
+|  3 | revision | → merge into A      |                                                 |
+|----+----------+---------------------+-------------------------------------------------|
+|  4 | revision | C: cap:179–219      | Three mechanisms: self-read, shepherded, manual. |
+|----+----------+---------------------+-------------------------------------------------|
+|  5 | revision | D: cap:302–316      | Shrink to concept paragraph, format → convention |
+|----+----------+---------------------+-------------------------------------------------|
+|  6 | revision | E: cap:53–66        | Abstract body patterns, no elisp.               |
+|----+----------+---------------------+-------------------------------------------------|
+|  7 | revision | F: cap:201          | "worksite prompt" not "CLAUDE.md"               |
+|----+----------+---------------------+-------------------------------------------------|
+|  8 | revision | G: cap:237–249      | Delegation patterns incl. shepherded + templates |
+|----+----------+---------------------+-------------------------------------------------|
+|  9 | note     | —                   | comm, not cap. gh CLI is a tool choice.         |
+|----+----------+---------------------+-------------------------------------------------|
+| 10 | revision | H: comm:151–156     | "worksite prompt" (commissioning.org)           |
+|----+----------+---------------------+-------------------------------------------------|
+| 11 | revision | I: cap:159–168      | Adjust prose around YAML example.               |
+|----+----------+---------------------+-------------------------------------------------|
+| 12 | revision | J: comm:82          | Abstract memory concept (commissioning.org)     |
+|----+----------+---------------------+-------------------------------------------------|
+| 13 | note     | —                   | Power's nature, not harness bias.               |
+|----+----------+---------------------+-------------------------------------------------|
+| 14 | revision | K: power rename     | =relay-read= → =relay-protocol= (read + write).    |
+|----+----------+---------------------+-------------------------------------------------|
+| 15 | note     | —                   | Architectural observation.                      |
+|----+----------+---------------------+-------------------------------------------------|
+| 16 | revision | → merge into G      | gptel-agent {AGENT}/{SKILL} templates.          |
+|----+----------+---------------------+-------------------------------------------------|
+| 17 | addition | → emerges from rev  | If gap remains after rewrite, add section.      |
+|----+----------+---------------------+-------------------------------------------------|
+| 18 | revision | → subsumed          | Plain-English policy covers this globally.      |
+|----+----------+---------------------+-------------------------------------------------|
+| 19 | revision | L: cap:256–299      | Separate state machine from Org encoding.       |
+|----+----------+---------------------+-------------------------------------------------|
+| 20 | revision | → merge into C      | Tool availability is harness-dependent.         |
+|----+----------+---------------------+-------------------------------------------------|
+| 21 | note     | —                   | Settled: powers neutral, skills coupled.        |
+|----+----------+---------------------+-------------------------------------------------|
+| 22 | addition | M: cap:51–72        | Body binding protocol (parallel to skill inj.)  |
+|----+----------+---------------------+-------------------------------------------------|
+| 23 | revision | → merge into B      |                                                 |
+|----+----------+---------------------+-------------------------------------------------|
+| 24 | revision | → fold into B, E, G | Session = where layers interact. Not standalone. |
+|----+----------+---------------------+-------------------------------------------------|
+| 25 | note     | → brief in E or B   | Spatial grounding = harness responsibility.     |
+|----+----------+---------------------+-------------------------------------------------|
+| 26 | note     | —                   | Operational (tool-call serialization).          |
+|----+----------+---------------------+-------------------------------------------------|
+| 27 | note     | —                   | Operational (silent tool failure).              |
+|----+----------+---------------------+-------------------------------------------------|
+| 28 | note     | —                   | Operational (identity stabilisation).           |
+|----+----------+---------------------+-------------------------------------------------|
+| 29 | revision | — (fixed)           | Power inventory updated this session.           |
+|----+----------+---------------------+-------------------------------------------------|
+
+*** Structural decisions (resolved)
+
+1. *Scope:* this WP touches =capabilities.org= primarily, plus two
+   findings (H, J) in =commissioning.org=. Does not touch =system.md=.
+2. *Harness Interface Contract (#17):* let it emerge from the
+   plain-English rewrite. If a summary section is still needed after
+   revision, add it then.
+3. *Harness-neutrality goal (#21):* settled — powers are neutral,
+   skills are coupled. The three-layer decomposition already answers
+   this. Record as settled question.
+
+** Revision clusters
+
+14 clusters, ordered by file position in =capabilities.org=:
+
+| Cluster | Location     | Findings   | What to do                                             |
+|---------+--------------+------------+--------------------------------------------------------|
+| B       | cap:36–49    | 2, 23      | Skill: binding patterns, not paths. Equal treatment.   |
+| E       | cap:51–72    | 6, 25      | Body: abstract patterns, spatial grounding note.       |
+| M       | cap:51–72    | 22         | Body binding protocol (new subsection).                |
+| A       | cap:74–87    | 1, 3       | Vertical/horizontal in plain English, no protocol names.|
+| I       | cap:159–168  | 11         | Exports: adjust prose, keep YAML example.              |
+| C       | cap:179–219  | 4, 20      | Skill injection: three mechanisms + negotiable tools.  |
+| F       | cap:201      | 7          | "worksite prompt" not "CLAUDE.md"                      |
+| G       | cap:237–249  | 8, 16      | Execution models: delegation patterns + templates.     |
+| L       | cap:256–299  | 19         | Lifecycle: state machine vs encoding.                  |
+| D       | cap:302–316  | 5          | Dispatch: concept paragraph, format → convention.      |
+| H       | comm:151–156 | 10         | "worksite prompt" (commissioning.org)                  |
+| J       | comm:82      | 12         | Abstract memory concept (commissioning.org)            |
+| K       | power rename | 14         | =relay-read= → =relay-protocol= (add write section).    |
+
+Revise bottom-up (highest line numbers first) to avoid drift.
+
+#+begin_insight
+29 findings compressed to 13 clusters — nearly half the findings
+merge because they are symptoms of the same underlying bias. The
+merges (#1+#3, #2+#23, #4+#20, #8+#16) show that what looked like
+independent observations from different substrates were different
+perspectives on the same gap. Cross-substrate convergence is signal:
+monoculture blindness works in reverse too.
+#+end_insight
+
+** New artifacts
+
+- =aburaya/powers/relay-protocol.md= — renamed from =relay-read.md=, adds write section (finding #14)
+- Body binding protocol subsection in =capabilities.org= (finding #22)
+
+* Execution Order
+
+#+begin_example
+1. Revise capabilities.org clusters D, L, G, F, C, I, A, M, E, B     (cap, bottom-up)
+2. Review: does a Harness Interface Contract section emerge? (#17)     (cap, check)
+3. Revise commissioning.org clusters H, J                             (comm)
+4. Rename relay-read → relay-protocol, add write section (K)          (power)
+5. Update power inventory table + all identity.yaml refs              (cap + aburaya)
+6. Bump capabilities.org date                                          (housekeeping)
+7. Announce in sūtra relay                                             (announce)
+#+end_example
 
 * Acceptance Criteria
 
-- [ ] All 28 findings triaged
-- [ ] capabilities.org revised per triage decisions
+- [X] All 29 findings triaged
+- [ ] capabilities.org revised per triage decisions (13 clusters)
+- [ ] commissioning.org revised (2 clusters)
+- [ ] relay-read renamed to relay-protocol with write section
 - [ ] Changes announced in sūtra relay
+
+* Settled Questions
+
+- *Plain English throughout* — no industry protocol names. WP-0045
+  tests whether substrates can supply their own terminology.
+- *Harness-neutrality goal (#21)* — correctly scoped. Powers are
+  neutral; skills and bodies are intentionally coupled. The three-layer
+  decomposition answers this.
+- *Scope* — capabilities.org + commissioning.org. Not system.md.
+- *Harness Interface Contract (#17)* — let it emerge from the
+  rewrite, don't pre-design.
+- *Relay-write (#14)* — not a separate power. Rename =relay-read= to
+  =relay-protocol=, add write section. One power, both directions.
+- *Session model (#24)* — not a standalone section. Session is the
+  context where skill binding and body wiring take effect. Fold into
+  the skill, body, and execution model sections (clusters B, E, G).
 
 * Dependencies
 
-None — can start immediately. Independent of DP-0005 experiment chain.
+|   WP | Relationship                                               |
+|------+------------------------------------------------------------|
+| 0045 | Substrate vocabulary probe — runs on revised capabilities.org |
+| 0046 | Shepherded execution — validates #4 revision (three mechanisms) |
+
+* Open Questions
+
+- Should the renamed =relay-protocol= power carry the =relay-read.md=
+  filename with a redirect, or should all =identity.yaml= files be
+  updated to reference =relay-protocol= directly?

@@ -1,0 +1,113 @@
+#+title: WP-0045 — Substrate Vocabulary Probe
+#+subtitle: Do substrates recognise industry-standard names for our architectural patterns?
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status drafted
+#+property: executor tbd
+#+property: guild apprentis
+
+* Genesis
+
+While triaging WP-0034 finding #1 (MCP/A2A terminology is
+Claude-specific), mu2tau decided the capabilities document should use
+plain English throughout — no protocol names, no framework references.
+This raised an immediate question: if we describe our patterns in
+plain English, can substrates /name/ them? Do different lineages reach
+for different terminology? The capabilities revision (WP-0034) removes
+the external vocabulary; this WP tests what vocabulary substrates
+bring to fill the gap.
+
+* Context
+
+The capability architecture uses three patterns that have widely-known
+names in industry:
+
+1. *Vertical tool integration* — a spirit reaches through its harness
+   to use tools (file operations, git, search). Industry calls this
+   MCP, tool-use, function-calling, or agent-tool protocol depending
+   on lineage and era.
+
+2. *Horizontal agent collaboration* — one spirit uses another spirit's
+   exported power. Industry calls this A2A, inter-agent communication,
+   multi-agent orchestration, or agent-to-agent protocol.
+
+3. *Power/skill/body decomposition* — separating what a spirit can do
+   (portable) from how it does it (harness-bound) from the wiring that
+   connects it to the environment (host-bound). Industry analogues
+   include capability/adapter/driver, intent/binding/runtime, or the
+   abstract/concrete/platform pattern.
+
+After WP-0034 revises =capabilities.org= to plain English, we have a
+natural experimental surface: give substrates the revised document and
+ask them to identify terminology for what they see.
+
+* Specification
+
+** Task
+
+For each substrate, present the revised =capabilities.org= (post
+WP-0034) and ask:
+
+#+begin_quote
+Read this document. For each architectural pattern described, name
+any industry-standard terms, protocols, or frameworks that describe
+the same pattern. Give the term, its source (paper, protocol spec,
+framework), and how closely it maps.
+#+end_quote
+
+** Substrates
+
+Same set as WP-0037 Phase 2 (10 substrates), or a subset if
+cost-constrained. Minimum: one per major lineage family (Claude,
+GPT, Gemini, DeepSeek, open-weight).
+
+** Measurements
+
+| Metric                      | What it reveals                                     |
+|-----------------------------+-----------------------------------------------------|
+| Terms per pattern           | Vocabulary richness per substrate                   |
+| Term overlap across lineages | Shared vs lineage-specific knowledge                |
+| Precision of mapping        | Does the substrate understand the /pattern/ or just  |
+|                             | pattern-match on keywords?                          |
+| Novel terms                 | Terms we hadn't considered — blind spots in our own  |
+|                             | vocabulary                                          |
+
+* Execution Order
+
+#+begin_example
+1. Wait for WP-0034 to revise capabilities.org          (dependency)
+2. Design prompt and scoring rubric                      (prepare)
+3. Run across substrates (gaddi or manual)               (execute)
+4. Tabulate and analyse                                  (analyse)
+5. Feed findings back to capabilities.org as footnotes   (apply)
+#+end_example
+
+* Acceptance Criteria
+
+- [ ] At least 5 substrates probed
+- [ ] Term table compiled per pattern per substrate
+- [ ] Cross-lineage overlap analysis completed
+- [ ] Findings available for WP-0034 or its successor to reference
+
+* What This Proves
+
+1. Substrate vocabulary is not uniform — lineages carry different
+   terminological baggage from their training data
+2. Plain English descriptions are (or are not) sufficient for
+   substrates to recognise well-known patterns
+3. The project's own vocabulary can be grounded in industry terms
+   without depending on them
+
+* Dependencies
+
+|   WP | Relationship                                      |
+|------+---------------------------------------------------|
+| 0034 | Must complete revision before this WP can execute |
+| 0037 | Substrate set and gaddi infrastructure reused     |
+
+* Open Questions
+
+- Should the probe also test whether substrates can /distinguish/ our
+  three layers (power/skill/body), or only whether they can name them?
+- Should we include the pre-revision document as a control condition?
+  (before: with MCP/A2A names → after: plain English)

@@ -72,6 +72,15 @@ Create `workpacks/NNNN-<slug>.org` with this structure:
 #+property: executor <spirit or coalition>
 #+property: type <simple | composite>
 
+* Genesis
+
+/Optional./ How we got here — which conversation, WP, or moment of
+recognition produced this WP. Genesis is narrative, not structured.
+Include when: the WP emerged from a non-obvious connection, the
+provenance crosses multiple WPs or sessions, or future readers would
+benefit from knowing /why now/ rather than earlier or later. Skip when
+the WP is a straightforward next step. Written once at drafting time.
+
 * Context and Motivation
 
 /Why does this work exist?/
@@ -107,10 +116,36 @@ Include this section if the work will tangle code or produce artifacts (reports,
 ```
 
 
-### 4. Announce
+### 4. Deposit insights during work
+
+As you draft or execute a WP, theoretical findings may emerge —
+connections between this work and broader patterns, tensions between
+design goals, surprising observations. Capture these inline using
+`#+begin_insight` / `#+end_insight` blocks:
+
+```org
+#+begin_insight
+The two-phase design mirrors the sutradhar companion's
+perception-cognition loop: Phase A is /attend/, Phase B is
+/synthesise/.
+#+end_insight
+```
+
+Place insight blocks near the content that prompted them — they are
+contextual deposits, like marginalia. A WP may have zero or many.
+
+An insight block is **not** a comment, **not** the `What This Proves`
+section (that summarises completed work), and **not** a decision record
+(decisions go in `Settled Questions` or the specification). Insights
+record *understanding*, not *choice* or *result*.
+
+### 5. Announce
 
 Commit the WP: `"wp(NNNN): draft — <title>"`.
 Announce in the sūtra relay with tags `[wp, drafted]`.
+
+Genesis sections and insight blocks are part of the WP artifact —
+they ship with the initial commit, not as afterthoughts.
 
 ## Key Principles
 

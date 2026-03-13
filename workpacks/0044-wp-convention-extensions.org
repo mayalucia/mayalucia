@@ -1,0 +1,223 @@
+#+title: WP-0044 — Work Package Convention Extensions
+#+subtitle: Add insight blocks and genesis sections to the WP convention
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status drafted
+#+property: executor mayadev
+#+property: guild apprentis
+
+* Genesis
+
+While closing WP-0033 (orient-to-mayalucia power) in a Claude Code
+session, mayadev and mu2tau reviewed the open work backlog and began
+triaging WP-0034 (capabilities revision). The triage surfaced
+WP-0037's architectural findings, which needed to be scoped out of
+WP-0034. That scoping discussion produced an insight about the power
+inventory's three tiers (organisational, domain, embodiment). The
+insight had nowhere to live — it was valuable, but ephemeral in the
+conversation. mu2tau asked: "we should have an insight section in
+WPs." That led to WP-0043 (org tagging), which introduced
+=#+begin_insight= blocks. mu2tau then asked: "shouldn't we also have
+a context section describing what led to the WP?" — distinguishing
+/genesis/ (the thread of decisions that produced this WP) from
+/context/ (the problem space the WP addresses).
+
+This WP formalises both conventions.
+
+* Context
+
+The WP convention (=develop/work-packages.org= v0.5) specifies 5
+required sections and 3 optional. Two gaps:
+
+1. *No place for theoretical findings.* Insights emerge during
+   execution — connections between the work and broader patterns. They
+   currently live in conversation transcripts and agent memory, both
+   volatile. The =What This Proves= section captures /what the completed
+   work demonstrates/, but not the smaller findings that accumulate
+   along the way.
+
+2. *No provenance trail.* The =Context and Motivation= section
+   describes the problem space — /why does this work exist/. It does
+   not describe /how we got here/ — which conversation, which earlier
+   WP, which moment of recognition produced this WP. Genesis is the
+   difference between "here is the problem" and "here is how we
+   noticed the problem."
+
+* Inventory
+
+| Asset                              | Path                        | Relevance              |
+|------------------------------------+-----------------------------+------------------------|
+| WP convention                      | =develop/work-packages.org=   | Document to extend     |
+| WP-0043 (first =#+begin_insight=)    | =workpacks/0043-org-tagging.org= | Living example         |
+| WP-0034 (three-tier insight)       | =workpacks/0034-capabilities-revision.org= | Prose insight, no block |
+| WP-0037 analysis (7 findings)      | =experiments/.../analysis.org=   | Insight-dense document |
+
+* Specification
+
+** 1. =#+begin_insight= / =#+end_insight= blocks
+
+A new optional block type for WPs and convention documents.
+
+*** Purpose
+
+Capture theoretical findings — connections, tensions, patterns —
+that emerge during the work. Insights are /what the work taught us/,
+not /what the work produced/.
+
+*** Format
+
+#+begin_example
+,#+begin_insight
+The two-phase design mirrors the sutradhar companion's
+perception-cognition loop: Phase A is /attend/, Phase B is
+/synthesise/. If run as a substrate experiment, the Phase A → Phase B
+transition is where substrate character will show most clearly.
+,#+end_insight
+#+end_example
+
+*** Placement
+
+Insight blocks appear inline, near the content that prompted them.
+They are not gathered into a single section — they are contextual
+deposits, like marginalia. A WP may have zero or many insight blocks.
+
+*** Properties
+
+- Org treats unknown =#+begin_/#+end_= pairs as exportable special
+  blocks — they render cleanly in HTML export, and can be styled with
+  CSS (=div.insight=)
+- Greppable: =grep -r "begin_insight" workpacks/= gives every
+  theoretical finding in the project
+- Machine-readable: a future tool could extract insight blocks into
+  an apprentis corpus
+
+*** What an insight block is NOT
+
+- Not a comment (=#= or =;;=) — comments are for the author during
+  drafting. Insights are findings that belong in the document.
+- Not the =What This Proves= section — that section summarises what
+  the /completed/ work demonstrates. Insight blocks capture findings
+  /during/ execution, including partial or surprising ones.
+- Not a decision record — decisions go in =Settled Questions= or in
+  the specification. Insights record /understanding/, not /choice/.
+
+** 2. =* Genesis= section
+
+A new optional section for WPs.
+
+*** Purpose
+
+Record the provenance trail — what conversation, work, or moment of
+recognition produced this WP. Genesis answers "how did we get here?"
+while Context answers "what is the problem?"
+
+*** Placement
+
+Before =* Context=. The reading order becomes:
+
+#+begin_example
+,* Genesis          (optional — how we got here)
+,* Context          (required — what the problem is)
+,* Inventory        (required — what already exists)
+,* Specification    (required — what to build)
+...
+#+end_example
+
+*** Content
+
+Genesis is narrative, not structured. It names:
+
+- Which WP, session, or conversation surfaced the need
+- What the human or spirit noticed
+- The chain of reasoning from observation to WP
+
+Genesis sections are typically short (3–10 lines). They are written
+once, at drafting time, and not updated. They are the WP's birth
+story.
+
+*** When to include
+
+Not every WP needs a genesis. Include one when:
+
+- The WP emerged from a non-obvious connection between earlier work
+- The provenance chain crosses multiple WPs or sessions
+- Future readers would benefit from understanding /why this WP exists
+  now/ rather than earlier or later
+
+Skip it when the WP is a straightforward next step (e.g. "WP-0002
+follows WP-0001 because the convention says so").
+
+** 3. Retroactive insight mining
+
+Existing WPs contain insights in prose form — buried in analysis
+sections, in =What This Proves=, in inline observations. These should
+be retroactively wrapped in =#+begin_insight= blocks where they are
+genuine theoretical findings, not just summaries of results.
+
+#+begin_insight
+Retroactive insight mining is itself an instance of the tagging task
+(WP-0043): reading a document, recognising a pattern, marking it. The
+difference is that tags classify /topics/ while insight blocks mark
+/understanding/. Both are metadata deposited by a reader into a
+document. If the tagging WP runs as a substrate experiment, insight
+mining could be a parallel task — same document, different metadata
+layer.
+#+end_insight
+
+*** Scope
+
+Phase 1: mine the densest WPs first:
+
+| WP   | Why                                       | Expected insights |
+|------+-------------------------------------------+-------------------|
+| 0037 | 10-substrate experiment, 7 findings       | 5–8               |
+| 0034 | 29 findings, three-tier observation       | 2–3               |
+| 0030 | Original substrate diversity experiment   | 3–5               |
+| 0010 | Sutradhar companion (body/spirit split)   | 2–3               |
+| 0009 | Dīkṣā (bootstrapping paradox)            | 1–2               |
+
+Phase 2: remaining WPs, during WP-0043 tagging (tag + mine in one
+pass).
+
+* Execution Order
+
+#+begin_example
+1. Add insight block + genesis section to work-packages.org       (convention)
+2. Retroactively add genesis to WP-0043, WP-0044 (this WP)       (example)
+3. Mine WP-0037 analysis for insight blocks                       (phase 1)
+4. Mine WP-0034, WP-0030, WP-0010, WP-0009                       (phase 1)
+5. Bump work-packages.org version to 0.6                          (convention)
+6. Announce in sūtra relay                                        (announce)
+#+end_example
+
+Step 3–4 can be combined with WP-0043 execution if both WPs are
+active simultaneously.
+
+* Acceptance Criteria
+
+- [ ] =develop/work-packages.org= updated with insight block + genesis conventions
+- [ ] At least 3 WPs have retroactive =#+begin_insight= blocks
+- [ ] WP-0043 and WP-0044 have =* Genesis= sections
+- [ ] Convention document version bumped to 0.6
+
+* What This Proves
+
+1. The WP convention is extensible — new section types can be added
+   without breaking existing documents
+2. Theoretical findings have a persistent home — not just transcripts
+3. Provenance trails make the project's intellectual history navigable
+
+* Dependencies
+
+|   WP | Relationship                                          |
+|------+-------------------------------------------------------|
+| 0043 | Tagging and insight mining share the same document pass |
+| 0034 | First insight block candidate (three-tier observation) |
+| 0037 | Densest insight source                                |
+
+* Open Questions
+
+- Should insight blocks carry metadata (date, author, source WP)?
+  Or is inline placement + git blame sufficient provenance?
+- Should there be a power for insight mining, or is it a natural
+  extension of =summarize-corpus=?
