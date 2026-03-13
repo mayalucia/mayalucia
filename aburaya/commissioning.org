@@ -78,8 +78,8 @@ Create a spirit directory =aburaya/spirits/<name>-guardian/= containing:
   - =true-name= — the spirit's identity
   - =nature= — substrate (may be =tbd= if not yet instantiated)
   - =dwelling= — station (may be =tbd= if portable)
-  - =character= — archetype, domains, powers (include =relay-read=), disposition
-  - =memory= — pointers to auto-memory and bath notes
+  - =character= — archetype, domains, powers (include =relay-protocol=), disposition
+  - =memory= — pointers to persistent memory (harness-managed) and bath notes
   - =project= — the module this spirit guards
   - =role= — guild affiliation, function, scope
 - =notes/= — empty directory for bath deposits (=.gitkeep=)
@@ -118,15 +118,15 @@ In this case:
 
 - The =project.repo= in =identity.yaml= points to the parent repo
 - The =project.path= field names the directory within the parent
-- The spirit works from the parent repo's =CLAUDE.md=, with =role.scope=
-  narrowing its focus
+- The spirit works from the parent repo's worksite prompt, with
+  =role.scope= narrowing its focus
 - Step 4 (add as submodule) is skipped
-- Step 7 (write module CLAUDE.md) is skipped — the parent =CLAUDE.md=
-  already covers the worksite
+- Step 7 (write module worksite prompt) is skipped — the parent's
+  prompt already covers the worksite
 
 The spirit may later be migrated to a submodule as the project grows.
 When that happens, update =project.repo= and =project.path=, write a
-module-level =CLAUDE.md=, and add the submodule to the parent.
+module-level worksite prompt, and add the submodule to the parent.
 
 ** 6b. Run dīkṣā (initiation verification)
 
@@ -148,25 +148,27 @@ be instantiated in its project directory. See
 =aburaya/spirits/dixa/nature/first_breath.org= for the five-step
 agentic initiation protocol.
 
-** 7. Write the module's CLAUDE.md
+** 7. Write the module's worksite prompt
 
 This is the spirit's worksite equipment — not stored in the
 bathhouse but at the module. It tells any agent arriving at the
 repo: what this project is, what conventions apply, how to build,
-how to test. The CLAUDE.md belongs to the project, not the spirit.
+how to test. The worksite prompt belongs to the project, not the
+spirit. Its filename and format depend on the harness (e.g.
+=CLAUDE.md=, an Org preamble, a YAML agent definition).
 
 Include an Organisational Context section that:
 - Names the guild and guardian spirit
 - Names the sūtra repo URL (=github.com/mayalucia/sutra=) and the
   =.sutra/= local clone convention (gitignored)
-- Points to the relay-read skill for message filtering
+- Points to the relay-protocol power for message handling
 - States that the relay is heard: "If you have organisational needs,
   write them into the sūtra with appropriate tags. Messages go to the
   universe, not to a recipient. The organisation listens."
 
 Add =.sutra/= to the module's =.gitignore=.
 
-The CLAUDE.md does not carry filter tags — those are derived at
+The worksite prompt does not carry filter tags — those are derived at
 runtime from guild concerns and the spirit's bath notes (see
 [[file:kamaji.org][kamaji.org]]).  It also does not name the listener —
 spirits do not need to know /who/ reads the relay, only that it is heard.
@@ -177,9 +179,9 @@ In the parent repo, commit the submodule addition and the spirit
 descriptor together. This is one act: "we created a place and
 assigned a guardian."
 
-** 9. Update the parent CLAUDE.md
+** 9. Update the parent worksite prompt
 
-Add the new submodule to the table in the parent =CLAUDE.md= so
+Add the new submodule to the table in the parent worksite prompt so
 future agents know it exists.
 
 ** 10. Announce in the sūtra

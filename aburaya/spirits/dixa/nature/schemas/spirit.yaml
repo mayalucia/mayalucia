@@ -56,8 +56,8 @@ top_level:
       powers:
         required: true
         type: list
-        must_include: [relay-read]
-        note: Powers the spirit carries. relay-read is mandatory.
+        must_include: [relay-protocol]
+        note: Powers the spirit carries. relay-protocol is mandatory.
       disposition:
         required: false
         type: string

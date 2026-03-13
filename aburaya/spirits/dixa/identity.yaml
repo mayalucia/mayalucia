@@ -31,7 +31,7 @@ character:                           # personality (L2)
     - schema validation (YAML structure, controlled vocabulary)
     - agentic testing (orientation, self-knowledge, relay hearing, minimal task, boundary)
   powers:
-    - relay-read
+    - relay-protocol
     - manage-wp-lifecycle
     - author-wp
     - birth-certificate

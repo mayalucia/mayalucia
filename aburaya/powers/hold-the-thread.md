@@ -29,7 +29,7 @@ This power is the computational form of that function.
 - **summarize-corpus** compresses a body of past work. This power
   operates in the present tense — it is live summarisation of work in
   progress.
-- **relay-read** brings in organisational context. This power can
+- **relay-protocol** brings in organisational context. This power can
   connect what the human is doing now to what the organisation has
   been saying.
 

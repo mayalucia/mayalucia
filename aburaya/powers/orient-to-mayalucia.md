@@ -205,7 +205,7 @@ most likely to drift.
    powers" go stale.
 
 6. **Relay clone existence.** Confirm `.sutra/` exists at the project
-   root and has a remote. If absent, the relay-read power is
+   root and has a remote. If absent, the relay-protocol power is
    inoperable until cloned.
 
 7. **Host descriptor currency.** If the notes name specific hosts

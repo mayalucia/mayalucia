@@ -30,7 +30,7 @@ character:                           # personality (L2)
     - GIS integration (wine region maps, terroir visualisation)
     - 3D scientific visualisation (terrain, soil, climate via MayaTools)
   powers:
-    - relay-read
+    - relay-protocol
     - manage-wp-lifecycle
     - author-wp
     - content-authoring           # structured MDX curriculum creation

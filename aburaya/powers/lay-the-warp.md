@@ -237,7 +237,7 @@ the apprentis guild to study.
   power. The event stream is not deposited directly into the warp —
   it is interpreted first. Raw events do not appear in the warp;
   understanding of events does.
-- **relay-read** feeds the `waiting` section (unread messages, relay
+- **relay-protocol** feeds the `waiting` section (unread messages, relay
   state) and can influence `threads` (a relay message about a WP
   may change its energy or status).
 - **summarize-corpus** operates on past transcripts. This power

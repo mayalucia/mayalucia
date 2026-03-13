@@ -190,7 +190,7 @@ Builder (model), Sculptor (manifest), Observer (measure), Guide
 
 ** Guild
 An organisational department. Determines relay filtering — the
-relay-read power computes the union of guild concerns to decide
+relay-protocol power computes the union of guild concerns to decide
 which sūtra messages are relevant. Guild =mayalucia= means "read
 everything."
 
@@ -238,8 +238,7 @@ new project and its guardian spirit in a single organisational act.
 ** Exported Power
 A power a spirit makes available to other spirits. Declared in the
 =exports:= section of =identity.yaml=. Not all powers are exported —
-=relay-read= is personal; =validate-collection= is a service. Inspired
-by A2A's Agent Card =skills= array.
+=relay-protocol= is personal; =validate-collection= is a service.
 
 ** Body
 The sensory/motor wiring that gives a spirit perception and action in a

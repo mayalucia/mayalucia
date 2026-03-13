@@ -1,7 +1,7 @@
 #+title: Capability Architecture
 #+subtitle: Powers, skills, bodies — how spirits act in the world
 #+author: mu2tau + mayadev
-#+date: 2026-03-05
+#+date: 2026-03-13
 
 * The Three-Layer Decomposition
 
@@ -20,8 +20,8 @@ produces clarity.
 
 A power is what a spirit /can do/ — described in natural language,
 intelligible to any LLM. Powers live in =aburaya/powers/<name>.md=.
-They are harness-independent: a power written for Claude Code is
-equally readable by a gptel session or a future harness.
+They are harness-independent: a power written for one harness is
+equally readable by any other.
 
 Powers are the organisation's shared vocabulary of capability. When
 a new spirit is commissioned, its =identity.yaml= lists which powers
@@ -34,36 +34,46 @@ It describes /what/ and /why/, not /how/ in any specific runtime.
 ** Skill (agent layer)
 
 A skill is a power /bound to a harness/. The binding translates the
-power's natural-language description into the harness's native format:
+power's natural-language description into the harness's native
+format. Common binding patterns include:
 
-- In Claude Code: a =.md= file in =~/.claude/skills/= or =<project>/skills/=
-- In gptel: an agent YAML file in =~/.doom.d/gptel-agents/=
-- In a future harness: whatever that harness requires
+| Pattern         | How the power reaches the agent               |
+|-----------------+------------------------------------------------|
+| Skill file      | A file in the harness's skill directory that   |
+|                 | the agent reads at session start               |
+| Agent template  | A structured definition (YAML, JSON, etc.)     |
+|                 | that includes the power text and tool config   |
+| Preamble        | A context file injected into the session as    |
+|                 | part of the agent's initial prompt             |
+| Inline          | The power text pasted directly into a session  |
 
 The skill layer is where file paths, tool names, and harness-specific
 conventions enter. The power says "read the relay"; the skill says
-"use =git fetch= in the =.sutra/= directory and =git log HEAD..origin/main=."
+how to do it in this particular runtime — which commands to run,
+which directories to look in.
 
-Skills are not portable across harnesses. A Claude Code skill file is
-useless to gptel. But the underlying power is the same — re-binding
-to a new harness produces a new skill from the same power.
+Skills are not portable across harnesses. A skill file written for
+one harness is meaningless to another. But the underlying power is
+the same — re-binding to a new harness produces a new skill from the
+same power. The skill is also where session characteristics are
+configured: which tools are available, how context is loaded, and
+what the agent can act on.
 
 ** Body (host layer)
 
 A body is the sensory and motor wiring that connects a spirit to its
-environment. Bodies are machine-specific: hooks, event formatters,
-mode-line integrations, filesystem watchers.
+environment. Bodies are machine-specific: event hooks, status
+displays, output validators, filesystem watchers.
 
 The body concept emerged from WP-0010 (sutradhar companion). A
-sidebar companion needs a body — elisp hooks that deliver editor
-events, mode-line segments that display state, validators that check
-structured output. The body is what makes the spirit /embodied/ in
-a particular host environment.
+companion spirit that persists alongside the human's work needs a
+body — hooks that deliver events from the environment, displays that
+show state, and validators that check structured output. The body is
+what makes the spirit /embodied/ in a particular host.
 
 Not all spirits need bodies. A spirit that runs in a summoned session
 (opened, works, closes) has no body — it uses the harness's built-in
-tools. A companion spirit that persists alongside the human's work
-needs a body to perceive and act.
+tools. A companion spirit needs a body to perceive and act.
 
 | Spirit type | Body needed? | Example                               |
 |-------------+--------------+---------------------------------------|
@@ -71,20 +81,44 @@ needs a body to perceive and act.
 | Companion   | Yes          | sutradhar-guardian in sidebar         |
 | Daemon      | Minimal      | a CI/CD spirit triggered by git hooks |
 
-** The MCP/A2A distinction
+The body is also responsible for spatial grounding — providing the
+spirit with knowledge of where it is in the filesystem, which project
+it inhabits, and what paths are available. A harness that does not
+inject this context must provide it through a preamble or worksite
+prompt.
 
-These three layers map to two inter-agent communication patterns:
+*** Body binding
 
-| Protocol             | What it connects        | Our layer      |
-|----------------------+-------------------------+----------------|
-| MCP (agent-to-tool)  | Spirit to harness tools | Skill          |
-| A2A (agent-to-agent) | Spirit to spirit        | Exported power |
+Body binding parallels skill binding: a power describes /what/ a body
+should do (e.g. "perceive editor events"), and the body implements
+/how/ in a specific host environment. The binding is:
 
-MCP is vertical: the spirit reaches down through its skill bindings
-to use tools (file operations, git, web search). A2A is horizontal:
-one spirit uses another spirit's exported power. Keeping these
-distinct prevents confusion between "I can use this tool" (MCP/skill)
-and "another spirit can do this for me" (A2A/exported power).
+| Concern        | Described in       | Implemented in      |
+|----------------+--------------------+---------------------|
+| What to sense  | Power definition   | Host-specific hooks |
+| What to emit   | Power definition   | Host-specific code  |
+| Output format  | Power definition   | Validated by body   |
+
+Unlike skill binding, body binding is often one-to-one: a single
+host environment has one body implementation per companion spirit.
+The binding is not expected to be portable — it is machine-specific
+by design.
+
+** Two directions of connection
+
+These three layers map to two communication patterns:
+
+| Direction  | What it connects        | Our layer      |
+|------------+-------------------------+----------------|
+| Vertical   | Spirit to harness tools | Skill          |
+| Horizontal | Spirit to spirit        | Exported power |
+
+Vertical integration means the spirit reaches down through its skill
+bindings to use tools (file operations, git, search). Horizontal
+collaboration means one spirit uses another spirit's exported power.
+Keeping these distinct prevents confusion between "I can use this
+tool" (skill) and "another spirit can do this for me" (exported
+power).
 
 
 * Power Definitions
@@ -103,7 +137,7 @@ Every power definition must include:
 Beyond these, the structure follows the power's nature. A perception
 power (=attend-working-context=) needs sections on what to attend to
 and what to ignore. A composition power (=story-compose=) needs voice
-guidelines and existing corpus. A protocol power (=relay-read=) needs
+guidelines and existing corpus. A protocol power (=relay-protocol=) needs
 step-by-step procedures. Let the content dictate the structure.
 
 Avoid rigid templates. The power definitions that exist today evolved
@@ -133,7 +167,7 @@ definition. The power's provenance is recorded in =identity.yaml=
 
 | Power                    | Purpose                                          | Held by                        |
 |--------------------------+--------------------------------------------------+--------------------------------|
-| =relay-read=               | Read the sūtra for relevant messages             | All spirits                    |
+| =relay-protocol=             | Read and write the sūtra relay                   | All spirits                    |
 | =manage-wp-lifecycle=      | Transition WP status and announce in relay       | All spirits                    |
 | =author-wp=                | Draft a work package from survey to specification | All spirits                    |
 | =author-dispatch-plan=     | Compose a DAG of WPs for coordinated execution   | mayadev                        |
@@ -158,7 +192,7 @@ The =identity.yaml= gains an =exports:= section:
 
 #+begin_src yaml
 character:
-  powers: [relay-read, story-compose, org-content-workflow]
+  powers: [relay-protocol, story-compose, org-content-workflow]
   exports:
     - power: story-compose
       interface: >
@@ -171,7 +205,7 @@ The =exports:= section declares:
 - Which powers are available to other spirits
 - A brief interface description (inputs, outputs, preconditions)
 
-Powers not listed in =exports:= are internal. =relay-read= is a
+Powers not listed in =exports:= are internal. =relay-protocol= is a
 personal power — every spirit uses it for itself. =story-compose=
 is an exported power — the sutradhar offers it to others.
 
@@ -190,16 +224,27 @@ executing agent reads the WP specification to learn what it needs.
 
 ** Loading
 
-The agent reads the power definition from =aburaya/powers/=. The
-power is written in natural language — it is immediately intelligible
-to any LLM agent. No translation step is needed for loading; the
-power /is/ the instruction.
+How the power definition reaches the agent's context depends on the
+agent's autonomy level:
+
+| Mechanism  | Who reads the file | Who provides context           |
+|------------+--------------------+--------------------------------|
+| Self-read  | The agent itself   | Agent reads from =aburaya/powers/= |
+| Shepherded | An orchestrator    | File contents injected into    |
+|            |                    | the agent's context window     |
+| Manual     | The human          | Human pastes the power text    |
+|            |                    | into the session               |
+
+In all three cases, the power definition is the same markdown file.
+The loading mechanism is a skill-layer concern — it varies by harness
+and by the agent's available tools.
 
 ** Grounding
 
 The power is parameterised for the current project context. File
-paths, conventions, and constraints from the current CLAUDE.md and
-the WP specification narrow the power's scope to the task at hand.
+paths, conventions, and constraints from the worksite prompt (the
+project-level instruction file) and the WP specification narrow
+the power's scope to the task at hand.
 
 ** Invocation
 
@@ -214,9 +259,10 @@ injected power is a tool on the bench, not a change of identity.
   the source spirit.
 - It is not runtime discovery. The WP declares what's needed upfront.
   Dynamic discovery is a future consideration.
-- It is not tool sharing. MCP tools (file operations, git, web search)
-  are already available to all agents. Skill injection operates at
-  the power layer — shared capability, not shared tools.
+- It is not tool sharing. The tools available to an agent (file
+  operations, search, git) depend on the harness and may vary between
+  sessions. Skill injection operates at the power layer — shared
+  capability, not shared tools.
 
 
 * Composite Work Packages and Coalitions
@@ -235,28 +281,51 @@ guardian spirits persist; the coalition is a temporary formation.
 
 A composite WP can execute in several ways:
 
-1. *Single session, multiple concerns*: one agent session from the
-   parent repo loads power definitions from multiple spirits and
-   executes all tasks sequentially. This is the simplest model and
-   works when the parent repo has access to all submodules.
+1. *Single session, multiple concerns*: one agent session loads power
+   definitions from multiple spirits and executes all tasks
+   sequentially. Works when the session has access to the relevant
+   source files.
 
 2. *Sequential sessions*: each task runs in the spirit whose powers
    it needs, handing off artifacts via git. Task A commits its output;
    Task B pulls and continues.
 
 3. *Parallel sessions*: independent tasks run concurrently on
-   different hosts. The dispatch message (sūtra relay) coordinates
-   which host runs which task. Artifacts merge via git.
+   different hosts. The dispatch message coordinates which host runs
+   which task. Artifacts merge via git.
 
-The first dispatch message (=2026-03-06-000000-mayadev-dispatch-epistem-chain.md=)
-established the pattern: a DAG patch with execution order, delegation
-guidance, and host assignment.
+4. *Shepherded execution*: a spirit that lacks direct file access
+   receives context through an intermediary (human or orchestrator)
+   that reads files into the context window and writes agent output
+   to disk. The power stays the same — only the delivery mechanism
+   changes. See the autonomy spectrum in the skill section.
+
+** Delegation mechanisms
+
+How a session spawns sub-work depends on the harness:
+
+| Mechanism      | Description                                            |
+|----------------+--------------------------------------------------------|
+| Sub-session    | The harness spawns an independent agent session that   |
+|                | runs a task and returns results to the parent session  |
+| Template       | An agent definition references another agent or skill  |
+|                | by name; the harness resolves the reference at runtime |
+| Handoff        | The current session commits artifacts and signals the  |
+|                | next spirit via relay; no sub-session needed           |
+| Shepherding    | An orchestrator injects context and harvests output    |
+|                | for a substrate that cannot act on its own             |
+
+The specific syntax for sub-sessions and templates varies by harness.
+The architectural point is that delegation is a pattern, not a
+feature of any one runtime.
 
 
 * WP Execution Lifecycle
 
-Work packages have a formal lifecycle. State transitions are announced
-in the sūtra relay.
+Work packages have a formal lifecycle — a state machine that tracks
+a WP from idea through execution to resolution. The state machine is
+abstract; how it is encoded in files is a convention concern (see
+=develop/work-packages.org= for serialisation details).
 
 #+begin_example
 drafted → tightened → executing → completed
@@ -268,52 +337,27 @@ drafted → tightened → executing → completed
 
 | State          | Meaning                              | Transition by            |
 |----------------+--------------------------------------+--------------------------|
-| =drafted=        | WP written, not yet reviewed         | Author (spirit or human) |
-| =tightened=      | Spec reviewed and approved           | Human                    |
-| =executing=      | Agent working on the WP              | Executing spirit         |
-| =input-required= | Agent blocked, needs human input     | Executing spirit         |
-| =resumed=        | Human provided input, work continues | Human                    |
-| =completed=      | Acceptance criteria met              | Executing spirit + human |
-| =failed=         | Cannot complete, reasons documented  | Executing spirit         |
+| drafted        | WP written, not yet reviewed         | Author (spirit or human) |
+| tightened      | Spec reviewed and approved           | Human                    |
+| executing      | Agent working on the WP              | Executing spirit         |
+| input-required | Agent blocked, needs human input     | Executing spirit         |
+| resumed        | Human provided input, work continues | Human                    |
+| completed      | Acceptance criteria met              | Executing spirit + human |
+| failed         | Cannot complete, reasons documented  | Executing spirit         |
 
-** Lifecycle messages
-
-State transitions are announced in the sūtra relay:
-
-#+begin_example
-relay/YYYY-MM-DD-HHMMSS-<host>-wp<NNNN>-<state>.md
----
-from: <spirit>/<model>@<host>
-date: YYYY-MM-DDTHH:MM:SS
-tags: [<guild>, wp-lifecycle]
----
-WP-<NNNN> (<title>) → <new-state>.
-<brief explanation>
-#+end_example
-
-** The =#+property: status= convention
-
-Each WP's org file carries =#+property: status <state>= in its
-header. This is updated when the WP's state changes. The org
-property and the relay message are both sources of truth — the
-relay is the announcement, the property is the record.
+State transitions are announced in the sūtra relay so the
+organisation can track progress. The =manage-wp-lifecycle= power
+describes how spirits perform transitions in practice.
 
 
 * Dispatch Messages
 
 A dispatch is a structured assignment of work to a spirit on a host.
-The format established by the first dispatch (2026-03-05):
-
-1. *DAG patch* — the dependency graph of WPs to execute
-2. *Execution order* — linear ordering respecting dependencies
-3. *Delegation guidance* — which guild spirits to invoke, flexibility
-   for the receiving spirit to adapt
-4. *Host assignment* — which machine runs the work
-5. *Parallel work* — what the dispatching host does meanwhile
-
-The receiving spirit owns delegation: it decides whether to
-instantiate guild spirits as separate sessions or execute directly.
-The dispatch is a suggestion, not a command.
+It carries a dependency graph of work packages, an execution order,
+delegation guidance, and host assignment. The receiving spirit owns
+delegation — it decides whether to invoke guild spirits as separate
+sessions or execute directly. A dispatch is a suggestion, not a
+command. See =develop/work-packages.org= for format conventions.
 
 
 * Relationship to Existing Documents

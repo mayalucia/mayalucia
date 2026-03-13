@@ -64,7 +64,7 @@ metaclass system caused. Per-interface registries are essential...
 
 The =tags= in the frontmatter are not curated separately — they
 emerge from the substance of what the spirit has learned. They are
-the extractable interests that other processes (like relay-read)
+the extractable interests that other processes (like relay-protocol)
 can use to filter relevant information.
 
 * What the Bath Removes
@@ -133,9 +133,9 @@ performed.
 directory starts empty (or with a =.gitkeep=). The first bath is the
 spirit's first memory.
 
-** Relay-Read
+** Relay-Protocol
 
-The relay-read skill, when invoked, collects filter tags from two
+The relay-protocol power, when invoked for reading, collects filter tags from two
 sources:
 
 1. /Guild concerns/ — from =aburaya/guilds/<guild>.yaml=
