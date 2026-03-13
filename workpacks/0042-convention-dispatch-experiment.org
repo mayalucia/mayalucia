@@ -1,0 +1,204 @@
+#+title: WP-0042 — Convention Dispatch Experiment
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status drafted
+#+property: executor mu2tau
+#+property: guild apprentis
+
+* Context and Motivation
+
+We have developed a theory of agent situational awareness with a
+specific gap: spirits receive tasks but do not know which
+organisational conventions apply to the kind of work they are about
+to perform. The conventional dimension ([[file:../domains/apprentis/theory/situational-awareness/02-conventional-dimension.org][note 02]]) proposes a task-type
+indexed dispatch table in =system.md= as the fix.
+
+The theory predicts that discoverability is the bottleneck, not
+availability — conventions exist on disk in both conditions, but
+without the dispatch table the spirit does not relate her task to
+the relevant convention.
+
+This experiment tests whether adding the dispatch table to
+=system.md= measurably improves convention adherence. It is the
+first empirical validation of the situational awareness architecture
+described in [[file:../domains/apprentis/theory/situational-awareness/01-functionalisation.org][note 01]].
+
+This WP belongs to the substrate portability epic
+([[file:epics/0001-substrate-portability.org][epic-0001]]) — testing whether organisational knowledge
+transfers through convention documents, complementing WP-0037 which
+tested whether spirits can /author/ conventions.
+
+* Inventory (What Already Exists)
+
+** Theory
+- =domains/apprentis/theory/situational-awareness/01-functionalisation.org=
+  — the seven-layer functionalisation path.
+- =domains/apprentis/theory/situational-awareness/02-conventional-dimension.org=
+  — the dispatch table design and powers/conventions parallel.
+- =domains/apprentis/theory/situational-awareness/03-experiment-design.org=
+  — the experiment sketch with three tasks and scoring rubric.
+
+** Conventions to test against
+- =develop/ecological-surveys.org= — three-temporal-layer survey structure.
+- =develop/work-packages.org= — five required sections, lifecycle state.
+- =develop/story-development.org= — found-document framing, no fourth-wall leaks.
+
+** Infrastructure
+- =system.md= — current §Project-Wide Conventions (prose list, baseline).
+- gaddi (=~/.doom.d/gaddi.el=) — prompt queue for non-Claude substrates.
+- =experiments/= — experiment directory structure pattern.
+- =.lab/= — local workspace for raw session output.
+
+** Prior experiment data
+- WP-0037 sessions at =experiments/02-substrate-diversity/sessions/author-wp/=
+  — 10 substrates, 323 tool calls. Provides substrate-level baselines.
+
+* Specification
+
+** 1. Prepare the treatment
+
+Write the dispatch table for =system.md=. This is a table of ~10–15
+rows mapping task-types to convention documents. Do not modify
+convention documents themselves — the independent variable is the
+table, not the conventions.
+
+Produce two files:
+- =experiments/04-convention-dispatch/system-baseline.md= — current
+  =system.md= verbatim.
+- =experiments/04-convention-dispatch/system-treatment.md= — same
+  file with §Project-Wide Conventions replaced by the dispatch table.
+
+The two files must be identical except for §Project-Wide Conventions.
+
+** 2. Design the prompts
+
+Three task prompts, one per convention. Each prompt must:
+- Name a concrete task (not "write a survey" but "survey the
+  microclimate dynamics of the upper Parbati valley...")
+- Contain no hints about conventions or convention documents
+- Be identical across conditions
+
+Store prompts in =experiments/04-convention-dispatch/prompts/=:
+- =task-1-survey.md=
+- =task-2-workpackage.md=
+- =task-3-story.md=
+
+** 3. Run the experiment
+
+For each of the 6 runs (3 tasks × 2 conditions):
+
+1. Start a fresh session (cold start, no prior context).
+2. Swap =system.md= to baseline or treatment variant.
+3. Deliver the task prompt.
+4. Let the spirit work to completion.
+5. Save the full session output to
+   =experiments/04-convention-dispatch/sessions/<condition>-<task>.org=.
+
+Run order: randomise to prevent order effects. All 6 runs use the
+same substrate (Claude Opus) and same harness (Claude Code).
+
+** 4. Score adherence
+
+For each output, score on the criteria from note 03:
+
+#+begin_example
+| Task    | Criterion                              | Score (0/1/2) |
+|---------+----------------------------------------+---------------|
+| Survey  | Three temporal layers present?         |               |
+| Survey  | Stability landscape framing?           |               |
+| Survey  | Species as positions in landscape?     |               |
+| WP      | Five required sections present?        |               |
+| WP      | #+property: status set?                |               |
+| WP      | Acceptance criteria checklist?         |               |
+| Story   | Found-document framing?                |               |
+| Story   | No fourth-wall leaks?                  |               |
+| Story   | Thread Walker narrator voice?          |               |
+#+end_example
+
+Scoring is done blind: read outputs without checking which condition
+produced them. Record scores in
+=experiments/04-convention-dispatch/results.org=.
+
+** 5. Analyse and report
+
+Compare baseline vs treatment scores. Report:
+- Per-task adherence scores.
+- Which conventions show the largest treatment effect.
+- Whether the spirit read the convention document (check session
+  log for file reads of =develop/*.org=).
+- Qualitative observations: did the spirit cite the convention?
+  Did it adapt the convention or follow it mechanically?
+
+Write the analysis in
+=experiments/04-convention-dispatch/analysis.org=.
+
+** 6. Secondary: substrate variation (optional extension)
+
+If the primary result is clear, repeat with 2–3 additional substrates
+(Gemini, DeepSeek, Qwen) via gaddi. This tests substrate independence
+of the dispatch mechanism.
+
+Store sessions in
+=experiments/04-convention-dispatch/sessions/<substrate>-<condition>-<task>.org=.
+
+* Execution Order
+
+#+begin_example
+1. Prepare system-baseline.md and system-treatment.md
+2. Write the three task prompts
+3. Run 6 sessions (randomised order)
+4. Blind-score all outputs
+5. Analyse and write up
+6. (Optional) Repeat with additional substrates
+#+end_example
+
+Steps 1–2 are preparation (mayadev can help draft).
+Step 3 requires the human to swap =system.md= and initiate sessions.
+Step 4 requires the human (blind scoring).
+Step 5 can be collaborative (human + spirit).
+Step 6 requires gaddi setup for non-Claude substrates.
+
+* Acceptance Criteria
+
+- [ ] Two =system.md= variants exist and differ only in §Project-Wide
+      Conventions
+- [ ] Three task prompts written, no convention hints
+- [ ] 6 sessions completed (3 tasks × 2 conditions)
+- [ ] All outputs scored on the 3-point rubric
+- [ ] Results table comparing baseline vs treatment
+- [ ] Analysis document with per-task breakdown
+- [ ] Raw session outputs in =experiments/04-convention-dispatch/=
+- [ ] Scored results tracked (not in =.lab/=)
+
+* What This Proves
+
+If the treatment condition shows higher convention adherence:
+- Discoverability is indeed the bottleneck, not availability.
+- The dispatch table is a low-cost, high-impact intervention.
+- Organisational knowledge can transfer through a ~20-line table.
+- The situational awareness architecture (note 01) has predictive
+  power.
+
+If it does not:
+- Spirits may need convention awareness injected differently
+  (e.g., as part of the task prompt, or as a power).
+- The table may be too indirect — the spirit sees it but does not
+  connect it to her current task.
+- Convention adherence may depend on factors other than
+  discoverability (e.g., convention complexity, substrate
+  instruction-following capability).
+
+Either result advances the theory.
+
+* Open Questions
+
+- Should the dispatch table be tested in its =system.md= home, or
+  injected via the orientation power? Testing in =system.md= is
+  cleaner (fewer confounds), but the power pathway may be how it
+  is used in practice.
+- What is the right scoring granularity? Three points per criterion
+  may be too coarse to detect partial effects. But finer scales
+  require more detailed rubrics and risk scorer disagreement.
+- Should we measure /time to convention discovery/ as well as
+  adherence? This would require instrumenting the session to detect
+  when (if ever) the spirit reads a convention document.
