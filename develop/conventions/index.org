@@ -1,0 +1,15 @@
+#+title: Conventions Index
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+
+* Note
+
+The convention dispatch table lives in =system.md= §Project-Wide
+Conventions, not in a separate index file. The rationale for this
+design — task-type indexed dispatch, two-level memory architecture —
+is documented in:
+
+  =domains/apprentis/theory/situational-awareness/02-conventional-dimension.org=
+
+This file exists only to explain why =develop/conventions/index.org=
+is not the right home for the index.

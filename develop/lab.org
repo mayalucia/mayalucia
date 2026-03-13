@@ -1,0 +1,28 @@
+#+title: .lab/ — Local Workspace
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+
+* What .lab/ Is
+
+Each project's local workspace. Code runs here, intermediate results
+land here, lab reports get drafted here. The tracked =experiments/=
+directory is the curated record; =.lab/= is the bench where the work
+happens.
+
+Gitignored per-project. Does not travel with the repo.
+
+* What belongs here
+
+Anything regenerable from tracked code: training histories, model
+checkpoints, generated plots, DEM caches, intermediate data,
+scratch notebooks.
+
+* Relationship to other gitignored directories
+
+| Directory     | Purpose                                    |
+|---------------+--------------------------------------------|
+| =.lab/=         | Active workspace — run code, draft reports |
+| =.attic/=       | Archived artefacts for later review        |
+| =.agent-shell/= | Harness transcripts (ephemeral)            |
+| =.sutradhar/=   | Companion warp deposits (ephemeral)        |
+| =.sutra/=       | Relay clone (per-project cursor)           |
