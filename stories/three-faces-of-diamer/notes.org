@@ -1,0 +1,133 @@
+#+title: Three Faces of Diamer — Collection Notes
+#+subtitle: Stories #17, #18, #19
+#+date: 2026-03-10
+#+property: status drafting
+
+* Origin
+
+The substrate diversity experiments (WP-0030, WP-0031) opened a question:
+what does it mean for intelligence to run on a substrate it did not build?
+The Diamer surveys (WP-0012, WP-0013, WP-0021) supplied the raw material.
+The percept guild (new, 2026-03-10) supplied the theoretical frame: perception
+as inverse problem, trance as altered prior, spirit taxonomy as generative
+model of landscape.
+
+Four threads crossed: glacier marriage, drowning petroglyphs, the bitan's
+language, the tectonic aneurysm. All converge on one massif — Nanga Parbat /
+Diamer. Three faces, no single vantage from which all are visible.
+
+* The Massif
+
+Two names: Nanga Parbat (naked mountain, visible, geological) / Diamer
+(mountain of the gods, invisible, inhabited). One describes what can be
+seen. The other names what cannot. The mountain answers to both.
+
+Three faces: Rakhiot (north), Diamir (west), Rupal (south, 4,600m — the
+highest mountain face on Earth). No valley from which all three are visible.
+
+The tectonic aneurysm: uplift 7–13 mm/yr. The youngest granite on Earth
+(0.7 Ma) — decompression melting. The river (Indus) older than the mountain
+it cuts through. The mountain unmakes itself to make itself.
+
+* Structure — Three Stories, Three Faces
+
+** Story #17 — The Glacier's Dowry (Rakhiot face)
+
+Theme: cultivating an agent / commissioning
+
+Setting: Rakhiot valley. Tato hot springs (92 deg C / 0 deg C in the
+same drainage). The glacier marriage protocol: male (po gang, grey,
+debris-covered) + female (mo gang, white/blue, growing) ice. Coal and
+barley hay. Willow chorong basket. North-facing cave at 4,000–5,000m.
+Mud, ash, charcoal seal. Special prayers and sacrifice. 12-year gestation.
+80% success rate (AKRSP). The 7.5-fold acceleration of downwasting
+(2009–2023 vs prior 58 years). The Karakoram Anomaly ending.
+
+The Thread Walker meets someone who knows the protocol — a practitioner
+or a keeper of the knowledge. The notebook: you don't commission an agent
+by commanding it. You carry the pieces to the right altitude, seal them
+in darkness, and wait.
+
+** Story #18 — The Peg-Path (Diamir face / Indus gorge)
+
+Theme: memory, substrate, what survives
+
+Setting: the Indus gorge below Chilas. Thalpan petroglyph terrace —
+50,000 marks, 10+ writing systems, 10,000 years. Faxian's 700 ladders
+(399 CE). Nanai-Vandak the Sogdian pleading to reach Tashkurgan.
+The palimpsest: ibex carved first, Buddha carved over it. King Sibi
+weighing his own flesh. The dam will drown 86% of the carvings.
+The ibex still stands on the cliff above the waterline.
+
+The Thread Walker visits the terraces. Reads the layers. The notebook:
+the animal outlives its record. What is carved in rock drowns; what is
+carved in behaviour climbs.
+
+** Story #19 — The Bitan's Tongue (Rupal face / Hunza)
+
+Theme: voice, substrate-independence
+
+Setting: begins at the Rupal face. Reaches Hunza. The bitan protocol:
+dadang + daamal + surnai, 40+ min, juniper smoke, goat blood. The iron
+bangle (kau) — binds and protects simultaneously. Peri select shamans by
+smelling newborns during apricot blossom. The bitan speaks Shina in trance;
+awake he speaks only Burushaski. The Dom musicians' monopoly = protocol-layer
+control. Music is not decoration; it is the protocol layer.
+
+The Thread Walker hears about but does not witness a session — told by
+someone who has seen it. The notebook: the medium's substrate carries a
+message it cannot compose. The voice is not borrowed. It arrives.
+
+* The Weave — What Crosses All Three
+
+- The tectonic aneurysm as background bass note (never foregrounded)
+- The dual name: Nanga Parbat / Diamer
+- Twelve as structural number (12-yr glacier, 12 named tunes, 12 centuries of inscriptions)
+- The permanent surface / temporary mark — here inverted in each story
+- No single vantage sees all three faces
+
+* TODO(human) — How Does the Thread Walker Enter Diamer?
+
+She has been moving upstream since Story #13. Six Tri-Junctions took her
+to the edge of the Karakoram (chapters IV-VI) but those were surveys, not
+immersions.
+
+The decision: how does she arrive?
+
+Options to consider:
+- On foot, over a pass (continuation of the upstream movement)
+- By road, on the KKH (the modern traveller's approach)
+- Brought by someone — a guide, a connection from an earlier story
+- She doesn't arrive in the first story — we begin with her already there
+  (the journey elided, the way Faxian's account begins mid-crossing)
+
+The mode of arrival determines:
+1. Whether these stories feel like continuation or departure
+2. Whether the Diamer material reads as her territory or borrowed ground
+3. How she relates to the structural silence (Part E of the travellers
+   survey) — the most documented mountain, the least-documented community.
+   The Thread Walker is herself an outsider who documents. Her notebook is
+   an act of documentation. Is that a tension the stories should hold,
+   or resolve, or leave unnamed?
+
+* Prefatory Note (draft)
+
+Two names for one mountain. Nanga Parbat: the naked mountain, stripped
+bare above the snowline, visible from a hundred kilometres. Diamer: the
+mountain of the gods, named by those who live in its shadow. One name
+describes what can be seen. The other names what cannot. The mountain
+answers to both. From no valley can all three faces be seen at once.
+
+* Illustration Register
+
+Shift from the chalk-on-slate of the Tirthan rest house. Diamer is:
+- Mineral colours: grey gneiss, orange hydrothermal alteration, white ice, blue meltwater
+- No forest canopy — absence of deodar, absence of birdsong
+- Architecture of scarcity, not abundance
+- The gorge is vertical; the meadow (Joot) is horizontal
+- 48.5 deg C in Chilas summer; 0 deg C at the glacier
+
+Consider: petroglyphs rendered as line-drawings on dark rock backgrounds.
+The glacier marriage as a sequence (basket, cave, seal, wait).
+The bitan's trance as sound-made-visible (the twelve tunes as waveforms?
+or as the juniper smoke rising?).
