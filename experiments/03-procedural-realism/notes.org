@@ -1,0 +1,147 @@
+#+title: Experiment 03 — Procedural Realism
+#+date: 2026-03-11
+#+property: status executing
+
+* Premise
+
+The matplotlib illustrations for MāyāLucIA stories are cartoons —
+flat fill_between shapes, ellipse-and-stick ibex, uniform colour
+bands.  The stories are rooted in real geography ("geography is the
+vessel") and deserve images that evoke the place.
+
+The idea: use a generative model to produce /reference/ images, then
+write procedural code that approximates those images algorithmically.
+The generative output is ephemeral scaffolding; the procedural code is
+the artifact — reproducible, inspectable, version-controlled.
+
+This inverts the usual relationship: the model /trains/ the code, not
+replaces it.
+
+* Decision Tree
+
+** Why local Stable Diffusion?
+
+- Budget control: API calls (DALL-E, Midjourney) accumulate cost.
+  Local inference is free after model download.
+- Reproducibility: same seed → same image.  API models change over time.
+- Iteration speed: no network latency for prompt tweaking.
+- Privacy: no image data leaves the machine.
+
+** Why SD 1.5 (not SDXL)?
+
+- Model size: SD 1.5 ~4GB vs SDXL ~6.5GB.  Both fit in 32GB unified memory.
+- Speed: SD 1.5 ≈ 15-25s per image on M1 Pro MPS.  SDXL ≈ 40-60s.
+- Quality: SD 1.5 is sufficient for reference images.  We're not
+  shipping these — they're targets for the procedural code to match.
+- Can upgrade to SDXL later if SD 1.5 references lack the detail we need.
+
+** Hardware: vadda (M1 Pro, 32GB)
+
+- MPS backend (Apple Silicon GPU) via PyTorch.
+- =torch.float16= on MPS: half the memory, no visible quality loss.
+- =safety_checker=None=: skip NSFW classifier download (landscapes only).
+- Python constraint: =>=3.11,<3.14= because PyTorch lacks 3.14 wheels.
+  =uv run= fetches a compatible interpreter automatically.
+
+** Hardware: mahakali (to be characterised)
+
+- Likely NVIDIA GPU → CUDA backend instead of MPS.
+- Change =device= logic: prefer ="cuda"= over ="mps"=.
+- =float16= should work on any modern NVIDIA card.
+- May support SDXL more comfortably depending on VRAM.
+- Same =uv run= workflow, same PEP 723 script.
+
+** Image parameters (first pass)
+
+- Resolution: 768×512 (landscape aspect, SD 1.5 native multiple).
+- Inference steps: 30 (quality/speed balance).
+- Guidance scale: 7.5 (standard).
+- 4 seeds per prompt for selection.
+
+** Prompt strategy
+
+- Grounded in real geography: Thalpan, Indus gorge, Nanga Parbat.
+- Style keywords: "realistic landscape photography", "golden hour",
+  "atmospheric perspective".
+- Negative prompt suppresses: cartoon, illustration, flat colors,
+  vector art, diagram, anime.
+
+* Pipeline
+
+1. *Generate references* — =generate_reference.py= (this step)
+2. *Select* — human picks the best seed(s)
+3. *Analyse* — identify the visual qualities that make the reference
+   feel realistic (texture, light, depth, atmosphere)
+4. *Procedural reconstruction* — write algorithms targeting those
+   qualities.  Candidate tools: Pillow, cairo, noise libraries,
+   compositing with procedural textures.
+5. *Fit* — tune parameters, compare side-by-side.
+6. *Iterate* — repeat for more panels.  Accumulate a visual vocabulary.
+
+* Log
+
+** 2026-03-11 — Session 1 (vadda, mayadev/opus@vadda)
+
+*** SD reference generation (batch 1)
+
+- Wrote =generate_reference.py= with SD 1.5 pipeline.
+- Prompt: "Indus river gorge at dawn, view from rocky terrace toward
+  Nanga Parbat..." — generic Himalayan valley shot.
+- Seeds: 42, 137, 271, 404.  All produced "looking along the gorge"
+  compositions.  Photorealistic quality but wrong viewpoint for the
+  Thalpan cross-section.
+
+*** SRTM elevation data
+
+- Downloaded SRTM tile N35E074 (3-arcsec / 90m) from =srtm.fasma.org=.
+- Extracted ENE–WSW transect at Thalpan (35.62°N, 74.60°E):
+  - Indus at 1213m, ENE wall climbs to 4300m in 5km (Kohistan arc),
+    WSW wall only reaches 1800m (Indian plate).  Profound asymmetry.
+- Extracted N–S transect: jagged 1800–2500m terrain toward Nanga Parbat.
+- Extracted 2D DEM patch: 88×134 pixels (12km × 8km), 1189–4241m.
+- Key insight: /real terrain data provides correct skyline, asymmetry,
+  and drainage patterns.  No hand-tuning needed./
+
+*** Procedural renderer v1
+
+- SRTM transect as gorge profile → correct skyline shape.
+- But: flat cross-section composition, wrong lighting, no wall texture,
+  flat river band, no foreground.
+
+*** Procedural renderer v2
+
+- Added: 2D DEM patch for wall texture (slope/aspect), corrected sun
+  direction (ENE shaded, WSW lit at dawn), foreground terrace,
+  vegetation hints, dawn sky gradient.
+- Remaining: DEM texture projects flat (bullseye contours), needs
+  perspective projection (ray marching).
+- mu2tau's observation: "the image you authored with SRTM — I like it."
+  The SRTM-driven composition is /more correct/ than SD's default.
+
+*** SD reference generation (batch 2) — composition-matched
+
+- Rewrote prompt to describe the cross-section view matching v2:
+  "Deep Himalayan gorge cross-section view, looking across the valley..."
+- *CLIP truncation*: prompt was 125 tokens, CLIP limit is 77.
+  Everything after "barren rocky terrain" was lost — including the
+  style keywords and asymmetry description.  Must keep prompts ≤77
+  tokens.
+- 6 seeds.  Results much better: gorge cross-sections, shadow/light
+  split, barren terrain.  No river visible (truncated away).
+- Best candidates: seed 42 (asymmetric gorge, snow peaks behind),
+  seed 777 (closest to dry Karakoram scree).
+
+*** Lessons
+
+- The pipeline inverted: procedural code (SRTM) defines correct
+  composition; SD fills it with texture.  SRTM is authority on
+  geometry, SD on surface appearance.
+- CLIP 77-token limit is a hard constraint.  Prioritise composition
+  words over style words.
+- =~/.cache/huggingface/= holds 4GB model — should move to external
+  SSD, not Dropbox.
+- Dropbox dehydrated =.git= metadata during session — small text
+  files in =.git/= read as empty.  Cannot commit from vadda until
+  fixed (pin folder offline or commit from mahakali).
+- All scripts use PEP 723 inline metadata — =uv run= handles
+  everything, fully reproducible on any host.

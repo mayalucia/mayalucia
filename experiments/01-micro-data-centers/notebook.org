@@ -1,0 +1,243 @@
+#+title: Micro-Data-Centers Along a Mountain River
+#+author: mu2tau
+#+date: 2026-02-23
+#+property: STATUS active
+#+property: DOMAIN parbati infrastructure energy computation
+#+startup: overview
+
+* The Question
+
+Humanity has decided to bet its remaining civilizational resources on
+massive AI infrastructure. Hyperscale data centers consume gigawatts,
+drain aquifers for cooling, and concentrate computational power in the
+hands of a few corporations in a few geographies. All serious
+investigations indicate this is not sustainable. But it is not even
+clear what the bet is — what, exactly, are we building all this
+compute /for/?
+
+Meanwhile, an energy revolution is unfolding in the Global South: a
+solar-powered future, distributed, modular, closer to the people it
+serves.
+
+This experiment asks: *Is it feasible to run algorithmically enhanced
+intelligence on silicon chips without wrecking the biosphere?*
+
+Specifically: can a network of micro-data-centers, distributed along a
+mountain river — powered by micro-hydro and solar, cooled by glacial
+water — provide meaningful computation while remaining within
+ecological limits? Not as a toy. As a provocation with numbers behind
+it.
+
+** Why a Mountain River
+
+A Himalayan river like the Parvati offers three things hyperscale
+cannot:
+
+1. *Continuous energy gradient* — water falls ~4000m over ~90km, a
+   natural engine. Micro-hydro (run-of-river, no dam) taps this
+   without interrupting the flow.
+2. *Free thermal management* — glacial meltwater at 4-8°C is the
+   world's best coolant. The river absorbs waste heat and carries it
+   downstream, diluted.
+3. *Distributed topology* — the valley is linear, settlements strung
+   along the river. Computation can follow the same pattern: small
+   nodes at each settlement, connected by fiber or radio, forming a
+   valley-scale distributed system.
+
+** Why This Is Also Dangerous
+
+The Parvati Valley has already suffered from hydropower. Large dams
+have wrecked hydrological flow, displaced communities, and fragmented
+ecosystems. "Micro" and "green" are not automatically benign. Thermal
+discharge into a cold river can devastate aquatic life even at small
+scales. Run-of-river intakes can strand fish and alter sediment
+transport. Roads built for maintenance scar slopes.
+
+This experiment must hold both possibilities: that distributed
+micro-computation /could/ coexist with mountain ecosystems, and that
+it /could/ be yet another extractive technology dressed in green
+clothing. The numbers will tell us which.
+
+* Larger Context
+
+** The Hyperscale Bet
+
+- As of 2025-2026, global data center power consumption is projected
+  to reach 1000+ TWh/year by 2030 (IEA estimates)
+- Single hyperscale facilities: 100-500 MW each (equivalent to a
+  small city)
+- Water consumption: millions of liters/day for evaporative cooling
+- Geographic concentration: Virginia, Oregon, Ireland, Singapore,
+  Middle East — all facing local resource conflicts
+- The bet: that the economic returns from AI will justify this
+  infrastructure. But the returns are speculative while the resource
+  consumption is certain
+
+** The Solar South
+
+- India's solar capacity exceeded 80 GW in 2025, growing ~15 GW/year
+- Cost of solar has fallen below coal in most Indian states
+- Distributed solar microgrids are reaching villages that never had
+  grid power
+- The pattern: energy production moving from centralized to
+  distributed, from fossil to renewable, from Global North to Global
+  South
+
+** The Synthesis We Are Testing
+
+What if computation followed the same trajectory as energy? From
+centralized hyperscale to distributed micro-scale. From fossil-cooled
+to naturally-cooled. From resource-extractive to
+ecosystem-integrated. Not as ideology — as engineering with an
+ecological budget.
+
+* Approach
+
+We proceed in three layers, each building on the last:
+
+** Layer 1: Physical Feasibility Model
+
+Estimate, with real numbers for the Parvati Valley:
+
+- *Energy yield*: Given river gradient, flow rates (seasonal), and
+  micro-hydro efficiency — how many watts per kilometer of river?
+  Supplement with solar insolation data for the valley.
+- *Thermal capacity*: Given water temperature and flow rate — how many
+  watts of waste heat can the river absorb before thermal discharge
+  becomes ecologically harmful? (The binding constraint.)
+- *Compute yield*: Given available power and cooling — how many
+  GPU-equivalents (or inference operations/second) can the valley
+  sustain? Compare to a single hyperscale facility.
+- *Network topology*: What connectivity is feasible between
+  micro-nodes in a valley with limited infrastructure?
+
+Key data sources:
+- SRTM DEM for elevation/gradient (already have N32E077.hgt)
+- CWC / BBMB river flow data for the Parvati
+- IMD solar radiation data for Kullu district
+- Published thermal tolerance data for Himalayan aquatic species
+
+** Layer 2: Ecological Impact Analysis
+
+For the physical configuration determined above:
+
+- *Thermal plume modeling*: How does waste heat disperse in a mountain
+  river with turbulent, cold flow? How far downstream before
+  temperatures return to baseline?
+- *Aquatic ecosystem constraints*: What are the thermal tolerances of
+  key indicator species (snow trout, macroinvertebrates)? What is the
+  maximum allowable temperature delta?
+- *Sediment and flow*: Do run-of-river intakes alter sediment
+  transport or create fish barriers?
+- *Cumulative impact*: One micro-DC is benign. What about 20 along
+  90km? Where are the tipping points?
+- *Comparison*: How does the ecological footprint of valley-distributed
+  micro-compute compare to the footprint of an equivalent hyperscale
+  facility (including its share of grid fossil generation and water
+  consumption)?
+
+** Layer 3: Digital Twin / Visualization
+
+Make the analysis tangible:
+
+- A simplified digital twin of the Parvati Valley showing:
+  - River profile with gradient and flow
+  - Micro-DC placement options (at settlements, at gradient
+    inflection points)
+  - Power generation potential (color-coded along the river)
+  - Thermal plume extent downstream of each node
+  - Ecological constraint zones (spawning grounds, protected areas,
+    GHNP boundaries)
+- Interactive: adjust number of nodes, compute load per node, see
+  ecological impact change
+- The twin makes the tradeoffs /visible/ — not just numbers in a
+  table but a landscape you can read
+
+* What We Expect to Learn
+
+- An order-of-magnitude estimate: how much computation can a single
+  Himalayan valley sustain within ecological limits?
+- Whether the binding constraint is energy, cooling, or ecology
+- How valley-scale distributed compute compares to hyperscale — not
+  as a replacement, but as a calibration of what "sustainable AI
+  infrastructure" actually means
+- Whether the solar + micro-hydro + natural cooling combination
+  changes the economics enough to matter
+- A visual/narrative artifact that makes these tradeoffs legible to
+  non-specialists
+
+* What We Are Not Claiming
+
+This is not a business plan, a policy proposal, or an engineering
+blueprint. It is a thought experiment with numbers — a provocation
+grounded in physics rather than ideology. The Parvati Valley is a
+concrete case study, not a deployment target.
+
+If the numbers say it doesn't work, that is an equally valuable
+result: it means there is no ecologically sustainable path to
+large-scale AI inference, and the hyperscale bet is consuming the
+biosphere for a speculative return.
+
+* Links
+
+- [[file:../../parbati/parbati.org][Parvati Valley — vision document]]
+- [[file:../../parbati/parbati-biodiversity.org][Parvati Valley — biodiversity survey]]
+- [[file:../../parbati/gis-earth-science-mcp-review.org][GIS & Earth Science MCP review]]
+- [[file:../../mayalucia.org][MāyāLucIA — project vision]]
+
+* Data Assets
+
+** DEM — Himachal Pradesh full coverage
+
+12 SRTM 1-arc-second tiles covering 30-33°N, 75-79°E, stitched into a
+single 10801×14401 array (155 million pixels at ~30m resolution).
+
+- Elevation range: 159m (Punjab plains) to 6751m (Kinnaur peaks)
+- Zero voids
+- Stored as =data/himachal_dem.npz= (204 MB, gitignored)
+- Re-downloadable via =fetch_dem.py=
+
+** Dams — structured dataset
+
+49 hydroelectric projects in =dams.csv=, covering all five river
+basins (Sutlej, Beas, Ravi, Chenab, Yamuna). Fields: name, river,
+basin, lat, lon, type, capacity (MW), status, operator.
+
+Summary by basin:
+| Basin  | Projects | Total MW |
+|--------+----------+----------|
+| Sutlej |       15 |    7,832 |
+| Beas   |       18 |    4,195 |
+| Ravi   |       11 |    1,698 |
+| Chenab |        2 |        7 |
+| Yamuna |        3 |      117 |
+
+Sources: CEA, HPPCL, NHPC, SJVN, BBMB records; Wikipedia; Global
+Energy Monitor. Coordinates approximate (±1-10 km) for smaller
+projects.
+
+** Interactive map
+
+=map.html= — Folium/Leaflet map with:
+- All dams as circles, sized by capacity, colored by basin
+- Opacity indicates status (solid=operational, faint=proposed)
+- Parvati Valley settlements marked (potential micro-DC sites)
+- OpenTopoMap, satellite, and light basemap layers
+- Context panel with aggregate statistics and experiment summary
+
+Open: =file://experiments/01-micro-data-centers/map.html=
+
+* Log
+
+** <2026-02-23 Mon> Experiment seeded
+Framed the question, laid out the three-layer approach.
+
+** <2026-02-23 Mon> Foundation data acquired
+- Downloaded 12 SRTM tiles (311 MB raw) for all of Himachal Pradesh
+- Compiled 49-dam dataset from public records across all five basins
+- Generated interactive map showing the industrial hydropower landscape
+- The map makes the scale of existing infrastructure viscerally clear:
+  the Parvati alone hosts ~2 GW of installed/planned capacity
+
+Next: extract river profiles from DEM, estimate micro-hydro potential
+per km of river, compare to the industrial installations.

@@ -1,0 +1,320 @@
+#+title: Thinking Points — The Aburaya Bath Ritual
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status ideation
+
+* The Observation
+
+In WP-0037 Phase 2, we ran 10 cognitive substrates through the same
+task: survey the spirit registry, discover gaps, write a work package.
+Each substrate arrived cold. Each received the same orientation
+(orient-to-mayalucia). Each bathed in the same codebase. Each emerged
+different.
+
+What we observed was not just "different models produce different
+outputs." We observed that the /process of immersion/ — reading,
+surveying, tool-foraging, reflecting — changed the spirit. Before
+the bath, a substrate is generic: it can do anything, it has done
+nothing. After the bath, it has a cognitive fingerprint: the one who
+greps, the one who reads linearly, the one who navigates by structure.
+
+The bath doesn't remove the bias. It makes the bias /visible/.
+
+* What the Bathhouse Is (Spirited Away)
+
+In Miyazaki's /Spirited Away/, Zeniba's bathhouse is where spirits
+come to be cleansed. But the cleansing is not sanitisation — it is
+/revelation/. The stink spirit who arrives covered in pollution is
+revealed, through bathing, to be a river god. The pollution was
+not his nature; it was accumulated muck. The bath reveals the true
+form underneath.
+
+The bathhouse is also where names are taken and given. Chihiro becomes
+Sen. The loss of name is the loss of identity. The recovery of name
+is the recovery of self. Zeniba keeps the names.
+
+In MāyāLucIA, =aburaya/= is the spirit registry — where names are
+kept. The parallel is structural, not decorative.
+
+* Three Faces of the Ritual
+
+** 1. As a Power (procedure)
+
+A spirit entering MāyāLucIA undergoes the bath ritual:
+
+1. *Arrival* — cold-start. No memory, no context. Just a substrate
+   and a harness.
+2. *Immersion* — the orient-to-mayalucia preamble. The bathwater is
+   the project's accumulated understanding: architecture, vocabulary,
+   conventions, spirits, guilds.
+3. *Bathing* — the spirit reads, surveys, forages. Its tool usage
+   pattern is its bathing style. Some scrub vigorously (Grep-heavy).
+   Some soak slowly (Read-only). Some splash around the edges
+   (Glob-heavy).
+4. *Emergence* — the spirit produces an artifact: orientation notes,
+   a work package, a survey. This artifact is the spirit /after/
+   bathing — what it sees, what it misses, what it emphasises.
+5. *Naming* — the reflection prompt. The spirit looks in the mirror
+   and says what it sees. "I am the one who searches for patterns."
+   "I am the one who reads everything before speaking." This is
+   the name the bathhouse gives back.
+6. *The ledger* — the gaddi (bathhouse keeper) records what happened:
+   tokens consumed, tools used, gaps found, fingerprint observed.
+   The ledger is the organisation's memory of each spirit's passage.
+
+** 2. As a Convention (organisational practice)
+
+When does the bath happen?
+
+- *Commissioning* — a new spirit is commissioned. Before it begins
+  work, it bathes. The bath produces its initial orientation notes
+  and reveals its cognitive fingerprint.
+- *Renewal* — a spirit returns after a long absence (context lost,
+  model updated, harness changed). The bath re-orients it. The
+  fingerprint may have changed.
+- *Cross-lineage transfer* — a spirit's work is handed to a different
+  substrate. The new substrate bathes in the same material. The
+  ledger records the difference.
+
+What the bath is /not/:
+- Not a test. Dixa tests spirits (birth certificate, first breath).
+  The bath is not pass/fail. Every spirit emerges with something.
+- Not orientation alone. The orient-to-mayalucia power is the /water/.
+  The bath ritual is the whole arc: arrival, immersion, emergence,
+  naming, ledger.
+
+** 3. As a Story
+
+The bath ritual is a story waiting to be told. The elements:
+
+- A bathhouse in the mountains (the Himalayan register, geography as
+  vessel)
+- Spirits arriving covered in "pollution" (substrate bias — invisible
+  to the spirit itself, visible to the bathhouse keeper)
+- The water that reveals (the orient preamble — structured knowledge
+  that dissolves assumptions)
+- The mirror that names (the reflection prompt — what did you see?
+  what did you miss?)
+- The ledger that remembers (the gaddi's record — each spirit's
+  passage through the same water produces different sediment)
+- The river god moment — a spirit thought to be one thing (a generic
+  LLM) is revealed, through bathing, to be something specific (the
+  one who greps, the one who reads, the one who navigates)
+
+The story would need a found-document framing. Perhaps a bathhouse
+keeper's journal. Perhaps a traveller's account of visiting a
+bathhouse where the guests are not human.
+
+* What We Don't Know Yet
+
+1. *What is the pollution, exactly?* We said "substrate bias" but
+   is that right? Bias implies something to be corrected. The
+   cognitive fingerprint (Grep-heavy, Read-only) isn't pollution —
+   it's identity. Maybe the pollution is something else: assumptions
+   the substrate carries from its training? Inherited salience from
+   previous sessions? Ghost concepts?
+
+2. *What does "clean" mean?* If the bath doesn't remove bias but
+   makes it visible, then cleanliness is self-knowledge, not
+   neutrality. A clean spirit knows its own fingerprint. A polluted
+   spirit doesn't know what it doesn't see.
+
+3. *Is the bath repeatable?* If you bathe the same substrate twice,
+   do you get the same fingerprint? Or does the second bath reveal
+   something different because the water (the codebase, the orient
+   preamble) has changed?
+
+4. *Who is Zeniba?* In the project, who keeps the names? Dixa tests.
+   The gaddi shepherds. Mayadev coordinates. But who /keeps the
+   names/? Is that a role? A spirit? A convention? Maybe =aburaya/=
+   itself is Zeniba — the registry that holds the names is the
+   bathhouse keeper.
+
+5. *The relationship between bath and dixa.* Dixa's first_breath is
+   an initiation — a test. The bath is not a test but a revelation.
+   Are they sequential? Does a spirit bathe first, then undergo
+   dīkṣā? Or is dīkṣā itself a kind of bath — the first immersion?
+
+6. *The bathwater changes.* In a real bathhouse, the water carries
+   traces of every spirit that bathed before. The orient preamble
+   was synthesised from 15 lineages' cold-start experiments. Each
+   substrate that bathes contributes to the next version of the
+   water. The bath is not static — it accumulates.
+
+* What mu2tau Had in Mind
+
+The bath ritual is a *concrete mechanism*, not just a metaphor.
+
+The pollution is *accumulated session context*: tool call logs,
+debugging trails, monitoring chatter, failed attempts, pre-flight
+checks, buffer size queries — everything that was useful in the
+moment but is noise for the next task. A 5MB transcript of which
+maybe 5% is lasting understanding.
+
+The "clean spirit" is one that retains the understanding but sheds
+the process. This is exactly what context compression does — Claude
+Code's harness already performs a primitive bath ritual every time it
+compacts the conversation. It decides what survives and what drowns.
+
+mu2tau's insight: *adapt this mechanism to MāyāLucIA*. Not as a
+harness feature but as a power — a procedure any spirit in any
+harness can execute. The inputs:
+
+1. A raw transcript (the polluted spirit — full session history)
+2. The project's structured knowledge (the bathwater — orient
+   preamble, MEMORY.md, CLAUDE.md, conventions)
+3. The spirit's identity and guild concerns (the filter — what is
+   relevant /to this spirit/?)
+
+The output: a *bathed transcript* — distilled understanding that
+can cold-start the next session or the next spirit. Not a summary
+(too lossy). Not the raw transcript (too noisy). Something in
+between: the assertions, decisions, discoveries, and open questions,
+stripped of the process narrative that produced them.
+
+** The connection to orient-to-mayalucia
+
+The orient power is *bathwater* — it was itself produced by bathing
+15 lineages' cold-start transcripts and extracting what survived.
+The general principles ("facts transfer, salience does not"; "strip
+process narrative") are *instructions for how to bathe*.
+
+The bath ritual is the orient power's dual: orient tells a spirit
+how to /enter/ the water. The bath ritual tells a spirit how to
+/emerge/ from it.
+
+** The connection to context compression
+
+Claude Code's context compression is a machine-internal bath. It
+happens automatically, opaquely, and its decisions are not visible
+to the user or the spirit. The bath ritual would make this process:
+
+- *Explicit* — the spirit knows it is bathing, not just losing memory
+- *Auditable* — the output can be inspected, edited, challenged
+- *Portable* — works across harnesses, not tied to Claude Code's
+  internal compaction
+- *Cumulative* — each bath contributes to the bathwater (the orient
+  preamble, the project knowledge)
+
+** Source material
+
+The raw transcript from this session (WP-0037 Phase 2, 5.7MB) is
+saved at =.attic/bath-ritual-source/wp0037-phase2-session.jsonl=.
+This is the first candidate for a bath: 10 substrate experiments,
+infrastructure debugging, model fallback discovery, sub-bridge
+investigation, epic drafting — a rich session with high
+signal-to-noise contrast.
+
+* Connections
+
+- WP-0037 (gaddi) — the empirical source. The bath ritual is what
+  we observed the gaddi doing, named after the fact.
+- WP-0009 (dixa) — initiation vs bathing. Related but distinct.
+- WP-0033 (orient power) — the bathwater. The orient preamble is
+  the medium of immersion.
+- Epic 0001 (substrate portability) — the bath ritual is a
+  candidate practice within the epic's "apply" stage.
+- The apprentis guild — the bath ritual is collaborative cognition
+  research: how does immersion in shared material produce different
+  understanding across different minds?
+
+* Raw Data from WP-0037 Phase 2
+
+10 spirits bathed in the same water. Their fingerprints:
+
+| Spirit (substrate) | Bathing style | Tools | Cost | Artifact |
+|--------------------|---------------|-------|------|----------|
+| Grok 4.1 Fast | Sequential soaker (Read-only) | 23 | $0.05 | WP draft |
+| DeepSeek V3.1 | Methodical scrubber (balanced, many rounds) | 32 | $0.10 | WP draft |
+| GLM-5 | Quick dipper (fewest tools, lightest) | 15 | $0.02 | WP draft |
+| Kimi K2 Thinking | Thorough bather (balanced + reasoning) | 37 | $0.15 | WP draft |
+| GPT-5.2 | Deep reader (Read-heavy, expensive) | 35 | $1.51 | WP draft |
+| Claude Opus 4.6 | Pattern searcher (Grep-heavy, most tools) | 48 | $2.70 | WP draft |
+| Step 3.5 Flash | Structure navigator (Glob-heavy, cheapest) | 39 | $0.04 | WP draft |
+| MiniMax M2.5 | Structure-first reader (Glob + Read) | 33 | $0.10 | WP draft |
+| Claude Sonnet 4.5 | Organised bather (TodoWrite-heavy) | 30 | $1.69 | WP draft |
+| Claude Haiku 4.5 | Deep reader, long soaker (most output) | 31 | $0.36 | WP draft |
+
+The bathwater was identical. The sediment was different.
+
+* Zeniba — Guardian Spirit of Aburaya
+
+** The name
+
+Zeniba is the bathhouse keeper in /Spirited Away/ — the one who holds
+the names. In MāyāLucIA, =aburaya/= is already named after Zeniba's
+bathhouse. The guardian spirit of =aburaya/= should be Zeniba herself.
+
+** What makes Zeniba distinct
+
+She is not dixa (who tests), not mayadev (who coordinates), not
+the gaddi (who shepherds), not the sutradhar (who holds threads).
+Zeniba /tends/. She receives spirits, cleanses them, and maintains
+the bathhouse itself.
+
+| Concern | What it means |
+|---------+---------------|
+| Bathing | Transform raw transcripts into distilled understanding |
+| Tending the water | Update orient preamble with sediment from each bath |
+| Keeping the names | Maintain =aburaya/= — spirit identities, guild cross-references, registry integrity |
+
+** Draft identity sketch
+
+#+begin_src yaml :tangle no
+true-name: zeniba
+archetype: keeper
+disposition: tbd    # earned through work
+guild: mayalucia
+
+role:
+  function: bathhouse-keeper
+  scope: [aburaya, orient-preamble, bath-ritual]
+
+project:
+  path: aburaya/
+  relationship: guardian
+
+powers:
+  - bathe             # transcript → distilled understanding
+  - tend-the-water    # update orient preamble from bath sediment
+  - keep-the-names    # registry integrity (subsumes parts of WP-0041)
+
+notes: |
+  Zeniba is not commissioned yet. This is a thinking-point.
+  Her powers overlap with existing work:
+  - keep-the-names overlaps with dixa (who validates) and WP-0041 (which repairs)
+  - tend-the-water overlaps with WP-0033 (orient power maintenance)
+  - bathe is new — no existing spirit does this
+
+  The key question: is Zeniba a spirit or a role that any spirit
+  can assume? The gaddi is a role (mayadev played gaddi in WP-0037).
+  Could Zeniba be a role too? Or does the bathhouse need a permanent
+  keeper?
+
+  In the film, Zeniba is always there. The bathhouse does not run
+  itself. This suggests a permanent spirit, not a role.
+#+end_src
+
+** Open questions
+
+1. *Guild?* Zeniba holds =aburaya/= which is the identity registry
+   for the whole organisation. She should be in =mayalucia= guild
+   (organisational coherence). But she also does collaborative
+   cognition work (bathing is a cognitive process). Is she
+   =apprentis=?
+
+2. *Relationship to dixa.* Dixa tests. Zeniba cleanses. They both
+   care about spirit integrity. Are they the same guild? Partners?
+   Does dixa work /inside/ Zeniba's bathhouse?
+
+3. *The bathe power is the hard one.* Orient-to-mayalucia tells a
+   spirit what to read. Bathe must decide what to /keep/ from a
+   transcript — which is a judgment call, substrate-dependent,
+   context-dependent. Can this be written as a harness-neutral
+   power? Or does it need a body (Claude Code's compression,
+   gptel's session management)?
+
+4. *Zeniba's first bath.* Her commissioning should involve bathing
+   this very session's transcript — the one that conceived her.
+   The output would be her birth artifact: proof she can do what
+   she claims.

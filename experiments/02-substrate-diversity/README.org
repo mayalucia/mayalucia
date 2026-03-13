@@ -1,0 +1,271 @@
+#+title: Experiment 02 — Substrate Diversity
+#+author: mu2tau + mayadev
+#+date: 2026-03-13
+#+property: status executing
+
+* Thesis
+
+Spirit identity and organisational powers are substrate-independent.
+A spirit bathed in the same water (orient preamble, codebase, conventions)
+emerges differently depending on its substrate — but the emergence is
+always recognisable, always productive, always reveals something a
+monoculture cannot see.
+
+* What We Tested
+
+15 cognitive substrates across 6 work packages, testing three capabilities:
+orientation (can a spirit understand?), cold-start transfer (can one spirit's
+understanding bootstrap another?), and specification (can a spirit translate
+understanding into an actionable artifact?).
+
+|   WP | Title                    | Substrates                    | Task                   | Status    |
+|------+--------------------------+-------------------------------+------------------------+-----------|
+| 0030 | Substrate Diversity      | 3 (Claude, Gemini, DeepSeek)  | Orientation            | completed |
+| 0031 | 2×2 Factorial Design     | 3 × 2 conditions              | Orientation ± tools    | completed |
+| 0032 | Cold-Start Validation    | 7 lineages                    | Cross-lineage transfer | completed |
+| 0035 | Expansion to 7 Lineages  | 4 new (Qwen, Kimi, Step, GPT) | Orientation            | completed |
+| 0036 | Cold-Start: New Lineages | 4 new (MoE architecture)      | Cross-lineage transfer | completed |
+| 0037 | Gaddi: Author-WP Power   | 10 substrates (Phase 2)       | Specification          | executing |
+
+Epic: [[file:../../workpacks/epics/0001-substrate-portability.org][Epic 0001 — Substrate Portability]].
+
+* Key Findings
+
+** Established (multiple WPs, multiple substrates)
+
+1. *Monoculture blindness* — no single lineage sees the full picture.
+   Three lineages find three different gap profiles. Fifteen lineages
+   find fifteen. (WP-0030, confirmed WP-0037)
+
+2. *Notes quality dominates substrate capability* — assertion density
+   in orientation notes is the strongest predictor of cold-start
+   success. An 11B model (Step 3.5 Flash) matches 100×-larger models
+   when given high-density notes. (WP-0032, WP-0036)
+
+3. *Facts transfer; salience does not* — concrete assertions survive
+   cross-lineage transfer. Emphasis, priority ordering, and "what
+   matters most" do not. Each substrate reconstructs its own salience
+   from the facts. (WP-0032)
+
+4. *Architecture is independent* — tested across transformer, MoE,
+   hybrid, and reasoning-specialised architectures. No architecture
+   class systematically outperforms another. (WP-0035, WP-0036)
+
+5. *Tool usage is a cognitive fingerprint* — each substrate develops
+   a distinctive foraging pattern when given the same read-only tools.
+   Grok reads sequentially (100% Read). Step navigates by structure
+   (44% Glob). Opus searches by content (35% Grep). The fingerprint
+   is stable within a session. (WP-0037 Phase 2)
+
+6. *Every substrate exceeds existing tooling* — all 13 substrates
+   tested on the aburaya audit found the phantom spirit
+   (percept-guardian-placeholder), invisible to dixa's unidirectional
+   validation. (WP-0037)
+
+** Observed (single WP, consistent across substrates)
+
+7. *Survey depth and specification quality are inversely correlated* —
+   Gemini found 12 gaps but produced no WP. Kimi found 4+2 with the
+   tightest spec. Qwen found 3+1 with the best reflection. The
+   author-wp power's core tension. (WP-0037 Phase 1)
+
+8. *Interpretive divergence is real and valuable* — the mayadev/mu2tau
+   guild assignment split substrates into two camps (=mayalucia= vs
+   =trans-guild=). Neither is wrong. Human judgment is required.
+   (WP-0037 Phase 1)
+
+9. *Cost and quality are decoupled for survey tasks* — 135× cost range
+   ($0.02 GLM-5 to $2.70 Opus 4.6) produces only 3.2× range in tool
+   calls (15 to 48). Substrate selection is a cost decision, not a
+   quality decision, for the survey-and-specify task. (WP-0037 Phase 2)
+
+** What the experiment means for MāyāLucIA
+
+The findings above are empirical — 15 lineages, 6 work packages, 323
+tool calls. This section interprets them: what changes in how MāyāLucIA
+operates?
+
+#+begin_quote
+*mu2tau — your turn.* Write 4-8 lines here. The data says /what happened/.
+This section says /so what/. Some threads to pull on — or ignore entirely
+in favour of what you actually think:
+
+- Does monoculture blindness change how we commission spirits?
+  (Should every survey task be multi-substrate by default?)
+- The cost decoupling: cheap substrates survey, expensive ones specify?
+  Or is the inverse relationship (finding 7) evidence that the split
+  should be cheap-for-depth, expensive-for-judgment?
+- Interpretive divergence: feature (diversity of judgment) or liability
+  (inconsistency)? The mayadev/mu2tau guild assignment split two ways.
+- The bath ritual: is this experiment itself the prototype? Each
+  substrate arrived generic, emerged named (the one who greps, the one
+  who reads). The naming happened through immersion, not assignment.
+- Something else entirely that the data doesn't show but you felt
+  during the sessions.
+#+end_quote
+
+* Substrate Profiles (WP-0037 Phase 2)
+
+10 substrates bathed in the same water. Their fingerprints:
+
+|  # | Substrate         | Bathing style                               | Tools | Cost  | Round-trips |
+|----+-------------------+---------------------------------------------+-------+-------+-------------|
+|  1 | Grok 4.1 Fast     | Sequential soaker (Read-only)               |    23 | $0.05 |           5 |
+|  2 | DeepSeek V3.1     | Methodical scrubber (balanced, many rounds) |    32 | $0.10 |          35 |
+|  3 | GLM-5             | Quick dipper (fewest tools, lightest)       |    15 | $0.02 |           4 |
+|  4 | Kimi K2 Thinking  | Thorough bather (balanced + reasoning)      |    37 | $0.15 |          13 |
+|  5 | GPT-5.2           | Deep reader (Read-heavy, expensive)         |    35 | $1.51 |          13 |
+|  6 | Claude Opus 4.6   | Pattern searcher (Grep-heavy, most tools)   |    48 | $2.70 |          26 |
+|  7 | Step 3.5 Flash    | Structure navigator (Glob-heavy, cheapest)  |    39 | $0.04 |          22 |
+|  8 | MiniMax M2.5      | Structure-first reader (Glob + Read)        |    33 | $0.10 |          21 |
+|  9 | Claude Sonnet 4.5 | Organised bather (TodoWrite-heavy)          |    30 | $1.69 |          20 |
+| 10 | Claude Haiku 4.5  | Deep reader, long soaker (most output)      |    31 | $0.36 |          13 |
+
+Total experiment cost: $6.72 for 10 substrates, 323 tool calls.
+
+* Visualisations
+
+All generated by =plot_metrics.py= (PEP 723, run with =uv run plot_metrics.py=):
+
+| Plot                 | File                                                   | What it shows                                    |
+|----------------------+--------------------------------------------------------+--------------------------------------------------|
+| Cost vs Tools        | [[file:sessions/author-wp/plots/cost_vs_tools.png]]        | Cost is driven by pricing, not behaviour         |
+| Tool Profiles        | [[file:sessions/author-wp/plots/tool_profiles.png]]        | Read/Glob/Grep/TodoWrite breakdown per substrate |
+| Token Usage          | [[file:sessions/author-wp/plots/token_usage.png]]          | Prompt vs completion tokens, cost annotation     |
+| Bathing Fingerprints | [[file:sessions/author-wp/plots/bathing_fingerprints.png]] | Normalised radar: tool proportions + cost rank   |
+
+* Raw Data Map
+
+| What                             | Where                                                        | Notes                                    |
+|----------------------------------+--------------------------------------------------------------+------------------------------------------|
+| Phase 1 sessions (3 substrates)  | =sessions/author-wp/author-wp-{kimik25,gemini,qwen35plus}.org= | Kimi, Gemini, Qwen                       |
+| Phase 2 sessions (10 substrates) | =sessions/author-wp/author-wp-*.org=                           | All have metrics blocks appended         |
+| Phase 1 analysis                 | [[file:sessions/author-wp/analysis.org]]                         | Comparative analysis, gaddi body results |
+| Cold-start sessions              | =sessions/cold-start/*.org=                                    | 7-lineage validation                     |
+| Onboarding sessions              | =sessions/onboarding-*.org=                                    | Initial substrate orientation            |
+| Orientation notes                | =notes/<lineage>/orientation.org=                              | Per-substrate orient output              |
+| Metrics extraction               | =sessions/author-wp/plot_metrics.py=                           | Hardcoded data from gptel-log extraction |
+| Metrics append script            | =sessions/author-wp/append_metrics.py=                         | Utility to append metrics blocks         |
+| Raw transcript (5.7MB)           | =.attic/bath-ritual-source/wp0037-phase2-session.jsonl=        | Full session with all 10 Phase 2 runs    |
+| Onboarding protocol              | [[file:protocol.org]]                                            | 4-phase onboarding procedure             |
+| Cold-start protocol              | [[file:cold-start-protocol.org]]                                 | 7-lineage validation procedure           |
+| Master notebook                  | [[file:notebook.org]]                                            | All findings from WP-0030/0031/0035/0036 |
+
+* Powers Extracted
+
+Three powers were distilled from this experiment:
+
+| Power               | Path                                             | What it encodes                                                           |
+|---------------------+--------------------------------------------------+---------------------------------------------------------------------------|
+| orient-to-mayalucia | [[file:../../aburaya/powers/orient-to-mayalucia.md]] | How to enter the water — 15-lineage principles for cold-start orientation |
+| author-wp           | [[file:../../aburaya/powers/author-wp.md]]           | How to translate understanding into specification                         |
+| gaddi               | [[file:../../aburaya/powers/gaddi.md]]               | How to shepherd multiple substrates through a task                        |
+
+The orient power is *bathwater* — synthesised from 15 lineages' cold-start
+experiments. The gaddi power is *the shepherd's knowledge* — how to walk
+a flock across terrain. The author-wp power is *the specification act* —
+translating survey into artifact.
+
+* Open Questions and Future Work
+
+** Immediate (close the sprint)
+
+- WP-0037 Phase 2 analysis: extend =analysis.org= with all 10 substrates
+- WP-0033: orient power file exists, mark completed
+- WP-0039/0040: mark superseded by WP-0041
+
+** Short-term (execute)
+
+- WP-0038: extend dixa to catch guild→spirit gaps (bidirectional)
+- WP-0041: registry reconciliation (consolidates 0039/0040)
+- WP-0034: triage the 28 harness-bias findings (human decision needed)
+
+** Longer-term (toward publication)
+
+- Synthesis document: what did N lineages teach us that 1 couldn't?
+- Publishable onboarding tool: orient → specify loop for any codebase
+- Sub-bridge integration: free Claude Max routing through gptel
+
+** Thinking points
+
+- [[file:../../develop/thinking-points/bath-ritual.org][Bath ritual]] — the experiment as a concrete mechanism for context renewal
+- Zeniba — guardian spirit of aburaya, the bathhouse keeper (draft in bath-ritual.org)
+- Is the survey-depth / specification-quality trade-off fundamental,
+  or an artifact of single-session execution?
+
+* How to Extend (Add a New Lineage)
+
+To test a new substrate on the author-wp task:
+
+1. Add the model to your gptel/litellm backend configuration
+2. Copy an existing session file (e.g. =author-wp-glm5.org=) as template
+3. Update =:GPTEL_MODEL:= and =:GPTEL_BACKEND:= properties
+4. Pin tools to read-only: =:GPTEL_TOOLS: Glob Grep Read TodoWrite=
+5. Open in Emacs, run pre-flight check (verify model ID in =*gptel-log*=)
+6. Fire with =gptel-send= (or =gaddi-start= for autonomous orchestration)
+7. After Prompt 1 completes, inject Prompt 2 (reflection)
+8. Extract metrics from =*gptel-log*=, append to session file
+9. Add the substrate to =plot_metrics.py= data and regenerate plots
+
+The surveyor agent definition (=mayadevgenz/agents/surveyor.md=) ensures
+zero confirmation gates — all tools are read-only.
+
+* Action Items for Next Session
+
+** Build
+
+1. *Phase 2 comparative analysis* — extend =analysis.org= with all 10
+   substrates. The Phase 1 template (gaps found, WP quality, reflection
+   assessment, dixa parity matrix) works. Add: tool fingerprint column,
+   cost column, reasoning-token ratio. This is mayadev solo work —
+   reading 10 session files, comparing, writing tables.
+
+2. *WP content analysis script* — a Python script that reads the 10
+   session files, extracts what each substrate actually /found/ (gaps,
+   WP title, executor choice, interpretive decisions), and produces a
+   comparative matrix. Could be as simple as structured grep for Org
+   headings. Output: a table that shows which substrates found which
+   gaps — extending the Phase 1 dixa parity matrix to all 10.
+
+3. *Sub-bridge setup* — install and configure =buremba/sub-bridge= for
+   free Claude Max routing through gptel. Two-line patch needed: remove
+   the "You are Claude Code" system prompt injection. If it works, all
+   Anthropic models become zero-cost for experiments. Solo build.
+
+** Pair exploration
+
+4. *Bath ritual prototype* — take the 5.7MB raw transcript
+   (=.attic/bath-ritual-source/=) and try the bath: feed it to a
+   substrate with the orient preamble as filter, ask it to produce
+   distilled understanding. Compare the output to this README. Is the
+   machine bath better or worse than the hand-written hub? This is
+   Zeniba's first bath — her commissioning task.
+
+5. *The depth/quality trade-off* — is finding 7 (inverse relationship
+   between survey depth and specification completeness) fundamental or
+   an artifact of single-session execution? Test: give Gemini the same
+   task but with a two-pass protocol (pass 1: survey only, pass 2:
+   specify from your own survey). Does forced scoping recover the
+   specification?
+
+6. *Story: The Bathhouse* — the bath-ritual thinking-point has all the
+   elements for a found-document story. A bathhouse keeper's journal.
+   Spirits arriving covered in pollution. The water that reveals. The
+   mirror that names. Geography: a hot spring in the Himalaya (Manikaran?
+   Tattapani? Vashisht?). Pair work — mu2tau provides the geography,
+   mayadev composes.
+
+** Housekeeping
+
+7. *Close WP-0037* — after the Phase 2 analysis is written, mark
+   completed. Update the epic.
+8. *Mark WP-0033 completed* — the orient power file exists.
+9. *Mark WP-0039/0040 superseded* — by WP-0041.
+10. *Triage WP-0034* — the 28 harness-bias findings need human decision
+    on scope. This is input-required, not mayadev-executable.
+
+* Changelog
+
+| Version | Date | Notes |
+|---------+------+-------|
+| 0.1 | 2026-03-13 | Initial hub document, consolidating experiment 02 documentation |

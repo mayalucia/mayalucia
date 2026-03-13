@@ -1,0 +1,50 @@
+name,river,basin,lat,lon,type,capacity_mw,status,operator
+Bhakra Dam,Sutlej,Sutlej,31.41,76.43,storage,1325,operational,BBMB
+Nathpa Jhakri,Sutlej,Sutlej,31.564,77.98,run-of-river,1500,operational,SJVN
+Karcham Wangtoo,Sutlej,Sutlej,31.50,78.18,run-of-river,1000,operational,JSW Hydro Energy
+Koldam,Sutlej,Sutlej,31.38,76.88,storage,800,operational,NTPC
+Rampur,Sutlej,Sutlej,31.40,77.59,run-of-river,412,operational,SJVN
+Baspa-II,Baspa,Sutlej,31.43,78.24,run-of-river,300,operational,JSW Energy
+Kashang I-III,Kashang Khad,Sutlej,31.55,78.40,run-of-river,195,operational,HPPCL
+Bhaba (Sanjay Vidyut),Bhaba,Sutlej,31.52,77.77,run-of-river,120,operational,HPSEB
+Sorang,Sorang Khad,Sutlej,31.55,78.25,run-of-river,100,operational,IL&FS
+Sawra Kuddu,Pabbar,Sutlej,31.13,77.75,run-of-river,111,operational,HPPCL
+Ganvi,Sutlej,Sutlej,31.30,77.50,run-of-river,22.5,operational,HPSEB
+Shongtong Karcham,Sutlej,Sutlej,31.60,78.30,run-of-river,450,under construction,HPPCL
+Luhri Stage-I,Sutlej,Sutlej,31.35,77.45,run-of-river,210,under construction,SJVN
+Sunni Dam,Sutlej,Sutlej,31.25,77.10,run-of-river,382,under construction,SJVN
+Jangi Thopan Powari,Sutlej,Sutlej,31.60,78.40,run-of-river,804,proposed,SJVN
+Pong Dam,Beas,Beas,31.97,75.95,storage,396,operational,BBMB
+Dehar (Beas-Sutlej Link),Beas,Beas,31.53,76.88,run-of-river,990,operational,BBMB
+Pandoh Dam,Beas,Beas,31.67,77.07,diversion,0,operational,BBMB
+Larji,Beas,Beas,31.72,77.21,run-of-river,126,operational,HPSEB
+Parbati-II,Parbati,Beas,31.78,77.33,run-of-river,800,operational,NHPC
+Parbati-III,Sainj,Beas,31.74,77.26,run-of-river,520,operational,NHPC
+Sainj,Sainj,Beas,31.78,77.34,run-of-river,100,operational,HPPCL
+Allain Duhangan,Allain/Duhangan,Beas,32.23,77.21,run-of-river,192,operational,Statkraft
+Malana-I,Malana Nala,Beas,32.07,77.11,run-of-river,86,operational,Malana Power Co
+Malana-II,Malana Nala,Beas,32.05,77.10,run-of-river,100,operational,Everest Power
+Shanan (Uhl-I),Uhl,Beas,31.99,76.81,run-of-river,110,operational,PSPCL
+Bassi (Uhl-II),Uhl,Beas,31.99,76.78,run-of-river,60,operational,HPSEB
+Uhl-III,Uhl,Beas,31.95,76.85,run-of-river,100,operational,HPSEB
+Dhaulasidh,Beas,Beas,31.83,76.50,run-of-river,66,under construction,SJVN
+Baner,Baner Khad,Beas,32.10,76.30,run-of-river,12,operational,HPSEB
+Binwa,Binwa,Beas,32.05,76.25,run-of-river,6,operational,HPSEB
+Gaj,Gaj Khad,Beas,32.00,76.35,run-of-river,10.5,operational,HPSEB
+Nakthan,Parbati/Tosh,Beas,32.05,77.35,run-of-river,520,proposed,HPPCL
+Chamera-I,Ravi,Ravi,32.60,75.99,storage,540,operational,NHPC
+Chamera-II,Ravi,Ravi,32.53,76.14,run-of-river,300,operational,NHPC
+Chamera-III,Ravi,Ravi,32.48,76.28,run-of-river,231,operational,NHPC
+Baira Siul,Baira/Siul,Ravi,32.81,76.14,run-of-river,180,operational,NHPC
+Kutehr,Ravi,Ravi,32.70,76.10,run-of-river,240,under construction,JSW Energy
+Budhil,Budhil,Ravi,32.60,76.50,run-of-river,70,operational,Greenko
+Chanju-I,Chanju Nala,Ravi,32.55,76.20,run-of-river,36,operational,IA Energy
+Chanju-II,Chanju Nala,Ravi,32.50,76.18,run-of-river,19.8,operational,Private
+Chanju-III,Chanju Nala,Ravi,32.52,76.22,run-of-river,48,under construction,HPPCL
+Deothal Chanju,Deothal Nala,Ravi,32.48,76.15,run-of-river,30,under construction,HPPCL
+Holi,Ravi,Ravi,32.40,76.50,run-of-river,3,operational,State
+Thirot,Thirot Nala,Chenab,32.55,77.10,run-of-river,4.5,operational,HPSEB
+Rong Tong,Rong Tong Nala,Chenab,32.60,77.15,run-of-river,2,operational,State
+Giri Bata,Giri,Yamuna,30.53,77.50,run-of-river,60,operational,HPSEB
+Renukaji Dam,Giri,Yamuna,30.60,77.40,storage,40,under construction,HPPCL
+Andra,Andhra Khad,Yamuna,31.10,77.20,run-of-river,16.95,operational,HPSEB

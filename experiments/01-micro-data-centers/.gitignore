@@ -1,0 +1,4 @@
+# Large data files — re-downloadable via fetch_dem.py
+data/*.hgt
+data/*.npz
+.venv/
