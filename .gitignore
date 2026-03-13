@@ -32,6 +32,7 @@ CLAUDE-root-only.md
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
 
 # LaTeX generated (keep .org and .tex, not build output)
 *.pdf
@@ -57,6 +58,11 @@ website/.hugo_build.lock
 
 # Attic — archived artifacts for later review
 .attic/
+
+# Lab — local computational artefacts (regenerable from code)
+# Each project keeps its own .lab/ for training histories, intermediate
+# data, generated plots, DEM caches, model checkpoints, etc.
+.lab/
 
 # Experiments — lab notebooks, protocols, and curated data travel with the repo.
 # Raw session transcripts stay local (gitignored per-experiment).
