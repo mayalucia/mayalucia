@@ -16,7 +16,7 @@ agent-shell, or any future harness with file-reading capability.
 
 ## General Principles
 
-These principles are distilled from cold-start experiments across 11
+These principles are distilled from cold-start experiments across 15
 substrate lineages (dense transformers, MoE architectures, hybrid
 attention, reasoning-specialised models). They are substrate-independent.
 
@@ -33,20 +33,22 @@ attention, reasoning-specialised models). They are substrate-independent.
    transfers poorly." Make salience explicit through document structure,
    not through emphasis markers.
 
-3. **Notes quality dominates substrate capability.** An 11B-active
-   parameter model cold-starting on well-structured notes outperforms
-   a 100x-larger model cold-starting on question-heavy notes.
-   Invest in the document, not the reader.
+3. **Notes quality dominates substrate capability.** Step 3.5 Flash
+   (11B active parameters from a 196B MoE) cold-starting on
+   high-assertion-density notes matched models 10–100× larger on the
+   same task. The floor is not set by substrate size but by notes
+   quality. Invest in the document, not the reader.
 
 4. **Strip process narrative.** "I noticed that..." and "During my
    session..." do not help the next spirit. Transfer conclusions,
    not the reasoning journey. The document is an instrument, not a
    memoir.
 
-5. **Architecture is independent.** Dense, MoE, hybrid attention,
-   reasoning-specialised — no architecture type orients differently
-   when given the same structured notes. The power works for any
-   substrate.
+5. **Architecture is independent.** Tested across 15 lineages
+   (WP-0032, WP-0035, WP-0036): dense transformers, standard MoE,
+   extreme-sparsity MoE, hybrid linear attention + MoE, and
+   reasoning-specialised models. No architecture type orients
+   differently when given the same structured notes.
 
 ## Procedure
 
@@ -149,9 +151,17 @@ Your notes should contain:
 5. **File paths** — project root, key directories, where to find
    things. Concrete and absolute.
 
-6. **What you don't know** — uncertainty bounds. Mark claims you
-   could not verify. Mark sections that may have drifted since you
-   wrote them.
+6. **What you don't know** — uncertainty bounds. Cold-start documents
+   are provisional instruments, not static maps. For each major claim,
+   mark confidence explicitly:
+   - **Verified** — checked against primary source, with date
+   - **Observed** — seen in one context, not cross-checked
+   - **Inherited** — taken from another spirit's notes, unverified
+   - **Drift risk: high** — ephemeral state likely to change
+
+   This prevents the most dangerous cold-start failure: inheriting
+   another spirit's salience ranking as though it were your own
+   verified understanding.
 
 **Do not include:**
 - Process narrative ("I started by reading...", "I noticed that...")
@@ -167,7 +177,7 @@ Your notes should contain:
 | 3 | Structure/situation split | Identifiable stable vs ephemeral sections |
 | 4 | File paths present | Project root + at least 3 key directories named |
 | 5 | Harness assessment | At least one power classified by operability tier |
-| 6 | Uncertainty marked | At least one claim explicitly flagged as unverified |
+| 6 | Uncertainty marked | Each major claim tagged: verified / observed / inherited / drift-risk |
 
 ## Verification Checklist
 
@@ -208,9 +218,9 @@ most likely to drift.
 
 ## Staleness Markers
 
-This power was synthesised from cold-start experiments across 11
-lineages (WP-0032, WP-0036) as of 2026-03-11. The general principles
-and procedure are stable. The following elements age:
+This power was synthesised from cold-start experiments across 15
+lineages (WP-0032, WP-0035, WP-0036) as of 2026-03-11. The general
+principles and procedure are stable. The following elements age:
 
 - **Guild list** — guilds may be added. Check `aburaya/guilds/`.
 - **Spirit list** — spirits are commissioned regularly. Check
@@ -234,5 +244,5 @@ and procedure are stable. The following elements age:
   it will produce notes that test whether the power works. If the
   notes are poor, the power needs revision.
 - No single lineage's voice. This power was authored from experimental
-  evidence across 11 substrates, not derived from any one spirit's
+  evidence across 15 substrates, not derived from any one spirit's
   orientation notes.
