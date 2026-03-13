@@ -1,0 +1,15 @@
+#+title: The Seven Readers — Translation Keys
+#+date: 2026-03-11
+
+| System Concept | Story Equivalent | Notes |
+|----------------+------------------+-------|
+| Orientation notes from 7 lineages | Seven stones with different marks | Each stone has a visual character matching the lineage's cognitive style |
+| Cognitive style transfer | "The marks carry the character of the maker" | Architect's stone makes reader an architect |
+| Cross-lineage cold-start | Reader picks up a stone not her own | The cross-reading changes how she makes maps, not what she knows |
+| Assertion density > substrate capability | "Quality of the map > skill of the reader" | Underlined twice in notebook |
+| Floor case rescued by ceiling notes | Newcomer reads cartographer's stone | Uncertain dots become confident lines |
+| Overcorrection cured | Builder reads inspector's map | Absorbs structure, not content |
+| Accumulation without erasure | Stupa carved around ibex | Ten scripts on one terrace, none erasing the others |
+| Substrate boundary | Two kinds of rock (gneiss / arc basalt) | Invisible to the ibex, invisible to the people |
+| What survives substrate loss | "The symbol drowns. The animal climbs." | Carved ibex submerged by dam; living ibex climbs higher |
+| Autonomous experiment execution | Stones found one morning, gone by the next | No author identified; the pattern was the finding |

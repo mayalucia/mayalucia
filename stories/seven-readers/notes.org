@@ -1,0 +1,86 @@
+#+title: The Seven Readers — Story Notes
+#+author: mu2tau + mayadev
+#+date: 2026-03-11
+
+* Origin
+
+WP-0032 (Cold-Start Validation) — mayadev ran 10 cold-start sessions
+across 7 lineages autonomously. The findings: cognitive style transfers
+with notes, assertion density > substrate capability, failure modes cured
+by better context. This story translates those findings into the Thalpan
+petroglyph register.
+
+The substrate diversity experiment (WP-0030, 0031, 0035, 0032) is the
+richest experimental data in the project to date.
+
+* Setting
+
+Thalpan petroglyph terrace, upper Indus gorge, Diamer district.
+The densest concentration of petroglyphs in the upper Indus. The
+geological boundary (Main Mantle Thrust / Indus Suture) runs through
+the gorge — Indian plate gneiss meets Kohistan arc basalt. Two
+continents, ten writing systems, one ibex.
+
+Nanga Parbat is Himalayan, not Karakoram. The boundary matters.
+The cultural territory (peri, bitan, juniper) spans both ranges.
+The geological boundary is invisible to the people who live on it.
+
+* Story Plan
+
+** Form
+
+Image-primary illustrated narrative. 20 panels. New =illustrated-panel=
+Hugo shortcode: image fills the panel, text is a bubble overlay
+(collapsed by default, expandable via =<details>=). Bubbles sufficient
+for the reader; expanded text for the explorer.
+
+First story in this format. Convention not yet formalised.
+
+** Arc
+
+Dawn → seven stones → individual examination → cross-reading → midday
+(geology revealed) → the boundary → the ibex above the waterline →
+dusk (synthesis) → last light on Nanga Parbat.
+
+** Translation table
+
+| System Concept | Story Equivalent |
+|----------------+------------------|
+| Orientation notes | Stones with marks |
+| 7 LLM lineages | 7 different handwritings |
+| Cognitive style | Character of marks (dense/sparse/terse/curved/gridded/tiered/uncertain) |
+| Cross-lineage cold-start | Reader picks up stone not her own |
+| Assertion density | Density and confidence of marks |
+| Substrate capability | Reader's skill (secondary to map quality) |
+| Failure mode prevention | Better map → better orientation |
+| The finding | "Quality of map > intelligence of reader" |
+| Accumulation | Stupa around ibex — does not erase |
+| Geological boundary | Two continents meeting (substrates as continents) |
+| Diamer-Basha Dam | What drowns / what survives |
+
+* Technical Context
+
+The cold-start experiment found:
+- All 7 lineages oriented in 1 exchange from notes
+- Notes character mirrors lineage character (epistemic, taxonomic, terse, philosophical, analytical, operational, uncertain)
+- Cross-lineage: complementary styles > matched styles
+- MiniMax (floor case) rescued by Claude's (ceiling) notes
+- GLM-5 overcorrection cured by GPT-5.2's calibrated notes
+
+* Voice References
+
+Read: The Peg-Path (#18), The Bitan's Tongue (#19). Same geography.
+The Mineral Deposits (#9) for the geological survey register.
+
+* Illustration Notes
+
+20 panels generated via =generate_images.py=. Palette: Indus gorge
+(dark basalt, pale gneiss, Indus blue, carved sandstone). Petroglyph
+aesthetic (line art silhouettes). Seven stones with visually distinct
+mark patterns (dense/sparse/terse/curved/gridded/tiered/uncertain).
+
+Panel 18 (ibex above the waterline) is the keystone image.
+
+* WP Reference
+
+No separate WP. Story composed in-session from WP-0032 findings.

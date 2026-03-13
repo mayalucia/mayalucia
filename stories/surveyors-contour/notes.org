@@ -1,0 +1,54 @@
+#+title: The Surveyor's Contour — Story Notes
+#+author: mu2tau + mayadev
+#+date: 2026-03-12
+
+* Origin
+
+Experiment 03 — Procedural Realism (2026-03-11). The experiment
+used Stable Diffusion 1.5 to generate reference images of the
+Indus gorge at Thalpan, then wrote procedural code driven by SRTM
+elevation data to approximate those images algorithmically. The
+discovery: the SRTM data — ninety-metre grid, one-metre vertical
+resolution — produced a more correct image than the generative
+model, because it contained the actual asymmetry of the gorge
+(Kohistan arc wall to 4,300m in 5km ENE vs Indian plate wall to
+1,800m WSW), while the generative model produced a symmetrical
+"average gorge" that looked like no place in particular.
+
+The pipeline inverted: the model was supposed to be the reference;
+instead, the measurement became the authority and the model became
+the surface decorator.
+
+* Setting
+
+Same as The Peg-Path (#18) and The Seven Readers (#20): the
+Thalpan petroglyph terrace, upper Indus gorge, Diamer district.
+The Thread Walker is still here — this story takes place
+during or after those days on the terrace.
+
+* Core Tension
+
+The relationship between measurement and imagination. The contour
+(measured shape) vs the hachure (drawn impression). The fact that
+a satellite's crude numbers can produce the gorge more truly than
+a painter's skilled imagination.
+
+Secondary tension: the petroglyphs are ten thousand years of
+human seeing; the survey is a machine's blind measurement. Both
+produce records. Neither contains the ibex.
+
+* Document Type
+
+Field notes — the Thread Walker meets a woman who makes pictures
+from measurements.
+
+* Voice References
+
+The Peg-Path (#18), The Seven Readers (#20), The Mineral
+Deposits (#9). Same geography, same register. The survey-report
+precision of #9 is especially relevant — this story deals with
+measurement as a mode of knowing.
+
+* WP Reference
+
+No separate WP. Story composed from Experiment 03 findings.

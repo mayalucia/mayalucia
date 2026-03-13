@@ -1,0 +1,20 @@
+#+title: The Surveyor's Contour — Translation Keys
+#+date: 2026-03-12
+
+| System Concept                          | Story Equivalent                                                | Notes                                                     |
+|-----------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------|
+| Generative model (SD 1.5)               | The painter's machine — makes images from averaged memory       | "ten thousand gorges and no measurements"                 |
+| SRTM elevation data                     | The survey — satellite measurement at 90m intervals             | "the ground is this high at this point"                   |
+| Procedural code (Python/numpy)          | The woman who makes pictures from measurements                  | The builder, not the painter                              |
+| SD producing generic "gorge"            | The Platonic gorge — average of all gorges, instance of none    | "competent and false"                                     |
+| SRTM-driven composition                 | Contour as skeleton — the gorge's own shape as the picture      | "the contour does not imagine. It remembers."             |
+| Slope/aspect from DEM gradient          | The slope field — which way each square of ground faces         | Tells where light falls without painter deciding          |
+| Pipeline inversion (model→code)         | Landscape as authority, painter as decorator                    | The measurement supplies structure; imagination supplies surface |
+| 2D DEM patch for wall texture           | The second patch — field of heights like a woven cloth          | Gullies and spurs emerge from slope computation           |
+| SD CLIP truncation (77 token limit)     | Not mapped                                                      | Too technical; omitted                                    |
+| Hachure vs contour                      | Art vs measurement — draughtsman's hand vs mountain's body      | Historical framing                                        |
+| Cross-section transect                  | The profile — the silhouette of the gorge                       | "not beautiful. Correct."                                 |
+| Gorge asymmetry (Kohistan/Indian plate) | The wound — structural fact, not surface quality                | 4300m vs 1800m in 5km each side                           |
+| Petroglyphs as human record             | Ten thousand years of seeing (chisel)                           | Richer but less true                                      |
+| Survey as machine record                | Machine's blind measurement (satellite)                         | Truer but less rich                                       |
+| The ibex (constant across all stories)  | Lives in neither record — lives on the cliff                    | "indifferent to both the chisel and the satellite"        |
