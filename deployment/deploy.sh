@@ -19,7 +19,7 @@ set -euo pipefail
 VPS_HOST="root@46.225.191.36"
 VPS_DEPLOY_DIR="/opt/vishalsood-dev"
 SSH_KEY="$HOME/.ssh/id_ed25519_hetzner"
-SSH="ssh -i $SSH_KEY"
+SSH="ssh -i $SSH_KEY -o IdentitiesOnly=yes"
 
 # This script's directory (deployment/)
 DEPLOY_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -53,18 +53,18 @@ build_hugo() {
 
 deploy_hugo() {
     echo "=== Deploying Hugo sites ==="
-    rsync -avz --delete -e "ssh -i $SSH_KEY" \
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
         "$STAGING/mayalucia-public/" \
         "$VPS_HOST:$VPS_DEPLOY_DIR/mayalucia-public/"
 
-    rsync -avz --delete -e "ssh -i $SSH_KEY" \
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
         "$STAGING/mayadevgeni-public/" \
         "$VPS_HOST:$VPS_DEPLOY_DIR/mayadevgeni-public/"
 }
 
 deploy_config() {
     echo "=== Deploying Caddyfile + docker-compose.yml ==="
-    rsync -avz -e "ssh -i $SSH_KEY" \
+    rsync -avz -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
         "$DEPLOY_DIR/Caddyfile" \
         "$DEPLOY_DIR/docker-compose.yml" \
         "$VPS_HOST:$VPS_DEPLOY_DIR/"
@@ -74,7 +74,7 @@ deploy_config() {
 
 deploy_web() {
     echo "=== Deploying vishalsood.dev (FastAPI) ==="
-    rsync -avz --delete -e "ssh -i $SSH_KEY" \
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
         --exclude='.venv' --exclude='__pycache__' --exclude='.git' \
         --exclude='.env' --exclude='.claude' --exclude='.agent-shell' \
         --exclude='sessions' --exclude='content-pipeline' \
@@ -90,7 +90,7 @@ deploy_web() {
 
 deploy_comptoir() {
     echo "=== Deploying comptoir.mayalucia.dev (Streamlit) ==="
-    rsync -avz --delete -e "ssh -i $SSH_KEY" \
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
         --exclude='.venv' --exclude='__pycache__' --exclude='.git' \
         --exclude='.env' --exclude='.claude' --exclude='.agent-shell' \
         --exclude='sessions' --exclude='develop' \
@@ -101,23 +101,6 @@ deploy_comptoir() {
         "$VPS_HOST:$VPS_DEPLOY_DIR/comptoir/"
 
     $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build comptoir"
-}
-
-build_cruvin() {
-    echo "=== Building CruVin (Next.js static export) ==="
-    mkdir -p "$STAGING/cruvin"
-    (cd "$CRUVIN" && npm run build)
-    rsync -a --delete "$CRUVIN/out/" "$STAGING/cruvin/"
-}
-
-deploy_cruvin() {
-    echo "=== Deploying cruvin.mayalucia.dev ==="
-    rsync -avz --delete -e "ssh -i $SSH_KEY" \
-        "$STAGING/cruvin/" \
-        "$VPS_HOST:$VPS_DEPLOY_DIR/cruvin/"
-
-    # Restart Caddy to pick up the new volume mount
-    $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d caddy"
 }
 
 deploy_bench() {
@@ -136,12 +119,27 @@ deploy_bench() {
     cp "$DMT_EVAL/bench/Dockerfile" "$BENCH_STAGING/Dockerfile"
     cp "$DMT_EVAL/bench/requirements.txt" "$BENCH_STAGING/requirements.txt"
 
-    rsync -avz --delete -e "ssh -i $SSH_KEY" \
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
         --exclude='__pycache__' --exclude='.git' \
         "$BENCH_STAGING/" \
         "$VPS_HOST:$VPS_DEPLOY_DIR/bench/"
 
     $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build bench"
+}
+
+build_cruvin() {
+    echo "=== Building CruVin (Next.js static export) ==="
+    (cd "$CRUVIN" && npm run build)
+}
+
+deploy_cruvin() {
+    echo "=== Deploying cruvin.mayalucia.dev ==="
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
+        "$CRUVIN/out/" \
+        "$VPS_HOST:$VPS_DEPLOY_DIR/cruvin-public/"
+
+    # Ensure Caddy can see it
+    $SSH "$VPS_HOST" "ln -sfn $VPS_DEPLOY_DIR/cruvin-public /srv/cruvin"
 }
 
 verify() {
@@ -192,12 +190,12 @@ case "${1:-all}" in
         ;;
     all)
         build_hugo
-        build_cruvin
         deploy_config
         deploy_hugo
         deploy_web
         deploy_comptoir
         deploy_bench
+        build_cruvin
         deploy_cruvin
         verify
         ;;

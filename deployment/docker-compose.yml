@@ -15,7 +15,7 @@ services:
       - caddy_config:/config
       - ./mayalucia-public:/srv/mayalucia:ro
       - ./mayadevgeni-public:/srv/mayadevgeni:ro
-      - ./cruvin:/srv/cruvin:ro
+      - ./cruvin-public:/srv/cruvin:ro
 
   web:
     build: ./vishalsood-web
