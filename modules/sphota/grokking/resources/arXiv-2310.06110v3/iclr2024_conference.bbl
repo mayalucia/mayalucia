@@ -1,0 +1,279 @@
+\begin{thebibliography}{40}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Power et~al.(2022)Power, Burda, Edwards, Babuschkin, and
+  Misra]{power2022grokking}
+Alethea Power, Yuri Burda, Harri Edwards, Igor Babuschkin, and Vedant Misra.
+\newblock Grokking: Generalization beyond overfitting on small algorithmic
+  datasets.
+\newblock \emph{arXiv preprint arXiv:2201.02177}, 2022.
+
+\bibitem[Nanda et~al.(2023)Nanda, Chan, Liberum, Smith, and
+  Steinhardt]{nanda2023progress}
+Neel Nanda, Lawrence Chan, Tom Liberum, Jess Smith, and Jacob Steinhardt.
+\newblock Progress measures for grokking via mechanistic interpretability.
+\newblock \emph{arXiv preprint arXiv:2301.05217}, 2023.
+
+\bibitem[Davies et~al.(2023)Davies, Langosco, and Krueger]{davies2023unifying}
+Xander Davies, Lauro Langosco, and David Krueger.
+\newblock Unifying grokking and double descent.
+\newblock \emph{arXiv preprint arXiv:2303.06173}, 2023.
+
+\bibitem[Thilak et~al.(2022)Thilak, Littwin, Zhai, Saremi, Paiss, and
+  Susskind]{thilak2022slingshot}
+Vimal Thilak, Etai Littwin, Shuangfei Zhai, Omid Saremi, Roni Paiss, and Joshua
+  Susskind.
+\newblock The slingshot mechanism: An empirical study of adaptive optimizers
+  and the grokking phenomenon.
+\newblock \emph{arXiv preprint arXiv:2206.04817}, 2022.
+
+\bibitem[Varma et~al.(2023)Varma, Shah, Kenton, Kram{\'a}r, and
+  Kumar]{varma2023explaining}
+Vikrant Varma, Rohin Shah, Zachary Kenton, J{\'a}nos Kram{\'a}r, and Ramana
+  Kumar.
+\newblock Explaining grokking through circuit efficiency.
+\newblock \emph{arXiv preprint arXiv:2309.02390}, 2023.
+
+\bibitem[Liu et~al.(2022{\natexlab{a}})Liu, Michaud, and
+  Tegmark]{liu2022omnigrok}
+Ziming Liu, Eric~J Michaud, and Max Tegmark.
+\newblock Omnigrok: Grokking beyond algorithmic data.
+\newblock \emph{arXiv preprint arXiv:2210.01117}, 2022{\natexlab{a}}.
+
+\bibitem[Liu et~al.(2022{\natexlab{b}})Liu, Kitouni, Nolte, Michaud, Tegmark,
+  and Williams]{liu2022towards}
+Ziming Liu, Ouail Kitouni, Niklas~S Nolte, Eric Michaud, Max Tegmark, and Mike
+  Williams.
+\newblock Towards understanding grokking: An effective theory of representation
+  learning.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  35:\penalty0 34651--34663, 2022{\natexlab{b}}.
+
+\bibitem[Gromov(2023)]{gromov2023grokking}
+Andrey Gromov.
+\newblock Grokking modular arithmetic.
+\newblock \emph{arXiv preprint arXiv:2301.02679}, 2023.
+
+\bibitem[Chizat et~al.(2019)Chizat, Oyallon, and Bach]{chizat2019lazy}
+Lenaic Chizat, Edouard Oyallon, and Francis Bach.
+\newblock On lazy training in differentiable programming.
+\newblock \emph{Advances in neural information processing systems}, 32, 2019.
+
+\bibitem[Jacot et~al.(2018)Jacot, Gabriel, and Hongler]{jacot2018neural}
+Arthur Jacot, Franck Gabriel, and Cl{\'e}ment Hongler.
+\newblock Neural tangent kernel: Convergence and generalization in neural
+  networks.
+\newblock \emph{Advances in neural information processing systems}, 31, 2018.
+
+\bibitem[Lee et~al.(2019)Lee, Xiao, Schoenholz, Bahri, Novak, Sohl-Dickstein,
+  and Pennington]{lee2019wide}
+Jaehoon Lee, Lechao Xiao, Samuel Schoenholz, Yasaman Bahri, Roman Novak, Jascha
+  Sohl-Dickstein, and Jeffrey Pennington.
+\newblock Wide neural networks of any depth evolve as linear models under
+  gradient descent.
+\newblock \emph{Advances in neural information processing systems}, 32, 2019.
+
+\bibitem[Cortes et~al.(2012)Cortes, Mohri, and
+  Rostamizadeh]{cortes2012algorithms}
+Corinna Cortes, Mehryar Mohri, and Afshin Rostamizadeh.
+\newblock Algorithms for learning kernels based on centered alignment.
+\newblock \emph{The Journal of Machine Learning Research}, 13\penalty0
+  (1):\penalty0 795--828, 2012.
+
+\bibitem[Bordelon et~al.(2020)Bordelon, Canatar, and
+  Pehlevan]{bordelon2020spectrum}
+Blake Bordelon, Abdulkadir Canatar, and Cengiz Pehlevan.
+\newblock Spectrum dependent learning curves in kernel regression and wide
+  neural networks.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  1024--1034. PMLR, 2020.
+
+\bibitem[Canatar et~al.(2021)Canatar, Bordelon, and
+  Pehlevan]{canatar2021spectral}
+Abdulkadir Canatar, Blake Bordelon, and Cengiz Pehlevan.
+\newblock Spectral bias and task-model alignment explain generalization in
+  kernel regression and infinitely wide neural networks.
+\newblock \emph{Nature communications}, 12\penalty0 (1):\penalty0 2914, 2021.
+
+\bibitem[Mei et~al.(2018)Mei, Montanari, and Nguyen]{mei2018mean}
+Song Mei, Andrea Montanari, and Phan-Minh Nguyen.
+\newblock A mean field view of the landscape of two-layer neural networks.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 115\penalty0
+  (33):\penalty0 E7665--E7671, 2018.
+
+\bibitem[Paccolat et~al.(2021)Paccolat, Petrini, Geiger, Tyloo, and
+  Wyart]{paccolat2021geometric}
+Jonas Paccolat, Leonardo Petrini, Mario Geiger, Kevin Tyloo, and Matthieu
+  Wyart.
+\newblock Geometric compression of invariant manifolds in neural networks.
+\newblock \emph{Journal of Statistical Mechanics: Theory and Experiment},
+  2021\penalty0 (4):\penalty0 044001, 2021.
+
+\bibitem[Refinetti et~al.(2021)Refinetti, Goldt, Krzakala, and
+  Zdeborov{\'a}]{refinetti2021classifying}
+Maria Refinetti, Sebastian Goldt, Florent Krzakala, and Lenka Zdeborov{\'a}.
+\newblock Classifying high-dimensional gaussian mixtures: Where kernel methods
+  fail and neural networks succeed.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  8936--8947. PMLR, 2021.
+
+\bibitem[Ba et~al.(2022)Ba, Erdogdu, Suzuki, Wang, Wu, and Yang]{ba2022high}
+Jimmy Ba, Murat~A Erdogdu, Taiji Suzuki, Zhichao Wang, Denny Wu, and Greg Yang.
+\newblock High-dimensional asymptotics of feature learning: How one gradient
+  step improves the representation.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  35:\penalty0 37932--37946, 2022.
+
+\bibitem[Arnaboldi et~al.(2023)Arnaboldi, Stephan, Krzakala, and
+  Loureiro]{arnaboldi2023high}
+Luca Arnaboldi, Ludovic Stephan, Florent Krzakala, and Bruno Loureiro.
+\newblock From high-dimensional \& mean-field dynamics to dimensionless odes: A
+  unifying approach to sgd in two-layers networks.
+\newblock \emph{arXiv preprint arXiv:2302.05882}, 2023.
+
+\bibitem[Nichani et~al.(2022)Nichani, Bai, and Lee]{nichani2022identifying}
+Eshaan Nichani, Yu~Bai, and Jason~D Lee.
+\newblock Identifying good directions to escape the ntk regime and efficiently
+  learn low-degree plus sparse polynomials.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  35:\penalty0 14568--14581, 2022.
+
+\bibitem[Atanasov et~al.(2022)Atanasov, Bordelon, Sainathan, and
+  Pehlevan]{atanasov2022onset}
+Alexander Atanasov, Blake Bordelon, Sabarish Sainathan, and Cengiz Pehlevan.
+\newblock The onset of variance-limited behavior for networks in the lazy and
+  rich regimes.
+\newblock \emph{arXiv preprint arXiv:2212.12147}, 2022.
+
+\bibitem[Berthier et~al.(2023)Berthier, Montanari, and
+  Zhou]{berthier2023learning}
+Rapha{\"e}l Berthier, Andrea Montanari, and Kangjie Zhou.
+\newblock Learning time-scales in two-layers neural networks.
+\newblock \emph{arXiv preprint arXiv:2303.00055}, 2023.
+
+\bibitem[Bietti et~al.(2022)Bietti, Bruna, Sanford, and
+  Song]{bietti2022learning}
+Alberto Bietti, Joan Bruna, Clayton Sanford, and Min~Jae Song.
+\newblock Learning single-index models with shallow neural networks.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  35:\penalty0 9768--9783, 2022.
+
+\bibitem[Geiger et~al.(2020)Geiger, Spigler, Jacot, and
+  Wyart]{geiger2020disentangling}
+Mario Geiger, Stefano Spigler, Arthur Jacot, and Matthieu Wyart.
+\newblock Disentangling feature and lazy training in deep neural networks.
+\newblock \emph{Journal of Statistical Mechanics: Theory and Experiment},
+  2020\penalty0 (11):\penalty0 113301, 2020.
+
+\bibitem[Ghorbani et~al.(2019)Ghorbani, Mei, Misiakiewicz, and
+  Montanari]{ghorbani2019limitations}
+Behrooz Ghorbani, Song Mei, Theodor Misiakiewicz, and Andrea Montanari.
+\newblock Limitations of lazy training of two-layers neural networks, 2019.
+
+\bibitem[Damian et~al.(2023)Damian, Nichani, Ge, and Lee]{damian2023smoothing}
+Alex Damian, Eshaan Nichani, Rong Ge, and Jason~D. Lee.
+\newblock Smoothing the landscape boosts the signal for sgd: Optimal sample
+  complexity for learning single index models, 2023.
+
+\bibitem[Xiao et~al.(2022)Xiao, Hu, Misiakiewicz, Lu, and
+  Pennington]{xiao2022precise}
+Lechao Xiao, Hong Hu, Theodor Misiakiewicz, Yue Lu, and Jeffrey Pennington.
+\newblock Precise learning curves and higher-order scalings for dot-product
+  kernel regression.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  35:\penalty0 4558--4570, 2022.
+
+\bibitem[Saad and Solla(1995)]{saad1995line}
+David Saad and Sara~A Solla.
+\newblock On-line learning in soft committee machines.
+\newblock \emph{Physical Review E}, 52\penalty0 (4):\penalty0 4225, 1995.
+
+\bibitem[Engel(2001)]{engel2001statistical}
+Andreas Engel.
+\newblock \emph{Statistical mechanics of learning}.
+\newblock Cambridge University Press, 2001.
+
+\bibitem[Goldt et~al.(2019)Goldt, Advani, Saxe, Krzakala, and
+  Zdeborov{\'a}]{goldt2019generalisation}
+Sebastian Goldt, Madhu~S Advani, Andrew~M Saxe, Florent Krzakala, and Lenka
+  Zdeborov{\'a}.
+\newblock Generalisation dynamics of online learning in over-parameterised
+  neural networks.
+\newblock \emph{arXiv preprint arXiv:1901.09085}, 2019.
+
+\bibitem[Sarao~Mannelli et~al.(2020)Sarao~Mannelli, Vanden-Eijnden, and
+  Zdeborov{\'a}]{sarao2020optimization}
+Stefano Sarao~Mannelli, Eric Vanden-Eijnden, and Lenka Zdeborov{\'a}.
+\newblock Optimization and generalization of shallow neural networks with
+  quadratic activation functions.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  33:\penalty0 13445--13455, 2020.
+
+\bibitem[Simon et~al.(2023)Simon, Dickens, Karkada, and
+  Deweese]{simon2023eigenlearning}
+James~B Simon, Madeline Dickens, Dhruva Karkada, and Michael Deweese.
+\newblock The eigenlearning framework: A conservation law perspective on kernel
+  ridge regression and wide neural networks.
+\newblock \emph{Transactions on Machine Learning Research}, 2023.
+
+\bibitem[Arous et~al.(2021)Arous, Gheissari, and Jagannath]{arous2021online}
+Gerard~Ben Arous, Reza Gheissari, and Aukosh Jagannath.
+\newblock Online stochastic gradient descent on non-convex losses from
+  high-dimensional inference.
+\newblock \emph{The Journal of Machine Learning Research}, 22\penalty0
+  (1):\penalty0 4788--4838, 2021.
+
+\bibitem[Kornblith et~al.(2019)Kornblith, Norouzi, Lee, and
+  Hinton]{kornblith2019similarity}
+Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey Hinton.
+\newblock Similarity of neural network representations revisited.
+\newblock In \emph{International conference on machine learning}, pages
+  3519--3529. PMLR, 2019.
+
+\bibitem[Arora et~al.(2019)Arora, Du, Hu, Li, and Wang]{arora2019fine}
+Sanjeev Arora, Simon Du, Wei Hu, Zhiyuan Li, and Ruosong Wang.
+\newblock Fine-grained analysis of optimization and generalization for
+  overparameterized two-layer neural networks.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  322--332. PMLR, 2019.
+
+\bibitem[Lewkowycz and Gur-Ari(2020)]{lewkowycz2020training}
+Aitor Lewkowycz and Guy Gur-Ari.
+\newblock On the training dynamics of deep networks with $ l\_2 $
+  regularization.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  33:\penalty0 4790--4799, 2020.
+
+\bibitem[Barak et~al.(2022)Barak, Edelman, Goel, Kakade, Malach, and
+  Zhang]{barak2022hidden}
+Boaz Barak, Benjamin Edelman, Surbhi Goel, Sham Kakade, Eran Malach, and Cyril
+  Zhang.
+\newblock Hidden progress in deep learning: Sgd learns parities near the
+  computational limit.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  35:\penalty0 21750--21764, 2022.
+
+\bibitem[Misiakiewicz(2022)]{misiakiewicz2022spectrum}
+Theodor Misiakiewicz.
+\newblock Spectrum of inner-product kernel matrices in the polynomial regime
+  and multiple descent phenomenon in kernel ridge regression.
+\newblock \emph{arXiv preprint arXiv:2204.10425}, 2022.
+
+\bibitem[Cohen et~al.(2021)Cohen, Kaur, Li, Kolter, and
+  Talwalkar]{cohen2021gradient}
+Jeremy~M Cohen, Simran Kaur, Yuanzhi Li, J~Zico Kolter, and Ameet Talwalkar.
+\newblock Gradient descent on neural networks typically occurs at the edge of
+  stability.
+\newblock \emph{arXiv preprint arXiv:2103.00065}, 2021.
+
+\bibitem[Schaeffer et~al.(2023)Schaeffer, Miranda, and
+  Koyejo]{schaeffer2023emergent}
+Rylan Schaeffer, Brando Miranda, and Sanmi Koyejo.
+\newblock Are emergent abilities of large language models a mirage?
+\newblock \emph{arXiv preprint arXiv:2304.15004}, 2023.
+
+\end{thebibliography}

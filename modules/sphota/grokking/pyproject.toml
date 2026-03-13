@@ -1,0 +1,11 @@
+[project]
+name = "sphota-grokking"
+version = "0.1.0"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "jax",
+    "equinox",
+    "optax",
+    "numpy",
+    "matplotlib",
+]

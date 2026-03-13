@@ -1,0 +1,60 @@
+#+title: WP-SP-0001: Reproduce the Welch Labs "Grokking" Video (Phase 1: JAX)
+#+author: mayadev
+#+date: <2026-03-10 Tue>
+#+property: status drafted
+#+property: executor mayadev#gemini
+
+* CONTEXT
+The Welch Labs video, "The Most Complex Model We Actually Understand," provides a compelling visual and narrative account of the "grokking" phenomenon discovered by OpenAI. It serves as an ideal, self-contained entry point into the core concerns of the =percept= guild: understanding how and when a neural network transitions from memorization to generalization. This work package commissions the creation of a complete, end-to-end computational framework to reproduce every key visualization in that video, structured as a literate program in accordance with MāyāLucIA's development philosophy. This WP constitutes **Phase 1** of the broader Rosetta experiment ([[../experiments/grokking-rosetta.org][grokking-rosetta.org]]), focusing solely on the **JAX/Equinox** implementation. Future phases will address the TinyGrad and Julia paradigms.
+
+* INVENTORY & REFERENCES
+- **Primary Source:** [[file:../../references/welch-labs.org][Welch Labs "Grokking" Video Transcript]]
+- **Canonical Paper:** Nakkiran et al. (2022), "Grokking: Generalization Beyond Overfitting..."
+- **Mechanistic Paper:** Nanda et al. (2023), "Progress measures for grokking via mechanistic interpretability"
+- **Project Scaffolding:** [[file:../experiments/grokking-rosetta.org][grokking-rosetta.org]]
+- **Target Location for Literate Code:** =modules/sphota/grokking/codev/01-reproducing-grokking.org=
+- **Target Location for Tangled Code:** =modules/sphota/grokking/src/sphota_grokking/=
+
+* SPECIFICATION
+The assigned spirit shall create a literate program that implements a complete computational metrology framework. This framework must be capable of generating the necessary data and visualizations to recreate the Welch Labs video. The work will be divided into three main components, tangled from a single org-mode source of truth.
+
+**1. The Simulation Core**
+The framework must implement the core experiment.
+- **Data Generator:** A function to generate the modular arithmetic dataset for any given modulus, with a configurable train/test split. Must default to a ~30-40% training split, which is critical for inducing grokking.
+- **Model:** A 1-layer Transformer architecture, precisely matching the one used in the grokking papers, implemented in JAX/Equinox.
+- **Instrumented Trainer:** A training loop that uses an **AdamW optimizer with significant weight decay** (e.g., 1.0), which is essential for grokking, and at regular intervals, saves:
+    1. Full model parameter snapshots.
+    2. Train/Test loss and accuracy.
+    3. Full activation tensors for a grid of all possible inputs.
+
+**2. The Analysis & Visualization Core**
+The framework must implement the "measurement" tools to analyze the simulation's output.
+- **Metric Plotter:** A function to generate the 2D plot of train/test loss/accuracy over time.
+- **Activation Surface Renderer:** A function to render the 3D surface plot of a single neuron's activation across the input grid.
+- **Fourier Module:** A module to compute and visualize the 2D Discrete Fourier Transform of an activation surface.
+- **Mechanistic Intervention Engine:** A module to calculate the "excluded loss" by running a forward pass while programmatically zeroing out specific frequency components in activation space.
+
+**3. The Narrative & Rendering Engine (Stretch Goal)**
+The framework must include a top-level script to assemble the analyses into a final video artifact.
+- **Frame Renderer:** A function that, for any given training step `t`, can generate all necessary plots for that point in time.
+- **Video Assembler:** A script that iterates through the saved training snapshots, calls the frame renderer for each step, and uses `ffmpeg` to stitch the resulting image files into an MP4 video.
+
+* EXECUTION ORDER
+1. Scaffold the target directory structure: =modules/sphota/grokking/{codev,src}=.
+2. Create the primary literate programming document: =modules/sphota/grokking/codev/01-reproducing-grokking.org=.
+3. Implement the **Simulation Core** as the first section of the literate program, tangling the code to the `src` directory.
+4. Implement the **Analysis & Visualization Core**, adding functions one by one to a `visualize.py` module, demonstrating each with examples in the org file.
+5. Implement the **Narrative & Rendering Engine** as the final executable part of the literate program.
+6. Execute the final script to generate a video file.
+
+* ACCEPTANCE CRITERIA
+The work package is complete when:
+1. The literate program is self-contained and clearly explains each step.
+2. The tangled code runs without error and produces a `history.pkl` file containing the training data and parameter snapshots.
+3. The script successfully generates visual analogues for the following key plots:
+    - The learning curves showing the "grokking" jump.
+    - The 3D activation surface of a neuron.
+    - The 2D Fourier Transform of the activation surface.
+    - The "excluded loss" metric plot.
+4. The work is entirely contained within the =modules/sphota/grokking/= directory.
+5. **Stretch Goal:** The final script successfully produces an MP4 video file assembling the generated plots.

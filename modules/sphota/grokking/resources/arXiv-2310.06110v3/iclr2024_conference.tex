@@ -1,0 +1,935 @@
+
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2024_conference,times}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{float}
+\usepackage[percent]{overpic}
+\usepackage{subfigure}
+\usepackage[hide=false,setmargin=true,marginparwidth=1.2in]{marginalia}
+
+\usepackage{color}
+\usepackage{enumitem}
+\setitemize{leftmargin=12pt}
+\setenumerate{leftmargin=12pt}
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+
+% Non-anonymous submissions will be rejected without review.
+
+
+
+\author{Tanishq Kumar \ \ Blake Bordelon \ \ Samuel J. Gershman$^*$ \ \ Cengiz Pehlevan\thanks{Equal Senior Authors. Correspondence to \href{mailto:cpehlevan@seas.harvard.edu}{cpehlevan@seas.harvard.edu.}}
+\\
+Harvard University 
+}
+
+% \author{%
+%   \textbf{Tanishq Kumar$^{1}$ \ \ Blake Bordelon$^{2 4 5}$ \ \ Samuel J. Gershman$^{* 3 4 5}$ \ \ Cengiz Pehlevan\thanks{Equal Senior Authors. Correspondence to \href{mailto:tkumar@college.harvard.edu}{tkumar@college.harvard.edu.}
+% } \ \ $^{2 4 5}$}
+%   \\
+%   \\
+%   $^1$Harvard College \quad $^2$SEAS \quad $^3$ Department of Psychology \\
+%    $^4$Kempner Institute \quad $^5$Center for Brain Science\\ \\ 
+% Harvard University\\
+% }
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+
+
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bm}
+%\usepackage{fullpage}
+%\usepackage{subcaption}
+\usepackage{natbib}
+\usepackage{listings}
+%\usepackage{subfigure}
+%\usepackage[font=tiny,labelfont=bf]{caption}
+
+\title{Grokking as the transition from lazy to rich training dynamics}
+% \author{Tanishq and Blake}
+
+\usepackage{bm} 
+\def\w{\bm w}
+\def\x{\bm x}
+\def\a{\bm a}
+\def\M{\bm M}
+\def\v{\bm v}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\looseness=-1 We propose that the grokking phenomenon, where the train loss of a neural network decreases much earlier than its test loss, can arise due to a neural network transitioning from lazy training dynamics to a rich, feature learning regime. To illustrate this mechanism, we study the simple setting of vanilla gradient descent on a polynomial regression problem with a two layer neural network which exhibits grokking without regularization in a way that cannot be explained by existing theories. We identify sufficient statistics for the test loss of such a network, and tracking these over training reveals that grokking arises in this setting when the network first attempts to fit a kernel regression solution with its initial features, followed by late-time feature learning where a generalizing solution is identified after train loss is already low. We find that the key determinants of grokking are the rate of feature learning---which can be controlled precisely by parameters that scale the network output---and the alignment of the initial features with the target function $y(x)$. We argue this delayed generalization arises when (1) the top eigenvectors of the initial neural tangent kernel and the task labels $y(x)$ are misaligned, but (2) the dataset size is large enough so that it is possible for the network to generalize eventually, but not so large that train loss perfectly tracks test loss at all epochs, and (3) the network begins training in the lazy regime so does not learn features immediately. We conclude with evidence that this transition from lazy (linear model) to rich training (feature learning) can control grokking in more general settings, like on MNIST, one-layer Transformers, and student-teacher networks.
+\end{abstract}
+
+
+\section{Introduction}
+
+The goal of a machine learning system is to learn models that generalize beyond their training set. Typically, a practitioner hopes that a model's performance on its training set will be an indicator of its generalization capabilities on unseen data. However, this may not happen in practice. Grokking, discovered by \cite{power2022grokking}, is a phenomenon where the train loss of a network falls initially with no corresponding decrease in test loss, then the network generalizes later during training. There has been much recent work studying this phenomenon not only because it challenges the widely-used approaches of early stopping or train loss termination criteria, but also because some \cite{nanda2023progress} see grokking as an example of sudden, emergent behavior in a neural network, and a principle aim of the field of ML interpretability is to understand model internals well enough that they do not exhibit such unexpected and unpredictable changes in behavior.
+
+For these reasons, the phenomenology of grokking has been under close empirical study since its discovery \citep{nanda2023progress, davies2023unifying, thilak2022slingshot, varma2023explaining, liu2022omnigrok, liu2022towards, gromov2023grokking}. A limited number of theories have been proposed to explain the causes of grokking, most notably those that attribute grokking to weight decay and weight norm decrease \citep{liu2022omnigrok, varma2023explaining}. However, we give counterexamples to such theories, implying a need to explain grokking in a way that is consistent with empirical observations in current and past work. 
+
+
+
+In this paper, we propose the idea that grokking is caused by delayed feature learning during training. Our theoretical framework relies on the idea of lazy training where a network can fit its training data without adapting its internal representations \citep{chizat2019lazy}. 
+In this regime, the network behaves as a linearized model with features evaluated at initialization \citep{jacot2018neural,chizat2019lazy, lee2019wide}\footnote{We use the terms ``lazy," ``kernel regime" and ``linearized model" interchangeably to refer to the same phenomenon where the network learns without changing its internal features. Concretely, this is a regime where the network output $f$ can move a large amount while $\nabla_w f$ stays approximately constant.}.  We show that grokking can arise when a network begins fitting and ``memorizing" its training set (albeit imperfectly) in the linearized regime, then later adapts its features to the data, leading to improved generalization at late time. 
+
+We illustrate this idea schematically in Figure \ref{fig:figure1}(a). Suppose we randomly initialize a network with the parameters $\bm{w}_0$. When linearized around $\w_0$, under gradient descent, a neural network's weights are restricted to an affine subspace spanned by initial gradients $\w_0 + \text{span}\{\nabla_{\w} f(\w,\x_\mu)|_{\w_0} \}_{\mu=1}^P$, and gradient descent finds a training minimizer on this subspace, $\w_{\text{lazy}}$. For MSE loss this minimizer is the kernel regression solution with the network's initial Neural Tangent Kernel (NTK) \citep{jacot2018neural, lee2019wide}. Alternatively, if the network leaves the linearized regime, the weights can leave the subspace of the linear model and converge to another solution $\w_{\text{feature}}$. We hypothesize that grokking can occur when a network transitions from initially tracking the linearized network dynamics in the subspace to more complicated dynamics that approach $\w_{\text{feature}}$ off of the subspace which achieves better generalization because it learns features.
+
+
+
+\begin{figure}[t]
+    \subfigure[]{\includegraphics[width=0.29\linewidth]{a.pdf}}
+    \subfigure[]{\includegraphics[width=0.33\linewidth]{fig3_1.pdf}}
+    \subfigure[]{\includegraphics[width=0.33\linewidth]{fig3_2_with_rich.pdf}}
+        \caption{\looseness=-1 (a) Claimed parameter dynamics during grokking in a parameter space of $\mathbb{R}^3$ for illustrative purposes. $S(X, w_0)$ is an affine subspace of parameter space reachable by models linearized around $w_0$. (b) Grokking on a polynomial regression task introduced in Section \ref{polyreg} with an MLP, vanilla GD, and zero regularization. Green and blue loss curves in (b) correspond to sketched green and blue parameter dynamics in (a). 
+        Horizontal line (black) in (b) is the mean-squared error of best kernel regression estimate with the NTK at initialization. (c) The fact that parameter weight norm increases (dashed orange) cannot be explained by any existing theories of grokking. Features get aligned (grey) in a way we make precise in Section \ref{polyreg}. }
+    \label{fig:figure1}
+\end{figure}
+
+
+
+Given a fixed dataset where grokking is possible, our proposal naturally suggests two key factors that control grokking: (1) how much feature learning is necessary for good performance, and (2) how fast these features are learned. We introduce two parameters corresponding to these notions and demonstrate they can control grokking. 
+
+
+The key contributions in this paper are the following:
+%
+\begin{itemize}
+  \setlength\itemsep{0.5em}
+    \item We give simple examples of a two-layer MLP without any weight decay that exhibits grokking in ways inconsistent with existing theories of grokking. 
+    \item We demonstrate with both theory and experiments that grokking in this setting is associated with the transition from lazy training to a rich, feature learning regime, and can be tuned by parameters that control this transition. These parameters are:
+        \begin{itemize}
+        \item A scale parameter, $\alpha$, that controls the magnitude of the output of the network, and thus the rate of feature learning throughout training (ie. laziness).
+            \item The task-model kernel alignment between the neural tangent kernel (NTK) of the network at initialization and the test labels, a measure of how much feature learning is necessary for good performance on the task \citep{cortes2012algorithms}. 
+            \item A ``goldilocks" train set size so that generalization is possible but not immediate (for instance, grokking is impossible in the infinite data limit where train loss perfectly tracks test loss). 
+        \end{itemize}
+    \item We provide multiple lines of evidence that the feature learning dynamics that give grokking in this simple setup are also those at play during grokking in more complicated settings studied in past work: on MNIST, with one-layer transformers, and with student-teacher networks. Given a set of training inputs, we give a method to construct labels that can generate grokking. 
+\end{itemize}
+
+\section{Related work}
+\textbf{Grokking.} \cite{nanda2023progress} mechanistically interpret the algorithm learned during grokking for modular addition tasks. We show in Section \ref{fig: mnist} that merely tuning the network output scaling/laziness parameter $\alpha$ is alone sufficient to make grokking continuously vanish on the one-layer Transformer used in that work. \cite{thilak2022slingshot} argue that grokking is caused by an optimization anomaly of adaptive optimizers. We find grokking with vanilla gradient descent, so this cannot be the cause of grokking in the general case. While we show in experiments in \ref{fig: mnist} that parameters from our theory control grokking with adaptive optimizers, we note in Appendix Section \ref{app:optimizers} that learning dynamics in such settings are less well understood. \cite{davies2023unifying} point out that grokking and double descent share similarities in dynamics, and are fundamentally about the speed at which patterns of varying complexity are learned. This agrees with our argument that the network first learns patterns in the data that a linearized model can do well on, then changes its features to learn the patterns that generalize. \cite{liu2022omnigrok} empirically find that parameter weight norm at initialization can control grokking, while \cite{varma2023explaining} propose a heuristic for cross-entropy training with weight decay, suggesting that grokking arises from a ``generalizing circuit'' being favored over a ``memorizing circuit.'' Both papers rely on weight decay and weight norm decrease to explain grokking. However, we show examples of grokking with zero weight decay and an \textit{increase} in parameter weight norm during training. We comment more on relations to existing theories in Appendix Section \ref{app:relation}.
+
+
+\textbf{Kernel dynamics and feature learning in a polynomial setting.} The limiting behavior of neural networks in the large width limit (under commonly used parameterizations) is a linear model with the NTK as the kernel \citep{jacot2018neural}. This has motivated investigations into the inductive biases of kernel methods \citep{bordelon2020spectrum, canatar2021spectral}, which have revealed that kernels are strongly biased to explain training data using the top components of their eigenspectrum. While this spectral bias can enable good generalization on some learning problems, target functions that are not in the top eigenspaces of the kernel require a potentially much larger amount of data. Many papers have proposed examples where neural networks can outperform kernels statistically by amplifying task-relevant dimensions compared to task-irrelevant dimensions in the input space \citep{mei2018mean, paccolat2021geometric, refinetti2021classifying}. One example of such a problem that has attracted recent attention is single or multi-index models where the target function is a polynomial that depends on a small subset of the high dimensional inputs \citep{ba2022high, arnaboldi2023high, nichani2022identifying, atanasov2022onset, berthier2023learning, bietti2022learning}. The fact that feature-learning neural networks can outperform kernels on these tasks suggests that they could be useful toy models of grokking, especially if early training is close to linearized dynamics.
+
+
+\section{Weight Norm and Weight Decay cannot Explain Grokking }
+
+Previous explanations of grokking rely on weight norm decreases at late time \citep{liu2022omnigrok, varma2023explaining}. In Figure \ref{fig:weight_norm_increases}, we show a simple example of a modular arithmetic task, which is a common task under study in grokking \citep{power2022grokking, nanda2023progress, gromov2023grokking},  with a two-layer MLP trained without any weight decay (details in Appendix Section \ref{app:modar}). Weight norm of parameters \textit{increases} during training (Figure \ref{fig:weight_norm_increases}(a)), so grokking cannot in general be explained by theories of weight decay. 
+
+
+\begin{figure}[h]
+    \centering
+    \subfigure[Accuracy Curves]{\includegraphics[width=0.32\linewidth]{2a.pdf}}
+    \subfigure[Loss Curves]{\includegraphics[width=0.32\linewidth]{2b.pdf}}
+    \subfigure[Sweep over $\alpha$]{\includegraphics[width=0.32\linewidth]{polygrok_scale_sweep.pdf}}
+    \begin{center}
+        \caption{(a) and (b) demonstrate accuracy and loss curves for grokking on a modular arithmetic task that shows an \textit{increase} in parameter weight norm during training. (c) is a sweep over the laziness parameter $\alpha$ that we will introduce and provide a theory for, showcasing how it can continuously control grokking.}
+    \label{fig:weight_norm_increases}
+    \end{center}
+\end{figure}
+
+We will focus on the dynamics of grokking in the \textit{loss} (Figure \ref{fig:weight_norm_increases}(b)), because loss, not accuracy, guides training dynamics. Further, we show in Section \ref{app:st2} of the Appendix that accuracy curves for \textit{regression} tasks are misleading because they can be gamed by choice of metric. We use mean-squared error (MSE) loss on this classification task to adhere to the convention for how grokking was seen in modular arithmetic in \cite{liu2022omnigrok, gromov2023grokking}. We show in Section \ref{fig: mnist} that our results remain consistent across architectures, optimizers, and datasets out of the box. 
+
+While we gave the modular arithmetic task as a counterexample first because it is a common task under study in grokking, we will focus on a polynomial regression task in the rest of the paper, which we can analyze the dynamics of mathematically. We introduce that task in Section \ref{polyreg}. Parameter weight norm in that example \textit{also increases} as it groks, as visible in Figure \ref{fig:figure1} (c). These inconsistencies motivate our study which results in two key parameters -- network laziness and NTK alignment -- that we introduce. The effects of varying the first, $\alpha$, are shown in Figure \ref{fig:weight_norm_increases}(c) and we see it can make grokking more dramatic, or vanish entirely. 
+
+% This puzzle of grokking occurring for networks without any weight norm control motivates us to consider other possible explanations of grokking. In the rest of the paper, we will explore the hypothesis that the rate of feature learning plays a key role in grokking. As an illustration, in Figure \ref{fig:weight_norm_increases} (c), we train networks with varying output scale $\alpha: f \mapsto \alpha f$, which \cite{chizat2019lazy} show control the rate of feature learning. We see that higher feature learning leads to less grokking. 
+
+\section{Grokking as Transition from Lazy to Rich Learning}
+
+Grokking is often conceptualized as a network that first finds a memorizing solution which fits the training set but not the test set, later converging to a generalizing solution. We hypothesize that the ``memorizing'' solutions that have been documented in prior works on grokking are equivalent to \textit{early-time lazy training dynamics}. At late time, the linearized approximation breaks down as the network extracts useful features and begins to ``grok.''
+
+We next briefly review and define the idea of lazy training regime of neural networks, and introduce some key theoretical concepts that will play an important role in our discussion.
+
+\subsection{Primer on Lazy Learning: Linear vs Nonlinear Training Regimes}\label{sec:lazy_primer}
+
+In the lazy training regime, a network $f(\w, \x)$ of inputs $\x$ and parameters $\bm{w}$ obey the approximation 
+\begin{align}\label{eq:linearization}
+    f(\w,\x) \approx f(\w_0, \x) + \nabla_{\bm{w}} f(\w,\x)|_{\w_0} \cdot  (\bm{w}-\bm{w}_0) .
+\end{align}
+While this approximation is still capable of learning nonlinear functions of the input $\x$, it is a \textit{linear model} in the trainable parameters $\bm{w}$. It can thus be recast as a kernel method with the neural tangent kernel $K$
+\begin{align}
+    K(\x,\x') =  \nabla_{\bm{w}} f(\w,\x)|_{\w_0} \cdot \nabla_{\bm{w}} f(\w,\x')|_{\w_0}
+\end{align}
+evaluated at initialization. This holds for any linearized model trained with GD on any loss, though some loss functions (e.g. cross-entropy) cause non-linear models to eventually deviate from their linearization \citep{lee2019wide}. Deep neural networks can approach this linearization in many ways:
+\begin{itemize}
+    \item Large width: in commonly used parameterization and initialization schemes of neural networks, increasing the network width improves the quality of this approximation \cite{jacot2018neural,lee2019wide}. 
+    \item Large initial weights: increasing the size of the initial weights also causes the network to behave closer to linearized dynamics \citep{chizat2019lazy}. \textit{We argue that this explains why \cite{liu2022omnigrok} and \cite{varma2023explaining} observed an association between grokking and large initial weight norm.} 
+    \item Label rescaling: scaling $y$ by factor $\alpha^{-1}$ can induce lazy training \citep{geiger2020disentangling}. 
+    \item Output rescaling: multiplying the network output logits by a large scale factor $\alpha$ can also induce lazy training \citep{chizat2019lazy}.
+\end{itemize}
+In this work, we primarily use the last option, where the $\alpha \to \infty$ limit is one where equation \ref{eq:linearization} becomes exact and the network behaves at inference-time like a linear model (in the case of MSE, this linear model is kernel regression with the initial NTK). In Figure \ref{fig:sigma-alpha-exchangeable}, we show that these methods of inducing laziness are equivalent in inducing grokking. 
+
+\noindent \textbf{Inductive bias of kernels and deficiency of kernels on misaligned tasks:}
+Though linearized models around the initial weights can perform well on some learning tasks, they do not generalize well when trained on target functions $y(x)$ which are \textit{misaligned} to the NTK, in a sense we make precise when we define centered-kernel alignment (CKA) in the next section. By contrast, neural networks in the feature learning regime can adapt their internal representations to improve the sample complexity of learning for functions that would be difficult for the NTK \citep{ghorbani2019limitations, arnaboldi2023high, ba2022high, damian2023smoothing}. 
+
+
+%\section{Grokking in a }
+
+
+
+\section{Polynomial regression in a two layer perceptron}\label{polyreg}
+
+To illustrate our main ideas, we study the simplest possible toy example of grokking: high dimensional polynomial regression. This choice is motivated by known separation results between neural networks and kernel methods. First, theoretical studies of kernel regression have demonstrated that learning degree $k$ polynomials in dimension $D$ with the NTK requires $P \sim D^{k}$ samples \citep{bordelon2020spectrum, canatar2021spectral, xiao2022precise}. On the other hand, in the feature learning regime, two-layer networks trained in the online setting can learn high-degree polynomials with $P \sim D$ samples \citep{saad1995line, engel2001statistical, goldt2019generalisation, arnaboldi2023high, berthier2023learning, sarao2020optimization}. This indicates that neural networks can potentially generalize for $D \ll P \ll D^k$, but only if they learn features \citep{atanasov2022onset}. We therefore predict the possibility of grokking in this intermediate range of sample sizes, especially if feature learning occurs late in training, as in a lazy network. We indeed find we can induce grokking this way on a two-layer network. In fact, grokking persists even with readout weights of the 2 layer MLP fixed to $1$, so in seeking a minimal setting reproducing grokking, this is what we study\footnote{The mechanism behind grokking in this setting is the same for training a full 2 layer MLP with readouts, but the kernel is not only a function of $\bar{\w}, \M$. We discuss this in Appendix Section \ref{toymodel-derivations}, but this is a technicality: the same arguments and plots hold in ordinary two-layer MLPs in the way one would expect.}. This type of two-layer NN is referred to as a committee machine \citep{saad1995line}.
+
+  The model $f(\w, \x)$ and target function $y(\x)$ are defined in terms of input $\x \in \mathbb{R}^{D}$ as
+\begin{align}
+    f(\w, \x) &= \frac{\alpha}{N} \sum_{i=1}^N  \phi(\w_i \cdot \x) \ , \quad \phi(h) = h + \frac{\epsilon}{2} h^2 
+    \ , \quad  y(\x) = \frac{1}{2} (\bm\beta_\star \cdot \x)^2
+\end{align}
+The value of $\alpha$ controls the scale of the output, and consequently the speed of feature learning. The value of $\epsilon$ alters how difficult the task is for the initial NTK.  We consider training on a fixed dataset $\{ (\x_\mu, y_\mu) \}_{\mu=1}^P$ of $P$ samples. The inputs $\x$ are drawn from an isotropic Gaussian distribution $\x \sim \mathcal{N}(0, \frac{1}{D} \bm I)$.  It will be convenient to introduce the following two summary statistics 
+\begin{align}
+\bar{\w} = \frac{1}{N} \sum_{i=1}^N  \w_i \in \mathbb{R}^D \ , \quad \bm M = \frac{1}{N} \sum_{i=1}^N  \w_i \w_i^\top \in \mathbb{R}^{D \times D}
+\end{align}
+
+Using these two moments of the weights, the neural network function can be written as $f(\x) = \alpha \bar{\w}\x + \frac{\alpha\epsilon}{2} \x^\top \M \x$. 
+Further, the NTK can also be expressed as 
+\begin{align}
+    K(\x,\x') = \x \cdot \x' + \epsilon (\x\cdot \x') \ \bar{\w} \cdot (\x + \x') + \epsilon^2 (\x \cdot \x') \ \x^\top \M \x'
+\end{align}
+
+At initialization in a wide network, $\bar{\w} = 0$ and $\bm M = \bm I$. Diagonalizing this initial NTK with respect to the Gaussian data distribution reveals that linear functions all have eigenvalue $\lambda_{\text{lin}} = D^{-1}$ while quadratic functions have eigenvalue $\lambda_{\text{quadr}} = 2 \epsilon D^{-2}$ (Appendix Section \ref{toymodel-derivations}). We see that $\epsilon$ controls the power the kernel places in quadratic functions (including the target $y(x)$). This is what we mean by saying $\epsilon$ controls initial alignment in this example. Further, based on prior work on kernel regression, generalization with the initial kernel (or completely lazy neural network) will require $P \sim \lambda_{\text{quadr}}^{-1} = \frac{1}{2 \epsilon} D^2$ samples \citep{bordelon2020spectrum, canatar2021spectral, simon2023eigenlearning, xiao2022precise}.  However, neural networks outside of the kernel regime can generalize from far fewer samples since they can adapt their features so that $\M$ aligns to $\bm\beta_\star \bm\beta_\star^\top$ and low test error is achieved, which does not require as many samples \citep{ghorbani2019limitations, atanasov2022onset}. \footnote{Prior work suggests learning quadratic polynomials (with no linear component in $\bm\beta_\star$ direction) with SGD require $\sim \mathcal{O}( D \log D )$ steps in SGD with unit batchsize \citep{arous2021online}.}. If this feature learning is delayed, the neural network dynamics at early time would match a kernel method, but at late time one would see generalization as weights begin to align to $\bm\beta_\star$, giving a learning curve that groks. This is the task that generates the learning curves in Figures \ref{fig:figure1}, \ref{fig:eps-alpha-sweep}.
+
+While $\epsilon$ is a natural measure of alignment in our toy model, we also want a general way to determine how well aligned a network is for a task, $y(X)$. 
+It turns out that centered-kernel alignment (CKA), $\frac{y^T K_0 y}{||K||_F||y||^2}$, \citep{kornblith2019similarity, cortes2012algorithms, atanasov2022onset, arora2019fine}, is a natural generalization of what $\epsilon$ is in our toy model. In the formula, $K_0$ is the gram matrix of the initial NTK evaluated on the test set, and $y$ are the task labels. We derive a relationship between $\eps$ and the CKA in Section \ref{toymodel-derivations} of the Appendix, finding they are strongly correlated. Since the CKA can be computed for any task, it is a general way to measure feature alignment to task. ``NTK alignment" in plots without further definition refers to the CKA. 
+
+
+
+\subsection{Altering scale $\alpha$ can induce or eliminate grokking}
+
+We next consider the effect of scale $\alpha$ and show that large $\alpha$ increases the timescale separation between the decrease in train loss and that of test loss, while small $\alpha$ can eliminate grokking altogether. Consider Figure \ref{fig:eps-alpha-sweep}(a) to see that increasing $\alpha$ on the polynomial regression task continuously induces a longer delay between train loss decrease and test loss decrease. Further, the $\alpha \to \infty$ limit gives poor final performance since it corresponds to regression with the initial (misaligned) NTK.
+
+\paragraph{Weight norm of parameters is not inherently fundamental.}  A key claim of ours is that previous work \cite{liu2022omnigrok, varma2023explaining} saw a relationship between parameter weight norm at initialization and grokking because \textit{weight norm at initialization controls rate of feature learning} by moving the network into the lazy training regime. We can test this claim using the fact that parameter weight norm at initialization is not the only change that can cause lazy training: in the same papers \citep{chizat2019lazy, lee2019wide} it is also proved that increasing model output scale or label scale has the same effect. Indeed, as we see in Appendix Figure \ref{fig:sigma-alpha-exchangeable}, changing these \textit{has the same effect on learning curves as changing weight norm at initialization}. 
+
+\subsection{Initial Kernel-Task Alignment $\epsilon$ Can Also Alter Grokking Dynamics}
+
+The initial alignment between the NTK and the target function also controls grokking behavior. Indeed in Figure \ref{fig:eps-alpha-sweep}(b), we see that small $\epsilon$ networks have a longer time delay between training loss reduction and test loss reduction and that large $\epsilon$ networks have a nearly immediate reduction in test loss. Interestingly, worse initial alignment caused by smaller $\epsilon$ leads to lower final test loss as it forces the network to learn features (see App. \ref{app:hard_tasks_more_features}). This means that networks with \textit{bad initial features} can do better at end-time than those with \textit{better initial features}, because they are forced to learn good features. 
+
+\begin{figure}[h]
+    \centering
+    \subfigure[Large $\alpha \to$ Grokking]{\includegraphics[width=0.48\linewidth]{loss_vary_alpha_polynomial_powers_of_two.pdf}   } 
+\subfigure[Small $\epsilon \to$ Grokking]{\includegraphics[width=0.42\linewidth]{loss_vary_eps_polynomial_powers_of_two.pdf}} 
+\subfigure[$\alpha$ Alters Dynamics]{\includegraphics[width=0.3\linewidth]{b.pdf}}  
+\subfigure[$\epsilon$ Changes Initial Kernel]{\includegraphics[width=0.3\linewidth]{c.pdf} }
+\subfigure[Empirical phase diagram]{\includegraphics[width=0.3\textwidth]{grokking_heatmap.pdf}}
+    \caption{Lazy training ($\alpha$) and kernel-task misalignment ($\epsilon$) alter the grokking learning curves in distinct ways. (Top) Learning curves that show grokking, and (Bottom) corresponding parameter dynamics during learning. 
+(a) At fixed $\epsilon$, the laziness parameter $\alpha$ controls the timescale of the delay in grokking. At small $\alpha$, the grokking effect disappears as the generalizing features are extracted immediately. At large $\alpha$, the model approaches a linearized model. The final test loss decreases with $\alpha$ as we allow the network to learn more features. (b) The task alignment to the initial kernel, measured by $\epsilon$, determines how much the loss falls when the network initially uses its linearized solution. Smaller $\epsilon$ increases the amount of feature learning during training because the initial kernel does worse on the task, so feature learning is necessary. Thus lower alignment can result in better generalization.  (c)-(d) Illustrations of the dynamics at varying $\alpha,\epsilon$. In (d), each plane represents a different affine space spanned by the initial gradients, which are a function of $\epsilon$. (e) Time to grok (time delay between train loss fall and test loss fall) as a function of $\alpha,\epsilon$, showing how lazy, misaligned networks grok the most intensely. }
+
+    
+    \label{fig:eps-alpha-sweep}
+\end{figure}
+
+\subsection{Loss decomposition in toy model}
+
+To gain insight into the sources of generalization error in our model, we decompose the test risk into three terms that depend only on the summary statistics ($\bm{\bar{w}}, \bm{M}$) introduced earlier. The predictor can be expressed in terms of these objects: $f = \alpha \bar{\w} \cdot \x + \frac{\alpha \epsilon}{2} \x^\top \bm M \x$. The test MSE of our model then takes the form:
+\begin{align}
+   \mathcal L = \left< \left( y - f \right)^2 \right> = 
+\frac{1}{4} \underbrace{\left( \frac{1}{D} |\bm\beta_\star|^2 - \frac{\alpha \epsilon}{D} \text{Tr}\bm M \right)^2}_{\text{variance error}}  + \underbrace{\frac{1}{2D^2} \left| \alpha \epsilon \bm M -  \bm\beta_\star \bm\beta_\star^\top \right|_F^2}_{\text{misalignment error}} + \underbrace{ \frac{\alpha^2}{D} |\bar{\w}|^2}_{\text{power in linear modes}} .
+\end{align}
+The first term measures whether the total variance in the weights $\frac{1}{D N} \sum_{i}|\w_i|^2 = \frac{1}{D} \sum_{j=1}^D M_{jj}$ has the correct scale compared to the targets. The second term measures whether the weights have achieved a solution with \textit{high alignment} to the target function. It is closely related and strongly correlated to its general counterpart, the CKA, $\frac{y^TK_0y}{||K_0||_F||y||}$, in a way we explore in Appendix Section \ref{toymodel-derivations}.  The last term penalizes any power our features put on linear components, because our target function is a pure quadratic. Because our network activation function has a linear component, weight vectors must average out during training to learn a solution with zero overall power in linear functions. The test error can be minimized by any neural network satisfying $\bm M = \frac{1}{\alpha \epsilon} \bm\beta_\star \bm\beta_\star^\top$ and $\bar{\w} = 0$.
+
+In Figure \ref{fig:loss-decomp} we illustrate this decomposition of the loss during a grokking learning curve. We find, as expected, that the initial peak in test error is associated with the model attempting to learn a linear function of the input (orange curve) before later improving the alignment (dashed green loss falling at late time) and reducing the scale of the linear component (dashed black).  
+
+\begin{center}
+\end{center}
+\begin{figure}[h]
+   \centering
+\includegraphics[width=0.48\linewidth]{decomp_learning_curves.pdf}    
+\includegraphics[width=0.48\linewidth]{loss_decomp.pdf}    
+    
+   \caption{(Left) Learning curves for a 2 layer multi-layer perceptron that groks on our polynomial regression task (no weight decay, vanilla GD). (Right) Theoretical decomposition showing how the initial rise in test loss comes from the network putting power in the linear component from its inital NTK before beginning to align with the task features around 1-2k epochs, resulting in a delayed fall in the test loss. This delay is precisely grokking.}
+    
+   \label{fig:loss-decomp}
+\end{figure}
+
+
+\section{Grokking is Not Restricted to Modular Arithmetic}
+
+\subsection{Inducing grokking on Gaussian data by lowering alignment of labels}
+
+In this subsection, we induce grokking by manipulating NTK alignment at initialization in a way that can be done on arbitrary datasets $X$, without touching the laziness parameter. Consider the same function as in our polynomial regression setup but replace the task labels with the $j$-th largest eigenvector (by descending eigenvalue, so $j=1$ is the eigenvector of $K_0(X, X)$ with highest eigenvalue) of the NTK matrix at initialization $K_0(X, X)$, and vary $j$. This is motivated because choosing an eigenvector with a large eigenvalue makes the CKA, $\frac{y^TK_0y}{||K_0||_F||y||^2}$, high by construction, and vice versa. Thus alignment at initialization is high for small $j$ (first plot), so the network generalizes immediately because it starts with good features. Conversely, if we begin with large $j$ the value of CKA is low, and the task is hard by construction, so the network will never be able to generalize with this amount of data (with much more data, we would learn features). Intermediate $j$ eigenfunctions are misaligned \textit{enough} to the initial NTK that a linearized model will not perform well, but the network has enough data so that learning features reduces the test loss. We see empirically that this occurs when $j \approx 70$ in (b) below. 
+
+
+\begin{figure}[H] 
+    \centering
+    \subfigure[$j=1$]{\includegraphics[width=0.3\textwidth]{eigvec_grokking_k=1.pdf}}
+    % \subfigure[]{\includegraphics[width=0.3\textwidth]{eigvec_grokking_k=5.pdf}}
+    \subfigure[$j=70$]{\includegraphics[width=0.3\textwidth]{eigvec_grokking_k=70.pdf}}
+    % \subfigure[]{\includegraphics[width=0.3\textwidth]{eigvec_grokking_k=75.pdf}}
+    \subfigure[$j=100$]{\includegraphics[width=0.3\textwidth]{eigvec_grokking_k=100.pdf}}
+    % \subfigure[]{\includegraphics[width=0.3\textwidth]{eigvec_grokking_k=150.pdf}}
+    \caption{Demonstrating grokking on standard Gaussian $X \in \mathbb{R}^{D \times P}$ data with the one-hidden layer architecture we had for polynomial regression. Label vectors, $y$ are replaced with $j$-th largest eigenvectors of the initial NTK (ordered by descending eigenvalue) for $j \in \{1, 70, 100\}$, respectively for (a)-(c). If the network begins highly aligned as in (a), learning curves move together. If the network features are poorly aligned at initialization, as in (c), the network cannot generalize. In the middle, as in (b), the network groks.}
+\end{figure}
+
+
+\textbf{MNIST.}  \cite{liu2022omnigrok} induce grokking on MNIST by increasing parameter weight norm at initialization. In Figure \ref{fig: mnist}(a) below, we make this grokking vanish continuously by tuning $\alpha$ without changing parameter weight norm, supporting the idea that weight norm at initialization is one of several parameters that control laziness. This tuning of $\alpha$ is done with the quadratic scaling demonstrated in Figure \ref{fig:sigma-alpha-exchangeable}. 
+
+\textbf{One-layer Transformers.} In \ref{fig: mnist}(b), we replicate the classic setting in which grokking was observed by \cite{nanda2023progress}, where a one-layer Transformer was trained on a modular addition task with cross-entropy loss and AdamW. We find that even in a vastly different network architecture -- one with attention this time -- an adaptive optimizer and different loss function, our hypothesis that laziness controls grokking holds out of the box. Note how changing alpha can continuously make grokking vanish, or more drastic.
+
+\begin{figure}[h]
+    \centering
+    \subfigure[MLP on MNIST]{\includegraphics[width=0.48\linewidth]
+    {MNIST_sweep_laziness.pdf}}
+    \subfigure[Transformer on Modular Arithmetic]{\includegraphics[width=0.48\linewidth]{transformer_sweep.pdf}}
+    \caption{(a) \textbf{MNIST.} Continuously controlling grokking on MNIST by only varying laziness, $\alpha$, including making it vanish by encouraging fast feature learning at $\alpha = 0.0001$. (b) \textbf{One-layer Transformer.} Continuously controlling grokking on a one-layer Transformer from \cite{nanda2023progress} using the scale parameter $\alpha$. Note how grokking has vanished for $\alpha = 0.15$, so it can barely be seen amidst the train curves. Axes scales are kept faithful to the original papers. We find the same trend with student-teacher networks, with plots in Appendix Section \ref{app:st1}.}
+    \label{fig: mnist}
+\end{figure}
+
+
+\section{Conclusion}
+
+In this work, we hypothesized that grokking may arise from a transition from lazy to rich learning. To explore this idea, we sought the simplest possible model in which we can see grokking, namely polynomial regression. This motivated the examination of a laziness parameter, $\alpha$, and the initial NTK alignment, which we showed can induce and eliminate grokking out-of-the-box. While many prior works empirically found that parameter weight norm seemed an important factor for network grokking, we showed that this occurs because large initial weight norm approximately \textit{linearizes} the model. In this way, our results subsume past work on grokking and show why weight decay is not always necessary. 
+
+\paragraph{Limitations} While we provided a new conceptual framework for reasoning about grokking, some questions are left out of scope. We do not provide a sharp theoretical characterization of the required sample size or training time to transition from memorization to grokking behavior. While it is true that adaptive optimizers and weight decay are neither necessary nor sufficient for grokking to be seen, their ubiquity in past examples of grokking does suggest they can amplify grokking. One possibility is that weight decay encourages the model to leave the lazy regime by forcing changes to the NTK \citep{lewkowycz2020training}, which we explore in Section \ref{app:weight_decay} of the Appendix. While we speculate on the role of the optimizers (momentum and Adam) in inducing grokking in Appendix \ref{app:optimizers}, the dynamics at play when adaptive optimizers induce grokking remain poorly understood. 
+
+
+\newpage 
+
+\section*{Acknowledgements}
+TK was supported by the Harvard College Research Program. BB and CP are supported by NSF Award
+DMS-2134157. BB was additionally supported by a Google PhD fellowship. This work has been made possible in part by a gift from the Chan Zuckerberg Initiative Foundation to establish the Kempner Institute for the Study of Natural and Artificial Intelligence. We thank Andrey Gromov, Bruno Louriero, Francesca Mignacco, Stefano Sarao Mannelli, and
+Nikhil Vyas for useful discussions and thank Alex Atanasov for helpful comments on an earlier draft of this
+paper.
+
+\bibliographystyle{unsrtnat}
+\bibliography{mybib}
+
+\newpage 
+\section{Appendix}
+
+
+\subsection*{Additional Experiments}
+
+\subsection{A Note on Implementing Large $\alpha$}
+
+As was discussed in the original paper on inducing lazy training by \cite{chizat2019lazy}, it is important to subtract off the initial predictor from the neural network function. Concretely, one should take as their predictor, the modified function 
+\begin{align}
+    \tilde{f}(\x,\theta) = \alpha [f(\x,\theta) - f(\x,\theta_0)  ]
+\end{align}
+In our experiments, we place $\tilde{f}$ in the optimizer when we compute gradients. This allows us to train with very large values of $\alpha$ without experiencing instability at initialization. Further, to maintain consistent timescales of training, it is important to rescale learning rate as $\eta = \eta_0 / \alpha^2$. This rescaling keeps the initial derivative $\frac{d}{dt} f|_{t=0}$ independent of $\alpha$ and thus the early training dynamics are consistent across $\alpha$. Otherwise, large $\alpha$ networks will have too large a learning rate and small $\alpha$ networks take too long to train.
+
+\subsection{Weight Norm and Initialization Scale have the same effect}
+
+\begin{figure}[h]
+    \centering
+    \subfigure[Varying $\alpha$]{\includegraphics[width=0.35\linewidth]{loss_vary_alpha_polynomial_powers_of_two.pdf}}
+    \subfigure[Varying Init. Scale $\sigma$]{\includegraphics[width=0.31\linewidth]{loss_curves_vary_weight_scale.pdf}}
+    \subfigure[Vary $\sigma$ with $\sigma^2 \alpha$ fixed ]{\includegraphics[width=0.31\linewidth]{loss_curves_linear_quad_vary_w_alpha_jointly.pdf}}
+    \subfigure[Parameter Movement]{\includegraphics[width=0.31\linewidth]{param_movement_vs_alpha_sigma.pdf}}
+    \subfigure[Final MSE vs $\sigma^2 \alpha$]{\includegraphics[width=0.31\linewidth]{final_test_loss_vs_alpha_sigma.pdf}}
+    \subfigure[Final MSE vs Param. Movement]{\includegraphics[width=0.31\linewidth]{final_test_loss_vs_param_movement.pdf}}
+    \caption{Weight scale alters grokking dynamics and final test loss primarily by manipulating the richness of the dynamics, specifically how far the dynamics deviates from the linear/kernel regime. (a) The loss curves for a two layer network trained on the quadratic polynomial with varying laziness parameter $\alpha$. Note that small $\alpha$ networks do not grok as dramatically as large $\alpha$ and also achieve good test loss. (b) A similar sweep over weight initialization scale $\sigma$ yields the same trend. (c) For a two layer network, approximate preservation of the feature learning can be achieved by choosing $\alpha \sim \sigma^{-2}$. (d)-(f) The \textit{relative parameter change} $|\bm{w}-\bm{w}_0| / |\bm{w}_0|$ and final test loss is controlled through the quantity $\sigma^2 \alpha$.  }
+    \label{fig:sigma-alpha-exchangeable}
+\end{figure}
+
+
+\subsection{Modular arithmetic in a 2 layer perceptron}\label{app:modar}
+
+ Here are the architecture details for grokking with weight norm increase on a modular arithmetic task on a two-layer perceptron with vanilla GD. First, we consider the classic modular arithmetic task $a + b \equiv c \mod p$ used previously to explore grokking in \cite{power2022grokking, nanda2023progress}. We find grokking in a one-hidden layer network with input dimension $D=2p$, where the input is a concatenation of $a, b$ in one-hot encoding, and the output is a dimension $p$ one-hot encoded vector $c \in \{ 0, 1, \cdots, p-1\}$. We use $N=100$ as the hidden width, but a wide range of hidden widths exhibit grokking. We use $90\%$ of all $p^2$ possible pairs for training, and the rest of the test; the learning rate is $\eta = 100$. The figures below use $p = 23$, but we see the same curves for most integers $p$, for instance, any of $p \in \{13, 17, 19, 23, 29, 31 \cdots \}$ also give grokking in the same way. Crucially, we do \textit{not use any weight decay}, and merely use \textit{vanilla gradient descent}. Our results agree with those of \cite{gromov2023grokking}. 
+ 
+
+\subsubsection{Student-teacher networks}
+
+Consider a task where we initialize a ``teacher" 5-100-100-5 MLP with $\tanh$ activations, and a student with the same architecture. The student is tasked with being trained to learn outputs generated by the teacher network on an input dataset $X$ of standard Gaussians. This task is introduced in \cite{liu2022omnigrok} to show how grokking can be introduced by doubling the student's weight norm at initialization. Here, we make that grokking both vanish and more pronounced without touching their weight norm at initialization, showing our $\alpha$ parameter does the same thing because the deeper phenomenology of lazy training and model linearization is what is at play. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{st_scale_sweep.pdf}
+    \begin{center}
+        \caption{Controlling grokking on a student-teacher task defined in \cite{liu2022omnigrok}. The purple curve corresponds to exactly the experiment in their paper, grokking induced by increasing weight norm. See that by tuning our scaling parameter to be smaller $\alpha \to 0$, we can make that induced grokking vanish as on the left of the purple curve, and in fact, we can even make grokking more pronounced by increasing it. Since this is a regression task, accuracy is defined as the student being with $0.001$ of the teacher label.}
+    \label{app:st1}
+    \end{center}
+\end{figure}
+
+
+\subsubsection{Goldilocks dataset size}
+
+Here we see the three regimes of train set size: too little (a, d), just right (b, e), and too much (c, f). The top row is the learning curve, and the bottom row is the loss decomposition. Note that we can directly see the network putting power in linear components in (a). This linear power comes from the NTK at initialization, since the activation function has a linear term. This attempted (approximate) kernel method helps us interpolate the train set, but leads to \textit{worse than random} behavior since the initial features are not matched to the task. Any deviations between train and test loss at initialization are because we use a data set size of $P=50$. As we take data larger, the two match. 
+
+\begin{figure}[h]
+    \centering
+    \subfigure[$P=50$]{\includegraphics[width=0.32\linewidth]{goldilocks1.pdf}}
+    \subfigure[$P=120$]{\includegraphics[width=0.32\linewidth]{goldilocks2.pdf}}
+    \subfigure[$P=500$]{\includegraphics[width=0.32\linewidth]{goldilocks3.pdf}}
+    \subfigure[$P=50$ Decomposition]{\includegraphics[width=0.32\linewidth]{goldilocks1_decomp.pdf}}
+    \subfigure[$P=120$ Decomposition]{\includegraphics[width=0.32\linewidth]{goldilocks2_decomp.pdf}}
+    \subfigure[$P=500$ Decomposition]{\includegraphics[width=0.32\linewidth]{goldilocks3_decomp.pdf}} 
+    \caption{(First row) Goldilocks zone in dataset size. 2 layer perceptron trained on usual polynomial regression task with $P \in \{50, 120, 500\}$ in (a)-(c) respectively. (Second row) Loss decomposition for each of (a)-(c) respectively, showing how failure to generalize (a) comes from power in linear modes (black dashed), grokking comes from a rise then fall in power in linear modes (b) and full generalization comes from low power in linear modes throughout, and zero at end time (optimal features have no power in linear modes), as we see in (f). }
+\end{figure}
+
+
+\subsubsection{Interpolating from random weights to aligned solution to make grokking vanish}
+
+We claim NTK alignment at initialization is one of two important factors that control grokking. Figure \ref{fig:figure1} suggests if we increase alignment at initialization, grokking should vanish. This happened as predicted in Figure 6 where we changed the labels, and now we'll tune alignment a different way: by changing the weights at initialization. Here, we start with random weights for our polynomial regression task, where we see grokking as usual, and gradually add a small component of the final solution (computed analytically) weights to the initial weights. This increases initial alignment, and of course, decreases initial loss a bit. The crucial observation in the plot below is that \textit{increasing alignment by even a little bit makes dramatic grokking (increase in test loss alongside an initial decrease in test loss)} vanish. We see this as we go from the dark blue curve to the gold one. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{interp_sweep.pdf}
+    
+    \caption{Varying alignment by adding some end-time solution to the initial weights. Grokking-like increase in test loss vanishes with even a small increase in alignment (solid blue to solid red) as we add a small component of the solution weights to the initialization weights. This is evidence that initial NTK alignment controls how much test loss suffers during the initial fall in train loss as more power is put into kernel regression solution. }
+\end{figure}
+
+\section{Relation to other theories of grokking}\label{app:relation}
+
+Existing grokking literature focuses on two things. One is studying modular arithmetic (and more generally group compositional) tasks and good representations to learn them, and the other is the empirical relationship between initial parameter weight norm, weight decay, and grokking. 
+
+Examples of papers exploring the first theme include the study of how a Transformer learns to do modular arithmetic in \cite{nanda2023progress}, \cite{gromov2023grokking} writing out the closed-form solution of final trained weights for another modular arithmetic task, and \cite{liu2022towards} who find a circular embedding within the network for a modular arithmetic task. A similar result was found in the original \cite{power2022grokking} paper that discovered grokking. Examining the geometry of embeddings and learned representations like this is only possible when you \textit{fix a specific task of interest}, and often these are tasks with a natural geometric structure. These papers often give compelling insights into what and how networks learn representations for certain specific classes of tasks, but \cite{liu2022omnigrok} showed we can see grokking on other tasks by tuning initial weight norm, so while algorithmic tasks like modular arithmetic might have some interesting structure that makes grokking easier to induce, they are neither sufficient nor necessary for grokking to appear. 
+
+The two important papers exploring the second theme (parameter weight norm and weight decay) are by \cite{liu2022omnigrok} as mentioned above, and \cite{varma2023explaining}. 
+
+\cite{liu2022omnigrok} induces grokking by increasing the initial weight norm and concludes generalizing solutions lie on smaller norm spheres in parameter space. We agree that initial weight norm can induce grokking, but we claim it is \textit{not} because generalizing solutions always lie on smaller norm spheres in parameter space. Our modular arithmetic task in Section \ref{fig:weight_norm_increases} and our polynomial regression task that is the focus of our paper are both counterexamples, since the final generalizing solution has a larger parameter weight norm than the initial solution, and we do not need weight decay to learn it or to grok. Instead, we claim initial weight norm controls grokking by linearizing the model (moving it into the ``lazy training" regime). The different learning dynamics at large weight scale in \cite{liu2022omnigrok} is quite reminiscent of the transition to lazy training in \cite{chizat2019lazy}.
+
+\cite{varma2023explaining} explain grokking as arising from three specific causes. Their claimed first and third causes correspond naturally to objects in our paper, and it is with their second cause that our theory (and experiments) disagree. Their first claim is that grokking requires ``two families of circuits," one that memorizes and one that generalizes. This corresponds to our two regimes of lazy and rich training dynamics. Their third claim is that during grokking, the ``memorizing circuit is stronger at early phases of training" which in our language corresponds to the network starting off lazy before learning features at late time. 
+
+Their second and core claim is where the two theories disagree. They claim that this transition from the memorizing to generalizing circuit happens \textit{because the generalizing circuit is more ``efficient" than the memorizing circuit, in the sense that it can produce equivalent loss with lower parameter norm}. In our paper, we showed two different tasks (modular arithmetic and polynomial regression) in which the generalizing solution that reaches zero loss is \textit{higher parameter norm} than the memorizing solution the network started in. We do agree with their intuition that there are two \textit{regimes} (lazy and rich) in which the network can operate, and parameter norm has something to do with which regime we are in. In fact, we explore the role of weight decay in Section \ref{app:weight_decay}, finding it consistent with our theory that weight decay can be helpful for inducing grokking. 
+
+\textit{A note on data set size.} It has been long known that grokking happens in a particular data regime. In the paper introducing grokking, \cite{power2022grokking} mention in Section 3.1 of their paper that for large data set sizes, training and validation track each other, and \cite{nanda2023progress} notes in Section 5.3 of their paper that with enough data, there is no longer a gap between train and test loss. \cite{varma2023explaining} study the behavior of learning curves around the critical dataset size $D_{\text{crit}}$, finding variants of grokking behavior. Note that being in the ``goldilocks zone for data set size" is necessary but not sufficient to see grokking. 
+
+\textit{Parities as a binary polynomial problem}: \cite{barak2022hidden} study learning of parities with a neural network which exhibits grokking-like dynamics when learned with two layer networks with SGD. The target function they consider has the form $y = \prod_{i \in S} x_i$ where $S \subseteq [n]$ is a subset of the first $n$ bits. The variables $x_i \sim \{ \pm 1 \}$ are random binary variables. For dot-product kernels, such as wide networks at initialization, this problem has the same sample complexity as learning polynomials of degree $|S|$ with Gaussian data for kernel regression \citep{misiakiewicz2022spectrum}. Our choice to study the learning dynamics of polynomial regression with Gaussian data is therefore closest to this prior work.
+
+
+\section{``Hard/Misaligned tasks" for the kernel cause a breakdown in linearization}\label{app:hard_tasks_more_features}
+
+We denote a ``hard task" for the initial kernel as a task where the trainset label vector $\bm y \in \mathbb{R}^{P}$ and the kernel gram matrix $\bm K \in \mathbb{R}^{P \times P}$ satisfy 
+\begin{align}
+     \textit{Difficulty} \equiv \bm y^\top \bm K^{-1} \bm y \gg 1 .
+\end{align}
+One way to motivate this quantity is to note that near the kernel limit, the amount that the parameters move during training under MSE is precisely given by this quantity
+\begin{align}
+    |\bm{w}-\bm{w}_0|^2 \sim \bm y^\top \bm K^{-1} \bm y 
+\end{align} 
+We see that the linearization approximation can break for difficult tasks since $|\bm{w}- \bm{w}_0|^2$ could be large (think about Taylor expansions around $\bm{w}_0$). Thus lazy learning on tasks of infinite difficulty is not self-consistent. All other things being equal, we expect to see more feature learning on tasks that are difficult for the initial kernel. This is especially true if the training set is sufficiently large. 
+
+\section{Derivations for Toy Model}\label{toymodel-derivations}
+
+\subsection{Initial NTK Diagonalization}
+
+At infinite width, the network has the following value under random initialization (since $\bar{\w} = 0$ and $\bm M = \bm I$) 
+\begin{align}
+    K(\x,\x') = \x \cdot \x' + \epsilon^2 (\x \cdot \x')^2
+\end{align}
+The Mercer eigenvalue problem for data distribution $p(\x)$ has the form
+\begin{align}
+    \int d\x \ p(\x) K(\x,\x') \phi(\x) = \lambda \phi(\x')
+\end{align}
+We seek eigenfunctions $\phi(\x)$ and eigenvalues $\lambda$ that satisfy the above equation for the Gaussian data density $\x \sim \mathcal{N}(0,D^{-1} \bm I)$. We first note the following
+\begin{align}
+    \left< K(\x,\x') x_i \right> = \left< (\x \cdot \x') x_i \right> = \frac{1}{D} x'_i
+\end{align}
+which implies that $x_i$ is an eigenfunction with eigenvalue $\lambda_{\text{lin}} = \frac{1}{D}$. Next, we see that
+\begin{align}
+    \left< K(\x,\x') x_i^2 \right> = \frac{2 \epsilon^2 }{D^2} x_i^2 + \frac{\epsilon^2}{D^2} |\x'|^2 \ , \  \left< K(\x,\x') |\x|^2 \right> = \frac{\epsilon^2}{D} \left( 1 + \frac{2}{D} \right) |\x'|^2
+\end{align}
+This implies the existence of $D$ eigenfunctions
+\begin{align}
+    \left< K(\x,\x') [x_i^2 - c |\x|^2] \right> &= \frac{2 \epsilon^2 }{D^2} (x_i')^2 + \frac{\epsilon^2}{D^2} |\x'|^2 - \frac{ c \epsilon^2 }{D} \left(1 + \frac{2}{D} \right)|\x'|^2 \nonumber
+    \\
+    &= \frac{2\epsilon^2}{D^2} \left[ (x_i')^2 +  \left( \frac{1}{2} - \frac{c}{2}\left( D + 2 \right) \right) |\x'|^2 \right]
+\end{align}
+The above is an eigenfunction if $2 c = c (D + 2) - 1$, or $c = \frac{1}{D}$. We have thus identified an additional $D$ eigenfunctions with eigenvalue $\lambda = \frac{2 \epsilon^2}{D^2}$. Lastly, we consider $x_i x_j - c |\x|^2$ for $i \neq j$.
+\begin{align}
+        \left< K(\x,\x') x_i x_j \right> = \frac{2 \epsilon^2}{D^2} x_i' x_j'
+\end{align}
+which transparently gives us another $\frac{1}{2} ( D^2 - D)$ eigenfunctions with the same eigenvalue $\frac{2\epsilon^2}{D^2}$.  Lastly, we note that $|\x|^2$ is also an eigenfunction
+\begin{align}
+    \left< K(\x,\x') |\x|^2 \right> = \frac{1}{D} \left(1 + \frac{2}{D} \right) |\x'|^2
+\end{align}
+with eigenvalue $\frac{1}{D} (1 + \frac{2}{D})$. The target function has the decomposition
+\begin{align}
+    y(\x) = \frac{1}{2} \left[ (\x \cdot \bm\beta_\star)^2 - \frac{1}{D} |\x|^2 \right]  + \frac{1}{2D} |\x|^2 
+\end{align}
+The first term in brackets has kernel eigenvalue $\frac{2\epsilon}{D^2}$ while the second term has eigenvalue $\frac{1}{D} (1 + \frac{2}{D})$. This suggests a kernel method would learn the function $\frac{1}{2D} |\x|^2$ at sample sizes $P \approx D$ but will only learn the full target function at $P \approx D^2$. This separation of timescales motivated the original investigation of this task in which to find grokking. 
+
+\subsection{Kernel Alignment}
+
+For any configuration of weights, the NTK of our toy model has the following form
+\begin{align}
+    K(\x,\x') = \x \cdot \x' + \epsilon (\x\cdot\x') \bar{\w} \cdot (\x + \x') + \epsilon^2 (\x\cdot \x') \x^\top \M \x' . 
+\end{align}
+In this section, we compute the kernel-task alignment metric on the test distribution which is discussed in the paper. In particular, we will show that this is related to the correlation of $\M$ with $\bm\beta_\star \bm\beta_\star^\top$ which is also present in our misalignment error. This alignment requires computing 
+\begin{align}
+    \frac{\left<  y(\x) K(\x,\x') y(\x') \right>}{\sqrt{ \left< K(\x,\x')^2 \right>} \left< y(\x)^2 \right>}
+\end{align}
+The most important term is the numerator which has the form
+\begin{align}
+    \left< y(\x) K(\x,\x') y(\x') \right> &= 
+    %\frac{\epsilon}{D^2} \left[ |\bm\beta_\star|^2 \bar{\w} \cdot \x + 2 \bm\beta_\star \cdot \bar{\w} (\bm\beta_\star \cdot \x) \right]
+    %\\
+     \frac{\epsilon^2}{D^2} \left[ |\bm\beta_\star|^2 \left< (\bm\beta_\star \cdot \x)^2 \x^\top \M \x \right> + 2 \left< \bm\beta_\star \M \x  (\bm\beta_\star \cdot \x)^3 \right> \right] \nonumber
+     \\
+     &=  \frac{\epsilon^2}{D^4} |\bm\beta_\star|^4   \text{Tr} \M  + \frac{8\epsilon^2}{D^4} \bm\beta_\star^\top \M \bm\beta_\star  |\bm\beta_\star|^2 
+\end{align}
+We see that the numerator in the kernel alignment formula increases with the alignment of $\M$ to the $\bm\beta_\star \bm\beta_\star$ direction. This term also appears in the alignment error of the MSE decomposition for our problem.  
+
+\section{Loss Decomposition With Readouts}
+
+If we instead train both the input weights $\{\w_i\}$ and readout weights $v_i$ in a two layer network
+\begin{align}
+    f(\x) = \frac{\alpha}{N} \sum_{i=1}^N v_i \phi(\w_i \cdot \x) = \alpha \bar{\w} \cdot \x + \frac{\alpha \epsilon}{2} \x^\top \M \x
+\end{align}
+where the new $\bar{\w}$ and $\M$ have the formulas
+\begin{align}
+    \M = \frac{1}{N} \sum_{i=1}^N v_i \w_i \w_i^T \ , \ \bar{\w} = \frac{1}{N} \sum_{i=1}^N v_i \w_i. 
+\end{align}
+These $\bar{\w}$ and $\M$ can be plugged into the loss decomposition in the main text. At initialization, the kernel has the form
+\begin{align}
+    K(\x,\x') = 2 \x \cdot \x' + \frac{3\epsilon^2}{2} (\x \cdot \x')^2 + \frac{\epsilon^2}{4} |\x|^2 |\x'|^2
+\end{align}
+This kernel is still strongly biased towards linear functions. As before, the eigenvalues associated with quadratic functions is $\mathcal{O}(\epsilon D^{-2})$. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.47\linewidth]
+    {readouts_lcs.pdf}
+    \includegraphics[width=0.47\linewidth]{readouts_decomp.pdf}
+    
+    \caption{Grokking decomposition for an ordinary 2-layer MLP, ie. the committee machine in the main text with readout weights trained. The same mechanism holds as posited. }
+    
+\end{figure}
+
+
+\section{The role of weight decay}\label{app:weight_decay}
+
+While we showed that weight decay in a model is neither necessary nor sufficient to induce grokking, it is true it can be helpful in generating grokking. Here, we explore why that is, speculatively arguing that it is because weight decay moves us out of the lazy regime. In \cite{lewkowycz2020training} it is proven that under weight decay, the NTK of a network continuously evolves over time. This means networks trained using large amounts of weight decay cannot stay lazy for long. 
+
+For some intuition, consider the following. Lazy training during gradient requires the network parameters to move only through a particular tangent space in a much larger parameter space. Informally, this is a somewhat fragile condition that requires some weights to move in a certain direction while others move in another direction to make sure the network NTK doesn't change. Weight decay is a penalty on weight norm \textit{irrespective} of which weight is contributing to this norm, and so can be thought of as a perturbation that quickly moves us out of the lazy training regime. When a generalizing solution has a lower weight norm than our initialization, weight decay can encourage learning of useful features and thus generalization. 
+
+In \cite{nanda2023progress}, it is shown that the amount of weight decay can control the amount of grokking (time delay). This is reminiscent of how our laziness parameter $\alpha$ has the same effect. Indeed, we show here they have competing effects in this sense. In that paper, it is shown how the grokking time delay between train and test loss vanishes if weight decay is high enough. Our hypothesis would predict making the network lazier compensates, recovering the amount of grokking we started with. We see this happen below. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\linewidth]
+    {Grokking_transformer_alpha=0.5_normal_wd.pdf}
+    \includegraphics[width=0.3\linewidth]{Grokking_transformer_alpha=0.5_high_wd.pdf}
+    \includegraphics[width=0.3\linewidth]{Grokking_transformer_alpha=1.4_high_wd.pdf}
+    
+    \caption{(a) Start with large grokking time delay with $\alpha = 0.5, \text{wd}=1$. (b) Increasing weight decay to $\text{wd}=5$ (keep $\alpha=0.5$) makes grokking vanish by encouraging immediate movement in the NTK (feature learning). (c) Then commensurately increasing laziness to $\alpha =1.4$ (keep $\text{wd}=5)$ recovers grokking by discouraging feature learning. We believe past works see grokking with a high initial weight norm and weight decay because these two components imply initial laziness (high initial weight norm) and eventual feature learning (weight decay, as illustrated here).}
+\end{figure}
+
+One thing worth highlighting is that this explains why \cite{liu2022omnigrok} found that time to generalize in the grokking setting there was linear in the amount of weight decay, $\kappa$. Moreover, \cite{nanda2023progress} finds that the time taken to generalize drops by a factor of ten in Figure 27 of that paper, when weight decay is increased by a factor of again, again linear. It turns out that \cite{lewkowycz2020training} proves that the NTK evolves at order $O(\kappa)$ for $\kappa$ the weight decay parameter, \textit{so our theory that grokking can be seen as the transition from the NTK to feature learning regime exactly predicts the quantitative effect weight decay has on grokking timescales!}
+
+\color{black}
+\section{The role of momentum and adaptive optimizers}\label{app:optimizers}
+
+This section is more speculative. In the main text, our focus is on networks that use vanilla gradient descent because they are sufficient to get networks to grok and a simple setting that can be analyzed. This was motivated in part by the fact that the dynamics of networks optimized with adaptive optimizers are not well understood theoretically. But given that almost every paper on grokking in the past has used AdamW \citep{power2022grokking, nanda2023progress, liu2022omnigrok, liu2022towards, varma2023explaining}, it is worth some comment. 
+
+In (a) we repeat our polynomial regression setup and induce grokking as in \ref{fig:figure1}, but now using $\text{momentum}=0.95$ in the vanilla GD optimizer. It has broadly the same shape, and certainly the same pattern (linear then feature learning) but with more bumps in the learning curves, presumably reflecting the momentum in gradient descent. In (b) we want to point out another set of learning curves that generate grokking-like accuracy curves. These are the \textit{loss} curves for the student-teacher task in Section \ref{app:st1} for which the \textit{accuracy} curves we plotted showed stark grokking. That task uses AdamW as well, again showing the linearization tracking the model until the loss halves, before diverging then. The nonmonotonicity in late-time is presumably a product of the AdamW optimizer, much like such nonmonotonicity emerged in (a) from momentum. 
+
+Note that both (a) and (b) are characterized as grokking even though the loss curves look different: the key is delayed generalization. This shows how power in the initial kernel method is often unhelpful for generalization (a), but can sometimes be somewhat helpful in feature learning downstream, for instance in (b). Finally, (c) shows early-time linearization dynamics in the early stages of grokking with a one-layer Transformer from \cite{nanda2023progress}, which was trained using AdamW as well. Note how due to weight decay, the network loss actually quickly deviates from its linearization, despite the presence of grokking. This, along with the fact that scaling $\alpha$ still tunes grokking, is evidence that the transition from lazy to rich dynamics is a sufficient but not necessary mechanism underlying delayed feature learning on general tasks and settings. If we look at Figure 7 of that paper, we see this early time deviation coincides with a large early time increase in initial parameter weight norm, which could be due early-time behavior of adaptive optimizers \cite{lewkowycz2020training, cohen2021gradient, thilak2022slingshot}, hence then claim that dynamics induced by adaptive optimizers in settings that grok are still not fully understood. 
+
+\begin{figure}[h]
+    \centering
+    \subfigure[]{\includegraphics[width=0.33\linewidth]{momentum_polygrok.pdf}}
+    \subfigure[]{\includegraphics[width=0.3\linewidth]{st_linearize.pdf}}
+    \subfigure[]{\includegraphics[width=0.3\linewidth]{nanda-violate.pdf}}
+    
+    \caption{Learning curves for grokking with momentum and adaptive optimizers.}
+    
+\end{figure}
+
+
+\section{Variants on the polynomial task}
+
+The single-index quadratic learning task is known to have well-understood structure from a theory perspective \cite{arous2021online, nichani2022identifying, bietti2022learning}. A natural question is whether the grokking behavior and interpretation persists under ablation of either of these conditions. In particular, we consider the harder tasks of learning multi-index models, and higher degree (Hermite) polynomials. We find that grokking persists out-of-the-box as expected. 
+
+\subsection{Learning multi-index models}
+
+
+It is known \cite{nichani2022identifying} that single index models can exhibit a transition from lazy to rich training dynamics, but in general less work has been done on multi-index models \cite{arous2021online}. Thus, one might wonder whether grokking persists as we add multiple directions to the target function. That is, can we recover grokking with a target resembling $(\beta_1 \cdot x + \beta_2 \cdot x)$ (double-index model), or even $(\beta_1 \cdot x + \beta_2 \cdot x + \beta_3 cdot x)$ (triple-index). It turns out grokking does indeed persist in our model even if the target function spans multiple directions, as we see below. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{2index.pdf}
+    \includegraphics[width=0.45\textwidth]{3index.pdf}
+    \begin{center}
+        \caption{Grokking in our set-up persists when the target function is a higher-degree polynomial (with activation modified accordingly), so does not rely on special properties of the information exponent $k=2$.}
+    \label{app:st2}
+    \end{center}
+\end{figure}
+
+
+\subsection{Learning higher degree polynomials}
+
+For the task of learning a single-index model, it is known \cite{arous2021online, nichani2022identifying} that sample complexity and learning dynamics depend heavily on a quantity of target function called the \textit{information exponent}. For simple polynomial target functions, as in our setting, this is simply the degree of the polynomial. One salient result is the qualitative difficulty of learning a quadratic target (where the information exponent is $k=2$), and higher-degree targets (where the information exponent is $k \ge 3$). For instance, Theorem 1.3 in \cite{arous2021online} illustrates the difference in learnability and sample complexity for these cases. Thus, a natural question is whether grokking arises from special properties of a quadratic target here. The answer to this turns out to be no: the grokking examined in this paper (that is: polynomial regression in a 2 layer MLP with zero weight decay and vanilla GD) persists out-of-the-box for higher degree polynomial targets in the way one would expect. Below, we show experiments where the target is $H_k$, the $k$-th Hermite polynomial, and the activation is $\phi(z) = z + \frac{\eps}{2}H_k(z)$. In particular, $H_3, H_4$ below are polynomials with degree $k > 2$ and thus information exponent also greater than two. We use larger amounts of data to learn higher order polynomials $H_k$. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{hermite2.pdf}
+    \includegraphics[width=0.32\textwidth]{hermite3.pdf}
+    \includegraphics[width=0.32\textwidth]{hermite4.pdf}
+    \begin{center}
+        \caption{Grokking when learning the Hermite polynomials of varying degree illustrates that our setup doesn't rely on any special properties of a single-index quadratic learning problem, which is known to be theoretically simpler than higher degree or multi-index learning problems. Note the log-scale on $x$-axis, so a small gap on the right of the plot corresponds to generalization delayed (grokking) by several thousand epochs.}
+    \label{app:st2}
+    \end{center}
+\end{figure}
+
+\section{Studying Loss vs Accuracy in grokking learning curves}
+
+\subsection{Defining ``grokking in loss" and ``grokking in accuracy"}
+
+``Grokking in loss" refers to the loss curves we study in this paper, where the train loss initially decreases while the test loss is nondecreasing, with the test loss eventually falling as the network generalizes. This involves the train and test loss both moving a nonzero amount initially (usually it means an initial period where the test loss rises as the network memorizes the train set) and usually involves nonzero (but low) test loss at end-time of training. An example of grokking in loss is to the right of the Figure below. 
+
+``Grokking in accuracy" refers to a sharp increase in test accuracy long after a commensurate increase in train accuracy. In particular, test loss stays flat at the beginning, and rises to perfect at late-time. An example of grokking in accuracy is given on the left of the Figure below. 
+
+Given that these two definitions seem somewhat different on first glance, and that the second is the ``original" definition of grokking \cite{power2022grokking} on the task (modular arithmetic) on which it was discovered, one might wonder whether the definition studied in this paper (grokking in loss) is the same as that studied historically in past literature. 
+
+The answer to this question is yes. The two curves on the bottom correspond to the same network run. While \cite{power2022grokking} present the phenomenon in terms of accuracy (like the plot below, left), really the network is trained on loss (below, right). In particular, we notice two things: 
+
+\begin{itemize}
+    \item When we plot accuracy, we see the network does perfectly in terms of classification accuracy on the modular arithmetic task. 
+    \item However, the loss at end-time is nonzero. In this case, this does not contradict the above because the network is trained on one-hot inputs, and so if the maximum element in the network output is the correct index of the modular addition problem, the input will be correctly answered (accuracy) but will incur loss until the network put probability one on the index of the correct answer. 
+\end{itemize}
+
+We also notice that 
+
+\begin{itemize}
+    \item Test accuracy is flat early in training, but test loss moves. 
+    \item Train accuracy reaches perfect classification in 2k epochs, when train loss is about $\approx 0.06$, but train loss keeps falling much after that all the way to zero. 
+\end{itemize}
+
+The intuition for the first bullet is that during memorization, test loss decreases because the network is attempting to fit a linearized (NTK) solution at early time. Of course, since the network has not learned the structure of the task by this point (before 2k epochs), this is not helpful on test points. But we notice that this linearized solution is enough to do perfectly on the train set! If a loss of $\approx 0.06$ corresponds to perfect classification, then we see that the test loss only dips below this amount around 3-4k epochs, \textit{precisely when the network generalizes in accuracy}. Finally, the accuracy curve is flat at early time because we cannot do worse than zero accuracy, so the unhelpful change in weights that allow the network to interpolate the train set are counterproductive for the test set (as we see in terms of loss), but the accuracy is already zero, so the test accuracy curve stays flat. This is why the same network on the same run of the same task having an accuracy curve on the left derived from the loss curve on the right, is perfectly consistent. The two definitions of grokking are equivalent. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{lossacc1.pdf}
+    \includegraphics[width=0.45\textwidth]{lossacc2.pdf}
+    \begin{center}
+        \caption{Accuracy and loss plots for the same network run of a modular arithmetic task. This type of task has historically been of interest in grokking, and is also studied in \cite{power2022grokking, nanda2023progress, gromov2023grokking}. These plots are for a two layer network with no weight decay doing addition modulo a small prime. }
+    \label{app:st2}
+    \end{center}
+\end{figure}
+
+Further evidence for the equivalence between the two measures can be seen by revisiting the Appendix of the original paper that introduced grokking \cite{power2022grokking}, and noting Figure 4 which exhibits grokking in loss of the sort we study in this paper. 
+
+\subsection{Constructing accuracy curves from loss curves can be misleading}
+
+Some classes are classification tasks, such as modular arithmetic (as above) and classifying images on MNIST. There is a natural notion of accuracy in such tasks. However, regression tasks can also have a notion of classification accuracy defined, as is done \cite{liu2022omnigrok}, by defining a threshold $\theta$ such that a data point $(x, y)$ is said to be ``classified correctly" if $|f(x)-y| \le \theta$ it is within a threshold of the true label. Then one can define accuracy on a test set $X_\text{test}$ as the average number of data points in the set that are classified correctly $\frac{1}{|X_{\text{test}}|} \sum_{x_i \in X_{\text{test}}} \mathbf{1}[|f_{\text{net}}(x_i)-y_i| \le \theta]$. The plot below does exactly this for the student-teacher task described earlier, taken from \cite{liu2022omnigrok}, showcasing how the resulting accuracy curves can be misleading and unhelpful, showing apparent ``grokking" for some choices of $\theta$ but not others. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{st_thresh_sweep.pdf}
+    \begin{center}
+        \caption{Grokking on this particular task depends on the choice of threshold. Each of these curves corresponds to the \textit{exact same network run} (in terms of loss over epochs) with a different choice of threshold to plot accuracy. Figure 9 had the same threshold throughout. This justifies our study of loss, not accuracy, on regression-based tasks like polynomial regression in our main text. }
+    \label{app:st2}
+    \end{center}
+\end{figure}
+
+\subsection{Not all instances of grokking in accuracy are worth studying}
+
+Reconsider the student-teacher task from above for which we saw that grokking in terms of accuracy could be an artefact of choosing a threshold $\theta$. We now examine its loss curves (below, left) and see they are entirely unremarkable. Thus, seeing a network ``groks" in terms of an accuracy plot does \textit{not} imply interesting learning dynamics in terms of loss (which is what guides learning dynamics). Therefore, grokking in accuracy does \textit{not} imply grokking in loss. The curves below say more about the contrived nature of this task than about interesting learning dynamics in the network. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{loss2acc.pdf}
+    \includegraphics[width=0.45\textwidth]{accs2loss.pdf}
+    \begin{center}
+        \caption{\textit{Loss} curves for the student-teacher task on which \textit{accuracy} curves exhibited ``grokking." The loss curves show that there is nothing particularly surprising happening in the network over the course of training; the train loss tracks the test loss throughout. ``Grokking" on the corresponding accuracy curves is thus a mirage arising from sweeping over thresholds $\theta$ used to define ``accuracy" on this regression task, and choosing a $\theta$ that generates a striking plot.}
+    \label{app:st2}
+    \end{center}
+\end{figure}
+
+
+\subsection{Loss is the right metric to study}
+
+We have established that grokking in terms of loss curves, as we defined it in this paper, \textit{does imply grokking in accuracy curves, as defined in \cite{power2022grokking}}. We have also shown the converse is \textit{not} true, demonstrating that grokking in loss, the way we have defined it, is a \textit{stronger} condition than grokking in accuracy. This justifies our study of learning curves in terms of loss, not accuracy. Of course, as we saw in the case of the MLP on MNIST, modular arithmetic tasks, and more, this means that our claims for how laziness and NTK alignment control grokking (in terms of loss) hold \textit{out of the box} for grokking (in terms of classification accuracy). 
+
+We end by noting that \textit{we are not the first to make this observation}. Indeed, the fact that loss, not accuracy, is the interesting thing to study was quickly realized after the initial paper discovering grokking was published! It is noted when \cite{davies2023unifying} study loss in their Figure 5b, when \cite{liu2022omnigrok} characterize the \textit{loss} landscapes of various tasks that exhibit grokking, when \cite{nanda2023progress} plots excluded and restricted loss and remarks that accuracy can be gamed, and emphatically in \cite{schaeffer2023emergent}, who argues ``hard threshold" measures of performance (like accuracy in grokking) are extremely misleading, and continuously optimized measures (like loss) should be studied instead. Thus our choice to do so in this paper is perfectly consistent with past literature on grokking. 
+
+\section{More data allow us to generalize on harder tasks}
+
+If grokking is roughly seen as ``delayed generalization," then one would expect we cannot grok on tasks where we cannot generalize. This is indeed the case, and one might wonder whether increasing the dataset size allows us to generalize on harder tasks -- in particular on our eigenvector label task as in Figure 5 -- or whether this task is inherently hard for a feature learning network. We will see below that more data allows us to generalize on this task when we otherwise couldn't.  Reconsider the task in Figure 5(c) of learning the $j$-th eigenvector of Gaussian dataset $X$, for varying values of $j$. We chose this task because it allows us to vary task difficulty as measured by the alignment at initialization of the NTK and task labels. We observe that for any fixed $j$, increasing the dataset size suffices to eliminate grokking by having the learning curves move together. Consider the grid of plots below. It shows how for a fixed dataset size, making the task harder (increasing $j$) can cause a network to fail (going down the left column). But then we notice (moving left to right on each row) that increasing the dataset size leads to eventual generalization, with grokking in a goldilocks somewhere in the middle, when the task is hard (in an NTK alignment sense), but ultimately learnable (in the sense that the network can achieve low test loss at end-time of training). 
+ 
+ \begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{3x3_eigvecs.pdf}
+    \begin{center}
+        \caption{Varying dataset size and task difficulty to see where rich learning is enough to generalize. Plots going from left to right in each row have increasing amounts of data, and plots going from top to bottom have the task getting harder (increasing $j$ used for labels). We see that moving left to right illustrates (1), how increasing data for a fixed task difficult $j$, suffices to allow the network to generalize, but moving top to bottom on the grid illustrates (2), how if you let the task difficulty increase with dataset size, some tasks cannot be learned by this network architecture: if we used even smaller eigenvectors (for instance, setting $P = j$), no amount of $P$ would be able to learn it.}
+    \label{app:st2}
+    \end{center}
+\end{figure}
+
+
+% \section{Dynamical Mean Field Theory for Asymptotic Risk Evolution}
+
+% \textbf{Dynamical Mean Field Theory.} Existing models of grokking use architectures like one-layer Transformers and optimizers like AdamW, which are difficult to describe mathematically. Here, we present a toy model simple enough for detailed mathematical description using Dynamical Mean Field Theory (DMFT). DMFT is a mathematical technique that has its origin in condensed matter physics, but it has since then shown to be a useful tool to describe the weight and loss dynamics of neural networks \cite{bordelon2022self, mignacco2020dynamical, celentano2021high} in the ``thermodynamic limit" where dataset size and data dimension jointly go to infinity. 
+
+% It should be emphasized that because train and test loss both start high and become low at end-time for a network that groks, the interesting part of grokking is the separation of the two losses during the middle of training; that is, grokking is a \textit{dynamical} phenomenon, so closed-form expressions for loss at a fixed point in time are insufficient to understand the origin of grokking. This necessitates tools to characterize the \textit{dynamics} of quantities like network weights and loss. Such a detailed mathematical description is only possible for exceedingly simple models, and grokking had not been observed in such models until now. 
+
+% To gain insight into the typical train and test loss dynamics in this setting, we investigate the high dimensional limit $D, P \to \infty$ with $P=\gamma D$ with hidden neurons $N$ held fixed. To do this, we use a technique from statistical physics called Dynamical Mean Field Theory (DMFT) to derive expected dynamics for the weights and activations of the network, and how they vary over training. This allows us to take advantage of the unusually simple setting we find grokking in to characterize its dynamics and interpret the resulting equations, since solving out for dynamics is untenable in more complicated models in which grokking has historically been discovered. Past work on this limit includes \citep{mignacco2020dynamical, mignacco2021stochasticity, celentano2021high}, see Appendix \ref{app:dmft_results} for details of the following derivation. 
+
+% Intuitively, grokking happens in a data regime where we don't have too much data, so the equations that result predict a gap between test and train can emerge as $\gamma$ becomes smaller. We will see that $\alpha, \epsilon$ show up in the resulting Equation (7) in a way that explains why they have the effects they do on grokking dynamics. The derivation of the DMFT equations uses the Cavity Method and is quite technical, so we defer it to the Appendix \ref{app:dmft_results} and state and interpret the resulting equations here instead. We also present numerical solutions to these equations and show they illustrate where grokking comes from in this toy model. The DMFT is summarized by self-averaging (concentrating) correlation and response functions, which are defined as
+% \begin{align}
+%     C_{ij}^w(t,s) &\equiv \frac{1}{D} \w_i(t) \cdot \w_j(t) \ , \ A_i(t) \equiv \frac{1}{D} \w_i(t) \cdot \bm\beta_\star \ , \ R^w_{ij}(t,s) \equiv \frac{1}{D} \sum_{k=1}^D \frac{\delta w_{ik}(t)}{\delta v_{jk}^w(s)} \nonumber
+%     \\
+%     C^g_{ij}(t,s) &\equiv \frac{1}{P} \sum_{\mu=1}^P g_i^\mu(t) g_j^\mu(s) \ , \ R^h_{ij}(t,s) \equiv \frac{1}{P} \sum_{\mu=1}^P \frac{\delta g_i^\mu(t)}{\delta h_j^\mu(s)} \ , \ R^{h_\star}_{i}(t) \equiv \frac{1}{P} \sum_{\mu=1}^P \frac{\delta g_i^\mu(t)}{\delta h_\star^\mu}  ,
+% \end{align}
+% where $g^\mu_i(t) = \dot\phi(h_i^\mu(t)) ( y_\mu - f_\mu)$ are the gradients and the $v_{ik}(t)$ are fictitous source terms added to the weight dynamics (see Appendix \ref{app:cavity_DMFT} for more details). In the high dimensional limit, the weights for each input dimension become statistically independent and identically distributed, allowing for a reduced (lower) dimensional description of the network dynamics. We provide some theoretical solutions in Figure \ref{fig:dmft_theory_vs_expt} and Appendix Figure \ref{fig:dmft_order_params} obtained by integrating the DMFT equations. 
+
+% \textit{Using solved dynamics to identify the source of grokking on our model.} While the resulting equations coupling the correlation and response functions are complicated, we provide them below to see how grokking can emerge as these three introduced quantities of interest $(\alpha,\gamma, \epsilon)$ vary. 
+% \begin{align}
+%     \frac{d}{dt} w_i(t) &= u^w_i(t) + \int_0^t  ds \sum_{j=1}^N R^h_{ij}(t,s) w_j(s) + R^{h_\star}_i(t) \beta  \ , \ u^w \sim \mathcal{GP}(0,\gamma^{-1} C_g) 
+%     \\
+%     h_i(t) &= u^h_i(t) + \frac{1}{\gamma} \int_0^t  ds \sum_{j=1}^N  R^w_{ij}(t,s) g_j(s) \ , \ [u^h_i , u^{h_\star}] \sim \mathcal{GP}\left(0, Q \right) \ , \ Q = \begin{bmatrix}
+%         C_w & A
+%         \\
+%         A^\top & 1
+%     \end{bmatrix}
+% \end{align}
+% where $C^w, A, C^g$ are correlations computed over the statistics of the above stochastic processes. 
+
+% \paragraph{Overfitting effects at finite $\gamma$} Now we analyze what (5) and (6) tells us about the effect of $\gamma$ on the initial memorization (overfitting) phase of grokking. While the $\gamma \to \infty$ limit recovers the dynamics of online learning from \cite{saad1995line}, at finite $\gamma$ we have the following complications
+% \begin{itemize}
+%     \item Noise $u^w(t)$ in the weight dynamics which is correlated across time and neurons
+%     \item Non-Gaussian correction to $h_i(t)$ (the integral in $h$ equation) which accelerates overfitting.
+%     \item The response function $R^h_{ij}(t,s)$ becomes non-local in time (not proportional to $\delta(t-s)$), generating non-Markovian weight updates.  
+% \end{itemize}
+% Overfitting is caused by the finite $\gamma$ correction to $h_i(t)$, generating a gap in train and test loss
+% \begin{align}\label{eq:test_train_gap}
+%     \mathcal{L}_{\text{test}}(t) - \mathcal{L}_{\text{train}}(t) \sim \frac{2 \alpha}{\gamma N} \sum_{ij=1}^N \int_0^t ds R^w_{ij}(t,s) C^g_{ij}(t,s) + \mathcal{O}(\gamma^{-2})
+% \end{align}
+
+% \textit{This quantitative characterization of the test-train gap is a key result of the DMFT} because it allows us to see exactly where grokking comes from as a function of $\gamma, \alpha, \epsilon$, since grokking takes place exactly when $\mathcal{L}_{\text{test}}(t) - \mathcal{L}_{\text{train}}(t)$ is large. The key idea is that grokking cannot happen in the online limit $\gamma \to \infty$ because train loss tracks test loss, and grokking is precisely when train loss is egregiously unrepresentative of progress on improving test risk. Equation \ref{eq:test_train_gap} illustrates how this gap can become large (grokking) in the middle of training as we move from the online to the offline training regime. But $\gamma$ is not the only parameter in this model that quantitatively controls grokking, as we will see now. 
+
+% \paragraph{Effect of $\epsilon$ and $\alpha$} The scale parameter $\alpha$ and quadratic component $\epsilon$ enter into the dynamics through the gradient signals $g_i(t) = [ 1+\epsilon h_i(t) ] \left(  \frac{1}{2} h_\star^2  - \frac{\alpha}{N} \sum_k \left[h_k + \frac{\epsilon}{2} h_k^2 \right] \right)$ which are averaged to compute $C^g$. This indicates that $\epsilon$ and $\alpha$ both have interesting effects on response functions $R^h, R^{h_\star}$. 
+
+
+
+% \begin{itemize}
+%     \item First, we see that if $\alpha$ is small, the train and test losses will be closer to one another (no grokking) based on equation \eqref{eq:test_train_gap}.  Early in training the weight dynamics are dominated by updates in the signal $\beta$ direction, representing useful feature learning. The losses will both begin to drop at time $t \sim \frac{2}{3\epsilon} \ln\left( \frac{1}{A_0 \alpha} \right)$, where $A_0$ is the scale of initial alignment (see App. \ref{app:small_alpha} and Figure \ref{fig:dmft_theory_vs_expt} b). For large $\alpha$, $R_h$ will have a large effect on the dynamics, delaying alignment and causing grokking. 
+%     \item If $\epsilon$ is small, then we expect the alignment to initially decrease followed by a subsequent increase at later time (more grokking). If $\epsilon$ is large, then we expect it is possible for $h_k$ to evolve close to an interpolation condition before $w$ aligns to $\beta$. All these predictions are tested in Figure \ref{fig:dmft_theory_vs_expt}.  
+% \end{itemize}
+
+
+% \begin{figure}[H]
+%     \centering
+%     %\subfigure[$\gamma=20$]{\includegraphics[width=0.32\linewidth]{dmft_train_test_quad_gamma_22.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \subfigure[$\alpha = 0.1$, Vary $\gamma$]{\includegraphics[width=0.48\linewidth]{vary_gamma_dmft_vs_expt.pdf}}
+%     %\subfigure[$\gamma=15$]{\includegraphics[width=0.32\linewidth]{dmft_train_test_quad_gamma_15.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     %\subfigure[$\gamma=10$ (DMFT Solver Failed)]{\includegraphics[width=0.32\linewidth]{dmft_train_test_quad_gamma_10.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \subfigure[$\gamma= 15$, Vary $\alpha$]{\includegraphics[width=0.48\linewidth]{vary_alpha_dmft_vs_expt.pdf}}
+%     \caption{{We compare the train (dashed) and test (solid) losses of different networks with $N=2$ hidden neurons and data of dimension $D=3500$ in a randomly initialized network (with constant initialization) and random training sets of size $P = \gamma D$ to the DMFT train and test loss predictions. Error bars represent standard deviation over $10$ datasets. See Appendix Figure \ref{fig:dmft_order_params} for additional plots of DMFT correlation and response functions. }}
+%     \label{fig:dmft_theory_vs_expt}
+% \end{figure}
+
+% The plots do not show smaller values of $\gamma$ or larger values of $\alpha$ due to numerical instability in solving the DMFT equations using Monte Carlo techniques, but one can see the trend emerging for the values we do plot to see the origin of grokking. Above in \ref{fig:dmft_theory_vs_expt}(a), we can see first the offline effects described earlier of $\gamma \ll \infty$. In \ref{fig:dmft_theory_vs_expt}(b) we can see how making $\alpha$ bigger (and thus the network lazier, so it tracks its linearized dynamics more closely for longer during training \cite{chizat2019lazy}) causes a gap to emerge between the train and test loss. We emphasize we include significantly more detailed derivations and plots in the Appendix that discuss more of the interpretation of the DMFT equations, their origins, and plots of other quantities (like the order parameters $\w, \M$ that fully determine the test risk). This is the first quantitative characterization of grokking \textit{dynamics}, to the best of our knowledge. 
+
+% \section{{Dynamical Mean Field Theory: Derivations}}\label{app:dmft_results}
+
+% In this section we derive a set of DMFT equations which describe the dynamics of a two-layer network with $N= \mathcal{O}(1)$ hidden neurons in a proportional limit $P,D\to\infty$ with $P = \gamma D$. The general framework for DMFT for models trained on random data can be found in prior works \citep{celentano2021high, mignacco2020dynamical}. Our goal is to analyze the following gradient flow dynamics
+% \begin{align}
+%     \frac{d}{dt} \w_i(t) = \frac{1}{\gamma} \sum_{\mu=1}^P g^{\mu}_i(t) \x^\mu  \ , \ g_i^\mu(t) = (y_\mu - f_\mu) \dot\phi(h_i^\mu(t)) 
+%     \ , \  h_i^\mu(t) = \w_i(t) \cdot \x^\mu 
+% \end{align}
+% where the labels $y^\mu = \sigma(h_\star^\mu) = \sigma(\bm\beta \cdot \x)$ are determined by the target function and $f_\mu(t) = \frac{\alpha}{N} \sum_{i=1}^N \phi(h_i^\mu(t))$ is the model's output on data point $\x^\mu$. The vector $\bm\beta$ can be regarded as a random vector independent entries with $\left< \beta^2 \right> = 1$. The key idea of DMFT is that the above dynamics on $ND$ weights $\{ \w_i \}_{i=1}^N$ can be reduced to $2 N + 1$ stochastic processes (One weight $w_i(t)$ for each hidden neuron and one gradient for each hidden neuron $g_i(t)$ and one additional for the target field $h_\star$) which are summarized by correlation and response functions. Each entry of the weight vector $\w_i$ becomes an independent stochastic process with the following dynamics 
+% \begin{align}
+%     \frac{d}{dt} w_i(t) &= u^w_i(t) +  \int_0^t ds \ \sum_{j=1}^N R_{ij}^h(t,s) w_j(s) + R^{h_\star}_i(t) \beta \ , \ \bm u_w \sim \mathcal{GP}\left( 0 , \gamma^{-1} \bm C^g \right) \nonumber
+%     \\
+%     h_i(t) &= u^h_i(t) + \frac{1}{\gamma} \sum_{j=1}^N \int_0^t ds R_{ij}^w(t,s) g_j(s) \nonumber
+%     \ , \ h_\star = u^{h^\star}
+%     \\
+%     C^g_{ij}(t,s) &= \left< g_i(t) g_j(s)  \right> \ , \ C^w_{ij}(t,s) = \left< w_i(t) w_j(s) \right> 
+% \end{align}
+% where $u^h_i(t) , u_{h^\star}$ are jointly Gaussian with covariance 
+% \begin{align}
+%     \left< u^h_i(t) u^h_j(s) \right> = C^w(t,s) \ , \ \left< u^h_i(t) u^{h^\star} \right> = A_i(t) \equiv \left< w_i(t) \beta \right> \ , \ \left< \left[u^{h^\star} \right]^2  \right> = \left< \beta^2 \right> = 1
+% \end{align}
+% Lastly, we can compute the response functions $R$ as averages over the above stochastic processes 
+% \begin{align}
+%     R^w_{ij}(t,s) = \left< \frac{\delta w_i(t)}{\delta u^w_j(s)} \right> \ , \ R^h_{ij}(t,s) = \left< \frac{\delta g_i(t)}{\delta u^h_j(s)} \right> \ ,  \ R^{h_\star}_{i}(t) = \left< \frac{\delta g_i(t)}{\delta u^{h_\star}} \right>
+% \end{align}
+% These equations close self-consistently. We derive these equations in Appendix \ref{app:cavity_DMFT} using a dynamical cavity method. In the next section, we discuss some special limits of this theory where we can gain some insight. We note that while the stochastic process for $w_i(t)$ is Gaussian for any choice of nonlinearity, the preactivations $h_i(t)$ are non-Gaussian if we use nonlinear link functions $\phi$. 
+
+% \begin{figure}
+%     \centering
+%     \subfigure[$\gamma=20$]{\includegraphics[width=0.42\linewidth]{dmft_train_test_quad_gamma_20.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \subfigure[$\gamma=15$]{\includegraphics[width=0.42\linewidth]{dmft_train_test_quad_gamma_15.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \subfigure[Weight Correlation Online vs Offline]{\includegraphics[width=0.45\linewidth]{dmft_Cw_quad_gamma_20.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \subfigure[Preactivation Response Online vs Offline]{\includegraphics[width=0.45\linewidth]{dmft_Rh_quad_gamma_20.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \subfigure[Alignment Dynamics]{\includegraphics[width=0.42\linewidth]{dmft_align_quad_gamma_20.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \subfigure[Weight Correlations]{\includegraphics[width=0.42\linewidth]{dmft_Cw_diag_quad_gamma_20.0_partial_align_0.02_eps_1.0_alpha_0.2_N_2_D_3500.pdf}}
+%     \caption{{DMFT captures the effect of data repetition in the Gaussian data model through a collection of order parameters. We show the resulting order parameters for $N=2$ and $\gamma = 20$ and compare to training networks with $D=3500$. Error bars are computed over $20$ random training datasets from the same initial condition for the weights. We see that data repetition (finite $\gamma$) causes (a) a change in the weight correlations, and the (b) preactivation response functions become non-diagonal reflecting a transition to non-Markovian dynamics. (c) The alignment of each of the two neurons to $\bm \beta_\star$ is well predicted by DMFT but not well predicted by the online limit. (d) The time-time diagonal entries in $C^w$ are well predicted by DMFT. } }
+%     \label{fig:dmft_order_params}
+% \end{figure}
+
+% \subsection{The Large $\gamma$ Limit Coincides With Online Learning Dynamics}
+
+% To gain insight into the equations, we first investigate the large data limit $\gamma \to \infty$. Unfortunately, this limit cannot exhibit grokking as train and test losses coincide, however it will prove a useful starting point for our analysis. In this case, we have the following simplifications
+% \begin{align}
+%     R_{ij}^h(t,s) &\to R_{ij}^h(t) \delta(t-s) 
+%     \ , \ h_i(t) \to u_i^h(t) \nonumber
+%     \\
+%     \frac{d}{dt} w_i(t) &\to \sum_{j=1}^N R^h_{ij}(t) w_j(t) +  R_i^{h_\star}(t) \beta 
+% \end{align}
+% Using these simplifications, we can close the equations for $C_w$ and $A_i$ as 
+% \begin{align}
+%     \frac{d}{dt} A_i(t) &= \sum_j R_{ij}^h(t) A_j(t) + R_i^{h_\star}(t) 
+%     \\
+%     \frac{d}{dt} C^w_{ij}(t,s) &=  \sum_{k} R_{ik}^h(t) C_{kj}^h(t,s) + R_{i}^{h_\star}(t) A_j(s)
+% \end{align}
+% where we have the equal-time response functions
+% \begin{align}
+%     R^h_{ij}(t,s) = \left< \frac{\delta g_i(t)}{\delta u^h_j(t)} \right> \ ,  \ R^{h_\star}_{i}(t) = \left< \frac{\delta g_i(t)}{\delta u^{h_\star}} \right>
+% \end{align}
+% This exactly coincides with the online learning equations of \cite{saad1995line}. For our choice of noninearities $\phi(h) = h + \frac{\epsilon}{2} h^2$ and $\sigma(h) = \frac{1}{2} h^2$, we have the following response functions
+% \begin{align}
+%     R^h_{ij}(t) &= \delta_{ij} \epsilon \left< \left( \frac{1}{2} h_{\star}^2 - \frac{1}{N} \sum_k \left[h_k(t) + \frac{\epsilon}{2} h_k(t)^2 \right] \right) \right> \nonumber
+%     \\
+%     &- \frac{1}{N} \left< (1 + \epsilon h_i(t)) \left( 1 + \epsilon h_j(t) \right)   \right> \nonumber
+%     \\
+%     &= \frac{\epsilon}{2} \delta_{ij} \left[ 1 - \frac{\epsilon}{N} \sum_k C^w_{kk}(t)  \right] - \frac{1}{N} \left[ 1 + \epsilon^2 C_{ij}(t)  \right] \nonumber
+%     \\
+%     R^{h_\star}(t) &= \left<  (1 + \epsilon h_i(t)) h_\star \right> = \epsilon A_i(t) 
+% \end{align}
+% Thus, we obtain the following closed ordinary differential equations for $\{ A_i(t) , C^w_{ij}(t,s)\}$
+% \begin{align}
+%     \frac{d}{dt} A_i(t) &= \frac{\epsilon}{2} \left[1 - \frac{1}{N} \sum_k C_{kk}^w(t) \right] A_i(t) - \frac{1}{N} \sum_{j} [ 1 + \epsilon^2 C_{ij}^w(t) ] A_j(t) + \epsilon A_i(t) \nonumber
+%     \\
+%     \frac{d}{dt} C_{ij}^w(t) &= \epsilon \left[ 1 - \frac{1}{N} \sum_k C_{kk}^w(t) \right] C_{ij}^w(t) - \frac{1}{N} \sum_{k} C_{ik}^w(t) C_{kj}^w(t) [2  + \epsilon^2 C_{ik}(t) + \epsilon^2 C_{kj}(t) ] \nonumber
+%     \\
+%     &+ 2 \epsilon A_i(t) A_j(t) 
+% \end{align}
+% We see that this dynamical system has fixed points for $A_i$ at $\bm A = 0$. This is the cause for potential slow timescales for alignment from generic initial conditions in high dimensions even in online learning since the initial value for $A_i$ is generally $\mathcal{O}(D^{-1/2})$ \citep{arnaboldi2023high, arous2021online}. We note however, that this is not a statistical \textit{sample complexity} issue as we are still in the $P=\gamma D$ scaling but with $\gamma \gg 1$. 
+
+% \subsection{Leading Expression for Test/Train Loss Gap}\label{app:test_train_gap}
+
+% We can use the following expressions for the train and test losses to derive a formula for their gap valid at large but finite $\gamma$
+% \begin{align}
+%     \mathcal{L}_{\text{test}} = \left< \left( \frac{\alpha}{N} \sum_{i=1}^N \phi(u_i^h(t)) - \sigma(h_\star)  \right)^2 \right> \ , \ \mathcal{L}_{\text{train}} = \left< \left( \frac{\alpha}{N} \sum_{i=1}^N \phi(h_i(t)) - \sigma(h_\star)  \right)^2 \right> 
+% \end{align}
+% Using the fact that $u^h_i(t) = h_i(t) - \frac{1}{\gamma} \int ds \sum_j R^w_{ij}(t,s) g_j(s)$ we can expand the test loss around the training loss at large $\gamma$ this gives
+% \begin{align}
+%     \mathcal{L}_{\text{test}}(t) &\sim \left< \left( \frac{\alpha}{N} \sum_{i=1}^N \phi(h_i(t)) - \frac{\alpha}{\gamma N} \sum_{i=1}^N \dot\phi(h_i(t)) \int ds \sum_j R^w_{ij}(t,s) g_j(s) - \sigma(h_\star)  \right)^2 \right> \nonumber
+%     \\
+%     &\sim \mathcal{L}_{\text{train}} + \frac{2\alpha }{\gamma N} \sum_{i=1}^N \int ds \sum_j R^w_{ij}(t,s) \left< \dot\phi(h_i(t)) \Delta(t)  g_j(s)  \right>   + \mathcal{O}(\gamma^{-2})
+% \end{align}
+% Recognizing that $g_i(t) = \dot\phi(h_i(t)) \Delta(t)$, we can express the leading order correction as 
+% \begin{align}
+%     \mathcal{L}_{\text{test}} - \mathcal{L}_{\text{train}} \sim \frac{2\alpha }{\gamma N} \int_0^t ds \sum_{ij} R^w_{ij}(t,s) C^g_{ij}(t,s) + \mathcal{O}(\gamma^{-2}) 
+% \end{align}
+% We could now evaluate this expression at large $\gamma$ so that $R^w, C^g$ can be replaced with its value at $\gamma \to \infty$ (the solution in the Saad-Solla limit). 
+
+% \subsection{Early dynamics at Small $\alpha$}\label{app:small_alpha} 
+
+% We can also make some progress analytically in the case where $\alpha \ll 1$ and $\gamma \gg 1$. The early dynamics are 
+% \begin{align}
+%     \frac{d}{dt} w_i(t) &\sim u^w_i(t) + \frac{\epsilon}{2} w_i(t) + \epsilon A_i(t) \beta \nonumber
+%     \\
+%     \implies \frac{d}{dt} A_i(t) &= \frac{3\epsilon}{2} A_i(t) \implies A_i(t) = \exp\left( \frac{3\epsilon}{2} t \right) A_i(0)
+% \end{align}
+% In order to reduce the loss appreciably, we need $A(t)$ to reach a scale of $\alpha^{-1}$ since $f = \alpha \phi(h)$. To reach an alignment of scale $\frac{1}{\alpha}$, we need to train for time
+% \begin{align}
+%     t \sim \frac{2}{3\epsilon} \ln\left( \frac{1}{\alpha \ A(0)} \right)
+% \end{align}
+% This is why the small $\alpha$ experiments train more slowly in Figure \ref{fig:dmft_theory_vs_expt}. We note that in high dimension under random initial conditions $A(0) \sim \frac{1}{\sqrt D}$ so the time to escape the saddle point at initialization is $\mathcal{O}( \ln D)$, consistent with prior works on one-pass SGD \cite{arous2021online, arnaboldi2023high}. 
+
+% \subsection{General Response Function Recursions}
+
+% We need a way to compute $R^h_{ij}(t,s)$. This requires knowledge of the linear responses in the non-Markovian $h_i(t)$ system. To obtain these we note the following implicit relations. 
+% \begin{align}
+%     \frac{\delta h_i(t)}{\delta u_j(s)} &= \delta(t-s)\delta_{ij} + \frac{1}{\gamma} \int_0^t dt' \sum_k R^w_{ik}(t,t') \frac{\delta g_k(t')}{\delta u_j(s)} \nonumber
+%     \\ 
+%     \frac{\delta g_i(t)}{\delta u_j(s)} &= \ddot\phi(h_i(t)) \frac{\delta h_i(t)}{\delta u_j(s)}\Delta(t)   \nonumber
+%     \\
+%     &-  \dot\phi(h_i(t)) \left[\frac{1}{N} \sum_k \dot\phi(h_k(t)) \frac{\delta h_k(t)}{\delta u_j(s)} \right] \nonumber
+%     \\
+%     \frac{\delta h_i(t)}{\delta u^{h_\star}} &= \frac{1}{\gamma} \int_0^t dt' \sum_j R^w_{ij}(t,t') \frac{\delta g_j(t)}{\delta u^{h_\star}} \nonumber
+%     \\
+%     \frac{\delta g_i(t)}{\delta u^{h_\star}} &= \dot\phi(h_i(t))\left[ \dot\sigma(h_\star) - \frac{1}{N} \sum_k \frac{\delta h_k(t)}{\delta u^{h_\star}} \dot\phi(h_k(t)) \right] + \ddot\phi(h_i(t)) \frac{\delta h_i(t)}{\delta u^{h_\star}} \Delta
+% \end{align}
+% where $\Delta(t) = \sigma(h_\star) - \frac{1}{N} \sum_k \phi(h_k(t))$ are the instantaneous errors. 
+
+
+% \subsection{Cavity Derivation of DMFT Equations}\label{app:cavity_DMFT}
+
+% In this section we quickly derive the limiting DMFT equations for the infinite data and dimension limit with $P = \gamma D$ with $\gamma = \mathcal{O}(1)$. This computation consists of two parts. First, we consider the effect of adding a single data point to the training set and computing the marginal statistics on this new training point. Then we proceed to add a single dimension to the data and then calculate the dynamics for the weight associated with this dimension. These lead to scalar stochastic processes which can be sampled and solved for in terms of correlation and response functions. To make the calculation simpler, we consider adding fictitious source terms $\bm v^w(t)$ and $v^h_{\mu}(t)$ which perturb the dynamics
+% \begin{align}
+%     \frac{d}{dt} \w_i(t) &= \frac{1}{\gamma} \sum_{\mu=1}^P g_i^\mu(t) \x^\mu + \bm v^w_i(t)
+%     \\
+%     h^\mu_i(t) &= \w_i(t) \cdot \x^\mu + v^h_{\mu,i}(t) 
+% \end{align}
+% We will define the following two response functions 
+% \begin{align}
+%     \bm R^w_{ij}(t,s) &= \lim_{\bm v^w \to 0} \frac{\delta \w_i(t)}{\delta \v_j^w(s)} 
+%     \ , \ R^{h}_{ij, \mu \nu}(t,s)= \lim_{\{v^{h}_{\mu i}\} \to 0} \frac{\delta g_i^\mu(t)}{\delta v^h_{\nu j}(s)} 
+%     \ , \ R^{h_\star}_{i,\mu\nu}(t) = \frac{\delta g_i^\mu(t)}{\delta h_\star^\nu} 
+% \end{align}
+
+
+% \paragraph{Adding One Data Point} We consider the effect of adding a data point $\x^0 \sim \mathcal{N}(0, \frac{1}{D} \bm I)$ to the dataset. This addition leads to a small perturbation in the dynamics of the weights. Let $\tilde{\w}(t)$ represent the weights in the $P+1$ data point system (including $\x^0$) while $\w(t)$ is the weights in the $P$ data system. By linear response theory, we have the following perturbed dynamics for $\tilde{\w}$
+% \begin{align}
+%     \tilde{\w}_i(t) \sim \w_i(t) + \frac{1}{\gamma} \int_0^t ds \sum_{j=1}^N  g_j^0(s) \bm R^w_{ij}(t,s)     \x^0 . 
+% \end{align}
+% Now, we can compute the perturbed preactivation statistics ${h}^0_i(t)$ on the new data point
+% \begin{align}
+%     {h}^0_i(t) \sim \w_i(t) \cdot \x^0 + \frac{1}{\gamma} \int_0^t ds \sum_{j=1}^N  g_j^0(s) \x^{0 \top} \bm R^w_{ij}(t,s)     \x^0 .
+% \end{align}
+% In the first, term, the random variables $\w_i(t)$ are statistically independent from $\x^0$ so this first term is just a Gaussian with mean zero and variance 
+% \begin{align}
+%    \w_i(t) \left< \x^0 \x^{0 \top} \right> \w_j(s) = \frac{1}{D} \w_i(t) \cdot \w_j(s) \equiv   C^w_{ij}(t,s) 
+% \end{align}
+% This covariance matrix will concentrate as $D \to \infty$. Next, we consider the second term, which also concentrates around its average 
+% \begin{align}
+%     \x^{0 \top} \bm R^w_{ij}(t,s) \x^0 \sim \frac{1}{D} \text{Tr} \ \bm R^w_{ij}(t,s) \equiv R^w_{ij}(t,s) 
+% \end{align}
+% Thus we have the following marginal stochastic process for $h^0_i(t)$
+% \begin{align}
+%     h^0_i(t) = u^h_i(t) + \frac{1}{\gamma} \int ds \sum_{j} R^w_{ij}(t,s) g^0_j(s) 
+% \end{align}
+% where $u^h \sim \mathcal{GP}(0, C^w)$. 
+% \paragraph{Adding a feature dimension} We next consider adding a dimension so that we have $D+1$ instead of a $D$ dimensional weight vector and data vectors. Upon the addition of a single dimension, the gradient signals are perturbed as
+% \begin{align}
+%     \tilde{g}^\mu_i(t) = g^\mu_i(t) + \int_0^t ds \sum_{\nu=1}^P \sum_{j=1}^N  R^h_{ij,\mu\nu}(t,s) x_0^\nu w_{j0}(s) + \sum_{\nu=1}^P R^{h_\star}_{i,\mu\nu}(t) x_0^\nu \beta_0 .
+% \end{align}
+% As a consequence the dynamics of the new trainable weight $w_{i0}(t)$ have the form
+% \begin{align}
+%     \frac{d}{dt} w_{i0}(t) &= \frac{1}{\gamma} \sum_{\mu=1}^P g_i^\mu(t) x^0_\mu + \frac{1}{\gamma}  \int_0^t ds \sum_{j \mu\nu}  R^h_{ij,\mu\nu}(t,s) x^\mu_0 x_0^\nu w_{j0}(s) + \frac{1}{\gamma} \sum_{\mu\nu} R^{h_\star}_{i,\mu\nu}(t) x_0^\mu x_0^\nu \beta_0  \nonumber
+%     \\
+%     &\sim u_{i}^w(t) + \int_0^t ds \sum_j R^h_{ij}(t,s) w_{j0}(s) + R^{h_\star}_i(t) \beta_0 \nonumber
+%     \\
+%     u^w &\sim \mathcal{GP}\left(0, \gamma^{-1} C^g \right) \ , \ C^g_{ij}(t,s) \equiv \left< g_i(t) g_j(s) \right>
+% \end{align}
+% where we invoked the same central limit theorem and concentration ideas as the previous section. These equations and corresponding averages give us the DMFT presented in the previous sections. 
+
+
+% \subsection{How to Solve DMFT Equations} 
+
+% We are currently using a fixed point iteration scheme to solve the DMFT equations numerically. 
+% \begin{enumerate}
+%     \item Solve the online limit $\gamma \to \infty$ of the DMFT equations for $\{ C^w, A, C^g, R^w, R^h, R^{h_\star} \}$ directly, leveraging the Gaussianity of $w, h, h_\star$. 
+%     \item Using these correlations and response functions, draw many Monte Carlo samples for $u^h$. Integrate the equations for the preactivations, resulting in many non-Gaussian samples for $h$. Use these samples to construct a Monte Carlo estimate of $C^g, R^h, R^{h_\star}$. 
+%     \item Solve for the weight covariance $C^w$, alignment $A$ and response $R^w$ directly utilizing the Gaussianity of $w$. 
+%     \item Update all of the order parameters $\{ C^w, A, C^g, R^w, R^h, R^{h_\star} \}$ in the direction of the new estimate. 
+% \end{enumerate}
+% When this iteration procedure converges, it usually takes around $20-50$ iterations, though it takes longer for smaller $\gamma$ (since the initial guess for order parameters is farther away from the fixed point). In the provided figures, we used $8000$ Monte Carlo samples at each step and updated each order parameter $C_n$ at step $n$ of the above procedure as
+% \begin{align}
+%     C_{n+1} = \frac{1}{2} C_{n} + \frac{1}{2} C^{MC}_n .
+% \end{align}
+% where $C^{MC}$ is the Monte-Carlo estimate of $C$ at step $n$. 
+
+
+
+
+
+
+
+\end{document}

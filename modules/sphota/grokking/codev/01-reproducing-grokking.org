@@ -1,0 +1,394 @@
+#+title: Reproducing Grokking: A Literate Implementation
+#+author: gemini-gptel & mu2tau
+#+date: <2026-03-10>
+#+property: header-args:python :tangle ../src/sphota_grokking/core.py :mkdirp yes :comments link :noweb no-indent
+
+* Introduction
+This document constitutes Part I of the literate reproduction of the Welch Labs "Grokking" video (WP-0001). We implement the simulation core: the modular arithmetic dataset, a 1-layer Transformer, and an instrumented training loop.
+
+Our target is to capture the precise moment when a model, having memorized the training data, suddenly "groks" the underlying algorithm and generalizes perfectly to the test set.
+
+* Dependencies
+First, we establish the numerical foundation. Following Nanda et al. (2023), we use JAX and Equinox for a fast, easily hackable functional stack, which is critical for the mechanistic interpretability steps we will run later.
+
+#+begin_src python
+import jax
+import jax.numpy as jnp
+import equinox as eqx
+import optax
+import numpy as np
+from typing import Callable, Dict, Tuple, Any
+#+end_src
+
+* Part I: The Simulation Core
+
+** Data Generator: Modular Addition
+The grokking phenomenon is most elegantly observed on algorithmic datasets. We use modular addition: $a + b \equiv c \pmod P$.
+
+For a prime $P$ (standard is 97 or 113), the complete data manifold is a discrete grid of $P^2$ examples. A critical ingredient for grokking is a small data regime. We generate the full set of pairs and randomly select a fraction (typically around 30-50%) for training, keeping the rest strictly for testing generalization.
+
+#+begin_src python
+def generate_modular_addition_data(
+    p: int,
+    train_fraction: float,
+    seed: int = 42
+) -> Tuple[jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+    """
+    Generates the complete P^2 dataset for a + b = c (mod P).
+    Returns jax arrays: x_train, y_train, x_test, y_test.
+    """
+    np.random.seed(seed)
+
+    # 1. Generate all a, b pairs (the full PxP manifold)
+    a_range = np.arange(p)
+    b_range = np.arange(p)
+    a, b = np.meshgrid(a_range, b_range, indexing='ij')
+
+    x_all = np.stack([a.flatten(), b.flatten()], axis=1)
+
+    # 2. Calculate the target output c
+    y_all = (x_all[:, 0] + x_all[:, 1]) % p
+
+    # 3. Create a randomized train/test split
+    num_samples = len(x_all)
+    indices = np.random.permutation(num_samples)
+    train_size = int(num_samples * train_fraction)
+
+    train_indices = indices[:train_size]
+    test_indices = indices[train_size:]
+
+    # 4. Cast to JAX Device Arrays
+    x_train = jnp.array(x_all[train_indices])
+    y_train = jnp.array(y_all[train_indices])
+    x_test = jnp.array(x_all[test_indices])
+    y_test = jnp.array(y_all[test_indices])
+
+    return x_train, y_train, x_test, y_test
+#+end_src
+
+** Model Architecture: The 1-Layer Transformer
+We need an architecture minimal enough to understand mechanistically, yet expressive enough to overfit and then generalize. The literature uses a standard 1-layer Transformer.
+
+It maps the two input tokens $(a, b)$ through an embedding, adds positional encodings, processes them via a single self-attention block and MLP, and projects them back out to a vocabulary of size $P$.
+
+#+begin_src python
+class GrokkingTransformer(eqx.Module):
+    embedding: eqx.nn.Embedding
+    pos_encoding: jnp.ndarray
+    attention: eqx.nn.MultiheadAttention
+    mlp: eqx.nn.MLP
+    ln1: eqx.nn.LayerNorm
+    ln2: eqx.nn.LayerNorm
+    unembedding: eqx.nn.Linear
+
+    def __init__(
+        self,
+        p: int,
+        d_model: int,
+        num_heads: int,
+        d_mlp: int,
+        key: jax.random.PRNGKey
+    ):
+        keys = jax.random.split(key, 5)
+        
+        self.embedding = eqx.nn.Embedding(p, d_model, key=keys[0])
+        # Two positional encodings for the 'a' and 'b' tokens
+        self.pos_encoding = jax.random.normal(keys[1], (2, d_model)) * 0.02
+        
+        self.attention = eqx.nn.MultiheadAttention(
+            num_heads=num_heads,
+            query_size=d_model,
+            key=keys[2]
+        )
+        
+        self.ln1 = eqx.nn.LayerNorm(d_model)
+        self.ln2 = eqx.nn.LayerNorm(d_model)
+        
+        self.mlp = eqx.nn.MLP(
+            in_size=d_model,
+            out_size=d_model,
+            width_size=d_mlp,
+            depth=1,
+            activation=jax.nn.relu,
+            key=keys[3]
+        )
+        
+        self.unembedding = eqx.nn.Linear(d_model, p, key=keys[4])
+
+    def __call__(self, x: jnp.ndarray) -> jnp.ndarray:
+        # x is a single sequence of shape (2,) containing [a, b]
+        seq_len = x.shape[0]
+        
+        # 1. Embed and Add Positional Encoding
+        x_emb = jax.vmap(self.embedding)(x)  # (2, d_model)
+        x_emb = x_emb + self.pos_encoding[:seq_len]
+        
+        # 2. Attention Layer
+        # The query, key, and value are identical (Self-Attention)
+        attn_out = self.attention(
+            query=jax.vmap(self.ln1)(x_emb),
+            key_=jax.vmap(self.ln1)(x_emb),
+            value=jax.vmap(self.ln1)(x_emb)
+        )
+        x_res = x_emb + attn_out
+        
+        # 3. MLP Layer
+        mlp_out = jax.vmap(self.mlp)(jax.vmap(self.ln2)(x_res))
+        x_res = x_res + mlp_out
+        
+        # 4. Unembedding via Mean Pooling
+        x_pool = jnp.mean(x_res, axis=0) 
+        logits = self.unembedding(x_pool)
+        
+        return logits
+#+end_src
+
+** Instrumented Trainer
+Grokking happens slowly and late in training. The phase transition between memorization (low train loss, high test loss) and generalization (low train, low test) is sudden.
+
+Our trainer must log metrics and, crucially, capture full model parameter snapshots at logarithmic intervals. This snapshotting is what allows us to later animate the "Fourier surface" as the model groks. Weight decay is practically mandatory to reliably induce grokking.
+
+#+begin_src python
+@eqx.filter_jit
+def compute_loss(model: GrokkingTransformer, x: jnp.ndarray, y: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
+    # x: (batch_size, 2), y: (batch_size,)
+    logits = jax.vmap(model)(x)  # (batch_size, p)
+    # Using simple cross-entropy
+    one_hot_y = jax.nn.one_hot(y, logits.shape[-1])
+    loss = optax.softmax_cross_entropy(logits, one_hot_y).mean()
+    accuracy = (jnp.argmax(logits, axis=-1) == y).mean()
+    return loss, accuracy
+
+@eqx.filter_jit
+def make_step(
+    model: GrokkingTransformer, 
+    opt_state: optax.OptState, 
+    x: jnp.ndarray, 
+    y: jnp.ndarray, 
+    optimizer: optax.GradientTransformation
+):
+    (loss, acc), grads = eqx.filter_value_and_grad(compute_loss, has_aux=True)(model, x, y)
+    updates, opt_state = optimizer.update(grads, opt_state, model)
+    model = eqx.apply_updates(model, updates)
+    return model, opt_state, loss, acc
+
+def instrumented_training_loop(
+    model: GrokkingTransformer,
+    optimizer: optax.GradientTransformation,
+    x_train: jnp.ndarray,
+    y_train: jnp.ndarray,
+    x_test: jnp.ndarray,
+    y_test: jnp.ndarray,
+    total_steps: int,
+    log_freq: int = 100
+) -> Dict[str, Any]:
+    """
+    Executes full-batch gradient descent, recording metrics and parameter snapshots.
+    Because the dataset is small (e.g. 97^2 = 9409 items), full batch is standard.
+    """
+    # Initialize optimizer state for the trainable parameters
+    opt_state = optimizer.init(eqx.filter(model, eqx.is_inexact_array))
+    
+    history = {
+        "step": [],
+        "train_loss": [], "train_acc": [],
+        "test_loss": [], "test_acc": [],
+        "snapshots": []
+    }
+    
+    for step in range(total_steps):
+        model, opt_state, train_loss, train_acc = make_step(
+            model, opt_state, x_train, y_train, optimizer
+        )
+        
+        # Save state at specific intervals. In practice, grokking often requires
+        # 10^4 to 10^5 steps, so we use logarithmic or semi-logarithmic snapshotting.
+        if step % log_freq == 0 or step == total_steps - 1:
+            test_loss, test_acc = compute_loss(model, x_test, y_test)
+            
+            history["step"].append(step)
+            history["train_loss"].append(float(train_loss))
+            history["train_acc"].append(float(train_acc))
+            history["test_loss"].append(float(test_loss))
+            history["test_acc"].append(float(test_acc))
+            
+            # Save the pure pytree of parameters for later analysis
+            history["snapshots"].append(
+                eqx.filter(model, eqx.is_array))
+            
+            if step % (log_freq * 10) == 0:
+                print(f"Step {step:05d} | Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.4f} | "
+                      f"Test Loss: {test_loss:.4f} | Test Acc: {test_acc:.4f}")
+                
+    return history
+#+end_src
+
+* Part II: Running the Experiment & Visualizing the Results
+With the simulation core defined, we can now execute a training run and begin building our analysis toolkit. The first and most crucial visualization is the plot of learning curves, which will provide the primary evidence of the grokking phenomenon.
+
+** 2.1 Main Execution Block
+This block sets our hyperparameters and runs the instrumented training loop. We will use a prime modulus `P=97`, a model dimension of 128, and a 40% training split, which are common settings for observing grokking. We log the model's state every 100 steps for fine-grained analysis.
+
+#+begin_src python :tangle ../src/sphota_grokking/main.py :noweb no-indent
+  import jax
+  import jax.numpy as jnp
+  import optax
+  from .core import generate_modular_addition_data, GrokkingTransformer, instrumented_training_loop
+  from .visualize import plot_learning_curves, plot_activation_surface
+  import pickle
+  import equinox as eqx
+
+  # --- Hyperparameters ---
+  P = 97
+  D_MODEL = 128
+  NUM_HEADS = 4
+  D_MLP = 512
+  TRAIN_FRACTION = 0.4
+  TOTAL_STEPS = 10000
+  LOG_FREQ = 100
+  LEARNING_RATE = 1e-3
+  WEIGHT_DECAY = 1.0
+  SEED = 42
+
+  def main():
+      # --- Setup ---
+      key = jax.random.PRNGKey(SEED)
+      model_key, data_key = jax.random.split(key)
+
+      x_train, y_train, x_test, y_test = generate_modular_addition_data(
+          p=P, train_fraction=TRAIN_FRACTION, seed=SEED
+      )
+
+      model = GrokkingTransformer(
+          p=P, d_model=D_MODEL, num_heads=NUM_HEADS, d_mlp=D_MLP, key=model_key
+      )
+
+      optimizer = optax.adamw(learning_rate=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
+
+      # --- Run Training ---
+      print("Starting instrumented training...")
+      history = instrumented_training_loop(
+          model, optimizer, x_train, y_train, x_test, y_test, TOTAL_STEPS, LOG_FREQ
+      )
+      print("Training complete.")
+
+      # --- Save and Visualize ---
+      print("Saving training history to history.pkl...")
+      with open("history.pkl", "wb") as f:
+          pickle.dump(history, f)
+
+      print("Generating learning curves plot...")
+      plot_learning_curves(history)
+      print("Plot saved to learning_curves.png")
+
+      # --- Plot Activation Surface ---
+      print("Generating activation surface plot for final model...")
+      # We need the static part of the model to recombine with the saved parameters
+      static_model = eqx.filter(model, eqx.is_array, inverse=True)
+      final_params = history["snapshots"][-1]
+      plot_activation_surface(final_params, static_model, P, target_logit=0, filename="activation_surface_final.png")
+      print("Plot saved to activation_surface_final.png")
+
+  if __name__ == "__main__":
+      main()
+#+end_src
+
+** 2.2 Visualizing Learning Curves
+Now, we implement the plotting function. It takes the `history` dictionary produced by our training loop and uses Matplotlib to create the classic grokking plot: train vs. test loss and train vs. test accuracy over time.
+
+#+begin_src python :tangle ../src/sphota_grokking/visualize.py :noweb no-indent
+  import matplotlib
+  matplotlib.use('Agg')
+  import matplotlib.pyplot as plt
+  from typing import Dict, Any
+
+  def plot_learning_curves(history: Dict[str, Any]):
+      """
+      Plots the training and testing loss and accuracy curves.
+      """
+      fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+
+      # Loss Plot
+      ax1.plot(history["step"], history["train_loss"], label="Train Loss")
+      ax1.plot(history["step"], history["test_loss"], label="Test Loss")
+      ax1.set_xlabel("Training Steps")
+      ax1.set_ylabel("Loss")
+      ax1.set_title("Loss Curves")
+      ax1.set_yscale("log")
+      ax1.legend()
+      ax1.grid(True)
+
+      # Accuracy Plot
+      ax2.plot(history["step"], history["train_acc"], label="Train Accuracy")
+      ax2.plot(history["step"], history["test_acc"], label="Test Accuracy")
+      ax2.set_xlabel("Training Steps")
+      ax2.set_ylabel("Accuracy")
+      ax2.set_title("Accuracy Curves")
+      ax2.legend()
+      ax2.grid(True)
+
+      plt.tight_layout()
+      plt.savefig("learning_curves.png")
+      plt.close()
+#+end_src
+
+** 2.3 Visualizing the Activation Surface
+The key to mechanistic interpretability in the grokking context is observing *how* the model learns the algorithm. Nanda et al. (2023) demonstrated that models learn modular arithmetic by utilizing continuous frequencies (Fourier components). 
+
+To see this, we visualize the activation of a single neuron (or in this case, a single logit dimension corresponding to a specific output class) across the entire grid of possible $(a, b)$ inputs. We expect this surface to start as high-frequency noise and, precisely at the moment of grokking, collapse into smooth, low-frequency 2D sine waves.
+
+#+begin_src python :tangle ../src/sphota_grokking/visualize.py :noweb no-indent
+  import jax
+  import jax.numpy as jnp
+  import numpy as np
+  import equinox as eqx
+  from .core import GrokkingTransformer
+  import matplotlib.pyplot as plt # Already imported, but good practice
+
+  def plot_activation_surface(
+      model_params: GrokkingTransformer,
+      static_model: GrokkingTransformer,
+      p: int,
+      target_logit: int = 0,
+      filename: str = "activation_surface.png"
+  ):
+      """
+      Renders a 3D surface plot of a specific logit's activation 
+      across all possible (a, b) inputs.
+      """
+      # Reconstitute the full model from the saved parameters and the static structure
+      model = eqx.combine(model_params, static_model)
+
+      # 1. Generate the full PxP input grid
+      a_range = np.arange(p)
+      b_range = np.arange(p)
+      a, b = np.meshgrid(a_range, b_range, indexing='ij')
+      x_all = jnp.array(np.stack([a.flatten(), b.flatten()], axis=1))
+
+      # 2. Run a forward pass to get logits
+      logits = jax.vmap(model)(x_all) # Shape: (P*P, P)
+
+      # 3. Extract the target logit's activation and reshape to grid
+      z = logits[:, target_logit].reshape((p, p))
+
+      # 4. Render the 3D surface
+      fig = plt.figure(figsize=(12, 10))
+      ax = fig.add_subplot(111, projection='3d')
+      
+      surf = ax.plot_surface(
+          np.array(a), 
+          np.array(b), 
+          np.array(z), 
+          cmap='viridis', 
+          edgecolor='none'
+      )
+      
+      ax.set_xlabel('Input a')
+      ax.set_ylabel('Input b')
+      ax.set_zlabel(f'Logit[{target_logit}] Activation')
+      ax.set_title(f'Activation Surface for Target Logit {target_logit}')
+      
+      fig.colorbar(surf, ax=ax, shrink=0.5, aspect=5)
+      plt.savefig(filename)
+      plt.close()
+#+end_src
