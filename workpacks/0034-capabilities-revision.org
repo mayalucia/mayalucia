@@ -2,7 +2,7 @@
 #+subtitle: Apply substrate diversity findings to capabilities.org
 #+author: mu2tau + mayadev
 #+date: 2026-03-10
-#+property: status drafted
+#+property: status completed
 #+property: executor mayadev
 #+property: guild apprentis
 
@@ -314,10 +314,10 @@ monoculture blindness works in reverse too.
 * Acceptance Criteria
 
 - [X] All 29 findings triaged
-- [ ] capabilities.org revised per triage decisions (13 clusters)
-- [ ] commissioning.org revised (2 clusters)
-- [ ] relay-read renamed to relay-protocol with write section
-- [ ] Changes announced in sūtra relay
+- [X] capabilities.org revised per triage decisions (13 clusters)
+- [X] commissioning.org revised (2 clusters)
+- [X] relay-read renamed to relay-protocol with write section
+- [X] Changes announced in sūtra relay
 
 * Settled Questions
 
