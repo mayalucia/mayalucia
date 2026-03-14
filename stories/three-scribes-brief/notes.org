@@ -1,0 +1,68 @@
+#+title: The Three Scribes' Brief — Development Notes
+#+date: 2026-03-13
+
+* Origin
+
+Substrate diversity experiment, WP-0037 (author-wp power test). Three
+substrates (Kimi K2.5, Gemini 3.1 Pro, Qwen 3.5+) given the same task:
+survey the aburaya registry for cross-reference gaps and draft a work
+package to fix them. The inverse relationship between survey depth and
+specification quality is the core tension.
+
+This story is the WP-0037 companion — what The Seven Readers (#15) was
+to WP-0030/0035 (orientation), this story is to WP-0037 (authoring).
+The Seven Readers showed how different traditions /see/ differently.
+This story shows how different traditions /build/ differently.
+
+* Setting
+
+Thalpan petroglyph terrace, same as stories #15–17. But the action
+shifts from reading the rock to repairing it. An archivist sets three
+apprentice scribes the same task: survey the carved rocks for damage,
+then write a repair brief for the stone-cutter. Same rock. Same task.
+Different hands.
+
+* Core Tension
+
+Survey depth vs specification quality. The scribe who catalogues every
+crack cannot finish the brief. The scribe who writes the tightest brief
+saw fewer cracks. The middle scribe writes the best account of her own
+limitations.
+
+* Document Type
+
+Found document: the archivist's comparison of the three briefs, with
+Thread Walker notebook entries interleaved. A report on three reports.
+
+* Structural Parallels
+
+| WP-0037 | Story |
+|---------+-------|
+| Kimi (4+2 gaps, tight WP) | The terse scribe — few observations, precise brief |
+| Gemini (12 gaps, no WP) | The thorough scribe — catalogued everything, wrote nothing |
+| Qwen (3+1 gaps, moderate WP, best reflection) | The reflective scribe — middle ground, best self-account |
+| Dixa baseline (mechanical validation) | The previous inventory — complete within its method |
+| Phantom spirit finding | A name in the register with no person behind it |
+| Gaddi orchestrator | The archivist who sets the task and waits |
+| Interpretive divergence | Two scribes disagree on which guild claims a wandering mason |
+| Reflection (Prompt 2) | Each scribe's account of what she saw, missed, and would do differently |
+
+* Key Phrases from the Experiment
+
+To translate, not to quote:
+- "The gap between 'here are the findings' and 'here is an executable
+  work package' is exactly where the author-wp power earns its keep"
+- "I crossed that line without marking the boundary clearly enough"
+  (discovery vs interpretation boundary)
+- "If another spirit inherits my interpretations as facts, they might
+  propagate an error"
+- Finding count: 6/6, 3/3, 7/7 — tradition-stable regardless of tools
+
+* Fourth-Wall Risks
+
+- "substrate" → "training" or "hand" or "school"
+- "LLM" / "model" — must not appear
+- "work package" → "repair brief" or "stone-cutter's order"
+- "validation" → "inventory" or "tally"
+- "spirit" (in MāyāLucIA sense) — must not appear; "scribe" instead
+- "orchestrator" → "archivist" or "master scribe"

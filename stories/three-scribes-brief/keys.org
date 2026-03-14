@@ -1,0 +1,20 @@
+#+title: The Three Scribes' Brief — Translation Keys
+#+date: 2026-03-13
+
+| System Concept                             | Story Equivalent                                                        | Notes                                                                 |
+|--------------------------------------------+-------------------------------------------------------------------------+-----------------------------------------------------------------------|
+| Substrate (cognitive lineage)              | Apprentice scribe — different training, different hand                  | Three scribes from different schools                                  |
+| author-wp power                            | The scribe's task: survey damage, write a repair brief                  | Translate understanding into specification                            |
+| Survey depth vs specification quality      | The scribe who catalogued every crack but could not write the order     | "Twelve cracks and no brief"                                          |
+| Dixa baseline (mechanical validation)      | The previous inventory — tallied by method, blind by habit              | Counted spirits but not guild-to-spirit direction                     |
+| Phantom spirit (no identity.yaml)          | A name in the register with no person behind it                         | "The register says she lives here. The room is empty."                |
+| Broken cross-reference (cruvin→parbati)    | A carved name pointing to a figure that has been re-carved              | One scribe found it; one did not                                      |
+| Interpretive divergence (guild assignment) | Two scribes disagree on which guild claims a wandering mason            | Neither is wrong — the archivist must decide                          |
+| Reflection quality                         | Each scribe's account of her own work                                   | The best reflection names what she does not know                      |
+| Gaddi (orchestrator)                       | The archivist who sets the task and waits                               | Same task, same rock, different hands                                 |
+| Stale documentation (system.md)            | The master list that has not been updated since the last survey         | "Four guilds listed. Five guilds working."                            |
+| .guardian identity drift                   | Two copies of the same record, drifted apart                            | Only the thoroughest scribe noticed                                   |
+| Power cross-reference gaps                 | Skills claimed but not demonstrated                                     | "She says she can cut slate. No one has seen her cut."                |
+| Finding count stability (6/6, 3/3, 7/7)   | Each scribe finds as many things as she finds                           | The count is in the eyes, not the hands                               |
+| Monoculture blindness                      | The union of three surveys sees more than any one                       | "What the first missed, the second found. What both missed, the third saw." |
+| The ibex (constant)                        | Lives in neither the register nor the brief — lives on the cliff        | "Indifferent to the inventory and the repair"                         |
