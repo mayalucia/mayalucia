@@ -143,6 +143,30 @@ deploy_cruvin() {
     $SSH "$VPS_HOST" "ln -sfn $VPS_DEPLOY_DIR/cruvin-public /srv/cruvin"
 }
 
+deploy_hatti() {
+    echo "=== Deploying hatti.mayalucia.dev ==="
+    HATTI="$DEPLOY_DIR/../commissions/punjab-retail/site"
+
+    $SSH "$VPS_HOST" "mkdir -p $VPS_DEPLOY_DIR/hatti-public"
+
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
+        "$HATTI/" \
+        "$VPS_HOST:$VPS_DEPLOY_DIR/hatti-public/"
+}
+
+deploy_hatti_api() {
+    echo "=== Deploying api.hatti.mayalucia.dev (FastAPI + LiteLLM) ==="
+    HATTI_API="$DEPLOY_DIR/../commissions/punjab-retail/services/hatti-api"
+
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
+        --exclude='__pycache__' --exclude='.git' --exclude='.env' \
+        --exclude='data' \
+        "$HATTI_API/" \
+        "$VPS_HOST:$VPS_DEPLOY_DIR/hatti-api/"
+
+    $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build hatti-api"
+}
+
 deploy_cruvin_api() {
     echo "=== Deploying api.cruvin.mayalucia.dev (FastAPI + LiteLLM) ==="
     rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
@@ -165,7 +189,9 @@ verify() {
         https://comptoir.mayalucia.dev \
         https://bench.mayalucia.dev \
         https://cruvin.mayalucia.dev \
-        https://api.cruvin.mayalucia.dev/api/v1/health; do
+        https://hatti.mayalucia.dev \
+        https://api.cruvin.mayalucia.dev/api/v1/health \
+        https://api.hatti.mayalucia.dev/health; do
         status=$(curl -sI "$url" | head -1)
         echo "  $url → $status"
     done
@@ -194,8 +220,15 @@ case "${1:-all}" in
         build_cruvin
         deploy_cruvin
         ;;
+    hatti)
+        deploy_hatti
+        deploy_config
+        ;;
     cruvin-api)
         deploy_cruvin_api
+        ;;
+    hatti-api)
+        deploy_hatti_api
         ;;
     config)
         deploy_config
@@ -213,10 +246,12 @@ case "${1:-all}" in
         build_cruvin
         deploy_cruvin
         deploy_cruvin_api
+        deploy_hatti
+        deploy_hatti_api
         verify
         ;;
     *)
-        echo "Usage: $0 {all|hugo|web|comptoir|bench|cruvin|cruvin-api|config|verify}"
+        echo "Usage: $0 {all|hugo|web|comptoir|bench|cruvin|cruvin-api|hatti|hatti-api|config|verify}"
         exit 1
         ;;
 esac

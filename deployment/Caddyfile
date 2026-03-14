@@ -51,3 +51,13 @@ cruvin.mayalucia.dev {
         file_server
     }
 }
+
+hatti.mayalucia.dev {
+    root * /srv/hatti
+    file_server
+    encode gzip
+}
+
+api.hatti.mayalucia.dev {
+    reverse_proxy hatti-api:8043
+}

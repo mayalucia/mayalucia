@@ -16,6 +16,7 @@ services:
       - ./mayalucia-public:/srv/mayalucia:ro
       - ./mayadevgeni-public:/srv/mayadevgeni:ro
       - ./cruvin-public:/srv/cruvin:ro
+      - ./hatti-public:/srv/hatti:ro
 
   web:
     build: ./vishalsood-web
@@ -53,6 +54,17 @@ services:
     expose:
       - "8042"
 
+  hatti-api:
+    build: ./hatti-api
+    restart: unless-stopped
+    env_file:
+      - ./hatti-api/.env
+    expose:
+      - "8043"
+    volumes:
+      - hatti_data:/app/data
+
 volumes:
+  hatti_data:
   caddy_data:
   caddy_config:
