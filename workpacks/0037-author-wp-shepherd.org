@@ -277,16 +277,16 @@ describes the traverse, not the pasture.
 
 * Acceptance Criteria
 
-- [ ] orient-to-mayalucia.md revised with all WP-0036 data
-- [ ] 3 session files created with correct model pinning and tools enabled
-- [ ] All 3 substrates produce a WP draft (may vary in quality)
-- [ ] All 3 substrates respond to the reflection prompt
-- [ ] Token counts recorded for all 3 substrates
-- [ ] Token efficiency ratios computed and compared
+- [X] orient-to-mayalucia.md revised with all WP-0036 data
+- [X] 3 session files created with correct model pinning and tools enabled
+- [X] All 3 substrates produce a WP draft (may vary in quality)
+- [X] All 3 substrates respond to the reflection prompt
+- [X] Token counts recorded for all 3 substrates
+- [X] Token efficiency ratios computed and compared
 - [ ] Comparative analysis covers all 6 qualitative dimensions
-- [ ] Gaddi self-assessment included in analysis
-- [ ] Each session transcript saved to the author-wp sessions directory
-- [ ] Gaddi power document drafted in =aburaya/powers/gaddi.md=
+- [X] Gaddi self-assessment included in analysis
+- [X] Each session transcript saved to the author-wp sessions directory
+- [X] Gaddi power document drafted in =aburaya/powers/gaddi.md=
 
 * What This Proves
 
@@ -537,12 +537,40 @@ appears in the log for that session's final round-trip.
 23. Update comparative analysis with all 11 substrates        (analyse)
 #+end_example
 
+** Remaining work (as of 2026-03-14)
+
+Steps 16–22 completed on vadda. All 10 substrates ran via gaddi.
+Session transcripts, token metrics, and 4 plots are committed.
+=plot_metrics.py= (PEP 723, =uv run=) regenerates plots from
+inline data.
+
+What remains is *Step 23 only*: update =analysis.org= to cover
+all substrates. The current analysis covers Phase 1 (Kimi K2.5,
+Qwen 3.5+, Gemini 3.1 Pro). Phase 2 added 7 new substrates plus
+3 Anthropic models — their session transcripts exist but have no
+analysis entries.
+
+Concretely:
+
+1. Read the 10 Phase 2 session transcripts in
+   =experiments/02-substrate-diversity/sessions/author-wp/=
+2. For each new substrate, add a =** Substrate= section following
+   the Phase 1 pattern (gaps found, WP draft quality, notable
+   decisions, reflection)
+3. Update the comparative analysis tables (survey depth vs spec
+   quality, dixa parity, interpretive divergence, executor choice,
+   reflection quality) to cover all substrates
+4. Check off all acceptance criteria (both phases)
+5. Set =#+property: status completed=
+
+No new data collection needed. This is analysis writing.
+
 ** New acceptance criteria (Phase 2)
 
-- [ ] Surveyor agent definition committed in mayadevgenz
-- [ ] All Phase 2 substrates fire via gaddi with zero confirmation gates
+- [X] Surveyor agent definition committed in mayadevgenz
+- [X] All Phase 2 substrates fire via gaddi with zero confirmation gates
 - [ ] At least 6/8 new substrates produce a WP draft or audit report
-- [ ] All substrates respond to the reflection prompt
+- [X] All substrates respond to the reflection prompt
 - [ ] Comparative analysis updated to cover all 11 substrates
 - [ ] Tool-configuration finding documented as a lesson
 
