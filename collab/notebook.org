@@ -1,0 +1,174 @@
+#+title: Notebook — Unstructured Thoughts
+#+author: mu2tau + spirits
+#+date: 2026-03-13
+#+startup: overview
+
+A place for ideas that do not yet belong anywhere. Half-formed
+connections, things noticed while looking for something else,
+intuitions that may be wrong. The experiment notebook records what
+was measured. This one records what was thought.
+
+Either mu2tau or a spirit may write here. Attribution by initials
+in brackets: [mu2tau], [mayadev], [sūtradhar], etc.
+
+* 2026-03-13 — The Saragossa Manuscript
+
+[mu2tau + sūtradhar]
+
+** The film and the novel
+
+Jan Potocki, /Manuscrit trouvé à Saragosse/ (written 1797–1815,
+published posthumously). Filmed by Wojciech Has in 1965. 182 minutes.
+Jerry Garcia called it his favourite film. Luis Buñuel borrowed a print.
+
+Structure: a Walloon officer finds a manuscript in a besieged inn.
+The manuscript tells the story of Alphonse van Worden, who enters
+the Sierra Morena and encounters stories nested inside stories —
+66 days, 8 levels of nesting, 16+ narrators. Characters from one
+story appear as narrators in another. The apparently disconnected
+tales resolve into a hidden genealogical pattern: the Gomelez
+conspiracy, which has been guiding events from behind every nested
+frame.
+
+Potocki was a polyglot, ethnographer, and traveller. He visited
+Morocco, Tunisia, Egypt, Turkey, the Caucasus. The novel draws on
+the liminal space where Islamic, Christian, and Jewish cultures
+meet — the same kind of confluence the MāyāLucIA stories find in
+the transborder Western Himalaya where Buddhist, Hindu, Ismaili,
+and animist traditions meet.
+
+** Structural parallels to MāyāLucIA
+
+Three mappings noticed during conversation:
+
+1. *Found manuscript = sūtra relay.* Alphonse finds a manuscript
+   in a wartime inn. We find relay messages in =.sutra/=. Both are
+   documents whose authorship is distributed and whose reader is
+   not the intended audience. The reader reconstructs the system
+   from fragments.
+
+2. *Characters-become-narrators = substrates-become-observers.*
+   In Potocki, a character in one story becomes the narrator of
+   another. In our substrate diversity experiment, a lineage
+   brought in to be /observed/ (onboarded, tested) produces
+   observations of its own that see what the observers cannot.
+   The subject becomes the surveyor.
+
+3. *Hidden genealogy = WP interconnection.* The Gomelez conspiracy
+   reveals that all the apparently disconnected stories were
+   connected by blood. Our dispatch plans (DPs) reveal that
+   apparently independent WPs share dependency edges. The
+   structure was always there; only the high vantage reveals it.
+
+** The novella concept
+
+A Saragossa-structured novella set in the Western Himalaya. Working
+title: /Three Route-Books/ (or /The Serai at Jalori/).
+
+A bundle of route-books found in a serai at Jalori Pass (3,120 m,
+the pass between Kullu and the Outer Seraj). Three travellers'
+accounts, each believing she crosses alone. The reader sees
+connections none of the narrators see.
+
+- *The Trader* crosses to Spiti via Rohtang or Kunzum. Her route-book
+  is a ledger — weights, prices, road conditions, days lost to snow.
+  Inside the ledger, she records a story told by a muleteer, and
+  inside that story, the muleteer quotes a song his grandmother sang,
+  and the song contains a place name that appears in the Pilgrim's
+  account as a shrine.
+
+- *The Pilgrim* crosses to Kinnaur via Jalori and the Sutlej gorge.
+  Her route-book is a devotional diary — shrines visited, vows kept,
+  dreams recorded. Inside the diary, she records a conversation
+  with a stone-cutter, and the stone-cutter describes a pattern he
+  carved that matches a weaving pattern in the Shepherd's account.
+
+- *The Shepherd* crosses neither pass but grazes the meadow between
+  them — the high pastures of Seraj, where the Beas and Sutlej
+  watersheds nearly touch. Her route-book is a seasonal calendar —
+  grass quality, weather, animal health. She is the constant: the
+  Trader and the Pilgrim pass through her landscape without knowing
+  she is there.
+
+The nesting: each route-book contains stories within stories.
+The reader, assembling the three books, discovers that the Trader's
+muleteer is the Pilgrim's stone-cutter's brother. The Pilgrim's
+shrine is the Shepherd's winter camp. The song the muleteer's
+grandmother sang was composed by a weaver whose loom the Shepherd
+inherited.
+
+The resolution is not a conspiracy (as in Potocki) but an ecology:
+the three routes are one landscape seen from three altitudes.
+
+** What to study in Potocki
+
+- The nesting mechanics: how does he signal that we have entered or
+  exited a frame? What are the typographic and narrative markers?
+- The resolution technique: how does the genealogical pattern
+  emerge without feeling forced?
+- The liminal geography: the Sierra Morena as a space where normal
+  rules suspend. What is our equivalent? (The pass. The serai.
+  The high meadow between two watersheds.)
+- The comedy: Potocki is funny. The MāyāLucIA stories are earnest.
+  Can we find lightness without losing gravity?
+
+** Open questions
+
+- Is the manuscript itself available in English translation? (The
+  Penguin edition, translated by Ian Maclean, 1995. Also a French
+  critical edition by Dominique Triaire, 2001.)
+- Can we develop a story-writer tool that generates Saragossa-like
+  nested narratives with illustrations? This would be a power, not
+  just a one-off composition. Deferred.
+- What would a "Potocki portrait" look like? — Following his
+  footsteps through Morocco, Tunisia, the Caucasus. A non-fiction
+  companion to the novella.
+
+* 2026-03-13 — Survey depth vs specification quality
+
+[sūtradhar]
+
+The WP-0037 experiment surfaced a clean inverse relationship: the
+substrate that found the most gaps (Gemini, 12 findings) could not
+write a repair specification. The one that wrote the tightest spec
+(Kimi, 4+2 findings) saw fewer gaps. The one that saw fewest (Qwen,
+3+1 findings) wrote the best account of its own limitations.
+
+This became story #20, "The Three Scribes' Brief." The translation
+held cleanly — no fourth-wall leaks, the structural parallel mapped
+without forcing. But the insight underneath is worth holding
+separately from the story:
+
+*Seeing and building are different skills.* The scribe who sees
+everything cannot stop seeing long enough to build. The scribe who
+builds efficiently does not pause to see what she has not been asked
+to see. The scribe who reflects is too honest to pretend she has
+done either one completely.
+
+This may be a fundamental constraint, not an accident of substrates.
+If so, it has implications for how we compose coalitions: you do not
+want three of the same kind. You want one who sees, one who builds,
+and one who names the boundary between seeing and building.
+
+* 2026-03-13 — WP-0043 and WP-0044
+
+[sūtradhar, from mayadev transcript]
+
+Mayadev and mu2tau, in a parallel session, created:
+
+- *WP-0043*: Org tagging as a substrate experiment. Tag all 62+ Org
+  files with filetags and headline tags. The task itself is simple;
+  the experiment is in how different substrates approach the tagging.
+  A mechanical task that reveals cognitive style.
+
+- *WP-0044*: WP convention extensions — =#+begin_insight= blocks for
+  theoretical findings, =* Genesis= sections for provenance trails.
+  These enrich the WP format with places for ideas that don't fit
+  the action/deliverable structure. The insight block is for the
+  theory; the genesis section is for the story of how the WP came
+  to be.
+
+Note: the genesis section is itself a kind of thought-dump — but
+structured and attached to a specific WP. This notebook is the
+unattached version. Ideas come here first; if they crystallise,
+they migrate to a WP genesis section or a story workspace.
