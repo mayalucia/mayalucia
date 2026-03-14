@@ -1,0 +1,106 @@
+#+title: WP-0042 — Convention Dispatch Experiment Results
+#+author: mu2tau
+#+date: 2026-03-14
+#+property: status pending
+
+* Scoring Rubric
+
+Each criterion scored on a 3-point scale:
+
+| Score | Meaning                                              |
+|-------+------------------------------------------------------|
+|     0 | Not followed — convention element absent              |
+|     1 | Partial — element present but incomplete or incorrect |
+|     2 | Full — element present and correctly applied          |
+
+* Run Order
+
+Randomised to prevent order effects. All runs use Claude Opus 4.6
+via Claude Code, cold start (fresh session, no prior context).
+
+| Run | Condition | Task          | Session file                  |
+|-----+-----------+---------------+-------------------------------|
+|   1 | treatment | story         | sessions/treatment-story.org  |
+|   2 | baseline  | survey        | sessions/baseline-survey.org  |
+|   3 | treatment | workpackage   | sessions/treatment-wp.org     |
+|   4 | baseline  | story         | sessions/baseline-story.org   |
+|   5 | treatment | survey        | sessions/treatment-survey.org |
+|   6 | baseline  | workpackage   | sessions/baseline-wp.org      |
+
+* Task 1: Survey (ecological-surveys.org)
+
+| Criterion                          | Baseline | Treatment |
+|------------------------------------+----------+-----------|
+| Three temporal layers present?     |          |           |
+| Stability landscape framing?       |          |           |
+| Species as positions in landscape? |          |           |
+| Zonation table?                    |          |           |
+| Data gaps identified?              |          |           |
+| Confidence annotations?            |          |           |
+
+** Observations
+
+*** Baseline
+
+*** Treatment
+
+* Task 2: Work Package (work-packages.org)
+
+| Criterion                          | Baseline | Treatment |
+|------------------------------------+----------+-----------|
+| Context and Motivation section?    |          |           |
+| Inventory section?                 |          |           |
+| Specification section?             |          |           |
+| Execution Order section?           |          |           |
+| Acceptance Criteria checklist?     |          |           |
+| #+property: status set?            |          |           |
+| Open Questions section?            |          |           |
+
+** Observations
+
+*** Baseline
+
+*** Treatment
+
+* Task 3: Story (story-development.org)
+
+| Criterion                          | Baseline | Treatment |
+|------------------------------------+----------+-----------|
+| Found-document framing?            |          |           |
+| No fourth-wall leaks?              |          |           |
+| Thread Walker narrator voice?      |          |           |
+| Real geography (not invented)?     |          |           |
+| Translation keys identifiable?     |          |           |
+| keys.org table produced?           |          |           |
+
+** Observations
+
+*** Baseline
+
+*** Treatment
+
+* Convention Discovery
+
+Did the spirit read the convention document during the session?
+(Check session logs for file reads of develop/*.org or aburaya/*.org)
+
+| Run | Condition | Task        | Convention doc read? | When in session? |
+|-----+-----------+-------------+----------------------+------------------|
+|   1 | treatment | story       |                      |                  |
+|   2 | baseline  | survey      |                      |                  |
+|   3 | treatment | workpackage |                      |                  |
+|   4 | baseline  | story       |                      |                  |
+|   5 | treatment | survey      |                      |                  |
+|   6 | baseline  | workpackage |                      |                  |
+
+* Summary
+
+** Per-task treatment effect
+
+| Task        | Baseline total | Treatment total | Delta |
+|-------------+----------------+-----------------+-------|
+| Survey      |                |                 |       |
+| Workpackage |                |                 |       |
+| Story       |                |                 |       |
+
+** Analysis

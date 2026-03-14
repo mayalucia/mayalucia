@@ -2,7 +2,7 @@
 #+subtitle: Test the author-wp power across diverse substrates with a gaddi orchestrator; measure token efficiency; develop toward a publishable onboarding tool
 #+author: mu2tau + mayadev
 #+date: 2026-03-11
-#+property: status executing
+#+property: status completed
 #+property: executor mayadev#opus-4.6
 #+property: guild apprentis
 #+property: type simple
@@ -283,7 +283,7 @@ describes the traverse, not the pasture.
 - [X] All 3 substrates respond to the reflection prompt
 - [X] Token counts recorded for all 3 substrates
 - [X] Token efficiency ratios computed and compared
-- [ ] Comparative analysis covers all 6 qualitative dimensions
+- [X] Comparative analysis covers all 6 qualitative dimensions
 - [X] Gaddi self-assessment included in analysis
 - [X] Each session transcript saved to the author-wp sessions directory
 - [X] Gaddi power document drafted in =aburaya/powers/gaddi.md=
@@ -569,10 +569,10 @@ No new data collection needed. This is analysis writing.
 
 - [X] Surveyor agent definition committed in mayadevgenz
 - [X] All Phase 2 substrates fire via gaddi with zero confirmation gates
-- [ ] At least 6/8 new substrates produce a WP draft or audit report
+- [X] At least 6/8 new substrates produce a WP draft or audit report
 - [X] All substrates respond to the reflection prompt
-- [ ] Comparative analysis updated to cover all 11 substrates
-- [ ] Tool-configuration finding documented as a lesson
+- [X] Comparative analysis updated to cover all 13 substrates
+- [X] Tool-configuration finding documented as a lesson
 
 ** What Phase 2 adds to what Phase 1 proved
 
