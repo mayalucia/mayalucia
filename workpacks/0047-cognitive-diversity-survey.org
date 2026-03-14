@@ -1,0 +1,290 @@
+#+title: WP-0047 — Cognitive Diversity in LLM Tool-Use: A Living Research Survey
+#+subtitle: Initial survey, website publication, and update convention
+#+author: mu2tau + mayadev
+#+date: 2026-03-14
+#+property: status drafted
+#+property: executor mayadev
+#+property: guild percept
+
+* Genesis
+
+While completing WP-0037 Phase 2 analysis (13 substrates tested with
+the =author-wp= power), the data revealed patterns too rich for a
+project-internal document: tool-foraging fingerprints, convergence
+boundaries, the survey-specification trade-off, WP-refusal as a
+lineage-specific behaviour. mu2tau proposed publishing the findings as
+a research note on mayalucia.dev — but with a thorough, literature-
+grounded introduction that frames the problem independently of
+MāyāLucIA, then presents MāyāLucIA as a case study. Given the pace
+of the field, the survey should be a living document, updated
+periodically as new substrates are tested and new literature appears.
+
+This WP produces the initial survey and the infrastructure for
+maintaining it. The recurring update cadence is a convention, not a
+WP — once this WP completes, updates are maintenance work.
+
+* Context and Motivation
+
+The substrate diversity experiments (WP-0030 through WP-0037) produced
+a data set that has no direct analogue in the published literature:
+
+- *13 substrates*, same task, same tools, same evaluation criteria
+- *Two experimental phases*: orientation audit (WP-0030/0031) and
+  specification authoring (WP-0037)
+- *Tool-use telemetry*: exact counts per tool type (Glob, Read, Grep,
+  TodoWrite), per substrate
+- *Qualitative analysis*: what each substrate saw, missed, refused,
+  invented
+
+No existing study combines these five dimensions in a single
+experimental frame:
+
+1. *Behavioural fingerprinting* — how different substrates approach
+   the same task
+2. *Tool-use strategy* — foraging patterns as cognitive signatures
+3. *Substrate diversity* — mixing lineages for complementary coverage
+4. *Beyond-accuracy evaluation* — convention adherence, interpretive
+   divergence, reflection quality
+5. *Convention adherence* — whether agents follow organisational
+   norms they discover (not just instructions they're given)
+
+The research note should be useful to anyone building multi-agent
+systems, selecting substrates for specific tasks, or studying LLM
+behavioural diversity. MāyāLucIA provides the case study, not the
+framing.
+
+** Two deliverables
+
+1. *Research note* — published on mayalucia.dev under =/papers/=.
+   Follows existing paper conventions (TOML front matter, Hugo
+   Markdown, "A Human-Machine Collaboration" attribution). Structured
+   as: problem introduction (no MāyāLucIA), literature survey, case
+   study (MāyāLucIA context), methods, results, conclusions,
+   discussion, future directions.
+
+2. *Story* — Thread Walker narrative translating the experimental
+   findings. Composed via =story-compose= power from sutradhar.
+   Separate WP if the story scope exceeds what can be done inline.
+
+This WP covers deliverable 1. Deliverable 2 is deferred to a follow-up
+WP if needed.
+
+* Inventory
+
+** Experimental data
+
+| Source                  | Path                                                               | Contents                                |
+|-------------------------+--------------------------------------------------------------------+-----------------------------------------|
+| Phase 1 transcripts     | =experiments/02-substrate-diversity/sessions/=                       | 3 orientation sessions (gitignored)     |
+| Phase 2 transcripts     | =experiments/02-substrate-diversity/sessions/author-wp/=             | 10 author-wp sessions (gitignored)      |
+| Phase 2 analysis        | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= | 13-substrate comparative analysis       |
+| Phase 1 notes           | =experiments/02-substrate-diversity/notes/=                          | Per-substrate orientation notes         |
+| Experiment 04 (WP-0042) | =experiments/04-convention-dispatch/=                                | Convention dispatch (pending execution) |
+| Epic                    | =workpacks/epics/0001-substrate-portability.org=                     | 20-WP arc across 6 stages               |
+
+** Existing website papers
+
+| Paper                       | Path                                             | Relevance                                |
+|-----------------------------+--------------------------------------------------+------------------------------------------|
+| Literature Survey           | =website/content/papers/autonomy-survey.md=        | Closest template — same survey structure |
+| The Missing Primitive       | =website/content/papers/autonomy-agreement/=       | Papers voice and format reference        |
+| Papers index                | =website/content/papers/_index.md=                 | Must be updated to include new entry     |
+
+** Literature landscape (initial scan, 2026-03-14)
+
+*** Behavioural fingerprinting
+
+- Pei et al. 2025 — Agent behavioural fingerprinting (arXiv 2509.04504)
+- Jiang et al. 2025 — Nature Machine Intelligence, LLM personalities
+- Munker 2025 — EMNLP, personality profiles in LLMs
+- PMC survey — Personality measurement of LLMs
+
+*** Tool-use
+
+- Qu et al. 2025 — LLM Tool Learning Survey (Springer)
+- Ding et al. 2025 — MCP-Bench (arXiv 2508.20453)
+- Qin et al. 2024 — ToolBench (ICLR 2024)
+- BFCL V4 — Berkeley Function Calling Leaderboard
+
+*** Multi-agent diversity
+
+- X-MAS (arXiv 2505.16997) — 47% improvement from mixing architectures
+- Intrinsic Memory Agents (arXiv 2508.08997) — Memory as substrate trait
+- MultiAgentBench (ACL 2025) — Multi-agent evaluation
+- (Check: Talebirad & Nadiri 2025, multi-agent collaboration survey)
+
+*** Evaluation beyond accuracy
+
+- SWE-Bench Pro (arXiv 2509.16941) — Beyond pass/fail
+- GAIA / GAIA2 — General AI assistants benchmark
+- Agent evaluation survey (arXiv 2507.21504)
+- AgentArch (arXiv 2509.10769) — Architecture search for agents
+
+*** Convention adherence / instruction following
+
+- Tripathi 2025 — The Instruction Gap (arXiv 2601.03269, 13 LLMs)
+- AGENTIF (NeurIPS 2025) — Agent instruction following
+- FireBench (arXiv 2603.04857, March 2026) — Latest benchmark
+- IFEval family — Instruction following evaluation
+
+** What the literature lacks
+
+No existing study:
+
+- Tests 10+ substrates on the /same/ task with /same/ tools
+- Treats tool-call patterns as cognitive fingerprints (not just success rates)
+- Measures convention adherence (not instruction compliance)
+- Maps convergence/divergence boundaries across substrates
+- Combines all five dimensions in a single experimental frame
+
+This is the gap the research note fills.
+
+* Specification
+
+** 1. Research note structure
+
+A single Hugo Markdown file at =website/content/papers/cognitive-diversity-survey.md=.
+
+*** Front matter
+
+#+begin_example
++++
+title = "Cognitive Diversity in LLM Tool-Use: Behavioural Fingerprints, Convention Adherence, and the Case for Substrate Mixing"
+author = ["A Human-Machine Collaboration"]
+lastmod = 2026-03-14T00:00:00+01:00
+tags = ["papers", "substrate-diversity", "tool-use", "multi-agent"]
+draft = false
++++
+#+end_example
+
+*** Outline
+
+1. *Abstract* — 200-word summary
+2. *Introduction* — The problem of substrate selection in agentic systems.
+   Why accuracy-only evaluation is insufficient. No MāyāLucIA references.
+   Frame around: monoculture risk, tool-use as cognitive signature,
+   convention adherence as a missing evaluation axis.
+3. *Related Work* — Structured by the five research threads:
+   a. Behavioural fingerprinting (Pei, Jiang, Munker)
+   b. Tool-use benchmarking (Springer survey, MCP-Bench, ToolBench, BFCL)
+   c. Multi-agent diversity (X-MAS, memory agents, MultiAgentBench)
+   d. Beyond-accuracy evaluation (SWE-Bench Pro, GAIA, AgentArch)
+   e. Convention adherence (Instruction Gap, AGENTIF, FireBench, IFEval)
+   Conclude with the gap: no study unifies all five.
+4. *Case Study: MāyāLucIA* — Introduce the project as an instantiation
+   of the questions raised in the introduction.
+5. *Methods*
+   a. Task design (aburaya audit, author-wp)
+   b. Substrate selection (13 substrates, 4 lineages)
+   c. Tool configuration (surveyor agent: Glob, Read, Grep, TodoWrite)
+   d. Evaluation dimensions (6 qualitative axes + metrics)
+6. *Results*
+   a. Tool-foraging fingerprints (Glob/Read/Grep/Todo distributions)
+   b. Survey depth vs specification quality
+   c. Convergence/divergence boundary mapping
+   d. Convention adherence (WP-refusal, WP number collision)
+   e. Reflection quality ranking
+   f. Cost-quality relationship
+7. *Discussion*
+   a. Monoculture blindness as a practical risk
+   b. Tool-use as cognitive phenotype
+   c. When to mix and when not to
+   d. Limitations (single project, single task class, tool-use only)
+8. *Conclusions and Future Directions*
+   a. Toward a taxonomy of substrate cognitive styles
+   b. Adaptive substrate selection
+   c. Convention adherence as an evaluation axis
+   d. Living survey update plan
+9. *References*
+
+*** Voice
+
+Follow the =autonomy-survey.md= pattern: scholarly but accessible,
+first-person plural where appropriate ("we observe", "our experiments"),
+citations inline (Author, Year) with a references section at the end.
+General contributions first, MāyāLucIA as validation/instantiation.
+
+** 2. Papers index update
+
+Add the new paper to =website/content/papers/_index.md= table:
+
+#+begin_example
+| [Cognitive Diversity in LLM Tool-Use](/papers/cognitive-diversity-survey/) | Substrate fingerprints, convention adherence, mixing | Draft |
+#+end_example
+
+** 3. Update convention (optional)
+
+If the living-survey pattern proves useful, document it in
+=develop/conventions.org= or a new =develop/living-surveys.org=. Deferred
+to after the first update cycle — convention should follow practice,
+not precede it.
+
+* Execution Order
+
+#+begin_example
+1. Deep literature survey — expand initial 18-paper scan to ~30 papers   (research)
+   Use web search to verify arXiv IDs, find newer papers (post-2025),
+   and fill gaps in multi-agent and convention adherence threads.
+2. Write sections 1-3 (Abstract, Introduction, Related Work)            (write)
+   These are MāyāLucIA-independent. Can be written before the case study.
+3. Write sections 4-6 (Case Study, Methods, Results)                    (write)
+   Draw from analysis.org data. Include tables and figures
+   where Hugo/Markdown supports them.
+4. Write sections 7-9 (Discussion, Conclusions, References)             (write)
+5. Review and polish                                                     (review)
+6. Update papers index                                                   (update)
+7. Deploy to mayalucia.dev                                               (deploy, checkpoint)
+#+end_example
+
+Steps 2-4 are sequential — each section builds on the previous.
+Step 7 is a checkpoint: human reviews the deployed page before
+announcing.
+
+#+property: execution sequential
+
+* Acceptance Criteria
+
+- [ ] Research note published at =website/content/papers/cognitive-diversity-survey.md=
+- [ ] Literature survey covers at least 25 papers across all 5 threads
+- [ ] Introduction frames the problem without MāyāLucIA references
+- [ ] Results section includes at least 4 data tables from analysis.org
+- [ ] Papers index updated with new entry
+- [ ] Deployed and visible at =mayalucia.dev/papers/cognitive-diversity-survey/=
+- [ ] Human reviews deployed page
+
+* What This Proves
+
+1. Experimental data from a collaborative-intelligence project can
+   produce publishable research — the project is not just infrastructure
+   but a research instrument.
+2. A living survey can track a fast-moving field without becoming stale
+   — if the update convention is lightweight enough.
+3. The five-thread framework (fingerprinting, tool-use, diversity,
+   beyond-accuracy, convention adherence) identifies a genuine gap in the
+   literature — no existing work unifies them.
+
+* Settled Questions
+
+- *Update cadence*: weekly, starting after a few initial cycles to
+  calibrate the effort. Convention emerges from practice.
+- *Figures*: generate PNGs in =.lab/=, reference from Hugo Markdown.
+  Use =website/static/images/papers/cognitive-diversity-survey/= for
+  publication images. matplotlib scripts live in =.lab/=.
+- *Story WP*: separate WP-0048 — story composition is sutradhar's work.
+
+* Open Questions
+
+- *Peer review*: should we ask external readers (via sūtra or
+  otherwise) to review the survey before publishing? This would be
+  the project's first external-facing quality gate.
+
+* Dependencies
+
+| WP   | Relationship                                                |
+|------+-------------------------------------------------------------|
+| 0037 | Source data — Phase 2 analysis is the empirical backbone    |
+| 0030 | Source data — Phase 1 orientation experiment                |
+| 0031 | Source data — 2×2 factorial extension                       |
+| 0042 | Related — convention dispatch experiment may add data       |
+| 0045 | Related — substrate vocabulary probe extends the framing    |
+| 0048 | Sibling — Thread Walker story of the same findings          |

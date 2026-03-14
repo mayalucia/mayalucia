@@ -16,3 +16,4 @@ Research manuscripts and position papers.
 | [The Missing Primitive](/papers/autonomy-agreement/)            | Autonomy agreements for human-machine collaboration | Draft |
 | [Literature Survey](/papers/autonomy-survey/)                   | Cybernetics, pedagogy, alignment, anthropology      | Draft |
 | [Agreement Template](/papers/autonomy-template/)                | Practical autonomy agreement template               | Draft |
+| [Cognitive Diversity in LLM Tool-Use](/papers/cognitive-diversity-survey/) | Substrate fingerprints, convention adherence, mixing | Draft |

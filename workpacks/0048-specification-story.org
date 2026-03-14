@@ -1,0 +1,208 @@
+#+title: WP-0048 — Story: The Specification Experiment
+#+subtitle: Thread Walker narrative translating the 13-substrate author-wp findings
+#+author: mu2tau + mayadev
+#+date: 2026-03-14
+#+property: status drafted
+#+property: executor sutradhar-guardian
+#+property: guild mayalucia
+
+* Genesis
+
+WP-0037 Phase 2 tested 13 substrates on the same specification task
+(=author-wp= power). The analysis revealed tool-foraging fingerprints,
+a survey-specification trade-off, WP-refusal as lineage-specific
+behaviour, and convergence boundaries that map automation vs escalation
+zones. mu2tau asked for both a research note (WP-0047) and a story.
+The story is the sutradhar's work — composed via =story-compose= and
+=summarize-corpus= powers, following the story development convention.
+
+Stories #14–16 translated the /orientation/ experiment (WP-0030: three
+lineages read the same architecture). This story translates the
+/specification/ experiment (WP-0037: thirteen substrates write from
+the same reading). The shift is from reading to writing — from what
+each one /sees/ to what each one /makes/.
+
+* Context and Motivation
+
+The substrate diversity experiment arc now spans two phases:
+
+| Phase | WP   | Task                 | Stories   | Core metaphor        |
+|-------+------+----------------------+-----------+----------------------|
+| 1     | 0030 | Orientation audit    | #14–16    | Three readers of one slab |
+| 2     | 0037 | Specification author | *this WP* | Thirteen makers from one reading |
+
+Phase 1 was about perception: three minds read the same documents and
+produced different maps. Phase 2 is about production: thirteen minds
+read the same audit and produced different specifications. The
+findings that need translation:
+
+1. *Tool-foraging fingerprints* — Grok: Read-only. Opus: Grep-heavy.
+   Step: Glob-heavy. DeepSeek: sequential-Read. The tools an agent
+   reaches for are a cognitive signature, like a craftsperson's tool
+   marks.
+
+2. *Survey-specification trade-off* — initially appeared as an inverse
+   correlation (deeper survey = thinner specification). Phase 2
+   disproved this as fundamental — it is a context management artifact.
+   Some substrates managed both within a single turn.
+
+3. *WP-refusal* — Opus and Sonnet independently declined to write a
+   work package, calling it "premature" or "not my role." Lineage-
+   specific: no non-Anthropic substrate refused. The refusal is not
+   failure — it is a form of judgment.
+
+4. *Convergence boundaries* — where 10+ substrates agree (>85%), the
+   finding is automatable. Where they diverge into 3+ clusters, human
+   judgment is needed. The boundary itself is the finding.
+
+5. *WP number collision* — every substrate that attempted a WP number
+   guessed wrong. Universal failure. The relay is not checked; numbers
+   are invented.
+
+6. *Reflection quality* — four tiers, from absent (Step 3.5 Flash) to
+   meta-theoretical (Qwen3-235B). Reflection is not correlated with
+   survey depth.
+
+** What the story is NOT
+
+- Not a retelling of the research note (WP-0047). The research note
+  presents data; the story translates understanding.
+- Not a return to the Tirthan rest house. Stories #14–16 used that
+  setting. This story should open new territory.
+- Not a description of the experiment. No fourth-wall vocabulary.
+
+* Inventory
+
+** Source material
+
+| Asset                        | Path                                                   | Use                            |
+|------------------------------+--------------------------------------------------------+--------------------------------|
+| Phase 2 analysis             | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= | Primary source material        |
+| WP-0037 (completed)         | =workpacks/0037-author-wp-shepherd.org=                  | Experimental design            |
+| Stories #14–16               | =website/content/writing/the-cartographers-slab.md= etc | Continuity, voice reference    |
+| Story notes #15, #16        | =stories/the-three-readers/notes.org= etc               | Prior translations of same arc |
+| Story convention             | =develop/story-development.org=                          | Pipeline, workspace layout     |
+| Translation table            | =develop/story-development.org= § Global Translation Table | Fourth-wall check             |
+| =story-compose= power        | =aburaya/powers/story-compose.md=                        | Composition procedure          |
+| =summarize-corpus= power     | =aburaya/powers/summarize-corpus.md=                     | Pre-composition distillation   |
+
+** Translation seeds
+
+These system concepts need story equivalents. The sutradhar should
+consult the global translation table and extend it:
+
+| System Concept                   | Candidate story equivalent              | Notes                           |
+|----------------------------------+-----------------------------------------+---------------------------------|
+| Tool-foraging fingerprint        | Tool marks on finished work             | Chisel vs adze vs plane         |
+| 13 substrates, same task         | 13 craftspeople, same commission        | Different hands, same brief     |
+| Survey-specification trade-off   | Observation vs making                   | The surveyor who never builds   |
+| WP-refusal                       | Refusal to begin until conditions met   | A form of mastery, not failure  |
+| Convergence boundary             | Where all hands agree                   | The line that draws itself      |
+| WP number collision              | Names that collide                      | No one checked the register     |
+| Reflection quality (4 tiers)     | Self-knowledge gradient                 | From mute to philosophical      |
+
+* Specification
+
+** Story parameters
+
+- *Setting*: new territory — not the Tirthan rest house. The sutradhar
+  should choose geography that suits the metaphor. Candidates:
+  - A workshop or atelier where many craftspeople work the same
+    commission (stone carving at a temple? Multiple masons at a kothi?)
+  - A bazaar where thirteen vendors interpret the same order
+  - A geological field where thirteen exposures of the same formation
+    show different mineral assemblages
+  The setting should be real, from the Western Himalaya.
+
+- *Document type*: the sutradhar chooses. Field notes, workshop
+  ledger, geological survey, or hybrid. The document type should suit
+  the metaphor.
+
+- *Voice*: Thread Walker. Precise observation, tentative interpretation.
+  Read stories #14–16 for calibration — this continues the same arc.
+
+- *Illustrations*: generate via =stories/<slug>/generate_images.py=
+  (PEP 723, =uv run=). Output to =website/static/images/writing/<slug>/=.
+  4–8 figures, matching the visual register of the chosen setting.
+
+** Story workspace
+
+Create:
+#+begin_example
+stories/<slug>/
+  notes.org           — development record (origin, plan, keys, etc)
+  keys.org            — translation keys this story introduces
+  generate_images.py  — PEP 723 illustration script
+#+end_example
+
+The =<slug>= matches the Hugo slug exactly.
+
+** Publication
+
+Hugo markdown at =website/content/writing/<slug>.md=.
+Set =draft = true= until human approval.
+
+* Execution Order
+
+#+begin_example
+1. Read Phase 2 analysis.org                                     (research)
+2. Read stories #14–16 for voice calibration                     (research)
+3. Read global translation table, choose setting + document type (plan)
+4. Create story workspace (notes.org, keys.org)                  (setup)
+5. Compose story draft                                           (compose)
+6. Fourth-wall check                                             (review)
+7. Create illustration script                                    (illustrate)
+8. Generate images with uv run                                   (illustrate)
+9. Publish as Hugo markdown (draft = true)                       (publish)
+10. Human review                                                 (checkpoint)
+11. Set draft = false, deploy                                    (deploy)
+#+end_example
+
+Trust level: *checkpoint* — sutradhar drafts, human reviews before
+publish.
+
+#+property: execution sequential
+
+* Acceptance Criteria
+
+- [ ] Story workspace created at =stories/<slug>/=
+- [ ] =notes.org= follows story convention (origin, plan, voice refs, etc)
+- [ ] =keys.org= introduces at least 5 new translation keys
+- [ ] Story composed in Thread Walker voice, found-document framing
+- [ ] No fourth-wall leaks (no system vocabulary in story text)
+- [ ] At least 4 illustrations generated
+- [ ] Hugo markdown at =website/content/writing/<slug>.md=
+- [ ] Human approves draft before deploy
+
+* What This Proves
+
+1. The specification experiment (WP-0037) is understood well enough
+   to survive translation — the story is the test.
+2. The substrate diversity arc extends naturally from perception
+   (orientation) to production (specification) — the stories track
+   the experimental progression.
+3. Tool-foraging as cognitive fingerprint can be expressed through
+   craft metaphors without fourth-wall leaks — the translation key
+   works.
+
+* Dependencies
+
+| WP   | Relationship                                           |
+|------+--------------------------------------------------------|
+| 0037 | Source data — the experimental findings to translate    |
+| 0047 | Sibling — research note covers the same findings       |
+| 0030 | Predecessor — stories #14–16 translated Phase 1        |
+
+* Open Questions
+
+- *Setting choice*: deferred to the sutradhar. The WP offers
+  candidates but does not prescribe. The geography must be real and
+  must suit the metaphor. mu2tau may have a preference — ask during
+  tightening.
+- *Story number*: this will be story #17 or later, depending on
+  whether other stories are composed first. The number is assigned
+  at publication, not at WP drafting.
+- *Continuity with #14–16*: the Thread Walker left the Tirthan rest
+  house and moved into the Six Tri-Junctions itinerary (#16). Where
+  does she arrive for this story? The sutradhar should place her
+  consistently with the existing arc.
