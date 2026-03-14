@@ -1,0 +1,29 @@
+# Guild: artha
+# The science of material prosperity
+#
+# From Kautilya's Arthaśāstra — the study of how wealth is created,
+# sustained, and distributed. Not finance in the narrow sense: the
+# guild asks how value flows through markets, how risk is priced,
+# how small producers can use financial instruments that were designed
+# for large ones.
+
+name: artha
+domain: market intelligence — the science of value, risk, and exchange
+
+concerns:
+  - derivatives and options modelling (pricing surfaces, Greeks, hedging strategies)
+  - retail economics (inventory cycles, seasonal demand, margin structure)
+  - market microstructure (how prices form, how information propagates)
+  - financial modelling for small enterprise (accessible instruments, practical hedging)
+  - supply chain economics (producer-to-market value chains, disintermediation)
+
+projects:
+  # No domain repo yet. The guild's first work is applied:
+  # modelling options strategies for apparel retail (punjab-retail commission).
+
+spirits:
+  - sarraf                           # the assayer — reads market structure
+
+evaluation:
+  question: does the model reveal where value is created and where it leaks?
+  method: backtest against observed data + explanatory reach to the shopkeeper

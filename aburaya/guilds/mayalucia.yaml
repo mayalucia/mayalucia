@@ -22,11 +22,13 @@ projects:
   - website/                    # Hugo site, PaperMod theme, CLJS interactives
   - deployment/                 # deploy.sh, Caddyfile, docker-compose
   - commissions/cruvin          # C-001: wine education site (own repo, gitignored)
+  - commissions/punjab-retail   # C-002: Hatti da Betaal (own repo, gitignored)
 
 spirits:
   - sutradhar-guardian          # the one who holds the thread
   - cruvin-guardian             # commission builder (C-001, wine education)
   - dixa                        # the initiator (spirit verification)
+  # sarraf (artha guild) serves commissions but is not a mayalucia member
 
 evaluation:
   question: does the project present itself coherently, and do spirits have what they need?
