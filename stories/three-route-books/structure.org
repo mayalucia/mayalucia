@@ -1,0 +1,290 @@
+#+title: Three Route-Books — Nesting Structure
+#+author: mu2tau + sūtradhar
+#+date: 2026-03-13
+
+* Outer Frame: The Thread Walker at Jalori
+
+The Thread Walker arrives at a serai near the top of Jalori Pass in
+late autumn — the last weeks before snow closes the pass. The keeper
+is an old woman who has maintained the serai for decades. Unlike
+the keeper at the Tirthan–Sainj junction (who sorts tiles by identity),
+this keeper collects route-books — the small bazaar notebooks that
+travellers sometimes leave behind, full or half-full, when they
+descend to the other side.
+
+The keeper does not read them. She cannot read. But she sorts them
+by route — she knows, from the condition of the notebook (mud type,
+altitude staining, the wear pattern on the cover), which valley the
+traveller came from and which direction they were heading.
+
+She gives the Thread Walker three notebooks from the same season —
+one from the Kullu side heading to Spiti, one from the Seraj side
+heading to Kinnaur, one that never left the high pastures between.
+"These three," she says, "walked the same year. None of them knew
+the others."
+
+The Thread Walker reads them over three evenings by lantern light.
+
+** Frame markers
+
+Entry: "From the first route-book:" / "From the second route-book:"
+Exit: The Thread Walker's notebook entries between books, reflecting
+on what she has read.
+
+The frame returns between each route-book and at the end.
+
+* Route-Book One: The Trader
+
+** Voice: Ledger
+
+Short sentences. Quantities. Distances. Weather observations.
+Prices at each stop. Road conditions. The trader writes for
+herself — to remember what she paid, what she carried, what the
+road was like. She does not write for a reader.
+
+** Route: Kullu → Manali → Rohtang → Lahaul → Kunzum → Spiti
+
+*** Day entries (sample structure)
+
+**** Day 1: Kullu to Naggar
+- Load: 4 sacks salt (Mandi bazaar rate), 2 bundles Kullu shawls
+- Road: paved to Naggar, then mule track
+- Weather: clear, cold morning, warm by midday
+- Observation: the apple orchards above Naggar are still in leaf
+
+**** Day 3: Manali to Marhi
+- The road narrows. Mules uneasy.
+- Met a group of Lahauli traders coming down. They say Rohtang
+  is passable but "only just" — snow on the north face, ice in
+  the morning.
+
+**** Day 5: Crossing Rohtang (3,978 m)
+- The crossing. Wind from the north.
+- [NESTED STORY — Level 1]: The muleteer tells the story of his
+  grandmother, who crossed Rohtang seventy times and could read
+  the weather from the colour of the lichen on the stones near
+  the top. "Green means go. Yellow means wait. Red means turn
+  back." His grandmother composed a song about the crossing —
+  [Level 2]: the song itself, four stanzas, naming landmarks.
+  The last stanza names a place: "the meadow where the two
+  waters almost meet." The Trader does not know what this means.
+  The reader will recognise it later as the Shepherd's pasture.
+
+*** Hidden connections planted in Book One
+
+1. The muleteer's name: Ratan. (He appears as a reference in
+   Book Two — the stone-cutter mentions "my brother Ratan who
+   takes the salt road.")
+2. The grandmother's song names "the meadow where the two waters
+   almost meet" — this is the Shepherd's summer pasture.
+3. A Kullu shawl the Trader carries has a particular pattern —
+   "the pattern they call /natti/, the one that follows the river."
+   This pattern appears on a weaving in the Shepherd's account.
+4. At Kunzum, the Trader shelters in a stone enclosure and finds
+   a carved mark — a figure she cannot identify. The Pilgrim will
+   later describe the same mark at a shrine in Kinnaur, explaining
+   its meaning.
+
+* Route-Book Two: The Pilgrim
+
+** Voice: Devotional diary
+
+Flowing sentences. Shrine descriptions. Dreams recorded as matter
+of fact — "I dreamed that the goddess stood at the waterfall and
+her hair was the water." Vows made and kept (or broken — the
+Pilgrim is honest about what she did not do). The Pilgrim writes
+as witness: she records what she sees at shrines because she
+believes the seeing itself is the devotion.
+
+** Route: Jalori → Ani → Nirmand → Rampur → Sarahan → Kalpa → Chitkul
+
+*** Day entries (sample structure)
+
+**** Day 1: Descent from Jalori to Shoja
+- The forest below the pass. Deodar, then oak, then rhododendron.
+- First shrine: a small stone figure at the trailside, dressed
+  in red cloth. She leaves a coin.
+
+**** Day 3: Nirmand
+- The wooden temple. Kath-Kuni construction — alternating stone
+  and timber, no mortar. She describes the earthquake resistance
+  as a metaphor for faith: "the building that bends does not
+  break."
+- [NESTED STORY — Level 1]: The stone-cutter at Nirmand tells
+  her about his training. His teacher was from Kinnaur, where
+  the tradition crosses from Hindu carving to Buddhist carving.
+  "The chisel does not know the difference," the stone-cutter
+  says. He mentions his brother — "Ratan, who takes the salt
+  road" — and says his brother carries a different kind of
+  knowledge: "he reads the weather. I read the stone."
+  [Level 2]: The stone-cutter describes a pattern he learned
+  from his teacher — a carved figure that appears at shrines
+  from Nirmand to Chitkul. It is the same figure the Trader
+  found at Kunzum.
+
+**** Day 7: Sarahan
+- The Bhimakali temple. The wooden tower. The view of Shrikhand
+  Mahadev (5,227 m).
+- She dreams of a meadow she has never visited — "high, between
+  two ridges, where the grass was the colour of old gold and a
+  woman was weaving." This is the Shepherd.
+
+*** Hidden connections planted in Book Two
+
+1. The stone-cutter's brother is Ratan — the muleteer from Book One.
+2. The carved figure at Nirmand shrines = the mark at Kunzum.
+3. The Pilgrim's dream of the weaving woman = the Shepherd.
+4. At Sarahan, the Pilgrim records a song sung at the temple —
+   its melody, she says, "follows the river the way a fish
+   follows the current." A variation of the muleteer's
+   grandmother's song from Book One, but with different words
+   and a Kinnauri melody. Same structure, different tradition.
+5. The Pilgrim mentions "the master list of shrines kept at
+   Nirmand" — it lists four traditions of carvers. A fifth has
+   been working the upper temples for two seasons without
+   appearing in any list. (Translates: the stale guild list
+   from WP-0037.)
+
+* Route-Book Three: The Shepherd
+
+** Voice: Seasonal fragments
+
+Not full sentences — lists, observations, notes to self. Grass
+quality rated by colour and height. Weather recorded by what the
+animals do (not by instruments). The Shepherd writes for her own
+future seasons: "September: the meadow above Khanag. Grass still
+good. Water from the north stream. The sheep prefer the east-facing
+slope in the afternoon."
+
+The Shepherd does not think of herself as a traveller. She does
+not cross passes. She moves within a territory she knows so well
+that she does not name landmarks — they are "the rock," "the
+stream," "the place where the monal sits in the morning."
+
+** Route: The high pastures between Beas and Sutlej watersheds
+
+The Shepherd moves between summer pastures above Khanag, Baga
+Sarahan, the meadows below Bashleo Pass. She does not cross
+Bashleo into the Sutlej drainage — she grazes the ridge. From her
+meadows, she can see into both valleys but belongs to neither.
+
+*** Entry structure (seasonal, not daily)
+
+**** Early autumn: Above Khanag
+- Grass turning. Sheep moving to lower slopes.
+- The loom in the hut. She weaves in the evenings.
+  The pattern is /natti/ — "the one my grandmother taught me,
+  the one that follows the river."
+- [NESTED STORY — Level 1]: Her grandmother's account of how
+  the /natti/ pattern was designed: it follows the course of
+  the Tirthan from its source to the junction with the Sainj.
+  Each bend in the river is a bend in the pattern. The weaver
+  who designed it walked the river and translated the walk into
+  thread. [Level 2]: The original weaver's name — the same name
+  as the muleteer's grandmother from Book One. They are the same
+  person, seen from two traditions: the muleteer remembers her
+  song, the Shepherd remembers her weaving. Different media,
+  same source.
+
+**** Mid-autumn: Below Bashleo
+- The meadow narrows. Two streams converge — one flowing north
+  (toward the Beas), one flowing south (toward the Sutlej).
+  "The place where the two waters almost meet." She has always
+  known this place. She does not know it has a name in a song
+  she has never heard.
+- A pilgrim passed through — "a woman walking alone, with a
+  notebook." The Shepherd gave her water but they did not
+  speak much. The pilgrim asked about a dream she had had.
+  The Shepherd told her: "you dreamed of me."
+
+*** Hidden connections planted in Book Three
+
+1. The /natti/ pattern = the Trader's shawl pattern. Same
+   design, originating from the same weaver.
+2. "The meadow where the two waters almost meet" = the place
+   named in the muleteer's grandmother's song (Book One).
+3. The grandmother who composed the song (Book One) is the
+   grandmother who designed the weaving pattern (Book Three).
+   Song and weaving are two records of the same landscape —
+   one auditory, one textile.
+4. The pilgrim who passed through the meadow is the Pilgrim
+   from Book Two. The Shepherd saw her. The Pilgrim dreamed of
+   the Shepherd. Neither understands the other's account.
+5. The loom the Shepherd inherited — she does not say from whom,
+   but the description matches the loom at Nahin from "The
+   Weaver's Loom" (story #11). The tradition is continuous.
+
+* The Resolution (Thread Walker's final notebook entry)
+
+The Thread Walker, having read all three route-books over three
+evenings, writes:
+
+She has found:
+- The muleteer and the stone-cutter are brothers (Book 1 + Book 2)
+- The grandmother is one person remembered in two traditions:
+  as a singer (muleteer) and as a weaver (Shepherd)
+- "The meadow where the two waters almost meet" is a real place
+  known to the Shepherd, named in a song known to the muleteer,
+  and dreamed of by the Pilgrim
+- The carved figure at Kunzum (Book 1) is the same figure
+  described at Nirmand (Book 2) — same tradition, different
+  altitudes
+- The Pilgrim passed through the Shepherd's territory without
+  knowing it; the Shepherd saw the Pilgrim without knowing her
+  route-book existed
+
+The resolution is ecological: the three routes are one landscape
+seen from three altitudes. The Trader sees the passes. The Pilgrim
+sees the valleys. The Shepherd sees the meadows between them.
+Together they describe a single watershed system — but none of them
+sees the whole.
+
+The Thread Walker does not explain this. She records it. The reader
+assembles the ecology from the Thread Walker's juxtaposition.
+
+* Nesting Diagram
+
+#+begin_example
+OUTER FRAME: Thread Walker at Jalori serai
+│
+├── BOOK ONE: The Trader (ledger voice)
+│   ├── L0: Daily route observations
+│   ├── L1: Muleteer's account (the grandmother, the weather)
+│   │   └── L2: The grandmother's song (names the meadow)
+│   └── L0: The carved mark at Kunzum
+│
+├── [Thread Walker notebook: first connections noticed]
+│
+├── BOOK TWO: The Pilgrim (devotional voice)
+│   ├── L0: Shrine-to-shrine observations
+│   ├── L1: Stone-cutter's account (training, tradition)
+│   │   └── L2: The carved figure's meaning (same mark as Kunzum)
+│   ├── L0: The song at Sarahan (variation of grandmother's song)
+│   └── L0: The dream of the weaving woman
+│
+├── [Thread Walker notebook: connections deepening]
+│
+├── BOOK THREE: The Shepherd (seasonal voice)
+│   ├── L0: Pasture observations
+│   ├── L1: Grandmother's account (the weaving pattern = the river)
+│   │   └── L2: The original weaver = the grandmother from Book One
+│   ├── L0: "The meadow where the two waters almost meet"
+│   └── L0: The pilgrim who passed through
+│
+└── [Thread Walker notebook: final synthesis — the ecology]
+#+end_example
+
+* Word Count Estimate
+
+| Section                       | Est. words |
+|-------------------------------+------------|
+| Outer frame (opening)         |        800 |
+| Book One: The Trader          |      5,000 |
+| Thread Walker interlude 1     |        600 |
+| Book Two: The Pilgrim         |      5,500 |
+| Thread Walker interlude 2     |        800 |
+| Book Three: The Shepherd      |      4,500 |
+| Thread Walker closing         |      1,200 |
+| Colophon                      |        300 |
+|-------------------------------+------------|
+| TOTAL                         |    ~18,700 |

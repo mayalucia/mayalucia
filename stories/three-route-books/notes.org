@@ -1,0 +1,161 @@
+#+title: Three Route-Books — Novella Development Notes
+#+author: mu2tau + sūtradhar
+#+date: 2026-03-13
+
+* Origin
+
+Conversation about Jan Potocki's /Manuscrit trouvé à Saragosse/
+(1797–1815) and Wojciech Has's 1965 film adaptation. The nested
+narrative structure — characters become narrators, disconnected tales
+resolve into hidden genealogy — maps onto MāyāLucIA's architecture:
+found manuscript = sūtra relay, substrates-become-observers =
+characters-become-narrators, WP interconnection = Gomelez genealogy.
+
+The novella is the first long-form piece in the project. All previous
+stories are standalone short pieces (2,000–5,000 words). This aims
+for 15,000–25,000 words across three route-books plus a frame
+narrative.
+
+* Setting
+
+** The Serai at Jalori
+
+Jalori Pass, 3,120 m, between Kullu and the Outer Seraj. The pass
+connects the Beas watershed (north) to the Sutlej watershed (south)
+via the Seraj hills. A serai at the pass — real or plausible — where
+travellers stop before descending into whichever valley they are
+heading toward.
+
+The serai keeper is not the same keeper as in "The Serai's Register"
+(story #13, set at the Tirthan–Sainj junction below Larji). That
+keeper sorted tiles by identity. This keeper sorts route-books by
+route. Different serai, different altitude, different practice.
+
+** The Three Routes
+
+- *Route 1 — Kullu to Spiti via Rohtang/Kunzum*: The Trader's route.
+  North, then east, over two high passes. Salt, wool, dried apricots.
+  A journey of weeks.
+
+- *Route 2 — Jalori to Kinnaur via Sutlej gorge*: The Pilgrim's
+  route. East and south, descending to the Sutlej, then upstream
+  through Rampur, Sarahan, Kalpa. Shrines, wooden temples, the
+  Buddhist–Hindu transition.
+
+- *Route 3 — The Seraj high pastures*: The Shepherd's route. Neither
+  pass. The meadows between the Beas and Sutlej watersheds, where the
+  two river systems nearly touch. Seasonal, circular, unmarked on
+  trade maps.
+
+** Geography Constraint
+
+Real places only. The human has walked some of this landscape. Every
+named village, river, pass, and meadow must be real and correctly
+placed. Geography is the vessel, not decoration.
+
+* Structure
+
+** Outer Frame
+
+The Thread Walker arrives at the serai at Jalori. The keeper shows
+her a box of route-books — small notebooks, the kind sold in bazaars
+in Kullu or Rampur, that travellers carry and sometimes leave behind.
+Three of them, left by different travellers in different seasons,
+catch the Thread Walker's attention because they seem to describe the
+same landscape from three altitudes without knowing the others exist.
+
+The Thread Walker reads them over three evenings. The outer frame is
+her reading and her notebook entries.
+
+** The Nesting (Saragossa technique)
+
+Each route-book contains:
+- Level 0: The traveller's daily observations (the route-book itself)
+- Level 1: Stories told to the traveller by people she meets on the
+  road (a muleteer, a stone-cutter, a herder)
+- Level 2: Stories /within/ those stories — the muleteer's
+  grandmother's song, the stone-cutter's teacher's technique, the
+  herder's ancestor's migration
+
+The Saragossa mechanism: a character introduced at level 1 in one
+route-book turns out to be a character at level 1 in another. The
+muleteer in the Trader's route-book is the stone-cutter's brother in
+the Pilgrim's. The shrine in the Pilgrim's account is the Shepherd's
+winter camp. The song the muleteer's grandmother sang was composed by
+a weaver whose loom the Shepherd inherited.
+
+The reader discovers the connections. None of the three travellers
+do. The Thread Walker begins to see them on the second evening.
+
+** Resolution
+
+Not a conspiracy (as in Potocki) but an ecology: the three routes
+are one landscape seen from three altitudes. The trader sees the
+passes. The pilgrim sees the valleys. The shepherd sees the meadows
+between them. Together they describe a single system — watershed,
+trade, devotion — that none of them sees whole.
+
+This maps to the substrate diversity finding: no single lineage sees
+the whole architecture. The union of diverse perspectives reveals
+the ecology.
+
+* Document Type
+
+Found document: three route-books, read by the Thread Walker at a
+serai. Frame: Thread Walker's notebook. Inner: the route-books
+themselves, with nested oral accounts.
+
+* Voice
+
+The route-books have three different voices:
+- The Trader writes in short, factual sentences. Ledger voice.
+  Quantities, distances, weather.
+- The Pilgrim writes in flowing, devotional prose. Shrine descriptions,
+  dreams, vows.
+- The Shepherd writes in seasonal, observational fragments. Grass,
+  weather, animal health. Few complete sentences. Lists.
+
+The Thread Walker's frame voice is the same as all other stories.
+
+* Translation Keys
+
+See =keys.org= for the full table. Core mappings:
+
+| System Concept | Story Equivalent |
+|---+---|
+| Substrate diversity | Three travellers, different routes, different eyes |
+| Sūtra relay | The serai's box of route-books |
+| Monoculture blindness | No single route-book sees the whole landscape |
+| Nested narratives (WP DAGs) | Stories within stories within route-books |
+| Ecological resolution | Three altitudes = one landscape |
+
+* Relation to Existing Stories
+
+- *The Serai's Register* (#13): Different serai, same concept of
+  travellers converging. The register keeper sorts by identity; this
+  keeper sorts by route. Companion, not sequel.
+- *The Weaver's Loom* (#11): The loom at Nahin. The Shepherd may have
+  inherited this loom or one like it.
+- *The Three Readers* (#15): Three readers, different traditions,
+  same rock. Structural parallel — but that was a short story. This
+  is the long form.
+- *The Three Scribes' Brief* (#20): Same trio structure but about
+  building (authoring), not reading. This novella subsumes both
+  reading and building.
+
+* Open Questions
+
+- How many levels of nesting can prose sustain before the reader loses
+  the thread? Potocki managed 8 in 600+ pages. In 20,000 words, 3
+  levels may be the maximum.
+- Should the route-books be presented sequentially (Book 1, Book 2,
+  Book 3) or interleaved (Day 1 of each, Day 2 of each)?
+  Sequential is simpler and lets the reader discover connections
+  across books. Interleaved is more Saragossa-like but harder to
+  sustain.
+- The comedy question: Potocki is funny. Can the route-books have
+  humour without breaking the MāyāLucIA register? The Trader's
+  matter-of-fact observations of absurdity might be the vehicle.
+- Illustration: the existing pipeline produces matplotlib figures.
+  For a novella, we may want a different approach — maps, route
+  diagrams, botanical/geological sketches in the margin style.

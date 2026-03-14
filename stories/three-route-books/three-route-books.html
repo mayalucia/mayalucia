@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Route-Books</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   Three Route-Books — Composition Companion
+   A lantern-lit room for writing.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:          #12121e;
+  --bg-warm:     #1a1610;
+  --bg-serai:    #0e0c08;
+  --slate:       #2a2a28;
+  --chalk:       #e8e4d8;
+  --chalk-dim:   #9a9890;
+  --chalk-faint: #6a6860;
+  --parchment:   #f5f0e8;
+  --ink:         #5c4a3a;
+  --ink-light:   #8a7a6a;
+  --trader:      #e8eef0;
+  --pilgrim:     #4a8b6b;
+  --shepherd:    #4a6b48;
+  --copper:      #c4886b;
+  --copper-dim:  #8a6048;
+  --copper-glow: rgba(200, 120, 32, 0.15);
+  --water:       #4a8b6b;
+  --mountain:    #7a7068;
+
+  --font-body: Georgia, 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+  --font-mono: 'Courier New', Courier, monospace;
+  --lh: 1.9;
+  --measure: 65ch;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--chalk-faint) var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--chalk);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  line-height: var(--lh);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Sections ──────────────────────────────────────────────── */
+
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--chalk-faint);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* ── Fade-in on scroll ─────────────────────────────────────── */
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.4s ease, transform 1.4s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-slow {
+  transition: opacity 2.5s ease, transform 2.0s ease;
+}
+
+.fade-very-slow {
+  transition: opacity 3.5s ease;
+}
+
+/* ── Illustrations ─────────────────────────────────────────── */
+
+figure {
+  margin: 0;
+  max-width: 1200px;
+  width: 100%;
+}
+figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+figcaption {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--chalk-dim);
+  text-align: center;
+  margin-top: 0.8rem;
+  letter-spacing: 0.03em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   1. THE OPENING — the serai at night
+   ═══════════════════════════════════════════════════════════════ */
+
+.serai-night {
+  background: radial-gradient(
+    ellipse 50% 60% at 50% 55%,
+    rgba(200, 120, 32, 0.10) 0%,
+    rgba(30, 24, 16, 0.80) 35%,
+    var(--bg-serai) 65%
+  );
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.lamp-glow {
+  position: absolute;
+  bottom: 38vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 50px;
+  background: linear-gradient(to top, rgba(200, 120, 32, 0.6), transparent);
+  border-radius: 50% 50% 0 0;
+  animation: flicker 5s ease-in-out infinite;
+}
+.lamp-base {
+  position: absolute;
+  bottom: calc(38vh - 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 6px;
+  background: var(--copper-dim);
+  border-radius: 0 0 6px 6px;
+  opacity: 0.5;
+}
+.lamp-halo {
+  position: absolute;
+  bottom: calc(38vh + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(200, 120, 32, 0.06) 0%, transparent 70%);
+  animation: halo-breathe 7s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleX(1); }
+  20%      { opacity: 1.0; transform: translateX(-50%) scaleX(1.15); }
+  40%      { opacity: 0.5; transform: translateX(-50%) scaleX(0.85); }
+  70%      { opacity: 0.9; transform: translateX(-50%) scaleX(1.1); }
+}
+@keyframes halo-breathe {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+  50%      { opacity: 0.8; transform: translateX(-50%) scale(1.15); }
+}
+
+.title-block {
+  text-align: center;
+  z-index: 1;
+  opacity: 0;
+  animation: title-emerge 4s ease-out 1s forwards;
+}
+@keyframes title-emerge {
+  to { opacity: 1; }
+}
+
+.epigraph {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--copper-dim);
+  letter-spacing: 0.04em;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: normal;
+  letter-spacing: 0.15em;
+  color: var(--chalk);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--chalk-faint);
+  text-transform: lowercase;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  color: var(--chalk-faint);
+  opacity: 0;
+  animation: hint-appear 2s ease-out 5s forwards, hint-bob 3s ease-in-out 7s infinite;
+}
+@keyframes hint-appear { to { opacity: 0.4; } }
+@keyframes hint-bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. THE KEEPER'S VOICE
+   ═══════════════════════════════════════════════════════════════ */
+
+.keeper-voice {
+  background: var(--bg-serai);
+}
+.text-panel {
+  max-width: var(--measure);
+}
+.keeper-text {
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  line-height: 2.2;
+  color: var(--chalk-dim);
+  font-style: italic;
+}
+.keeper-text em {
+  color: var(--copper);
+  font-style: normal;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   3-5. ILLUSTRATION SECTIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+.map-section, .cross-section, .elevation-compare,
+.jalori-section, .two-waters-section, .connections-section {
+  background: var(--bg);
+  padding: 6rem 2rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ROUTE PANELS — text excerpts in each traveller's voice
+   ═══════════════════════════════════════════════════════════════ */
+
+.route-panel {
+  background: var(--bg-warm);
+  padding: 5rem 2rem;
+}
+.route-panel .text-panel {
+  max-width: var(--measure);
+}
+
+.route-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0.6;
+}
+.route-panel.trader .route-label { color: var(--trader); }
+.route-panel.pilgrim .route-label { color: var(--pilgrim); }
+.route-panel.shepherd .route-label { color: var(--shepherd); }
+
+.route-voice {
+  line-height: 2.0;
+  color: var(--chalk-dim);
+}
+.route-voice .dim {
+  opacity: 0.3;
+}
+.route-voice p {
+  margin-bottom: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TWO WATERS — quote section
+   ═══════════════════════════════════════════════════════════════ */
+
+.quote-panel {
+  max-width: var(--measure);
+  margin-top: 2.5rem;
+  text-align: center;
+}
+.quote-panel blockquote {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--copper);
+  line-height: 2;
+  letter-spacing: 0.03em;
+}
+.quote-panel .attribution {
+  font-size: 0.8rem;
+  color: var(--copper-dim);
+  margin-top: 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   THE NOTEBOOK — the mysterious input area
+   ═══════════════════════════════════════════════════════════════ */
+
+.notebook-section {
+  background: var(--bg-warm);
+  min-height: 100vh;
+  padding: 4rem 2rem;
+}
+
+.notebook-page {
+  width: min(700px, 94vw);
+  background: #1c1810;
+  border: 1px solid rgba(200, 120, 32, 0.10);
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px rgba(200, 120, 32, 0.03),
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(200, 120, 32, 0.04);
+  position: relative;
+}
+
+.notebook-binding {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  background: linear-gradient(to right,
+    rgba(0, 0, 0, 0.4),
+    rgba(200, 120, 32, 0.04) 60%,
+    transparent
+  );
+  border-right: 1px solid rgba(200, 120, 32, 0.06);
+}
+
+.notebook-interior {
+  padding: 2.5rem 2.5rem 2rem 3.5rem;
+}
+
+.notebook-prompt {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--copper);
+  opacity: 0.5;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.05em;
+}
+
+#notebook-text {
+  width: 100%;
+  min-height: 360px;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--parchment);
+  caret-color: var(--copper);
+  /* Ruled lines */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(1.9rem - 1px),
+    rgba(200, 120, 32, 0.05) calc(1.9rem - 1px),
+    rgba(200, 120, 32, 0.05) 1.9rem
+  );
+  background-attachment: local;
+}
+
+#notebook-text::placeholder {
+  color: rgba(200, 120, 32, 0.22);
+  font-style: italic;
+}
+
+.notebook-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(200, 120, 32, 0.05);
+  font-size: 0.72rem;
+  font-style: italic;
+  color: rgba(200, 120, 32, 0.25);
+  font-family: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SOUND SECTION
+   ═══════════════════════════════════════════════════════════════ */
+
+.sound-section {
+  background: var(--bg-serai);
+  min-height: auto;
+  padding: 4rem 2rem 6rem;
+}
+
+.sound-panel {
+  max-width: 500px;
+  text-align: center;
+}
+
+.sound-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--chalk-faint);
+  margin-bottom: 2rem;
+}
+
+.sound-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.sound-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.sound-name {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--chalk-dim);
+}
+.sound-note {
+  font-size: 0.75rem;
+  color: var(--chalk-faint);
+  opacity: 0.6;
+}
+
+.drone-controls {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.drone-btn {
+  background: transparent;
+  border: 1px solid var(--copper-dim);
+  color: var(--copper);
+  padding: 0.5em 1.5em;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-style: italic;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: border-color 0.3s, color 0.3s;
+}
+.drone-btn:hover {
+  border-color: var(--copper);
+  color: var(--chalk);
+}
+.drone-btn.active {
+  border-color: var(--copper);
+  background: rgba(200, 120, 32, 0.08);
+}
+
+#drone-status {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--chalk-faint);
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   THE THREAD WALKER'S NOTEBOOK — flippable pages
+   ═══════════════════════════════════════════════════════════════ */
+
+.tw-notebook-section {
+  background: var(--bg-serai);
+  min-height: 100vh;
+  padding: 5rem 2rem;
+}
+
+.tw-notebook {
+  width: min(620px, 92vw);
+  position: relative;
+}
+
+.tw-notebook-cover {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.tw-notebook-book {
+  background: #1a1610;
+  border: 1px solid rgba(200, 120, 32, 0.08);
+  border-radius: 2px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(200, 120, 32, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Binding edge */
+.tw-notebook-book::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 24px;
+  background: linear-gradient(to right,
+    rgba(0, 0, 0, 0.35),
+    rgba(200, 120, 32, 0.03) 60%,
+    transparent
+  );
+  border-right: 1px solid rgba(200, 120, 32, 0.05);
+  z-index: 2;
+}
+
+.tw-page {
+  display: none;
+  padding: 2.5rem 2.5rem 2rem 3.2rem;
+  height: 420px;
+  overflow-y: auto;
+  animation: page-enter 0.6s ease;
+}
+.tw-page.active {
+  display: block;
+}
+@keyframes page-enter {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.tw-page-number {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: rgba(200, 120, 32, 0.2);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
+.tw-evening {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--copper-dim);
+  opacity: 0.6;
+  margin-bottom: 1.2rem;
+}
+
+.tw-connection-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+.tw-connection-label.trader  { color: var(--trader); }
+.tw-connection-label.pilgrim { color: var(--pilgrim); }
+.tw-connection-label.shepherd { color: var(--shepherd); }
+.tw-connection-label.all     { color: var(--copper); }
+
+.tw-entry {
+  font-size: 0.95rem;
+  line-height: 2.0;
+  color: var(--chalk-dim);
+  font-style: italic;
+}
+.tw-entry em {
+  color: var(--copper);
+  font-style: normal;
+}
+.tw-entry .book-ref {
+  font-size: 0.8rem;
+  color: var(--chalk-faint);
+  opacity: 0.6;
+  display: block;
+  margin-top: 0.8rem;
+}
+
+.tw-thread {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(200, 120, 32, 0.06);
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: var(--chalk-dim);
+}
+.tw-thread .from, .tw-thread .to {
+  display: block;
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.3rem;
+}
+.tw-thread .from::before {
+  content: '\25B3';  /* △ */
+  position: absolute;
+  left: 0;
+  font-size: 0.7rem;
+}
+.tw-thread .to::before {
+  content: '\25BD';  /* ▽ */
+  position: absolute;
+  left: 0;
+  font-size: 0.7rem;
+}
+
+/* Navigation */
+.tw-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2.5rem 1rem 3.2rem;
+  border-top: 1px solid rgba(200, 120, 32, 0.04);
+}
+
+.tw-nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--copper-dim);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-style: italic;
+  cursor: pointer;
+  padding: 0.3em 0.6em;
+  transition: color 0.3s;
+}
+.tw-nav-btn:hover { color: var(--copper); }
+.tw-nav-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.tw-nav-dots {
+  display: flex;
+  gap: 6px;
+}
+.tw-nav-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--chalk-faint);
+  opacity: 0.2;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+.tw-nav-dot.active {
+  opacity: 0.7;
+  background: var(--copper);
+}
+
+/* ── Colophon ──────────────────────────────────────────────── */
+
+.colophon {
+  min-height: auto;
+  padding: 3rem 2rem;
+  background: var(--bg);
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--chalk-faint);
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+}
+
+/* ── Parallax helper ───────────────────────────────────────── */
+[data-parallax] {
+  will-change: transform;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     1. THE OPENING
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="serai-night" id="opening">
+  <div class="lamp-halo"></div>
+  <div class="lamp-glow"></div>
+  <div class="lamp-base"></div>
+
+  <div class="title-block">
+    <p class="epigraph">Near the top of Jalori Pass, in the last weeks before snow closes the road &mdash;</p>
+    <h1>Three Route-Books</h1>
+    <p class="subtitle">a composition companion</p>
+  </div>
+
+  <div class="scroll-hint">&darr;</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     2. THE KEEPER'S VOICE
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="keeper-voice" id="keeper">
+  <div class="text-panel fade-in">
+    <p class="keeper-text">
+      A route-book is not a diary. A diary records what the writer feels.
+      A route-book records what the road offers: the gradient, the weather,
+      the state of the bridges, the price of dal at the last dhaba, the bird
+      that appeared on the stone wall at the turn above the gorge.
+    </p>
+    <br>
+    <p class="keeper-text">
+      A diary faces inward. A route-book faces the trail.
+    </p>
+    <br>
+    <p class="keeper-text">
+      <em>Read them</em>, the keeper said.
+      <em>You are the first person to hold all three at once.</em>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     3. RELIEF MAP — the whole landscape
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="map-section" id="landscape">
+  <div class="section-label fade-in">The Landscape</div>
+  <figure class="fade-in fade-slow" data-parallax="0.15">
+    <img src="../../website/static/images/writing/three-route-books/relief-map.png"
+         alt="Relief map of the Kullu-Seraj-Sutlej triangle with three routes"
+         loading="lazy">
+    <figcaption>Kullu &ndash; Seraj &ndash; Sutlej. Three routes, three altitudes, one mountain.</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     4. WATERSHED CROSS-SECTION
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="cross-section" id="watershed">
+  <div class="section-label fade-in">The Divide</div>
+  <figure class="fade-in fade-slow" data-parallax="0.1">
+    <img src="../../website/static/images/writing/three-route-books/watershed-cross-section.png"
+         alt="NE-SW transect across the Beas-Sutlej watershed through Jalori Pass"
+         loading="lazy">
+    <figcaption>From the Beas valley to the Sutlej approach, through Jalori Pass. The three altitude bands where the three travellers live.</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     5. THE TRADER
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="route-panel trader" id="trader">
+  <div class="text-panel fade-in">
+    <div class="route-label">The First Route-Book</div>
+    <div class="route-voice">
+      <p>Day 1. Kullu to Naggar. Load: 4 sacks rock salt, Mandi bazaar rate, 14 rs/kg.
+         2 bundles Kullu shawl &mdash; the fine weave, not the tourist grade.
+         Total weight with pack frame: 38 kg on the lead mule, 32 on the second.</p>
+      <p>Day 5. Rohtang. The crossing. 3,978 metres. Wind from the north &mdash;
+         steady, not gusting, the kind of wind that does not surprise you but does
+         not stop.</p>
+      <p>Day 9. Kunzum. The pass. 4,550 metres. Below us, Spiti opened.
+         Brown, vast, dry as a bone.</p>
+      <p class="dim">The rock salt will sell.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     6. THE PILGRIM
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="route-panel pilgrim" id="pilgrim">
+  <div class="text-panel fade-in">
+    <div class="route-label">The Second Route-Book</div>
+    <div class="route-voice">
+      <p>Day 1. Descent from Jalori to Shoja. The forest below the pass. Deodar, then oak,
+         then rhododendron. First shrine: a small stone figure at the trailside, dressed
+         in red cloth. I left a coin.</p>
+      <p>Day 3. Nirmand. The wooden temple. Kath-Kuni construction &mdash; alternating
+         stone and timber, no mortar. The building that bends does not break.</p>
+      <p>Day 7. Sarahan. The Bhimakali temple. I dreamed of a meadow I have never visited &mdash;
+         high, between two ridges, where the grass was the colour of old gold
+         and a woman was weaving.</p>
+      <p class="dim">I will walk to Chitkul.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     7. THE SHEPHERD
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="route-panel shepherd" id="shepherd">
+  <div class="text-panel fade-in">
+    <div class="route-label">The Third Route-Book</div>
+    <div class="route-voice">
+      <p>September. The meadow above Khanag. Grass still good. Water from the north stream.
+         The sheep prefer the east-facing slope in the afternoon.</p>
+      <p>The loom in the hut. The pattern is <em style="color: var(--shepherd); font-style: normal">natti</em>
+         &mdash; the one my grandmother taught me, the one that follows the river.</p>
+      <p>A pilgrim passed through &mdash; a woman walking alone, with a notebook.
+         I gave her water but we did not speak much. She asked about a dream she had had.</p>
+      <p class="dim">I told her: you dreamed of me.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     8. THREE ROUTES ELEVATION
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="elevation-compare" id="elevation">
+  <div class="section-label fade-in">Three Altitudes</div>
+  <figure class="fade-in fade-slow" data-parallax="0.1">
+    <img src="../../website/static/images/writing/three-route-books/three-routes-elevation.png"
+         alt="Three route elevation profiles stacked vertically"
+         loading="lazy">
+    <figcaption>The Trader goes high. The Pilgrim goes low. The Shepherd stays between.</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     9. JALORI SECTION
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="jalori-section" id="jalori">
+  <div class="section-label fade-in">The Serai</div>
+  <figure class="fade-in fade-slow">
+    <img src="../../website/static/images/writing/three-route-books/jalori-section.png"
+         alt="Cross-section of Jalori Pass showing vegetation zones and the serai"
+         loading="lazy">
+    <figcaption>Deodar gives way to birch, birch to scrub, scrub to bare ridge. The serai sits where the trees end.</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     10. TWO WATERS
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="two-waters-section" id="meadow">
+  <div class="section-label fade-in">The Meadow</div>
+  <figure class="fade-in fade-slow">
+    <img src="../../website/static/images/writing/three-route-books/two-waters.png"
+         alt="3D terrain: the watershed saddle where two streams almost meet"
+         loading="lazy">
+  </figure>
+  <div class="quote-panel fade-in">
+    <blockquote>&ldquo;the meadow where the two waters almost meet&rdquo;</blockquote>
+    <p class="attribution">&mdash; from the grandmother's song, Book One</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     11. THE THREAD WALKER'S NOTEBOOK — flippable pages
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="tw-notebook-section" id="connections">
+  <div class="tw-notebook fade-in fade-slow">
+    <div class="tw-notebook-cover">
+      <div class="section-label">What the Thread Walker Sees</div>
+    </div>
+
+    <div class="tw-notebook-book" id="tw-book">
+
+      <!-- Page 1: The grandmother -->
+      <div class="tw-page active" data-page="0">
+        <div class="tw-page-number">i</div>
+        <div class="tw-evening">The first evening, after reading the Trader's notebook &mdash;</div>
+        <div class="tw-connection-label trader">Trader &rarr; Shepherd</div>
+        <div class="tw-entry">
+          The muleteer Ratan told her a song his grandmother composed.
+          The song names a place: <em>&ldquo;the meadow where the two waters
+          almost meet.&rdquo;</em> The Trader writes it down because the words
+          have &ldquo;the precision of a place name.&rdquo; She does not know
+          where the meadow is.
+          <span class="book-ref">Book One, Day 3 &middot; above Marhi</span>
+        </div>
+        <div class="tw-thread">
+          <span class="from" style="color: var(--trader)">A song about a place she has never seen</span>
+          <span class="to" style="color: var(--shepherd)">The Shepherd has always known this place. She does not know it has a name in a song she has never heard.</span>
+        </div>
+      </div>
+
+      <!-- Page 2: The carved mark -->
+      <div class="tw-page" data-page="1">
+        <div class="tw-page-number">ii</div>
+        <div class="tw-evening">Still the first evening &mdash;</div>
+        <div class="tw-connection-label trader">Trader &rarr; Pilgrim</div>
+        <div class="tw-entry">
+          At Kunzum, the Trader finds a carved mark inside a stone enclosure.
+          <em>Not Tibetan script, not Devanagari, not any writing she has seen
+          on this road.</em> She sketches it in the margin.
+          <span class="book-ref">Book One, Day 9 &middot; Kunzum Pass, 4,550 m</span>
+        </div>
+        <div class="tw-thread">
+          <span class="from" style="color: var(--trader)">A figure she cannot identify &mdash; sketched at 4,550 m</span>
+          <span class="to" style="color: var(--pilgrim)">The stone-cutter at Nirmand will describe this same figure. The same tradition, carried to a different altitude.</span>
+        </div>
+      </div>
+
+      <!-- Page 3: The brothers -->
+      <div class="tw-page" data-page="2">
+        <div class="tw-page-number">iii</div>
+        <div class="tw-evening">The second evening, after reading the Pilgrim's notebook &mdash;</div>
+        <div class="tw-connection-label pilgrim">Pilgrim &rarr; Trader</div>
+        <div class="tw-entry">
+          The stone-cutter at Nirmand mentions his brother &mdash;
+          <em>&ldquo;Ratan, who takes the salt road.&rdquo;</em>
+          He says his brother carries a different kind of knowledge:
+          &ldquo;he reads the weather. I read the stone.&rdquo;
+          <span class="book-ref">Book Two, Day 3 &middot; Nirmand, 1,800 m</span>
+        </div>
+        <div class="tw-thread">
+          <span class="from" style="color: var(--pilgrim)">&ldquo;my brother Ratan who takes the salt road&rdquo;</span>
+          <span class="to" style="color: var(--trader)">Ratan the muleteer, who walked with the Trader for an hour above Marhi and told her his grandmother's song.</span>
+        </div>
+      </div>
+
+      <!-- Page 4: The dream -->
+      <div class="tw-page" data-page="3">
+        <div class="tw-page-number">iv</div>
+        <div class="tw-evening">Still the second evening &mdash;</div>
+        <div class="tw-connection-label pilgrim">Pilgrim &rarr; Shepherd</div>
+        <div class="tw-entry">
+          At Sarahan the Pilgrim dreams of a meadow she has never visited &mdash;
+          <em>&ldquo;high, between two ridges, where the grass was the colour
+          of old gold and a woman was weaving.&rdquo;</em>
+          <span class="book-ref">Book Two, Day 7 &middot; Sarahan, 1,920 m</span>
+        </div>
+        <div class="tw-thread">
+          <span class="from" style="color: var(--pilgrim)">A dream of a woman weaving in a golden meadow</span>
+          <span class="to" style="color: var(--shepherd)">&ldquo;You dreamed of me,&rdquo; the Shepherd told her.</span>
+        </div>
+      </div>
+
+      <!-- Page 5: The weaving pattern -->
+      <div class="tw-page" data-page="4">
+        <div class="tw-page-number">v</div>
+        <div class="tw-evening">The third evening, after reading the Shepherd's pages &mdash;</div>
+        <div class="tw-connection-label all">All three</div>
+        <div class="tw-entry">
+          The Shepherd's grandmother taught her the <em>natti</em> pattern &mdash;
+          &ldquo;the one that follows the river.&rdquo; The original weaver walked
+          the Tirthan from its source to the junction with the Sainj and translated
+          the walk into thread. The original weaver's name is the same name as the
+          muleteer's grandmother.
+          <span class="book-ref">Book Three, early autumn &middot; above Khanag, 2,800 m</span>
+        </div>
+        <div class="tw-thread">
+          <span class="from" style="color: var(--copper)">The grandmother is one person remembered in two traditions</span>
+          <span class="to" style="color: var(--copper)">The muleteer remembers her song. The Shepherd remembers her weaving. Different media, same source.</span>
+        </div>
+      </div>
+
+      <!-- Page 6: The synthesis -->
+      <div class="tw-page" data-page="5">
+        <div class="tw-page-number">vi</div>
+        <div class="tw-evening">After closing the last notebook &mdash;</div>
+        <div class="tw-connection-label all">The ecology</div>
+        <div class="tw-entry">
+          Three routes. One landscape. The Trader sees the passes. The Pilgrim
+          sees the valleys. The Shepherd sees the meadows between them.
+          Together they describe a single watershed &mdash; but none of them
+          sees the whole.
+          <br><br>
+          <em>I am the first person to hold all three at once.</em>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="tw-nav">
+        <button class="tw-nav-btn" id="tw-prev" disabled>&larr; prev</button>
+        <div class="tw-nav-dots" id="tw-dots"></div>
+        <button class="tw-nav-btn" id="tw-next">next &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     12. THE NOTEBOOK — the mysterious input area
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="notebook-section" id="notebook">
+  <div class="notebook-page fade-in">
+    <div class="notebook-binding"></div>
+    <div class="notebook-interior">
+      <p class="notebook-prompt">From the Thread Walker's notebook &mdash;</p>
+      <textarea id="notebook-text"
+                placeholder="The lantern is lit. The route-books are open."
+                spellcheck="false"></textarea>
+      <div class="notebook-footer">
+        <span id="date-stamp"></span>
+        <span id="word-count"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     13. SOUNDTRACK
+     ═══════════════════════════════════════════════════════════════ -->
+
+<section class="sound-section" id="sound">
+  <div class="sound-panel fade-in">
+    <p class="sound-label">For the hours of composition</p>
+
+    <div class="sound-suggestions">
+      <div class="sound-item">
+        <span class="sound-name">Wind through the pass</span>
+        <span class="sound-note">Mountain wind above treeline &mdash; any high-altitude field recording</span>
+      </div>
+      <div class="sound-item">
+        <span class="sound-name">Distant water</span>
+        <span class="sound-note">A river in a gorge, heard from above &mdash; the Tirthan at the junction, or the Beas at Larji</span>
+      </div>
+      <div class="sound-item">
+        <span class="sound-name">A fire in a stone room</span>
+        <span class="sound-note">The spitting of green deodar wood on a winter hearth</span>
+      </div>
+    </div>
+
+    <div class="drone-controls">
+      <button class="drone-btn" id="drone-toggle">Or: a drone</button>
+      <span id="drone-status">silent</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Colophon ──────────────────────────────────────────────── -->
+
+<div class="colophon">
+  <p>Three Route-Books &mdash; terrain from SRTM 1&Prime; &middot; 31&ndash;33&deg;N, 76&ndash;78&deg;E</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Fade-in on scroll (IntersectionObserver) ─────────────────
+
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        fadeObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    fadeObserver.observe(el);
+  });
+
+  // ── Thread Walker's Notebook — page flip ─────────────────────
+
+  (function () {
+    const pages = document.querySelectorAll('.tw-page');
+    const prevBtn = document.getElementById('tw-prev');
+    const nextBtn = document.getElementById('tw-next');
+    const dotsContainer = document.getElementById('tw-dots');
+    let current = 0;
+
+    // Build dots
+    pages.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'tw-nav-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Page ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    });
+
+    function goTo(idx) {
+      pages[current].classList.remove('active');
+      dotsContainer.children[current].classList.remove('active');
+
+      current = idx;
+
+      pages[current].classList.add('active');
+      dotsContainer.children[current].classList.add('active');
+
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === pages.length - 1;
+    }
+
+    prevBtn.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
+    nextBtn.addEventListener('click', () => { if (current < pages.length - 1) goTo(current + 1); });
+
+    // Keyboard navigation when notebook is in view
+    document.addEventListener('keydown', (e) => {
+      const book = document.getElementById('tw-book');
+      const rect = book.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (current < pages.length - 1) { goTo(current + 1); e.preventDefault(); }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (current > 0) { goTo(current - 1); e.preventDefault(); }
+      }
+    });
+  })();
+
+  // ── Parallax ─────────────────────────────────────────────────
+
+  function updateParallax() {
+    document.querySelectorAll('[data-parallax]').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const speed = parseFloat(el.dataset.parallax);
+      const center = rect.top + rect.height / 2;
+      const offset = (center - window.innerHeight / 2) * speed;
+      el.style.transform = 'translateY(' + offset + 'px)';
+    });
+  }
+  window.addEventListener('scroll', () => requestAnimationFrame(updateParallax), { passive: true });
+
+  // ── Notebook persistence ─────────────────────────────────────
+
+  const STORAGE_KEY = 'three-route-books-notebook';
+  const notebookEl = document.getElementById('notebook-text');
+  const wordCountEl = document.getElementById('word-count');
+  const dateStampEl = document.getElementById('date-stamp');
+
+  // Load saved content
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) notebookEl.value = saved;
+
+  function updateWordCount() {
+    const words = notebookEl.value.trim().split(/\s+/).filter(Boolean).length;
+    wordCountEl.textContent = words > 0 ? words + ' words' : '';
+  }
+
+  let saveTimer;
+  notebookEl.addEventListener('input', () => {
+    clearTimeout(saveTimer);
+    updateWordCount();
+    saveTimer = setTimeout(() => {
+      localStorage.setItem(STORAGE_KEY, notebookEl.value);
+    }, 800);
+  });
+
+  // Date stamp
+  dateStampEl.textContent = new Date().toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+
+  updateWordCount();
+
+  // ── Web Audio API Drone ──────────────────────────────────────
+
+  let droneActive = false;
+  let audioCtx = null;
+  let droneNodes = [];
+  const droneBtn = document.getElementById('drone-toggle');
+  const droneStatus = document.getElementById('drone-status');
+
+  function startDrone() {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Three oscillators: C2, G2, C3 — a tanpura in an empty room
+    const voices = [
+      { freq: 65.41,  gain: 0.05 },
+      { freq: 98.00,  gain: 0.035 },
+      { freq: 130.81, gain: 0.025 },
+    ];
+
+    droneNodes = voices.map(({ freq, gain: g }) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+
+      // Slow frequency drift — like a voice that can't hold perfectly still
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.05 + Math.random() * 0.05;  // ~20s cycle
+      lfoGain.gain.value = freq * 0.002;  // ±0.2% drift
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc.frequency);
+      lfo.start();
+
+      filter.type = 'lowpass';
+      filter.frequency.value = 350;
+      filter.Q.value = 0.3;
+
+      // Fade in over 3 seconds
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(g, audioCtx.currentTime + 3);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+
+      return { osc, gain, lfo };
+    });
+
+    droneActive = true;
+    droneStatus.textContent = 'sounding';
+    droneBtn.textContent = 'Silence';
+    droneBtn.classList.add('active');
+  }
+
+  function stopDrone() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    droneNodes.forEach(({ gain, osc, lfo }) => {
+      gain.gain.setTargetAtTime(0, now, 2);  // ~6s fade out
+      osc.stop(now + 8);
+      lfo.stop(now + 8);
+    });
+    setTimeout(() => {
+      if (audioCtx) { audioCtx.close(); audioCtx = null; }
+    }, 9000);
+    droneActive = false;
+    droneStatus.textContent = 'silent';
+    droneBtn.textContent = 'Or: a drone';
+    droneBtn.classList.remove('active');
+  }
+
+  droneBtn.addEventListener('click', () => {
+    if (droneActive) stopDrone(); else startDrone();
+  });
+
+})();
+</script>
+
+</body>
+</html>

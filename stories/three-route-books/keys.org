@@ -1,0 +1,24 @@
+#+title: Three Route-Books — Translation Keys
+#+date: 2026-03-13
+
+| System Concept                           | Story Equivalent                                               | Notes                                                           |
+|------------------------------------------+----------------------------------------------------------------+-----------------------------------------------------------------|
+| Substrate (cognitive lineage)            | Traveller — different route, different training, different eyes | Trader / Pilgrim / Shepherd                                     |
+| Sūtra relay                              | The serai's box of route-books                                 | Append-only. The keeper does not curate — she collects.         |
+| Found manuscript (outer frame)           | Thread Walker reading route-books at the serai                 | The Saragossa frame: a reader assembles fragments               |
+| Monoculture blindness                    | No single route-book sees the whole landscape                  | The Trader sees passes; the Pilgrim sees valleys; the Shepherd  |
+|                                          |                                                                | sees the meadows between them                                   |
+| WP interconnection / dispatch plan       | Hidden connections between route-books                         | The muleteer is the stone-cutter's brother                      |
+| Nested narratives (WP DAG)              | Stories within stories within route-books                      | Level 0: observation. Level 1: oral account. Level 2: origin    |
+| Ecological resolution                    | Three altitudes = one landscape                                | Not conspiracy (Potocki) but ecology                            |
+| Gaddi (orchestrator)                     | The serai keeper who collects but does not curate              | She holds all the books. She does not read them.                |
+| Thread Walker = reader/synthesiser       | The one who reads all three and sees connections               | She is the first reader to hold all three at once               |
+| Identity from traces                     | The handwriting, the quality of attention                      | Bridges to The Serai's Register (#13)                           |
+| Power / skill / body distinction         | Song / technique / loom — the portable, the practiced, the     | The grandmother's song (power) → the weaver's practice (skill)  |
+|                                          | physical                                                       | → the loom itself (body)                                        |
+| Coalition (ephemeral formation)          | The three routes converging at the serai                       | Formed by geography, dissolved by departure                     |
+| Composite WP                             | The landscape as seen from all three routes combined           | No single route = the whole WP                                  |
+| Apprentis (science of learning)          | The travellers learn from people they meet                     | Knowledge travels orally, not in registers                      |
+| Percept (physics of understanding)       | What each traveller notices depends on what she carries        | The Trader's eyes are calibrated for commerce; the Pilgrim's    |
+|                                          |                                                                | for devotion; the Shepherd's for grass and weather              |
+| The ibex (constant)                      | The landscape itself — indifferent to all three surveys        | The mountains do not care which route you take                  |

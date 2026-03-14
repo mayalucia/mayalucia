@@ -1,0 +1,191 @@
+#+title: Three Route-Books — Research
+#+author: sūtradhar
+#+date: 2026-03-13
+
+* Potocki Structural Analysis
+
+Compiled from web research on /Manuscrit trouvé à Saragosse/
+(1797–1815) and secondary sources.
+
+** Nesting Mechanics
+
+Potocki achieves 8 levels of nesting at maximum depth (P.N. Furbank's
+"eightfold /emboîtement/"). The mechanisms:
+
+1. *Formulaic handoff*: "Here is my story" — narration shifts to
+   first person ("I") for the new narrator. No typographic
+   differentiation. No quotes, no indentation, no italics. The shift
+   is purely grammatical.
+
+2. *The pronoun trap*: "virtually every 'I' is a mad summons to
+   retrace your way back through tale-told jungles" (Believer
+   Magazine). The reader must track which "I" is speaking. Potocki
+   provides no external cues beyond narrative logic.
+
+3. *Day boundaries as reset points*: "The Nth Day" returns the reader
+   to Level 1 (Alphonse's journal). Each day begins with waking,
+   eating, then storytelling resuming. The daily reset prevents total
+   disorientation.
+
+4. *"X continued his story"*: Brief transition phrases mark re-entry
+   into nested frames. Only breadcrumbs.
+
+5. *Physical interruption as frame exit*: Meals, sleep, arrivals,
+   supernatural events — force the narrative back up through levels.
+
+** Adaptation to our novella
+
+For ~20,000 words, 3 levels of nesting is the maximum. Our
+route-book structure already provides the "day boundary" reset — each
+route-book is a chapter-level return to the Thread Walker frame.
+
+Within each route-book:
+- L0 = the traveller's daily observations
+- L1 = stories told by people met on the road
+- L2 = stories within those stories (the grandmother's song, the
+  stone-cutter's teacher's technique)
+
+The *pronoun trap* translates to voice differentiation: the Trader's
+ledger voice, the Pilgrim's devotional voice, the Shepherd's seasonal
+fragments. No typographic markers needed — the voice IS the marker.
+
+** The Four Phases (adapted)
+
+| Potocki Phase | Our Equivalent |
+|---+---|
+| I. The Trials (Days 1–10): Gothic tests | The outer frame: arrival at the serai, the keeper's sorting |
+| II. The Gathering (Days 10–20): Narrators assemble | The three route-books assembled by the keeper |
+| III. Avadoro's Autobiography (Days 20–50): Central mass | Books One, Two, Three — the three route-books |
+| IV. Convergence (Days 50–66): Hidden pattern revealed | Thread Walker's synthesis — the ecological resolution |
+
+** The Gomelez Technique (retroactive reframing)
+
+In Potocki, apparently disconnected stories resolve into a hidden
+genealogical conspiracy. The Gothic trials of the early days are
+retroactively explained as theater.
+
+In our novella, apparently disconnected route-books resolve into a
+hidden ecological connection. The three routes are retroactively
+revealed as one landscape seen from three altitudes. *Not a
+conspiracy but an ecology.* The distinction matters: Potocki's
+characters were being manipulated. Our travellers are not. They are
+simply three people walking the same mountain without knowing it.
+
+The technique is the same (plant connections, reveal late) but the
+meaning is different (diversity as ecology, not diversity as
+conspiracy).
+
+** The Found-Document Frame
+
+Potocki opens with a French officer finding a manuscript in a besieged
+inn. *He never returns to this frame.* The non-closure is deliberate
+— every explanation is potentially just another story.
+
+Our adaptation: the Thread Walker finds route-books in a serai. She
+reads them. She records connections in her own notebook. But she does
+not explain or close the frame. The reader assembles the ecology.
+
+** Key Scholarly Sources
+
+- Ian Maclean, Penguin edition (1995): standard English translation
+- François Rosset & Dominique Triaire: critical edition, discovered
+  two autonomous versions (1804 libertine, 1810 encyclopedic)
+- P.N. Furbank, "Nesting Time" (/London Review of Books/, 1995):
+  "eightfold nesting"
+- Martin Schell: narrative outline of the film adaptation
+- DH2020 computational analysis: empirical nesting-depth measurement
+- Velasquez the Geometer (character) tries to find a "recurrent
+  series" (Fibonacci-like) governing the nesting — Potocki's internal
+  joke about his own method
+
+** The Comedy Question
+
+Potocki manages six tonal registers: Gothic horror, erotic/libertine,
+picaresque comedy, philosophical, mathematical comedy, and adventure.
+Tonal shifts are managed through *narrator switch* — each narrator
+brings their own register.
+
+For us: the Trader brings dry factual humour (the observation of
+absurdity without commenting on it). The Pilgrim brings earnest
+devotion that tips into the comic when she records dreams as matter
+of fact. The Shepherd brings no humour — her fragments are too
+sparse for comedy. The Thread Walker's frame voice can carry the
+ironic distance that Potocki achieves through his Enlightenment
+cosmopolitanism.
+
+
+* Geography
+
+** Jalori Pass (3,120 m)
+
+Connects Inner Seraj (Kullu side) to Outer Seraj (Shimla/Sutlej
+side). The pass is flanked by Jalori and Bashleo (3,250 m). Bashleo
+separates Inner from Outer Seraj.
+
+Below the pass on the Kullu side: Shoja, Jibhi, Banjar, the Tirthan
+valley. Below on the Seraj side: Ani, Khanag, Nirmand, the road to
+Rampur on the Sutlej.
+
+** The Three Routes
+
+*** Route 1: Kullu → Spiti (The Trader)
+
+Kullu → Naggar → Manali → Marhi → Rohtang (3,978 m) → Khoksar →
+Lahaul (Chandra valley) → Batal → Kunzum (4,550 m) → Losar → Kaza.
+
+The transition at Rohtang: from green Kullu to brown Lahaul. The
+glacier-melt rivers change colour — turquoise on the south, grey on
+the north. A geological and visual boundary.
+
+*** Route 2: Jalori → Kinnaur (The Pilgrim)
+
+Jalori → Shoja → Ani → Nirmand → Rampur Bushahr → Sarahan →
+Sangla → Kalpa → Chitkul.
+
+Nirmand: wooden temples, Kath-Kuni construction. Sarahan: Bhimakali
+temple. Chitkul: last village on the Indo-Tibetan border. The
+Hindu-Buddhist transition happens along this route — Hindu temples in
+Nirmand, syncretic temples at Sarahan and Sangla, Buddhist influence
+at Chitkul.
+
+Rampur Bushahr: gateway to Kinnaur, on the left bank of the Sutlej.
+Former winter capital of the Bushahr kingdom. The Lavi Fair — ancient
+trade between India and Tibet.
+
+*** Route 3: The Seraj high pastures (The Shepherd)
+
+Above Khanag → Baga Sarahan meadows → ridge between Beas and Sutlej
+watersheds → below Bashleo Pass.
+
+The Shepherd does not cross Bashleo. She grazes the ridge. From her
+meadows she can see into both valleys. The watershed divide is subtle
+here — two streams that flow in opposite directions (one north to
+the Beas, one south to the Sutlej) may originate within a few hundred
+metres of each other.
+
+Shangarh meadow (Sainj valley): sacred grassland, Shangchul Mahadev
+temple, Kath-Kuni. Nearby but distinct from the Shepherd's territory
+(the Shepherd is above Khanag, not in the Sainj).
+
+** Kath-Kuni Architecture
+
+Traditional Himachali construction: alternating layers of wood
+(deodar) and stone masonry, no mortar. Nail-less framework that
+flexes with seismic waves. The air gap between double-skinned walls
+dissipates both thermal and seismic energy. A thousand years old.
+Transmitted orally through apprenticeship.
+
+Relevant for: the Pilgrim's observations at Nirmand and Sarahan,
+the Shepherd's hut construction.
+
+** Cultural Context
+
+- Kullu shawl weaving: fine pashmina, the /natti/ patterns
+- Stone carving: tradition spanning from Nirmand to Chitkul
+- GHNP (Great Himalayan National Park): UNESCO World Heritage,
+  adjacent to Tirthan valley. Western tragopan (jujurana), musk deer,
+  snow leopard
+- Bushahr kingdom: trade treaty with Tibet, Lavi Fair, horses
+  and swords exchanged
+- The Hindu-Buddhist syncretism of Kinnaur: Kamru Fort with Buddha
+  at the main gate, Bering Nag temple, wooden pagoda temples
