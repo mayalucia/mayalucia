@@ -1,0 +1,105 @@
+#+title: The Thirteen Hands — Development Notes
+#+date: 2026-03-14
+
+* Origin
+
+WP-0048 (specification-story). Translates the full WP-0037 arc —
+13 substrates given the same author-wp task. The Three Scribes' Brief
+translated Phase 1 (3 substrates). This story translates Phase 2
+(all 13), extending the scale from comparison to ecology.
+
+The shift from Scribes to this story mirrors the experimental shift:
+three scribes could be compared side by side on a flat rock. Thirteen
+hands need a building.
+
+* Setting
+
+Bharmour, upper Ravi valley — the Chaurasi temple complex (84 temples,
+6th–10th century Kath-Kuni and stone construction). A master mason
+commissions thirteen stone-carvers from different valleys to assess
+damage on a temple wall and write a repair specification.
+
+Why Bharmour:
+- New territory (no story has visited the Ravi valley)
+- Real temple restoration tradition (Himachal Pradesh heritage site)
+- Kath-Kuni construction (timber and stone) naturally holds the
+  metaphor of different craft traditions meeting on the same structure
+- Thirteen is a plausible number for a significant temple restoration
+- The Chaurasi complex has 84 temples — enough fabric for 13 surveys
+  to find different things in the same stone
+
+* Core Tension
+
+Thirteen hands, same commission, different tool marks. The story's
+question: is the stone-cutter the tool, or is the training? When
+thirteen hands work the same wall and no two produce the same
+specification, is that failure or is it the wall being seen whole
+for the first time?
+
+* Document Type
+
+The master mason's comparison ledger — found at the Chaurasi complex,
+written during a restoration campaign. Interleaved with Thread Walker
+notebook entries. A ledger that compares thirteen reports.
+
+* Voice References
+
+- The Three Scribes' Brief (story #18) — direct predecessor, same arc
+- The Cartographer's Slab (#14) — same three-level comparison
+- The Six Tri-Junctions (#16) — scale (six readings of one finding)
+- The Three Readers (#15) — the measurer/climber/reader pattern
+
+* Structural Parallels
+
+| WP-0037 finding                        | Story equivalent                                          |
+|-----------------------------------------+-----------------------------------------------------------|
+| 13 substrates, same task               | 13 stone-carvers, same wall                               |
+| Tool-foraging fingerprints             | Tool marks on finished specifications                     |
+| Read-only (Grok)                       | The carver who works by touch, never searches             |
+| Grep-heavy (Opus)                      | The carver who traces patterns across the whole complex   |
+| Glob-heavy (Step)                      | The carver who inventories all surfaces before touching   |
+| Survey-specification trade-off         | The surveyor who never cuts (context, not cognitive)      |
+| WP-refusal (Opus, Sonnet)             | Two carvers from the same school refuse to write a new    |
+|                                         | specification — one already exists, and duplicating it    |
+|                                         | would be poor practice                                    |
+| Convergence boundaries (>85%)          | Where all hands agree = the wall's own testimony          |
+| Divergence (3+ clusters)              | Where hands disagree = the master mason must decide       |
+| WP number collision (universal)        | All thirteen named the same stone wrongly                 |
+| Reflection quality (4 tiers)           | Self-knowledge gradient: mute → philosophical             |
+| Cost vs quality (non-linear)           | The cheapest hand that still cuts true                    |
+| Gaddi orchestrator                     | The master mason who sets the task and waits              |
+| Phase 1→2 shift (3→13)               | Three scribes' brief → the restoration ledger             |
+| Context management, not cognitive      | The carver who separated looking from cutting (two days)  |
+
+* Fourth-Wall Risks
+
+- "substrate" → "valley" or "school" or "hand"
+- "LLM" / "model" — must not appear
+- "work package" → "repair specification" or "mason's order"
+- "tool calls" → "marks" or "strokes" or "tool marks"
+- "Grep" / "Read" / "Glob" → types of looking (tracing, reading, inventorying)
+- "spirit" (MāyāLucIA) → "stone-carver" or "hand"
+- "orchestrator" → "master mason"
+- "lineage" → "school" or "valley" or "tradition"
+- "convergence boundary" → "where the wall speaks for itself"
+- "context window" → never name it; show it through the carver who ran out of time
+
+* Illustration Notes
+
+4–6 figures. Dark atmospheric palette (matching Kath-Kuni stone and
+timber). Possibilities:
+
+1. The Chaurasi complex — schematic plan showing 13 survey areas
+2. Tool-mark comparison — 13 different specifications laid side by side
+3. Convergence diagram — where all hands agree vs diverge (translated
+   to stone damage map, not a data plot)
+4. The master mason's ledger page — structured comparison
+5. Temple wall cross-section showing timber-and-stone Kath-Kuni layers
+6. The view from Bharmour — Mani Mahesh peak, upper Ravi valley
+
+No DEM data needed — these are schematic/architectural illustrations,
+not terrain maps. Matplotlib with the dark palette from previous stories.
+
+* WP Reference
+
+WP-0048 (=workpacks/0048-specification-story.org=)

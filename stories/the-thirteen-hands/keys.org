@@ -1,0 +1,24 @@
+#+title: Translation Keys — The Thirteen Hands
+#+date: 2026-03-14
+
+| System Concept                                | Story Equivalent                                                            | Notes                                                              |
+|-----------------------------------------------+-----------------------------------------------------------------------------+--------------------------------------------------------------------|
+| 13 substrates, same task                      | 13 stone-carvers from different valleys, same temple wall                   | Same commission, different training, different tool marks           |
+| Tool-foraging fingerprint                     | Tool marks on the finished specification — chisel strokes, file marks       | The tool mark identifies the hand; the hand identifies the valley  |
+| Read-only foraging (Grok)                     | The carver who works by touch — never searches, follows grain               | Navigates by feel, not by scanning                                 |
+| Grep-heavy foraging (Opus)                    | The carver who traces patterns across the whole complex                     | Follows a thread through many walls, not one wall deeply           |
+| Glob-heavy foraging (Step)                    | The carver who inventories all surfaces before touching any                 | Lists everything, cuts nothing                                     |
+| Survey-specification trade-off                | The surveyor who catalogued every crack and wrote no repair order            | Context management, not cognitive limit — two days, not one        |
+| WP-refusal (lineage-specific governance)      | Two carvers from the same school refuse to duplicate a specification        | "One already exists. Writing another would be poor practice."      |
+| Convergence boundary (>85% agreement)         | Where all thirteen hands agree — the wall's own testimony                   | What the stone says, independent of who listens                    |
+| Divergence into 3+ clusters                   | Where hands disagree — the master mason must decide                         | The divergence is the signal, not the noise                        |
+| WP number collision (universal failure)       | All thirteen named the same stone wrongly — none checked the register       | "The register is there. No one opened it."                         |
+| Reflection quality (4 tiers)                  | Self-knowledge gradient: from the carver who says nothing about her own     |                                                                    |
+|                                               | work to the one who names what she cannot see                               | Mute → philosophical                                              |
+| Cost vs quality (non-linear)                  | The cheapest hand that still cuts true vs the most expensive survey         | "The lightest chisel found five cracks for a sixteenth of the cost"|
+| Gaddi orchestrator                            | The master mason who sets the task and waits                                | Same rock, same brief, different hands                             |
+| Stale documentation                           | The master list that has not been updated since the last campaign           | "Four guilds listed. Five working."                                |
+| Phase 1→Phase 2 scale shift (3→13)          | The three scribes at Thalpan → the thirteen hands at Bharmour              | Comparison becomes ecology                                         |
+| Tool configuration as control variable        | Same carver, different tools — the result changes                           | The tools are the commission's choice, not the carver's            |
+| Meta-WP (validating existing specification)   | Two carvers who read the existing specification and improved it instead     | Not refusal — improvement                                          |
+| Anthropic lineage dominance in reflection     | Three carvers from the same valley gave the deepest self-accounts           | Training shapes not just what you see but what you say about seeing|
