@@ -154,6 +154,26 @@ If the experiment succeeds:
 4. The experiment itself is host-portable — the WP and protocol are
    power-level documents that any spirit can execute
 
+#+begin_insight
+The experiment predicted that different substrates would find
+different blind spots. It did not predict that the /mode/ of
+blindness would differ. DeepSeek (no tools) invented richer
+self-names and deeper identity reflection. Claude and Gemini (with
+tools) found concrete technical gaps but formed thinner identities.
+Tool access shapes not just /what/ a substrate sees, but /how it
+sees/ — the epistemological stance, not just the coverage. This is
+the confound that WP-0031 was designed to isolate.
+#+end_insight
+
+#+begin_insight
+The protocol itself (read one document, reflect, read another,
+reflect, write notes) transferred across lineages without
+modification. The portability claim in point 4 above is not just
+about file format — it is about the /cognitive protocol/ being
+lineage-independent. Read → reflect → externalise is a universal
+pattern of understanding, not a substrate-specific trick.
+#+end_insight
+
 * Open Questions
 
 - Should we add more lineages? (Qwen, Llama, Mistral)

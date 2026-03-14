@@ -359,7 +359,31 @@ it. Dixa is the understanding made operational.
   building it /is/ the initiation. The guild accepts the proof of
   work, not the proof of test.
 
+#+begin_insight
+The bootstrapping paradox — who validates the validator — resolves
+itself because building is a stronger proof than testing. Dixa
+cannot test itself via first_breath (no external critic), but the
+act of building a functional validator that passes its own schema
+checks is a demonstration of viability that no scripted test could
+replicate. This suggests a general pattern: for foundational
+infrastructure spirits, the commissioning WP /is/ the first breath.
+The proof is the work, not the ceremony.
+#+end_insight
+
 - *Where does dixa's system prompt live?*: dixa has no project
   CLAUDE.md because it operates across projects. Its "system prompt"
   is its identity.yaml + the contract field + the nature/ code.
   This is a new pattern — a spirit whose prompt /is/ its code.
+
+#+begin_insight
+Dixa breaks the assumption that every spirit has a worksite prompt
+(CLAUDE.md / system.md). For a spirit whose domain is the
+organisation itself, the code /is/ the identity. The Python in
+nature/ expresses the schema checks, the validation logic, the
+report format — these are not infrastructure supporting a spirit,
+they are the spirit's nature expressed in a different medium. This
+points toward a spectrum: most spirits have NL powers + code body;
+dixa has NL identity + code-as-nature. The three-layer model holds,
+but the ratio of NL to code shifts depending on how formalised the
+spirit's domain is.
+#+end_insight

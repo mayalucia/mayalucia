@@ -60,6 +60,19 @@ weave through. The loop is the architecture of awareness. The
 sutradhar applies it to organisational state; the pattern is portable
 to any spirit that needs persistent perception.
 
+#+begin_insight
+The perception-cognition-expression loop (attend → hold → lay) is
+not specific to the sutradhar or to organisational state. It is the
+minimal architecture for any situated agent — an agent that exists
+in a changing environment and must maintain a model of that
+environment. The three powers decompose cleanly because they map to
+three distinct computational functions: transduction (perception),
+integration (working memory), and externalisation (structured
+output). Any spirit that needs situational awareness — not just
+thread-holding — can implement this loop with domain-specific
+content in the same three-power structure.
+#+end_insight
+
 ** Why the sutradhar, not a new spirit
 
 The sidebar companion /is/ thread-holding. That is what the sutradhar
@@ -414,6 +427,18 @@ real-time companionship.
 That a persistent companion agent is not a different kind of agent —
 it is an ordinary agent with a body. The window management is trivial;
 the perception is the architecture.
+
+#+begin_insight
+The claim that "a companion is just an agent with a body" has a
+corollary: the agent taxonomy should be classified by /what layers
+are bound/, not by deployment mode. A summoned spirit has powers
+only. A companion spirit has powers + body. A commissioned spirit
+has powers + project. The deployment mode (sidebar, terminal, cloud)
+is incidental — it determines the /harness/, not the /kind/ of
+agent. This collapses the apparent distinction between "interactive
+agent", "background agent", and "companion agent" into a single
+axis: how many layers of the power/skill/body stack are instantiated.
+#+end_insight
 
 That s-expressions are the right medium for a spirit's structured
 deposit — native to every consumer in the stack (elisp, Clojure,

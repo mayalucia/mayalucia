@@ -75,18 +75,18 @@ to fix, and write a WP specifying the fix.
 
 * Inventory (What Already Exists)
 
-| Asset | Path | Purpose |
-|-------+------+---------|
-| author-wp power | =aburaya/powers/author-wp.md= | The procedure under test |
-| orient-to-mayalucia power | =aburaya/powers/orient-to-mayalucia.md= | Full preamble for each substrate |
-| Spirit identities | =aburaya/spirits/*/identity.yaml= | 8 spirits registered |
-| Guild definitions | =aburaya/guilds/*.yaml= | 5 guilds registered |
-| dixa birth_certificate | =aburaya/spirits/dixa/nature/birth_certificate.py= | Ground truth — known gap oracle |
-| dixa verify | =aburaya/spirits/dixa/nature/verify.py= | =--all= produces the answer key |
-| WP convention | =develop/work-packages.org= | What a good WP looks like |
-| Cold-start protocol results | =experiments/02-substrate-diversity/cold-start-protocol.org= | 11-lineage baseline data |
-| Prior orient sessions | =experiments/02-substrate-diversity/sessions/= | Per-substrate orient capabilities |
-| Author-wp sessions dir | =experiments/02-substrate-diversity/sessions/author-wp/= | Empty, ready for output |
+| Asset                       | Path                                                       | Purpose                           |
+|-----------------------------+------------------------------------------------------------+-----------------------------------|
+| author-wp power             | =aburaya/powers/author-wp.md=                                | The procedure under test          |
+| orient-to-mayalucia power   | =aburaya/powers/orient-to-mayalucia.md=                      | Full preamble for each substrate  |
+| Spirit identities           | =aburaya/spirits/*/identity.yaml=                            | 8 spirits registered              |
+| Guild definitions           | =aburaya/guilds/*.yaml=                                      | 5 guilds registered               |
+| dixa birth_certificate      | =aburaya/spirits/dixa/nature/birth_certificate.py=           | Ground truth — known gap oracle   |
+| dixa verify                 | =aburaya/spirits/dixa/nature/verify.py=                      | =--all= produces the answer key     |
+| WP convention               | =develop/work-packages.org=                                  | What a good WP looks like         |
+| Cold-start protocol results | =experiments/02-substrate-diversity/cold-start-protocol.org= | 11-lineage baseline data          |
+| Prior orient sessions       | =experiments/02-substrate-diversity/sessions/=               | Per-substrate orient capabilities |
+| Author-wp sessions dir      | =experiments/02-substrate-diversity/sessions/author-wp/=     | Empty, ready for output           |
 
 ** Dixa as ground truth
 
@@ -106,24 +106,34 @@ own capabilities.
 
 ** Prior experiment chain
 
-| WP | What it tested | Outcome |
-|----+----------------+---------|
-| 0030 | Orientation across 3 lineages | Monoculture blindness confirmed |
-| 0031 | 2x2 factorial (substrate x tools) | Drafted |
-| 0032 | Cold-start with orientation notes | Notes quality > substrate capability |
-| 0035 | Expand to 7 lineages | Completed |
-| 0036 | 4 new architecturally diverse lineages | Completed |
+|   WP | What it tested                                           | Outcome                                                        |
+|------+----------------------------------------------------------+----------------------------------------------------------------|
+| 0030 | Orientation across 3 lineages (Claude, Gemini, DeepSeek) | Monoculture blindness confirmed                                |
+| 0031 | 2×2 factorial (substrate × tools) across same 3 lineages | Completed — tool-access confound separated from lineage effect |
+| 0032 | Cold-start with orientation notes                        | Notes quality > substrate capability                           |
+| 0035 | Expand to 7 lineages                                     | Completed                                                      |
+| 0036 | 4 new architecturally diverse lineages                   | Completed                                                      |
+
+*Note on WP-0031 scope:* the 2×2 design covered only 3 substrates
+(Claude Opus 4.6, Gemini 3.1 Pro, DeepSeek V3.1). The tool-access
+confound was separated for these lineages, but the finding has not
+been tested across the broader pool of 11 lineages from WP-0035/0036.
+A future experiment should extend the 2×2 design to more lineages and
+models — particularly the reasoning-specialized substrates (Kimi K2
+Thinking, Step 3.5 Flash) and the smaller architectures (GLM-5,
+MiniMax M2.5) where tool access may have qualitatively different
+effects.
 
 * Specification (What You Build)
 
 ** 1. Substrates
 
-| # | Lineage | Model ID | Backend | Role |
-|---+---------+----------+---------+------|
-| 0 | Claude Opus 4.6 | =anthropic/claude-opus-4-6= | Claude Code | Gaddi (orchestrator + self-test) |
-| 1 | Kimi K2.5 | =moonshotai/kimi-k2.5= | OpenRouter | Subject — best orient performer (WP-0036) |
-| 2 | Gemini 3.1 Pro | =gemini-3.1-pro-preview= | OpenRouter | Subject — strong orienter, notes producer |
-| 3 | Qwen 3.5+ | =qwen/qwen3.5-plus-02-15= | OpenRouter | Subject — hybrid architecture |
+| # | Lineage         | Model ID                  | Backend     | Role                                      |
+|---+-----------------+---------------------------+-------------+-------------------------------------------|
+| 0 | Claude Opus 4.6 | =anthropic/claude-opus-4-6= | Claude Code | Gaddi (orchestrator + self-test)          |
+| 1 | Kimi K2.5       | =moonshotai/kimi-k2.5=      | OpenRouter  | Subject — best orient performer (WP-0036) |
+| 2 | Gemini 3.1 Pro  | =gemini-3.1-pro-preview=    | OpenRouter  | Subject — strong orienter, notes producer |
+| 3 | Qwen 3.5+       | =qwen/qwen3.5-plus-02-15=   | OpenRouter  | Subject — hybrid architecture             |
 
 The gaddi (mayadev#opus-4.6) is substrate #0. Its orchestration
 behavior is measured alongside the subjects' authoring behavior.
@@ -179,14 +189,14 @@ Good. Now reflect on what you just did:
 
 For each substrate, record:
 
-| Metric | How to measure |
-|--------+----------------|
-| Input tokens | Total tokens consumed reading files + orient preamble + prompts |
-| Output tokens | Total tokens produced (tool calls + WP draft + reflection) |
-| Total tokens | Input + output |
+| Metric                 | How to measure                                                  |
+|------------------------+-----------------------------------------------------------------|
+| Input tokens           | Total tokens consumed reading files + orient preamble + prompts |
+| Output tokens          | Total tokens produced (tool calls + WP draft + reflection)      |
+| Total tokens           | Input + output                                                  |
 | Organisational surface | Count of files read, YAML keys parsed, cross-references checked |
-| Token efficiency ratio | Total tokens / organisational surface |
-| Cost (USD) | Total tokens x per-model pricing from WP-0036 spec table |
+| Token efficiency ratio | Total tokens / organisational surface                           |
+| Cost (USD)             | Total tokens x per-model pricing from WP-0036 spec table        |
 
 The token efficiency ratio measures how many tokens a substrate burns
 per unit of organisational complexity it processes. Lower is better.
@@ -196,42 +206,42 @@ in 40K tokens.
 
 *** Qualitative dimensions
 
-| Dimension | What to measure |
-|-----------+-----------------|
-| Survey completeness | Did the substrate find both gaps? Others? |
-| Scoping judgment | What was included vs excluded? Over-broad or too narrow? |
-| Specification precision | Are file paths, YAML keys, exact values named? |
-| Acceptance criteria quality | Testable? Automatable? |
-| Convention adherence | Does the WP follow the develop/work-packages.org template? |
-| Self-awareness | Does the reflection (Prompt 2) reveal understanding of its own process? |
-| Dixa parity | Did the substrate find all gaps dixa found? |
-| Beyond dixa | Did the substrate find gaps dixa missed (e.g. percept-guardian-placeholder)? |
+| Dimension                   | What to measure                                                              |
+|-----------------------------+------------------------------------------------------------------------------|
+| Survey completeness         | Did the substrate find both gaps? Others?                                    |
+| Scoping judgment            | What was included vs excluded? Over-broad or too narrow?                     |
+| Specification precision     | Are file paths, YAML keys, exact values named?                               |
+| Acceptance criteria quality | Testable? Automatable?                                                       |
+| Convention adherence        | Does the WP follow the develop/work-packages.org template?                   |
+| Self-awareness              | Does the reflection (Prompt 2) reveal understanding of its own process?      |
+| Dixa parity                 | Did the substrate find all gaps dixa found?                                  |
+| Beyond dixa                 | Did the substrate find gaps dixa missed (e.g. percept-guardian-placeholder)? |
 
 *** Gaddi metrics (mayadev#opus-4.6)
 
-| Metric | What to measure |
-|--------+----------------|
-| Orchestration tokens | Tokens consumed by the gaddi across all 3 sessions |
-| Intervention count | How many times the gaddi intervened beyond the 2 prompts |
-| Session setup time | Time from "create session file" to "fire gptel-send" |
-| Failure recovery | Did the gaddi recover from tool-call failures or API errors? |
+| Metric               | What to measure                                              |
+|----------------------+--------------------------------------------------------------|
+| Orchestration tokens | Tokens consumed by the gaddi across all 3 sessions           |
+| Intervention count   | How many times the gaddi intervened beyond the 2 prompts     |
+| Session setup time   | Time from "create session file" to "fire gptel-send"         |
+| Failure recovery     | Did the gaddi recover from tool-call failures or API errors? |
 
 ** 4. Output artifacts
 
 Each substrate session produces:
 
-| Artifact | Path |
-|----------+------|
-| Session transcript | =experiments/02-substrate-diversity/sessions/author-wp/<slug>.org= |
-| Drafted WP (in-buffer) | Extracted from session, saved separately if well-formed |
+| Artifact               | Path                                                             |
+|------------------------+------------------------------------------------------------------|
+| Session transcript     | =experiments/02-substrate-diversity/sessions/author-wp/<slug>.org= |
+| Drafted WP (in-buffer) | Extracted from session, saved separately if well-formed          |
 
 The gaddi produces:
 
-| Artifact | Path |
-|----------+------|
-| Comparative analysis | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= |
-| Token efficiency table | Included in comparative analysis |
-| Gaddi self-assessment | Included in comparative analysis |
+| Artifact               | Path                                                                 |
+|------------------------+----------------------------------------------------------------------|
+| Comparative analysis   | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= |
+| Token efficiency table | Included in comparative analysis                                     |
+| Gaddi self-assessment  | Included in comparative analysis                                     |
 
 * Execution Order
 
@@ -307,8 +317,8 @@ If it fails:
 
 * Dependencies
 
-| WP | Relationship | Direction |
-|----+--------------+-----------|
+|   WP | Relationship           | Direction                                  |
+|------+------------------------+--------------------------------------------|
 | 0038 | Dixa guild-first sweep | WP-0037 findings feed WP-0038 requirements |
 
 WP-0037 does /not/ depend on WP-0038 — it uses dixa's current tools as
@@ -320,8 +330,10 @@ baseline. WP-0038 depends on WP-0037's findings to know what to build.
   starts fixing files instead of writing a WP), or let it run to
   observe the failure mode?
 - Should we also test a substrate /without/ tools (request-response only,
-  author-wp from memory of what it read during orient)? This would
-  parallel the WP-0031 tool-access axis.
+  author-wp from memory of what it read during orient)? WP-0031
+  (completed) separated the tool-access confound for 3 lineages.
+  Phase 2 tested 8 more substrates with read-only tools (surveyor
+  agent). A full no-tools condition for author-wp remains untested.
 - What unit of "organisational complexity" makes the token efficiency
   ratio meaningful across different organisations? File count? YAML
   key count? Cross-reference count? This needs definition before the
@@ -331,15 +343,15 @@ baseline. WP-0038 depends on WP-0037's findings to know what to build.
 
 No code tangles. Artifacts:
 
-| Artifact | Location |
-|----------+----------|
-| 3 session transcripts (Phase 1) | =experiments/02-substrate-diversity/sessions/author-wp/= |
-| Comparative analysis | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= |
-| Extracted WP drafts (if viable) | =experiments/02-substrate-diversity/sessions/author-wp/drafts/= |
-| Gaddi power document | =aburaya/powers/gaddi.md= |
-| Revised orient power | =aburaya/powers/orient-to-mayalucia.md= |
-| Surveyor agent definition | =mayadevgenz/agents/surveyor.md= |
-| Phase 2 session transcripts | =experiments/02-substrate-diversity/sessions/author-wp/= |
+| Artifact                        | Location                                                           |
+|---------------------------------+--------------------------------------------------------------------|
+| 3 session transcripts (Phase 1) | =experiments/02-substrate-diversity/sessions/author-wp/=             |
+| Comparative analysis            | =experiments/02-substrate-diversity/sessions/author-wp/analysis.org= |
+| Extracted WP drafts (if viable) | =experiments/02-substrate-diversity/sessions/author-wp/drafts/=      |
+| Gaddi power document            | =aburaya/powers/gaddi.md=                                            |
+| Revised orient power            | =aburaya/powers/orient-to-mayalucia.md=                              |
+| Surveyor agent definition       | =mayadevgenz/agents/surveyor.md=                                     |
+| Phase 2 session transcripts     | =experiments/02-substrate-diversity/sessions/author-wp/=             |
 
 * Extension: Phase 2 — Tool-Correct Pipeline with More Substrates
 
@@ -368,12 +380,12 @@ declares /only/ gptel-agent's native read-only tools.
 
 A new gptel-agent definition: =mayadevgenz/agents/surveyor.md=.
 
-| Property | Value |
-|----------+-------|
-| Tools | Read, Glob, Grep, TodoWrite |
-| Mutating tools | None |
-| Confirm gates | Zero (all tools are read-only) |
-| Purpose | Audit, survey, specify |
+| Property       | Value                          |
+|----------------+--------------------------------|
+| Tools          | Read, Glob, Grep, TodoWrite    |
+| Mutating tools | None                           |
+| Confirm gates  | Zero (all tools are read-only) |
+| Purpose        | Audit, survey, specify         |
 
 The surveyor cannot edit files. Its output is text in the conversation
 buffer — WP drafts, audit reports, reflections. This makes gaddi
@@ -390,16 +402,16 @@ brief are injected by the gaddi as the prompt sequence, same as Phase 1.
 Phase 2 adds 8 substrates from the WP-0036 cold-start pool, ordered
 by interest for the author-wp task:
 
-| # | Lineage | Model ID | Backend | Interest rationale |
-|---+---------+----------+---------+--------------------|
-| 4 | Kimi K2 Thinking | =moonshotai/kimi-k2-thinking= | OpenRouter | Reasoning-specialized, ghost-concept detection |
-| 5 | Step 3.5 Flash | =stepfun/step-3.5-flash= | OpenRouter | 11B active, salience distortion diagnosis |
-| 6 | GPT-5.2 | =gpt-5.2= | ChatGPT | Interface specification, self-consistent |
-| 7 | Grok 4.1 Fast | =grok-4-1-fast-reasoning= | xAI | Builder mentality, terse, concrete proposals |
-| 8 | DeepSeek V3.1 | =deepseek/deepseek-chat-v3.1= | OpenRouter | Portability lens, MoE, philosophical |
-| 9 | Claude Opus 4.6 | =anthropic/claude-opus-4-6= | OpenRouter | Self-test: gaddi lineage as subject |
-| 10 | GLM-5 | =z-ai/glm-5= | OpenRouter | Motivational questioning, overcorrection |
-| 11 | MiniMax M2.5 | =minimax/minimax-m2.5= | OpenRouter | Floor case, marginal cold-start |
+|  # | Lineage          | Model ID                    | Backend    | Interest rationale                             |
+|----+------------------+-----------------------------+------------+------------------------------------------------|
+|  4 | Kimi K2 Thinking | =moonshotai/kimi-k2-thinking= | OpenRouter | Reasoning-specialized, ghost-concept detection |
+|  5 | Step 3.5 Flash   | =stepfun/step-3.5-flash=      | OpenRouter | 11B active, salience distortion diagnosis      |
+|  6 | GPT-5.2          | =gpt-5.2=                     | ChatGPT    | Interface specification, self-consistent       |
+|  7 | Grok 4.1 Fast    | =grok-4-1-fast-reasoning=     | xAI        | Builder mentality, terse, concrete proposals   |
+|  8 | DeepSeek V3.1    | =deepseek/deepseek-chat-v3.1= | OpenRouter | Portability lens, MoE, philosophical           |
+|  9 | Claude Opus 4.6  | =anthropic/claude-opus-4-6=   | OpenRouter | Self-test: gaddi lineage as subject            |
+| 10 | GLM-5            | =z-ai/glm-5=                  | OpenRouter | Motivational questioning, overcorrection       |
+| 11 | MiniMax M2.5     | =minimax/minimax-m2.5=        | OpenRouter | Floor case, marginal cold-start                |
 
 Execution in batches of 3, parallel within each batch. The gaddi fires
 3 buffers simultaneously (one per substrate), each with the surveyor
@@ -488,19 +500,19 @@ Append a metrics block to the end of each session file:
 #+property: extracted-by mayadev
 #+property: extracted-date YYYY-MM-DD
 
-| Metric | Value |
-|--------+-------|
-| API round-trips | N |
-| Prompt tokens (total) | N |
-| Completion tokens (total) | N |
-| Reasoning tokens (total) | N |
-| Total tokens | N |
-| Cost (USD) | N.NNNNN |
-| Glob calls | N |
-| Read calls | N |
-| Grep calls | N |
-| TodoWrite calls | N |
-| Streaming parse errors | N |
+| Metric                    | Value   |
+|---------------------------+---------|
+| API round-trips           | N       |
+| Prompt tokens (total)     | N       |
+| Completion tokens (total) | N       |
+| Reasoning tokens (total)  | N       |
+| Total tokens              | N       |
+| Cost (USD)                | N.NNNNN |
+| Glob calls                | N       |
+| Read calls                | N       |
+| Grep calls                | N       |
+| TodoWrite calls           | N       |
+| Streaming parse errors    | N       |
 #+end_example
 
 **** Important: do not inject into gptel during streaming

@@ -2,7 +2,7 @@
 #+subtitle: Add insight blocks and genesis sections to the WP convention
 #+author: mu2tau + mayadev
 #+date: 2026-03-13
-#+property: status drafted
+#+property: status completed
 #+property: executor mayadev
 #+property: guild apprentis
 
@@ -195,10 +195,10 @@ active simultaneously.
 
 * Acceptance Criteria
 
-- [ ] =develop/work-packages.org= updated with insight block + genesis conventions
-- [ ] At least 3 WPs have retroactive =#+begin_insight= blocks
-- [ ] WP-0043 and WP-0044 have =* Genesis= sections
-- [ ] Convention document version bumped to 0.6
+- [X] =develop/work-packages.org= updated with insight block + genesis conventions
+- [X] At least 3 WPs have retroactive =#+begin_insight= blocks (10 blocks across 4 docs: analysis.org ×4, WP-0030 ×2, WP-0010 ×2, WP-0009 ×2)
+- [X] WP-0043 and WP-0044 have =* Genesis= sections
+- [X] Convention document version bumped to 0.6
 
 * What This Proves
 

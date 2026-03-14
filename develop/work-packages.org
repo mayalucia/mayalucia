@@ -38,15 +38,42 @@ succeeded.
 |                      | They may contain =:tangle= blocks that    |
 |                      | generate the code directly.             |
 |                      | The WP is then both spec and source.    |
-| =codev/= directories   | The existing =codev/NN-*.org= files       |
-|                      | in dmt-eval are proto-WPs.              |
-|                      | This convention generalises             |
-|                      | and names the pattern.                  |
-|                      |                                         |
+| =codev/= directories   | =codev/= files are literate lessons         |
+|                      | (=* What This Lesson Teaches=, tangled    |
+|                      | code). They share the numbered Org     |
+|                      | naming convention but serve a          |
+|                      | different purpose — see the note       |
+|                      | under "Module and domain-level WPs."   |
 
 * Structure of a Work Package
 
 Every WP has these sections. Not all need to be long — a small WP may have a one-sentence context and no deployment section — but the skeleton is stable.
+
+** Optional preamble
+
+*** Genesis
+
+/How did we get here?/ An optional section that appears before
+Context. Genesis records the provenance trail — which conversation,
+earlier WP, or moment of recognition produced this WP. It answers
+"how did we notice the problem?" where Context answers "what is the
+problem?"
+
+Genesis is narrative, not structured. It names:
+
+- Which WP, session, or conversation surfaced the need
+- What the human or spirit noticed
+- The chain of reasoning from observation to WP
+
+Genesis sections are typically short (3–10 lines). They are written
+once, at drafting time, and not updated. They are the WP's birth
+story.
+
+*When to include:* when the WP emerged from a non-obvious connection
+between earlier work, when the provenance chain crosses multiple WPs
+or sessions, or when future readers would benefit from understanding
+/why this WP exists now/ rather than earlier or later. Skip it when
+the WP is a straightforward next step.
 
 ** Required sections
 
@@ -85,6 +112,41 @@ Things the WP author could not resolve. The agent executing the WP should flag t
 
 If the WP tangles code, list the target files. If it produces artifacts (reports, images, deployed services), name them.
 
+*** 9. Insight Blocks
+
+Theoretical findings — connections, tensions, patterns — that emerge
+during work. Insights are /what the work taught us/, not /what the
+work produced/. They appear inline, near the content that prompted
+them, as =#+begin_insight= / =#+end_insight= blocks:
+
+#+begin_example
+,#+begin_insight
+The two-phase design mirrors the sutradhar companion's
+perception-cognition loop: Phase A is /attend/, Phase B is
+/synthesise/. The transition between them is where substrate
+character shows most clearly.
+,#+end_insight
+#+end_example
+
+Insight blocks are contextual deposits, like marginalia. A WP may
+have zero or many. They are not gathered into a single section.
+
+*What an insight block is NOT:*
+
+- Not a comment — comments are for the author during drafting.
+  Insights are findings that belong in the document.
+- Not the =What This Proves= section — that summarises what the
+  /completed/ work demonstrates. Insight blocks capture findings
+  /during/ execution, including partial or surprising ones.
+- Not a decision record — decisions go in =Settled Questions= or the
+  specification. Insights record /understanding/, not /choice/.
+
+*Properties:* Org treats unknown =#+begin_/#+end_= pairs as
+exportable special blocks (styled as =div.insight= in HTML).
+Greppable: =grep -r "begin_insight" workpacks/= finds every
+theoretical finding. Machine-readable: a future tool could extract
+insight blocks into an apprentis corpus.
+
 * Where Work Packages Live
 
 ** Project-level WPs
@@ -120,10 +182,13 @@ bravli might issue WPs for circuit reconstruction tasks; parbati for
 GIS data ingestion. These are first-class — they follow the same
 structure and conventions as project-level WPs.
 
-The existing =codev/= directories (e.g. =modules/dmt-eval/codev/=) are
-the precursor to this convention. Existing =codev/= files need not be
-moved — they are the historical record. New work packages should go
-to =workpacks/=.
+The =codev/= directories (e.g. =modules/dmt-eval/codev/=,
+=domains/bravli/codev/=) are a sibling convention, not a precursor.
+Literate Org files in =codev/= are pedagogical lessons targeted for
+execution by human users — a work package for humans. Both share the
+numbered Org naming convention (=NN-<slug>.org=); they differ in
+audience: =codev/= teaches the learner, =workpacks/= briefs the
+executor. A project may have both.
 
 ** Naming
 
@@ -556,3 +621,4 @@ brittle; intent survives reorganisation.
 |     0.3 | 2026-03-05 | Add Dispatch Plans (DP) — DAG of WPs, host-independent         |
 |     0.4 | 2026-03-05 | Dispatch output format — intent-forward, not path-forward      |
 |     0.5 | 2026-03-08 | Multi-part output convention — sequential default, parallel needs approval |
+|     0.6 | 2026-03-14 | Genesis section (optional preamble) + insight blocks (WP-0044)            |

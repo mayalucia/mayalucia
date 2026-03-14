@@ -6,6 +6,17 @@
 #+property: executor tbd
 #+property: guild apprentis
 
+* Genesis
+
+While triaging WP-0034 (capabilities revision) findings, mayadev and
+mu2tau noticed that the project's 62+ Org files had no systematic
+navigation beyond grep and memory. The WP-0042 convention dispatch
+experiment had already identified discoverability — not availability —
+as the bottleneck for agent onboarding. mu2tau proposed using Org's
+native tag system (=#+filetags:= and headline tags) to close the gap,
+and framing the tagging pass as a substrate experiment: same documents,
+different substrates, different tag choices.
+
 * Context
 
 The project has 62+ Org files across =workpacks/=, =develop/=, and
