@@ -9,9 +9,10 @@ set -euo pipefail
 #   ./deploy.sh hugo     # rebuild and deploy Hugo sites only
 #   ./deploy.sh web      # deploy vishalsood.dev (FastAPI) only
 #   ./deploy.sh comptoir # deploy comptoir.mayalucia.dev (Streamlit) only
-#   ./deploy.sh cruvin   # build and deploy cruvin.mayalucia.dev (Next.js)
-#   ./deploy.sh config   # deploy Caddyfile + docker-compose.yml only
-#   ./deploy.sh verify   # check all endpoints
+#   ./deploy.sh cruvin     # build and deploy cruvin.mayalucia.dev (Next.js)
+#   ./deploy.sh cruvin-api # deploy api.cruvin.mayalucia.dev (FastAPI + LiteLLM)
+#   ./deploy.sh config     # deploy Caddyfile + docker-compose.yml only
+#   ./deploy.sh verify     # check all endpoints
 # =============================================================================
 
 # === Configuration ============================================================
@@ -142,6 +143,16 @@ deploy_cruvin() {
     $SSH "$VPS_HOST" "ln -sfn $VPS_DEPLOY_DIR/cruvin-public /srv/cruvin"
 }
 
+deploy_cruvin_api() {
+    echo "=== Deploying api.cruvin.mayalucia.dev (FastAPI + LiteLLM) ==="
+    rsync -avz --delete -e "ssh -i $SSH_KEY -o IdentitiesOnly=yes" \
+        --exclude='__pycache__' --exclude='.git' --exclude='.env' \
+        "$CRUVIN/services/cruvin-api/" \
+        "$VPS_HOST:$VPS_DEPLOY_DIR/cruvin-api/"
+
+    $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose up -d --build cruvin-api"
+}
+
 verify() {
     echo "=== Verifying ==="
     $SSH "$VPS_HOST" "cd $VPS_DEPLOY_DIR && docker compose ps"
@@ -153,7 +164,8 @@ verify() {
         https://devgeni.mayalucia.dev \
         https://comptoir.mayalucia.dev \
         https://bench.mayalucia.dev \
-        https://cruvin.mayalucia.dev; do
+        https://cruvin.mayalucia.dev \
+        https://api.cruvin.mayalucia.dev/api/v1/health; do
         status=$(curl -sI "$url" | head -1)
         echo "  $url → $status"
     done
@@ -182,6 +194,9 @@ case "${1:-all}" in
         build_cruvin
         deploy_cruvin
         ;;
+    cruvin-api)
+        deploy_cruvin_api
+        ;;
     config)
         deploy_config
         ;;
@@ -197,10 +212,11 @@ case "${1:-all}" in
         deploy_bench
         build_cruvin
         deploy_cruvin
+        deploy_cruvin_api
         verify
         ;;
     *)
-        echo "Usage: $0 {all|hugo|web|comptoir|bench|cruvin|config|verify}"
+        echo "Usage: $0 {all|hugo|web|comptoir|bench|cruvin|cruvin-api|config|verify}"
         exit 1
         ;;
 esac

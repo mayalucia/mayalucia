@@ -45,6 +45,14 @@ services:
     expose:
       - "8501"
 
+  cruvin-api:
+    build: ./cruvin-api
+    restart: unless-stopped
+    env_file:
+      - ./cruvin-api/.env
+    expose:
+      - "8042"
+
 volumes:
   caddy_data:
   caddy_config:

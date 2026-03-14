@@ -37,6 +37,10 @@ devgeni.mayalucia.dev {
     }
 }
 
+api.cruvin.mayalucia.dev {
+    reverse_proxy cruvin-api:8042
+}
+
 cruvin.mayalucia.dev {
     root * /srv/cruvin
     file_server
