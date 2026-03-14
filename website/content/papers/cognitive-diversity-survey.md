@@ -3,7 +3,7 @@ title = "Cognitive Diversity in LLM Tool-Use: Behavioural Fingerprints, Conventi
 author = ["A Human-Machine Collaboration"]
 lastmod = 2026-03-14T00:00:00+01:00
 tags = ["papers", "substrate-diversity", "tool-use", "multi-agent"]
-draft = true
+draft = false
 +++
 
 <div class="abstract">
